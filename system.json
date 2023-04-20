@@ -1,0 +1,64 @@
+{
+  "id": "conventum",
+  "title": "Aquelarre-Conventum",
+  "description": "Demonic and medieval game",  
+  "version": "1.0.0",
+  "compatibility": {
+    "minimum": 10,
+    "verified": 11,
+    "maximum": 11
+  },
+  "authors": [{
+    "name": "CuervoForjador",
+    "url": "https://twitter.com/cuervoforjador",
+    "email": "cuervoForjador@gmail.com",
+    "discord": "Cuervito#4806"
+  }],
+  "esmodules": ["module/main.js"],
+  "socket": true,
+  "styles": [
+    "styles/main.css",
+	  "styles/base.css",
+    "styles/frame.css",
+    "styles/sheet.css",
+    "styles/compendium.css"
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json",
+      "title": "Conven-Conventum",
+      "description": "Demonic and medieval game"
+    },
+    {
+      "lang": "es",
+      "name": "Spanish",
+      "path": "lang/es.json",
+      "title": "Aquelarre-Conventum",
+      "description": "Juego de rol Demoniaco medieval"      
+    }    
+  ],
+  "packs": [
+    {
+			"label": "Orbis",
+			"type": "Item",
+			"name": "worlds",
+			"path": "./packs/worlds",
+      "banner": "systems/conventum/packs/worlds/banner.png",
+			"system": "conventum"
+		},
+    {
+			"label": "Regna",
+			"type": "Item",
+			"name": "kingdoms",
+			"path": "./packs/kingdoms",
+      "banner": "systems/conventum/packs/kingdoms/banner.png",
+      "system": "conventum"
+		}    
+  ],
+  "url": "https://gitlab.com/foundrynet/aquelarreConventum/",
+  "update": "https://github.com/cuervoforjador/conventum.git",
+  "download": "https://github.com/cuervoforjador/conventum.git",
+  "license": "LICENSE.txt"
+}

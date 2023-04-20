@@ -1,0 +1,249 @@
+/* Window... */
+.window-app .window-header .window-title {
+    font-size: 11px!important;
+    font-family: 'Uncial Antiqua', cursive;
+}
+.window-app .window-header .window-title::first-letter {
+    background: rgb(177, 34, 34)!important;
+    font-weight: 900!important;
+    font-size: 21px!important;
+    color: #FFF;
+    padding-left: 2px;
+    padding-right: 2px;
+    margin-right: 2px;
+    margin-left: -6px;
+    border-top-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+.window-app .window-header a {
+    font-family: 'MedievalSharp', cursive;
+    font-size: 12px!important;    
+}
+section.window-content {
+    background: url(/systems/conventum/image/texture/paper.png)!important;
+    background-repeat: repeat!important;
+    background-size: 250px!important;
+    border: 6px solid #251d1d!important;
+    color: #333;
+} 
+
+/* Forms... */
+form .form-group label {
+    font-size: 12px!important;
+    font-family: 'Uncial Antiqua', cursive;
+}
+form .form-group label::first-letter {
+    color: rgb(177, 34, 34)!important;
+    font-size: 16px;
+    font-weight: 900;
+}
+.user-config img.avatar {
+    background: #333;
+}
+
+/* Frames... */
+._frame {
+    position: absolute;
+}
+frameContent {
+    position: absolute;
+    top: 45px;
+    left: 20px;
+    width: calc(100% - 40px);
+    height: calc(100% - 65px);
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.frameTop {
+    background-repeat: repeat-x;
+    top: 35px;
+    left: 5px;
+    width: calc(100% - 10px);
+    height: 15px;
+    z-index: 10;
+}
+.frameBottom {
+    background-repeat: repeat-x;
+    top: calc(100% - 20px);
+    left: 5px;
+    width: calc(100% - 10px);
+    height: 15px;  
+}
+.frameLeft {
+    background-repeat: repeat-y;
+    top: 35px;
+    left: 5px;
+    width: 15px;
+    height: calc(100% - 40px);
+    z-index: 10;
+}
+.frameRight {
+    background-repeat: repeat-y;
+    top: 35px;
+    left: calc(100% - 20px);
+    width: 15px;
+    height: calc(100% - 40px);
+}
+.frameCornerTL {
+    top: 35px;
+    left: 5px;
+    width: 70px;
+    height: 70px;
+    z-index: 10;   
+}
+.frameCornerTR {
+    top: 35px;
+    left: calc(100% - 75px);
+    width: 70px;
+    height: 70px;
+    z-index: 10;     
+}
+.frameCornerBL {
+    top: calc(100% - 75px);
+    left: 5px;
+    width: 70px;
+    height: 70px;
+    z-index: 10;     
+}
+.frameCornerBR {
+    top: calc(100% - 75px);
+    left: calc(100% - 75px);
+    width: 70px;
+    height: 70px;   
+}
+.frameShadow {
+    background: url(/systems/conventum/image/texture/shadow.png);
+    background-size: 100% 100%;
+    width: 100%;
+    height: calc( 100% - 30px);
+    position: absolute;
+    overflow: unset;
+    top: 30px;
+    left: 0px;
+}
+
+.frameTop0 {
+    background-repeat: repeat-x;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 15px;   
+}
+.frameBottom0 {
+    background-repeat: repeat-x;
+    top: calc(100% - 15px);
+    left: 0px;
+    width: 100%;
+    height: 15px;    
+}
+.frameLeft0 {
+    background-repeat: repeat-y;
+    top: 0px;
+    left: 0px;
+    width: 15px;
+    height: 100%;
+}
+.frameRight0 {
+    background-repeat: repeat-y;
+    top: 0px;
+    left: calc(100% - 15px);
+    width: 15px;
+    height: 100%;
+}
+.frameCornerTL0 {
+    top: 0px;
+    left: 0px;
+    width: 70px;
+    height: 70px;   
+}
+.frameCornerTR0 {
+    top: 0px;
+    left: calc(100% - 70px);
+    width: 70px;
+    height: 70px;     
+}
+.frameCornerBL0 {
+    top: calc(100% - 70px);
+    left: 0px;
+    width: 70px;
+    height: 70px;     
+}
+.frameCornerBR0 {
+    top: calc(100% - 70px);
+    left: calc(100% - 70px);
+    width: 70px;
+    height: 70px;     
+}
+.frameShadow0 {
+    background: url(/systems/conventum/image/texture/shadow.png);
+    background-size: 100% 100%;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    overflow: unset;
+    top: 0px;
+    left: 0px;
+}
+
+/* Bookmarks */
+.bookmarks {
+    height: calc(100% - 30px)!important;
+    width: 100px!important;
+    position: absolute;
+    left: calc(100% - 1px);
+    top: 26px;
+    border: none!important;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: flex-start;
+    justify-content: flex-start;
+    align-items: start;
+    background: none;
+}
+._bookmark {
+    width: 45px;
+    height: 95px;
+    margin-top: -20px;
+    background-size: 70px!important;
+    background-position-x: right!important;
+    background-repeat: no-repeat!important;
+    margin-left: -3px;
+    transition: 0.5s;
+}
+.bookmarks .active {
+    transform: rotate(3deg);
+    margin-left: -12px;
+    width: 70px;
+}
+.mark01 {
+    transform: rotate(1.4deg);
+    margin-top: 0px;
+}
+.mark02 {
+    transform: rotate(-0.5deg); 
+}
+.mark03 {
+    transform: rotate(0.8deg);
+}
+.mark04 {
+    transform: rotate(1.4deg);
+}
+.mark05 {
+    transform: rotate(-1deg);
+}
+.mark06 {
+    transform: rotate(2deg);
+}
+.mark07 {
+    transform: rotate(0.4deg);
+}
+.mark08 {
+    transform: rotate(3deg);
+}
+.mark09 {
+    transform: rotate(1.4deg);
+}
+.mark10 {
+    transform: rotate(1.4deg);
+}

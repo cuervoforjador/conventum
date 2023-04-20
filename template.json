@@ -1,0 +1,158 @@
+{
+  "Actor": {
+    "types": ["human"],
+    "templates": {
+      "base": {
+        "control": {
+          "initial": true,
+          "locked": false,
+          "frame": "catholicae"
+        },
+        "bio": {
+          "female": false,
+          "age": 22,
+          "height": 10,
+          "weight": 10
+        },
+        "characteristics": {
+          "primary": {
+            "str": {
+              "min": 5,
+              "max": 20,
+              "value": 10
+            },
+            "agi": {
+              "min": 5,
+              "max": 20,
+              "value": 10
+            },
+            "abi": {
+              "min": 5,
+              "max": 20,
+              "value": 10
+            },
+            "end": {
+              "min": 10,
+              "max": 20,
+              "value": 10
+            },
+            "per": {
+              "min": 5,
+              "max": 20,
+              "value": 10
+            },
+            "com": {
+              "min": 5,
+              "max": 20,
+              "value": 10
+            },
+            "cul": {
+              "min": 5,
+              "max": 20,
+              "value": 10
+            }    
+          },
+          "secondary": {
+            "luck": {
+              "min": 0,
+              "max": 100,
+              "value": 10              
+            },
+            "temp": {
+              "min": 0,
+              "max": 100,
+              "value": 50              
+            },
+            "rr": {
+              "min": 0,
+              "max": 100,
+              "value": 50              
+            },
+            "irr": {
+              "min": 0,
+              "max": 100,
+              "value": 50              
+            },
+            "hp": {
+              "min": 0,
+              "max": 10,
+              "value": 10              
+            },
+            "cp": {
+              "min": 0,
+              "max": 20,
+              "value": 10              
+            },
+            "fp": {
+              "min": 0,
+              "max": 20,
+              "value": 10              
+            },
+            "app": {
+              "min": 0,
+              "max": 20,
+              "value": 12              
+            }
+          }
+        }
+      }
+    },
+    "human": {
+      "templates": ["base"]
+    }
+  },
+  "Item": {
+    "types": [
+        "world",
+        "kingdom",
+        "skill"
+    ],
+    "templates": {
+      "base": {
+        "control": {
+          "initial": true,
+          "locked": false,
+          "world": ""
+        },
+        "description": ""
+      },
+      "kingdom": { },
+      "skill": {
+        "profession": {
+          "primary": false,
+          "secondary": false,
+          "paternal": false,
+          "modCharPrimary": 1,
+          "modCharSecondary": 1,
+          "modCharPaternal": 1          
+        },
+        "stats": {
+          "min": 0,
+          "max": 0,
+          "value": 0
+        },
+        "mods": {
+          "char": "",
+          "modChar": 1,
+          "modCharBase": 1,
+          "modExpCost": 2
+        },
+        "combat": {
+          "combat": false,
+          "contact": false,
+          "distance": false,
+          "fire": false
+        }
+      }
+    },
+    "world": {
+      "templates": ["base"]
+    },
+    "kingdom": {
+      "templates": ["base", "kingdom"]
+    },
+    "skill": {
+      "templates": ["base", "skill"]
+    }    
+  }
+}
