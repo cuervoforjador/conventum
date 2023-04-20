@@ -1,0 +1,80 @@
+._custoLiCompendium h3,
+._custoHeaderCompendium h3 {
+    font-family: 'Almendra';
+}
+._custoLiCompendium h3 a,
+._custoHeaderCompendium h3 {
+    background: none!important;
+    border: 0px!important;
+    color: #000;
+    font-size: 32px;
+    font-weight: 900;
+    text-shadow: 4px 4px 6px #ffffff85, 
+                -4px 1px 8px #ffffffb3, 
+                0 1px #ffffff8c, 
+                0 -2px #ffffff6e, 
+                1px 1px #ffffffb5, 
+                -1px -1px #ffffffab, 
+                1px -1px #ffffffa3, 
+                -1px 1px #ffffff8c;
+}
+._custoLiCompendium h3 a i,
+._custoHeaderCompendium h3 i {
+    display: none;
+}
+._custoLiCompendium footer .source {
+    display: none;
+}
+
+
+.compendium header {
+    border-bottom: 4px solid #45464b!important;
+    margin-bottom: 0px!important;
+}
+.compendium ol.directory-list {
+    background-image: url(../image/texture/tile02.png);
+    background-repeat: repeat;
+    background-size: 250px 250px;
+}
+.compendium ol.directory-list li {    
+    padding: 5px;
+    background-image: url(../image/texture/paper.png);
+    background-repeat: repeat;
+    background-size: 250px 250px;
+    margin-left: 6px;
+    margin-right: 6px;
+    border-right: 5px solid #47464e;
+    border-left: 5px solid #47464e;    
+}
+.compendium ol.directory-list li:first-child {
+    margin-top: 6px;
+    border-top: 5px solid #47464e!important;
+}
+.compendium ol.directory-list li:last-child {
+    margin-bottom: 6px;
+    border-bottom: 5px solid #47464e!important;
+}
+.compendium ol.directory-list li h4 {
+    display: flex;
+    align-items: flex-start;
+}
+.compendium ol.directory-list li h4 a {
+    color: #333;
+    font-size: 17px;
+    line-height: 22px;
+    font-family: 'Almendra', serif;
+    text-shadow: 0 0 3px #fff, 0 0 1px #000;
+}
+.compendium ol.directory-list li.context-item {
+    background: none!important;
+    border: none!important;
+}
+.compendium .directory-header .header-search > * {
+    color: #333;
+}
+.compendium input[type="search"] {
+    font-family: 'Almendra';
+    border-radius: 1px;
+    background: none!important;
+    border: 1px solid #33333338;
+}
