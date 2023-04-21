@@ -57,8 +57,8 @@
       "system": "conventum"
 		}    
   ],
-  "url": "https://gitlab.com/foundrynet/aquelarreConventum/",
-  "update": "https://github.com/cuervoforjador/conventum.git",
-  "download": "https://github.com/cuervoforjador/conventum.git",
+  "url": "https://github.com/cuervoforjador/conventum",
+  "manifest": "https://github.com/cuervoforjador/conventum/releases/v01/download/system.json",
+  "download": "https://github.com/cuervoforjador/conventum/releases/v01/download/system.zip",
   "license": "LICENSE.txt"
 }
