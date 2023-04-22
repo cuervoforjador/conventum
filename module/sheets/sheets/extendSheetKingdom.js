@@ -1,6 +1,9 @@
 /**
  * @extends {ItemSheet}
  */
+
+import { mainBackend } from "../backend/mainBackend.js";
+
 export class extendSheetKingdom extends ItemSheet {
 
   /**
@@ -23,9 +26,12 @@ export class extendSheetKingdom extends ItemSheet {
    * @inheritdoc
    * @returns {object} - Context
    */
-   getData() {
+   async getData() {
+    
     const context = super.getData();
     context.systemData = this.item.getRollData();
+
+    context.backend = await mainBackend.getBackendForKingdom();
 
     return context;
   }

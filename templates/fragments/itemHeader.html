@@ -5,6 +5,20 @@
      <itemImage>
           <img src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
      </itemImage>
-     <itemTitle>
-          <input type="text" name="name" value="{{item.name}}" placeholder=""/>
-     </itemTitle>
+     <itemHeaderWrap>
+          <itemTitle>
+               <input type="text" name="name" value="{{item.name}}" placeholder=""/>
+          </itemTitle>
+          <itemSubHeader>
+               <hBox class="_subHeaderHBox">
+                    <label>{{localize "backend.World" }}</label>
+                    <select name="system.control.world">
+                         {{selectOptions backend.worlds 
+                                         selected=systemData.control.world
+                                         localize=false
+                                         nameAttr="id"
+                                         labelAttr="name" }}
+                    </select>
+               </hBox>
+          </itemSubHeader>
+     </itemHeaderWrap>
