@@ -44,14 +44,20 @@
 			"label": "Orbis",
 			"type": "Item",
 			"name": "worlds",
+<<<<<<< HEAD
 			"path": "./packs/worlds",
       "banner": "systems/conventum/packs/worlds/banner.png",
+=======
+			"path": "./packs/worlds.db",
+      "banner": "systems/conventum/image/content/compendum/bannerWorlds.png",
+>>>>>>> becf3bb (Test)
 			"system": "conventum"
 		},
     {
 			"label": "Regna",
 			"type": "Item",
 			"name": "kingdoms",
+<<<<<<< HEAD
 			"path": "./packs/kingdoms",
       "banner": "systems/conventum/packs/kingdoms/banner.png",
       "system": "conventum"
@@ -60,5 +66,15 @@
   "url": "https://gitlab.com/foundrynet/aquelarreConventum/",
   "update": "https://github.com/cuervoforjador/conventum.git",
   "download": "https://github.com/cuervoforjador/conventum.git",
+=======
+			"path": "./packs/kingdoms.db",
+      "banner": "systems/conventum/image/content/compendum/bannerKingdoms.png",
+      "system": "conventum"
+		}     
+  ],
+  "url": "https://github.com/cuervoforjador/conventum",
+  "manifest": "https://github.com/cuervoforjador/conventum/releases/download/v01/system.json",
+  "download": "https://github.com/cuervoforjador/conventum/releases/download/v01/system.zip",
+>>>>>>> becf3bb (Test)
   "license": "LICENSE.txt"
 }
