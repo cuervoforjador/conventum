@@ -1,8 +1,5 @@
 import { extendConfig } from "./config/config.js";
-<<<<<<< HEAD
-=======
 import { mainConfig } from "./config/mainConfig.js";
->>>>>>> becf3bb (Test)
 import { mainMacros } from "./macros/mainMacros.js";
 import { mainSettings } from "./gameSettings/mainSettings.js";
 import { mainGameSheets } from "./sheets/sheets.js";
@@ -26,11 +23,7 @@ Hooks.once("init", async function() {
   };
 
   CONFIG._root = [...game.system.esmodules][0].split('/module')[0];
-<<<<<<< HEAD
-  CONFIG.ExtendConfig = extendConfig;
-=======
   CONFIG.ExtendConfig = mainConfig.init(extendConfig);
->>>>>>> becf3bb (Test)
   CONFIG.debug.hooks = true;
 
   //Game...

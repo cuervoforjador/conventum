@@ -9,11 +9,6 @@ export class HookCompendium {
      */    
     static _stylingLiCompendium(tab) {
         
-<<<<<<< HEAD
-        tab._element.find('li').each(function(i,e) {
-            $(e).addClass('_custoLiCompendium');
-        });
-=======
         //Custom class
         if ( Math.floor(Number(game.version)) === 11 ) {
             // Version 11...
@@ -32,18 +27,12 @@ export class HookCompendium {
                 });
             });
         }
->>>>>>> becf3bb (Test)
     }
 
     /**
      * Styling Compendium Window 
      * @param {object} compendium
      */    
-<<<<<<< HEAD
-    static _stylingCompendium(compendium) {
-        
-        compendium._element.find('.header-banner').addClass('_custoHeaderCompendium');
-=======
     static _stylingCompendium(compendium) {        
         
         // Version 11...
@@ -65,7 +54,6 @@ export class HookCompendium {
 
             compendium._element.find('.header-banner').addClass('_v10');
         }
->>>>>>> becf3bb (Test)
     }
 
 }
