@@ -1,31 +1,3 @@
-._custoLiCompendium h3,
-._custoHeaderCompendium h3 {
-    font-family: 'Almendra';
-}
-._custoLiCompendium h3 a,
-._custoHeaderCompendium h3 {
-    background: none!important;
-    border: 0px!important;
-    color: #000;
-    font-size: 32px;
-    font-weight: 900;
-    text-shadow: 4px 4px 6px #ffffff85, 
-                -4px 1px 8px #ffffffb3, 
-                0 1px #ffffff8c, 
-                0 -2px #ffffff6e, 
-                1px 1px #ffffffb5, 
-                -1px -1px #ffffffab, 
-                1px -1px #ffffffa3, 
-                -1px 1px #ffffff8c;
-}
-._custoLiCompendium h3 a i,
-._custoHeaderCompendium h3 i {
-    display: none;
-}
-._custoLiCompendium footer .source {
-    display: none;
-}
-
 
 .compendium header {
     border-bottom: 4px solid #45464b!important;
