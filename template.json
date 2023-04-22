@@ -114,6 +114,10 @@
           "locked": false,
           "world": ""
         },
+        "range": {
+          "low": 0,
+          "high": 0
+        },
         "description": ""
       },
       "kingdom": { },
@@ -146,7 +150,10 @@
       }
     },
     "world": {
-      "templates": ["base"]
+      "templates": ["base"],
+      "custo": {
+        "kingdomsDice": "1d10"
+      }
     },
     "kingdom": {
       "templates": ["base", "kingdom"]

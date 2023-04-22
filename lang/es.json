@@ -1,3 +1,11 @@
 {
-    "backend.World":    "Orbis"
+    "backend.World":                "Orbis",
+    
+    "config.kingdomsDice":          "Dado Sel.Reinos",
+        
+    "common.dialogInfo":            "Información",
+    "common.range":                 "Rango",
+
+    "info.range":                   "Rango en una tirada",
+    "info.kingdomsDice":            "Dado en las tiradas para seleccionar el reino.\n * 1D10 por defecto."
 }

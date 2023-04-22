@@ -74,6 +74,7 @@ section.window-content._v10 {
 }
 .compendium ol.directory-list li {    
     padding: 5px;
+    height: 68px;
     background-image: url(../image/texture/paper.png);
     background-repeat: repeat;
     background-size: 250px 250px;
@@ -93,6 +94,8 @@ section.window-content._v10 {
 .compendium ol.directory-list li h4 {
     display: flex;
     align-items: flex-start;
+    width: calc(100% - 60px);
+    min-width: calc(100% - 60px);
 }
 .compendium ol.directory-list li h4 a {
     color: #333;
@@ -113,4 +116,28 @@ section.window-content._v10 {
     border-radius: 1px;
     background: none!important;
     border: 1px solid #33333338;
+}
+
+.compendium ._worldInfo {
+    position: relative;
+    top: -20px;
+    width: 150px;
+    height: 22px;
+    line-height: 22px;
+    font-family: 'Almendra';
+    text-align: right;
+    padding-right: 8px;
+}
+.compendium ._diceInfo {
+    position: relative;
+    top: -51px;
+    left: calc(100% - 152px);
+    width: 50px;
+    height: 22px;
+    line-height: 22px;
+    font-size: 16px;
+    font-family: 'Almendra';
+    text-align: right;
+    padding-right: 8px;
+    color: #3333339e;
 }

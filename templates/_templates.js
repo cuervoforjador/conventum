@@ -7,7 +7,6 @@ export const preloadTemplates = async function() {
       humanBoxHeader: CONFIG._root+"/templates/fragments/humanBoxHeader.html",
       
       itemFrame: CONFIG._root+"/templates/fragments/itemFrame.html",
-      itemHeader: CONFIG._root+"/templates/fragments/itemHeader.html",
       itemDescription: CONFIG._root+"/templates/fragments/itemDescription.html",
 
       skillHeader: CONFIG._root+"/templates/fragments/skillHeader.html",
