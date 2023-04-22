@@ -44,18 +44,18 @@
 			"label": "Orbis",
 			"type": "Item",
 			"name": "worlds",
-			"path": "./packs/worlds",
-      "banner": "systems/conventum/packs/worlds/banner.png",
+			"path": "./packs/worlds.db",
+      "banner": "systems/conventum/image/content/compendum/bannerWorlds.png",
 			"system": "conventum"
 		},
     {
 			"label": "Regna",
 			"type": "Item",
 			"name": "kingdoms",
-			"path": "./packs/kingdoms",
-      "banner": "systems/conventum/packs/kingdoms/banner.png",
+			"path": "./packs/kingdoms.db",
+      "banner": "systems/conventum/image/content/compendum/bannerKingdoms.png",
       "system": "conventum"
-		}    
+		}     
   ],
   "url": "https://github.com/cuervoforjador/conventum",
   "manifest": "https://github.com/cuervoforjador/conventum/releases/download/v01/system.json",
