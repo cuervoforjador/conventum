@@ -2,7 +2,10 @@ import { extendActor } from "./extendActor.js";
 import { extendItem } from "./extendItem.js";
 import { extendSheetHuman } from "./sheets/extendSheetHuman.js";
 import { extendSheetWorld } from "./sheets/extendSheetWorld.js";
+import { extendSheetSociety } from "./sheets/extendSheetSociety.js";
 import { extendSheetKingdom } from "./sheets/extendSheetKingdom.js";
+import { extendSheetLanguage } from "./sheets/extendSheetLanguage.js";
+import { extendSheetCulture } from "./sheets/extendSheetCulture.js";
 import { extendSheetSkill } from "./sheets/extendSheetSkill.js";
 export class mainGameSheets {
 
@@ -24,12 +27,18 @@ export class mainGameSheets {
         //Items
         CONFIG.Item.documentClass = extendItem;
         Items.unregisterSheet("core", ItemSheet);
-        Items.registerSheet(_system, extendSheetWorld, { types: ['world'], 
+        Items.registerSheet(_system, extendSheetWorld, { types: ['world'],
                                                          makeDefault: true });
-        Items.registerSheet(_system, extendSheetKingdom, { types: ['kingdom'], 
-                                                         makeDefault: true });                                                                
-        Items.registerSheet(_system, extendSheetSkill, { types: ['skill'], 
-                                                         makeDefault: true });        
+        Items.registerSheet(_system, extendSheetSociety, { types: ['society'],
+                                                         makeDefault: true });
+        Items.registerSheet(_system, extendSheetKingdom, { types: ['kingdom'],
+                                                         makeDefault: true });
+        Items.registerSheet(_system, extendSheetLanguage, { types: ['language'],
+                                                         makeDefault: true });
+        Items.registerSheet(_system, extendSheetCulture, { types: ['culture'],
+                                                         makeDefault: true });                                                    
+        Items.registerSheet(_system, extendSheetSkill, { types: ['skill'],
+                                                         makeDefault: true });
 
     }
 }

@@ -55,7 +55,23 @@
 			"path": "./packs/kingdoms.db",
       "banner": "systems/conventum/image/content/compendum/bannerKingdoms.png",
       "system": "conventum"
-		}     
+		},
+    {
+			"label": "Societas",
+			"type": "Item",
+			"name": "societies",
+			"path": "./packs/societies.db",
+      "banner": "systems/conventum/image/content/compendum/bannerSocieties.png",
+      "system": "conventum"
+		},
+    {
+			"label": "Linguae",
+			"type": "Item",
+			"name": "languages",
+			"path": "./packs/languages.db",
+      "banner": "systems/conventum/image/content/compendum/bannerLanguages.png",
+      "system": "conventum"
+		}       
   ],
   "url": "https://github.com/cuervoforjador/conventum",
   "manifest": "https://github.com/cuervoforjador/conventum/releases/download/v01/system.json",

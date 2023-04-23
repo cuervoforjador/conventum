@@ -2,12 +2,15 @@
     "config.kingdomsDice":          "Dado Sel.Reinos",
         
     "common.culture":               "Cultura",
+    "common.description":           "Descripción",
     "common.dialogInfo":            "Información",
     "common.female":                "Femenino",
     "common.gender":                "Género",
     "common.kingdom":               "Reino",
+    "common.languages":             "Idiomas",
     "common.name":                  "Nombre",
     "common.range":                 "Rango",
+    "common.society":               "Sociedad",
     "common.world":                 "Orbe",
 
     "info.range":                   "Rango en una tirada",

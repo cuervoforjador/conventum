@@ -1,4 +1,7 @@
 ._custoLiCompendium._v10 {
+    background-image: url(../image/content/compendium/bannerStandard.png);
+}
+._custoLiCompendium._v10 {
     height: 75px;
     background-size: 100%;
     display: flex;

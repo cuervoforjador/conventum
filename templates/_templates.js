@@ -12,6 +12,7 @@ export const preloadTemplates = async function() {
       
       itemFrame: CONFIG._root+"/templates/fragments/itemFrame.html",
       itemDescription: CONFIG._root+"/templates/fragments/itemDescription.html",
+      itemLanguages: CONFIG._root+"/templates/fragments/itemLanguages.html",
 
   });
 };
