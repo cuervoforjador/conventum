@@ -1,0 +1,67 @@
+<div class="actorHeader">
+
+    <input name="name" 
+           type="text" 
+           value="{{actor.name}}" 
+           placeholder="{{localize 'common.name'}}" />
+
+    <div class="headerInfo">
+        <div class="_portrait">
+            <img class="profile-img" 
+                 src="{{actor.img}}" 
+                 data-edit="img" 
+                 title="{{actor.name}}" />
+        </div>
+        <div class="_info">            
+            <line class="_100" style="justify-content: flex-end;">
+                <hbox class="switchInit">
+                    <label>{{localize 'common.female'}}</label>
+                    <label class="switch" style="margin-right: -16px;">
+                        <input type="checkbox" 
+                            name="system.bio.female" 
+                            {{checked systemData.bio.female}} />
+                        <span class="sliderSwitch"></span>
+                    </label>
+                </hbox>
+            </line> 
+            <line class="_100">
+                <hbox class="_100">
+                    <label>{{localize 'common.world'}}</label>
+                    <select name="system.control.world">
+                        {{selectOptions backend.worlds 
+                                        selected=systemData.control.world
+                                        localize=false
+                                        nameAttr="id"
+                                        labelAttr="name" }}
+                    </select>
+                </hbox>
+            </line>            
+            <line class="_100">
+                <hbox class="_100">
+                    <label>{{localize 'common.kingdom'}}</label>
+                    <select name="system.bio.kingdom">
+                        {{selectOptions backend.kingdoms 
+                                        selected=systemData.bio.kingdom
+                                        localize=false
+                                        nameAttr="id"
+                                        labelAttr="name" }}
+                    </select>
+                </hbox>
+            </line>
+            <line class="_100">
+                <hbox class="_100">
+                    <label>{{localize 'common.culture'}}</label>
+                    <select name="system.bio.culture">
+                        {{selectOptions backend.cultures 
+                                        selected=systemData.bio.culture
+                                        localize=false
+                                        nameAttr="id"
+                                        labelAttr="name" }}
+                    </select>
+                </hbox>
+            </line> 
+            
+        </div>        
+    </div>
+
+</div>

@@ -148,6 +148,56 @@ info:hover {
     white-space: pre-line;
 }
 
+/* SWITCH */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 35px!important;
+    max-width: 35px!important;
+    height: 20px;
+}
+.switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.sliderSwitch {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 36px;
+    background-color: #cebcbc52;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+.sliderSwitch:before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    left: 4px;
+    bottom: 3px;
+    background-color: rgba(255, 255, 255, 0.705);
+    border-radius: 1px;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+input:checked + .sliderSwitch {
+    background-color: #9f443670;
+    border-radius: 3px;
+}
+input:focus + .sliderSwitch {
+    box-shadow: 0 0 1px #9f443670;
+}
+input:checked + .sliderSwitch:before {
+    -webkit-transform: translateX(14px);
+    -ms-transform: translateX(14px);
+    transform: translateX(14px);
+}
+
 /* COMMONS */
 ._100 {
     width: 100%;

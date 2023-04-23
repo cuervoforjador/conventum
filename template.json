@@ -6,7 +6,10 @@
         "control": {
           "initial": true,
           "locked": false,
-          "frame": "catholicae"
+          "frame": "catholicae",
+          "world": "",
+          "kingdom": "",
+          "culture": ""
         },
         "bio": {
           "female": false,

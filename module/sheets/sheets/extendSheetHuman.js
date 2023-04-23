@@ -1,6 +1,10 @@
 /**
  * @extends {ActorSheet}
  */
+
+import { mainBackend } from "../backend/mainBackend.js";
+import { helperSheetHuman } from "../helpers/helperSheetHuman.js";
+
 export class extendSheetHuman extends ActorSheet {
 
   /**
@@ -29,6 +33,9 @@ export class extendSheetHuman extends ActorSheet {
   async getData() {
     const context = super.getData();
     context.systemData = this.actor.getRollData();
+    context.systemData = await helperSheetHuman.checkSystemData(context.systemData);
+
+    context.backend = await mainBackend.getBackendForActor(context.systemData);
 
     return context;
   }
