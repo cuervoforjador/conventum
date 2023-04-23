@@ -33,7 +33,7 @@ export class HookCompendium {
      * Styling Compendium Window 
      * @param {object} compendium
      */    
-    static _stylingCompendium(compendium) {        
+    static async  _stylingCompendium(compendium) {        
         
         // Version 11...
         if ( Math.floor(Number(game.version)) === 11 ) {
@@ -54,6 +54,31 @@ export class HookCompendium {
 
             compendium._element.find('.header-banner').addClass('_v10');
         }
+
+        //Adding World info && dice ranges...
+        const mWorlds = await game.packs.get("conventum.worlds").getDocuments();
+        const sPack =  compendium._element.find('.compendium').data('pack');
+        const mDocs = await game.packs.get(sPack).getDocuments();
+        compendium._element.find('.compendium ol.directory-list li.directory-item').each(function(i,e) {
+            const sId = $(e).data('documentId');
+            const oItemDoc = mDocs.find(e => e.id === sId);
+            const oWorldDoc = mWorlds.find(e => e.id === oItemDoc.system.control.world);
+            if (oWorldDoc === undefined) return;
+            if ( ( Number(oItemDoc.system.range.low) > 0 ) &&
+                 ( Number(oItemDoc.system.range.high) > 0 ) ) {
+                $(e).append('<div class="_diceInfo">'+
+                    oItemDoc.system.range.low+' - '+
+                    oItemDoc.system.range.high+'</div>');
+                $(e).data('order', oItemDoc.system.range.low);
+            }
+            $(e).append('<div class="_worldInfo" data-id="'+oWorldDoc.id+'">'+
+                    oWorldDoc.name+'</div>');
+        }.bind(this));        
+
+        $(".compendium ol.directory-list li.directory-item")
+            .sort((a,b) => $(a).data("order") - $(b).data("order"))
+            .appendTo(".compendium ol.directory-list");
+
     }
 
 }

@@ -1,3 +1,15 @@
-{
+{   
+    "config.kingdomsDice":          "Dado Sel.Reinos",
+        
+    "common.culture":               "Cultura",
+    "common.dialogInfo":            "Información",
+    "common.female":                "Femenino",
+    "common.gender":                "Género",
+    "common.kingdom":               "Reino",
+    "common.name":                  "Nombre",
+    "common.range":                 "Rango",
+    "common.world":                 "Orbe",
 
+    "info.range":                   "Rango en una tirada",
+    "info.kingdomsDice":            "Dado en las tiradas para seleccionar el reino.\n * 1D10 por defecto."
 }

@@ -6,7 +6,10 @@
         "control": {
           "initial": true,
           "locked": false,
-          "frame": "catholicae"
+          "frame": "catholicae",
+          "world": "",
+          "kingdom": "",
+          "culture": ""
         },
         "bio": {
           "female": false,
@@ -114,6 +117,10 @@
           "locked": false,
           "world": ""
         },
+        "range": {
+          "low": 0,
+          "high": 0
+        },
         "description": ""
       },
       "kingdom": { },
@@ -146,7 +153,10 @@
       }
     },
     "world": {
-      "templates": ["base"]
+      "templates": ["base"],
+      "custo": {
+        "kingdomsDice": "1d10"
+      }
     },
     "kingdom": {
       "templates": ["base", "kingdom"]
