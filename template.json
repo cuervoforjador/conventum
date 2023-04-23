@@ -107,7 +107,10 @@
   "Item": {
     "types": [
         "world",
+        "society",
         "kingdom",
+        "culture",
+        "language",
         "skill"
     ],
     "templates": {
@@ -123,7 +126,13 @@
         },
         "description": ""
       },
-      "kingdom": { },
+      "stats": {
+        "stats": {
+          "min": 0,
+          "max": 0,
+          "value": 0
+        }
+      },
       "skill": {
         "profession": {
           "primary": false,
@@ -132,11 +141,6 @@
           "modCharPrimary": 1,
           "modCharSecondary": 1,
           "modCharPaternal": 1          
-        },
-        "stats": {
-          "min": 0,
-          "max": 0,
-          "value": 0
         },
         "mods": {
           "char": "",
@@ -158,11 +162,24 @@
         "kingdomsDice": "1d10"
       }
     },
+    "society": {
+      "templates": ["base"]
+    },
     "kingdom": {
-      "templates": ["base", "kingdom"]
+      "templates": ["base"]
+    },
+    "culture": {
+      "templates": ["base"],
+      "backend": {
+        "society": "",
+        "languages": {}
+      }
+    },
+    "language": {
+      "templates": ["base", "stats"]
     },
     "skill": {
-      "templates": ["base", "skill"]
+      "templates": ["base", "stats", "skill"]
     }    
   }
 }

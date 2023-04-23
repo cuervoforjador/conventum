@@ -216,3 +216,49 @@ inkDetail.inkSubline {
     margin-top: 8px;
     padding-right: 8px;
 }
+
+/* ***************************************************************************************
+   ITEMS
+*************************************************************************************** */
+.itemTabsHeader {
+    width: 100%;
+    border: 0px!important;
+    padding-left: 10px;
+}
+.itemTabsHeader a {
+    margin-right: 4px;
+    border-top: 1px solid #333;
+    border-bottom: 1px solid #333;
+    font-family: 'Almendra';
+    font-size: 16px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+ol.itemList {
+    padding-bottom: 60px;
+    padding-left: 6px;
+    padding-right: 0px;
+    padding-top: 20px;
+    margin: 0px;
+    display: flex;
+    flex-wrap: wrap;
+}
+li.itemList {
+    list-style-type: none;
+}
+li.itemList input {
+    line-height: 10px!important;
+    font-size: 15px;
+    font-family: 'Almendra';
+    padding: 0px!important;
+    height: 18px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    background: #72494914!important;
+}
+li.itemList hbox label {
+    text-align: right;
+    width: 100px;
+    font-size: 11px!important;
+    line-height: 24px!important;
+}

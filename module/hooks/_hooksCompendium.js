@@ -1,6 +1,9 @@
 /**
  * COMPENDIUM
  */
+
+import { mainUtils } from "../mainUtils.js";
+
 export class HookCompendium {
 
     /**
@@ -21,9 +24,13 @@ export class HookCompendium {
                 $(e0).find('li.compendium-pack').each(function(i,e) {
                     $(e).addClass('_custoLiCompendium');
                     $(e).addClass('_v10');
-                    $(e).css({'background-image': 'url(/systems/conventum/image/content/compendium/banner'+
-                                                                                $(e).find('h4 a').text().trim()+'.png)'});
-                    
+                    const sUrl = '/systems/conventum/image/content/compendium/banner'+
+                                                        $(e).find('h4 a').text().trim()+'.png';
+                    $(e).css({'background-image': 'url('+sUrl+')'});
+                    mainUtils.ifNotExists(sUrl, function() {
+                        $(e).css({'background-image': 'url(/systems/conventum/image/content/compendium/bannerStandard.png'});
+                    }.bind(this));
+
                 });
             });
         }
@@ -42,15 +49,23 @@ export class HookCompendium {
             compendium._element.find('section.window-content').addClass('_v10');
             compendium._element.find('.directory-header').addClass('_custoHeaderCompendium');
             compendium._element.find('.directory-header').addClass('_v10');
+            
+            const sUrl = '/systems/conventum/image/content/compendium/banner'+
+                            compendium._element.find('h4.window-title').text().trim()+'.png';
+
             compendium._element.find('.directory-header').prepend(
                 '<div class="header-banner" style="background-image: '+
-                    'url(/systems/conventum/image/content/compendium/banner'+
-                        compendium._element.find('h4.window-title').text().trim()+'.png)">'+
+                    'url('+sUrl+')">'+
                     '<h4 class="pack-title">'+
                         compendium._element.find('h4.window-title').text().trim()+
                     '</h4>'+
                 '</div>'
             );
+            
+            mainUtils.ifNotExists(sUrl, function() {
+                compendium._element.find('.directory-header .header-banner').css({'background-image': 
+                                'url(/systems/conventum/image/content/compendium/bannerStandard.png'});
+            }.bind(this));
 
             compendium._element.find('.header-banner').addClass('_v10');
         }

@@ -15,11 +15,23 @@ export class mainHandlebars {
       });
 
       /**
-       * frameUrl
+       * standardFrameUrl
        */
       Handlebars.registerHelper("standardFrameUrl", function(options) {
          return CONFIG._root + '/image/frame/standard';      
-   });
+      });
+
+      /**
+       * standardFrameUrl
+       */
+      Handlebars.registerHelper("itemProperty", function(sRootPath, property, options) {
+         
+         let oItem = options.data.root.data;
+         sRootPath.split('.').forEach( s => {
+            oItem = oItem[s]; });
+
+         return oItem[property];
+       });
 
    }
 
