@@ -21,8 +21,6 @@ itemImage img {
     border: 3px solid #181817;
 }
 
-<<<<<<< HEAD
-=======
 
 itemHeaderInfo {
     width: calc(100% - 155px);
@@ -30,27 +28,17 @@ itemHeaderInfo {
     flex-direction: column;
 }
 
->>>>>>> 48ae91f0c39a0c8e5746703da684780f1db7deaf
 itemTitle {
     padding: 10px;
     padding-left: 24px;
     padding-top: 14px;
-<<<<<<< HEAD
-    width: calc(100% - 155px);
-=======
     height: 65px;
->>>>>>> 48ae91f0c39a0c8e5746703da684780f1db7deaf
 }
 itemTitle input[type="text"] {
     font-family: 'Almendra', serif;
     border: 0px;
     background: transparent;
     font-size: 28px;
-<<<<<<< HEAD
-    line-height: 28px;
-    transform: rotate(-1deg);
-}
-=======
     line-height: 34px;
     transform: rotate(-1deg);
 }
@@ -90,7 +78,6 @@ itemSubHeader {
     border: 0px;
 }
 
->>>>>>> 48ae91f0c39a0c8e5746703da684780f1db7deaf
 itemContent {
 
 }
@@ -126,8 +113,6 @@ button {
     text-shadow: 0px 0px 3px #ffffffd6, 0px 0px 9px #ffffff;
     font-weight: 900;
     color: #000000d6;
-<<<<<<< HEAD
-=======
 }
 
 /* BASE */
@@ -273,5 +258,4 @@ input:checked + .sliderSwitch:before {
     width: 30px;
     min-width: 30px;
     max-width: 30px;
->>>>>>> 48ae91f0c39a0c8e5746703da684780f1db7deaf
 }

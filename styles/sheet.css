@@ -71,8 +71,6 @@ inkDetail.inkSubline {
     border-radius: 0px;
     display: block;
     border: 0px!important;
-<<<<<<< HEAD
-=======
 }
 
 /* ***************************************************************************************
@@ -263,5 +261,4 @@ li.itemList hbox label {
     width: 100px;
     font-size: 11px!important;
     line-height: 24px!important;
->>>>>>> 48ae91f0c39a0c8e5746703da684780f1db7deaf
 }

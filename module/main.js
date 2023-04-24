@@ -1,8 +1,5 @@
 import { extendConfig } from "./config/config.js";
-<<<<<<< HEAD
-=======
 import { mainConfig } from "./config/mainConfig.js";
->>>>>>> 48ae91f0c39a0c8e5746703da684780f1db7deaf
 import { mainMacros } from "./macros/mainMacros.js";
 import { mainSettings } from "./gameSettings/mainSettings.js";
 import { mainGameSheets } from "./sheets/sheets.js";
@@ -26,11 +23,7 @@ Hooks.once("init", async function() {
   };
 
   CONFIG._root = [...game.system.esmodules][0].split('/module')[0];
-<<<<<<< HEAD
-  CONFIG.ExtendConfig = extendConfig;
-=======
   CONFIG.ExtendConfig = mainConfig.init(extendConfig);
->>>>>>> 48ae91f0c39a0c8e5746703da684780f1db7deaf
   CONFIG.debug.hooks = true;
 
   //Game...

@@ -1,12 +1,9 @@
 /**
  * COMPENDIUM
  */
-<<<<<<< HEAD
-=======
 
 import { mainUtils } from "../mainUtils.js";
 
->>>>>>> 48ae91f0c39a0c8e5746703da684780f1db7deaf
 export class HookCompendium {
 
     /**
@@ -15,11 +12,6 @@ export class HookCompendium {
      */    
     static _stylingLiCompendium(tab) {
         
-<<<<<<< HEAD
-        tab._element.find('li').each(function(i,e) {
-            $(e).addClass('_custoLiCompendium');
-        });
-=======
         //Custom class
         if ( Math.floor(Number(game.version)) === 11 ) {
             // Version 11...
@@ -42,18 +34,12 @@ export class HookCompendium {
                 });
             });
         }
->>>>>>> 48ae91f0c39a0c8e5746703da684780f1db7deaf
     }
 
     /**
      * Styling Compendium Window 
      * @param {object} compendium
      */    
-<<<<<<< HEAD
-    static _stylingCompendium(compendium) {
-        
-        compendium._element.find('.header-banner').addClass('_custoHeaderCompendium');
-=======
     static async  _stylingCompendium(compendium) {        
         
         // Version 11...
@@ -108,7 +94,6 @@ export class HookCompendium {
             .sort((a,b) => $(a).data("order") - $(b).data("order"))
             .appendTo(".compendium ol.directory-list");
 
->>>>>>> 48ae91f0c39a0c8e5746703da684780f1db7deaf
     }
 
 }

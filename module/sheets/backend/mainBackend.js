@@ -96,8 +96,10 @@ export class mainBackend {
         if (!mDocs) return [];
         let mReturn = mDocs.filter(e => e.system.control.world === sWorld);
         mReturn.sort((a, b) => {
-            if (a.name.toUpperCase() < b.name.toUpperCase()) return -1;
-            if (a.name.toUpperCase() > b.name.toUpperCase()) return 1;
+            const nameA = a.name.toUpperCase();
+            const nameB = b.name.toUpperCase();
+            if (nameA < nameB) return -1;
+            if (nameA > nameB) return 1;
             return 0;
         });
         return mReturn;

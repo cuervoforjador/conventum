@@ -1,13 +1,10 @@
 /**
  * @extends {ActorSheet}
  */
-<<<<<<< HEAD
-=======
 
 import { mainBackend } from "../backend/mainBackend.js";
 import { helperSheetHuman } from "../helpers/helperSheetHuman.js";
 
->>>>>>> 48ae91f0c39a0c8e5746703da684780f1db7deaf
 export class extendSheetHuman extends ActorSheet {
 
   /**
@@ -36,12 +33,9 @@ export class extendSheetHuman extends ActorSheet {
   async getData() {
     const context = super.getData();
     context.systemData = this.actor.getRollData();
-<<<<<<< HEAD
-=======
     context.systemData = await helperSheetHuman.checkSystemData(context.systemData);
 
     context.backend = await mainBackend.getBackendForActor(context.systemData);
->>>>>>> 48ae91f0c39a0c8e5746703da684780f1db7deaf
 
     return context;
   }
