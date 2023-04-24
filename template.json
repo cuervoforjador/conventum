@@ -111,6 +111,8 @@
         "kingdom",
         "culture",
         "language",
+        "stratum",
+        "status",
         "skill"
     ],
     "templates": {
@@ -174,6 +176,18 @@
         "society": "",
         "languages": {}
       }
+    },
+    "stratum": {
+      "templates": ["base"],
+      "backend": {
+        "society": ""
+      }
+    },    
+    "status": {
+      "templates": ["base"],
+      "backend": {
+        "stratum": ""
+      }      
     },
     "language": {
       "templates": ["base", "stats"]

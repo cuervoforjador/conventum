@@ -26,10 +26,11 @@ export class mainHandlebars {
        */
       Handlebars.registerHelper("itemProperty", function(sRootPath, property, options) {
          
-         let oItem = options.data.root.data;
+         let oItem = (sRootPath.split('.')[0] === 'systemData') ? 
+                                                      options.data.root :
+                                                      options.data.root.data;
          sRootPath.split('.').forEach( s => {
             oItem = oItem[s]; });
-
          return oItem[property];
        });
 

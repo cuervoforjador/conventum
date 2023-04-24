@@ -5,7 +5,7 @@
 import { mainBackend } from "../backend/mainBackend.js";
 import { helperSheetItem } from "../helpers/helperSheetItem.js";
 
-export class extendSheetKingdom extends ItemSheet {
+export class extendSheetStatus extends ItemSheet {
 
   /**
    * Mapping Sheets options...
@@ -16,9 +16,12 @@ export class extendSheetKingdom extends ItemSheet {
 
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: [game.system.id, "sheet", "item"],
-      template: CONFIG._root+"/templates/kingdom.html",
+      template: CONFIG._root+"/templates/status.html",
       width: 520,
-      height: 480
+      height: 480,
+      tabs: [
+        {navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "main"}
+      ],      
     });
   }
 
@@ -32,7 +35,7 @@ export class extendSheetKingdom extends ItemSheet {
     const context = super.getData();
     context.systemData = this.item.getRollData();
     context.systemData = await helperSheetItem.checkSystemData(context.systemData);
-    context.backend = await mainBackend.getBackendForKingdom();
+    context.backend = await mainBackend.getBackendForStatus(context.systemData);
 
     return context;
   }

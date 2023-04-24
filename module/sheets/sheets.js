@@ -6,6 +6,8 @@ import { extendSheetSociety } from "./sheets/extendSheetSociety.js";
 import { extendSheetKingdom } from "./sheets/extendSheetKingdom.js";
 import { extendSheetLanguage } from "./sheets/extendSheetLanguage.js";
 import { extendSheetCulture } from "./sheets/extendSheetCulture.js";
+import { extendSheetStratum } from "./sheets/extendSheetStratum.js";
+import { extendSheetStatus } from "./sheets/extendSheetStatus.js";
 import { extendSheetSkill } from "./sheets/extendSheetSkill.js";
 export class mainGameSheets {
 
@@ -36,7 +38,11 @@ export class mainGameSheets {
         Items.registerSheet(_system, extendSheetLanguage, { types: ['language'],
                                                          makeDefault: true });
         Items.registerSheet(_system, extendSheetCulture, { types: ['culture'],
-                                                         makeDefault: true });                                                    
+                                                         makeDefault: true });       
+        Items.registerSheet(_system, extendSheetStratum, { types: ['stratum'],
+                                                         makeDefault: true });                                                                                                       
+        Items.registerSheet(_system, extendSheetStatus, { types: ['status'],
+                                                         makeDefault: true });        
         Items.registerSheet(_system, extendSheetSkill, { types: ['skill'],
                                                          makeDefault: true });
 

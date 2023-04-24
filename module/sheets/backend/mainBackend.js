@@ -50,9 +50,29 @@ export class mainBackend {
             worlds: await game.packs.get("conventum.worlds").getDocuments(),
             societies: await this._getSocieties(systemData.control.world), 
             kingdoms: await this._getKingdoms(systemData.control.world),
-            languages: await this._getLanguages(systemData.control.world),
+            languages: await this._getLanguages(systemData.control.world)
         };
     }
+
+    /**
+     * Compendium Backend For Stratums Items...
+     */
+    static async getBackendForStratums(systemData) {
+        return {
+            worlds: await game.packs.get("conventum.worlds").getDocuments(),
+            societies: await this._getSocieties(systemData.control.world)
+        };
+    }
+
+    /**
+     * Compendium Backend For Status Items...
+     */
+    static async getBackendForStatus(systemData) {
+        return {
+            worlds: await game.packs.get("conventum.worlds").getDocuments(),
+            stratums: await this._getStratums(systemData.control.world)
+        };
+    }    
 
     /**
      * _getSocieties
@@ -84,6 +104,14 @@ export class mainBackend {
      */
     static async _getCultures(sWorld) {
         return this._getDocuments('cultures', sWorld);
+    }    
+
+    /**
+     * _getStratums
+     * @param {*} sWorld 
+     */
+    static async _getStratums(sWorld) {
+        return this._getDocuments('stratums', sWorld);
     }    
 
     /**
