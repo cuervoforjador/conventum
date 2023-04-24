@@ -6,7 +6,14 @@
         "control": {
           "initial": true,
           "locked": false,
+<<<<<<< HEAD
           "frame": "catholicae"
+=======
+          "frame": "catholicae",
+          "world": "",
+          "kingdom": "",
+          "culture": ""
+>>>>>>> 48ae91f0c39a0c8e5746703da684780f1db7deaf
         },
         "bio": {
           "female": false,
@@ -104,7 +111,14 @@
   "Item": {
     "types": [
         "world",
+<<<<<<< HEAD
         "kingdom",
+=======
+        "society",
+        "kingdom",
+        "culture",
+        "language",
+>>>>>>> 48ae91f0c39a0c8e5746703da684780f1db7deaf
         "skill"
     ],
     "templates": {
@@ -114,9 +128,25 @@
           "locked": false,
           "world": ""
         },
+<<<<<<< HEAD
         "description": ""
       },
       "kingdom": { },
+=======
+        "range": {
+          "low": 0,
+          "high": 0
+        },
+        "description": ""
+      },
+      "stats": {
+        "stats": {
+          "min": 0,
+          "max": 0,
+          "value": 0
+        }
+      },
+>>>>>>> 48ae91f0c39a0c8e5746703da684780f1db7deaf
       "skill": {
         "profession": {
           "primary": false,
@@ -126,11 +156,14 @@
           "modCharSecondary": 1,
           "modCharPaternal": 1          
         },
+<<<<<<< HEAD
         "stats": {
           "min": 0,
           "max": 0,
           "value": 0
         },
+=======
+>>>>>>> 48ae91f0c39a0c8e5746703da684780f1db7deaf
         "mods": {
           "char": "",
           "modChar": 1,
@@ -146,6 +179,7 @@
       }
     },
     "world": {
+<<<<<<< HEAD
       "templates": ["base"]
     },
     "kingdom": {
@@ -153,6 +187,31 @@
     },
     "skill": {
       "templates": ["base", "skill"]
+=======
+      "templates": ["base"],
+      "custo": {
+        "kingdomsDice": "1d10"
+      }
+    },
+    "society": {
+      "templates": ["base"]
+    },
+    "kingdom": {
+      "templates": ["base"]
+    },
+    "culture": {
+      "templates": ["base"],
+      "backend": {
+        "society": "",
+        "languages": {}
+      }
+    },
+    "language": {
+      "templates": ["base", "stats"]
+    },
+    "skill": {
+      "templates": ["base", "stats", "skill"]
+>>>>>>> 48ae91f0c39a0c8e5746703da684780f1db7deaf
     }    
   }
 }

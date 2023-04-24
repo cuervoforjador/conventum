@@ -1,14 +1,10 @@
 /**
- * @extends {ActorSheet}
+ * @extends {ItemSheet}
  */
-<<<<<<< HEAD
-=======
 
 import { mainBackend } from "../backend/mainBackend.js";
-import { helperSheetHuman } from "../helpers/helperSheetHuman.js";
 
->>>>>>> 48ae91f0c39a0c8e5746703da684780f1db7deaf
-export class extendSheetHuman extends ActorSheet {
+export class extendSheetCulture extends ItemSheet {
 
   /**
    * Mapping Sheets options...
@@ -18,10 +14,10 @@ export class extendSheetHuman extends ActorSheet {
   static get defaultOptions() {
 
     return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: [game.system.id, "sheet", "actor"],
-      template: CONFIG._root+"/templates/human.html",
-      width: 400,
-      height: 600,
+      classes: [game.system.id, "sheet", "item"],
+      template: CONFIG._root+"/templates/culture.html",
+      width: 520,
+      height: 480,
       tabs: [
         {navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "main"}
       ],      
@@ -33,15 +29,11 @@ export class extendSheetHuman extends ActorSheet {
    * @inheritdoc
    * @returns {object} - Context
    */
-  async getData() {
+   async getData() {
+    
     const context = super.getData();
-    context.systemData = this.actor.getRollData();
-<<<<<<< HEAD
-=======
-    context.systemData = await helperSheetHuman.checkSystemData(context.systemData);
-
-    context.backend = await mainBackend.getBackendForActor(context.systemData);
->>>>>>> 48ae91f0c39a0c8e5746703da684780f1db7deaf
+    context.systemData = this.item.getRollData();
+    context.backend = await mainBackend.getBackendForCulture(context.systemData);
 
     return context;
   }
@@ -51,9 +43,9 @@ export class extendSheetHuman extends ActorSheet {
    * @inheritdoc
    * @param {html} html
    */
-  activateListeners(html) {
+   activateListeners(html) {
     super.activateListeners(html);
     if ( !this.isEditable ) return;
   }
-
+  
 }

@@ -1,10 +1,46 @@
 <form class="codex" 
       autocomplete="off">
 
+<<<<<<< HEAD
     {{> itemFrame }}
     <itemHeader>
         {{> itemHeader }}
     </itemHeader>    
+=======
+    {{!-- FRAME --}}
+    {{> itemFrame }}
+    
+    {{!-- HEADER --}}
+    <itemHeader>
+             
+        {{!-- Filigrees --}}
+        <inkDetail class="inkCorner"></inkDetail>
+        <inkDetail class="inkSubline"></inkDetail>
+
+        {{!-- Image --}}
+        <itemImage>
+            <img src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+        </itemImage>
+
+        {{!-- Header Info --}}
+        <itemHeaderInfo>
+            <itemTitle>
+                <input type="text" name="name" value="{{item.name}}" placeholder=""/>
+            </itemTitle>
+            <itemSubHeader>
+                <hbox class="_subHeaderHBox">
+                    <info data-id="info.kingdomsDice">i</info>
+                    <label class="_70">{{localize "config.kingdomsDice" }}</label>
+                    <input class="_30" type="text" 
+                           name="system.custo.kingdomsDice"
+                           value="{{systemData.custo.kingdomsDice}}" />
+                </hbox>
+            </itemSubHeader>
+        </itemHeaderInfo>
+    </itemHeader> 
+    
+    {{!-- CONTENT --}}
+>>>>>>> 48ae91f0c39a0c8e5746703da684780f1db7deaf
     <itemContent>
         {{> itemDescription }}
     </itemContent>

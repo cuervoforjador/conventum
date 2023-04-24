@@ -1,9 +1,33 @@
+<<<<<<< HEAD
 ._custoLiCompendium h3,
 ._custoHeaderCompendium h3 {
     font-family: 'Almendra';
 }
 ._custoLiCompendium h3 a,
 ._custoHeaderCompendium h3 {
+=======
+._custoLiCompendium._v10 {
+    background-image: url(../image/content/compendium/bannerStandard.png);
+}
+._custoLiCompendium._v10 {
+    height: 75px;
+    background-size: 100%;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;    
+}
+._custoLiCompendium h3,
+._custoLiCompendium._v10 h4,
+._custoHeaderCompendium h3,
+._custoHeaderCompendium._v10 h4 {
+    font-family: 'Almendra';
+}
+._custoLiCompendium h3 a,
+._custoLiCompendium._v10 h4 a,
+._custoHeaderCompendium h3,
+._custoHeaderCompendium._v10 h4 {
+>>>>>>> 48ae91f0c39a0c8e5746703da684780f1db7deaf
     background: none!important;
     border: 0px!important;
     color: #000;
@@ -19,6 +43,7 @@
                 -1px 1px #ffffff8c;
 }
 ._custoLiCompendium h3 a i,
+<<<<<<< HEAD
 ._custoHeaderCompendium h3 i {
     display: none;
 }
@@ -26,6 +51,39 @@
     display: none;
 }
 
+=======
+._custoLiCompendium._v10 h4 a i,
+._custoHeaderCompendium h3 i {
+    display: none;
+}
+._custoLiCompendium footer .source,
+._custoLiCompendium._v10 footer {
+    display: none;
+}
+
+section.window-content._v10 {
+    padding: 0px;
+}
+._custoHeaderCompendium._v10 {
+    flex: inherit!important;
+    margin: 0px!important;
+    flex-direction: column!important;
+    max-height: 115px;
+}
+._custoHeaderCompendium._v10 .header-search {
+    max-height: 35px!important;
+}
+._custoHeaderCompendium._v10 .header-banner {
+    width: 100%;
+    display: flex;
+    height: 75px;
+    margin: 0px!important;
+    background-size: 100% 75px;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+}
+>>>>>>> 48ae91f0c39a0c8e5746703da684780f1db7deaf
 
 .compendium header {
     border-bottom: 4px solid #45464b!important;
@@ -38,6 +96,10 @@
 }
 .compendium ol.directory-list li {    
     padding: 5px;
+<<<<<<< HEAD
+=======
+    height: 68px;
+>>>>>>> 48ae91f0c39a0c8e5746703da684780f1db7deaf
     background-image: url(../image/texture/paper.png);
     background-repeat: repeat;
     background-size: 250px 250px;
@@ -57,6 +119,11 @@
 .compendium ol.directory-list li h4 {
     display: flex;
     align-items: flex-start;
+<<<<<<< HEAD
+=======
+    width: calc(100% - 60px);
+    min-width: calc(100% - 60px);
+>>>>>>> 48ae91f0c39a0c8e5746703da684780f1db7deaf
 }
 .compendium ol.directory-list li h4 a {
     color: #333;
@@ -77,4 +144,31 @@
     border-radius: 1px;
     background: none!important;
     border: 1px solid #33333338;
+<<<<<<< HEAD
+=======
+}
+
+.compendium ._worldInfo {
+    position: relative;
+    top: -20px;
+    width: 150px;
+    height: 22px;
+    line-height: 22px;
+    font-family: 'Almendra';
+    text-align: right;
+    padding-right: 8px;
+}
+.compendium ._diceInfo {
+    position: relative;
+    top: -51px;
+    left: calc(100% - 152px);
+    width: 50px;
+    height: 22px;
+    line-height: 22px;
+    font-size: 16px;
+    font-family: 'Almendra';
+    text-align: right;
+    padding-right: 8px;
+    color: #3333339e;
+>>>>>>> 48ae91f0c39a0c8e5746703da684780f1db7deaf
 }

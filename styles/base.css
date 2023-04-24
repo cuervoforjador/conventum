@@ -21,20 +21,76 @@ itemImage img {
     border: 3px solid #181817;
 }
 
+<<<<<<< HEAD
+=======
+
+itemHeaderInfo {
+    width: calc(100% - 155px);
+    display: flex;
+    flex-direction: column;
+}
+
+>>>>>>> 48ae91f0c39a0c8e5746703da684780f1db7deaf
 itemTitle {
     padding: 10px;
     padding-left: 24px;
     padding-top: 14px;
+<<<<<<< HEAD
     width: calc(100% - 155px);
+=======
+    height: 65px;
+>>>>>>> 48ae91f0c39a0c8e5746703da684780f1db7deaf
 }
 itemTitle input[type="text"] {
     font-family: 'Almendra', serif;
     border: 0px;
     background: transparent;
     font-size: 28px;
+<<<<<<< HEAD
     line-height: 28px;
     transform: rotate(-1deg);
 }
+=======
+    line-height: 34px;
+    transform: rotate(-1deg);
+}
+
+itemSubHeader {
+    width: 100%;
+    height: 95px;
+    padding: 10px;
+}
+._subHeaderHBox {
+    width: 100%;
+}
+._subHeaderHBox label {
+    width: 80px;
+    text-align: end;
+    padding-right: 2px;
+    font-family: 'Almendra';
+    font-size: 17px;
+    line-height: 20px;
+}
+._subHeaderHBox input {
+    font-family: 'Almendra';
+    font-size: 17px;
+    line-height: 18px;
+    width: calc(100% - 80px);
+    text-align: initial;
+    background: none;
+    border: 0px;
+}
+._subHeaderHBox select {
+    font-family: 'Almendra';
+    font-size: 17px;
+    line-height: 18px;
+    width: calc(100% - 80px);
+    text-align: initial;
+    background: none;
+    border: 0px;
+}
+
+>>>>>>> 48ae91f0c39a0c8e5746703da684780f1db7deaf
 itemContent {
 
 }
@@ -70,4 +126,152 @@ button {
     text-shadow: 0px 0px 3px #ffffffd6, 0px 0px 9px #ffffff;
     font-weight: 900;
     color: #000000d6;
+<<<<<<< HEAD
+=======
+}
+
+/* BASE */
+hbox {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;    
+}
+
+info {
+    position: relative;
+    left: 10px;
+    z-index: 100;
+    border: 1px solid #33333345;
+    background: #9b44441f;
+    color: #300707;
+    padding: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    line-height: 20px;
+    font-size: 15px;
+    cursor: pointer;
+}
+info:hover {
+    background: #333333be;
+    color: #FFF;
+}
+.dialog-content ._infoDialog {
+    font-family: 'Almendra';
+    font-size: 16px;
+    text-align: justify;
+    white-space: pre-line;
+}
+
+/* SWITCH */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 35px!important;
+    max-width: 35px!important;
+    height: 20px;
+}
+.switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.sliderSwitch {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 36px;
+    background-color: #cebcbc52;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+.sliderSwitch:before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    left: 4px;
+    bottom: 3px;
+    background-color: rgba(255, 255, 255, 0.705);
+    border-radius: 1px;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+input:checked + .sliderSwitch {
+    background-color: #9f443670;
+    border-radius: 3px;
+}
+input:focus + .sliderSwitch {
+    box-shadow: 0 0 1px #9f443670;
+}
+input:checked + .sliderSwitch:before {
+    -webkit-transform: translateX(14px);
+    -ms-transform: translateX(14px);
+    transform: translateX(14px);
+}
+
+/* COMMONS */
+._100 {
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+}
+._90 {
+    width: 90%;
+    min-width: 90%;
+    max-width: 90%;
+}
+._80 {
+    width: 80%;
+    min-width: 80%;
+    max-width: 80%;
+}
+._70 {
+    width: 70%;
+    min-width: 70%;
+    max-width: 70%;
+}
+._60 {
+    width: 60%;
+    min-width: 60%;
+    max-width: 60%;
+}
+._50 {
+    width: 50%;
+    min-width: 50%;
+    max-width: 50%;
+}
+._40 {
+    width: 40%;
+    min-width: 40%;
+    max-width: 40%;
+}
+._30 {
+    width: 30%;
+    min-width: 30%;
+    max-width: 30%;
+}
+._25 {
+    width: 25%;
+    min-width: 25%;
+    max-width: 25%;
+}
+._20 {
+    width: 20%;
+    min-width: 20%;
+    max-width: 20%;
+}
+._10 {
+    width: 10%;
+    min-width: 10%;
+    max-width: 10%;
+}
+._30px {
+    width: 30px;
+    min-width: 30px;
+    max-width: 30px;
+>>>>>>> 48ae91f0c39a0c8e5746703da684780f1db7deaf
 }

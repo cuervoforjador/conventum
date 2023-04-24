@@ -1,13 +1,10 @@
 /**
  * @extends {ItemSheet}
  */
-<<<<<<< HEAD
-=======
 
 import { mainBackend } from "../backend/mainBackend.js";
 
->>>>>>> 48ae91f0c39a0c8e5746703da684780f1db7deaf
-export class extendSheetKingdom extends ItemSheet {
+export class extendSheetLanguage extends ItemSheet {
 
   /**
    * Mapping Sheets options...
@@ -18,7 +15,7 @@ export class extendSheetKingdom extends ItemSheet {
 
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: [game.system.id, "sheet", "item"],
-      template: CONFIG._root+"/templates/kingdom.html",
+      template: CONFIG._root+"/templates/language.html",
       width: 520,
       height: 480
     });
@@ -29,20 +26,12 @@ export class extendSheetKingdom extends ItemSheet {
    * @inheritdoc
    * @returns {object} - Context
    */
-<<<<<<< HEAD
-   getData() {
-    const context = super.getData();
-    context.systemData = this.item.getRollData();
-
-=======
    async getData() {
     
     const context = super.getData();
     context.systemData = this.item.getRollData();
+    context.backend = await mainBackend.getBackendForLanguage(context.systemData);
 
-    context.backend = await mainBackend.getBackendForKingdom();
-
->>>>>>> 48ae91f0c39a0c8e5746703da684780f1db7deaf
     return context;
   }
 

@@ -71,4 +71,197 @@ inkDetail.inkSubline {
     border-radius: 0px;
     display: block;
     border: 0px!important;
+<<<<<<< HEAD
+=======
+}
+
+/* ***************************************************************************************
+   ACTOR HEADER && CHARACTERISTICS
+*************************************************************************************** */
+.actorHeader {
+    width: 100%;
+}
+._info line hbox label {
+    width:75px;
+    text-align: right;
+}
+._info line label,
+.actorHeader label,
+.frameContent label {
+    font-family: 'Uncial Antiqua', cursive;
+    font-size: 10px;
+    line-height: 13px;
+    margin-right: 4px;
+    color: #000000b8;
+}
+._info line label.righted,
+.actorHeader label.righted,
+.frameContent label.righted {
+    width: calc(100% - 70px);
+    text-align: right;
+}
+._info line label::first-letter,
+.actorHeader label::first-letter,
+.frameContent label::first-letter {
+    font-size: 13px;
+    color: #9f4436d6;
+    font-weight: 900;
+}
+._info line label.labeled::first-letter,
+.actorHeader label.labeled::first-letter,
+.frameContent label.labeled::first-letter {
+    font-size: 12px;
+    background: #8846469c;
+    color: #FFF;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border-radius: 2px;
+    margin-right: 1px;    
+}
+.actorHeader input,
+.frameContent input,
+.actorChars input {
+    background: none!important;
+    border: 0px!important;
+    border-radius: 0px!important;
+    box-shadow: none!important;
+}
+.actorHeader input[name='name'],
+.frameContent input[name='name'] {
+    text-align: center;
+    width: 100%;
+    font-size: 27px;
+    line-height: 38px;
+    padding-top: 7px;
+    height: 49px;
+    font-family: 'Augusta';
+    border-bottom: 5px solid #9f4436!important;
+    color: #333;
+    background: #d6a3861c!important;
+}
+.actorHeader select,
+.frameContent select {
+    font-family: 'Almendra';
+}
+
+.actorHeader .headerInfo {
+    display: flex;
+    width: 100%;
+    height: 146px;
+    border-bottom: 1px solid #9c2d2d29;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+.actorHeader .headerInfo ._portrait {
+    min-width: 120px;
+    width: 120px;
+    height: 146px;
+}
+.actorHeader .headerInfo ._portrait .profile-img {
+    margin: 5px;
+    border: 0px solid #9a2626e6;
+    width: 140px;
+    height: 140px;
+    opacity: 0.75;
+    border-radius: 50px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 10px;
+    margin-left: -7px;
+    -webkit-box-shadow: 0px 0px 6px 1px rgb(125 30 30 / 30%);
+    box-shadow: 0px 0px 6px 1px rgb(125 30 30 / 30%);
+}
+.actorHeader .headerInfo ._info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: flex-start;
+    flex-wrap: nowrap;
+    width: 100%;
+}
+.actorHeader .headerInfo line {
+    margin-top: 4px;
+}
+.actorHeader .headerInfo line label {
+    min-width: 50px;
+}
+.actorHeader .headerInfo line select {
+    width: calc(100% - 75px);
+    min-width: calc(100% - 75px);
+    border: none;
+}
+.actorHeader .headerInfo ._cardInfo {
+    width: calc(100% - 150px);
+    height: 146px;
+}
+.actorHeader .headerInfo ._cardInfo line {
+    margin-top: 5px;
+}
+.actorHeader .headerInfo ._cardInfo line label {
+    width: 55px!important;
+}
+.actorHeader .headerInfo ._cardInfo select {
+    width: calc( 100% - 65px);
+    font-size: 13px;
+    border: 0px solid #333;
+}
+.actorHeader .headerInfo ._cardInfo select option {
+    background: rgb(247, 233, 222);
+    color: #333;
+}
+.actorHeader .switchInit,
+.frameContent .switchInit {
+    justify-content: flex-end;
+    margin-top: 8px;
+    padding-right: 8px;
+}
+
+/* ***************************************************************************************
+   ITEMS
+*************************************************************************************** */
+.itemTabsHeader {
+    width: 100%;
+    border: 0px!important;
+    padding-left: 10px;
+}
+.itemTabsHeader a {
+    margin-right: 4px;
+    border-top: 1px solid #333;
+    border-bottom: 1px solid #333;
+    font-family: 'Almendra';
+    font-size: 16px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+ol.itemList {
+    padding-bottom: 60px;
+    padding-left: 6px;
+    padding-right: 0px;
+    padding-top: 20px;
+    margin: 0px;
+    display: flex;
+    flex-wrap: wrap;
+}
+li.itemList {
+    list-style-type: none;
+}
+li.itemList input {
+    line-height: 10px!important;
+    font-size: 15px;
+    font-family: 'Almendra';
+    padding: 0px!important;
+    height: 18px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    background: #72494914!important;
+}
+li.itemList hbox label {
+    text-align: right;
+    width: 100px;
+    font-size: 11px!important;
+    line-height: 24px!important;
+>>>>>>> 48ae91f0c39a0c8e5746703da684780f1db7deaf
 }
