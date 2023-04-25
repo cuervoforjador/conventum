@@ -75,6 +75,16 @@ export class mainBackend {
     }    
 
     /**
+     * Compendium Backend For Skill Items...
+     */
+    static async getBackendForSkill(systemData) {
+        return {
+            worlds: await game.packs.get("conventum.worlds").getDocuments(),
+            characteristics: this._getCharacteristics('primary', true)
+        };
+    }
+
+    /**
      * _getSocieties
      * @param {*} sWorld 
      */
@@ -123,15 +133,48 @@ export class mainBackend {
         const mDocs = await game.packs.get("conventum."+sPack).getDocuments();
         if (!mDocs) return [];
         let mReturn = mDocs.filter(e => e.system.control.world === sWorld);
-        mReturn.sort((a, b) => {
+        
+        this._sortByName(mReturn);
+        return mReturn;
+    }      
+
+    /**
+     * _getCharacteristics
+     * @param {string} sField 
+     */
+    static _getCharacteristics(sField, bAddEmpty) {
+        let mReturn = [];
+        if (bAddEmpty) {
+            mReturn.push({
+                'id': '',
+                'name': '',
+                'value': {}
+            });
+        }
+        for (var s in game.template.Actor.templates.base.characteristics[sField]) {
+            mReturn.push({
+                'id': s,
+                'name': game.i18n.localize('characteristic.'+s),
+                'value': game.template.Actor.templates.base.characteristics[sField][s]
+            });
+        }
+       
+        this._sortByName(mReturn);
+        return mReturn;
+    }
+
+    /**
+     * _sortByName
+     * @param {array} mArray 
+     */
+    static _sortByName(mArray) {
+        mArray.sort((a, b) => {
             const nameA = a.name.toUpperCase();
             const nameB = b.name.toUpperCase();
             if (nameA < nameB) return -1;
             if (nameA > nameB) return 1;
             return 0;
-        });
-        return mReturn;
-
-    }      
+        }); 
+    }
 
 }

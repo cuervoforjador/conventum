@@ -28,6 +28,15 @@ export class helperSheetItem {
       }
     }
 
+    //Skills
+    if (systemData.combat) {
+      if (!systemData.combat.combat) {
+        systemData.combat.contact = false;
+        systemData.combat.distance = false;
+        systemData.combat.fire = false;
+      }
+    }
+
     return systemData;
   }
 

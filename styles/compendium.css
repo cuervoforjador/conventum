@@ -123,13 +123,27 @@ section.window-content._v10 {
 
 .compendium ._worldInfo {
     position: relative;
-    top: -20px;
+    top: -10px;
+    left: 7px;
     width: 150px;
     height: 22px;
     line-height: 22px;
     font-family: 'Almendra';
     text-align: right;
     padding-right: 8px;
+    color: #9f3333;
+}
+.compendium ._extraInfo {
+    position: relative;
+    top: -32px;
+    left: -44px;
+    width: 150px;
+    height: 22px;
+    line-height: 22px;
+    font-family: 'Almendra';
+    text-align: left;
+    padding-right: 8px;
+    color: #333;
 }
 .compendium ._diceInfo {
     position: relative;
@@ -143,4 +157,23 @@ section.window-content._v10 {
     text-align: right;
     padding-right: 8px;
     color: #3333339e;
+}
+._compendiumFilter {
+    display: inline-flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+._compendiumFilter label {
+    width: 85px;
+    font-family: 'Almendra';
+    color: #333;
+    text-align: right!important;
+    padding-right: 5px;
+}
+._compendiumFilter select {
+    width: calc(100% - 90px);
+    font-family: 'Almendra';
+    background: none;
+    border: 1px solid #3333333b;
+    border-radius: 1px;
 }

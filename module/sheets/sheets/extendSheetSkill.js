@@ -1,6 +1,10 @@
 /**
  * @extends {ItemSheet}
  */
+
+import { mainBackend } from "../backend/mainBackend.js";
+import { helperSheetItem } from "../helpers/helperSheetItem.js";
+
 export class extendSheetSkill extends ItemSheet {
 
   /**
@@ -14,7 +18,10 @@ export class extendSheetSkill extends ItemSheet {
       classes: [game.system.id, "sheet", "item"],
       template: CONFIG._root+"/templates/skill.html",
       width: 520,
-      height: 480
+      height: 480,
+      tabs: [
+        {navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "main"}
+      ],       
     });
   }
 
@@ -23,10 +30,13 @@ export class extendSheetSkill extends ItemSheet {
    * @inheritdoc
    * @returns {object} - Context
    */
-   getData() {
+   async getData() {
+
     const context = super.getData();
     context.systemData = this.item.getRollData();
-    
+    context.systemData = await helperSheetItem.checkSystemData(context.systemData);
+    context.backend = await mainBackend.getBackendForSkill(context.systemData);
+
     return context;
   }
 

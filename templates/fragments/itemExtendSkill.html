@@ -1,0 +1,70 @@
+{{!-- Skills --}}
+
+<slidePanel class="_100">
+    <panelTitle>
+        <h3>{{localize "common.characteristics" }}</h3>
+    </panelTitle>
+    <panelContent>
+        <hbox>
+            <label class="_80px">{{localize "common.primary" }}</label>
+            <select name="system.characteristic.primary">
+                {{selectOptions backend.characteristics 
+                                selected=systemData.characteristic.primary
+                                localize=false
+                                nameAttr="id"
+                                labelAttr="name" }}
+            </select>            
+        </hbox>
+        <hbox>
+            <label class="_80px">{{localize "common.secondary" }}</label>
+            <select name="system.characteristic.secondary">
+                {{selectOptions backend.characteristics 
+                                selected=systemData.characteristic.secondary
+                                localize=false
+                                nameAttr="id"
+                                labelAttr="name" }}
+            </select>            
+        </hbox>        
+    </panelContent>
+</slidePanel>
+
+<slidePanel class="_100">
+    <panelTitle>
+        <label class="switch" style="margin-right: 10px">
+            <input type="checkbox" 
+                name="system.combat.combat" 
+                {{checked systemData.combat.combat}} />
+            <span class="sliderSwitch"></span>
+        </label>
+        <h3>{{localize "common.combat" }}</h3>        
+    </panelTitle>
+    <panelContent>
+        <hbox>
+            <label class="_80px">{{localize "common.contact" }}</label>
+            <label class="switch">
+                <input type="checkbox" 
+                    name="system.combat.contact"
+                    {{checked systemData.combat.contact}} />
+                <span class="sliderSwitch"></span>
+            </label>             
+        </hbox>
+        <hbox>
+            <label class="_80px">{{localize "common.distance" }}</label>
+            <label class="switch">
+                <input type="checkbox" 
+                    name="system.combat.distance"
+                    {{checked systemData.combat.distance}} />
+                <span class="sliderSwitch"></span>
+            </label>             
+        </hbox>        
+        <hbox>
+            <label class="_80px">{{localize "common.fire" }}</label>
+            <label class="switch">
+                <input type="checkbox" 
+                    name="system.combat.fire"
+                    {{checked systemData.combat.fire}} />
+                <span class="sliderSwitch"></span>
+            </label>             
+        </hbox>         
+    </panelContent>
+</slidePanel>

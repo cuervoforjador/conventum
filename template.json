@@ -136,6 +136,10 @@
         }
       },
       "skill": {
+        "characteristic": {
+          "primary": "",
+          "secondary": ""
+        },
         "profession": {
           "primary": false,
           "secondary": false,

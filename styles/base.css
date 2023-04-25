@@ -148,6 +148,47 @@ info:hover {
     white-space: pre-line;
 }
 
+/* SLIDEPANELs */
+slidepanel {
+    display: flex;
+    flex-direction: column;
+    margin-top: 8px;
+}
+slidepanel paneltitle {
+    width: 100%;
+    display: inline-flex;
+    justify-content: flex-start;
+    padding-left: 10px;
+    border-bottom: 1px solid #00000026;
+    margin-bottom: 6px;
+}
+slidepanel paneltitle h3 {
+    font-family: 'Almendra';
+    font-size: 16px;
+    line-height: 14px;
+    padding-top: 2px;
+    border-bottom: 0px;
+    margin-right: 6px;
+    font-weight: 900;
+    color: #221717d4;
+}
+slidepanel panelcontent {
+    padding-left: 12px;
+    padding-right: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+    background: #c366661c;
+    margin-top: -6px;
+    padding-top: 5px;
+    padding-bottom: 7px;
+}
+panelcontent hbox {
+    padding-right: 12px;
+}
+
 /* SWITCH */
 .switch {
     position: relative;
@@ -258,4 +299,14 @@ input:checked + .sliderSwitch:before {
     width: 30px;
     min-width: 30px;
     max-width: 30px;
+}
+._50px {
+    width: 50px;
+    min-width: 50px;
+    max-width: 50px;
+}
+._80px {
+    width: 80px;
+    min-width: 80px;
+    max-width: 80px;
 }
