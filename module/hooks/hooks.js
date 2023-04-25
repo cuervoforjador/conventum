@@ -25,16 +25,19 @@ export class mainHooks {
 
     static _renderCompendium(compendium, element, collection) {
         HookCompendium._stylingCompendium(compendium);
+        HookEvents.compendiumEvent();
     }
 
     static _changeSidebarTab(tab) {
         if ( tab.entryType === 'Compendium' ) {
             HookCompendium._stylingLiCompendium(tab);
+            HookEvents.compendiumEvent();
         }
     }
 
     static _renderItemSheet(sheet, element, systemData) {
-        HookEvents._sheetInfoEvent();
+        HookEvents.sheetInfoEvent();
+        HookEvents.sheetPanelEvent();
     }
 
 }

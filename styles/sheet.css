@@ -234,6 +234,9 @@ inkDetail.inkSubline {
     padding-left: 5px;
     padding-right: 5px;
 }
+.itemTabsHeader a.active {
+    background: #dba4a46b;
+}
 ol.itemList {
     padding-bottom: 60px;
     padding-left: 6px;
