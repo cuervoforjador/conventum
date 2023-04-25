@@ -3,6 +3,7 @@
  */
 
 import { mainBackend } from "../backend/mainBackend.js";
+import { helperSheetItem } from "../helpers/helperSheetItem.js";
 
 export class extendSheetKingdom extends ItemSheet {
 
@@ -30,7 +31,7 @@ export class extendSheetKingdom extends ItemSheet {
     
     const context = super.getData();
     context.systemData = this.item.getRollData();
-
+    context.systemData = await helperSheetItem.checkSystemData(context.systemData);
     context.backend = await mainBackend.getBackendForKingdom();
 
     return context;

@@ -11,6 +11,8 @@
     "common.name":                  "Nombre",
     "common.range":                 "Rango",
     "common.society":               "Sociedad",
+    "common.status":                "Posición",
+    "common.stratum":               "Estrato social",
     "common.world":                 "Orbe",
 
     "info.range":                   "Rango en una tirada",

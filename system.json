@@ -45,7 +45,7 @@
 			"type": "Item",
 			"name": "worlds",
 			"path": "./packs/worlds.db",
-      "banner": "systems/conventum/image/content/compendum/bannerWorlds.png",
+      "banner": "systems/conventum/image/content/compendium/bannerOrbis.png",
 			"system": "conventum"
 		},
     {
@@ -53,7 +53,7 @@
 			"type": "Item",
 			"name": "kingdoms",
 			"path": "./packs/kingdoms.db",
-      "banner": "systems/conventum/image/content/compendum/bannerKingdoms.png",
+      "banner": "systems/conventum/image/content/compendium/bannerRegna.png",
       "system": "conventum"
 		},
     {
@@ -61,7 +61,7 @@
 			"type": "Item",
 			"name": "societies",
 			"path": "./packs/societies.db",
-      "banner": "systems/conventum/image/content/compendum/bannerSocieties.png",
+      "banner": "systems/conventum/image/content/compendium/bannerSocietas.png",
       "system": "conventum"
 		},
     {
@@ -69,9 +69,33 @@
 			"type": "Item",
 			"name": "languages",
 			"path": "./packs/languages.db",
-      "banner": "systems/conventum/image/content/compendum/bannerLanguages.png",
+      "banner": "systems/conventum/image/content/compendium/bannerLinguae.png",
       "system": "conventum"
-		}       
+		},
+    {
+			"label": "Gentes",
+			"type": "Item",
+			"name": "cultures",
+			"path": "./packs/cultures.db",
+      "banner": "systems/conventum/image/content/compendium/bannerGentes.png",
+      "system": "conventum"
+		},
+    {
+			"label": "Stratum",
+			"type": "Item",
+			"name": "stratums",
+			"path": "./packs/stratums.db",
+      "banner": "systems/conventum/image/content/compendium/bannerStratum.png",
+      "system": "conventum"
+		},
+    {
+			"label": "Status",
+			"type": "Item",
+			"name": "status",
+			"path": "./packs/status.db",
+      "banner": "systems/conventum/image/content/compendium/bannerStatus.png",
+      "system": "conventum"
+		}      
   ],
   "url": "https://github.com/cuervoforjador/conventum",
   "manifest": "https://github.com/cuervoforjador/conventum/releases/download/v01/system.json",

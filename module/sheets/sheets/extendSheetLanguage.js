@@ -3,6 +3,7 @@
  */
 
 import { mainBackend } from "../backend/mainBackend.js";
+import { helperSheetItem } from "../helpers/helperSheetItem.js";
 
 export class extendSheetLanguage extends ItemSheet {
 
@@ -30,6 +31,7 @@ export class extendSheetLanguage extends ItemSheet {
     
     const context = super.getData();
     context.systemData = this.item.getRollData();
+    context.systemData = await helperSheetItem.checkSystemData(context.systemData);
     context.backend = await mainBackend.getBackendForLanguage(context.systemData);
 
     return context;
