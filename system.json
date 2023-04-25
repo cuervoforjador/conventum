@@ -79,7 +79,23 @@
 			"path": "./packs/cultures.db",
       "banner": "systems/conventum/image/content/compendium/bannerGentes.png",
       "system": "conventum"
-		}     
+		},
+    {
+			"label": "Stratum",
+			"type": "Item",
+			"name": "stratums",
+			"path": "./packs/stratums.db",
+      "banner": "systems/conventum/image/content/compendium/bannerStratum.png",
+      "system": "conventum"
+		},
+    {
+			"label": "Status",
+			"type": "Item",
+			"name": "status",
+			"path": "./packs/status.db",
+      "banner": "systems/conventum/image/content/compendium/bannerStatus.png",
+      "system": "conventum"
+		}      
   ],
   "url": "https://github.com/cuervoforjador/conventum",
   "manifest": "https://github.com/cuervoforjador/conventum/releases/download/v01/system.json",
