@@ -1,25 +1,3 @@
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Almendra:ital,wght@0,400;0,700;1,400&display=swap');
-#readme {
-    background: url(https://raw.githubusercontent.com/cuervoforjador/conventum/main/image/texture/paper.png)!important;
-    background-repeat: repeat!important;
-    background-size: 250px!important;
-    border: 2px solid #251d1d!important;
-    color: #333;
-    padding: 20px;
-    font-family: 'Almendra';
-}
-#readme h3 {
-    color: #333!important;
-    font-family: 'Almendra';
-}
-#readme header h3::first-letter {
-    color: #b92b2b;
-    font-size: 60px;
-    line-height: 50px;
-}
-</style>
-
 <h3>Aquelarre for FoundryVTT</h3>
 
 ## FoundryVTT integration
