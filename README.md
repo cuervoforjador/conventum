@@ -1,13 +1,13 @@
 <h1>Aquelarre for FoundryVTT</h1>
 
-## FoundryVTT integration
+## FoundryVTT Integration
 
 Install in Foundry VTT from the Game Systems tab, using the following manifest:
 `https://github.com/cuervoforjador/conventum/releases/latest/download/system.json`
 
 or search for it directly as a package like "Aquelarre".
 
-## Contributing.
+## Contributing
 
 Aquelarre VTT team is made up of: 
 
@@ -44,7 +44,7 @@ Aquelarre VTT team is made up of:
 
 This system is made possible thanks to all of its contributors!
 
-## Licenses.
+## Licenses
 
 This implementation and rest of the code in this repository is licensed under the [GNU General Public License v3.0](https://github.com/cuervoforjador/conventum/blob/main/LICENSE.txt).
 
