@@ -1,0 +1,28 @@
+<vbox>
+    {{!-- Rationality / Irrationality --}}
+    <input type="hidden" 
+        name="system.characteristics.secondary.rr.last"  
+        value="{{systemData.characteristics.secondary.rr.last}}"/>
+    <input type="hidden" 
+        name="system.characteristics.secondary.irr.last"  
+        value="{{systemData.characteristics.secondary.irr.last}}"/>
+
+    <hbox style="width: 100%; margin-top: 5px;">
+        <label class="_rr" style="margin-right: 2px;">
+            {{localize 'characteristic.rr'}}</label>
+        <label class="_irr">
+            {{localize 'characteristic.irr'}}</label>
+    </hbox>
+    <hbox style="width: 100%; margin-top: 4px; justify-content: center;">
+        <div class="regShieldLeft">
+            <input type="number" 
+                   name="system.characteristics.secondary.rr.value" 
+                   value="{{systemData.characteristics.secondary.rr.value}}"/>
+        </div>
+        <div class="regShieldRight">
+            <input type="number" 
+                   name="system.characteristics.secondary.irr.value" 
+                   value="{{systemData.characteristics.secondary.irr.value}}"/>
+        </div>
+    </hbox>
+</vbox>

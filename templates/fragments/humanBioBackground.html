@@ -1,0 +1,13 @@
+{{!-- Background --}}
+
+<section class="_description">
+    <infoText>{{localize 'info.background'}}</infoText>
+     {{editor 
+          systemData.bio.background
+          target="system.bio.background" 
+          button=true 
+          engine="prosemirror"
+          owner=owner
+          rollData=rollData
+          editable=editable }}
+</section>          

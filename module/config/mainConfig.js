@@ -11,6 +11,7 @@ export class mainConfig {
     static init(oConfig) {
         oConfig.version10 = ( Math.floor(Number(game.version)) === 10 );
         oConfig.version11 = ( Math.floor(Number(game.version)) === 11 );
+        return oConfig;
     }
 
     static _renderCompendiumDirectory(tab, element, info) {

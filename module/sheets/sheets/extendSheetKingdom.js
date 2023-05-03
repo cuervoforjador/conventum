@@ -18,7 +18,10 @@ export class extendSheetKingdom extends ItemSheet {
       classes: [game.system.id, "sheet", "item"],
       template: CONFIG._root+"/templates/kingdom.html",
       width: 520,
-      height: 480
+      height: 480,
+      tabs: [
+        {navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "cultures"}
+      ],       
     });
   }
 
@@ -32,7 +35,7 @@ export class extendSheetKingdom extends ItemSheet {
     const context = super.getData();
     context.systemData = this.item.getRollData();
     context.systemData = await helperSheetItem.checkSystemData(context.systemData);
-    context.backend = await mainBackend.getBackendForKingdom();
+    context.backend = await mainBackend.getBackendForKingdom(context.systemData);
 
     return context;
   }

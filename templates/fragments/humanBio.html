@@ -1,0 +1,57 @@
+<div class="actorBio">
+
+    <line class="_100">
+        <hbox class="_100" style="padding-left: 55px;">
+            <label>{{localize 'common.society'}}</label>
+            <select name="system.bio.society" disabled="true">
+                {{selectOptions backend.societies 
+                                selected=systemData.bio.society
+                                localize=false
+                                nameAttr="id"
+                                labelAttr="name" }}
+            </select>
+        </hbox>
+    </line>
+    <line class="_100">
+        <hbox class="_100" style="padding-left: 55px;">
+            <label>{{localize 'common.stratum'}}</label>
+            <select name="system.bio.stratum">
+                {{selectOptions backend.stratums 
+                                selected=systemData.bio.stratum
+                                localize=false
+                                nameAttr="id"
+                                labelAttr="name" }}
+            </select>
+        </hbox>
+    </line>
+    <line class="_100">
+        <hbox class="_100" style="padding-left: 55px;">
+            <label>{{localize 'common.status'}}</label>
+            <select name="system.bio.status">
+                {{selectOptions backend.status 
+                                selected=systemData.bio.status
+                                localize=false
+                                nameAttr="id"
+                                labelAttr="name" }}
+            </select>
+        </hbox>
+    </line>
+
+</div>
+
+<nav class="tabs_Bio _subTabs" data-group="bioTabs">
+    <a data-tab="description"><label>{{ localize "common.description" }}</label></a>
+    <a data-tab="background"><label>{{ localize "common.background" }}</label></a>    
+    <a data-tab="traits"><label>{{ localize "common.traits" }}</label></a>    
+</nav>
+<section class="tabsContent_Bio">
+    <div class="tab description" data-group="bioTabs" data-tab="description">
+        {{> humanBioDescription }}
+    </div>    
+    <div class="tab background" data-group="bioTabs" data-tab="background">
+        {{> humanBioBackground }}
+    </div>
+    <div class="tab traits" data-group="bioTabs" data-tab="traits">
+        {{> humanBioTraits }}
+    </div>                
+</section>

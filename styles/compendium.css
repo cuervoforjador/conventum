@@ -44,13 +44,13 @@
 }
 
 section._v10 .compendium {
-    flex: initial;
+    /* flex: initial; */
 }
 section.window-content._v10 {
     padding: 0px;
 }
 ._custoHeaderCompendium._v10 {
-    flex: inherit!important;
+    flex: 0!important;
     margin: 0px!important;
     flex-direction: column!important;
 }
@@ -138,11 +138,11 @@ section.window-content._v10 {
 }
 .compendium ._extraInfo {
     position: relative;
-    top: -32px;
+    top: -26px;
     left: -44px;
     width: 150px;
     height: 22px;
-    line-height: 22px;
+    line-height: 13px;
     font-family: 'Almendra';
     text-align: left;
     padding-right: 8px;

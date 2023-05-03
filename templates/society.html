@@ -32,6 +32,16 @@
                                         labelAttr="name" }}
                     </select>
                 </hbox>
+                <hbox class="_subHeaderHBox">
+                    <label>{{localize "common.frame" }}</label>
+                    <select name="system.backend.frame">
+                        {{selectOptions backend.frames 
+                                        selected=systemData.backend.frame
+                                        localize=false
+                                        nameAttr="id"
+                                        labelAttr="name" }}
+                    </select>
+                </hbox>                
             </itemSubHeader>
         </itemHeaderInfo>
     </itemHeader> 

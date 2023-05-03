@@ -9,6 +9,7 @@ import { extendSheetCulture } from "./sheets/extendSheetCulture.js";
 import { extendSheetStratum } from "./sheets/extendSheetStratum.js";
 import { extendSheetStatus } from "./sheets/extendSheetStatus.js";
 import { extendSheetSkill } from "./sheets/extendSheetSkill.js";
+import { extendSheetTrait } from "./sheets/extendSheetTrait.js";
 export class mainGameSheets {
 
     /**
@@ -45,6 +46,7 @@ export class mainGameSheets {
                                                          makeDefault: true });        
         Items.registerSheet(_system, extendSheetSkill, { types: ['skill'],
                                                          makeDefault: true });
-
+        Items.registerSheet(_system, extendSheetTrait, { types: ['trait'],
+                                                         makeDefault: true });
     }
 }

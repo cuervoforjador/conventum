@@ -30,7 +30,6 @@ export class HookCompendium {
                     mainUtils.ifNotExists(sUrl, function() {
                         $(e).css({'background-image': 'url(/systems/conventum/image/content/compendium/bannerStandard.png'});
                     }.bind(this));
-
                 });
             });
         }
@@ -52,7 +51,7 @@ export class HookCompendium {
             compendium._element.find(sHeaderDiv).addClass('_v10');
             
             const sUrl = '/systems/conventum/image/content/compendium/banner'+
-                            compendium._element.find('h4.window-title').text().trim()+'.png';
+                            compendium._element.find('h4.window-title').text().split('[')[0].trim()+'.png';
 
             compendium._element.find(sHeaderDiv).prepend(
                 '<div class="header-banner" style="background-image: '+
@@ -62,7 +61,8 @@ export class HookCompendium {
                     '</h4>'+
                 '</div>'
             );
-            
+
+         
             mainUtils.ifNotExists(sUrl, function() {
                 compendium._element.find(sHeaderDiv+' .header-banner').css({'background-image': 
                                 'url(/systems/conventum/image/content/compendium/bannerStandard.png'});
@@ -90,6 +90,8 @@ export class HookCompendium {
                     oItemDoc.system.range.low+' - '+
                     oItemDoc.system.range.high+'</div>');
                 $(e).data('order', oItemDoc.system.range.low);
+            } else {
+                $(e).append('<div class="_diceInfo"></div>');                
             }
 
             //Extra-info depends on compendium kind...
@@ -121,6 +123,7 @@ export class HookCompendium {
              (sPack === 'conventum.languages') ||
              (sPack === 'conventum.cultures') ||
              (sPack === 'conventum.stratums') ||
+             (sPack === 'conventum.skills') ||
              (sPack === 'conventum.status') ) {
             const mDocs = await this._getDocuments('worlds', '');
             compendium._element.find(sHeaderDiv).append(this._createSelect("world", "common.world", mDocs));
@@ -151,7 +154,11 @@ export class HookCompendium {
         if (sPack === 'conventum.status') {          
             this._addDivExtraInfo("conventum.stratums", oElement,
                                     oItemDoc.system.backend.stratum);                                                                
-        }        
+        }   
+        if (sPack === 'conventum.skills') {
+            this._addDivExtraInfoString(oElement,
+                game.i18n.localize('characteristic.'+oItemDoc.system.characteristic.primary));                                                                
+        }
     }
 
     /**
@@ -165,6 +172,9 @@ export class HookCompendium {
         $(oElement).append('<div class="_extraInfo" data-filter="'+oExtraDoc._id+'">'+
                                                             oExtraDoc.name+'</div>');          
     }
+    static _addDivExtraInfoString(oElement, sValue) {
+        $(oElement).append('<div class="_extraInfo" data-filter="null">'+sValue+'</div>');          
+    }    
 
     /**
      * _createSelect

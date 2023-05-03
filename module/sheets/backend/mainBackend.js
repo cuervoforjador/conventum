@@ -8,11 +8,52 @@ export class mainBackend {
      * Compendium Backend For Actors...
      */
     static async getBackendForActor(systemData) {
-        return {
+        
+        //Directs
+        let mBackend = {
             worlds: await game.packs.get("conventum.worlds").getDocuments(),
             kingdoms: await this._getKingdoms(systemData.control.world),
-            cultures: await this._getCultures(systemData.control.world)
+            societies: await this._getSocieties(systemData.control.world),
+            skills: await this._getSkills(systemData.control.world)
         };
+        
+        //Kingdom
+        if (systemData.bio.kingdom === '')
+            systemData.bio.kingdom = (mBackend.kingdoms.length > 0) ? mBackend.kingdoms[0].id : '';
+        if (!mBackend.kingdoms.find(e => e.id === systemData.bio.kingdom))
+            systemData.bio.kingdom = (mBackend.kingdoms.length > 0) ? mBackend.kingdoms[0].id : '';
+
+        //Culture
+        mBackend.cultures = await this._getCultures(systemData.control.world,
+                                                    systemData.bio.kingdom);
+        if (systemData.bio.culture === '')
+            systemData.bio.culture = (mBackend.cultures.length > 0) ? mBackend.cultures[0].id : '';
+        if (!mBackend.cultures.find(e => e.id === systemData.bio.culture))
+            systemData.bio.culture = (mBackend.cultures.length > 0) ? mBackend.cultures[0].id : '';
+
+        //Society
+        if (systemData.bio.culture !== '') {
+            const myCulture = mBackend.cultures.find(e => e.id === systemData.bio.culture);
+            if (myCulture) systemData.bio.society = myCulture.system.backend.society;
+        }
+                                                    
+        //Stratum
+        mBackend.stratums = await this._getStratums(systemData.control.world,
+                                                    systemData.bio.society);
+        if (systemData.bio.stratum === '')
+            systemData.bio.stratum = (mBackend.stratums.length > 0) ? mBackend.stratums[0].id : '';  
+        if (!mBackend.stratums.find(e => e.id === systemData.bio.stratum))
+            systemData.bio.stratum = (mBackend.stratums.length > 0) ? mBackend.stratums[0].id : '';
+        
+        //Status
+        mBackend.status = await this._getStatus(systemData.control.world,
+                                                systemData.bio.stratum);
+        if (systemData.bio.status === '')
+            systemData.bio.status = (mBackend.status.length > 0) ? mBackend.status[0].id : '';   
+        if (!mBackend.status.find(e => e.id === systemData.bio.status))
+            systemData.bio.status = (mBackend.status.length > 0) ? mBackend.status[0].id : '';
+        
+        return mBackend;
     }
 
     /**
@@ -20,16 +61,18 @@ export class mainBackend {
      */
     static async getBackendForSociety() {
         return {
-            worlds: await game.packs.get("conventum.worlds").getDocuments()
+            worlds: await game.packs.get("conventum.worlds").getDocuments(),
+            frames: await this._getFrames()
         };
     }
 
     /**
      * Compendium Backend For Kingdom Items...
      */
-    static async getBackendForKingdom() {
+    static async getBackendForKingdom(systemData) {
         return {
-            worlds: await game.packs.get("conventum.worlds").getDocuments()
+            worlds: await game.packs.get("conventum.worlds").getDocuments(),
+            cultures: await this._getCultures(systemData.control.world)
         };
     }
 
@@ -85,6 +128,17 @@ export class mainBackend {
     }
 
     /**
+     * Compendium Backend For Traits Items...
+     */
+    static async getBackendForTrait(systemData) {
+        return {
+            worlds: await game.packs.get("conventum.worlds").getDocuments(),
+            skills: await this._getSkills(systemData.control.world),
+            characteristics: this._getCharacteristics('primary', true)
+        };
+    }    
+
+    /**
      * _getSocieties
      * @param {*} sWorld 
      */
@@ -109,20 +163,60 @@ export class mainBackend {
     }  
 
     /**
+     * _getSkills
+     * @param {*} sWorld 
+     */
+    static async _getSkills(sWorld) {
+        return this._getDocuments('skills', sWorld);
+    }
+
+    /**
      * _getCultures
      * @param {*} sWorld 
      */
-    static async _getCultures(sWorld) {
-        return this._getDocuments('cultures', sWorld);
-    }    
+    static async _getCultures(sWorld, sKingdom) {
+        if (sKingdom) {
+            let oKingdom = await game.packs.get("conventum.kingdoms").get(sKingdom);            
+            let mCultures = [];
+            let aCultures = await game.packs.get("conventum.cultures").getDocuments();
+            for (var s in oKingdom.system.backend.cultures) {
+                if (oKingdom.system.backend.cultures[s].checked) {
+                    let oDoc = await game.packs.get("conventum.cultures").getDocument(s);
+                    if (oDoc) mCultures.push( oDoc );
+                }
+            }
+            return mCultures;
+        } else
+            return this._getDocuments('cultures', sWorld);
+    }  
 
     /**
      * _getStratums
-     * @param {*} sWorld 
+     * @param {*} sWorld
+     * @param {*} sSociety
      */
-    static async _getStratums(sWorld) {
-        return this._getDocuments('stratums', sWorld);
+    static async _getStratums(sWorld, sSociety) {
+        if ( (!sSociety) || (sSociety === ''))
+            return this._getDocuments('stratums', sWorld);
+        else {
+            let mStratums = await this._getDocuments('stratums', sWorld);
+            return mStratums.filter(e => e.system.backend.society === sSociety);
+        }
     }    
+
+    /**
+     * _getStatus
+     * @param {*} sWorld
+     * @param {*} sStratum
+     */
+    static async _getStatus(sWorld, sStratum) {
+        if ( (!sStratum) || (sStratum === ''))
+            return this._getDocuments('status', sWorld);
+        else {
+            let mStatus = await this._getDocuments('status', sWorld);
+            return mStatus.filter(e => e.system.backend.stratum === sStratum);
+        }
+    }      
 
     /**
      * _getDocuments
@@ -160,6 +254,20 @@ export class mainBackend {
         }
        
         this._sortByName(mReturn);
+        return mReturn;
+    }
+
+    /**
+     * Getting frames from server...
+     */
+    static async _getFrames() {
+        let mReturn = [];
+        CONFIG.ExtendConfig.frames.forEach(e => {
+            mReturn.push({
+                'id': e,
+                'name': e
+            });
+        });
         return mReturn;
     }
 

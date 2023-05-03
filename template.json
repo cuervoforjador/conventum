@@ -7,97 +7,153 @@
           "initial": true,
           "locked": false,
           "frame": "catholicae",
-          "world": "",
-          "kingdom": "",
-          "culture": ""
+          "world": ""
         },
         "bio": {
           "female": false,
           "age": 22,
           "height": 10,
-          "weight": 10
+          "weight": 10,
+          "kingdom": "",
+          "culture": "",
+          "society": "",
+          "stratum": "",
+          "status": "",
+          "description": "",
+          "background": ""
         },
         "characteristics": {
           "primary": {
             "str": {
               "min": 5,
               "max": 20,
-              "value": 10
+              "value": 10,
+              "temp": 0,
+              "initial": 10,
+              "passive": false
             },
             "agi": {
               "min": 5,
               "max": 20,
-              "value": 10
+              "value": 10,
+              "temp": 0,
+              "initial": 10,
+              "passive": false              
             },
             "abi": {
               "min": 5,
               "max": 20,
-              "value": 10
+              "value": 10,
+              "temp": 0,
+              "initial": 10,
+              "passive": false              
             },
             "end": {
               "min": 10,
               "max": 20,
-              "value": 10
+              "value": 10,
+              "temp": 0,
+              "initial": 10,
+              "passive": false              
             },
             "per": {
               "min": 5,
               "max": 20,
-              "value": 10
+              "value": 10,
+              "temp": 0,
+              "initial": 10,
+              "passive": false              
             },
             "com": {
               "min": 5,
               "max": 20,
-              "value": 10
+              "value": 10,
+              "temp": 0,
+              "initial": 10,
+              "passive": false              
             },
             "cul": {
               "min": 5,
               "max": 20,
-              "value": 10
-            }    
+              "value": 10,
+              "temp": 0,
+              "initial": 10,
+              "passive": false              
+            },
+            "app": {
+              "min": 0,
+              "max": 20,
+              "value": 12,
+              "temp": 0,
+              "initial": 12,
+              "passive": true                          
+            }
           },
           "secondary": {
             "luck": {
               "min": 0,
               "max": 100,
-              "value": 10              
+              "value": 10,
+              "temp": 0,
+              "initial": 10                     
             },
             "temp": {
               "min": 0,
               "max": 100,
-              "value": 50              
+              "value": 50,
+              "temp": 0,
+              "initial": 50                          
             },
             "rr": {
               "min": 0,
               "max": 100,
-              "value": 50              
+              "value": 50,
+              "temp": 0,
+              "initial": 50,
+              "last": 50                   
             },
             "irr": {
               "min": 0,
               "max": 100,
-              "value": 50              
+              "value": 50,
+              "temp": 0,
+              "initial": 50,
+              "last": 50
             },
             "hp": {
               "min": 0,
-              "max": 10,
-              "value": 10              
+              "max": 20,
+              "value": 10,
+              "temp": 0,
+              "initial": 10                      
             },
             "cp": {
               "min": 0,
               "max": 20,
-              "value": 10              
+              "value": 10,
+              "temp": 0,
+              "initial": 10                     
             },
             "fp": {
               "min": 0,
               "max": 20,
-              "value": 10              
-            },
-            "app": {
-              "min": 0,
-              "max": 20,
-              "value": 12              
+              "value": 10,
+              "temp": 0,
+              "initial": 10                          
             }
           }
-        }
+        },
+        "status": {
+          "life": {
+            "healthy": true,
+            "injured": false,
+            "wounded": false,
+            "unconscious": false,
+            "dead": false
+          },
+          "appearance": ""
+        },
+        "skills": {}
       }
     },
     "human": {
@@ -113,7 +169,8 @@
         "language",
         "stratum",
         "status",
-        "skill"
+        "skill",
+        "trait"
     ],
     "templates": {
       "base": {
@@ -164,15 +221,77 @@
     },
     "world": {
       "templates": ["base"],
-      "custo": {
-        "kingdomsDice": "1d10"
+      "config": {
+        "kingdomsDice": "1d10",
+        "rolllevel": {
+          "level1": {
+            "apply": true,
+            "text": "Certa",
+            "bono": "+75",
+            "color": "#8b936a70"
+          },
+          "level2": {
+            "apply": true,
+            "text": "Facillima",
+            "bono": "+50",
+            "color": "#c8d78b8a"
+          },
+          "level3": {
+            "apply": true,
+            "text": "Facilis",
+            "bono": "+25",
+            "color": "#d1cf958a"
+          },
+          "level4": {
+            "apply": true,
+            "text": "Modica",
+            "bono": "",
+            "color": "#ebcfb78a"
+          },
+          "level5": {
+            "apply": true,
+            "text": "Difficilis",
+            "bono": "-25",
+            "color": "#df95568a"
+          },
+          "level6": {
+            "apply": true,
+            "text": "Difficillima",
+            "bono": "-50",
+            "color": "#e9692c8a"
+          },
+          "level7": {
+            "apply": true,
+            "text": "Impossibilis",
+            "bono": "-75",
+            "color": "#e9582c96"
+          },
+          "level8": {
+            "apply": false,
+            "text": "",
+            "bono": "",
+            "color": ""
+          },
+          "level9": {
+            "apply": false,
+            "text": "",
+            "bono": "",
+            "color": ""
+          }                            
+        }
       }
     },
     "society": {
-      "templates": ["base"]
+      "templates": ["base"],
+      "backend": {
+        "frame": "standard"
+      }
     },
     "kingdom": {
-      "templates": ["base"]
+      "templates": ["base"],
+      "backend": {
+        "cultures": {}
+      }
     },
     "culture": {
       "templates": ["base"],
@@ -198,6 +317,25 @@
     },
     "skill": {
       "templates": ["base", "stats", "skill"]
-    }    
+    },
+    "trait": {
+      "templates": ["base", "stats"],
+      "mod": {
+        "skill": {
+          "id": "",
+          "bono": "",
+          "apply": false
+        },
+        "combatSkill": {
+          "bono": "",
+          "apply": false
+        },
+        "characteristic": {
+          "id": "",
+          "bono": "",
+          "apply": false      
+        }
+      }
+    }
   }
 }

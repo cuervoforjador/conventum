@@ -1,0 +1,13 @@
+{{!-- Description --}}
+
+<section class="_description">
+     <infoText>{{localize 'info.description'}}</infoText>
+     {{editor 
+          systemData.bio.description
+          target="system.bio.description" 
+          button=true 
+          engine="prosemirror"
+          owner=owner
+          rollData=rollData
+          editable=editable }}
+</section>          
