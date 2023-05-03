@@ -1,0 +1,53 @@
+/* Roll and Dices */
+.imgDice {
+    border: 0px;
+    width: 20px;
+    height: 20px;
+    background-image: url(/systems/conventum/image/texture/dice2.png);
+    background-position: center;
+    background-size: 20px 20px;
+}
+a._dice:hover {
+    background: #a94d4a38;
+    border-radius: 20px;
+}
+.dialog-buttons button.level1,
+.dialog-buttons button.level2,
+.dialog-buttons button.level3,
+.dialog-buttons button.level4,
+.dialog-buttons button.level5,
+.dialog-buttons button.level6,
+.dialog-buttons button.level7,
+.dialog-buttons button.level8,
+.dialog-buttons button.level9 {
+    font-size: 12px;
+    line-height: 12px;
+    padding: 3px;
+    margin: 1px!important;
+    border: 1px solid #6057574f!important;
+    font-family: 'Almendra', serif;
+    max-width: 24%;
+}
+/*
+.rollDif1 {
+    background: #8b936a70!important;    
+}
+.rollDif2 {
+    background: #c8d78b8a!important;    
+}
+.rollDif3 {
+    background: #d1cf958a!important;    
+}
+.rollDif4 {
+    background: #ebcfb78a!important;    
+}
+.rollDif5 {
+    background: #df95568a!important;    
+}
+.rollDif6 {
+    background: #e9692c8a!important;    
+}
+.rollDif7 {
+    background: #e9582c96!important;    
+}
+*/

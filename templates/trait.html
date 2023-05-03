@@ -1,0 +1,135 @@
+<form class="codex" 
+      autocomplete="off">
+
+    {{!-- FRAME --}}
+    {{> itemFrame }}
+    
+    {{!-- HEADER --}}
+    <itemHeader>
+             
+        {{!-- Filigrees --}}
+        <inkDetail class="inkCorner"></inkDetail>
+        <inkDetail class="inkSubline"></inkDetail>
+
+        {{!-- Image --}}
+        <itemImage>
+            <img src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+        </itemImage>
+
+        {{!-- Header Info --}}
+        <itemHeaderInfo>
+            <itemTitle>
+                <input type="text" name="name" value="{{item.name}}" placeholder=""/>
+            </itemTitle>
+            <itemSubHeader>
+                <hbox class="_subHeaderHBox">
+                    <label>{{localize "common.world" }}</label>
+                    <select name="system.control.world">
+                        {{selectOptions backend.worlds 
+                                        selected=systemData.control.world
+                                        localize=false
+                                        nameAttr="id"
+                                        labelAttr="name" }}
+                    </select>
+                </hbox>
+                <hbox class="_subHeaderHBox">
+                    <label class="_50">{{localize "common.range" }}</label>
+                    <hbox>
+                        <input class="_30px" type="text" 
+                            style="margin-right: 5px; text-align: center;"
+                            name="system.range.low"
+                            value="{{systemData.range.low}}"
+                            data-dtype="Number" />
+                        -
+                        <input class="_30px" type="text" 
+                            style="margin-left: 5px; text-align: center;"
+                            name="system.range.high"
+                            value="{{systemData.range.high}}"
+                            data-dtype="Number" />
+                    </hbox>
+                </hbox>                
+                <hbox class="_100">
+                    <nav class="sheet-tabs itemTabsHeader" data-group="traitTabs">
+                        <a data-tab="main">{{ localize "common.description" }}</a>
+                        <a data-tab="mod">{{ localize "common.mod" }}</a>
+                    </nav>
+                </hbox>              
+            </itemSubHeader>
+        </itemHeaderInfo>
+    </itemHeader> 
+    
+    {{!-- CONTENT --}}
+    <itemContent>
+
+        <div class="frameContent">
+            <section class="sheet-body">
+                {{!- Description -}}
+                <div class="tab main" data-group="traitTabs" data-tab="main">
+                    {{> itemDescription }}
+                </div>
+
+                {{!- Mods -}}
+                <div class="tab mod" data-group="traitTabs" data-tab="mod">
+                    
+                    <hbox class="_mod">
+                        <label>{{localize "common.skill" }}</label>
+                        <select name="system.mod.skill.id">
+                            {{selectOptions backend.skills 
+                                            selected=systemData.mod.skill.id
+                                            localize=false
+                                            nameAttr="id"
+                                            labelAttr="name" }}
+                        </select>
+                        <input type="text" 
+                               name="system.mod.skill.bono"
+                               value="{{systemData.mod.skill.bono}}" />
+                        <label class="switch" style="margin-right: -16px;">
+                            <input type="checkbox" 
+                                name="system.mod.skill.apply" 
+                                {{checked systemData.mod.skill.apply}} />
+                            <span class="sliderSwitch"></span>
+                        </label>                                                  
+                    </hbox>
+
+                    <hbox class="_mod">
+                        <label>{{localize "common.combatSkill" }}</label>
+                        <div class="_mute"></div>
+                        <input type="text" 
+                               name="system.mod.combatSkill.bono"
+                               value="{{systemData.mod.combatSkill.bono}}" />
+                        <label class="switch" style="margin-right: -16px;">
+                            <input type="checkbox" 
+                                name="system.mod.combatSkill.apply" 
+                                {{checked systemData.mod.combatSkill.apply}} />
+                            <span class="sliderSwitch"></span>
+                        </label>                                                  
+                    </hbox>                    
+
+                    <hbox class="_mod">
+                        <label>{{localize "common.characteristic" }}</label>
+                        <select name="system.mod.characteristic.id">
+                            {{selectOptions backend.characteristics 
+                                            selected=systemData.mod.characteristic.id
+                                            localize=false
+                                            nameAttr="id"
+                                            labelAttr="name" }}
+                        </select>
+                        <input type="text" 
+                               name="system.mod.characteristic.bono"
+                               value="{{systemData.mod.characteristic.bono}}" />        
+                        <label class="switch" style="margin-right: -16px;">
+                            <input type="checkbox" 
+                                name="system.mod.characteristic.apply" 
+                                {{checked systemData.mod.characteristic.apply}} />
+                            <span class="sliderSwitch"></span>
+                        </label>                                                 
+                    </hbox>                    
+
+                </div>                           
+            </section>
+        </div>
+
+        
+    </itemContent>
+    
+</form>

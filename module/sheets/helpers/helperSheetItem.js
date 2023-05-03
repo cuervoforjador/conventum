@@ -37,6 +37,13 @@ export class helperSheetItem {
       }
     }
 
+    //Traits
+    if (systemData.mod) {
+      for (var s in systemData.mod) {
+        systemData.mod[s].apply = !(systemData.mod[s].bono === '');
+      }
+    }
+
     return systemData;
   }
 

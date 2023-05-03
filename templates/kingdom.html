@@ -49,13 +49,30 @@
                             data-dtype="Number" />
                     </hbox>
                 </hbox>
+                <hbox class="_100">
+                    <nav class="sheet-tabs itemTabsHeader" data-group="primary">
+                        <a data-tab="main">{{ localize "common.description" }}</a>
+                        <a data-tab="cultures">{{ localize "common.culture" }}</a>
+                    </nav>
+                </hbox>                 
             </itemSubHeader>
         </itemHeaderInfo>
     </itemHeader> 
     
     {{!-- CONTENT --}}
     <itemContent>
-        {{> itemDescription }}
+
+        <div class="frameContent">
+            <section class="sheet-body">
+                <div class="tab description" data-group="primary" data-tab="description">
+                    {{> itemDescription }}
+                </div>
+                <div class="tab cultures" data-group="primary" data-tab="cultures">
+                    {{> itemExtendCultures }}
+                </div>                
+            </section>
+        </div>        
+
     </itemContent>
     
 </form>

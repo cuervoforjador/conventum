@@ -9,9 +9,18 @@ export const preloadTemplates = async function() {
       humanPageCombat: CONFIG._root+"/templates/fragments/humanPageCombat.html",
       humanPageItems: CONFIG._root+"/templates/fragments/humanPageItems.html",
       humanHeader: CONFIG._root+"/templates/fragments/humanHeader.html",
+      humanCharPrimary: CONFIG._root+"/templates/fragments/humanCharPrimary.html",
+      humanCharSecondary: CONFIG._root+"/templates/fragments/humanCharSecondary.html",
+      humanCharRational: CONFIG._root+"/templates/fragments/humanCharRational.html",
+      humanBio: CONFIG._root+"/templates/fragments/humanBio.html",
+      humanBioDescription: CONFIG._root+"/templates/fragments/humanBioDescription.html",
+      humanBioBackground: CONFIG._root+"/templates/fragments/humanBioBackground.html",
+      humanBioTraits: CONFIG._root+"/templates/fragments/humanBioTraits.html",
+      humanLanguages: CONFIG._root+"/templates/fragments/humanLanguages.html",
       
       itemFrame: CONFIG._root+"/templates/fragments/itemFrame.html",
       itemDescription: CONFIG._root+"/templates/fragments/itemDescription.html",
+      itemExtendCultures: CONFIG._root+"/templates/fragments/itemExtendCultures.html",
       itemExtendLanguages: CONFIG._root+"/templates/fragments/itemExtendLanguages.html",
       itemExtendSkill: CONFIG._root+"/templates/fragments/itemExtendSkill.html",
 

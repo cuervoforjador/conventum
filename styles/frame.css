@@ -67,7 +67,8 @@ frameContent {
     top: calc(100% - 20px);
     left: 5px;
     width: calc(100% - 10px);
-    height: 15px;  
+    height: 15px;
+    z-index: 10;
 }
 .frameLeft {
     background-repeat: repeat-y;
@@ -83,6 +84,7 @@ frameContent {
     left: calc(100% - 20px);
     width: 15px;
     height: calc(100% - 40px);
+    z-index: 10;
 }
 .frameCornerTL {
     top: 35px;
@@ -110,6 +112,7 @@ frameContent {
     left: calc(100% - 75px);
     width: 70px;
     height: 70px;   
+    z-index: 10;
 }
 .frameShadow {
     background: url(/systems/conventum/image/texture/shadow.png);

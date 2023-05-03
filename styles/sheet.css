@@ -52,9 +52,11 @@ inkDetail.inkCorner {
     background-size: 183px 190px;
     width: 165px;
     height: 165px;
-    position: absolute;
-    top: 50px;
-    left: 19px;
+    position: relative;
+    top: 151px;
+    left: 5px;
+    margin-right: -163px;
+    margin-top: -148px;
     border-radius: 0px;
     display: block;
     border: 0px!important;
@@ -65,9 +67,11 @@ inkDetail.inkSubline {
     background-size: 126px 20px;
     width: 126px;
     height: 20px;
-    position: absolute;
-    top: 94px;
-    left: 166px;
+    position: relative;
+    margin-right: -126px;
+    margin-top: -42px;
+    top: 88px;
+    left: 144px;
     border-radius: 0px;
     display: block;
     border: 0px!important;
@@ -78,6 +82,9 @@ inkDetail.inkSubline {
 *************************************************************************************** */
 .actorHeader {
     width: 100%;
+}
+.window-app .window-resizable-handle {
+    z-index: 15;
 }
 ._info line hbox label {
     width:75px;
@@ -217,6 +224,352 @@ inkDetail.inkSubline {
     padding-right: 8px;
 }
 
+/* Characteristics */
+.actorChars {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    padding-left: 10px;
+    padding-right: 8px;    
+}
+.actorChars .labelLine, 
+.actorChars .charsLine {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0px;
+    margin: 0px;
+}
+.actorChars li.label {
+    list-style-type: none;
+    font-family: 'Augusta';
+    font-size: 11px;
+    height: 31px;
+    padding-top: 8px;
+    width: 32px;
+    font-family: 'Uncial Antiqua', cursive;
+}
+.actorChars li.label::first-letter {
+    color: #9f4436;
+    font-size: 16px;
+    font-weight: 900;
+}
+.actorChars li.chars {
+    list-style-type: none;
+    width: 32px;
+    height: 36px;
+    text-align: center;
+    font-size: 20px;
+    line-height: 32px;
+    border: 1px solid #9f443629;
+    font-family: 'Augusta';
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    background: #bfadad5e;
+    -webkit-box-shadow: 0px 0px 11px -1px rgb(0 0 0 / 27%);
+    box-shadow: 0px 0px 11px -1px rgb(0 0 0 / 27%);
+}
+.actorChars li.chars input {
+    color: #333333d9;
+}
+._temporal {
+    color: #9f4436!important;
+}
+
+.actorChars li.chars .tooltiptext {
+    font-size: 15px;
+    line-height: 16px;
+    width: 76px!important;
+}
+.actorChars li.chars .tooltiptext::after {
+    left: calc(76px - 20px)!important;
+}
+
+.actorHeader .switchInit,
+.frameContent .switchInit {
+    justify-content: flex-end;
+    margin-top: 8px;
+    padding-right: 8px;
+}
+
+.actorSecondChars input[type="checkbox"] {
+    flex: 0 0 16px;
+    width: 16px;
+    height: 16px;
+    opacity: 0.6!important;
+}
+.regShieldLeft, .regShieldRight {
+    width: 38px;
+    height: 24px;
+    font-size: 13px;
+    line-height: 25px;
+    border: 1px solid #5c39390f!important;
+    background: #a3797926!important;
+    border-radius: 2px!important;
+    margin-right: 5px;
+    margin-left: 3px;
+    text-align: center;  
+    font-family: 'Uncial Antiqua', cursive;  
+    -webkit-box-shadow: 0px 0px 11px -1px rgb(0 0 0 / 27%);
+    box-shadow: 0px 0px 11px -1px rgb(0 0 0 / 27%);    
+}
+.regShieldLeft input,
+.regShieldRight input {
+    display: block!important;
+    margin-top: -3px!important;    
+    color: #555!important;
+}
+.regShieldLeft {
+    border-top-left-radius: 50%!important;
+    border-bottom-left-radius: 50%!important;
+    padding-left: 5px;    
+    margin-right: 2px;
+}
+.regShieldRight {
+    border-top-right-radius: 50%!important;
+    border-bottom-right-radius: 50%!important;
+    padding-right: 5px;    
+    margin-left: 2px;
+    margin-right: 8px;
+}
+._rr {
+    width:50%; 
+    text-align: right; 
+    padding-right: 4px; 
+    margin-right: 0px; 
+    border-right: 1px solid #6d4444;    
+}
+._irr {
+    width:50%; 
+    text-align: left; 
+    padding-left: 4px; 
+    margin-left: 0px;    
+}
+
+.actorBio {
+    margin-top: 12px;
+    border-bottom: 1px solid #4a0f0f21;
+    padding-bottom: 8px;
+}
+.actorBio label {
+    width: 80px;
+}
+.actorBio select,
+.actorBio input {
+    width: calc(100% - 156px);
+    border: 0px;
+    height: 24px;
+    margin-bottom: 3px;
+}
+._bioInfo {
+    border-bottom: 1px solid #8c444430;
+    padding-top: 6px;
+    padding-bottom: 6px;    
+}
+._bioInfo line hbox {
+    display: flex;
+    justify-content: space-between;
+}
+._bioInfo line hbox label {
+    width: 50%;
+}
+
+/* Tabs... */
+nav.tabs_Bio {
+    padding-left: 12px;
+}
+nav._subTabs {
+    border-bottom: 1px solid #a5727245;
+}
+._subTabs a label {
+    font-size: 14px;
+    font-family: 'Almendra';
+    border: 1px solid #975959a1;
+    background: #c5929226;
+    border-radius: 2px;
+    padding: 3px;
+    line-height: 35px;
+}
+
+section._description {
+    height: 400px;
+}
+section._description .editor {
+    height: 100%;
+}
+section._description .editor-content {
+    padding-left: 20px;
+    padding-right: 10px;
+}
+section._description .editor p {
+    font-family: 'Almendra';
+    font-size: 15px;
+    line-height: 20px;
+}
+section._description .editor-content p:first-child::first-letter {
+    font-family: 'Augusta';
+    font-size: 32px;
+    color: #ffffffd9;
+    background: #993131d6;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 6px;
+    padding-right: 6px;
+    border-radius: 4px;
+    line-height: 32px;
+    margin-right: 2px;
+}
+
+ol._traits {
+    width: calc(100% - 18px);
+    list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0px;
+    margin-left: 5px;
+}
+ol._traits li {
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+/*
+ol._traits li:nth-child(even) {
+    display: flex;
+    flex-direction: row-reverse;
+}
+ol._traits li:nth-child(even) vbox {
+    align-items: flex-end;
+}
+*/
+ol._traits li img {
+    width: 55px;
+    height: 55px;
+}
+ol._traits li vbox {
+    width: calc(100% - 55px);
+    align-items: flex-start;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+ol._traits li h3 {
+    font-size: 12px;
+    line-height: 14px;
+    font-family: 'Almendra';
+    text-decoration: none;
+    border-bottom: 0px;
+    margin-bottom: 0px;
+}
+ol._traits li h3::first-letter {
+    color: #ab3030;
+    font-size: 22px;
+    font-family: 'Uncial Antiqua', cursive;
+}
+label._shortDescription {
+    font-family: 'Almendra';
+    font-size: 10px;
+    line-height: 11px;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+/* Skills */
+.actorSkills {
+    width: 100%;
+    padding: 10px;
+    padding-right: 5px;
+}
+.wrapSkill {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: space-around;
+    align-items: center;    
+}
+li.boxSkill {
+    width: 74px;
+    height: 100px;
+    margin: 5px;
+    border: 0px solid #333;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: flex-start;
+    align-items: center;
+}
+li.boxSkill:hover ._skillValue {
+    border: 1px solid #5e272757!important;
+    background: #ffffffb8!important;
+    border-radius: 50%!important;
+    position: relative;
+    transform: translate(30px, -30px);
+}
+li.boxSkill:hover a._cardInfo {
+    display: block;
+    background: #ffffffcf;
+    color: #333333d4;
+    transform: translate(-10px, -66px);
+    border-radius: 50%;
+    opacity: 1;
+}
+li.boxSkill:hover img {
+    opacity: 1;
+    border-radius: 50%;
+}
+li.boxSkill a._cardInfo {
+    height: 30px;
+    width: 30px;
+    text-align: center;
+    line-height: 30px;
+    font-size: 20px;
+    border: 1px solid #333;
+    margin-top: -30px;
+    transition: 0.8s;
+    opacity: 0;
+}
+li.boxSkill a._dice:hover {
+    background: none!important;
+    border-radius: 0px!important;
+}
+input._skillValue {
+    text-align: center;
+    font-size: 30px!important;
+    line-height: 35px!important;
+    font-weight: 900;
+    height: 35px;
+    margin-bottom: -76px;
+    margin-left: 18px!important;
+    font-family: 'Almendra';
+    z-index: 90;
+    width: 40px;
+    color: #645d48;
+    transition: 0.8s;
+}
+.imgSkill {
+    width: 100%;
+    border-radius: 4%;
+    border: 3px solid #34040469;
+    opacity: 0.35;
+    margin-bottom: 3px;
+    cursor: pointer;
+    transition: 0.8s;
+}
+.titleSkill {
+    width: 100%;
+    text-align: center;
+    font-size: 9px!important;
+    line-height: 11px!important;
+}
+
+
 /* ***************************************************************************************
    ITEMS
 *************************************************************************************** */
@@ -264,4 +617,51 @@ li.itemList hbox label {
     width: 100px;
     font-size: 11px!important;
     line-height: 24px!important;
+}
+itemcontent .editor {
+    height: 400px;
+}
+itemcontent section.sheet-body {
+    margin-top: 10px;
+}
+itemcontent section.sheet-body .tab hbox label {
+    margin-left: 10px;
+}
+hbox._mod {
+    width: calc(100% - 30px);
+    margin-top: 5px;
+}
+hbox._mod label {
+    width: 165px;
+    text-align: right;
+    margin-right: 10px;
+}
+hbox._mod select,
+hbox._mod ._mute {
+    width: calc(100% - 200px);
+}
+hbox._mod input {
+    border: 0px solid #602f2f7a!important;
+    background: #adadad24!important;
+    border-radius: 3px!important;
+    width: 150px;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-family: 'Almendra';
+}
+hbox._mod label.switch {
+    margin-left: 0px!important;
+}
+h1._modTitle {
+    font-family: 'Almendra';
+    padding-left: 16px;
+    font-size: 22px;
+    margin-bottom: 9px!important;
+    padding-bottom: 0px;
+    line-height: 24px;
+}
+h1._modTitle::first-letter {
+    color: #a30505;
+    font-size: 40px;
+    font-weight: 900;
 }

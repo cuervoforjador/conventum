@@ -1,6 +1,24 @@
 {{!-- Skills Tab --}}
 <div class="tab skills" data-group="primary" data-tab="skills">
 
+    <ul class="wrapSkill">
+        {{#each backend.skills as |skill key|}}
     
+           <li class="boxSkill">
+                  <input class="_skillValue" name="system.skills.{{skill._id}}.value"
+                         value="{{itemPropertyExtend 'systemData.skills' skill._id 'value'}}" type="text" data-dtype="Number"/>              
+                  <a class="_diceSkill" data-itemId="{{skill._id}}">
+                         <img class="imgSkill" src="{{skill.img}}"/></a>
+                  <label class="titleSkill">{{skill.name}}</label>
+                  <input name="system.skills.{{skill._id}}.initial" 
+                         value="{{itemPropertyExtend 'systemData.skills' skill._id 'initial'}}" 
+                         type="hidden"/>
+                  <input name="system.skills.{{skill._id}}.acquired"
+                         value="{{itemPropertyExtend 'systemData.skills' skill._id 'acquired'}}"
+                         type="hidden"/>
+           </li>
+    
+        {{/each}}
+    </ul>    
 
 </div>

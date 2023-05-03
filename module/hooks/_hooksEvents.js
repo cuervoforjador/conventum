@@ -4,6 +4,17 @@
 export class HookEvents {
 
     /**
+     * First events...
+     */    
+    static initialEvents() {
+
+        //Show Info for skills (Chat Messages)
+        $(document).on('click', 'a._infoSkill', function (event) {
+            HookEvents._showSkill($(this).data('itemid'));
+        });        
+    }
+
+    /**
      * Displaying Info in Sheets...
      */    
     static sheetInfoEvent() {
@@ -12,6 +23,7 @@ export class HookEvents {
         $(document).on('click', 'info', function (event) {
             HookEvents._showInfo($(this).data('id'));
         });
+
     }
 
     /**
@@ -72,6 +84,19 @@ export class HookEvents {
               width: 300,
               height: 300,
           });    
-      }
+    }
+
+    /**
+     * Display Skill sheet
+     * @param {*} langId 
+     */
+    static async _showSkill(skillId) {
+        const oDoc = (await game.packs.get('conventum.skills').getDocuments())
+                                      .filter(e => e.id === skillId);
+        if (!oDoc || (oDoc.length === 0)) return;
+        oDoc[0].sheet.render(true, {
+          editable: false
+        });        
+    }    
 
 }

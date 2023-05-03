@@ -22,20 +22,60 @@
                 <input type="text" name="name" value="{{item.name}}" placeholder=""/>
             </itemTitle>
             <itemSubHeader>
-                <hbox class="_subHeaderHBox">
-                    <info data-id="info.kingdomsDice">i</info>
-                    <label class="_70">{{localize "config.kingdomsDice" }}</label>
-                    <input class="_30" type="text" 
-                           name="system.custo.kingdomsDice"
-                           value="{{systemData.custo.kingdomsDice}}" />
-                </hbox>
+                <hbox class="_100">
+                    <nav class="sheet-tabs itemTabsHeader" data-group="traitTabs">
+                        <a data-tab="main">{{ localize "common.description" }}</a>
+                        <a data-tab="config">{{ localize "common.config" }}</a>
+                    </nav>
+                </hbox>                  
             </itemSubHeader>
         </itemHeaderInfo>
     </itemHeader> 
     
     {{!-- CONTENT --}}
     <itemContent>
-        {{> itemDescription }}
+
+        <div class="frameContent">
+            <section class="sheet-body">
+
+                {{!- Description -}}
+                <div class="tab main" data-group="traitTabs" data-tab="main">
+                    {{> itemDescription }}
+                </div>
+
+                {{!- Config -}}
+                <div class="tab config" data-group="traitTabs" data-tab="config">
+
+                    <h1 class="_modTitle">{{localize "common.rollLevel" }}</h1>
+
+                    {{#each mRollDice as |sRoll key|}}
+                    <hbox class="_mod">
+                        <label>{{localizeExtend "common." sRoll "" }}</label>
+                        <input type="text" 
+                               style="width: 200px;"
+                               name="system.config.rolllevel.{{sRoll}}.text"
+                               value="{{itemPropertyExtend 'systemData.config.rolllevel' sRoll 'text'}}" />
+                        <input type="text"
+                               style="width: 60px;"
+                               name="system.config.rolllevel.{{sRoll}}.bono"
+                               value="{{itemPropertyExtend 'systemData.config.rolllevel' sRoll 'bono'}}" />
+                        <input type="text" 
+                               style="width: 130px;"
+                               name="system.config.rolllevel.{{sRoll}}.color"
+                               value="{{itemPropertyExtend 'systemData.config.rolllevel' sRoll 'color'}}" />
+                        <label class="switch" style="margin-right: -16px;">
+                            <input type="checkbox" 
+                                name="system.config.rolllevel.{{sRoll}}.apply" 
+                                {{checkedExtend 'systemData.config.rolllevel' sRoll 'apply'}} />
+                            <span class="sliderSwitch"></span>
+                        </label>                            
+                    </hbox>
+                    {{/each}}
+
+                </div>
+
+            </section>
+        </div>
     </itemContent>
     
 </form>

@@ -1,0 +1,83 @@
+<leftRight class="actorSecondChars">
+
+    {{!-- Auxiliary & hidden values --}}
+    {{#each systemData.characteristics.secondary as |char key|}}
+        <input type="hidden" 
+            name="system.characteristics.secondary.{{key}}.temp"  
+            value="{{itemPropertyExtend 'systemData.characteristics.secondary' key 'temp'}}"/>
+        <input type="hidden"
+            name="system.characteristics.secondary.{{key}}.initial"
+            value="{{itemPropertyExtend 'systemData.characteristics.secondary' key 'initial'}}"/>
+    {{/each}}
+
+    {{!-- Hit Points --}}
+    <left style="width:40%; ">
+        <line>
+            <label>{{localize 'characteristic.hp'}}</label>
+            <regField>
+                <input type="number" 
+                       name="system.characteristics.secondary.hp.value" 
+                       value="{{systemData.characteristics.secondary.hp.value}}"
+                       class="{{systemData.characteristics.secondary.hp.class}}"/>
+            </regField>
+            <label> / {{systemData.characteristics.secondary.hp.initial}}</label>
+        </line>
+        {{#each systemData.status.life as |status key|}}
+            <line>
+                <input type="checkbox" 
+                    readonly
+                    name="system.status.life.{{key}}" 
+                    {{checkedExtend 'systemData.status.life' key ''}} />
+                <label>{{localizeExtend 'status.' key ''}}</label>
+            </line>
+        {{/each}}                               
+    </left>
+    
+    <right style="width:60%; ">
+
+        {{!-- Luck --}}
+        <line style="margin-bottom: 4px; justify-content: flex-end;">
+            <label>{{localize 'characteristic.luck'}}</label>
+            <regField>
+                <input type="number" 
+                       name="system.characteristics.secondary.luck.value" 
+                       value="{{systemData.characteristics.secondary.luck.value}}"
+                       class="{{systemData.characteristics.secondary.luck.class}}" />
+            </regField>
+        </line>
+
+        {{!-- Faith --}}
+        <line style="margin-bottom: 4px; justify-content: flex-end;">
+            <label>{{localize 'characteristic.fp'}}</label>
+            <regField>
+                <input type="number" 
+                       name="system.characteristics.secondary.fp.value" 
+                       value="{{systemData.characteristics.secondary.fp.value}}"
+                       class="{{systemData.characteristics.secondary.fp.class}}" />
+            </regField>
+        </line>        
+
+        {{!-- Concentration --}}
+        <line style="margin-bottom: 4px; justify-content: flex-end;">
+            <label>{{localize 'characteristic.cp'}}</label>
+            <regField>
+                <input type="number" 
+                       name="system.characteristics.secondary.cp.value" 
+                       value="{{systemData.characteristics.secondary.cp.value}}"
+                       class="{{systemData.characteristics.secondary.cp.class}}" />
+            </regField>
+        </line>         
+
+        {{!-- Temperance --}}
+        <line style="margin-bottom: 4px; justify-content: flex-end;">
+            <label>{{localize 'characteristic.temp'}}</label>
+            <regField>
+                <input type="number" 
+                       name="system.characteristics.secondary.temp.value" 
+                       value="{{systemData.characteristics.secondary.temp.value}}"
+                       class="{{systemData.characteristics.secondary.temp.class}}" />
+            </regField>
+        </line>  
+
+    </right>
+</leftRight>

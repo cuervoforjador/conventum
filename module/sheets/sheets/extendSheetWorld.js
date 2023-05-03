@@ -14,7 +14,10 @@ export class extendSheetWorld extends ItemSheet {
       classes: [game.system.id, "sheet", "item"],
       template: CONFIG._root+"/templates/world.html",
       width: 500,
-      height: 550
+      height: 600,
+      tabs: [
+        {navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "main"}
+      ],        
     });
   }
 
@@ -26,6 +29,8 @@ export class extendSheetWorld extends ItemSheet {
    getData() {
     const context = super.getData();
     context.systemData = this.item.getRollData();
+    context.mRollDice = ['level1', 'level2', 'level3', 'level4', 'level5',
+                         'level6', 'level7', 'level8', 'level9'];
 
     return context;
   }
