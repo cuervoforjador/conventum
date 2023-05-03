@@ -1,4 +1,4 @@
-<h3>Aquelarre for FoundryVTT</h3>
+<h1>Aquelarre for FoundryVTT</h1>
 
 ## FoundryVTT integration
 
