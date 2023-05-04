@@ -36,7 +36,7 @@ Aquelarre VTT team is made up of:
 </tr>
 <tr>
   <td>
-   <a href="https://github.com/cuervoforjador"><strong>Cuerfo Forjador</strong></a>
+   <a href="https://github.com/cuervoforjador"><strong>Cuervo Forjador</strong></a>
   </td>
   <td>
    <a href="https://github.com//Luvero-1"><strong>Luvero</strong></a>
