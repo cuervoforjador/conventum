@@ -25,7 +25,7 @@
                 <hbox class="_100">
                     <nav class="sheet-tabs itemTabsHeader" data-group="traitTabs">
                         <a data-tab="main">{{ localize "common.description" }}</a>
-                        <a data-tab="config">{{ localize "common.config" }}</a>
+                        <a data-tab="rolls">{{ localize "common.rolls" }}</a>
                     </nav>
                 </hbox>                  
             </itemSubHeader>
@@ -43,9 +43,48 @@
                     {{> itemDescription }}
                 </div>
 
-                {{!- Config -}}
-                <div class="tab config" data-group="traitTabs" data-tab="config">
+                {{!-- Rolls --}}
+                <div class="tab rolls" data-group="traitTabs" data-tab="rolls">
 
+                    {{!-- Criticals success & failures --}}
+                    <h1 class="_modTitle">{{localize "common.rollSuccFail" }}</h1>
+                    <hbox class="_mod">
+                        <label>{{localize "common.rollSkillRange" }}</label>
+                        <input type="text" 
+                               style="width: 60px;"
+                               name="system.config.rolls.skillRange"
+                               value="{{systemData.config.rolls.skillRange}}" />                        
+                    </hbox>
+                    <hbox class="_mod">
+                        <label>{{localize "common.rollFailureRange" }}</label>
+                        <input type="text" 
+                               style="width: 60px;"
+                               name="system.config.rolls.failureRange"
+                               value="{{systemData.config.rolls.failureRange}}" />                        
+                    </hbox>
+                    <hbox class="_mod">
+                        <label>{{localize "common.rollFailureMin" }}</label>
+                        <input type="text" 
+                               style="width: 60px;"
+                               name="system.config.rolls.failureMin"
+                               value="{{systemData.config.rolls.failureMin}}" />                        
+                    </hbox>
+                    <hbox class="_mod">
+                        <label>{{localize "common.rollCriticalSucStep" }}</label>
+                        <input type="text" 
+                               style="width: 60px;"
+                               name="system.config.rolls.criticalSuccessStep"
+                               value="{{systemData.config.rolls.criticalSuccessStep}}" />                        
+                    </hbox>   
+                    <hbox class="_mod">
+                        <label>{{localize "common.rollCriticalFaiStep" }}</label>
+                        <input type="text" 
+                               style="width: 60px;"
+                               name="system.config.rolls.criticalFailureStep"
+                               value="{{systemData.config.rolls.criticalFailureStep}}" />                        
+                    </hbox>                                                                           
+
+                    {{!-- Roll levels --}}
                     <h1 class="_modTitle">{{localize "common.rollLevel" }}</h1>
 
                     {{#each mRollDice as |sRoll key|}}
@@ -71,6 +110,10 @@
                         </label>                            
                     </hbox>
                     {{/each}}
+
+
+
+
 
                 </div>
 

@@ -2,7 +2,7 @@
  * Helpers for Messages in Sidebar
  */
 
-import { mainUtils } from "../../mainUtils.js";
+import { mainUtils } from "../mainUtils.js";
 
 export class helperMessages {
 

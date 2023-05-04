@@ -4,7 +4,7 @@
 
 import { mainBackend } from "../backend/mainBackend.js";
 import { helperSheetHuman } from "../helpers/helperSheetHuman.js";
-import { helperRolls } from "../helpers/helperRolls.js";
+import { helperRolls } from "../../helpers/helperRolls.js";
 
 export class extendSheetHuman extends ActorSheet {
 

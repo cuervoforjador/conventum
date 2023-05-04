@@ -44,7 +44,8 @@ export class HookEvents {
             const sValue = $(this).val();
             const sFilter = $(this).data('filter');
             const sDiv = (sFilter === 'world') ? '._worldInfo' : '._extraInfo';
-            $(".compendium ol.directory-list li.directory-item").each(function(i,e) {
+            const sPack = $(event.target).parents('.compendium').data('pack');
+            $(".compendium[data-pack='"+sPack+"'] ol.directory-list li.directory-item").each(function(i,e) {
                 if ( $(e).find(sDiv).data("filter") === sValue ) $(e).show();
                 else $(e).hide();
                 if (sValue === '') $(e).show();

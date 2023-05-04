@@ -278,6 +278,13 @@
             "bono": "",
             "color": ""
           }                            
+        },
+        "rolls": {
+          "skillRange": "10",
+          "failureRange": "90",
+          "failureMin": "100",
+          "criticalSuccessStep": "01",
+          "criticalFailureStep": "01"              
         }
       }
     },

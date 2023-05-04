@@ -4,6 +4,9 @@ import { mainBackend } from "../sheets/backend/mainBackend.js";
 export class HookTours {
 
     static async initTour() {
+
+        return;
+
         if (game.tours.get('system.conventum')) return;
 
         let oTour = await new Tour(

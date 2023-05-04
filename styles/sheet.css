@@ -657,8 +657,9 @@ h1._modTitle {
     padding-left: 16px;
     font-size: 22px;
     margin-bottom: 9px!important;
+    margin-top: 8px!important;
     padding-bottom: 0px;
-    line-height: 24px;
+    line-height: 24px;    
 }
 h1._modTitle::first-letter {
     color: #a30505;
