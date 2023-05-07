@@ -7,14 +7,15 @@ export class mainBackend {
     /**
      * Compendium Backend For Actors...
      */
-    static async getBackendForActor(systemData) {
+    static async getBackendForActor(actor, systemData) {
         
         //Directs
         let mBackend = {
             worlds: await game.packs.get("conventum.worlds").getDocuments(),
             kingdoms: await this._getKingdoms(systemData.control.world),
             societies: await this._getSocieties(systemData.control.world),
-            skills: await this._getSkills(systemData.control.world)
+            skills: await this._getSkills(systemData.control.world),
+            locations: await this._getLocations(systemData.control.world, actor.type)
         };
         
         //Kingdom
@@ -139,6 +140,30 @@ export class mainBackend {
     }    
 
     /**
+     * Compendium Backend For Location Items...
+     */
+    static async getBackendForLocation() {
+        return {
+            worlds: await game.packs.get("conventum.worlds").getDocuments(),
+            actorTypes: this._getActorTypes()
+        };
+    }
+
+    /**
+     * Compendium Backend For Armor Items...
+     */
+    static async getBackendForArmor(systemData) {
+        return {
+            worlds: await game.packs.get("conventum.worlds").getDocuments(),
+            characteristics: this._getCharacteristics('primary', true),
+            actorTypes: this._getActorTypes(),
+            armorTypes: this._getArmorTypes(),
+            locations: await this._getLocations(systemData.control.world, systemData.actorType),
+            skills: await this._getSkills(systemData.control.world)
+        };
+    }
+
+    /**
      * _getSocieties
      * @param {*} sWorld 
      */
@@ -217,6 +242,38 @@ export class mainBackend {
             return mStatus.filter(e => e.system.backend.stratum === sStratum);
         }
     }      
+
+    /**
+     * _getLocations
+     * @param {*} sWorld 
+     * @param {*} sActorType 
+     * @returns 
+     */
+    static async _getLocations(sWorld, sActorType) {
+        let mLocations = await this._getDocuments('locations', sWorld);
+        return mLocations.filter(e => e.system.actorType === sActorType);
+    }
+
+    /**
+     * _getActorTypes
+     */
+    static _getActorTypes() {
+        let mReturn = [];
+        game.template.Actor.types.forEach(s => {
+            mReturn.push({
+                id: s,
+                name: game.i18n.localize('template.'+s)
+            });
+        });
+        return mReturn;
+    }
+    
+    /**
+     * _getArmorTypes
+     */
+    static _getArmorTypes() {
+        return CONFIG.ExtendConfig.armorTypes;
+    }
 
     /**
      * _getDocuments

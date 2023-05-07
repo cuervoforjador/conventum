@@ -11,5 +11,37 @@ export const extendConfig = {
         "catholicae",
         "islamicae",
         "iudae"
+    ],
+    armorTypes: [
+        {
+            id: '01',
+            i18n: 'config.armorHelmet',
+            name: ''
+        },
+        {
+            id: '02',
+            i18n: 'config.armorSoft',
+            name: ''
+        },
+        {
+            id: '03',
+            i18n: 'config.armorLight',
+            name: ''
+        },
+        {
+            id: '04',
+            i18n: 'config.armorMetallic',
+            name: ''
+        },
+        {
+            id: '05',
+            i18n: 'config.armorComplete',
+            name: ''
+        },
+        {
+            id: '06',
+            i18n: 'config.armorAnimal',
+            name: ''
+        }
     ]
 };

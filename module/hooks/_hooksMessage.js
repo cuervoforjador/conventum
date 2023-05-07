@@ -3,6 +3,11 @@ import { mainBackend } from "../sheets/backend/mainBackend.js";
 
 export class HookMessage {
 
+    /**
+     * changeColorButton
+     * @param {*} htmlElement 
+     * @param {*} sWorld 
+     */
     static async changeColorButton(htmlElement, sWorld) {
 
         const oWorld = await game.packs.get('conventum.worlds').get(sWorld);
@@ -14,5 +19,15 @@ export class HookMessage {
         }
     }
 
+    /**
+     * translateTypes
+     * @param {*} htmlElement 
+     */
+    static translateTypes(htmlElement) {
+        $(htmlElement).find('form#document-create select[name="type"] option')
+                      .each(function(i,e) {
+                            $(e).text(game.i18n.localize('template.'+$(e).val()))
+                      }.bind(this));
+    }
 
 }

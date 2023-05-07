@@ -46,4 +46,13 @@ export class mainUtils {
         });
     }
 
+    /**
+     * Infamous!! delay
+     * @param {*} time 
+     * @returns 
+     */
+    static delay(time) {
+        return new Promise(resolve => setTimeout(resolve, time));
+    }
+
 }

@@ -5,12 +5,21 @@ itemHeader {
     display: inline-flex;
     flex-wrap: wrap;
     flex-direction: row;
-} 
+}
+itemHeader._chrome {
+    display: flex;
+    flex-direction: initial;
+}
 itemImage {
     padding: 0px!important;
     width: 150px;
     height: 150px;
     transform: rotate(1.3deg);
+}
+._chrome itemimage {
+    width: 218px;
+    height: 340px;
+    border-right: 4px solid #333;
 }
 itemImage img {
     margin-left: -1px;
@@ -20,12 +29,18 @@ itemImage img {
     height: 155px;
     border: 3px solid #181817;
 }
-
-
+._chrome itemImage img {
+    width: 100%;
+    height: 100%;
+    border: 0px;
+}
 itemHeaderInfo {
     width: calc(100% - 155px);
     display: flex;
     flex-direction: column;
+}
+._chrome itemheaderinfo {
+    width: calc(100% - 225px);
 }
 
 itemTitle {
@@ -41,6 +56,12 @@ itemTitle input[type="text"] {
     font-size: 28px;
     line-height: 34px;
     transform: rotate(-1deg);
+}
+._chrome itemheaderinfo itemtitle {
+    padding-left: 14px;
+    padding-top: 20px;
+    border-bottom: 3px solid #954a4aa3;
+    padding-bottom: 3px;
 }
 
 itemSubHeader {
@@ -78,8 +99,8 @@ itemSubHeader {
     border: 0px;
 }
 
-itemContent {
-
+._chrome itemContent {
+    margin-top: -20px;
 }
 
 /* TEXT-EDITOR */
@@ -218,6 +239,7 @@ slidepanel {
     display: flex;
     flex-direction: column;
     margin-top: 8px;
+    overflow-y: auto;
 }
 slidepanel paneltitle {
     width: 100%;
@@ -305,6 +327,9 @@ input:checked + .sliderSwitch:before {
 }
 
 /* COMMONS */
+._marginLeft {
+    margin-left: 10px!important;
+}
 ._100 {
     width: 100%;
     min-width: 100%;
@@ -340,6 +365,11 @@ input:checked + .sliderSwitch:before {
     min-width: 40%;
     max-width: 40%;
 }
+._33 {
+    width: 33%;
+    min-width: 33%;
+    max-width: 33%;
+}
 ._30 {
     width: 30%;
     min-width: 30%;
@@ -365,6 +395,11 @@ input:checked + .sliderSwitch:before {
     min-width: 30px;
     max-width: 30px;
 }
+._40px {
+    width: 40px;
+    min-width: 40px;
+    max-width: 40px;
+}
 ._50px {
     width: 50px;
     min-width: 50px;
@@ -375,9 +410,17 @@ input:checked + .sliderSwitch:before {
     min-width: 80px;
     max-width: 80px;
 }
+._120px {
+    width: 120px;
+    min-width: 120px;
+    max-width: 120px;
+}
 
 ._normalText {
     font-size: 15px!important;
     line-height: 18px!important;
     font-family: 'Almendra'!important;
+}
+.labeled label {
+    padding-left: 5px;
 }

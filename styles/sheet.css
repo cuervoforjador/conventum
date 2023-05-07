@@ -569,6 +569,325 @@ input._skillValue {
     line-height: 11px!important;
 }
 
+/* Armor */
+ol.armorCloset {
+    position: fixed;
+    top: 200px;
+    left: 125px;
+    width: 350px;
+    height: 400px;
+    transform: rotate(3deg);
+    background-image: url(/systems/aquelarre/image/texture/paper.png);
+    background-position: center;
+    background-size: 350px 400px;
+    background-repeat: no-repeat;
+    /* display: flex; */
+    display: none;
+    flex-wrap: wrap;
+    overflow: auto;
+    padding: 4px!important;
+    margin: 0px!important;
+    align-content: flex-start;
+    align-items: flex-start;
+    border: 2px solid #211f1fc4;
+    border-radius: 3px;
+    z-index: 50000;
+    -webkit-box-shadow: 0px 0px 16px 3px rgb(0 0 0 / 54%);
+    box-shadow: 0px 0px 16px 3px rgb(0 0 0 / 54%);
+    /* justify-content: flex-start; */
+    justify-content: space-around;
+    transition: 0.4s;
+}
+li.armorGarment {
+    width: 90px;
+    height: 130px;
+    overflow: hidden;
+    padding: 0px;
+    margin: 0px;
+    margin-top: 4px;
+    margin-left: 8px;
+    list-style: none;
+    text-decoration: none;
+    border: 1px solid #333;
+    cursor: pointer;
+    transition: 0.2s;
+}
+li.armorGarment:hover ._garmentLabel {
+    display: flex;
+}
+li.armorGarment:hover {
+    transform: rotate(-1deg);
+}
+li.armorGarment img {
+    width: 90px;
+    height: 130px;
+    border: 0px!important;
+    padding: 0px!important;
+    margin: 0px!important;
+}
+._garmentLabel {
+    background: #ffffffd9;
+    font-size: 11px;
+    line-height: 10px;
+    font-family: 'Almendra';
+    color: #000;
+    width: 90px;
+    max-width: 90px;
+    min-width: 90px;
+    position: relative;
+    left: 0px;
+    top: -135px;
+    height: 130px;
+    /* display: flex; */
+    display: none;
+    overflow: hidden;
+    text-align: center;
+    border: 1px solid #FFF;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    cursor: pointer;
+}
+.armorCloset ._X {
+    position: absolute;
+    font-size: 24px;
+    line-height: 30px;
+    color: #fff;
+    font-weight: 900;
+    background: #333333d4;
+    width: 30px;
+    text-align: center;
+    font-family: Almendra;
+    left: calc(100% - 33px);
+    top: 4px;
+    border: 1px solid #ffffff8f;
+    z-index: 100000;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.armorCloset ._X:hover,
+.unwearArmor:hover {
+    background: rgba(255, 255, 255, 0.753);
+    color: #333;
+}
+.unwearArmor {
+    margin-right: 32px;
+    padding: 5px;
+    font-family: 'Almendra';
+    font-size: 20px;
+    line-height: 20px;
+    font-weight: 900;
+    border: 1px solid #ffffff8f;
+    margin-top: -9px;
+    background: #333333d1;
+    color: #FFF;
+    border-radius: 1px;
+    cursor: pointer;
+    transition: 0.3s;    
+}
+li.infoGarment {
+    width: 100%;
+    border-bottom: 1px solid #33333363;
+    margin-bottom: 6px;
+}
+li.infoGarment label._title.armorTitle {
+    border-bottom: 1px solid #33333373;
+    width: calc(100%)!important;
+    display: block;
+    line-height: 20px!important;
+    margin-bottom: 5px;
+}
+li.infoGarment img._garmentImg {
+    width: 150px;
+    height: 232px;
+}
+li.infoGarment hbox.labeled {
+    width: calc(100% - 40px);
+}
+li.infoGarment label._title {
+    width: 85%;
+    text-align: center;
+    font-size: 18px;
+    line-height: 35px;
+    font-family: 'Almendra';
+    font-weight: 900;
+    color: #333333c7;
+}
+li.infoGarment label._title::first-letter {
+    text-align: center;
+    font-size: 30px;
+    line-height: 35px;
+    font-family: 'Almendra';
+    font-weight: 900;
+    color: #a61a1a;
+}
+li.infoGarment ._infoFields {
+    align-items: flex-start;
+    height: 233px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 100%!important;
+}
+li.infoGarment ._infoFields hbox {
+    margin-bottom: 5px;
+}
+label._field {
+    font-weight: 900;
+    font-family: 'Almendra';
+    font-size: 14px;
+}
+label._field::first-letter {
+    font-weight: 900;
+    font-family: 'Almendra';
+    font-size: 18px;
+    color: #333;
+}
+label._description {
+    font-weight: 100;
+    font-family: 'Almendra';
+    font-size: 11px;
+    line-height: 12px;
+    color: #333;
+}
+label._description::first-letter {
+    font-weight: 100;
+    font-size: 11px;
+    color: #333;
+}
+
+.actorArmor {
+    width: 100%;
+}
+.actorArmor .armorBox {
+    width: 100%;
+    height: 500px;
+    margin-top: 10px;
+    margin-left: calc(50% - 72px);
+}
+.armorBox ._bodyImg {
+    width: 160px;
+    height: 500px;
+    background-size: 160px!important;
+    background-repeat: no-repeat no-repeat!important;
+    margin-top: 0px;
+    opacity: 0.8;
+}
+.armorBox ._bodyShield {
+    width: 76px;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    display: flex;
+    flex-wrap: wrap;
+    position: absolute;
+    background: #f0e4d7b8;
+    -webkit-box-shadow: 0px 0px 15px 0px rgb(0 0 0 / 30%);
+    box-shadow: 0px 0px 15px 0px rgb(0 0 0 / 30%);
+    background-size: 75px 95px;
+    background-position: center;
+}
+._bodyShield label {
+    margin: 0px!important;
+    padding: 0px!important;
+    font-size: 9px!important;
+    line-height: 10px!important;
+    height: 9px!important;
+}
+.armorBox ._bodyShield ._shieldT {
+    width: 100%;
+    height: 16px;
+    margin-top: 0px;
+    margin-bottom: 1px;
+    text-align: center;
+    border-bottom: 1px solid #7134103d;
+}
+.armorBox ._bodyShield ._shieldL {
+    width: 50%;
+    margin-top: -2px;
+    text-align: center;
+    border-right: 1px solid #7134103d;
+    border-bottom: 1px solid #7134103d;
+}
+.armorBox ._bodyShield ._shieldR {
+    width: 50%;
+    margin-top: -2px;
+    text-align: center;
+    border-bottom: 1px solid #7134103d;
+}
+.armorBox ._bodyShield ._shieldB {
+    display: flex;
+    width: 100%;
+    text-align: center;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    border-bottom-left-radius: 46px;
+    border-bottom-right-radius: 46px;
+}
+.armorBox ._bodyShield ._shieldB label {
+    width: 100%!important;
+    height: 16px!important;
+    line-height: 16px!important;
+}
+.armorBox ._bodyShield ._shieldInput {
+    border: 1px solid #6a2a0b40!important;
+    background: #bb76553d!important;
+    color: #333;
+    font-family: 'Almendra';
+    height: 17px;
+    line-height: 12px;
+    width: 60%;
+    margin-bottom: 3px;
+    padding-top: 0px;
+    border-radius: 3px!important;
+}
+.armorBox ._bodyShield ._shieldB input._shieldInput {
+    width: 26px!important;
+    border-bottom-left-radius: 50%!important;
+    border-bottom-right-radius: 50%!important;
+    margin-bottom: 3px;
+}
+.armorBox ._shieldT select {
+    height: 14px;
+    font-size: 11px;
+    width: 72px;
+    margin-top: 1px;
+    border: 0px;
+    background: none;
+}
+.armorBox ._bodyShield ._shieldT,
+.armorBox ._bodyShield ._shieldL,
+.armorBox ._bodyShield ._shieldR,
+.armorBox ._bodyShield ._shieldB {
+    transition: 0.4s;
+    background: #f7f5f1e6;
+}
+.armorBox ._bodyShield ._shieldT label,
+.armorBox ._bodyShield ._shieldL label,
+.armorBox ._bodyShield ._shieldR label,
+.armorBox ._bodyShield ._shieldB label {
+    cursor: pointer;
+}
+.armorBox ._bodyShield:hover ._shieldT,
+.armorBox ._bodyShield:hover ._shieldL,
+.armorBox ._bodyShield:hover ._shieldR {
+    background: #ceb1b194;
+}
+.armorBox ._bodyShield:hover ._shieldB {
+    background: #ceb1b194;
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+}
+.armorBox a.armorProtection {
+    width: 100%;
+}
+label.armorRequeriment,
+label.armorPenalization,
+label.armorLocation {
+    font-size: 14px;
+    line-height: 18px;
+}
+
 
 /* ***************************************************************************************
    ITEMS
@@ -645,7 +964,6 @@ hbox._mod input {
     background: #adadad24!important;
     border-radius: 3px!important;
     width: 150px;
-    margin-left: 10px;
     margin-right: 10px;
     font-family: 'Almendra';
 }
@@ -657,8 +975,9 @@ h1._modTitle {
     padding-left: 16px;
     font-size: 22px;
     margin-bottom: 9px!important;
+    margin-top: 8px!important;
     padding-bottom: 0px;
-    line-height: 24px;
+    line-height: 24px;    
 }
 h1._modTitle::first-letter {
     color: #a30505;

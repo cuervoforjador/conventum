@@ -34,7 +34,8 @@ export class helperSheetHuman {
     
     return {
       crest: myKingdom ? myKingdom.img : '',
-      frame: systemData.control.frame
+      frame: systemData.control.frame,
+      body: (systemData.bio.female) ? 'bodyF.png' : 'bodyM.png',
     };
   }
 

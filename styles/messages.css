@@ -188,6 +188,30 @@
 ._chatBox ._success {
     background: #3e684b78;; 
 }
+._chatBox ._critSuccess,
+._chatBox ._critFailure {
+    position: absolute;
+    top: 70px;
+    left: 0px;
+    text-align: center;
+    border: 4px solid #d7ceb8c4;
+    border-radius: 1px;
+    border-bottom-left-radius: 11px;
+    font-size: 15px;
+    line-height: 22px;
+    padding-left: 7px;
+    padding-right: 7px;
+    font-weight: 900;
+}
+._chatBox ._critFailure {
+    background: #e6090982;
+    color: #000;
+}
+._chatBox ._critSuccess {
+    background: #0a871382;
+    color: #000;
+}
+
 ._chatContent ._Img {
     position: absolute;
     top: 0px;

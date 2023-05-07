@@ -14,8 +14,16 @@ export class mainConfig {
         return oConfig;
     }
 
-    static _renderCompendiumDirectory(tab, element, info) {
-        HookCompendium._stylingLiCompendium(tab);
+    /**
+     * translateConfig
+     */
+    static translateConfig() {
+        let oConfig = CONFIG.ExtendConfig;
+
+        //Armor Types
+        oConfig.armorTypes.map(e => {
+            e.name = game.i18n.localize(e.i18n)
+        });
     }
 
 }

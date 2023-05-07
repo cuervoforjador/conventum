@@ -104,9 +104,9 @@ export class HookCompendium {
 
         }.bind(this));        
 
-        $(".compendium ol.directory-list li.directory-item")
+        $(".compendium[data-pack='"+sPack+"'] ol.directory-list li.directory-item")
             .sort((a,b) => $(a).data("order") - $(b).data("order"))
-            .appendTo(".compendium ol.directory-list");
+            .appendTo(".compendium[data-pack='"+sPack+"'] ol.directory-list");
 
     }
 
