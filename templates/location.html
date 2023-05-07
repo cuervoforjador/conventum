@@ -1,0 +1,89 @@
+<form class="codex" 
+      autocomplete="off">
+
+    {{!-- FRAME --}}
+    {{> itemFrame }}
+    
+    {{!-- HEADER --}}
+    <itemHeader>
+             
+        {{!-- Filigrees --}}
+        <inkDetail class="inkCorner"></inkDetail>
+        <inkDetail class="inkSubline"></inkDetail>
+
+        {{!-- Image --}}
+        <itemImage>
+            <img src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+        </itemImage>
+
+        {{!-- Header Info --}}
+        <itemHeaderInfo>
+            <itemTitle>
+                <input type="text" name="name" value="{{item.name}}" placeholder=""/>
+            </itemTitle>
+            <itemSubHeader>
+                <hbox class="_subHeaderHBox">
+                    <label class="_80px">{{localize "common.world" }}</label>
+                    <select name="system.control.world">
+                        {{selectOptions backend.worlds 
+                                        selected=systemData.control.world
+                                        localize=false
+                                        nameAttr="id"
+                                        labelAttr="name" }}
+                    </select>
+                </hbox>                             
+                <hbox class="_subHeaderHBox">
+                    <label class="_80px">{{localize "common.range" }}</label>
+                    <hbox>
+                        <input class="_30px" type="text" 
+                            style="margin-right: 5px; text-align: center;"
+                            name="system.range.low"
+                            value="{{systemData.range.low}}"
+                            data-dtype="Number" />
+                        -
+                        <input class="_30px" type="text" 
+                            style="margin-left: 5px; text-align: center;"
+                            name="system.range.high"
+                            value="{{systemData.range.high}}"
+                            data-dtype="Number" />
+                    </hbox>
+                </hbox>                             
+            </itemSubHeader>
+        </itemHeaderInfo>
+    </itemHeader> 
+    
+    {{!-- CONTENT --}}
+    <itemContent>
+        <div class="frameContent">
+            <hbox class="_mod">
+                <label class="_120px">{{localize "common.actorType" }}</label>
+                <select name="system.actorType">
+                    {{selectOptions backend.actorTypes 
+                                    selected=systemData.actorType
+                                    localize=false
+                                    nameAttr="id"
+                                    labelAttr="name" }}
+                </select>
+            </hbox>
+            <hbox class="_mod">
+                <label class="_120px">{{localize "common.modDamage" }}</label>
+                <input class="_40px" 
+                       type="text" 
+                       name="system.modDamage"
+                       value="{{systemData.modDamage}}" />                    
+            </hbox>  
+            <hbox class="_mod">
+                <label class="_120px">{{localize "common.topLeft" }}</label>
+                <input class="_80px" 
+                       type="text" 
+                       name="system.topLeft.top"
+                       value="{{systemData.topLeft.top}}" /> 
+                <input class="_80px" 
+                       type="text" 
+                       name="system.topLeft.left"
+                       value="{{systemData.topLeft.left}}" />                                               
+            </hbox> 
+        </div>        
+    </itemContent>
+    
+</form>

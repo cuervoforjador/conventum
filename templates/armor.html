@@ -1,0 +1,60 @@
+<form class="codex" 
+      autocomplete="off">
+
+    {{!-- FRAME --}}
+    {{> itemFrame }}
+    
+    {{!-- HEADER --}}
+    <itemHeader class="_chrome">
+             
+        {{!-- Image --}}
+        <itemImage>
+            <img src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+        </itemImage>
+
+        {{!-- Header Info --}}
+        <itemHeaderInfo>
+            <itemTitle>
+                <input type="text" name="name" value="{{item.name}}" placeholder=""/>
+            </itemTitle>
+            <itemSubHeader>
+                <hbox class="_subHeaderHBox">
+                    <label>{{localize "common.world" }}</label>
+                    <select name="system.control.world">
+                        {{selectOptions backend.worlds 
+                                        selected=systemData.control.world
+                                        localize=false
+                                        nameAttr="id"
+                                        labelAttr="name" }}
+                    </select>
+                </hbox>
+                <hbox class="_100">
+                    <nav class="sheet-tabs itemTabsHeader" data-group="primary">
+                        <a data-tab="main">{{ localize "common.armor" }}</a>
+                        <a data-tab="location">{{ localize "common.location" }}</a>
+                        <a data-tab="penal">{{ localize "common.penal" }}</a>
+                        <a data-tab="description">{{ localize "common.description" }}</a>
+                    </nav>
+                </hbox>              
+            </itemSubHeader>
+
+            {{!-- CONTENT --}}
+            <itemContent>
+        
+                <div class="frameContent">
+                    <section class="sheet-body">
+                        {{> itemExtendArmor }}
+
+                        <div class="tab description" data-group="primary" data-tab="description">
+                            {{> itemDescription }}
+                        </div>                
+                    </section>
+                </div>
+        
+            </itemContent>            
+
+        </itemHeaderInfo>
+
+    </itemHeader> 
+    
+</form>

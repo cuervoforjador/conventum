@@ -2,11 +2,13 @@
  * Hooks...
  */
 
+import { mainConfig } from "../config/mainConfig.js";
 import { HookCompendium } from "./_hooksCompendium.js";
 import { HookActor } from "./_hooksActor.js";
 import { HookEvents } from "./_hooksEvents.js";
 import { HookMessage } from "./_hooksMessage.js";
 import { HookTours } from "./_hooksTours.js";
+
 
 export class mainHooks {
 
@@ -27,8 +29,9 @@ export class mainHooks {
     }
 
     static _setup() {
+        mainConfig.translateConfig();
         HookEvents.initialEvents();
-        HookTours.initTour();
+        HookTours.initTour();        
     }
 
     static _renderCompendiumDirectory(tab, element, info) {
@@ -54,13 +57,21 @@ export class mainHooks {
 
     static async _dropActorSheetData(actor, sheet, item) {
         if (item.type === 'Item') {
-            let oItem = game.items.get(item.uuid.split('.')[1]);
-            if (oItem.type === 'trait')
+            const mO = item.uuid.split('.');
+            const sType = mO[mO.length-2];
+            
+            if (sType === 'trait')
                 await HookActor.addTrait(oItem, actor, sheet);
         }
     }
 
     static async _renderDialog(dialog, element, content) {
+
+        //Creating
+        if ( $(element).find('section form#document-create select[name="type"]').length > 0 )
+            HookMessage.translateTypes(element);    
+
+        //Rolling Message
         HookMessage.changeColorButton(element, dialog.data.world);
     }
 

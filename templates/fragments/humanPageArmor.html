@@ -1,0 +1,108 @@
+{{!-- Armor Tab --}}
+<div class="tab armor" data-group="primary" data-tab="armor">
+    <div class="actorArmor">
+        <div class="armorBox">
+            <div class="_bodyImg" style="background: url({{frameUrl}}/{{custo.body}})"></div>
+
+            {{!-- Armor Closet Window --}}
+            <ol class="armorCloset">
+                <div class="_X closeArmorCloset">X</div>
+                <li class="infoGarment">
+                    <hbox>
+                        <label class="_title armorTitle" text=""></label>
+                        <div class="unwearArmor">{{localize 'common.unwear'}}</div>
+                    </hbox>
+                    <hbox class="_infoFields">
+                        <img src="" title="" class="_garmentImg"/>
+                        <vbox style="align-items: flex-start;">
+                            <label class="_title armorName" text=""></label> 
+                            <hbox class="labeled">
+                                <label>{{localize 'common.cost'}}</label>
+                                <label class="_field armorCost" text=""></label> 
+                                <label>{{localize 'common.weight'}}</label>
+                                <label class="_field armorWeight" text=""></label>                             
+                            </hbox>
+                            <hbox class="labeled">
+                                <label>{{localize 'common.armorEndurance'}}</label>
+                                <label class="_field armorEndurance" text=""></label> 
+                                <label>{{localize 'common.armorProtection'}}</label>
+                                <label class="_field armorProtection" text=""></label> 
+                            </hbox>               
+                            <hbox class="labeled">
+                                <label>{{localize 'common.armorRequirement'}}</label>
+                            </hbox>
+                            <hbox style="padding-left: 15px;">
+                                <label class="_description armorRequeriment" text=""></label> 
+                            </hbox>  
+                            <hbox class="labeled">
+                                <label>{{localize 'common.penal'}}</label>
+                            </hbox>
+                            <hbox style="padding-left: 15px;">                            
+                                <label class="_description armorPenalization" text=""></label> 
+                            </hbox>                                    
+                            <hbox class="labeled">
+                                <label>{{localize 'common.location'}}</label>
+                            </hbox>
+                            <hbox style="padding-left: 15px;">                            
+                                <label class="_description armorLocation" text=""></label> 
+                            </hbox>                                                               
+                        </vbox>
+                    </hbox>
+                </li>
+                {{#each data.items as |item id|}}
+                {{#if (itemType item 'armor') }}
+                    <li class="armorGarment" data-itemId="{{item._id}}">
+                        <img src="{{item.img}}" title="{{item.name}}" class="_garmentImg"/>
+                        <div class="_garmentLabel" data-itemId="{{item._id}}">{{item.name}}</div>
+                    </li>
+                {{/if}}
+                {{/each}}
+            </ol>
+
+
+            {{!-- Armor Shields --}}
+            {{#each backend.locations as |localization id|}}
+                <a class="locationShield" data-locationId="{{localization._id}}">
+                <div class="_bodyShield" style="top: {{localization.system.topLeft.top}};
+                                                left: {{localization.system.topLeft.left}};
+                                                background-image: url({{armorValue localization._id 'img'}})">
+                    
+                    <div class="_shieldT">
+                        <label>{{armorValue localization._id 'name'}}</label>
+                    </div>
+                    <div class="_shieldL">
+                        <label>{{localize 'common.total'}}</label>
+                        <input type="number" 
+                               disabled
+                               name="system.armor.{{localization._id}}.total" 
+                               value="{{armorValue localization._id 'total'}}" 
+                               class="_shieldInput" />
+                    </div>
+                    <div class="_shieldR">
+                        <label>{{localize 'common.actual'}}</label>
+                        <input type="number" 
+                               data-locationId="{{localization._id}}"
+                               name="system.armor.{{localization._id}}.value" 
+                               value="{{armorValue localization._id 'value'}}" 
+                               class="_shieldInput _armorEndCurrent" />
+                        <input type="hidden" 
+                               name="system.armor.{{localization._id}}.lastValue" 
+                               value="{{armorValue localization._id 'lastValue'}}" />                               
+                    </div>
+                    <div class="_shieldB">
+                        <label>{{localize 'common.prot'}}</label>
+                        <input type="number" 
+                               name="system.armor.{{localization._id}}.protection" 
+                               value="{{armorValue localization._id 'protection'}}" 
+                               class="_shieldInput" />
+                        <input type="hidden" 
+                               name="system.armor.{{localization._id}}.lastItem" 
+                               value="{{armorValue localization._id 'lastItem'}}" />
+                    </div> 
+                </div>
+                </a>
+            {{/each}}
+
+        </div>
+    </div>
+</div>

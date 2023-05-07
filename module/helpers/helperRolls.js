@@ -76,8 +76,7 @@ export class helperRolls {
             worldConfig = oWorld.system.config;
 
       //Rolling
-      //let roll = new Roll(sFormula, {});
-      let roll = new Roll("99", {});
+      let roll = new Roll(sFormula, {});
       roll.evaluate({async: false});
       if (game.dice3d) {
           game.dice3d.showForRoll(roll);

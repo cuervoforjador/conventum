@@ -1,6 +1,9 @@
 {
   "Actor": {
-    "types": ["human"],
+    "types": [
+                "human",
+                "horse"
+             ],
     "templates": {
       "base": {
         "control": {
@@ -153,10 +156,14 @@
           },
           "appearance": ""
         },
-        "skills": {}
+        "skills": {},
+        "armor": {}
       }
     },
     "human": {
+      "templates": ["base"]
+    },
+    "horse": {
       "templates": ["base"]
     }
   },
@@ -170,7 +177,9 @@
         "stratum",
         "status",
         "skill",
-        "trait"
+        "trait",
+        "location",
+        "armor"
     ],
     "templates": {
       "base": {
@@ -343,6 +352,37 @@
           "apply": false      
         }
       }
+    },
+    "location": {
+      "templates": ["base"],
+      "actorType": "human",
+      "modDamage": "1",
+      "topLeft": {
+        "top": "0px",
+        "left": "0px"
+      }
+    },
+    "armor": {
+      "templates": ["base"],
+      "armorType": "02",
+      "protection": 0,
+      "endurance": 0,
+      "enduranceCurrent": 0,
+      "inUse": false,
+      "weight": "",
+      "requeriment": {
+        "apply": false,
+        "characteristic": "",
+        "minValue": "0"
+      },
+      "penalty": {
+        "skills": {},
+        "initiative": "",
+        "movement": ""
+      },
+      "actorType": "human",
+      "location": {},
+      "armor": {}      
     }
   }
 }

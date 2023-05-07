@@ -10,6 +10,8 @@ import { extendSheetStratum } from "./sheets/extendSheetStratum.js";
 import { extendSheetStatus } from "./sheets/extendSheetStatus.js";
 import { extendSheetSkill } from "./sheets/extendSheetSkill.js";
 import { extendSheetTrait } from "./sheets/extendSheetTrait.js";
+import { extendSheetLocation } from "./sheets/extendSheetLocation.js";
+import { extendSheetArmor } from "./sheets/extendSheetArmor.js";
 export class mainGameSheets {
 
     /**
@@ -48,5 +50,9 @@ export class mainGameSheets {
                                                          makeDefault: true });
         Items.registerSheet(_system, extendSheetTrait, { types: ['trait'],
                                                          makeDefault: true });
+        Items.registerSheet(_system, extendSheetLocation, { types: ['location'],
+                                                         makeDefault: true });      
+        Items.registerSheet(_system, extendSheetArmor, { types: ['armor'],
+                                                         makeDefault: true });                                                                                                                
     }
 }

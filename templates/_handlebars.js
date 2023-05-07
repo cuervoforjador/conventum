@@ -47,6 +47,13 @@ export class mainHandlebars {
          return oItem[property] ? oItem[property][sProperty] : '';
        });    
        
+       /**
+        * itemType
+        */
+       Handlebars.registerHelper("itemType", function(item, sType, options) {
+         return (item.type === sType);
+       }); 
+
       /**
        * checkedExtend
        */
@@ -60,7 +67,7 @@ export class mainHandlebars {
          if (sProperty === '')
             return (oItem[property]) ? 'checked' : '';
          else
-            return (oItem[property][sProperty]) ? 'checked' : '';
+            return (oItem && oItem[property] && oItem[property][sProperty]) ? 'checked' : '';
        });        
 
       /**
@@ -87,6 +94,32 @@ export class mainHandlebars {
        */
       Handlebars.registerHelper("skillValue", function(skill, options) {
          let actor = options.data.root.actor;
+       });
+
+      /**
+       * locationValue
+       */
+      Handlebars.registerHelper("locationValue", function(locationId, sValue, options) {
+         const location = options.data.root.backend.locations.find(e => e.id === locationId);
+         const systemData = options.data.root.data.system;
+         const armorData = systemData.armor[locationId];
+         if (sValue === 'img') return '';
+         if (sValue === 'name') return location.name;
+         if ( (sValue === 'total') ||
+              (sValue === 'value') ||
+              (sValue === 'protection') )
+                  return (armorData) ? armorData[sValue] : '';
+       });       
+
+      /**
+       * locationValue
+       */
+      Handlebars.registerHelper("armorValue", function(sLocation, sProperty, options) {
+         const systemData = options.data.root.systemData;
+         return ( systemData.armor && systemData.armor[sLocation] &&
+                  systemData.armor[sLocation][sProperty] ) ?
+                     systemData.armor[sLocation][sProperty] :
+                     '';
        });
 
    }

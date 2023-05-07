@@ -106,7 +106,23 @@
 			"path": "./packs/skills.db",
       "banner": "systems/conventum/image/content/compendium/bannerCompetentiae.png",
       "system": "conventum"
-		}           
+		},
+    {
+			"label": "Locis",
+			"type": "Item",
+			"name": "locations",
+			"path": "./packs/locations.db",
+      "banner": "systems/conventum/image/content/compendium/bannerLocis.png",
+      "system": "conventum"
+		},
+    {
+			"label": "Armis",
+			"type": "Item",
+			"name": "armor",
+			"path": "./packs/armor.db",
+      "banner": "systems/conventum/image/content/compendium/bannerArmis.png",
+      "system": "conventum"
+		}              
   ],
   "url": "https://github.com/cuervoforjador/conventum",
   "manifest": "https://github.com/cuervoforjador/conventum/releases/download/v01/system.json",
