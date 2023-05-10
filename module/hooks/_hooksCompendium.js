@@ -6,23 +6,27 @@ import { mainUtils } from "../mainUtils.js";
 
 export class HookCompendium {
 
+    static _compendiums = [
+        'conventum.worlds',
+        'conventum.kingdoms',
+        'conventum.societies',
+        'conventum.languages',
+        'conventum.cultures',
+        'conventum.stratums',
+        'conventum.status',
+        'conventum.skills',
+        'conventum.locations',
+        'conventum.armor'
+    ];
+
     /**
      * initCompendiums
      */
     static async initCompendiums() {
         if (!CONFIG.compendiumInitialized) {
-            let oWorlds = await game.packs.get('conventum.worlds');
-            oWorlds.getDocuments();
-
-            await game.packs.get('conventum.kingdoms').getDocuments();
-            await game.packs.get('conventum.societies').getDocuments();
-            await game.packs.get('conventum.languages').getDocuments();
-            await game.packs.get('conventum.cultures').getDocuments();
-            await game.packs.get('conventum.stratums').getDocuments();
-            await game.packs.get('conventum.status').getDocuments();
-            await game.packs.get('conventum.skills').getDocuments();
-            await game.packs.get('conventum.locations').getDocuments();
-            await game.packs.get('conventum.armor').getDocuments();
+            for (let i=0; i < HookCompendium._compendiums.length; i++) {
+                await game.packs.get(HookCompendium._compendiums[i])?.getDocuments();
+            }
             CONFIG.compendiumInitialized = true;
         }
     }
