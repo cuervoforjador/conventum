@@ -6,6 +6,10 @@ import { mainUtils } from "../mainUtils.js";
 
 export class HookCompendium {
 
+    static async initCompendiums() {
+        await game.packs.get('conventum.skills').getDocuments();
+    }
+
     /**
      * Styling Compendium List element 
      * @param {object} tab

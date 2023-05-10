@@ -30,6 +30,7 @@ export class mainHooks {
 
     static _setup() {
         mainConfig.translateConfig();
+        HookCompendium.initCompendiums();
         HookEvents.initialEvents();
         HookTours.initTour();        
     }
