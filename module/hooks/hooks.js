@@ -25,12 +25,13 @@ export class mainHooks {
         Hooks.on("renderItemSheet", (sheet, element, systemData) => this._renderItemSheet(sheet, element, systemData));
         Hooks.on("dropActorSheetData", (actor, sheet, item) => this._dropActorSheetData(actor, sheet, item));
         Hooks.on("renderDialog", (dialog, element, content) => this._renderDialog(dialog, element, content));
+        Hooks.on("renderApplication", (options, element, content) => this._renderApplication(options, element, content));
+        Hooks.on("getUserContextOptions", (element, content) => this._getUserContextOptions(element, content));
         
     }
 
     static _setup() {
         mainConfig.translateConfig();
-        HookCompendium.initCompendiums();
         HookEvents.initialEvents();
         HookTours.initTour();        
     }
@@ -76,4 +77,11 @@ export class mainHooks {
         HookMessage.changeColorButton(element, dialog.data.world);
     }
 
+    static async _renderApplication(options, element, content) {
+        //...
+    }
+
+    static async _getUserContextOptions(element, content) {
+        HookCompendium.initCompendiums();
+    }    
 }
