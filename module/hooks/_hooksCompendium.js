@@ -11,7 +11,9 @@ export class HookCompendium {
      */
     static async initCompendiums() {
         if (!CONFIG.compendiumInitialized) {
-            await game.packs.get('conventum.worlds').getDocuments();
+            let oWorlds = await game.packs.get('conventum.worlds');
+            oWorlds.getDocuments();
+
             await game.packs.get('conventum.kingdoms').getDocuments();
             await game.packs.get('conventum.societies').getDocuments();
             await game.packs.get('conventum.languages').getDocuments();
