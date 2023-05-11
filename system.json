@@ -122,7 +122,15 @@
 			"path": "./packs/armor.db",
       "banner": "systems/conventum/image/content/compendium/bannerArmis.png",
       "system": "conventum"
-		}              
+		},
+    {
+			"label": "Arma",
+			"type": "Item",
+			"name": "weapons",
+			"path": "./packs/weapons.db",
+      "banner": "systems/conventum/image/content/compendium/bannerArma.png",
+      "system": "conventum"
+		}
   ],
   "url": "https://github.com/cuervoforjador/conventum",
   "manifest": "https://github.com/cuervoforjador/conventum/releases/download/v01/system.json",

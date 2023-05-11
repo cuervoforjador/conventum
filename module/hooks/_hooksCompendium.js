@@ -6,6 +6,31 @@ import { mainUtils } from "../mainUtils.js";
 
 export class HookCompendium {
 
+    static _compendiums = [
+        'conventum.worlds',
+        'conventum.kingdoms',
+        'conventum.societies',
+        'conventum.languages',
+        'conventum.cultures',
+        'conventum.stratums',
+        'conventum.status',
+        'conventum.skills',
+        'conventum.locations',
+        'conventum.armor'
+    ];
+
+    /**
+     * initCompendiums
+     */
+    static async initCompendiums() {
+        if (!CONFIG.compendiumInitialized) {
+            for (let i=0; i < HookCompendium._compendiums.length; i++) {
+                await game.packs.get(HookCompendium._compendiums[i])?.getDocuments();
+            }
+            CONFIG.compendiumInitialized = true;
+        }
+    }
+
     /**
      * Styling Compendium List element 
      * @param {object} tab

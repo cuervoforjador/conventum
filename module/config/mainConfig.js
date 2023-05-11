@@ -24,6 +24,11 @@ export class mainConfig {
         oConfig.armorTypes.map(e => {
             e.name = game.i18n.localize(e.i18n)
         });
+
+        //Weapon Types
+        oConfig.weaponSizes.map(e => {
+            e.name = game.i18n.localize(e.i18n)
+        });        
     }
 
 }

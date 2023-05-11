@@ -43,5 +43,27 @@ export const extendConfig = {
             i18n: 'config.armorAnimal',
             name: ''
         }
+    ],
+    weaponSizes: [
+        {
+            id: '00',
+            i18n: 'config.weaponSizeNO',
+            name: ''
+        },        
+        {
+            id: '01',
+            i18n: 'config.weaponSizeLight',
+            name: ''
+        },
+        {
+            id: '02',
+            i18n: 'config.weaponSizeMiddle',
+            name: ''
+        },
+        {
+            id: '03',
+            i18n: 'config.weaponSizeHeavy',
+            name: ''
+        }      
     ]
 };

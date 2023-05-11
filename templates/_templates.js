@@ -25,6 +25,7 @@ export const preloadTemplates = async function() {
       itemExtendLanguages: CONFIG._root+"/templates/fragments/itemExtendLanguages.html",
       itemExtendSkill: CONFIG._root+"/templates/fragments/itemExtendSkill.html",
       itemExtendArmor: CONFIG._root+"/templates/fragments/itemExtendArmor.html",
+      itemExtendWeapon: CONFIG._root+"/templates/fragments/itemExtendWeapon.html"
 
   });
 };

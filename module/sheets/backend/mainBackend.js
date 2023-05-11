@@ -164,6 +164,21 @@ export class mainBackend {
     }
 
     /**
+     * Compendium Backend For Weapon Items...
+     */
+    static async getBackendForWeapon(systemData) {
+        return {
+            worlds: await game.packs.get("conventum.worlds").getDocuments(),
+            characteristics: this._getCharacteristics('primary', true),
+            actorTypes: this._getActorTypes(),
+            weaponSizes: this._getWeaponSizes(),
+            locations: await this._getLocations(systemData.control.world, systemData.actorType),
+            skills: await this._getSkills(systemData.control.world, true),
+            combatSkills: await this._getCombatSkills(systemData.control.world, true)
+        };
+    }
+
+    /**
      * _getSocieties
      * @param {*} sWorld 
      */
@@ -190,10 +205,41 @@ export class mainBackend {
     /**
      * _getSkills
      * @param {*} sWorld 
+     * @param {*} bFirstClear 
+     * @returns 
      */
-    static async _getSkills(sWorld) {
-        return this._getDocuments('skills', sWorld);
+    static async _getSkills(sWorld, bFirstClear) {
+        bFirstClear = (bFirstClear) ? true : false;
+
+        let mDocs = await this._getDocuments('skills', sWorld);
+        if (bFirstClear)
+            mDocs.unshift({
+                'id': '',
+                'name': '',
+                'value': {}
+            });            
+        return mDocs;
     }
+
+    /**
+     * _getCombatSkills
+     * @param {*} sWorld 
+     * @param {*} bFirstClear 
+     * @returns 
+     */
+    static async _getCombatSkills(sWorld, bFirstClear) {
+
+        bFirstClear = (bFirstClear) ? true : false;
+        let mDocs = (await this._getDocuments('skills', sWorld))
+                                .filter(e => e.system.combat.combat);
+        if (bFirstClear)
+            mDocs.unshift({
+                'id': '',
+                'name': '',
+                'value': {}
+            });
+        return mDocs;
+    }    
 
     /**
      * _getCultures
@@ -273,6 +319,13 @@ export class mainBackend {
      */
     static _getArmorTypes() {
         return CONFIG.ExtendConfig.armorTypes;
+    }
+
+    /**
+     * _getWeaponSizes
+     */
+    static _getWeaponSizes() {
+        return CONFIG.ExtendConfig.weaponSizes;
     }
 
     /**
