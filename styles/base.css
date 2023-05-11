@@ -330,6 +330,9 @@ input:checked + .sliderSwitch:before {
 ._marginLeft {
     margin-left: 10px!important;
 }
+._center {
+    text-align: center!important;
+}
 ._100 {
     width: 100%;
     min-width: 100%;
@@ -404,6 +407,16 @@ input:checked + .sliderSwitch:before {
     width: 50px;
     min-width: 50px;
     max-width: 50px;
+}
+._60px {
+    width: 60px;
+    min-width: 60px;
+    max-width: 60px;
+}
+._70px {
+    width: 70px;
+    min-width: 70px;
+    max-width: 70px;
 }
 ._80px {
     width: 80px;

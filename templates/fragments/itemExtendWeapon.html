@@ -1,0 +1,230 @@
+{{!-- Weapons --}}
+
+<div class="tab main" data-group="primary" data-tab="main">
+<slidePanel class="_100" style="height: 190px;">
+    <panelContent>
+        <hbox class="_mod _100">
+            <label class="_120px">{{localize "common.combatSkill" }}</label>
+            <select name="system.combatSkill">
+                {{selectOptions backend.combatSkills 
+                                selected=systemData.combatSkill
+                                localize=false
+                                nameAttr="id"
+                                labelAttr="name" }}
+            </select>            
+        </hbox>
+
+        <hbox class="_mod _100">
+            <label class="_120px">{{localize "common.otherSkill" }}</label>
+            <select name="system.secondSkill">
+                {{selectOptions backend.skills 
+                                selected=systemData.secondSkill
+                                localize=false
+                                nameAttr="id"
+                                labelAttr="name" }}
+            </select>            
+        </hbox>
+
+        <hbox class="_mod _100">
+            <label class="_120px">{{localize "common.characteristic" }}</label>
+            <select name="system.characteristics">
+                {{selectOptions backend.characteristics 
+                                selected=systemData.characteristics
+                                localize=false
+                                nameAttr="id"
+                                labelAttr="name" }}
+            </select>            
+        </hbox>
+
+        <hbox class="_mod _100">
+            <label class="_120px">{{localize "common.size" }}</label>
+            <select name="system.size">
+                {{selectOptions backend.weaponSizes 
+                                selected=systemData.size
+                                localize=false
+                                nameAttr="id"
+                                labelAttr="name" }}
+            </select>            
+        </hbox> 
+
+
+        <hbox class="_mod _100">
+            <label class="_120px">{{localize "common.weaponTypeContact" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.type.contact" 
+                        {{checked systemData.type.contact}} />
+                <span class="sliderSwitch"></span>
+            </label>     
+            <label class="_80px">{{localize "common.weaponType2Hands" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.type.2hands" 
+                        {{checked systemData.type.2hands}} />
+                <span class="sliderSwitch"></span>
+            </label>                    
+        </hbox>   
+
+        <hbox class="_mod _100">
+            <label class="_120px">{{localize "common.weaponTypeRange" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.type.range" 
+                        {{checked systemData.type.range}} />
+                <span class="sliderSwitch"></span>
+            </label>  
+            <label class="_80px">{{localize "common.weaponTypeFire" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.type.fire" 
+                        {{checked systemData.type.fire}} />
+                <span class="sliderSwitch"></span>
+            </label>                      
+        </hbox>   
+               
+    </panelContent>
+</slidePanel>
+</div>
+
+<div class="tab requirement" data-group="primary" data-tab="requirement">
+    <slidePanel class="_100" style="height: 190px;">
+        <panelContent>
+
+        <hbox class="_mod _100">
+            <label class="_80px">{{localize "common.weaponRequirement1" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.requeriment.primary.apply" 
+                        {{checked systemData.requeriment.primary.apply}} />
+                <span class="sliderSwitch"></span>
+            </label>             
+            <select class="_120px" name="system.requeriment.primary.characteristic">
+                {{selectOptions backend.characteristics 
+                                selected=systemData.requeriment.primary.characteristic
+                                localize=false
+                                nameAttr="id"
+                                labelAttr="name" }}
+            </select>
+            <input class="_40px _marginLeft _center" 
+                   name="system.requeriment.primary.minValue"
+                   value="{{systemData.requeriment.primary.minValue}}" 
+                   type="text" 
+                   data-dtype="Number"/>                                        
+        </hbox>     
+
+        <hbox class="_mod _100">
+            <label class="_80px">{{localize "common.weaponRequirement2" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.requeriment.secondary.apply" 
+                        {{checked systemData.requeriment.secondary.apply}} />
+                <span class="sliderSwitch"></span>
+            </label>             
+            <select class="_120px" name="system.requeriment.secondary.characteristic">
+                {{selectOptions backend.characteristics 
+                                selected=systemData.requeriment.secondary.characteristic
+                                localize=false
+                                nameAttr="id"
+                                labelAttr="name" }}
+            </select>
+            <input class="_40px _marginLeft _center" 
+                   name="system.requeriment.secondary.minValue"
+                   value="{{systemData.requeriment.secondary.minValue}}" 
+                   type="text" 
+                   data-dtype="Number"/>                                        
+        </hbox>
+
+    </panelContent>
+</slidePanel>
+</div>
+
+<div class="tab damage" data-group="primary" data-tab="damage">
+    <slidePanel class="_100" style="height: 190px;">
+        <panelContent>
+
+        <hbox class="_mod _100">
+            <label class="_80px">{{localize "common.damage" }}</label>
+            <input class="_150px _marginLeft" 
+                   name="system.damage"
+                   value="{{systemData.damage}}" 
+                   type="text" /> 
+        </hbox>
+        <hbox class="_mod _100">
+            <label class="_80px">{{localize "common.poison" }}</label>  
+            <label class="switch" style="margin-right: 10px; margin-left: 10px!important;">
+                <input type="checkbox" 
+                        name="system.poison.apply" 
+                        {{checked systemData.poison.apply}} />
+                <span class="sliderSwitch"></span>
+            </label>                   
+            <input class="_150px _marginLeft" 
+                   style="max-width: 95px!important;"
+                   name="system.poison.damage"
+                   value="{{systemData.poison.damage}}" 
+                   type="text" />
+    </panelContent>
+</slidePanel>
+</div>
+
+<div class="tab range" data-group="primary" data-tab="range">
+    <slidePanel class="_100" style="height: 190px;">
+        <panelContent>
+
+        <hbox class="_mod _100">
+            <label class="_150px">{{localize "common.weaponRangeByChar" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.range.byCharacteristic" 
+                        {{checked systemData.range.byCharacteristic}} />
+                <span class="sliderSwitch"></span>
+            </label>
+            <select name="system.range.characteristics" >
+                {{selectOptions backend.characteristics 
+                                selected=systemData.range.characteristics
+                                localize=false
+                                nameAttr="id"
+                                labelAttr="name" }}
+            </select>
+        </hbox>   
+
+        <hbox class="_mod _100">
+            <label class="_60px">{{localize "common.recharge" }}</label>
+            <input class="_60px _marginLeft _center" 
+                   name="system.recharge"
+                   value="{{systemData.recharge}}" 
+                   type="text" 
+                   data-dtype="Number"/> 
+        </hbox>
+
+        <hbox class="_mod _100">
+            <label class="_60px">{{localize "common.weaponLowRange" }}</label>
+            <input class="_60px _marginLeft _center" 
+                   name="system.range.lowRange"
+                   value="{{systemData.range.lowRange}}" 
+                   type="text" />           
+            <label class="_60px">{{localize "common.weaponMediumRange" }}</label>
+            <input class="_60px _marginLeft _center" 
+                    name="system.range.mediumRange"
+                    value="{{systemData.range.mediumRange}}" 
+                    type="text" />       
+            <label class="_60px">{{localize "common.weaponLargeRange" }}</label>
+            <input class="_60px _marginLeft _center" 
+                    name="system.range.largeRange"
+                    value="{{systemData.range.largeRange}}" 
+                    type="text" />
+        </hbox>   
+        
+        {{!-- Hiddens ---}}
+        <input name="system.inHands.inLeftHand"
+               value="{{systemData.inHands.inLeftHand}}" 
+               type="hidden" /> 
+        <input name="system.inHands.inRightHand"
+               value="{{systemData.inHands.inRightHand}}" 
+               type="hidden" /> 
+        <input name="system.inHands.inBothHands"
+               value="{{systemData.inHands.inBothHands}}" 
+               type="hidden" />             
+        
+    </panelContent>
+</slidePanel>
+</div>

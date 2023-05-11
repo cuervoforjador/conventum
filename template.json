@@ -179,7 +179,8 @@
         "skill",
         "trait",
         "location",
-        "armor"
+        "armor",
+        "weapon"
     ],
     "templates": {
       "base": {
@@ -369,7 +370,6 @@
       "endurance": 0,
       "enduranceCurrent": 0,
       "inUse": false,
-      "weight": "",
       "requeriment": {
         "apply": false,
         "characteristic": "",
@@ -382,7 +382,54 @@
       },
       "actorType": "human",
       "location": {},
-      "armor": {}      
+      "armor": {},
+      "weight": "",
+      "cost": ""   
+    },
+    "weapon": {
+      "templates": ["base"],
+      "combatSkill": "",
+      "secondSkill": "",
+      "characteristic": "",
+      "type": {
+        "contact": true,
+        "2hands": false,
+        "range": false,
+        "fire": false
+      },       
+      "size": "",
+      "requirement": {
+        "primary": {
+          "apply": false,
+          "characteristic": "",
+          "minValue": 0
+        },
+        "secondary": {
+          "apply": false,
+          "characteristic": "",
+          "minValue": 0
+        }
+      },
+      "damage": "",
+      "poison": {
+        "apply": false,
+        "damage": ""
+      },
+      "range": {
+          "byCharacteristic": false,
+          "characteristic": "",
+          "lowRange": "",
+          "mediumRange": "",
+          "largeRange": ""
+      },
+      "recharge": 0,
+      "inHands": {
+        "inLeftHand": false,
+        "inRightHand": false,
+        "inBothHands": false
+      },
+      "weight": "",
+      "cost": ""
     }
   }
 }

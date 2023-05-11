@@ -12,6 +12,7 @@ import { extendSheetSkill } from "./sheets/extendSheetSkill.js";
 import { extendSheetTrait } from "./sheets/extendSheetTrait.js";
 import { extendSheetLocation } from "./sheets/extendSheetLocation.js";
 import { extendSheetArmor } from "./sheets/extendSheetArmor.js";
+import { extendSheetWeapon } from "./sheets/extendSheetWeapon.js";
 export class mainGameSheets {
 
     /**
@@ -53,6 +54,8 @@ export class mainGameSheets {
         Items.registerSheet(_system, extendSheetLocation, { types: ['location'],
                                                          makeDefault: true });      
         Items.registerSheet(_system, extendSheetArmor, { types: ['armor'],
-                                                         makeDefault: true });                                                                                                                
+                                                         makeDefault: true });
+        Items.registerSheet(_system, extendSheetWeapon, { types: ['weapon'],
+                                                         makeDefault: true });                                                                                                                                                                       
     }
 }
