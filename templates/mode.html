@@ -1,0 +1,55 @@
+<form class="codex" 
+      autocomplete="off">
+
+    {{!-- FRAME --}}
+    {{> itemFrame }}
+    
+    {{!-- HEADER --}}
+    <itemHeader>
+             
+        {{!-- Filigrees --}}
+        <inkDetail class="inkCorner"></inkDetail>
+        <inkDetail class="inkSubline"></inkDetail>
+
+        {{!-- Image --}}
+        <itemImage>
+            <img src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+        </itemImage>
+
+        {{!-- Header Info --}}
+        <itemHeaderInfo>
+            <itemTitle>
+                <input type="text" name="name" value="{{item.name}}" placeholder=""/>
+            </itemTitle>
+            <itemSubHeader>
+                <hbox class="_subHeaderHBox">
+                    <label class="_80px">{{localize "common.world" }}</label>
+                    <select name="system.control.world">
+                        {{selectOptions backend.worlds 
+                                        selected=systemData.control.world
+                                        localize=false
+                                        nameAttr="id"
+                                        labelAttr="name" }}
+                    </select>
+                </hbox>                                                         
+            </itemSubHeader>
+        </itemHeaderInfo>
+    </itemHeader> 
+    
+    {{!-- CONTENT --}}
+    <itemContent>
+        <div class="frameContent">
+            <hbox class="_mod">
+                <label class="_120px">{{localize "common.actorType" }}</label>
+                <select name="system.actorType">
+                    {{selectOptions backend.actorTypes 
+                                    selected=systemData.actorType
+                                    localize=false
+                                    nameAttr="id"
+                                    labelAttr="name" }}
+                </select>
+            </hbox>
+        </div>        
+    </itemContent>
+    
+</form>

@@ -146,6 +146,11 @@
             }
           }
         },
+        "initiative": {
+          "value": 0,
+          "base": 0,
+          "mod": ""
+        },
         "status": {
           "life": {
             "healthy": true,
@@ -157,7 +162,10 @@
           "appearance": ""
         },
         "skills": {},
-        "armor": {}
+        "armor": {},
+        "action": {
+          "action": ""
+        }
       }
     },
     "human": {
@@ -169,6 +177,7 @@
   },
   "Item": {
     "types": [
+        "item",
         "world",
         "society",
         "kingdom",
@@ -179,8 +188,11 @@
         "skill",
         "trait",
         "location",
+        "mode",
         "armor",
-        "weapon"
+        "weapon",
+        "action",
+        "actionPool"
     ],
     "templates": {
       "base": {
@@ -228,6 +240,9 @@
           "fire": false
         }
       }
+    },
+    "item": {
+      "templates": ["base"]
     },
     "world": {
       "templates": ["base"],
@@ -295,6 +310,13 @@
           "failureMin": "100",
           "criticalSuccessStep": "01",
           "criticalFailureStep": "01"              
+        },
+        "actions": {
+          "fixedNumber": true,
+          "actionNumber": 2,
+          "initiativePercent": 0,
+          "penalFrom": 0,
+          "penaltyPorc": ""
         }
       }
     },
@@ -363,6 +385,10 @@
         "left": "0px"
       }
     },
+    "mode": {
+      "templates": ["base"],
+      "actorType": "human"   
+    },
     "armor": {
       "templates": ["base"],
       "armorType": "02",
@@ -388,6 +414,9 @@
     },
     "weapon": {
       "templates": ["base"],
+      "weight": "",
+      "cost": "",
+      "inUse": false,
       "combatSkill": "",
       "secondSkill": "",
       "characteristic": "",
@@ -395,7 +424,8 @@
         "contact": true,
         "2hands": false,
         "range": false,
-        "fire": false
+        "fire": false,
+        "shield": false
       },       
       "size": "",
       "requirement": {
@@ -411,6 +441,16 @@
         }
       },
       "damage": "",
+      "protection": 0,
+      "endurance": 0,
+      "enduranceCurrent": 0,
+      "actorType": "human",
+      "rangeLocation": {},
+      "penalty": {
+        "skills": {},
+        "initiative": "",
+        "movement": ""
+      },      
       "poison": {
         "apply": false,
         "damage": ""
@@ -427,9 +467,99 @@
         "inLeftHand": false,
         "inRightHand": false,
         "inBothHands": false
+      }
+    },
+    "action": {
+      "templates": ["base"],
+      "type": {
+        "attack": false,
+        "defense": false,
+        "movement": false,
+        "spell": false
       },
-      "weight": "",
-      "cost": ""
+      "steps": {
+        "actionSteps": 1
+      },      
+      "item": {
+        "weapon": {
+          "contact": false,
+          "range": false,
+          "shield": false,
+          "type": {
+            "bow": false,
+            "crossbow": false,
+            "knife": false,
+            "sword": false,
+            "longsword": false,
+            "axe": false,
+            "sling": false,
+            "spear": false,
+            "mace": false,
+            "stick": false,
+            "fight": false
+          },
+          "size": {
+            "light": false,
+            "middle": false,
+            "heavy": false
+          }
+        }
+      },
+      "target": {
+        "myself": false,
+        "combatants": true,
+        "lastPlayed": false,
+        "lastAttacker": false,
+        "lastDefender": false
+      },
+      "skill": {
+        "mod": {
+          "combatSkill": "",
+          "secondarySkill": "",
+          "targetCombatSkill": "",
+          "targetSecondarySkill": "",
+          "stack": false  
+        },
+        "applyRangePenal": true      
+      },
+      "damage": {
+        "mod": {
+          "damage": "",
+          "targetDamage": "",
+          "stack": false
+        }
+      },
+      "armor": {
+        "mod": {
+          "endurance": "",
+          "protection": "",
+          "targetEndurance": "",
+          "targetProtection": "",
+          "stack": false
+        },
+        "noEndurance": false,
+        "noProtection": false,
+        "targetNoEndurance": false,
+        "targetNoProtection": false,
+        "breakArmor": false
+      },
+      "location": {
+        "focusLocation": {},
+        "actorType": "human",
+        "askForLocation": false
+      },
+      "consume": {
+        "destroy1targetAction": false,
+        "destroyAllTargetActions": false
+      },
+      "rolls": {
+        "leveled": true
+      },
+      "modes": {}
+    },
+    "actionPool": {
+      "steps": [],
+      "combat": ""
     }
   }
 }

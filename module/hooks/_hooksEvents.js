@@ -1,6 +1,9 @@
 /**
  * EVENTS
  */
+
+import { helperSheetCombat } from "../sheets/helpers/helperSheetCombat.js";
+
 export class HookEvents {
 
     /**
@@ -11,7 +14,21 @@ export class HookEvents {
         //Show Info for skills (Chat Messages)
         $(document).on('click', 'a._infoSkill', function (event) {
             HookEvents._showSkill($(this).data('itemid'));
-        });        
+        });   
+        
+        //Show Info for items (Chat Messages)
+        $(document).on('click', 'a._showItem', function (event) {
+            HookEvents._showItem($(this).data('itemid'), $(this).data('actorid'));
+        });         
+
+        //Roll Damage (Chat Messages)
+        $(document).on('click', 'a._rollDamage', function (event) {
+            HookEvents._rollDamage($(this).data('weaponid'), 
+                                   $(this).data('actorid'),
+                                   $(this).data('targets'),
+                                   $(this).data('damage'),
+                                   $(event.currentTarget).parents('li.chat-message').data('messageId'));
+        });           
     }
 
     /**
@@ -99,5 +116,31 @@ export class HookEvents {
           editable: false
         });        
     }    
+
+    /**
+     * Display Item
+     * @param {*} langId 
+     */
+    static async _showItem(itemId, actorId) {
+        let item = null;
+        if (actorId) item = game.actors.get(actorId).items.get(itemId);
+                else item = game.items.get(itemId);
+        if (!item) return;
+
+        item.sheet.render(true, {
+          editable: game.user.isGM
+        });        
+    }     
+
+    /**
+     * _rollDamage
+     * @param {*} weaponId 
+     * @param {*} actorId 
+     * @param {*} sTargets 
+     * @param {*} sDamage 
+     */
+    static _rollDamage(weaponId, actorId, sTargets, sDamage, messageId) {
+        helperSheetCombat.rollDamage(weaponId, actorId, sTargets, sDamage, messageId);
+    }
 
 }

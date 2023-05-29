@@ -26,9 +26,14 @@ export class mainConfig {
         });
 
         //Weapon Types
-        oConfig.weaponSizes.map(e => {
+        oConfig.weaponTypes.map(e => {
             e.name = game.i18n.localize(e.i18n)
         });        
+
+        //Weapon Sizes
+        oConfig.weaponSizes.map(e => {
+            e.name = game.i18n.localize(e.i18n)
+        });         
     }
 
 }

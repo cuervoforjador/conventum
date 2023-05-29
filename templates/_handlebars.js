@@ -90,10 +90,17 @@ export class mainHandlebars {
        });        
 
       /**
-       * skillValue
+       * getWeaponSkill
        */
-      Handlebars.registerHelper("skillValue", function(skill, options) {
-         let actor = options.data.root.actor;
+      Handlebars.registerHelper("getWeaponSkill", function(weapon, options) {
+         const systemData = options.data.root.data.system;
+         const weaponData = weapon.system;
+
+         return (weaponData.combatSkill != '') ? 
+                     systemData.skills[weaponData.combatSkill].value :
+                (weaponData.secondSkill != '') ?
+                     systemData.skills[weaponData.secondSkill].value :
+                     '';
        });
 
       /**
@@ -102,7 +109,7 @@ export class mainHandlebars {
       Handlebars.registerHelper("locationValue", function(locationId, sValue, options) {
          const location = options.data.root.backend.locations.find(e => e.id === locationId);
          const systemData = options.data.root.data.system;
-         const armorData = systemData.armor[locationId];
+         const armorData = (systemData.armor) ? systemData.armor[locationId] : null;
          if (sValue === 'img') return '';
          if (sValue === 'name') return location.name;
          if ( (sValue === 'total') ||
@@ -112,7 +119,17 @@ export class mainHandlebars {
        });       
 
       /**
-       * locationValue
+       * modeValue
+       */
+      Handlebars.registerHelper("modeValue", function(modeId, sValue, options) {
+         const mode = options.data.root.backend.modes.find(e => e.id === modeId);
+         const systemData = options.data.root.data.system;
+         if (sValue === 'img') return '';
+         if (sValue === 'name') return mode.name;
+       }); 
+
+      /**
+       * armorValue
        */
       Handlebars.registerHelper("armorValue", function(sLocation, sProperty, options) {
          const systemData = options.data.root.systemData;
@@ -121,6 +138,35 @@ export class mainHandlebars {
                      systemData.armor[sLocation][sProperty] :
                      '';
        });
+
+      /**
+       * getActorProperty
+       */
+      Handlebars.registerHelper("getActorProperty", function(actorId, sProperty, options) {
+         let oProperty = game.actors.get(actorId);
+         if (!oProperty) return;
+         
+         sProperty.split('.').forEach(s => {
+            oProperty = oProperty[s];
+         })
+         return oProperty;
+       });       
+
+      /**
+       * getItemProperty
+       */
+      Handlebars.registerHelper("getActorItemProperty", function(actorId, itemId, sProperty, options) {
+         let oActor = game.actors.get(actorId);
+         if (!oActor) return;
+
+         let oProperty = oActor.items.get(itemId);
+         if (!oProperty) return;
+         
+         sProperty.split('.').forEach(s => {
+            oProperty = oProperty[s];
+         })
+         return oProperty;
+       });       
 
    }
 

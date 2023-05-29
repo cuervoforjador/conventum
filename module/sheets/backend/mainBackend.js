@@ -150,6 +150,16 @@ export class mainBackend {
     }
 
     /**
+     * Compendium Backend For Modes Items...
+     */
+    static async getBackendForMode() {
+        return {
+            worlds: await game.packs.get("conventum.worlds").getDocuments(),
+            actorTypes: this._getActorTypes()
+        };
+    }    
+
+    /**
      * Compendium Backend For Armor Items...
      */
     static async getBackendForArmor(systemData) {
@@ -174,7 +184,49 @@ export class mainBackend {
             weaponSizes: this._getWeaponSizes(),
             locations: await this._getLocations(systemData.control.world, systemData.actorType),
             skills: await this._getSkills(systemData.control.world, true),
+            skillsPenal: await this._getSkills(systemData.control.world),
             combatSkills: await this._getCombatSkills(systemData.control.world, true)
+        };
+    }
+
+    /**
+     * Compendium Backend For Actions Items...
+     */
+    static async getBackendForAction(systemData) {
+        return {
+            worlds: await game.packs.get("conventum.worlds").getDocuments(),
+            characteristics: this._getCharacteristics('primary', true),
+            actorTypes: this._getActorTypes(),
+            weaponTypes: this._getWeaponTypes(),
+            weaponSizes: this._getWeaponSizes(),
+            locations: await this._getLocations(systemData.control.world, systemData.location.actorType),
+            modes: await this._getModes(systemData.control.world),
+            skills: await this._getSkills(systemData.control.world, true),
+            combatSkills: await this._getCombatSkills(systemData.control.world, true)
+        };
+    }
+
+    /**
+     * Compendium Backend For Action Pools Combat Items...
+     */
+    static async getBackendForActionPool(systemData) {
+        return {
+            worlds: await game.packs.get("conventum.worlds").getDocuments(),
+            characteristics: this._getCharacteristics('primary', true),
+            actorTypes: this._getActorTypes(),
+            weaponSizes: this._getWeaponSizes(),
+            locations: await this._getLocations(systemData.control.world, systemData.actorType),
+            skills: await this._getSkills(systemData.control.world, true),
+            combatSkills: await this._getCombatSkills(systemData.control.world, true)
+        };
+    }
+
+    /**
+     * Compendium Backend For Standard Items...
+     */
+    static async getBackendForItem(systemData) {
+        return {
+            worlds: await game.packs.get("conventum.worlds").getDocuments()
         };
     }
 
@@ -301,6 +353,17 @@ export class mainBackend {
     }
 
     /**
+     * _getModes
+     * @param {*} sWorld 
+     * @param {*} sActorType 
+     * @returns 
+     */
+    static async _getModes(sWorld) {
+        let mModes = await this._getDocuments('modes', sWorld);
+        return mModes;
+    }
+
+    /**
      * _getActorTypes
      */
     static _getActorTypes() {
@@ -319,6 +382,13 @@ export class mainBackend {
      */
     static _getArmorTypes() {
         return CONFIG.ExtendConfig.armorTypes;
+    }
+
+    /**
+     * _getWeaponTypes
+     */
+    static _getWeaponTypes() {
+        return CONFIG.ExtendConfig.weaponTypes;
     }
 
     /**

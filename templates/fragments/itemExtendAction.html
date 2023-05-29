@@ -1,0 +1,500 @@
+{{!-- TYPE --}}
+<div class="tab type" data-group="primary" data-tab="type">
+<slidePanel class="_100">
+    <panelContent>
+
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.attack" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.type.attack" 
+                        {{checked systemData.type.attack}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.defense" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.type.defense" 
+                        {{checked systemData.type.defense}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.movement" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.type.movement" 
+                        {{checked systemData.type.movement}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.spell" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.type.spell" 
+                        {{checked systemData.type.spell}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>        
+
+    </panelContent>
+</slidePanel>
+</div>
+
+{{!-- STEPS --}}
+<div class="tab steps" data-group="primary" data-tab="steps">
+<slidePanel class="_100">
+    <panelContent>
+               
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.steps" }}</label>
+            <input class="_100px" 
+                   name="system.steps.actionSteps"
+                   value="{{systemData.steps.actionSteps}}" 
+                   type="text" />          
+        </hbox>
+
+    </panelContent>
+</slidePanel>
+</div>
+
+{{!-- ITEM --}}
+<div class="tab item" data-group="primary" data-tab="item">
+<slidePanel class="_100">
+    <panelContent>
+
+        
+        <h3 class="_100">{{localize "common.weapons"}}</h3>
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.contact" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.item.weapon.contact" 
+                        {{checked systemData.item.weapon.contact}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.rangeWeapon" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.item.weapon.range" 
+                        {{checked systemData.item.weapon.range}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>        
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.shield" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.item.weapon.shield" 
+                        {{checked systemData.item.weapon.shield}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>
+
+        <h3 class="_100">{{localize "common.type"}}</h3>
+        {{#each backend.weaponTypes as |weaponType id|}}
+            <hbox class="_50">
+                <label class="_150px">{{weaponType.name}}</label>
+                <label class="switch" style="margin-right: 10px">
+                    <input type="checkbox" 
+                        name="system.item.weapon.type.{{weaponType.id}}" 
+                        {{checkedExtend 'systemData.item.weapon.type' weaponType.id ''}} />
+                    <span class="sliderSwitch"></span>
+                </label>     
+            </hbox>
+        {{/each}}
+
+
+        <h3 class="_100">{{localize "common.size"}}</h3>
+        <hbox class="_50">
+            <label class="_150px">{{localize "config.weaponSizeLight" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.item.weapon.size.light" 
+                        {{checked systemData.item.weapon.size.light}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>
+        <hbox class="_50">
+            <label class="_150px">{{localize "config.weaponSizeMiddle" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.item.weapon.size.middle" 
+                        {{checked systemData.item.weapon.size.middle}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>
+        <hbox class="_50">
+            <label class="_150px">{{localize "config.weaponSizeHeavy" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.item.weapon.size.heavy" 
+                        {{checked systemData.item.weapon.size.heavy}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>        
+
+    </panelContent>
+</slidePanel>
+</div>
+
+{{!-- TARGET --}}
+<div class="tab target" data-group="primary" data-tab="target">
+<slidePanel class="_100">
+    <panelContent>
+               
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.targetMySelf" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.target.myself" 
+                        {{checked systemData.target.myself}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox> 
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.targetCombatants" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.target.combatants" 
+                        {{checked systemData.target.combatants}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>     
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.targetLastPlayed" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.target.lastPlayed" 
+                        {{checked systemData.target.lastPlayed}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>             
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.targetLastAttacker" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.target.lastAttacker" 
+                        {{checked systemData.target.lastAttacker}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>    
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.targetLastDefender" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.target.lastDefender" 
+                        {{checked systemData.target.lastDefender}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>              
+
+    </panelContent>
+</slidePanel>
+</div>
+
+{{!-- SKILL --}}
+<div class="tab skill" data-group="primary" data-tab="skill">
+<slidePanel class="_100">
+    <panelContent>
+             
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.modCombatSkill" }}</label>
+            <input class="_100px" 
+                   name="system.skill.mod.combatSkill"
+                   value="{{systemData.skill.mod.combatSkill}}" 
+                   type="text" />            
+        </hbox>    
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.modSecondarySkill" }}</label>
+            <input class="_100px" 
+                   name="system.skill.mod.secondarySkill"
+                   value="{{systemData.skill.mod.secondarySkill}}" 
+                   type="text" />            
+        </hbox>             
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.modTargetCombatSkill" }}</label>
+            <input class="_100px" 
+                   name="system.skill.mod.targetCombatSkill"
+                   value="{{systemData.skill.mod.targetCombatSkill}}" 
+                   type="text" />           
+        </hbox>
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.modTargetSecondSkill" }}</label>
+            <input class="_100px" 
+                   name="system.skill.mod.targetSecondarySkill"
+                   value="{{systemData.skill.mod.targetSecondarySkill}}" 
+                   type="text" />            
+        </hbox>     
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.stack" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.skill.mod.stack" 
+                        {{checked systemData.skill.mod.stack}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>     
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.applyRangePenal" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.skill.applyRangePenal" 
+                        {{checked systemData.skill.applyRangePenal}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>               
+
+    </panelContent>
+</slidePanel>
+</div>
+
+{{!-- DAMAGE --}}
+<div class="tab damage" data-group="primary" data-tab="damage">
+<slidePanel class="_100">
+    <panelContent>
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.modDamage" }}</label>
+            <input class="_100px" 
+                   name="system.damage.mod.damage"
+                   value="{{systemData.damage.mod.damage}}" 
+                   type="text" />            
+        </hbox>   
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.modTargetDamage" }}</label>
+            <input class="_100px" 
+                   name="system.damage.mod.targetDamage"
+                   value="{{systemData.damage.mod.targetDamage}}" 
+                   type="text" />            
+        </hbox>
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.stack" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.damage.mod.stack" 
+                        {{checked systemData.damage.mod.stack}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>                             
+    </panelContent>
+</slidePanel>
+</div>
+
+{{!-- ARMOR --}}
+<div class="tab armor" data-group="primary" data-tab="armor">
+<slidePanel class="_100">
+    <panelContent>
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.modEndurance" }}</label>
+            <input class="_100px" 
+                   name="system.armor.mod.endurance"
+                   value="{{systemData.armor.mod.endurance}}" 
+                   type="text" />            
+        </hbox>        
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.modProtection" }}</label>
+            <input class="_100px" 
+                   name="system.armor.mod.protection"
+                   value="{{systemData.armor.mod.protection}}" 
+                   type="text" />            
+        </hbox> 
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.modTargetEndurance" }}</label>
+            <input class="_100px" 
+                   name="system.armor.mod.targetEndurance"
+                   value="{{systemData.armor.mod.targetEndurance}}" 
+                   type="text" />            
+        </hbox>        
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.modTargetProtection" }}</label>
+            <input class="_100px" 
+                   name="system.armor.mod.targetProtection"
+                   value="{{systemData.armor.mod.targetProtection}}" 
+                   type="text" />            
+        </hbox>
+        <hbox class="_100">
+            <label class="_150px">{{localize "common.stack" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.armor.mod.stack" 
+                        {{checked systemData.armor.mod.stack}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>   
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.noEndurance" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.armor.noEndurance" 
+                        {{checked systemData.armor.noEndurance}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>     
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.noProtection" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.armor.noProtection" 
+                        {{checked systemData.armor.noProtection}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>  
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.noTargetEndurance" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.armor.targetNoEndurance" 
+                        {{checked systemData.armor.targetNoEndurance}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>     
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.noTargetProtection" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.armor.targetNoProtection" 
+                        {{checked systemData.armor.targetNoProtection}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox> 
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.breakArmor" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.armor.breakArmor" 
+                        {{checked systemData.armor.breakArmor}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>                                                 
+    </panelContent>
+</slidePanel>
+</div>
+
+{{!-- LOCATION --}}
+<div class="tab location" data-group="primary" data-tab="location">
+<slidePanel class="_100">
+    <panelContent>
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.actorType" }}</label>
+            <select name="system.location.actorType">
+                {{selectOptions backend.actorTypes 
+                                selected=systemData.location.actorType
+                                localize=false
+                                nameAttr="id"
+                                labelAttr="name" }}
+            </select>            
+        </hbox>         
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.askForLocation" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.location.askForLocation" 
+                        {{checked systemData.location.askForLocation}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox> 
+        <lineDiv></lineDiv>
+        {{#each backend.locations as |localization id|}}           
+        <hbox class="_50">
+            <label class="_150px">{{locationValue localization._id 'name'}}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                    name="system.location.focusLocation.{{localization._id}}.apply" 
+                    {{checkedExtend 'systemData.location.focusLocation' localization._id 'apply'}} />
+                <span class="sliderSwitch"></span>
+            </label>
+        </hbox>
+        {{/each}}                     
+    </panelContent>
+</slidePanel>
+</div>
+
+{{!-- CONSUME --}}
+<div class="tab consume" data-group="primary" data-tab="consume">
+<slidePanel class="_100">
+    <panelContent>
+        
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.dest1targetAction" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.consume.destroy1targetAction" 
+                        {{checked systemData.consume.destroy1targetAction}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.destAllTargetActions" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.consume.destroyAllTargetActions" 
+                        {{checked systemData.consume.destroyAllTargetActions}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>        
+
+    </panelContent>
+</slidePanel>
+</div>
+
+{{!-- ROLLS --}}
+<div class="tab rolls" data-group="primary" data-tab="rolls">
+<slidePanel class="_100">
+    <panelContent>
+        
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.rollLevel" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.rolls.leveled" 
+                        {{checked systemData.rolls.leveled}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>        
+
+    </panelContent>
+</slidePanel>
+</div>
+
+{{!-- MODES --}}
+<div class="tab states" data-group="primary" data-tab="states">
+<slidePanel class="_100">
+    <panelContent>
+        {{#each backend.modes as |mode id|}}           
+            <hbox class="_50">
+                <label class="_150px" style="font-size: 13px; font-weight: 900;">{{modeValue mode._id 'name'}}</label>
+                <label class="switch" style="margin-right: 10px">
+                    <input type="checkbox" 
+                        name="system.modes.{{mode._id}}.active" 
+                        {{checkedExtend 'systemData.modes' mode._id 'active'}} />
+                    <span class="sliderSwitch"></span>
+                </label>
+            </hbox>
+            <hbox class="_50">
+                <label class="_150px">{{localize "common.modeBreak" }}</label>
+                <label class="switch" style="margin-right: 10px">
+                    <input type="checkbox" 
+                        name="system.modes.{{mode._id}}.break" 
+                        {{checkedExtend 'systemData.modes' mode._id 'break'}} />
+                    <span class="sliderSwitch"></span>
+                </label>
+            </hbox>    
+            <hbox class="_50">
+                <label class="_150px">{{localize "common.modeAllowed" }}</label>
+                <label class="switch" style="margin-right: 10px">
+                    <input type="checkbox" 
+                        name="system.modes.{{mode._id}}.allowed" 
+                        {{checkedExtend 'systemData.modes' mode._id 'allowed'}} />
+                    <span class="sliderSwitch"></span>
+                </label>
+            </hbox>
+            <lineDiv></lineDiv>
+        {{/each}}                     
+    </panelContent>
+</slidePanel>
+</div>

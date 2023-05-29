@@ -7,6 +7,7 @@ import { HookCompendium } from "./_hooksCompendium.js";
 import { HookActor } from "./_hooksActor.js";
 import { HookEvents } from "./_hooksEvents.js";
 import { HookMessage } from "./_hooksMessage.js";
+import { HookCombat } from "./_hooksCombat.js";
 import { HookTours } from "./_hooksTours.js";
 
 
@@ -27,7 +28,8 @@ export class mainHooks {
         Hooks.on("renderDialog", (dialog, element, content) => this._renderDialog(dialog, element, content));
         Hooks.on("renderApplication", (options, element, content) => this._renderApplication(options, element, content));
         Hooks.on("getUserContextOptions", (element, content) => this._getUserContextOptions(element, content));
-        
+        Hooks.on("getCombatTrackerEntryContext", (html, options) => this._getCombatTrackerEntryContext(html, options));
+        Hooks.on("renderCombatTracker", (tracker, html, options) => this._renderCombatTracker(tracker, html, options));
     }
 
     static _setup() {
@@ -50,6 +52,9 @@ export class mainHooks {
             HookCompendium._stylingLiCompendium(tab);
             HookEvents.compendiumEvent();
         }
+        if ( tab.tabName === 'combat' ) {
+            HookCombat.changeCombatTabHtml(tab._element);
+        }
     }
 
     static _renderItemSheet(sheet, element, systemData) {
@@ -62,6 +67,16 @@ export class mainHooks {
             const mO = item.uuid.split('.');
             const sType = mO[mO.length-2];
             
+            //No Human Items...
+            if (CONFIG.ExtendConfig.noHumanItems.find(e => e === sType)) {
+                new Dialog({
+                    title: game.i18n.localize("common.config"),
+                    content: game.i18n.localize("info.noHumanAction"),
+                    buttons: {}
+                  }).render(true);                
+                return;
+            }
+
             if (sType === 'trait')
                 await HookActor.addTrait(oItem, actor, sheet);
         }
@@ -74,7 +89,11 @@ export class mainHooks {
             HookMessage.translateTypes(element);    
 
         //Rolling Message
-        HookMessage.changeColorButton(element, dialog.data.world);
+            HookMessage.changeColorButton(element, dialog.data.world);
+
+        //Targets Dialog
+        if (element.hasClass('_targetDialogs'))
+            HookCombat.targetDialogs(dialog, element, content);
     }
 
     static async _renderApplication(options, element, content) {
@@ -84,4 +103,12 @@ export class mainHooks {
     static async _getUserContextOptions(element, content) {
         HookCompendium.initCompendiums();
     }    
+
+    static _getCombatTrackerEntryContext(html, options) {
+        HookCombat.changeCombatTabHtml(html);
+    }    
+
+    static _renderCombatTracker(tracker, html, options) {
+        HookCombat.changeCombatTabHtml(html);
+    }
 }

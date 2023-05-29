@@ -9,6 +9,8 @@ export const preloadTemplates = async function() {
       humanPageCombat: CONFIG._root+"/templates/fragments/humanPageCombat.html",
       humanPageArmor: CONFIG._root+"/templates/fragments/humanPageArmor.html",
       humanPageItems: CONFIG._root+"/templates/fragments/humanPageItems.html",
+      humanPosterActions: CONFIG._root+"/templates/fragments/humanPosterActions.html",
+      humanPosterTargets: CONFIG._root+"/templates/fragments/humanPosterTargets.html",
       humanHeader: CONFIG._root+"/templates/fragments/humanHeader.html",
       humanCharPrimary: CONFIG._root+"/templates/fragments/humanCharPrimary.html",
       humanCharSecondary: CONFIG._root+"/templates/fragments/humanCharSecondary.html",
@@ -25,7 +27,8 @@ export const preloadTemplates = async function() {
       itemExtendLanguages: CONFIG._root+"/templates/fragments/itemExtendLanguages.html",
       itemExtendSkill: CONFIG._root+"/templates/fragments/itemExtendSkill.html",
       itemExtendArmor: CONFIG._root+"/templates/fragments/itemExtendArmor.html",
-      itemExtendWeapon: CONFIG._root+"/templates/fragments/itemExtendWeapon.html"
+      itemExtendWeapon: CONFIG._root+"/templates/fragments/itemExtendWeapon.html",
+      itemExtendAction: CONFIG._root+"/templates/fragments/itemExtendAction.html"
 
   });
 };

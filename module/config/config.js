@@ -6,6 +6,19 @@ export const extendConfig = {
     },
     version10: false,
     version11: false,
+    noHumanItems: [
+        "worlds",
+        "societies",
+        "kingdoms",
+        "cultures",
+        "languages",
+        "stratums",
+        "status",
+        "skills",
+        "locations",
+        "modes",
+        "actionPool"
+    ],
     frames: [
         "standard",
         "catholicae",
@@ -44,6 +57,68 @@ export const extendConfig = {
             name: ''
         }
     ],
+    weaponTypes: [
+        {
+            id: 'bow',
+            i18n: 'common.bows',
+            name: ''
+        },        
+        {
+            id: 'crossbow',
+            i18n: 'common.crossbows',
+            name: ''
+        },
+        {
+            id: 'knife',
+            i18n: 'common.knifes',
+            name: ''
+        },
+        {
+            id: 'sword',
+            i18n: 'common.swords',
+            name: ''
+        },
+        {
+            id: 'longsword',
+            i18n: 'common.longswords',
+            name: ''
+        },
+        {
+            id: 'axe',
+            i18n: 'common.axes',
+            name: ''
+        },
+        {
+            id: 'sling',
+            i18n: 'common.slings',
+            name: ''
+        },
+        {
+            id: 'spear',
+            i18n: 'common.spears',
+            name: ''
+        },
+        {
+            id: 'mace',
+            i18n: 'common.maces',
+            name: ''
+        },
+        {
+            id: 'stick',
+            i18n: 'common.sticks',
+            name: ''
+        },      
+        {
+            id: 'shield',
+            i18n: 'common.shields',
+            name: ''
+        },                                                   
+        {
+            id: 'fight',
+            i18n: 'common.fight',
+            name: ''
+        },             
+    ],    
     weaponSizes: [
         {
             id: '00',

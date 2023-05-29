@@ -180,3 +180,15 @@ section.window-content._v10 {
     border: 1px solid #3333333b;
     border-radius: 1px;
 }
+
+/* Others */
+.compendium ._infoDamage {
+    position: relative;
+    width: 100px;
+    height: 40px;
+    margin-left: -100px;
+    margin-top: -40px;
+    top: 13px;
+    left: -46px;
+    font-family: 'Almendra';
+}

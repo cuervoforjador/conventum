@@ -1,4 +1,19 @@
 
+/* BASE */
+h2 {
+    font-family: 'Almendra';
+    line-height: 34px;
+    font-size: 20px;
+    padding-bottom: 0px;
+    padding-top: 8px;
+}
+h2::first-letter {
+    color: #8d2929;
+    font-size: 33px;
+    font-weight: 900;
+    position: relative;
+}
+
 /* ITEMS */
 itemHeader {
     width: 100%;
@@ -9,6 +24,7 @@ itemHeader {
 itemHeader._chrome {
     display: flex;
     flex-direction: initial;
+    height: 100%;
 }
 itemImage {
     padding: 0px!important;
@@ -18,8 +34,8 @@ itemImage {
 }
 ._chrome itemimage {
     width: 218px;
-    height: 340px;
-    border-right: 4px solid #333;
+    height: 100%;
+    border-right: 0px solid #333;
 }
 itemImage img {
     margin-left: -1px;
@@ -30,9 +46,9 @@ itemImage img {
     border: 3px solid #181817;
 }
 ._chrome itemImage img {
-    width: 100%;
-    height: 100%;
-    border: 0px;
+    width: 218px;
+    height: 340px;
+    border: 4px solid #894b4bde;
 }
 itemHeaderInfo {
     width: calc(100% - 155px);
@@ -41,6 +57,24 @@ itemHeaderInfo {
 }
 ._chrome itemheaderinfo {
     width: calc(100% - 225px);
+}
+._chrome panelcontent {
+    margin-top: 5px;
+    background: none!important;
+}
+._chrome panelcontent hbox {
+    padding-top: 6px;
+}
+._chrome panelcontent hbox label {
+    width: 120px;
+}
+._chrome panelcontent h3 {
+    font-family: 'Almendra';
+    padding-top: 7px;
+}
+._chrome panelcontent hbox input {
+    border: 1px solid #33333380!important;
+    font-family: 'Almendra', serif;
 }
 
 itemTitle {
@@ -275,6 +309,17 @@ slidepanel panelcontent {
 panelcontent hbox {
     padding-right: 12px;
 }
+lineDiv {
+    width: 100%;
+    border-bottom: 1px solid #5e141438;
+    padding-top: 12px;
+    margin-bottom: 6px;
+}
+img._icon {
+    width: 40px;
+    height: 40px;
+    border: 0px!important;
+}
 
 /* SWITCH */
 .switch {
@@ -324,6 +369,77 @@ input:checked + .sliderSwitch:before {
     -webkit-transform: translateX(14px);
     -ms-transform: translateX(14px);
     transform: translateX(14px);
+}
+
+/* Messages */
+.dialog-content {
+    font-family: 'Almendra';
+    font-size: 16px;
+    line-height: 18px;
+    text-align: justify;
+}
+.dialog-content::first-letter {
+    font-size: 24px;
+}
+
+/* Tooltips */
+  .tooltip {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  .tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+  }
+  
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+  }
+
+/* Others... */
+label._infoText {
+    padding-left: 15px;
+    line-height: 18px;
+    color: #0000009c;
+}
+
+ul {
+    list-style-type:none;
+}
+
+a img {
+    transition: 0.8s;
+}
+._valid {
+    color: rgb(70, 134, 70);
+}
+._invalid {
+    color: rgb(148, 64, 64);
 }
 
 /* COMMONS */
@@ -422,6 +538,16 @@ input:checked + .sliderSwitch:before {
     width: 80px;
     min-width: 80px;
     max-width: 80px;
+}
+._90px {
+    width: 90px;
+    min-width: 90px;
+    max-width: 90px;
+}
+._100px {
+    width: 100px;
+    min-width: 100px;
+    max-width: 100px;
 }
 ._120px {
     width: 120px;

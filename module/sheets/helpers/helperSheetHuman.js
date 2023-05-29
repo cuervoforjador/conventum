@@ -249,5 +249,36 @@ export class helperSheetHuman {
     //...
   }
 
+  /**
+   * calcInitiative
+   * @param {*} actor 
+   * @returns 
+   */
+  static calcInitiative(actor) {
+
+    const actionItem = (actor.system.action.lastAction) ?
+                          actor.items.get(actor.system.action.lastAction) : 
+                          null;
+
+    const subItem = (actor.system.action.subItem) ? 
+                        actor.items.get(actor.system.action.subItem) : 
+                        null;
+        
+    const nBase = Number(actor.system.characteristics.primary.agi.value);
+    const nModificator = 0;
+    const nInitiative = nBase + Number(nModificator);
+                    
+    if (actor.permission > 0) {
+        actor.update({
+            data: { iniative: {
+                    value: nInitiative } }
+        });
+    }
+    return {
+        base: nBase.toString(),
+        mod: nModificator.toString(),
+        initiative: nInitiative.toString()
+    };
+}      
 
 }

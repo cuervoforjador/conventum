@@ -32,6 +32,17 @@ export class extendSheetWorld extends ItemSheet {
     context.mRollDice = ['level1', 'level2', 'level3', 'level4', 'level5',
                          'level6', 'level7', 'level8', 'level9'];
 
+    //Mechanics...
+    let systemData = context.systemData;
+
+    if (!systemData.config.actions.fixedNumber)
+            systemData.config.actions.actionNumber = 0;
+    if (systemData.config.actions.fixedNumber) {
+            systemData.config.actions.initiativePercent = 0;
+            systemData.config.actions.penalFrom = 0;
+            systemData.config.actions.penaltyPorc = '';
+    }
+
     return context;
   }
 

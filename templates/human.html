@@ -18,4 +18,12 @@
       </section>
     </div>
 
+    {{#if actions.showPoster }}
+      {{> humanPosterActions }}
+    {{/if}}
+
+    {{#if targets.showTargets }}
+      {{> humanPosterTargets }}
+    {{/if}}
+
 </form>

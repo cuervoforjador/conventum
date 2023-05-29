@@ -16,7 +16,10 @@ export class HookCompendium {
         'conventum.status',
         'conventum.skills',
         'conventum.locations',
-        'conventum.armor'
+        'conventum.modes',
+        'conventum.armor',
+        'conventum.weapons',
+        'conventum.actions'
     ];
 
     /**
@@ -149,7 +152,8 @@ export class HookCompendium {
              (sPack === 'conventum.cultures') ||
              (sPack === 'conventum.stratums') ||
              (sPack === 'conventum.skills') ||
-             (sPack === 'conventum.status') ) {
+             (sPack === 'conventum.status') ||
+             (sPack === 'conventum.weapons') ) {
             const mDocs = await this._getDocuments('worlds', '');
             compendium._element.find(sHeaderDiv).append(this._createSelect("world", "common.world", mDocs));
         }   
@@ -162,6 +166,11 @@ export class HookCompendium {
             const mDocs = await this._getDocuments('stratums', '');
             compendium._element.find(sHeaderDiv).append(this._createSelect("stratum", "common.stratum", mDocs));
         }
+        if (sPack === 'conventum.weapons') {
+            let mDocs = await this._getDocuments('skills', '');
+            mDocs = mDocs.filter(e => e.system.combat.combat);
+            compendium._element.find(sHeaderDiv).append(this._createSelect("combatSkill", "common.combatSkill", mDocs));
+        }        
     }
 
     /**
@@ -184,6 +193,12 @@ export class HookCompendium {
             this._addDivExtraInfoString(oElement,
                 game.i18n.localize('characteristic.'+oItemDoc.system.characteristic.primary));                                                                
         }
+        if (sPack === 'conventum.weapons') {
+            this._addDivExtraInfo("conventum.skills", oElement,
+                                    oItemDoc.system.combatSkill);    
+            this._addDivExtraInfoString(oElement,
+                game.i18n.localize('common.damage')+': '+oItemDoc.system.damage, '_infoDamage');                                                                                                  
+        }        
     }
 
     /**
@@ -197,8 +212,9 @@ export class HookCompendium {
         $(oElement).append('<div class="_extraInfo" data-filter="'+oExtraDoc._id+'">'+
                                                             oExtraDoc.name+'</div>');          
     }
-    static _addDivExtraInfoString(oElement, sValue) {
-        $(oElement).append('<div class="_extraInfo" data-filter="null">'+sValue+'</div>');          
+    static _addDivExtraInfoString(oElement, sValue, sClass) {
+        sClass = (sClass) ? sClass : '_extraInfo';
+        $(oElement).append('<div class="'+sClass+'" data-filter="null">'+sValue+'</div>');          
     }    
 
     /**
@@ -246,6 +262,6 @@ export class HookCompendium {
         });
         return mReturn;
 
-    }     
+    }   
 
 }

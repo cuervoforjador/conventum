@@ -16,6 +16,7 @@
   }],
   "esmodules": ["module/main.js"],
   "socket": true,
+  "scripts": ["https://code.jquery.com/ui/1.13.2/jquery-ui.js"],
   "styles": [
     "styles/main.css",
 	  "styles/base.css",
@@ -24,7 +25,8 @@
     "styles/compendium.css",
     "styles/roll.css",
     "styles/messages.css",
-    "styles/tours.css"
+    "styles/tours.css",
+    "styles/combat.css"
   ],
   "languages": [
     {
@@ -116,6 +118,14 @@
       "system": "conventum"
 		},
     {
+			"label": "Modi",
+			"type": "Item",
+			"name": "modes",
+			"path": "./packs/modes.db",
+      "banner": "systems/conventum/image/content/compendium/bannerModi.png",
+      "system": "conventum"
+		},    
+    {
 			"label": "Armis",
 			"type": "Item",
 			"name": "armor",
@@ -130,7 +140,15 @@
 			"path": "./packs/weapons.db",
       "banner": "systems/conventum/image/content/compendium/bannerArma.png",
       "system": "conventum"
-		}
+		},
+    {
+			"label": "Actiones",
+			"type": "Item",
+			"name": "actions",
+			"path": "./packs/actions.db",
+      "banner": "systems/conventum/image/content/compendium/bannerActiones.png",
+      "system": "conventum"
+		}    
   ],
   "url": "https://github.com/cuervoforjador/conventum",
   "manifest": "https://github.com/cuervoforjador/conventum/releases/download/v01/system.json",
