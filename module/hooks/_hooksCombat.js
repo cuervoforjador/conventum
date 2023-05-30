@@ -4,6 +4,10 @@ import { helperSheetHuman } from "../sheets/helpers/helperSheetHuman.js"
 
 export class HookCombat {
 
+    /**
+     * changeCombatTabHtml
+     * @param {*} html 
+     */
     static changeCombatTabHtml(html) {
         this._changeCombatTabHtml(html);
     }    
@@ -127,6 +131,14 @@ export class HookCombat {
             button.html('<img src="'+mButtons[s].img+'"/><label>'+mButtons[s].label+'</label>');
         }
     }
+
+    /** --- deleteEncounter ---
+     * @param {*} combatId 
+     */
+    static async deleteEncounter(combatId) {
+        let poolAction = game.items.find(e => e.system.combat === combatId);
+        await poolAction.delete();
+    }    
 
     /** --- _getCombatFromCombatants ---
      * @param combatants

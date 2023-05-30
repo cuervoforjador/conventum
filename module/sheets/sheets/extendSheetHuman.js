@@ -105,6 +105,9 @@ export class extendSheetHuman extends ActorSheet {
     //Targets...
     context.targets = helperActions.getTargets(this.actor);
 
+    //Checking Items..
+    helperSheetHuman.checkMyItems(this.actor);
+
     return context;
   }
 

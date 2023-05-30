@@ -9,6 +9,7 @@ import { HookEvents } from "./_hooksEvents.js";
 import { HookMessage } from "./_hooksMessage.js";
 import { HookCombat } from "./_hooksCombat.js";
 import { HookTours } from "./_hooksTours.js";
+import { helperSocket } from "../helpers/helperSocket.js";
 
 
 export class mainHooks {
@@ -30,12 +31,15 @@ export class mainHooks {
         Hooks.on("getUserContextOptions", (element, content) => this._getUserContextOptions(element, content));
         Hooks.on("getCombatTrackerEntryContext", (html, options) => this._getCombatTrackerEntryContext(html, options));
         Hooks.on("renderCombatTracker", (tracker, html, options) => this._renderCombatTracker(tracker, html, options));
+        Hooks.on("deleteCombat", (combat, render, sId) => this._deleteCombat (combat, render, sId));
+        Hooks.on("preCreateItem", (oFrom, oTo, options, sId) => this._preCreateItem(oFrom, oTo, options, sId));
     }
 
     static _setup() {
         mainConfig.translateConfig();
         HookEvents.initialEvents();
-        HookTours.initTour();        
+        HookTours.initTour();    
+        helperSocket.onReceived();    
     }
 
     static _renderCompendiumDirectory(tab, element, info) {
@@ -110,5 +114,13 @@ export class mainHooks {
 
     static _renderCombatTracker(tracker, html, options) {
         HookCombat.changeCombatTabHtml(html);
+    }
+
+    static _deleteCombat(combat, render, sId) {
+        HookCombat.deleteEncounter(combat.id);
+    }
+
+    static async _preCreateItem(oFrom, oTo, options, sId) {
+        //...
     }
 }

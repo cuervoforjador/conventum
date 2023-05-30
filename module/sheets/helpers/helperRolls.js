@@ -52,6 +52,7 @@ export class helperRolls {
           percent: nPercent,
           weapon: weapon,
           damage: sDamage,
+          location: null,
           mods: mods
         }
 
@@ -150,10 +151,23 @@ export class helperRolls {
      */
     static _rollsForAction(oRollAction, sValueMod) {
 
+      //Encounter Step 
+      const myCombat = helperSheetCombat.myActiveCombat(oRollAction.actor);
+      if (!myCombat) return;
+      if ( (!myCombat.encounter.system.steps) ||
+           (myCombat.encounter.system.steps.length === 0) ) return;
+
+      let oEncounter = game.items.get(myCombat.encounter.id);
+      let mSteps = oEncounter.system.steps;
+      let oStep = mSteps.find(e => (e.actor === oRollAction.actor.id)
+                                && (!e.consumed));
+
+      //Aplying location
+      oRollAction.location = oStep.applyLocation;
+
+      //Rolling
       sValueMod = (sValueMod) ? sValueMod : '+0';
       const sFormula = '1d100';
-      
-      //Rolling
       let roll = new Roll(sFormula, {});
       roll.evaluate({async: false});
       if (game.dice3d) {
@@ -168,15 +182,6 @@ export class helperRolls {
       helperMessages.chatMessage(sContent, oRollAction.actor, false, '', '200px');
 
       //Consuming action
-      const myCombat = helperSheetCombat.myActiveCombat(oRollAction.actor);
-      if (!myCombat) return;
-      if ( (!myCombat.encounter.system.steps) ||
-           (myCombat.encounter.system.steps.length === 0) ) return;
-
-      let oEncounter = game.items.get(myCombat.encounter.id);
-      let mSteps = oEncounter.system.steps;
-      let oStep = mSteps.find(e => (e.actor === oRollAction.actor.id)
-                                && (!e.consumed));
       oStep.consumed = true;
       oEncounter.update({
         system: { steps: mSteps }
@@ -277,6 +282,7 @@ export class helperRolls {
                 '<a class="_rollDamage" data-weaponid="'+weapon.id+'" '+
                                       ' data-actorid="'+actor.id+'" '+
                                       ' data-targets="'+sTargets+'" '+
+                                      ' data-locationid="'+oRollAction.location.location+'" '+
                                       ' data-damage="'+oRollAction.damage+'">'+
                    '<img src="/systems/conventum/image/texture/dice.png">'+
                    '<div class="_name">'+oRollAction.damage+'</div>'+

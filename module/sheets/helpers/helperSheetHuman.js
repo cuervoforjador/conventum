@@ -54,6 +54,39 @@ export class helperSheetHuman {
     this._checkBio(systemData, backend);
   }
 
+  /**
+   * checkMyItems
+   * @param {*} actor 
+   */
+  static async checkMyItems(actor) {
+    let mItems = actor.items;
+
+    //Forbidden items...
+    for (const s of CONFIG.ExtendConfig.noHumanItems) {
+      const pack = await game.packs.get('conventum.'+s);
+      if (!pack) break;
+      if (Array.from(pack).length < 1) break;
+      const sType = Array.from(pack)[0].type;
+      for (const oItem of Array.from(mItems).filter(e => e.type === sType)) {
+        oItem.delete();
+      }
+    }
+
+    //Initial actions...
+    const actionsPack = game.packs.get('conventum.actions');
+    const mActorActions = Array.from(actor.items).filter(e => e.type === 'action');
+    for (const oAction of Array.from(actionsPack)
+                               .filter(e => e.system.type.initial)) {
+        if ( !mActorActions.find(e => ( (e.name === oAction.name) ||
+                                        (e.system.mold === oAction.id) )) ) {
+            //Adding Action..
+            await Item.create(oAction, {parent: actor});
+            actor.sheet.render(true);
+        }
+    }
+
+  }
+
 /** ***********************************************************************************************
   SYSTEM CUSTOMIZATION...
 *********************************************************************************************** */ 

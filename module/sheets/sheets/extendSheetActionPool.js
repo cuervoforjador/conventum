@@ -5,6 +5,8 @@
 import { mainBackend } from "../backend/mainBackend.js";
 import { helperSheetItem } from "../helpers/helperSheetItem.js";
 import { helperSheetCombat } from "../helpers/helperSheetCombat.js";
+import { helperActions } from "../helpers/helperActions.js";
+import { helperSocket } from "../../helpers/helperSocket.js";
 
 export class extendSheetActionPool extends ItemSheet {
 
@@ -109,7 +111,8 @@ export class extendSheetActionPool extends ItemSheet {
       if (!mSteps) return;
       await this.item.update({
         system: { steps: mSteps }
-      });         
+      });  
+      helperSocket.refreshSheets();      
     }
 
     // CONSUME
@@ -124,6 +127,7 @@ export class extendSheetActionPool extends ItemSheet {
       await this.item.update({
         system: { steps: mSteps }
       }); 
+      helperSocket.refreshSheets();
     }
 
     // REACT
@@ -138,6 +142,7 @@ export class extendSheetActionPool extends ItemSheet {
       await this.item.update({
         system: { steps: mSteps }
       }); 
+      helperSocket.refreshSheets();
     }        
 
     // PLAY
@@ -147,6 +152,7 @@ export class extendSheetActionPool extends ItemSheet {
                                                      (e.actor === actorId) ) );
       if (!oStep) return;
       helperSheetCombat.playAction(actorId, actionId);
+      helperSocket.refreshSheets();
     }
 
   }
@@ -171,7 +177,7 @@ export class extendSheetActionPool extends ItemSheet {
       await encounter.update({
         system: { steps: mSteps }
       });
-
+      helperSocket.refreshSheets();
   }
 
 }

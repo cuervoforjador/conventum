@@ -182,6 +182,7 @@ export class mainBackend {
             characteristics: this._getCharacteristics('primary', true),
             actorTypes: this._getActorTypes(),
             weaponSizes: this._getWeaponSizes(),
+            weaponTypes: this._getWeaponTypes(),
             locations: await this._getLocations(systemData.control.world, systemData.actorType),
             skills: await this._getSkills(systemData.control.world, true),
             skillsPenal: await this._getSkills(systemData.control.world),

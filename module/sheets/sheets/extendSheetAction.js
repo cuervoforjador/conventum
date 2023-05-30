@@ -45,6 +45,10 @@ export class extendSheetAction extends ItemSheet {
     if ( (!systemData.type.step1) && (!systemData.type.step2) )
       systemData.type.step1 = true;
 
+
+    //Molding...
+    context.systemData.mold = context.data._id;
+
     return context;
   }
 

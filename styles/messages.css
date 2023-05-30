@@ -473,7 +473,7 @@ a._infoSkill {
 }
 
 ._targetDialogs {
-    height: 95%!important;
+    height: auto!important;
     width: auto!important;
     display: flex!important;
     flex-direction: column!important;
@@ -483,13 +483,31 @@ a._infoSkill {
     justify-content: space-around!important;
     border-bottom-left-radius: 100px;
     border-bottom-right-radius: 100px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+}
+._targetDialogs header.window-header.flexrow.draggable {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 16px;
+    border-top: 6px solid #111;
+    border-left: 6px solid #111;
+    border-right: 6px solid #111;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    background: #701e1ecc;
+    padding-bottom: 2px;
 }
 ._targetDialogs section.window-content {
     border-bottom-left-radius: 100px;
     border-bottom-right-radius: 100px;
+    padding-bottom: 65px;
+    min-width: 200px;
 }
 ._targetDialogs h4.window-title {
-    display: none;
+    margin-top: -3px!important;
+    padding-left: 1px;
 }
 ._targetDialogs .dialog-content {
     display: none;
@@ -503,18 +521,18 @@ a._infoSkill {
     align-items: center;
 }
 ._targetDialogs button {
-    max-width: 155px!important;
-    width: 155px!important;
-    max-height: 160px!important;
-    height: 160px!important;
+    max-width: 80px!important;
+    width: 80px!important;
+    max-height: 85px!important;
+    height: 85px!important;
     padding: 0px;
     margin: 0px;
     border-radius: 50%;
     border: 5px solid #333!important;
 }
 ._targetDialogs button img {
-    width: 150px;
-    height: 150px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     border: 0px;
     -webkit-box-shadow: 0px 0px 11px 4px rgb(0 0 0 / 52%);

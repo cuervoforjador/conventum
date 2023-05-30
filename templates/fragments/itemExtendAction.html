@@ -38,7 +38,16 @@
                         {{checked systemData.type.spell}} />
                 <span class="sliderSwitch"></span>
             </label>            
-        </hbox>        
+        </hbox>     
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.initial" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.type.initial" 
+                        {{checked systemData.type.initial}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>            
 
     </panelContent>
 </slidePanel>
@@ -54,7 +63,8 @@
             <input class="_100px" 
                    name="system.steps.actionSteps"
                    value="{{systemData.steps.actionSteps}}" 
-                   type="text" />          
+                   type="text"
+                   data-dtype="Number" />          
         </hbox>
 
     </panelContent>
@@ -248,8 +258,26 @@
                         {{checked systemData.skill.applyRangePenal}} />
                 <span class="sliderSwitch"></span>
             </label>            
-        </hbox>               
-
+        </hbox> 
+        <lineDiv></lineDiv>
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.useSkill" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.skill.useSkill" 
+                        {{checked systemData.skill.useSkill}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>
+        <hbox class="_50">
+            <select name="system.skill.skill" class="_100">
+                {{selectOptions backend.skills 
+                                selected=systemData.skill.skill
+                                localize=false
+                                nameAttr="id"
+                                labelAttr="name" }}
+            </select>                             
+        </hbox>
     </panelContent>
 </slidePanel>
 </div>
@@ -498,3 +526,8 @@
     </panelContent>
 </slidePanel>
 </div>
+
+{{!-- Hiddens ---}}
+<input name="system.mold"
+       value="{{systemData.mold}}" 
+       type="hidden" /> 

@@ -5,6 +5,16 @@
 <slidePanel class="_100" style="height: 190px;">
     <panelContent>
         <hbox class="_mod _100">
+            <label class="_80px">{{localize "common.type" }}</label>
+            <select name="system.weaponType" class="_120px">
+                {{selectOptions backend.weaponTypes 
+                                selected=systemData.weaponType
+                                localize=false
+                                nameAttr="id"
+                                labelAttr="name" }}
+            </select>            
+        </hbox>
+        <hbox class="_mod _100">
             <label class="_80px">{{localize "common.skill" }}</label>
             <select name="system.combatSkill">
                 {{selectOptions backend.combatSkills 

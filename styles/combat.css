@@ -163,7 +163,7 @@ a._verb._playAction {
 ._posterAction ._actionSteps {
     position: absolute;
     top: 380px;
-    left: calc(100% - 114px);
+    left: calc(100% - 124px);
     background: #f3e8e8bd;
     border: 2px solid #333;
     border-radius: 4px;
@@ -194,6 +194,16 @@ a._verb._playAction {
     display: block;
     font-size: 14px;
 }
+._posterAction label._minimal3 {
+    position: relative;
+    top: -125px;
+    left: 0px;
+    width: 100px;
+    text-align: center;
+    font-weight: 900;
+    display: block;
+    font-size: 14px;
+}
 ._posterAction ._actionSteps span._accent {
     font-size: 30px;
     line-height: 30px;
@@ -201,6 +211,22 @@ a._verb._playAction {
     top: 3px;
     padding-left: 4px;
 }
+._posterAction ._askingForLocation {
+    width: 160px;
+    border: 2px solid #111111d9;
+    padding: 6px;
+    background: #d7c2a896;
+    border-radius: 3px;
+    position: absolute;
+    top: 374px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+}
+._posterAction ._askingForLocation select._actTargetType {
+    margin-bottom: 5px;
+}
+
 ul._steps {
     padding-left: 0px;
 }

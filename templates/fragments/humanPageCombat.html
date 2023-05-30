@@ -31,7 +31,7 @@
                 id="boxWeapon_{{weapon._id}}">
                 
                 <hbox>
-                    {{#if ../actions.showPoster }}
+                    {{#if (evalActionWeapon ../actions weapon) }}
                     <a class="_playWeapon" data-itemid="{{weapon._id}}" >
                         <img class="imgWeapon" src="{{weapon.img}}"/>
                     </a>

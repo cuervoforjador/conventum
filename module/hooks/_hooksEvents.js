@@ -27,8 +27,26 @@ export class HookEvents {
                                    $(this).data('actorid'),
                                    $(this).data('targets'),
                                    $(this).data('damage'),
-                                   $(event.currentTarget).parents('li.chat-message').data('messageId'));
-        });           
+                                   $(event.currentTarget).parents('li.chat-message').data('messageId'),
+                                   $(this).data('locationid'),);
+        });        
+        
+        //ActionCards
+        $(document).on('change', '#actApplyLocation', function (event) {
+            $(event.target).parents('._askingForLocation')
+                           .find('[name="actTargetType"]').prop( "disabled", !event.target.checked );
+            $(event.target).parents('._askingForLocation')
+                           .find('[name="actTargetLocation"]').prop( "disabled", !event.target.checked );  
+            
+            if (event.target.checked) {
+                new Dialog({
+                        title: game.i18n.localize("common.actions"),
+                        content: game.i18n.localize("info.applyLocation"),
+                        buttons: {}
+                        }).render(true);
+            }
+        });        
+
     }
 
     /**
@@ -139,8 +157,8 @@ export class HookEvents {
      * @param {*} sTargets 
      * @param {*} sDamage 
      */
-    static _rollDamage(weaponId, actorId, sTargets, sDamage, messageId) {
-        helperSheetCombat.rollDamage(weaponId, actorId, sTargets, sDamage, messageId);
+    static _rollDamage(weaponId, actorId, sTargets, sDamage, messageId, locationId) {
+        helperSheetCombat.rollDamage(weaponId, actorId, sTargets, sDamage, messageId, locationId);
     }
 
 }

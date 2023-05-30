@@ -104,6 +104,20 @@ export class mainHandlebars {
        });
 
       /**
+       * evalActionWeapon
+       */
+      Handlebars.registerHelper("evalActionWeapon", function(actionGroup, weapon, options) {
+         const systemData = options.data.root.data.system;
+         const weaponData = weapon.system;
+
+         if (!actionGroup.showPoster) return false;
+         if (!actionGroup.action) return false;
+         const actionItem = actionGroup.action.system.item.weapon;
+         return actionItem.type[weapon.system.weaponType];
+
+       });       
+
+      /**
        * locationValue
        */
       Handlebars.registerHelper("locationValue", function(locationId, sValue, options) {

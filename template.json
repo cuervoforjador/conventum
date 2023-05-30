@@ -426,7 +426,8 @@
         "range": false,
         "fire": false,
         "shield": false
-      },       
+      },  
+      "weaponType": "",     
       "size": "",
       "requirement": {
         "primary": {
@@ -471,11 +472,13 @@
     },
     "action": {
       "templates": ["base"],
+      "mold": "",
       "type": {
         "attack": false,
         "defense": false,
         "movement": false,
-        "spell": false
+        "spell": false,
+        "initial": true
       },
       "steps": {
         "actionSteps": 1
@@ -520,6 +523,8 @@
           "targetSecondarySkill": "",
           "stack": false  
         },
+        "useSkill": false,
+        "skill": "",
         "applyRangePenal": true      
       },
       "damage": {
