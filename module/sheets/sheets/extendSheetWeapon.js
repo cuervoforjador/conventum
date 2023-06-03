@@ -17,8 +17,8 @@ export class extendSheetWeapon extends ItemSheet {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: [game.system.id, "sheet", "item"],
       template: CONFIG._root+"/templates/weapon.html",
-      width: 700,
-      height: 400,
+      width: 760,
+      height: 460,
       tabs: [
         {navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "main"}
       ],       

@@ -6,13 +6,21 @@
     <panelContent>
         <hbox class="_mod _100">
             <label class="_80px">{{localize "common.type" }}</label>
-            <select name="system.weaponType" class="_120px">
+            <select name="system.weaponType">
                 {{selectOptions backend.weaponTypes 
                                 selected=systemData.weaponType
                                 localize=false
                                 nameAttr="id"
                                 labelAttr="name" }}
-            </select>            
+            </select>   
+            <label class="_80px">{{localize "common.characteristic" }}</label>
+            <select name="system.characteristics">
+                {{selectOptions backend.characteristics 
+                                selected=systemData.characteristics
+                                localize=false
+                                nameAttr="id"
+                                labelAttr="name" }}
+            </select>                      
         </hbox>
         <hbox class="_mod _100">
             <label class="_80px">{{localize "common.skill" }}</label>
@@ -26,17 +34,6 @@
             <select name="system.secondSkill" style="margin-left: 5px;">
                 {{selectOptions backend.skills 
                                 selected=systemData.secondSkill
-                                localize=false
-                                nameAttr="id"
-                                labelAttr="name" }}
-            </select>            
-        </hbox>
-
-        <hbox class="_mod _100">
-            <label class="_80px">{{localize "common.characteristic" }}</label>
-            <select name="system.characteristics">
-                {{selectOptions backend.characteristics 
-                                selected=systemData.characteristics
                                 localize=false
                                 nameAttr="id"
                                 labelAttr="name" }}

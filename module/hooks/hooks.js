@@ -6,6 +6,7 @@ import { mainConfig } from "../config/mainConfig.js";
 import { HookCompendium } from "./_hooksCompendium.js";
 import { HookActor } from "./_hooksActor.js";
 import { HookEvents } from "./_hooksEvents.js";
+import { HookHotBar } from "./_hooksHotBar.js";
 import { HookMessage } from "./_hooksMessage.js";
 import { HookCombat } from "./_hooksCombat.js";
 import { HookTours } from "./_hooksTours.js";
@@ -21,11 +22,14 @@ export class mainHooks {
     static init(Hooks) {
 
         Hooks.on("setup", () => this._setup());
+        Hooks.on("renderHotbar", (element, html, options) => this._renderHotbar(element, html, options));
+        Hooks.on("canvasReady", (canvas) => this._canvasReady(canvas));
         Hooks.on("renderCompendiumDirectory", (tab, element, info) => this._renderCompendiumDirectory(tab, element, info));        
         Hooks.on("renderCompendium", (compendium, element, collection) => this._renderCompendium(compendium, element, collection));
         Hooks.on("changeSidebarTab", (tab) => this._changeSidebarTab(tab));
         Hooks.on("renderItemSheet", (sheet, element, systemData) => this._renderItemSheet(sheet, element, systemData));
         Hooks.on("dropActorSheetData", (actor, sheet, item) => this._dropActorSheetData(actor, sheet, item));
+        Hooks.on("renderActorSheet", (sheet, html, systemData) => this._renderActorSheet(sheet, html, systemData));
         Hooks.on("renderDialog", (dialog, element, content) => this._renderDialog(dialog, element, content));
         Hooks.on("renderApplication", (options, element, content) => this._renderApplication(options, element, content));
         Hooks.on("getUserContextOptions", (element, content) => this._getUserContextOptions(element, content));
@@ -40,6 +44,15 @@ export class mainHooks {
         HookEvents.initialEvents();
         HookTours.initTour();    
         helperSocket.onReceived();    
+    }
+
+    static _renderHotbar(element, html, options) {
+        HookActor.setCustoConfig();
+        HookHotBar.custoHotBar(element, html, options);
+    }
+
+    static _canvasReady(canvas) {
+        HookActor.setCustoConfig();
     }
 
     static _renderCompendiumDirectory(tab, element, info) {
@@ -84,6 +97,17 @@ export class mainHooks {
             if (sType === 'trait')
                 await HookActor.addTrait(oItem, actor, sheet);
         }
+    }
+
+    static _renderActorSheet(sheet, html, systemData) {
+        let hSheet = $('.app.window-app.conventum.sheet.actor');
+        if (hSheet.length === 0) return;
+        let posX = systemData.systemData.quickBarPosition.x - hSheet.position().left;
+        let posY = systemData.systemData.quickBarPosition.y - hSheet.position().top;
+        $('._quickBar').css({
+          left: posX,
+          top: posY
+        });
     }
 
     static async _renderDialog(dialog, element, content) {

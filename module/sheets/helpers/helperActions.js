@@ -16,7 +16,10 @@ export class helperActions {
     static getActions(actor) {
         let oActions = {
             showPoster: false,
-            action: ''
+            showSkill: false,
+            action: '',
+            skillId: '',
+            skill: null
         };
 
         let myActiveCombat = helperSheetCombat.myActiveCombat(actor);
@@ -31,6 +34,14 @@ export class helperActions {
         }
 
         oActions.showPoster = (oActions.action !== '');
+
+        //Skills
+        oActions.showSkill = (oActions.action) ? oActions.action.system.skill.useSkill : false;
+        oActions.skillId = (oActions.action) ? oActions.action.system.skill.skill : '';
+        oActions.skill = (oActions.showSkill) ? 
+                    game.packs.get('conventum.skills').get(oActions.action.system.skill.skill) :
+                    null;
+
         return oActions;
     }
 

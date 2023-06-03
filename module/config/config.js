@@ -123,22 +123,26 @@ export const extendConfig = {
         {
             id: '00',
             i18n: 'config.weaponSizeNO',
-            name: ''
+            name: '',
+            property: 'none'
         },        
         {
             id: '01',
             i18n: 'config.weaponSizeLight',
-            name: ''
+            name: '',
+            property: 'light'
         },
         {
             id: '02',
             i18n: 'config.weaponSizeMiddle',
-            name: ''
+            name: '',
+            property: 'middle'
         },
         {
             id: '03',
             i18n: 'config.weaponSizeHeavy',
-            name: ''
+            name: '',
+            property: 'heavy'
         }      
     ]
 };

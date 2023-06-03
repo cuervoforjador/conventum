@@ -24,6 +24,24 @@
         {{!-- WEAPONS --}}
         <div class="tab combatWeapons" data-group="combatTabs" data-tab="combatWeapons">
         <ul class="actorWeapons">
+
+            {{#if actions.showSkill}}
+            <li class="boxWeapon" 
+                id="boxWeapon_{{actions.skill._id}}">
+                <hbox class="_combatSkill">
+                    <a class="_diceSkill" data-itemId="{{actions.skill._id}}" data-actionId="{{actions.action._id}}">
+                        <img class="_combatSkillImg" src="{{actions.skill.img}}"/></a>                    
+                    <vbox class="_weaponText">
+                        <label class="titleWeapon">{{actions.skill.name}}</label>
+                    </vbox>   
+                    <hbox style="width: 200px;"></hbox>
+                    <label class="_skillValue">{{itemPropertyExtend 'systemData.skills' actions.skill._id 'value'}}</label>
+                    <a class="_cardInfo" data-itemid="{{actions.skill._id}}">
+                            <i class="fas fa-info"></i></a>                    
+                </hbox>
+            </li>
+            {{/if}}
+
         {{#each items as |weapon id|}}
         {{#if (itemType weapon 'weapon') }}
 

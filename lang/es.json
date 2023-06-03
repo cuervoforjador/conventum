@@ -282,9 +282,10 @@
     "info.actionNotWeapon":         "No es posible usar armas con esta acción, solo escudos.",
     "info.onlyShields":             "Esta acción solo se puede usar con escudos",
     "info.onlyWeapons":             "Esta acción solo se puede usar con armas",
-    "info.noAction":                "No puedes usar este arma. Se debe cumplir que: </br></br>   * Dispongas de una acción.</br>   * Que sea tu turno en la secuencia de combate.</br>   * Que este tipo de arma sea compatible con la acción.",
+    "info.noAction":                "No puedes usar este arma. Se debe cumplir que: </br></br>   * Dispongas de una acción.</br>   * Que sea tu turno en la secuencia de combate.</br>   * Que este tipo de arma sea compatible con la acción.</br>   * Que el tamaño del arma sea compatible con la acción.",
     "info.noHumanAction":           "Este tipo de objeto es dependiente del Orbe y no puede ser transferido al Personaje.</br></br>Esto significa que el Personaje ya los tiene adquiridos en función del Orbe con el que se esté jugando. No es necesario arrastrar este tipo de objetos.",
     "info.applyLocation":           "Si aplicas localización, recuerda que sufriras penalizaciones.",
+    "info.armorBroke":              "Armadura rota!",
 
     "tour.Title":                   "Bienvenido",
     "tour.Description":             "Proyecto Conventum (Aquelarre)",

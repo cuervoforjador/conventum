@@ -26,4 +26,25 @@
       {{> humanPosterTargets }}
     {{/if}}
 
+    {{!-- QUICK BAR --}}
+    {{#if systemData.quickBar }}
+      {{> humanQuickBar }}
+    {{/if}}
+    
+    {{!-- Hiddens ---}}
+    <input name="system.quickBar"
+           value="{{systemData.quickBar}}" 
+           type="hidden" /> 
+    <input name="system.quickBarPosition.x"
+           value="{{systemData.quickBarPosition.x}}" 
+           type="hidden" />   
+    <input name="system.quickBarPosition.y"
+           value="{{systemData.quickBarPosition.y}}" 
+           type="hidden" />                    
+    <input name="system.quickBarPosition.sheetX"
+           value="{{systemData.quickBarPosition.sheetX}}" 
+           type="hidden" />  
+    <input name="system.quickBarPosition.sheetY"
+           value="{{systemData.quickBarPosition.sheetY}}"
+           type="hidden" />            
 </form>

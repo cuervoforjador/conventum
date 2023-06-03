@@ -47,7 +47,7 @@ export class helperRolls {
         if (oConfig.apply)
           oButtons[s] = {
             label: oConfig.text,
-            callback: () => helperRolls.rolls(actor, sPath, rollData, sFormula,  oConfig.bono)
+            callback: () => helperRolls.rolls(actor, sPath, rollData, sFormula,  oConfig.bono, s)
           }
       }
       let dialog = new Dialog({
@@ -55,6 +55,7 @@ export class helperRolls {
         content: "",
         buttons: oButtons,
         world: oWorld.id });
+      dialog.options.classes.push('_levelRoll');
       dialog.render(true);
 
     }    
@@ -66,8 +67,9 @@ export class helperRolls {
      * @param {string} sMinValue - Min value for Success 
      * @param {string} sFormula - Roll Formula (1d100, ...)
      * @param {string} sValueMod - Bonification / Penalization
+     * @param {string} sLevel - String (Level)
      */
-    static async rolls(actor, sPath, sMinValue, sFormula, sValueMod) {
+    static async rolls(actor, sPath, sMinValue, sFormula, sValueMod, sLevel) {
       sValueMod = (sValueMod) ? sValueMod : '+0';
       
       //Worlds
@@ -75,11 +77,14 @@ export class helperRolls {
             oWorld = await game.packs.get('conventum.worlds').get(sWorld),
             worldConfig = oWorld.system.config;
 
+      //Config Level
+      const oLevel = (sLevel) ? oWorld.system.config.rolllevel[sLevel] : '';
+
       //Rolling
       let roll = new Roll(sFormula, {});
       roll.evaluate({async: false});
       if (game.dice3d) {
-          game.dice3d.showForRoll(roll);
+        await game.dice3d.showForRoll(roll, game.user, true);
       }
 
       //Result
@@ -102,7 +107,7 @@ export class helperRolls {
                         critFailure: bCritFailure 
                      };
       //Chat Message
-      const sContent = helperRolls._getMessageRoll(actor, sPath, roll, result, sValueMod);
+      const sContent = helperRolls._getMessageRoll(actor, sPath, roll, result, sValueMod, oLevel);
       helperMessages.chatMessage(sContent, actor, false, '', '140px');
     }
 
@@ -115,11 +120,11 @@ export class helperRolls {
      * @param {*} sValueMod 
      * @returns 
      */
-    static _getMessageRoll(actor, sPath, roll, result, sValueMod) {
+    static _getMessageRoll(actor, sPath, roll, result, sValueMod, oLevel) {
       return '<div class="_messageFrame">'+
                   helperRolls._getMessageRoll_Actor(actor, sPath)+
                   '<div class="_result">'+roll.total+'</div>'+
-                  helperRolls._getMessageRoll_Bonif(sValueMod)+
+                  helperRolls._getMessageRoll_Bonif(sValueMod, oLevel)+
                   helperRolls._getMessageRoll_Result(result)+
              '</div>';
     }
@@ -161,7 +166,7 @@ export class helperRolls {
      * @param {*} sValueMod 
      * @returns 
      */
-    static _getMessageRoll_Bonif(sValueMod) {
+    static _getMessageRoll_Bonif(sValueMod, oLevel) {
 
       let sClass = '';
       if (sValueMod != '') {
@@ -172,7 +177,10 @@ export class helperRolls {
           if (sValueMod == '-50') sClass = 'rollDif6';
           if (sValueMod == '-75') sClass = 'rollDif7';
       }
-      return '<div class="_bonif '+sClass+'">'+sValueMod+'</div>'     
+      let sText = (oLevel) ? oLevel.text : '';
+      return '<div class="_bonif '+sClass+'">'+
+                  '<span class="_bonifText">'+sText+'</span>'+
+                              sValueMod+'</div>';
     }
 
     /**

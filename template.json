@@ -169,7 +169,14 @@
       }
     },
     "human": {
-      "templates": ["base"]
+      "templates": ["base"],
+      "quickBar": false,
+      "quickBarPosition": {
+        "x": 0,
+        "y": 0,
+        "sheetX": 0,
+        "sheetY": 0
+      }
     },
     "horse": {
       "templates": ["base"]

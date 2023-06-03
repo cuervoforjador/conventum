@@ -155,6 +155,17 @@
     top: 64px;
     left: 145px;  
 }
+._chatBox span._bonifText {
+    position: relative;
+    font-size: 11px;
+    width: 85px!important;
+    text-align: center;
+    display: flex;
+    top: 23px;
+    left: -26px;
+    justify-content: center;
+    margin-bottom: -23px;
+}
 ._chatBox ._result {
     font-size: 60px;
     font-weight: 900;
@@ -338,6 +349,10 @@ a._infoSkill {
     padding-right: 6px;
     border-radius: 4px;
 }
+._chatContent ._messageDamage ._name {
+    width: 94px;
+    line-height: 20px;
+}
 ._messageDamage a._rollDamage {
     display: flex;
     align-content: center;
@@ -496,14 +511,24 @@ a._infoSkill {
     border-right: 6px solid #111;
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
-    background: #701e1ecc;
+    background: #c51919cc;
+    border-color: #3c3a3afa!important;
     padding-bottom: 2px;
+}
+._targetDialogs h4.window-title::first-letter {
+    background: none!important;
+    font-size: 13px!important;
+    margin-right: -1px!important;
+    padding-left: 7px!important;
 }
 ._targetDialogs section.window-content {
     border-bottom-left-radius: 100px;
     border-bottom-right-radius: 100px;
     padding-bottom: 65px;
-    min-width: 200px;
+    min-width: 156px;
+    border-color: #3c3a3afa!important;
+    background: url(/systems/conventum/image/texture/tile02.png)!important;
+    background-size: 140px 140px!important;    
 }
 ._targetDialogs h4.window-title {
     margin-top: -3px!important;
@@ -528,19 +553,29 @@ a._infoSkill {
     padding: 0px;
     margin: 0px;
     border-radius: 50%;
-    border: 5px solid #333!important;
+    border: 5px solid #3b415c!important;
+    margin-bottom: 35px!Important;
+    background: #3b415c!important;
 }
 ._targetDialogs button img {
     width: 80px;
-    height: 80px;
+    height: 76px;
     border-radius: 50%;
     border: 0px;
     -webkit-box-shadow: 0px 0px 11px 4px rgb(0 0 0 / 52%);
     box-shadow: 0px 0px 11px 4px rgb(0 0 0 / 52%);
 }
 ._targetDialogs label {
-    font-size: 20px;
-    line-height: 20px;
+    font-size: 17px;
+    line-height: 23px!important;
     position: relative;
-    top: -3px;
+    display: flex;
+    background: #3b415c;
+    width: 150px;
+    top: -13px;
+    left: -36px;
+    color: #000;
+    padding-top: 5px;
+    text-shadow: 2px 0 #ffffff63, -2px 0 #ffffff63, 0 2px #ffffff63, 0 -2px #ffffff63, 1px 1px #ffffff63, -1px -1px #ffffff63, 1px -1px #ffffff63, -1px 1px #ffffff63;
+    justify-content: center;
 }

@@ -26,6 +26,7 @@
                      <h3>{{getActorItemProperty step.actor step.action 'name'}}</h3>
                      <a class="_verb tooltip"
                         data-actionId="{{step.action}}" 
+                        data-stepId="{{id}}"
                         data-actorId="{{step.actor}}" 
                         data-verb="show">                  
                         <img src="{{getActorItemProperty step.actor step.action 'img'}}" />
@@ -35,6 +36,7 @@
                      {{#if ../imMaster}}
                      <a class="_verb actionIcon tooltip" 
                            data-actionId="{{step.action}}" 
+                           data-stepId="{{id}}"
                            data-actorId="{{step.actor}}" 
                            data-verb="delete">
                         <img class="imgAction" src="systems/conventum/image/texture/destroy.png" />
@@ -43,7 +45,8 @@
 
                         {{#if step.consumed}}
                         <a class="_verb actionIcon tooltip" 
-                              data-actionId="{{step.action}}" 
+                              data-actionId="{{step.action}}"
+                              data-stepId="{{id}}" 
                               data-actorId="{{step.actor}}" 
                               data-verb="react">
                            <img class="imgAction react" src="systems/conventum/image/texture/react.png" />
@@ -52,7 +55,8 @@
 
                         {{else}}                
                         <a class="_verb actionIcon tooltip" 
-                              data-actionId="{{step.action}}" 
+                              data-actionId="{{step.action}}"
+                              data-stepId="{{id}}"
                               data-actorId="{{step.actor}}" 
                               data-verb="consume">
                            <img class="imgAction consume" src="systems/conventum/image/texture/consume.png" />

@@ -625,6 +625,9 @@ li.armorGarment img {
     padding: 0px!important;
     margin: 0px!important;
 }
+ol._inGarment {
+    display: flex;
+}
 ._garmentLabel {
     background: #ffffffd9;
     font-size: 11px;
@@ -1103,6 +1106,17 @@ img.weaponRightHand {
     top: 4px;
     opacity: 0.2;
 }
+img._combatSkillImg {
+    width: 72px;
+    margin-right: 3px;
+}
+._combatSkill label._skillValue {
+    position: relative;
+    left: -9px;
+}
+._combatSkill a._cardInfo {
+    width: 48px;
+}
 
 /* Combat && actions */
 hbox._encountersBox {
@@ -1291,8 +1305,8 @@ li.itemEl {
     opacity: 1;
 }
 ._actionsBox img.imgAction {
-    width: 25px;
-    height: 25px;
+    width: 26px;
+    height: 23px;
     border: 0px solid #33333347;
     opacity: 0.65;
     border-bottom: 0px!important;
@@ -1370,6 +1384,60 @@ ul._humanTargets li label._targetName {
     justify-content: center;
     text-align: center;
     text-shadow: 2px 0 #ffffff63, -2px 0 #ffffff63, 0 2px #ffffff63, 0 -2px #ffffff63, 1px 1px #ffffff63, -1px -1px #ffffff63, 1px -1px #ffffff63, -1px 1px #ffffff63;
+}
+
+/* QUICK BAR */
+._quickBar {
+    width: auto;
+    padding-right: 7px;
+    height: 60px;
+    z-index: 10000;
+    cursor: move;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background: #000000a8;
+    border: 1px solid #867878;
+    border-radius: 3px;
+    -webkit-box-shadow: 0px 0px 5px 2px rgb(0 0 0 / 75%);
+    -moz-box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 5px 2px rgb(0 0 0 / 75%);
+}
+a._showQuickBar ._buttonQuickBar:hover {
+    transform: rotate(-2deg);
+    left: calc(100% - 25px);
+    top: 12px;
+}
+a._showQuickBar ._buttonQuickBar {
+    width: 52px;
+    height: 27px;
+    background: #F00;
+    position: absolute;
+    top: 15px;
+    left: calc(100% - 12px);
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    z-index: 0;
+    transform: rotate(17deg);
+    transition: 0.7s;
+    background-size: 64px 50px!important;
+    background-position: -6px -1px!important;
+}
+._quickBar ul {
+    padding: 0px;
+    margin: 0px;
+    display: flex;
+}
+img._quickButton {
+    width: 49px;
+    height: 49px;
+    margin-top: 4px;
+    margin-left: 6px;
+    opacity: 0.7;
+    border: 1px solid #ffffffa1;
+}
+img._quickButton:hover {
+    opacity: 1;
 }
 
 /* ***************************************************************************************

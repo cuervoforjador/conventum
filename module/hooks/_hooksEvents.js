@@ -25,6 +25,7 @@ export class HookEvents {
         $(document).on('click', 'a._rollDamage', function (event) {
             HookEvents._rollDamage($(this).data('weaponid'), 
                                    $(this).data('actorid'),
+                                   $(this).data('actionid'),
                                    $(this).data('targets'),
                                    $(this).data('damage'),
                                    $(event.currentTarget).parents('li.chat-message').data('messageId'),
@@ -157,8 +158,8 @@ export class HookEvents {
      * @param {*} sTargets 
      * @param {*} sDamage 
      */
-    static _rollDamage(weaponId, actorId, sTargets, sDamage, messageId, locationId) {
-        helperSheetCombat.rollDamage(weaponId, actorId, sTargets, sDamage, messageId, locationId);
+    static _rollDamage(weaponId, actorId, actionId, sTargets, sDamage, messageId, locationId) {
+        helperSheetCombat.rollDamage(weaponId, actorId, actionId, sTargets, sDamage, messageId, locationId);
     }
 
 }

@@ -42,6 +42,7 @@ export class extendSheetWorld extends ItemSheet {
             systemData.config.actions.penalFrom = 0;
             systemData.config.actions.penaltyPorc = '';
     }
+    
 
     return context;
   }

@@ -28,3 +28,14 @@ a._dice:hover {
     font-family: 'Almendra', serif;
     max-width: 24%;
 }
+.dialog._levelRoll {
+    width: auto!important;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+}
+._levelRoll section.window-content {
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    padding-left: 15px;
+    padding-right: 15px;
+}

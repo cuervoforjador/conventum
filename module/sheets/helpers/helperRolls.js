@@ -14,8 +14,9 @@ export class helperRolls {
      * @param {*} sPath - Path for Actor Property (Characteristic, Skill, ...)
      * @param {*} bLeveled - Asking for a leveled roll?
      * @param {*} sFormula - Formula to roll (1d100, ...)
+     * @param {*} action - Playing action
      */
-    static rollDices(actor, sPath, bLeveled, sFormula) {
+    static rollDices(actor, sPath, bLeveled, sFormula, actionId) {
       bLeveled = (bLeveled == true);
       sFormula = (sFormula) ? sFormula : '1d100';
 
@@ -25,8 +26,8 @@ export class helperRolls {
       rollData = (rollData && rollData.value) ? rollData.value : rollData;        
       
       // Asking for level roll
-      if (bLeveled) helperRolls._dialogLevel(actor, sPath, rollData, sFormula);
-              else helperRolls.rolls(actor, sPath, rollData, sFormula, null);
+      if (bLeveled) helperRolls._dialogLevel(actor, sPath, rollData, sFormula, actionId);
+              else helperRolls.rolls(actor, sPath, rollData, sFormula, null, '', actionId);
     }
 
     /**
@@ -70,7 +71,7 @@ export class helperRolls {
      * @param {*} sFormula
      * @returns 
      */
-    static async _dialogLevel(actor, sPath, rollData, sFormula) {
+    static async _dialogLevel(actor, sPath, rollData, sFormula, actionId) {
 
       const sWorld = actor.system.control.world;
       const oWorld = await game.packs.get('conventum.worlds').get(sWorld);
@@ -81,7 +82,7 @@ export class helperRolls {
         if (oConfig.apply)
           oButtons[s] = {
             label: oConfig.text,
-            callback: () => helperRolls.rolls(actor, sPath, rollData, sFormula,  oConfig.bono)
+            callback: () => helperRolls.rolls(actor, sPath, rollData, sFormula,  oConfig.bono, s, actionId)
           }
       }
       let dialog = new Dialog({
@@ -89,6 +90,7 @@ export class helperRolls {
         content: "",
         buttons: oButtons,
         world: oWorld.id });
+      dialog.options.classes.push('_levelRoll');
       dialog.render(true);
     }    
 
@@ -107,7 +109,7 @@ export class helperRolls {
         if (oConfig.apply)
           oButtons[s] = {
             label: oConfig.text,
-            callback: () => helperRolls._rollsForAction(oRollAction, oConfig.bono)
+            callback: () => helperRolls._rollsForAction(oRollAction, oConfig.bono, s)
           }
       }
       let dialog = new Dialog({
@@ -125,23 +127,62 @@ export class helperRolls {
      * @param {string} sMinValue - Min value for Success 
      * @param {string} sFormula - Roll Formula (1d100, ...)
      * @param {string} sValueMod - Bonification / Penalization
+     * @param {string} sLevel - String (Level)
+     * @param {string} actionId - Action
      */
-    static rolls(actor, sPath, sMinValue, sFormula, sValueMod) {
+    static async rolls(actor, sPath, sMinValue, sFormula, sValueMod, sLevel, actionId) {
       sValueMod = (sValueMod) ? sValueMod : '+0';
       
+      //Worlds
+      const sWorld = actor.system.control.world,
+            oWorld = await game.packs.get('conventum.worlds').get(sWorld),
+            worldConfig = oWorld.system.config;
+
+      //Config Level
+      const oLevel = (sLevel) ? oWorld.system.config.rolllevel[sLevel] : '';
+
+      //Action
+      let action = ((actionId) && (actionId !== '')) ? 
+                                      actor.items.get(actionId) : null;
+
       //Rolling
       let roll = new Roll(sFormula, {});
       roll.evaluate({async: false});
       if (game.dice3d) {
-          game.dice3d.showForRoll(roll);
+          await game.dice3d.showForRoll(roll, game.user, true);
       }
 
       //Result
       const success = ( (Number(sMinValue) + Number(sValueMod)) >= Number(roll.result) );
 
+      //Criticals
+      const dec = Math.trunc(Number(sMinValue) / Number(worldConfig.rolls.skillRange), 0);
+      const rest = ( Number(sMinValue) % Number(worldConfig.rolls.skillRange) > 0) ? 1 : 0 ;
+      let cFailureLow = Number(worldConfig.rolls.failureRange) +
+                 (dec + rest) * Number(worldConfig.rolls.criticalFailureStep);
+        cFailureLow = (cFailureLow >= Number(worldConfig.rolls.failureMin) ) ? Number(worldConfig.rolls.failureMin) : cFailureLow;
+      let cSuccessHigh = (dec + rest) * Number(worldConfig.rolls.criticalSuccessStep);
+      
+      const bCritSuccess = ( Number(roll.result) <= Number(cSuccessHigh) ),
+            bCritFailure = ( Number(roll.result) >= Number(cFailureLow) );
+
+      const result = {  
+                        success: success,
+                        critSuccess: bCritSuccess,
+                        critFailure: bCritFailure 
+                     };
+
       //Chat Message
-      const sContent = helperRolls._getMessageRoll(actor, sPath, roll, success, sValueMod);
+      const sContent = helperRolls._getMessageRoll(actor, sPath, roll, result, sValueMod, oLevel);
       helperMessages.chatMessage(sContent, actor, false, '', '140px');
+
+      //Consuming action
+      if (action) {
+        let myStep = helperSheetCombat.consumeMyStep(actor);
+      }      
+
+      if (actor.sheet.rendered)
+          actor.sheet.render(true);      
     }
 
     /**
@@ -149,7 +190,15 @@ export class helperRolls {
      * @param {*} oRollAction 
      * @param {*} sValueMod 
      */
-    static _rollsForAction(oRollAction, sValueMod) {
+    static async _rollsForAction(oRollAction, sValueMod, sLevel) {
+
+      //Worlds
+      const sWorld = oRollAction.actor.system.control.world,
+            oWorld = await game.packs.get('conventum.worlds').get(sWorld),
+            worldConfig = oWorld.system.config;
+
+      //Config Level
+      const oLevel = (sLevel) ? oWorld.system.config.rolllevel[sLevel] : '';
 
       //Encounter Step 
       const myCombat = helperSheetCombat.myActiveCombat(oRollAction.actor);
@@ -171,14 +220,31 @@ export class helperRolls {
       let roll = new Roll(sFormula, {});
       roll.evaluate({async: false});
       if (game.dice3d) {
-          game.dice3d.showForRoll(roll);
+        await game.dice3d.showForRoll(roll, game.user, true);
       }         
 
       //Result
       const success = ( (Number(oRollAction.percent) + Number(sValueMod)) >= Number(roll.result) );
 
+      //Criticals
+      const dec = Math.trunc(Number(oRollAction.percent) / Number(worldConfig.rolls.skillRange), 0);
+      const rest = ( Number(oRollAction.percent) % Number(worldConfig.rolls.skillRange) > 0) ? 1 : 0 ;
+      let cFailureLow = Number(worldConfig.rolls.failureRange) +
+                 (dec + rest) * Number(worldConfig.rolls.criticalFailureStep);
+        cFailureLow = (cFailureLow >= Number(worldConfig.rolls.failureMin) ) ? Number(worldConfig.rolls.failureMin) : cFailureLow;
+      let cSuccessHigh = (dec + rest) * Number(worldConfig.rolls.criticalSuccessStep);
+      
+      const bCritSuccess = ( Number(roll.result) <= Number(cSuccessHigh) ),
+            bCritFailure = ( Number(roll.result) >= Number(cFailureLow) );
+
+      const result = {  
+                        success: success,
+                        critSuccess: bCritSuccess,
+                        critFailure: bCritFailure 
+                     };
+
       //Chat Message
-      const sContent = helperRolls._getMessageRollForAction(oRollAction, roll, success, sValueMod);
+      const sContent = helperRolls._getMessageRollForAction(oRollAction, roll, result, sValueMod, oLevel);
       helperMessages.chatMessage(sContent, oRollAction.actor, false, '', '200px');
 
       //Consuming action
@@ -201,12 +267,12 @@ export class helperRolls {
      * @param {*} sValueMod 
      * @returns 
      */
-    static _getMessageRoll(actor, sPath, roll, success, sValueMod) {
+    static _getMessageRoll(actor, sPath, roll, result, sValueMod, oLevel) {
       return '<div class="_messageFrame">'+
                   helperRolls._getMessageRoll_Actor(actor, sPath)+
                   '<div class="_result">'+roll.total+'</div>'+
-                  helperRolls._getMessageRoll_Bonif(sValueMod)+
-                  helperRolls._getMessageRoll_Result(success)+
+                  helperRolls._getMessageRoll_Bonif(sValueMod, oLevel)+
+                  helperRolls._getMessageRoll_Result(result)+
              '</div>';
     }
 
@@ -218,11 +284,11 @@ export class helperRolls {
      * @param {*} sValueMod 
      * @returns 
      */
-    static _getMessageRollForAction(oRollAction, roll, success, sValueMod) {
+    static _getMessageRollForAction(oRollAction, roll, success, sValueMod, oLevel) {
       return '<div class="_messageFrame">'+
                   helperRolls._getMessageRoll_Actor(oRollAction.actor, '', oRollAction.skill)+
                   '<div class="_result">'+roll.total+'</div>'+
-                  helperRolls._getMessageRoll_Bonif(sValueMod)+
+                  helperRolls._getMessageRoll_Bonif(sValueMod, oLevel)+
                   helperRolls._getMessageRoll_Result(success)+
                   helperRolls._getMessageAction(oRollAction.actor, oRollAction.action)+
                   helperRolls._getMessageWeapon(oRollAction.actor, oRollAction.weapon)+
@@ -278,11 +344,13 @@ export class helperRolls {
         });
       }
 
+      const sLocationID = (oRollAction.location) ? oRollAction.location.location : '';
       return '<div class="_messageDamage">'+
                 '<a class="_rollDamage" data-weaponid="'+weapon.id+'" '+
                                       ' data-actorid="'+actor.id+'" '+
                                       ' data-targets="'+sTargets+'" '+
-                                      ' data-locationid="'+oRollAction.location.location+'" '+
+                                      ' data-locationid="'+sLocationID+'" '+
+                                      ' data-actionid="'+oRollAction.action.id+'" '+
                                       ' data-damage="'+oRollAction.damage+'">'+
                    '<img src="/systems/conventum/image/texture/dice.png">'+
                    '<div class="_name">'+oRollAction.damage+'</div>'+
@@ -298,10 +366,10 @@ export class helperRolls {
       return '<div class="_showMods">'+
               '<div class="_infoMods">i</div>'+
               '<ul class="_messageMods">'+
-                  '<li>'+game.i18n.localize("common.attack")+': '+mods.attack+'</li>'+
-                  '<li>'+game.i18n.localize("common.defense")+': '+mods.defense+'</li>'+
+                  '<li>'+game.i18n.localize("common.skill")+': '+mods.skill+'</li>'+
+                  '<li>'+game.i18n.localize("common.skill")+': '+mods.skillTxt+'</li>'+
                   '<li>'+game.i18n.localize("common.damage")+': '+mods.damage+'</li>'+
-                  '<li>'+game.i18n.localize("common.skill")+': '+mods.percent+'</li>'+
+                  '<li>'+game.i18n.localize("common.damage")+': '+mods.damageTxt+'</li>'+
               '</ul>'+
              '</div>';
     }
@@ -329,6 +397,11 @@ export class helperRolls {
      * @returns 
      */
     static _getMessageRoll_Actor(actor, sPath, skill) {
+      if (!skill) {
+        if ( !(sPath.split('.').length > 1) ) return '<div class="_skill"></div>';
+        const skillId = sPath.split('.')[1];
+        skill = game.packs.get('conventum.skills').get(skillId);
+      }
       return  '<div class="_messageImg">'+
                   '<img src="'+actor.img+'"/>'+
               '</div>'+
@@ -365,7 +438,7 @@ export class helperRolls {
      * @param {*} sValueMod 
      * @returns 
      */
-    static _getMessageRoll_Bonif(sValueMod) {
+    static _getMessageRoll_Bonif(sValueMod, oLevel) {
 
       let sClass = '';
       if (sValueMod != '') {
@@ -376,19 +449,29 @@ export class helperRolls {
           if (sValueMod == '-50') sClass = 'rollDif6';
           if (sValueMod == '-75') sClass = 'rollDif7';
       }
-      return '<div class="_bonif '+sClass+'">'+sValueMod+'</div>'     
+      let sText = (oLevel) ? oLevel.text : '';
+      return '<div class="_bonif '+sClass+'">'+
+                  '<span class="_bonifText">'+sText+'</span>'+
+                              sValueMod+'</div>';  
     }
 
     /**
      * _getMessageRoll_Result
-     * @param {*} success 
+     * @param {*} result 
      * @returns 
      */
-    static _getMessageRoll_Result(success) {
-      if (success) 
-          return '<div class="_success">'+game.i18n.localize("common.success")+'</div>';
-      else
-          return '<div class="_failed">'+game.i18n.localize("common.failed")+'</div>';
+    static _getMessageRoll_Result(result) {
+
+      let sReturn = (result.success) ? 
+                        '<div class="_success">'+game.i18n.localize("common.success")+'</div>' :
+                        '<div class="_failed">'+game.i18n.localize("common.failed")+'</div>' ;
+
+      sReturn += (result.critSuccess) ?
+                        '<div class="_critSuccess">'+game.i18n.localize("common.rollCriticalSuccess")+'</div>' : '';
+      sReturn += (result.critFailure) ?
+                        '<div class="_critFailure">'+game.i18n.localize("common.rollCriticalFailure")+'</div>' : '';
+
+      return sReturn;
     }    
 
 }

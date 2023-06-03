@@ -1,6 +1,7 @@
 /**
  * Helpers for Armor in Human Sheet
  */
+import { helperMessages } from "./helperMessages.js";
 
 export class helperSheetArmor {
 
@@ -59,6 +60,48 @@ export class helperSheetArmor {
      */
     static async unwearGarment(actor, itemId) {
         await helperSheetArmor._dropGarment(actor, itemId);
+    }
+
+    /**
+     * destroyArmor
+     * @param {*} actor 
+     * @param {*} itemId 
+     */
+    static async destroyArmor(actor, itemId) {
+        let armor = actor.items.get(itemId);
+
+        const sTxtVerb = game.i18n.localize("info.armorBroke");
+        const sTxtDetail = armor.name;
+        
+        const sContent = '<div class="_messageFrame">'+
+                            '<img class="_backHand" src="'+armor.img+'" />'+
+                            '<div class="_messageImg"><img src="'+actor.img+'"/></div>'+
+                            '<div class="_vertical" style="margin-top: -50px;">'+
+                                '<div class="_title">'+actor.name+'</div>'+
+                                '<div class="_boxItems" style="top: 30px; left: 70px; width: calc(100% - 58px);">'+                                    
+                                    '<div class="_subItem">'+
+                                        '<a class="_showItem" data-itemid="'+armor.id+'" data-actorid="'+actor.id+'">'+
+                                            '<img src="'+armor.img+'" />'+
+                                        '</a>'+
+                                        '<div style="display: flex; flex-direction: column; width: 100%;">'+
+                                            '<div class="_caption">'+sTxtVerb+'</div>'+
+                                            '<div class="_caption">'+sTxtDetail+'</div>'+
+                                        '</div>'+
+                                    '</div>'+
+                                '</div>'+
+                            '</div>'+                            
+                         '</div>';
+        
+        helperMessages.chatMessage(sContent, 
+                                   actor, 
+                                   false,
+                                   actor.system.control.frame, 
+                                   '140px');        
+
+
+
+        this._dropGarment(actor, itemId);
+        await Item.deleteDocuments([itemId], {parent: actor});
     }
 
     /**

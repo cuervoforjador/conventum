@@ -49,6 +49,7 @@
                         </vbox>
                     </hbox>
                 </li>
+                <ol class="_inGarment">
                 {{#each data.items as |item id|}}
                 {{#if (itemType item 'armor') }}
                     <li class="armorGarment" data-itemId="{{item._id}}">
@@ -57,6 +58,7 @@
                     </li>
                 {{/if}}
                 {{/each}}
+                </ol>
             </ol>
 
 

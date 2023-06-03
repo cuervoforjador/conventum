@@ -113,8 +113,12 @@ export class mainHandlebars {
          if (!actionGroup.showPoster) return false;
          if (!actionGroup.action) return false;
          const actionItem = actionGroup.action.system.item.weapon;
-         return actionItem.type[weapon.system.weaponType];
+         const firstEval = actionItem.type[weapon.system.weaponType];
 
+         const sSize = CONFIG.ExtendConfig.weaponSizes.find(e => e.id === weapon.system.size).property;
+         const secondEval = actionItem.size[sSize];
+
+         return (firstEval && secondEval);
        });       
 
       /**

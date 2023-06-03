@@ -1,0 +1,28 @@
+<div class="_quickBar" draggable="true">
+    
+     <ul>
+     {{#each combats as |combat id|}}
+          <li>
+              <a class="_encounterInfo" data-itemId="{{combat.encounter._id}}">
+                  <img class="_quickButton {{#unless combat.combat.active}} _alpha {{/unless}}" 
+                      src="{{combat.encounter.img}}" />
+              </a>
+          </li>
+     {{/each}}
+
+          <li>
+               <a class="_quickButtonAction">
+               <img class="_quickButton" 
+                    src="/systems/conventum/image/texture/actions.png" />
+               </a>
+          </li>
+          <li>
+               <a class="_quickButtonWeapons">
+               <img class="_quickButton" 
+                    src="/systems/conventum/image/texture/weapons.png" />
+               </a>
+          </li>
+
+     </ul>
+
+</div>

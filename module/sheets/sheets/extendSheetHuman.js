@@ -6,7 +6,7 @@ import { mainBackend } from "../backend/mainBackend.js";
 import { helperSheetHuman } from "../helpers/helperSheetHuman.js";
 import { helperSheetArmor } from "../helpers/helperSheetArmor.js";
 import { helperSheetCombat } from "../helpers/helperSheetCombat.js";
-import { helperRolls } from "../../helpers/helperRolls.js";
+import { helperRolls } from "../helpers/helperRolls.js";
 import { helperActions } from "../helpers/helperActions.js";
 import { mainUtils } from "../../mainUtils.js";
 
@@ -48,7 +48,7 @@ export class extendSheetHuman extends ActorSheet {
     context.backend = await mainBackend.getBackendForActor(this.actor, context.systemData);
     
     //Checking data...
-    helperSheetHuman.checkSystemData(context.systemData, context.backend);
+    helperSheetHuman.checkSystemData(this.actor, context.systemData, context.backend);
     
     //Custo...
     context.custo = await helperSheetHuman.getCusto(context.systemData, context.backend);
@@ -108,6 +108,8 @@ export class extendSheetHuman extends ActorSheet {
     //Checking Items..
     helperSheetHuman.checkMyItems(this.actor);
 
+    context.systemData.quickBar = this._setQuickBar(context.systemData.quickBar);
+
     return context;
   }
 
@@ -119,6 +121,15 @@ export class extendSheetHuman extends ActorSheet {
   activateListeners(html) {
     super.activateListeners(html);
     if ( !this.isEditable ) return;
+
+    /* Misc */
+    html.find("._showQuickBar").click(this._showQuickBar.bind(this));
+    if (html.find("._quickBar").length > 0) {
+        html.find("._quickBar").draggable();
+        html.find("._quickBar").bind('dragstop', this._moveQuickBar.bind(this));      
+    }
+    html.find("._quickButtonAction").click(this._openTabActions.bind(this));
+    html.find("._quickButtonWeapons").click(this._openTabWeapons.bind(this));
 
     /* Traits */
     html.find("._traitShow").click(this._traitShow.bind(this));
@@ -153,7 +164,54 @@ export class extendSheetHuman extends ActorSheet {
   /** ******************************************
    *  EVENTS
    ****************************************** */
-  
+  _setQuickBar(quickBar) {
+    return (quickBar === 'false') ? false : 
+           (quickBar === 'true') ? true :
+            quickBar;
+  }
+  _showQuickBar(event) {
+    event.preventDefault();
+    this.actor.system.quickBar = this._setQuickBar(this.actor.system.quickBar);
+
+    let bQuickBar = !this.actor.system.quickBar;
+    this.actor.update({
+      system:{ quickBar: bQuickBar,
+               quickBarPosition: {
+                x: this.actor.sheet.position.left + 18,
+                y: this.actor.sheet.position.top + 18
+              }}
+    });
+  }
+
+  _moveQuickBar(event) {
+    event.preventDefault();
+    let hSheet = $('.app.window-app.conventum.sheet.actor');
+    let quickBar = $(event.target);
+    let posX = hSheet.position().left + quickBar.position().left;
+    let posY = hSheet.position().top + quickBar.position().top;
+    
+    this.actor.update({
+      system: {quickBarPosition: {
+        x: posX,
+        y: posY,
+        sheetX: hSheet.position().left,
+        sheetY: hSheet.position().top
+      }}
+    });
+  }
+
+  _openTabActions(event) {
+    event.preventDefault();
+    this.actor.sheet._tabs[0].activate('combat');
+    this.actor.sheet._tabs[2].activate('combatActions');
+  }
+
+  _openTabWeapons(event) {
+    event.preventDefault();
+    this.actor.sheet._tabs[0].activate('combat');
+    this.actor.sheet._tabs[2].activate('combatWeapons');    
+  }
+
   async _traitShow(event) {
     event.preventDefault();
     const itemId = event.currentTarget?.dataset.itemid;
@@ -195,12 +253,14 @@ export class extendSheetHuman extends ActorSheet {
   _diceSkill(event) {
     event.preventDefault();
     const skillId = event.currentTarget?.dataset.itemid;
+    const actionId = event.currentTarget?.dataset.actionid;
+    const sFormula = event.currentTarget?.dataset.formula;
     const skillItem = game.packs.get('conventum.skills').get(skillId);
     if (!skillItem) return;
     const skill = this.actor.system.skills[skillId];
     if (!skill) return;
     const sPath = 'skills.'+skillId;
-    helperRolls.rollDices(this.actor, sPath, true);
+    helperRolls.rollDices(this.actor, sPath, true, sFormula, actionId);
   }
 
   _playWeapon(event) {

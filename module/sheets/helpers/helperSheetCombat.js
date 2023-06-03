@@ -5,6 +5,7 @@
 import { helperMessages } from "./helperMessages.js";
 import { helperActions } from "./helperActions.js";
 import { helperRolls } from "./helperRolls.js";
+import { helperSheetArmor } from "./helperSheetArmor.js"
 
 export class helperSheetCombat {
 
@@ -189,19 +190,37 @@ export class helperSheetCombat {
         const bValidActions = (nTotalActions <= nMaxActions);
 
         //Asking for Locations
-        let sAskingLocation = '<label class="_minimal3">'+game.i18n.localize('common.location')+'</label>'+
-                              '<div class="_askingForLocation">';
-        if (action.system.location.askForLocation) {
 
+            //Focus in location
+            let bFocusLocation = false;
+            let sFocusLocation = '';
+            for (const s in action.system.location.focusLocation) {
+                if (action.system.location.focusLocation[s].apply) {
+                    bFocusLocation = true;
+                    sFocusLocation = s;
+                }
+            }
+
+        let sAskingLocation = "";
+        if ( (action.system.location.askForLocation) || (bFocusLocation) ) {
+            sAskingLocation = '<label class="_minimal3">'+game.i18n.localize('common.location')+'</label>'+
+                                    '<div class="_askingForLocation">';
+
+            let forceChecked = (bFocusLocation) ? 'checked' : '';
+            let forceDissabled = (bFocusLocation) ? 'disabled' : '';
             sAskingLocation += '<hbox class="_100">'+
-                                    '<input type="checkbox" id="actApplyLocation" value="" />'+
+                                    '<input type="checkbox" id="actApplyLocation" value="" '+
+                                        forceChecked+' '+forceDissabled+' />'+
                                     '<label>'+game.i18n.localize("common.applyLocation")+'</label>'+
                                '</hbox>';
 
             const sFirst = game.template.Actor.types[0];
             sAskingLocation += '<select name="actTargetType" class="_actTargetType" disabled>';
             game.template.Actor.types.forEach(s => {
-                sAskingLocation += '<option value="'+s+'">'+game.i18n.localize("template."+s)+'</option>';
+                if (!bFocusLocation)
+                    sAskingLocation += '<option value="'+s+'">'+game.i18n.localize("template."+s)+'</option>';
+                else if (s === action.system.location.actorType)
+                    sAskingLocation += '<option value="'+s+'" selected>'+game.i18n.localize("template."+s)+'</option>';
             });
             sAskingLocation += '</select>';
 
@@ -209,11 +228,13 @@ export class helperSheetCombat {
             Array.from(game.packs.get("conventum.locations"))
                            .filter(e => e.system.actorType === 'human')
                            .forEach(oLocation => {
-                sAskingLocation += '<option value="'+oLocation.id+'">'+oLocation.name+'</option>';
+                if (!bFocusLocation)
+                    sAskingLocation += '<option value="'+oLocation.id+'">'+oLocation.name+'</option>';
+                else if (oLocation.id === sFocusLocation)
+                    sAskingLocation += '<option value="'+oLocation.id+'" selected >'+oLocation.name+'</option>';
             });
-            sAskingLocation += '</select>';
+            sAskingLocation += '</select></div>';
         }
-        sAskingLocation += '</div>';
 
         let sContent = '<div class="_posterAction">'+
                             '<img src="'+action.img+'">'+
@@ -415,7 +436,11 @@ export class helperSheetCombat {
      */
     static async setTargetPlayWeapon(actor, actorTokenId, action, weaponId) {
         let oActor = game.actors.get(actorTokenId);
-        let tokenId = oActor.getActiveTokens()[0].id;        
+        let tokenId = oActor.getActiveTokens()[0].id;   
+        let encounter = helperSheetCombat.myActiveCombat(actor).encounter;
+        let actualStep = encounter.system.steps.filter(e => !e.consumed)[0];
+        actualStep.targets = [tokenId];
+        await encounter.update({system: {steps: encounter.system.steps}});
         await game.user.updateTokenTargets([tokenId]);
         helperSheetCombat.playWeapon(actor, weaponId);
         if (actor.sheet.rendered) actor.sheet.render(true);
@@ -446,18 +471,18 @@ export class helperSheetCombat {
 
         const actionItem = (actorActions.action !== '') ? actorActions.action : null;
         let mods = {
-            attack: '',
-            defense: '',
+            skill: '',
+            skillTxt: '',
             damage: '',
-            percent: ''
+            damageTxt: ''
         };
 
-        //Percents Mods
-        helperSheetCombat._modActionWeaponPercent(actor, actionItem, weaponItem, mods);
-        let finalPercent = Number(eval(actorSkill.value.toString()+mods.percent));
+        //CombatSkill
+        helperSheetCombat._modActionCombatSkill(actor, actionItem, weaponItem, mods);
+        let finalPercent = Number(eval(actorSkill.value.toString()+mods.skill));
 
-        //Damage Mods
-        helperSheetCombat._modActionWeaponDamage(actor, actionItem, weaponItem, mods);
+        //Damage
+        helperSheetCombat._modActionCombatDamage(actor, actionItem, weaponItem, mods);
         let finalDamage = weaponItem.system.damage+mods.damage;
 
         //Leveled Rolls
@@ -476,11 +501,12 @@ export class helperSheetCombat {
      * @param {*} sTargets 
      * @param {*} sDamage 
      */
-    static async rollDamage(weaponId, actorId, sTargets, sDamage, messageId, locationId) {
+    static async rollDamage(weaponId, actorId, actionId, sTargets, sDamage, messageId, locationId) {
         const actor = game.actors.get(actorId);
         if (!actor) return;
         const weapon = actor.items.get(weaponId);
         if (!weapon) return;
+        const action = (actionId) ? actor.items.get(actionId) : null;
         const mTargets = sTargets.split('.');
 
         //Rolling Damage...
@@ -507,7 +533,7 @@ export class helperSheetCombat {
 
         //Applying damage to each target...
         for (var i=0; i<mTargets.length; i++) {
-            await helperSheetCombat.applyDamage(mTargets[i], damage, locationId);
+            await helperSheetCombat.applyDamage(mTargets[i], damage, locationId, actor, action);
         }
 
     }
@@ -520,13 +546,18 @@ export class helperSheetCombat {
     static async _addAction(actor, action, dialog, button) {
         
         //Apply Location...
-        let applyLocation = {
-            apply: dialog.find('#actApplyLocation')[0].checked,
-            actorType: dialog.find('#actApplyLocation')[0].checked ? 
-                            dialog.find('[name=actTargetType]').find(":selected").val() : null,
-            location: dialog.find('#actApplyLocation')[0].checked ? 
-                            dialog.find('[name=actTargetLocation]').find(":selected").val() : null
-        };
+        let applyLocation = dialog.find('#actApplyLocation')[0] ? 
+            {
+                apply: dialog.find('#actApplyLocation')[0].checked,
+                actorType: dialog.find('#actApplyLocation')[0].checked ? 
+                                dialog.find('[name=actTargetType]').find(":selected").val() : null,
+                location: dialog.find('#actApplyLocation')[0].checked ? 
+                                dialog.find('[name=actTargetLocation]').find(":selected").val() : null
+            } : {
+                apply: false,
+                actorType: null,
+                location: null
+            };
 
         const activeCombat = Array.from(game.combats).find(e => e.active);
         if (!activeCombat) return;
@@ -556,12 +587,17 @@ export class helperSheetCombat {
      * @param {*} actorId 
      * @param {*} nDamage 
      */
-    static async applyDamage(actorId, nDamage, locationId) {
+    static async applyDamage(actorId, nDamage, locationId, actorFrom, action) {
         let actor = game.actors.get(actorId);
         if (!actor) return;
         const sWorld = actor.system.control.world;
         const oWorld = await game.packs.get('conventum.worlds').get(sWorld);  
         
+        let activeCombat = helperSheetCombat.myActiveCombat(actorFrom);
+        let steps = activeCombat.encounter.system.steps
+                                          .filter(e => e.actor === actorFrom.id);
+
+
         let finalDamage = 0;
         let armorDamage = 0;
 
@@ -572,7 +608,7 @@ export class helperSheetCombat {
                                                && (e.system.actorType === actor.type));
 
         let location;
-        if (locationId === '') {
+        if ((locationId === '') || (!locationId)) {
 
             //Rolling Location...
             const sDice = '1d10';
@@ -586,10 +622,26 @@ export class helperSheetCombat {
         } else
             location = mLocations.find(e => e.id === locationId);
         
-        //Armor
-        const armorProtection = (actor.system.armor[location.id]) ?
+        //Armor Protection
+        let armorProtection = (actor.system.armor[location.id]) ?
                                     Number(actor.system.armor[location.id].protection) : 0;
         
+        let noByTarget = false;
+        let modProtection = (action) ? action.system.armor.mod.protection : '+0';
+        for (const step of steps) {
+            const oAction = actorFrom.items.get(step.action);
+            if ((oAction.system.armor.mod.stack) && (oAction.id !== action.id))
+                modProtection = modProtection.toString()+ oAction.system.armor.mod.protection;
+            if ((step.targets) && 
+                (step.targets.find(e => e === actorFrom.id))
+                && (oAction.system.armor.mod.targetProtection !== '') ) {
+                    if (oAction.system.armor.targetNoProtection) noByTarget = true;
+                    modProtection = modProtection.toString()+ oAction.system.armor.mod.targetProtection;
+                }
+        }
+        armorProtection = (armorProtection != 0) ? eval(armorProtection.toString() + modProtection) : 0;
+        if ((action.system.armor.noProtection) || (noByTarget)) armorProtection = 0;
+
         if (armorProtection >= nDamage) { 
             finalDamage = 0;
             armorDamage = nDamage;
@@ -599,7 +651,7 @@ export class helperSheetCombat {
         }
         finalDamage = Math.round(finalDamage);
 
-        //Damage
+        //Apply Damage
         const nHp = actor.system.characteristics.secondary.hp.value - finalDamage;
         const nArmor = actor.system.armor[location.id].value - armorDamage;
         let armorModif = {};
@@ -612,16 +664,39 @@ export class helperSheetCombat {
             }
         });
 
-        //Armor damage...
+        //Armor damage... (Endurance)
         if ( actor.system.armor[location.id].itemID 
           && (actor.system.armor[location.id].itemID !== '') ) {
 
-            let armorItem = actor.items.get(actor.system.armor[location.id].itemID);            
+            let armorItem = actor.items.get(actor.system.armor[location.id].itemID);
+
+            let noByTarget = false;
+            let armorEndurance = armorItem.system.enduranceCurrent;
+            let modEndurance = (action) ? action.system.armor.mod.endurance : '+0';
+            for (const step of steps) {
+                const oAction = actorFrom.items.get(step.action);
+                if ((oAction.system.armor.mod.stack) && (oAction.id !== action.id))
+                modEndurance = modEndurance.toString()+ oAction.system.armor.mod.endurance;
+                if ((step.targets) && 
+                    (step.targets.find(e => e === actorFrom.id))
+                    && (oAction.system.armor.mod.targetEndurance !== '') ) {
+                        if (oAction.system.armor.noEndurance) noByTarget = true;
+                        modEndurance = modEndurance.toString()+ oAction.system.armor.mod.targetEndurance;
+                }
+            }            
+            armorEndurance = (armorEndurance != 0) ? eval(armorEndurance.toString() + modEndurance) : 0;
+            if ((action.system.armor.noEndurance) || (noByTarget)) armorDamage = 0;
+
             armorItem.update({
                 system: {
-                    enduranceCurrent: armorItem.system.enduranceCurrent - armorDamage
+                    enduranceCurrent: armorEndurance - armorDamage
                 }
             });
+
+            if ( (action.system.armor.breakArmor) ||
+                 ((armorEndurance - armorDamage) <= 0) ) {
+                    helperSheetArmor.destroyArmor(actor, armorItem.id);
+            }
         }
 
         //Bubble message
@@ -647,44 +722,89 @@ export class helperSheetCombat {
     }
 
     /**
-     * _modActionWeaponPercent
+     * consumeMyStep
      * @param {*} actor 
-     * @param {*} action 
-     * @param {*} weapon 
+     * @returns 
      */
-    static _modActionWeaponPercent(actor, action, weapon, mods) {
-        if (!actor || !action || !weapon) return;
-        
-        /*
-        let sMod = '';
-        if (action.system.type.attack) {
-            sMod = action.system.attack.mod;
-            mods.attack = sMod;
-        }
+    static consumeMyStep(actor) {
 
-        if (action.system.type.defense) {
-            sMod = action.system.defense.mod;
-            mods.defense = sMod;
-        }        
-        mods.percent = sMod;
-        */
+        //Encounter Step 
+        const myCombat = helperSheetCombat.myActiveCombat(actor);
+        if (!myCombat) return;
+        if ( (!myCombat.encounter.system.steps) ||
+            (myCombat.encounter.system.steps.length === 0) ) return;
+
+        let oEncounter = game.items.get(myCombat.encounter.id);
+        let mSteps = oEncounter.system.steps;
+        let oStep = mSteps.find(e => (e.actor === actor.id)
+                                    && (!e.consumed));
+
+        //Consuming action
+        oStep.consumed = true;
+        oEncounter.update({
+            system: { steps: mSteps }
+        });        
     }
 
     /**
-     * _modActionWeaponDamage
+     * _modActionCombatSkill
      * @param {*} actor 
      * @param {*} action 
      * @param {*} weapon 
      */
-    static _modActionWeaponDamage(actor, action, weapon, mods) {
+    static _modActionCombatSkill(actor, action, weapon, mods) {
         if (!actor || !action || !weapon) return;
         
-        /*
-        let sMod = '';
-        sMod = action.system.damage.mod;
+        mods.skill = action.system.skill.mod.combatSkill;
+        mods.skillTxt = "";
+
+        let myActiveCombat = helperSheetCombat.myActiveCombat(actor);
+        let mySteps = myActiveCombat.encounter.system.steps
+                                              .filter(e => e.actor === actor.id);
+        for (const step of mySteps) {
+            const oAction = actor.items.get(step.action);
+            if ((oAction.system.skill.mod.stack) && (oAction.id !== action.id)) {
+                mods.skill += oAction.system.skill.mod.combatSkill;
+                mods.skillTxt += "/stack";
+            }
+            if ((step.targets) && 
+                (step.targets.find(e => e === actor.id))
+                && (oAction.system.skill.mod.targetCombatSkill !== '') ) {
+                    mods.skill += oAction.system.skill.mod.targetCombatSkill;
+                    mods.skillTxt += "/byTarget";
+            }
+        }
+    }
+
+    /**
+     * _modActionCombatDamage
+     * @param {*} actor 
+     * @param {*} action 
+     * @param {*} weapon 
+     */
+    static _modActionCombatDamage(actor, action, weapon, mods) {
+        if (!actor || !action || !weapon) return;
         
-        mods.damage = sMod;
-        */
+        mods.damage = action.system.damage.mod.damage;
+        mods.damageTxt = "";
+
+        let myActiveCombat = helperSheetCombat.myActiveCombat(actor);
+        let mySteps = myActiveCombat.encounter.system.steps
+                                              .filter(e => e.actor === actor.id);
+        for (const step of mySteps) {
+            const oAction = actor.items.get(step.action);
+            if ((oAction.system.damage.mod.stack) && (oAction.id !== action.id)) {
+                mods.damage += oAction.system.damage.mod.damage;
+                mods.damageTxt += "/stack";
+            }
+            if ((step.targets) && 
+                (step.targets.find(e => e === actor.id))
+                && (oAction.system.damage.mod.targetDamage !== '') ) {
+                    mods.damage += oAction.system.damage.mod.targetDamage;
+                    mods.damageTxt += "/byTarget";
+            }
+        }        
+
     }    
 
 }

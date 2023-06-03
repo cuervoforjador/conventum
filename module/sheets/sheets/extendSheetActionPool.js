@@ -90,8 +90,12 @@ export class extendSheetActionPool extends ItemSheet {
   async _verb(event) {
     event.preventDefault();
     const actionId = event.currentTarget?.dataset.actionid,
+          stepId = Number(event.currentTarget?.dataset.stepid),
           actorId = event.currentTarget?.dataset.actorid,
           sVerb = event.currentTarget?.dataset.verb;
+
+    //Indexing...
+    this.item.system.steps.forEach((e, i) => {e.index = i;});
 
     // SHOW
     if (sVerb === 'show') {
@@ -107,6 +111,7 @@ export class extendSheetActionPool extends ItemSheet {
     // DELETE
     if (sVerb === 'delete') {
       let mSteps = this.item.system.steps.filter(e => !( (e.action === actionId) && 
+                                                         (e.index === stepId) &&
                                                          (e.actor === actorId) ) );
       if (!mSteps) return;
       await this.item.update({
@@ -120,7 +125,9 @@ export class extendSheetActionPool extends ItemSheet {
 
       let mSteps = this.item.system.steps;
       mSteps.forEach(function(step) {
-        if ( (step.action === actionId) && (step.actor === actorId) )
+        if ( (step.action === actionId) && 
+             (step.index === stepId) && 
+             (step.actor === actorId) )
           step.consumed = true;
       }.bind(this));
 
@@ -135,7 +142,9 @@ export class extendSheetActionPool extends ItemSheet {
 
       let mSteps = this.item.system.steps;
       mSteps.forEach(function(step) {
-        if ( (step.action === actionId) && (step.actor === actorId) )
+        if ( (step.action === actionId) && 
+             (step.index === stepId) && 
+             (step.actor === actorId) )
           step.consumed = false;
       }.bind(this));
 
@@ -149,6 +158,7 @@ export class extendSheetActionPool extends ItemSheet {
     if (sVerb === 'play') {
 
       let oStep = this.item.system.steps.find(e => ( (e.action === actionId) && 
+                                                     (e.index === stepId) && 
                                                      (e.actor === actorId) ) );
       if (!oStep) return;
       helperSheetCombat.playAction(actorId, actionId);

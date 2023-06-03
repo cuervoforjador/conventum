@@ -43,7 +43,7 @@ export class helperSheetHuman {
    * checkSystemData
    * @param {*} systemData 
    */
-  static async checkSystemData(systemData, backend) {
+  static async checkSystemData(actor, systemData, backend) {
 
     this._checkCharacteristics(systemData);
     this._calcCharacteristics(systemData);
@@ -52,6 +52,7 @@ export class helperSheetHuman {
     this._calcWeight(systemData);
     this._calcHeight(systemData);
     this._checkBio(systemData, backend);
+    this._checkWeaponsInHands(actor, systemData);
   }
 
   /**
@@ -280,6 +281,16 @@ export class helperSheetHuman {
    */  
   static _checkBio(systemData, backend) {
     //...
+  }
+
+  /**
+   * _checkWeaponsInHands
+   * @param {*} systemData 
+   */
+  static _checkWeaponsInHands(actor, systemData) {
+
+    let mWeapons = Array.from(actor.items).filter(e => e.type === 'weapon');
+
   }
 
   /**
