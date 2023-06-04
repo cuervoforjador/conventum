@@ -1,5 +1,8 @@
 <h1>Aquelarre for FoundryVTT</h1>
 
+## Important!
+This system is currently under development. Refrain from installing it until further notice.
+
 ## FoundryVTT Integration
 
 Install in Foundry VTT from the Game Systems tab, using the following manifest:
