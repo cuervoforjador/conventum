@@ -11,6 +11,7 @@ import { HookMessage } from "./_hooksMessage.js";
 import { HookCombat } from "./_hooksCombat.js";
 import { HookTours } from "./_hooksTours.js";
 import { helperSocket } from "../helpers/helperSocket.js";
+import { helperSheetArmor } from "../sheets/helpers/helperSheetArmor.js";
 
 
 export class mainHooks {
@@ -26,9 +27,11 @@ export class mainHooks {
         Hooks.on("canvasReady", (canvas) => this._canvasReady(canvas));
         Hooks.on("renderCompendiumDirectory", (tab, element, info) => this._renderCompendiumDirectory(tab, element, info));        
         Hooks.on("renderCompendium", (compendium, element, collection) => this._renderCompendium(compendium, element, collection));
+        Hooks.on("renderextendSheetHuman", (sheet, html, options) => this._renderextendSheetHuman(sheet, html, options));
         Hooks.on("changeSidebarTab", (tab) => this._changeSidebarTab(tab));
         Hooks.on("renderItemSheet", (sheet, element, systemData) => this._renderItemSheet(sheet, element, systemData));
         Hooks.on("dropActorSheetData", (actor, sheet, item) => this._dropActorSheetData(actor, sheet, item));
+        Hooks.on("createItem", (item, options, sId) => this._createItem(item, options, sId));
         Hooks.on("renderActorSheet", (sheet, html, systemData) => this._renderActorSheet(sheet, html, systemData));
         Hooks.on("renderDialog", (dialog, element, content) => this._renderDialog(dialog, element, content));
         Hooks.on("renderApplication", (options, element, content) => this._renderApplication(options, element, content));
@@ -37,6 +40,7 @@ export class mainHooks {
         Hooks.on("renderCombatTracker", (tracker, html, options) => this._renderCombatTracker(tracker, html, options));
         Hooks.on("deleteCombat", (combat, render, sId) => this._deleteCombat (combat, render, sId));
         Hooks.on("preCreateItem", (oFrom, oTo, options, sId) => this._preCreateItem(oFrom, oTo, options, sId));
+        Hooks.on("createToken", (document, options, sId) => this._createToken(document, options, sId));
     }
 
     static _setup() {
@@ -64,6 +68,23 @@ export class mainHooks {
         HookEvents.compendiumEvent();
     }
 
+    static _renderextendSheetHuman(sheet, html, options) {
+        const bExpand = sheet.object.system.control.expand;
+        if (!bExpand) {
+            sheet.setPosition({width: 400, height: 650});
+            sheet.element.find('.window-resizable-handle').hide();
+            sheet.element.find('.window-content').addClass('_shrink');
+        } else {
+            if (sheet.position.width < 400)
+                sheet.setPosition({width: 400});
+            if (sheet.position.height < 600)
+                sheet.setPosition({height: 600});
+            
+            sheet.element.find('.window-content').removeClass('_shrink');
+            sheet.element.find('.window-resizable-handle').show();
+        }
+    }
+
     static _changeSidebarTab(tab) {
         if ( tab.entryType === 'Compendium' ) {
             HookCompendium._stylingLiCompendium(tab);
@@ -86,6 +107,10 @@ export class mainHooks {
             
             //No Human Items...
             if (CONFIG.ExtendConfig.noHumanItems.find(e => e === sType)) {
+
+                //Exceptions: Skills in Shrink mode
+                if ((!actor.system.control.expand) && (sType === 'skills')) return;
+
                 new Dialog({
                     title: game.i18n.localize("common.config"),
                     content: game.i18n.localize("info.noHumanAction"),
@@ -95,8 +120,15 @@ export class mainHooks {
             }
 
             if (sType === 'trait')
-                await HookActor.addTrait(oItem, actor, sheet);
+                await HookActor.checkAddTrait(oItem, actor, sheet);
         }
+    }
+
+    static async _createItem(item, options, sId) {
+        if (item.type === 'armor')
+            await helperSheetArmor.addArmor(item);
+        //if (item.type === 'trait')
+            //...
     }
 
     static _renderActorSheet(sheet, html, systemData) {
@@ -146,5 +178,9 @@ export class mainHooks {
 
     static async _preCreateItem(oFrom, oTo, options, sId) {
         //...
+    }
+
+    static _createToken(document, options, sId) {
+        document._source.actorLink = true;
     }
 }

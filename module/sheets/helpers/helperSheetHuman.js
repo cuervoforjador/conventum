@@ -1,7 +1,9 @@
+
+import { helperSheetArmor } from "./helperSheetArmor.js";
+
 /**
  * Helpers for Human Sheet
  */
-
 export class helperSheetHuman {
 
   /**
@@ -59,16 +61,17 @@ export class helperSheetHuman {
    * checkMyItems
    * @param {*} actor 
    */
-  static async checkMyItems(actor) {
+  static async checkMyItems(actor, systemData) {
     let mItems = actor.items;
 
     //Forbidden items...
     for (const s of CONFIG.ExtendConfig.noHumanItems) {
       const pack = await game.packs.get('conventum.'+s);
-      if (!pack) break;
-      if (Array.from(pack).length < 1) break;
+      if (!pack) continue;
+      if (Array.from(pack).length < 1) continue;
       const sType = Array.from(pack)[0].type;
       for (const oItem of Array.from(mItems).filter(e => e.type === sType)) {
+        //Deleting...
         oItem.delete();
       }
     }
@@ -79,13 +82,106 @@ export class helperSheetHuman {
     for (const oAction of Array.from(actionsPack)
                                .filter(e => e.system.type.initial)) {
         if ( !mActorActions.find(e => ( (e.name === oAction.name) ||
-                                        (e.system.mold === oAction.id) )) ) {
+                                        (e.system.control.mold === oAction.id) )) ) {
             //Adding Action..
             await Item.create(oAction, {parent: actor});
             actor.sheet.render(true);
         }
     }
+  }
 
+  /**
+   * itemsInUse
+   * @param {*} actor 
+   * @param {*} systemData 
+   */
+  static async itemsInUse(actor, systemData) {
+    
+    //Armor...
+    let mArmor = actor.items.filter(e => e.type === 'armor');
+    for (let item of mArmor) {
+      let inUse = false;
+      for (const s in systemData.armor) {
+        if (systemData.armor[s].itemID === item.id) inUse = true;
+      }
+      await item.update({system: {inUse: inUse}});
+    }
+
+    //Weapons...
+    let mWeapons = actor.items.filter(e => e.type === 'weapon');
+    for (let item of mWeapons) {
+
+      const bInLeftHand = (item.system.inHands.inLeftHand === 'true') ? true : 
+                          (item.system.inHands.inLeftHand === 'false') ? false : 
+                          (!item.system.inHands.inLeftHand) ? false : 
+                            item.system.inHands.inLeftHand;
+      const bInRightHand = (item.system.inHands.inRightHand === 'true') ? true : 
+                          (item.system.inHands.inRightHand === 'false') ? false : 
+                          (!item.system.inHands.inRightHand) ? false : 
+                            item.system.inHands.inRightHand;                            
+      const bInBothHands = (item.system.inHands.inBothHands === 'true') ? true : 
+                          (item.system.inHands.inBothHands === 'false') ? false : 
+                          (!item.system.inHands.inBothHands) ? false : 
+                            item.system.inHands.inBothHands;
+      const inUse = (bInLeftHand || bInRightHand || bInBothHands);
+
+      await item.update({system: {
+                          inUse: inUse,
+                          inHands: {
+                            inLeftHand: bInLeftHand,
+                            inRightHand: bInRightHand,
+                            inBothHands: bInBothHands
+                          }
+                        }});
+    }    
+
+  }
+
+  /**
+   * getSkills
+   * @param {*} context 
+   */
+  static getSkills(actor, context) {
+
+    context.backend.skills.forEach( skill => {
+      if (!context.systemData.skills[skill.id]) {
+        context.systemData.skills[skill.id] = {
+          value: 0,
+          penal: 0,
+          initial: 0,
+          acquired: false
+        };
+      }
+      let actorSkill = context.systemData.skills[skill.id];
+
+      actorSkill.initial = 
+          context.systemData.characteristics.primary[skill.system.characteristic.primary].value;
+      if (actorSkill.value < actorSkill.initial) actorSkill.value = actorSkill.initial;
+      actorSkill.penal = helperSheetArmor.calcPenalByArmor(actor, skill);
+    });
+
+    //Acquiring Skills...
+    for (const oItem of Array.from(actor.items).filter(e => e.type === 'skill')) {
+        if (oItem.system.control.mold !== '') {
+          context.systemData.skills[oItem.system.control.mold].acquired = true;
+          let path = {system: {skills: {}}};
+          path.system.skills[oItem.system.control.mold] = {acquired: true};
+          actor.update(path);
+        }
+    }
+  }
+
+  /**
+   * getModes
+   * @param {*} actor 
+   * @param {*} context 
+   */
+  static async getModes(actor, context) {
+    const sWorld = actor.system.control.world;
+    const oWorld = await game.packs.get('conventum.worlds').get(sWorld);
+    const mModes = Array.from(await game.packs.get('conventum.modes'))
+                                .filter(e => e.system.control.world === sWorld);
+    return mModes;
   }
 
 /** ***********************************************************************************************

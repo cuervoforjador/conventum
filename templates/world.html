@@ -88,6 +88,16 @@
                     {{!-- Roll levels --}}
                     <h1 class="_modTitle">{{localize "common.rollLevel" }}</h1>
 
+                    <hbox class="_mod">
+                        <label style="width: calc(100% - 100px)">{{localize "common.charAndLevels" }}</label>
+                        <label class="switch" style="margin-right: -16px;">
+                            <input type="checkbox" 
+                                name="system.config.rolls.charAndLevels" 
+                                {{checked 'systemData.config.rolls.charAndLevels'}} />
+                            <span class="sliderSwitch"></span>
+                        </label>                        
+                    </hbox>
+
                     {{#each mRollDice as |sRoll key|}}
                     <hbox class="_mod">
                         <label>{{localizeExtend "common." sRoll "" }}</label>
@@ -166,4 +176,9 @@
         </div>
     </itemContent>
     
+{{!-- Molding ---}}
+<input name="system.control.mold"
+        value="{{systemData.control.mold}}" 
+        type="hidden" />   
+
 </form>

@@ -49,6 +49,9 @@ export class extendSheetActionPool extends ItemSheet {
     //Im Master..
     context.imMaster = game.user.isGM;
 
+    //Molding...
+    helperSheetItem.molding(context);
+
     return context;
   }
 

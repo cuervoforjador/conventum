@@ -289,6 +289,284 @@ inkDetail.inkSubline {
     left: calc(76px - 20px)!important;
 }
 
+    /*... Shrinks ...*/
+    section.window-content._shrink {
+        padding: 0px;
+    }
+    ._shrink ._portrait {
+        min-width: 110px!important;
+        height: 121px!important;
+        margin-left: -5px;
+    }    
+    ._shrink img.profile-img {
+        width: 110px!important;
+        height: 110px!important;
+    }    
+    ._shrink input[name='name'] {
+        background: none!important;
+        border-bottom: 3px solid #9f4436!important;
+        font-size: 22px;
+        line-height: 22px!important;
+        height: auto!important;
+    }    
+    .mainShrink {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .shrinkLeft {
+        border-right: 1px solid #33333347;
+        padding-right: 8px;
+    }    
+    .headerInfo._shrink {
+        height: auto;
+    }
+    h3._shrink {
+        margin-bottom: 0px;
+        font-family: 'Almendra';
+        padding-left: 4px;
+        padding-top: 7px;
+        margin-left: 4px;
+        margin-right: 4px;
+        border-bottom: 0px;
+        font-size: 16px;
+        line-height: 16px;
+    }    
+    h3._shrink::first-letter {
+        font-size: 28px;
+        font-weight: 900;
+        color: #bb4848;
+    }    
+    ul.charsLineShrink,
+    .hitPointsShrink {
+        margin: 0px;
+        padding: 0px;
+        padding-left: 14px;
+        width: 90px;
+        display: flex;
+        flex-direction: column;
+    }    
+    .hitPointsShrink {
+        margin-top: 2px;
+        padding-top: 2px;
+    }
+    li.charsShrink {
+        display: flex;
+        width: 100%;
+        margin: 0px;
+        padding: 0px;
+        align-content: center;
+        flex-direction: row;
+        align-items: center;
+    }
+    .charsShrink label {
+        width: 100px;
+    }    
+    .charsShrink input._temporal,
+    .hitPointsShrink input {
+        border: 1px solid #3333336b!important;
+        border-radius: 3px!important;
+        height: 20px;
+        line-height: 20px;
+        text-align: center;
+        font-family: 'Almendra';
+        font-size: 18px;
+        padding-bottom: 4px;
+        color: #333!important;
+        margin-bottom: 2px;
+        margin-top: 2px;
+    }
+    .hitPointsShrink label {
+        font-size: 11px;
+    }
+    .hitPointsShrink line {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+        align-content: space-between;
+    }    
+    input._hitPointsShrink {
+        width: 34px;
+        background: #cb979740!important;
+    }
+    input._hitStatusShrink {
+        height: 13px;
+        width: 13px;
+        margin: 0px;
+        padding: 0px;
+    }        
+    label._hitLabelShrink {
+        width: 100%;
+        display: flex;
+        font-size: 10px;
+        padding-right: 3px;
+        justify-content: flex-end;
+    }
+    label._shrink {
+        font-family: 'Almendra';
+        font-size: 15px;
+        line-height: 18px;
+    } 
+    .skillsShrink, .weaponsShrink, .wrapArmorShrink {
+        width: 275px;
+        padding-left: 5px;
+    }    
+    ul.wrapSkillShrink {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0px!important;
+        padding: 0px!important;
+        padding-left: 6px!important;
+        padding-top: 6px!important;
+    }
+    li.boxSkillShrink {
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        align-items: center;
+        justify-content: flex-start;
+        width: 50%;
+    }
+    label._label._shrink {
+        cursor: pointer;
+    }    
+    input._acquired._shrink {
+        position: initial;
+        top: initial;
+        left: initial;
+        opacity: 0.6;
+        margin: 0px;
+    }
+    input._skillValue._shrink {
+        font-size: 17px!important;
+        line-height: 17px!important;
+        border: 0px!important;
+        padding: 0px!important;
+        margin: 0px!important;
+        height: 17px;
+        width: 25px;
+        border-radius: 3px!important;
+    }
+    input._skillPenal._shrink {
+        line-height: 17px!important;
+        font-size: 17px!important;
+        position: initial;
+        top: auto;
+        left: auto;
+        margin: 0px!important;
+        opacity: 1;
+        text-shadow: none!important;
+    }
+    label._penal._shrink {
+        font-size: 16px;
+        font-family: 'Almendra';
+        font-weight: 900;
+        color: #F00;
+        margin-left: 3px;
+    }            
+    a._diceSkill._shrink img {
+        width: 25px;
+        height: 25px;
+        border: 0px!important;
+        opacity: 1;
+    }    
+    a._diceSecondary img {
+        border: none;
+        width: 24px;
+    }    
+    ._activeLuck label {
+        border: 1px solid #3333332b;
+        padding: 4px;
+        font-size: 11px;
+        border-radius: 2px;
+        background: #c17d7d2b;
+        cursor: pointer;
+    }
+    label._noSkills {
+        font-family: 'Almendra';
+        font-size: 13px;
+        line-height: 17px;
+        white-space: pre-line;
+        text-align: justify;
+        padding: 5px;
+        border: 1px solid #33333357;
+        border-radius: 4px;
+    }
+    label._noSkills::first-letter {
+        font-size: 20px;
+        color: #5a4b4b;
+    }
+    .weaponsShrink {
+        margin-top: 7px;
+    }
+    img.imgWeapon2._shrink {
+        width: 24px!important;
+        height: 23px!important;
+        margin-right: 2px;
+        border: 0px;
+    }
+    li.boxWeapon._shrink {
+        border-bottom: 0px!important;
+        margin-top: -9px!important;
+    }
+    img.imgAction._shrink {
+        width: 20px;
+        border: 0px;
+        position: relative;
+        top: 5px;
+        opacity: 0.8;
+    }        
+    label._label._shrink._short {
+        margin-right: -2px;
+        line-height: 10px;
+    }
+    ul.wrapArmorShrink {
+        margin-top: 3px;
+    }    
+    .wrapArmorShrink li {
+        line-height: 14px;
+        margin: 0px;
+        padding: 0px;
+        height: 20px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-content: center;
+        align-items: center;
+    }  
+    ul.wrapArmorShrink li img.imgAction._shrink {
+        margin-right: 3px;
+    }
+    label._label._shrink._desc {
+        min-width: 120px!important;
+        display: block;
+    }
+    li.itemEl._shrink {
+        margin: 0px;
+        padding: 0px;
+        margin-right: 5px;
+    }
+    .mainShrink ._total {
+        width: 100%;
+    }    
+    .mainShrink ._total ol.itemList {
+        padding: 0px;
+        padding-left: 6px;
+        padding-right: 6px;
+        margin: 0px;
+        display: flex;
+        flex-wrap: wrap;
+        flex-flow: wrap;
+    }    
+    .itemEl._shrink img.imgAction {
+        width: 20px;
+        height: 20px;
+        opacity: 0.9;
+        position: relative;
+        top: 5px;
+    }    
+
+
 .actorHeader .switchInit,
 .frameContent .switchInit {
     justify-content: flex-end;
@@ -479,6 +757,22 @@ label._shortDescription {
 }
 
 /* Skills */
+.skills .header-search.flexrow {
+    padding-left: 53px;
+    padding-top: 12px;
+}
+.skills i.fas.fa-search {
+    width: 20px;
+    max-width: 20px;
+    line-height: 12px;
+    padding-top: 7px;
+}
+input.searchSkill {
+    border: 1px solid #3333334d!important;
+    max-width: calc(100% - 58px)!important;
+    border-radius: 2px!important;
+    font-family: 'Almendra';
+}
 .actorSkills {
     width: 100%;
     padding: 10px;
@@ -504,6 +798,9 @@ li.boxSkill {
     align-content: flex-start;
     justify-content: flex-start;
     align-items: center;
+}
+li.boxSkill:hover {
+    z-index: 10000;
 }
 li.boxSkill:hover ._skillValue {
     border: 1px solid #5e272757!important;
@@ -552,6 +849,45 @@ input._skillValue {
     width: 40px;
     color: #645d48;
     transition: 0.8s;
+}
+input._acquired {
+    margin-bottom: -20px;
+    position: relative;
+    top: -83px;
+    left: 50px;
+    opacity: 0.5;
+    line-height: 12px!important;
+    font-size: 12px;
+    height: 15px;
+    transition: 0.8s;
+}
+li.boxSkill:hover input._acquired {
+    transform: translate(-57px, -4px);
+    height: 20px;
+    margin-bottom: -24px;
+    opacity: 1;
+}
+input._skillPenal {
+    font-family: 'Almendra';
+    line-height: 26px!important;
+    font-size: 23px;
+    font-weight: 900;
+    width: 40px;
+    text-align: left;
+    border-radius: 3px!important;
+    margin-bottom: -26px;
+    position: relative;
+    left: 7px;
+    top: -38px;
+    transition: 0.8s;
+    color: #ec2626;
+    opacity: 0.6;
+    text-shadow: 2px 0 #ffffff63, -2px 0 #ffffff63, 0 2px #ffffff63, 0 -2px #ffffff63, 1px 1px #ffffff63, -1px -1px #ffffff63, 1px -1px #ffffff63, -1px 1px #ffffff63;
+}
+li.boxSkill:hover ._skillPenal {
+    transform: translate(7px, 15px);
+    text-align: center;
+    opacity: 1;
 }
 .imgSkill {
     width: 100%;
@@ -1438,6 +1774,75 @@ img._quickButton {
 }
 img._quickButton:hover {
     opacity: 1;
+}
+
+/* MODES BAR */
+._modesBar {
+    display: flex;
+    z-index: 900000;
+    position: absolute;
+    top: calc( 100% - 64px );
+    left: 55px;
+}
+ul._wrapModesBar {
+    display: flex;
+    padding: 0px;
+    margin: 0px;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    padding-right: 3px;
+}
+ul._wrapModesBar li {
+    margin-left: -6px;
+}
+._mode img._quickButton {
+    width: 40px;
+    height: 40px;
+    opacity: 0.5;
+    margin-left: 3px;
+}
+._mode img._quickButton {
+    width: 40px;
+    height: 40px;
+    opacity: 0.5;
+}
+._mode img._quickButton:hover {
+    opacity: 1;
+}
+img._quickButton._active {
+    opacity: 1;
+}
+img._quickButton._inactive {
+    opacity: 0.5;
+}
+
+/* MODE STICKERS !! */
+.modeStickers {
+    display: flex;
+    position: absolute;
+    top: 38px;
+    left: 7px;
+    width: 85px;
+    height: 85px;
+    transform: rotate(10deg);
+    opacity: 0.9;
+    z-index: 9999999;
+    flex-direction: column;
+}
+._imLucky {
+    margin-bottom: -60px;
+    width: 85px;
+    height: 85px;
+    transition: 0.5s!important;
+}
+._imLucky:hover {
+    z-index: 90000000;
+    position: relative;
+    translate: 10px;
+}
+._imLucky img {
+    border: 0px;
 }
 
 /* ***************************************************************************************

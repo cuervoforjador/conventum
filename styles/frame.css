@@ -219,6 +219,9 @@ frameContent {
     margin-left: -12px;
     width: 70px;
 }
+._bookmark:hover {
+    translate: -10px;
+}
 .mark01 {
     transform: rotate(1.4deg);
     margin-top: 0px;

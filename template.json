@@ -9,6 +9,7 @@
         "control": {
           "initial": true,
           "locked": false,
+          "expand": true,
           "frame": "catholicae",
           "world": ""
         },
@@ -161,6 +162,7 @@
           },
           "appearance": ""
         },
+        "modes": [],
         "skills": {},
         "armor": {},
         "action": {
@@ -206,7 +208,8 @@
         "control": {
           "initial": true,
           "locked": false,
-          "world": ""
+          "world": "",
+          "mold": ""
         },
         "range": {
           "low": 0,
@@ -316,7 +319,8 @@
           "failureRange": "90",
           "failureMin": "100",
           "criticalSuccessStep": "01",
-          "criticalFailureStep": "01"              
+          "criticalFailureStep": "01",
+          "charAndLevels": true            
         },
         "actions": {
           "fixedNumber": true,
@@ -394,14 +398,17 @@
     },
     "mode": {
       "templates": ["base"],
-      "actorType": "human"   
+      "actorType": "human",
+      "luck": false,
+      "byMaster": true,
+      "active": false
     },
     "armor": {
       "templates": ["base"],
       "armorType": "02",
       "protection": 0,
       "endurance": 0,
-      "enduranceCurrent": 0,
+      "total": 0,
       "inUse": false,
       "requeriment": {
         "apply": false,
@@ -479,7 +486,6 @@
     },
     "action": {
       "templates": ["base"],
-      "mold": "",
       "type": {
         "attack": false,
         "defense": false,

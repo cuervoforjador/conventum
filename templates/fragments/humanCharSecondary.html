@@ -37,7 +37,13 @@
 
         {{!-- Luck --}}
         <line style="margin-bottom: 4px; justify-content: flex-end;">
-            <label>{{localize 'characteristic.luck'}}</label>
+            <a class="_activeLuck">
+                <label>{{localize 'characteristic.luck'}}</label>
+            </a>
+            <a class="_diceSecondary"
+               data-char="luck">
+                <img src="/systems/conventum/image/texture/dice2.png" />
+            </a>
             <regField>
                 <input type="number" 
                        name="system.characteristics.secondary.luck.value" 
@@ -71,6 +77,10 @@
         {{!-- Temperance --}}
         <line style="margin-bottom: 4px; justify-content: flex-end;">
             <label>{{localize 'characteristic.temp'}}</label>
+            <a class="_diceSecondary"
+               data-char="temp">
+                <img src="/systems/conventum/image/texture/dice2.png" />
+            </a>            
             <regField>
                 <input type="number" 
                        name="system.characteristics.secondary.temp.value" 

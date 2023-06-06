@@ -36,6 +36,9 @@ export class extendSheetItem extends ItemSheet {
     context.systemData = this.item.getRollData();
     context.backend = await mainBackend.getBackendForItem(context.systemData);
 
+    //Molding...
+    helperSheetItem.molding(context);
+
     return context;
   }
 

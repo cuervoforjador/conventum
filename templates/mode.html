@@ -49,7 +49,30 @@
                                     labelAttr="name" }}
                 </select>
             </hbox>
+            <hbox class="_mod">
+                <label class="_120px">{{localize "common.luck"}}</label>
+                <label class="switch">
+                    <input type="checkbox" 
+                        name="system.luck"
+                        {{checked systemData.luck}} />
+                    <span class="sliderSwitch"></span>
+                </label>
+            </hbox>
+            <hbox class="_mod">
+                <label class="_120px">{{localize "common.byMaster"}}</label>
+                <label class="switch">
+                    <input type="checkbox" 
+                        name="system.byMaster"
+                        {{checked systemData.byMaster}} />
+                    <span class="sliderSwitch"></span>
+                </label>
+            </hbox>            
         </div>        
     </itemContent>
     
+{{!-- Molding ---}}
+<input name="system.control.mold"
+        value="{{systemData.control.mold}}" 
+        type="hidden" />   
+
 </form>

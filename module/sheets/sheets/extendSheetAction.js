@@ -47,7 +47,7 @@ export class extendSheetAction extends ItemSheet {
 
 
     //Molding...
-    context.systemData.mold = context.data._id;
+    helperSheetItem.molding(context);
 
     return context;
   }

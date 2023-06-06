@@ -1,3 +1,5 @@
+import { helperSheetItem } from "../helpers/helperSheetItem.js";
+
 /**
  * @extends {ItemSheet}
  */
@@ -43,6 +45,8 @@ export class extendSheetWorld extends ItemSheet {
             systemData.config.actions.penaltyPorc = '';
     }
     
+    //Molding...
+    helperSheetItem.molding(context);
 
     return context;
   }

@@ -3,10 +3,74 @@
  */
 
 import { mainUtils } from "../../mainUtils.js";
+import { helperActions } from "./helperActions.js";
 import { helperMessages } from "./helperMessages.js";
 import { helperSheetCombat } from "./helperSheetCombat.js";
 
 export class helperRolls {
+
+    /**
+     * rollChararacteristic
+     * @param {*} actor 
+     * @param {*} charId 
+     */
+    static async rollChararacteristic(actor, charId) {
+
+      const sWorld = actor.system.control.world;
+      const oWorld = await game.packs.get('conventum.worlds').get(sWorld);    //Still no apply...
+
+      let oButtons = {};
+      ['x1', 'x2', 'x3', 'x4', 'x5'].forEach(s => {
+        oButtons[s] = {
+          label: s,
+          callback: () => helperRolls._rollsChar(actor, charId, s)
+        }
+      });
+
+      let dialog = new Dialog({
+        title: game.i18n.localize("characteristic."+charId),
+        content: "",
+        buttons: oButtons,
+        world: oWorld.id });
+      dialog.options.classes.push('_charRoll');
+      dialog.render(true);
+
+    }
+
+    /**
+     * rollSecondary
+     * @param {*} actor 
+     * @param {*} charId 
+     */
+    static async rollSecondary(actor, charId) {
+      helperRolls._rollsChar(actor, charId);
+    }    
+
+    /**
+     * _rollsChar
+     * @param {*} actor 
+     * @param {*} charId 
+     * @param {*} sMod 
+     */
+    static async _rollsChar(actor, charId, sMod) {
+
+      const sWorld = actor.system.control.world;
+      const oWorld = await game.packs.get('conventum.worlds').get(sWorld);    //Still no apply...
+
+      const sPath = 'characteristics.primary.'+charId;      
+
+      let rollData = "";
+      if (actor.system.characteristics.primary[charId])
+          rollData = eval( actor.system.characteristics.primary[charId].value.toString() 
+                                                                              + sMod.replace('x', '*'));
+      if (actor.system.characteristics.secondary[charId])
+          rollData = eval( actor.system.characteristics.secondary[charId].value.toString());                                                                            
+      
+      if (oWorld.system.config.rolls.charAndLevels)
+        helperRolls._dialogLevel(actor, sPath, rollData, '1d100', null, sMod);
+      else 
+        helperRolls.rolls(actor, sPath, rollData, '1d100',  null, '', '', sMod);
+    }    
 
     /**
      * rollDices
@@ -71,8 +135,8 @@ export class helperRolls {
      * @param {*} sFormula
      * @returns 
      */
-    static async _dialogLevel(actor, sPath, rollData, sFormula, actionId) {
-
+    static async _dialogLevel(actor, sPath, rollData, sFormula, actionId, sMod2) {
+      sMod2 = (!sMod2) ? '' : sMod2;
       const sWorld = actor.system.control.world;
       const oWorld = await game.packs.get('conventum.worlds').get(sWorld);
 
@@ -82,7 +146,7 @@ export class helperRolls {
         if (oConfig.apply)
           oButtons[s] = {
             label: oConfig.text,
-            callback: () => helperRolls.rolls(actor, sPath, rollData, sFormula,  oConfig.bono, s, actionId)
+            callback: () => helperRolls.rolls(actor, sPath, rollData, sFormula,  oConfig.bono, s, actionId, sMod2)
           }
       }
       let dialog = new Dialog({
@@ -130,7 +194,8 @@ export class helperRolls {
      * @param {string} sLevel - String (Level)
      * @param {string} actionId - Action
      */
-    static async rolls(actor, sPath, sMinValue, sFormula, sValueMod, sLevel, actionId) {
+    static async rolls(actor, sPath, sMinValue, sFormula, sValueMod, sLevel, actionId, sMod2) {
+      sMod2 = (!sMod2) ? '' : sMod2;
       sValueMod = (sValueMod) ? sValueMod : '+0';
       
       //Worlds
@@ -153,7 +218,12 @@ export class helperRolls {
       }
 
       //Result
-      const success = ( (Number(sMinValue) + Number(sValueMod)) >= Number(roll.result) );
+      const nPass = Number(sMinValue) + Number(sValueMod);
+      let success = ( nPass >= Number(roll.result) );
+
+      //Luck
+      const luck = await this.checkImLucky(actor, nPass, Number(roll.result));
+      if (luck > 0) success = true;
 
       //Criticals
       const dec = Math.trunc(Number(sMinValue) / Number(worldConfig.rolls.skillRange), 0);
@@ -173,7 +243,7 @@ export class helperRolls {
                      };
 
       //Chat Message
-      const sContent = helperRolls._getMessageRoll(actor, sPath, roll, result, sValueMod, oLevel);
+      const sContent = helperRolls._getMessageRoll(actor, sPath, roll, result, sValueMod, oLevel, sMod2);
       helperMessages.chatMessage(sContent, actor, false, '', '140px');
 
       //Consuming action
@@ -224,7 +294,12 @@ export class helperRolls {
       }         
 
       //Result
-      const success = ( (Number(oRollAction.percent) + Number(sValueMod)) >= Number(roll.result) );
+      const nPass = Number(oRollAction.percent) + Number(sValueMod);
+      let success = ( nPass >= Number(roll.result) );
+
+      //Luck
+      const luck = await this.checkImLucky(actor, nPass, Number(roll.result));
+      if (luck > 0) success = true;
 
       //Criticals
       const dec = Math.trunc(Number(oRollAction.percent) / Number(worldConfig.rolls.skillRange), 0);
@@ -259,6 +334,35 @@ export class helperRolls {
     }
 
     /**
+     * checkImLucky
+     * @param {*} actor 
+     * @param {*} nPass 
+     * @param {*} nResult 
+     */
+    static async checkImLucky(actor, nPass, nResult) {
+      const modeLuck = Array.from(await game.packs.get("conventum.modes")).find(e =>
+                        ((e.system.control.world === actor.system.control.world)
+                          && (e.system.luck)) );
+      if (!modeLuck) return 0;
+      if (actor.system.modes.find(e => e === modeLuck.id)) {
+
+        const nDiff = (nResult - nPass) > 0 ? nResult - nPass : 1;
+        const myLuck = actor.system.characteristics.secondary.luck.value;
+        const myFinalLuck = (myLuck >= nDiff) ? myLuck - nDiff 
+                                              : 0;
+        await actor.update({
+          system: {
+            characteristics: {secondary: {luck: {value: myFinalLuck}}}
+          }
+        });
+        await helperActions.setLuck(actor);
+        return nDiff;
+
+      } else
+        return 0;    
+    }
+
+    /**
      * _getMessageRoll
      * @param {*} actor 
      * @param {*} sPath 
@@ -267,9 +371,10 @@ export class helperRolls {
      * @param {*} sValueMod 
      * @returns 
      */
-    static _getMessageRoll(actor, sPath, roll, result, sValueMod, oLevel) {
+    static _getMessageRoll(actor, sPath, roll, result, sValueMod, oLevel, sMod2) {
+      sMod2 = (!sMod2) ? '' : sMod2;
       return '<div class="_messageFrame">'+
-                  helperRolls._getMessageRoll_Actor(actor, sPath)+
+                  helperRolls._getMessageRoll_Actor(actor, sPath, null, sMod2)+
                   '<div class="_result">'+roll.total+'</div>'+
                   helperRolls._getMessageRoll_Bonif(sValueMod, oLevel)+
                   helperRolls._getMessageRoll_Result(result)+
@@ -396,11 +501,20 @@ export class helperRolls {
      * @param {*} skill 
      * @returns 
      */
-    static _getMessageRoll_Actor(actor, sPath, skill) {
+    static _getMessageRoll_Actor(actor, sPath, skill, sMod2) {
+      sMod2 = (!sMod2) ? '' : sMod2;
       if (!skill) {
         if ( !(sPath.split('.').length > 1) ) return '<div class="_skill"></div>';
         const skillId = sPath.split('.')[1];
         skill = game.packs.get('conventum.skills').get(skillId);
+      }
+      if (sPath.includes('characteristic')) {
+        const sChar = sPath.split('.')[2];
+        skill = {
+          characteristic: true,
+          title: game.i18n.localize('characteristic.'+sChar),
+          mod: sMod2
+        }
       }
       return  '<div class="_messageImg">'+
                   '<img src="'+actor.img+'"/>'+
@@ -423,6 +537,9 @@ export class helperRolls {
         if ( !(sPath.split('.').length > 1) ) return '<div class="_skill"></div>';
         const skillId = sPath.split('.')[1];
         oSkill = game.packs.get('conventum.skills').get(skillId);
+      }
+      if (skill.characteristic) {
+        return '<div class="_skill _characteristic">'+skill.title+' '+skill.mod+'</div>';
       }
       if (skill) oSkill = skill;
       if (!oSkill) return '<div class="_skill"></div>';

@@ -28,14 +28,20 @@ a._dice:hover {
     font-family: 'Almendra', serif;
     max-width: 24%;
 }
-.dialog._levelRoll {
+.dialog._levelRoll,
+.dialog._charRoll {
     width: auto!important;
     border-bottom-left-radius: 25px;
     border-bottom-right-radius: 25px;
 }
-._levelRoll section.window-content {
+._levelRoll section.window-content,
+._charRoll section.window-content {
     border-bottom-left-radius: 25px;
     border-bottom-right-radius: 25px;
     padding-left: 15px;
     padding-right: 15px;
+}
+._charRoll button.dialog-button {
+    border: 1px solid #333;
+    background: #c5a2a2;
 }

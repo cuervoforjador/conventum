@@ -15,6 +15,13 @@
         <div class="_info">            
             <line class="_100" style="justify-content: flex-end;">
                 <hbox class="switchInit">
+                    <label>{{localize 'common.expand'}}</label>
+                    <label class="switch" style="margin-right: -16px;">
+                        <input type="checkbox" 
+                            name="system.control.expand" 
+                            {{checked systemData.control.expand}} />
+                        <span class="sliderSwitch"></span>
+                    </label>
                     <label>{{localize 'common.female'}}</label>
                     <label class="switch" style="margin-right: -16px;">
                         <input type="checkbox" 

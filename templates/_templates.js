@@ -21,6 +21,10 @@ export const preloadTemplates = async function() {
       humanBioTraits: CONFIG._root+"/templates/fragments/humanBioTraits.html",
       humanLanguages: CONFIG._root+"/templates/fragments/humanLanguages.html",
       humanQuickBar: CONFIG._root+"/templates/fragments/humanQuickBar.html",
+      humanModesBar: CONFIG._root+"/templates/fragments/humanModesBar.html",
+
+      humanHeaderShrink: CONFIG._root+"/templates/fragments/humanHeaderShrink.html",
+      humanMainShrink: CONFIG._root+"/templates/fragments/humanMainShrink.html",
       
       itemFrame: CONFIG._root+"/templates/fragments/itemFrame.html",
       itemDescription: CONFIG._root+"/templates/fragments/itemDescription.html",

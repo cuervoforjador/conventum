@@ -1,7 +1,9 @@
 <div class="actorChars">
     <ul class="labelLine">
         {{#each systemData.characteristics.primary as |char key|}}
+        <a class="_diceCharacteristic" data-char="{{key}}">
             <li class="label">{{localizeExtend 'characteristic.' key '_Short'}}</li>
+        </a>
         {{/each}}
     </ul>
     <ul class="charsLine">

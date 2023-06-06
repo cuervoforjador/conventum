@@ -62,6 +62,9 @@ export class extendSheetWeapon extends ItemSheet {
       systemData.range.largeRange = '';
     }  
 
+    //Molding...
+    helperSheetItem.molding(context);
+
     return context;
   }
 

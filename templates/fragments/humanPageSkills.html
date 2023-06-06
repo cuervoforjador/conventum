@@ -1,20 +1,40 @@
 {{!-- Skills Tab --}}
 <div class="tab skills" data-group="primary" data-tab="skills">
 
+    <div class="header-search flexrow">
+        <i class="fas fa-search"></i>
+        <input type="search" 
+               class="searchSkill"
+               name="searchSkill" 
+               value="" 
+               placeholder="{{localize 'common.search'}}" 
+               autocomplete="off">
+    </div>
+
     <ul class="wrapSkill">
         {{#each backend.skills as |skill key|}}
     
-           <li class="boxSkill">
-                  <input class="_skillValue" name="system.skills.{{skill._id}}.value"
-                         value="{{itemPropertyExtend 'systemData.skills' skill._id 'value'}}" type="text" data-dtype="Number"/>              
+           <li class="boxSkill"
+               data-filter="{{skill.name}}">
+                  <input class="_skillValue" 
+                         type="text"
+                         name="system.skills.{{skill._id}}.value"
+                         value="{{itemPropertyExtend 'systemData.skills' skill._id 'value'}}"  
+                         data-dtype="Number"/>              
                   <a class="_diceSkill" data-itemId="{{skill._id}}">
                          <img class="imgSkill" src="{{skill.img}}"/></a>
-                  <label class="titleSkill">{{skill.name}}</label>
+                  <input class="_acquired"
+                         type="checkbox" 
+                         name="system.skills.{{skill._id}}.acquired" 
+                         {{checkedExtend 'systemData.skills' skill._id 'acquired'}} /> 
+                  <input class="_skillPenal" 
+                         disabled
+                         type="text"
+                         name="system.skills.{{skill._id}}.penal"
+                         value="{{itemPropertyExtend 'systemData.skills' skill._id 'penal'}}" /> 
+                  <label class="titleSkill">{{skill.name}}</label>  
                   <input name="system.skills.{{skill._id}}.initial" 
                          value="{{itemPropertyExtend 'systemData.skills' skill._id 'initial'}}" 
-                         type="hidden"/>
-                  <input name="system.skills.{{skill._id}}.acquired"
-                         value="{{itemPropertyExtend 'systemData.skills' skill._id 'acquired'}}"
                          type="hidden"/>
            </li>
     

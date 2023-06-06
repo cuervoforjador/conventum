@@ -37,6 +37,9 @@ export class extendSheetCulture extends ItemSheet {
     context.systemData = await helperSheetItem.checkSystemData(context.systemData);
     context.backend = await mainBackend.getBackendForCulture(context.systemData);
 
+    //Molding...
+    helperSheetItem.molding(context);
+
     return context;
   }
 

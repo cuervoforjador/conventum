@@ -27,20 +27,12 @@ export class HookActor {
      * @param {*} actor 
      * @param {*} sheet 
      */
-    static async addTrait(item, actor, sheet) {
+    static async checkAddTrait(actor) {
         
         //Characters playing not yet
         if (actor.system.control.initial) {
             ui.notifications.warn(game.i18n.localize('info.traitActorInitial'));
-        }
-
-        //Combat Skills
-        if (item.system.mod.combatSkill.apply) {
-            let combatSkills = (await mainBackend._getDocuments('skills', item.system.control.world))
-                                                .filter(e => e.system.combat.combat);
-            var a = 1;
-        }
-        
+        }        
     }
 
 

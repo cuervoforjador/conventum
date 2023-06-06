@@ -72,4 +72,61 @@ export class helperActions {
         return oTargets;
     }
 
+    /**
+     * playMode
+     * @param {*} actor 
+     * @param {*} mode 
+     */
+    static playMode(actor, mode) {
+
+        //--- LUCK ---
+        if (mode.system.luck) {
+            this.playLuck(actor, mode);
+            return;
+        }
+
+        this.playMode(actor, mode);
+        return;
+    }
+
+    /**
+     * setLuck
+     * @param {*} actor 
+     */
+    static async setLuck(actor) {
+        const modeLuck = Array.from(await game.packs.get('conventum.modes'))
+                                .find(e => ( (e.system.control.world === actor.system.control.world)
+                                          && (e.system.luck) ));
+        if (!modeLuck) return;
+        this.playMode(actor, modeLuck);
+    }
+
+    /**
+     * playLuck
+     * @param {*} actor 
+     * @param {*} mode 
+     */
+    static async playLuck(actor, mode) {
+        this.playMode(actor, mode);
+    }
+
+    /**
+     * playMode
+     * @param {*} actor 
+     * @param {*} mode 
+     */
+    static async playMode(actor, mode) {
+        const bActive = (actor.system.modes.find(e => e === mode.id)) ? true : false;
+        
+        let mModes = [];
+        if (bActive) {
+            mModes = actor.system.modes.filter(e => e !== mode.id);
+        } else {
+            mModes = actor.system.modes;
+            mModes.push(mode.id);
+        }
+        await actor.update({system: { modes: mModes }});
+        actor.sheet.render(true);
+    }    
+
 }

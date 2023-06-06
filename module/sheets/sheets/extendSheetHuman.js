@@ -56,45 +56,19 @@ export class extendSheetHuman extends ActorSheet {
     //Traits...
     context.traits = this.actor.items.filter(e=>e.type === 'trait');
 
+    //Modes...
+    context.modes = await helperSheetHuman.getModes(this.actor, context);
+
     //Skills...
-    context.backend.skills.forEach( skill => {
-      if (!context.systemData.skills[skill.id]) {
-        context.systemData.skills[skill.id] = {
-          value: 0,
-          initial: 0,
-          acquired: false
-        };
-      }      
-    });
+    helperSheetHuman.getSkills(this.actor, context);
+    context.systemData.modes = this.actor.system.modes;
+
+    //Armor...
+    helperSheetArmor.setLocations(this.actor, context.systemData);
 
     //Combat
     context.combats = helperSheetCombat.getActorCombats(this.actor);
     context.combatBackend = helperSheetCombat.getActorCombatBackend(context, this.actor);
-
-    //Armor items values...
-    let mArmor = this.actor.items.filter(e=>e.type === 'armor');
-    for (const s in context.systemData.armor) {
-        let oItem = mArmor.find( e => 
-                            e._id === context.systemData.armor[s].itemID );
-        if (!oItem) continue;
-        await oItem.update({
-          system: { enduranceCurrent: context.systemData.armor[s].value }
-        });        
-
-        if ( context.systemData.armor[s].lastValue &&
-            (Number(context.systemData.armor[s].value) != Number(context.systemData.armor[s].lastValue)) ) {
-          for (const s2 in context.systemData.armor) {
-            if ( (s != s2) && 
-                (context.systemData.armor[s2].itemID === 
-                  context.systemData.armor[s].itemID ) ) {
-                    context.systemData.armor[s2].value = context.systemData.armor[s].value;
-                    context.systemData.armor[s2].lastValue = context.systemData.armor[s].value;
-            }
-          }
-        }
-
-        context.systemData.armor[s].lastValue = Number(context.systemData.armor[s].value);
-    }
 
     //Im Master..
     context.imMaster = game.user.isGM;
@@ -107,7 +81,9 @@ export class extendSheetHuman extends ActorSheet {
 
     //Checking Items..
     helperSheetHuman.checkMyItems(this.actor);
+    helperSheetHuman.itemsInUse(this.actor, context.systemData);
 
+    //Quick Bars...
     context.systemData.quickBar = this._setQuickBar(context.systemData.quickBar);
 
     return context;
@@ -131,12 +107,18 @@ export class extendSheetHuman extends ActorSheet {
     html.find("._quickButtonAction").click(this._openTabActions.bind(this));
     html.find("._quickButtonWeapons").click(this._openTabWeapons.bind(this));
 
+    /* Characteristics */
+    html.find("._diceCharacteristic").click(this._diceCharacteristic.bind(this));
+    html.find("._diceSecondary").click(this._diceSecondary.bind(this));
+    html.find("._activeLuck").click(this._activeLuck.bind(this));
+    
     /* Traits */
     html.find("._traitShow").click(this._traitShow.bind(this));
     html.find("._traitDel").click(this._traitDelete.bind(this));
     
     /* Skills */
-    html.find("._diceSkill").click(this._diceSkill.bind(this));  
+    html.find("._diceSkill").click(this._diceSkill.bind(this)); 
+    $(".searchSkill").on('input', this._searchSkill.bind(this));
 
     /* Weapons & actions*/
     html.find("a._playWeapon").click(this._playWeapon.bind(this));  
@@ -147,17 +129,21 @@ export class extendSheetHuman extends ActorSheet {
     html.find("a._doAction").click(this._doAction.bind(this)); 
 
     /* Armor */
-    html.find("._armorEndCurrent").change(this._updateArmorValue.bind(this));
     html.find("a.locationShield").click(helperSheetArmor.openArmorCloset.bind(this));
     html.find(".closeArmorCloset").click(helperSheetArmor.closeCloset.bind(this));
     html.find(".armorGarment").click(this._wearGarment.bind(this));
     html.find(".unwearArmor").click(this._unwearGarment.bind(this));
     html.find("._garmentLabel").mouseover(this._showArmorPieceInfo.bind(this));
-    html.find("._garmentLabel").mouseout(this._hideArmorPieceInfo.bind(this));    
+    html.find("._garmentLabel").mouseout(this._hideArmorPieceInfo.bind(this));   
+    html.find("._armorUpdateValue").change(this._updateArmorValue.bind(this));
+    html.find("._armorShrinkValue").change(this._armorShrinkValue.bind(this));
 
     /* Items */
     html.find("a.actionIcon").click(this._actionIcon.bind(this));    
     html.find("a.showInfo").click(this._showInfo.bind(this));
+
+    /* Modes */
+    html.find("a._mode").click(this._playMode.bind(this));    
 
   }
 
@@ -250,6 +236,23 @@ export class extendSheetHuman extends ActorSheet {
     });    
   }  
 
+  _diceCharacteristic(event) {
+    event.preventDefault();
+    const charId = event.currentTarget?.dataset.char;
+    helperRolls.rollChararacteristic(this.actor, charId);
+  }
+
+  _diceSecondary(event) {
+    event.preventDefault();
+    const charId = event.currentTarget?.dataset.char;
+    helperRolls.rollSecondary(this.actor, charId);
+  }  
+
+  _activeLuck(event) {
+    event.preventDefault();
+    helperActions.setLuck(this.actor);
+  }
+
   _diceSkill(event) {
     event.preventDefault();
     const skillId = event.currentTarget?.dataset.itemid;
@@ -261,6 +264,18 @@ export class extendSheetHuman extends ActorSheet {
     if (!skill) return;
     const sPath = 'skills.'+skillId;
     helperRolls.rollDices(this.actor, sPath, true, sFormula, actionId);
+  }
+
+  _searchSkill(event) {
+    event.preventDefault();
+    const search = $(event.target).val();
+    $(".wrapSkill li.boxSkill").each(function(i,e) {
+      if ($(e).data("filter").toUpperCase().includes(search.toUpperCase()))
+        $(e).show();
+      else
+        $(e).hide();
+      if (search === '') $(e).show();
+  }.bind(this));    
   }
 
   _playWeapon(event) {
@@ -290,26 +305,6 @@ export class extendSheetHuman extends ActorSheet {
     if (!action) return;
 
     helperSheetCombat.doAction(this.actor, actionId);
-  }
-
-  async _updateArmorValue(event) {
-/*
-      event.preventDefault();
-      const sLocationId = event.currentTarget?.dataset.locationid;
-      const sItemId = (this.actor.system.armor[sLocationId]) ?
-                          this.actor.system.armor[sLocationId].itemID : '';
-      const sValue = $(event.target).val();
-      if (sItemId === '') return;
-      const oItem = this.actor.items.find(e => e._id === sItemId);
-      await oItem.update({
-        system: { enduranceCurrent: Number(sValue) }
-      });
-      for (const s in this.actor.system.armor) {
-        if (this.actor.system.armor[s].itemID === sItemId)
-              this.actor.system.armor[s].value = Number(sValue);
-              $("._armorEndCurrent[data-locationId='"+s+"']").val(sValue);
-      }
-*/
   }
 
   async _wearGarment(event) {
@@ -343,6 +338,63 @@ export class extendSheetHuman extends ActorSheet {
           helperSheetArmor._showInfoGarment(itemId, this.actor, sLocation, false);    
   }
 
+  async _armorShrinkValue(event) {
+    event.preventDefault();
+    const value = Number($(event.target).val());
+    const sId = event.currentTarget?.dataset.itemid;
+    const sProperty = event.currentTarget?.dataset.property;
+    
+    let item = this.actor.items.get(sId);
+    if (!item) return;
+    
+    //Updating value
+    let modUpdated = {};
+    modUpdated[sProperty] = value;
+    const updated = await Item.updateDocuments([{ 
+      _id: item.id,
+      system: modUpdated}], {parent: this.actor});
+
+    //Updating locations
+    let modLocations = {};
+    for (var s in this.actor.system.armor) {
+      if (this.actor.system.armor[s].itemID === sId) {
+        modLocations[s] = {};
+        modLocations[s][sProperty] = value;
+      }
+    }
+    await this.actor.update({system: { armor: modLocations }});
+
+  }
+
+  async _updateArmorValue(event) {
+    event.preventDefault();
+    const value = Number($(event.target).val());
+    const locationId = event.currentTarget?.dataset.locationid;
+    const sProperty = event.currentTarget?.dataset.property;
+
+    const itemId = this.actor.system.armor[locationId].itemID;
+    if (!itemId) return;
+
+    let item = this.actor.items.get(itemId);
+
+    let modUpdated = {};
+        modUpdated[sProperty] = value;    
+    await Item.updateDocuments([{ 
+      _id: item.id,
+      system: modUpdated}], {parent: this.actor});
+
+    //Updating locations
+    let modLocations = {};
+    for (var s in this.actor.system.armor) {
+      if (this.actor.system.armor[s].itemID === itemId) {
+        modLocations[s] = {};
+        modLocations[s][sProperty] = value;
+      }
+    }
+    await this.actor.update({system: { armor: modLocations }});  
+    this.actor.sheet.render(true);    
+  }  
+
   async _actionIcon(event) {
     event.preventDefault();
     const itemId = event.currentTarget?.dataset.itemid,
@@ -354,8 +406,13 @@ export class extendSheetHuman extends ActorSheet {
       item.sheet.render(true, {
         editable: game.user.isGM
       });
-    if (action === 'delete')
-      item.delete();
+    if (action === 'delete') {
+      if (item.type === 'armor') {
+        helperSheetArmor.destroyArmor(this.actor, item.id, true);
+        return;
+      }
+      Item.deleteDocuments([item.id], {parent: this.actor});
+    }
 
   }
 
@@ -368,5 +425,13 @@ export class extendSheetHuman extends ActorSheet {
       content: game.i18n.localize(s18n),
       buttons: [] }).render(true);        
   }    
+
+  // _playMode
+  async _playMode(event) {
+    event.preventDefault();
+    const modeId = event.currentTarget?.dataset.modeid;
+    const mode = await game.packs.get('conventum.modes').get(modeId);
+    helperActions.playMode(this.actor, mode);
+  }
 
 }

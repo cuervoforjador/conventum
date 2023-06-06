@@ -126,6 +126,14 @@
     z-index: 10;
     line-height: 13px;
 }
+._chatBox ._skill._characteristic {
+    position: relative;
+    top: -38px;
+    font-size: 24px;
+    width: 270px;
+    text-align: left;
+    left: -4px;
+}
 ._chatBox ._itemCaption {
     width: 140px;
     position: absolute;
@@ -161,6 +169,7 @@
     width: 85px!important;
     text-align: center;
     display: flex;
+    height: 23px;
     top: 23px;
     left: -26px;
     justify-content: center;

@@ -47,4 +47,13 @@ export class helperSheetItem {
     return systemData;
   }
 
+  /**
+   * molding
+   * @param {*} context 
+   */
+  static molding(context) {
+    if (context.systemData.control.mold === '')
+      context.systemData.control.mold = context.data._id;
+  }
+
 }

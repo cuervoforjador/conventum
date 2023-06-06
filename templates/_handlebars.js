@@ -186,6 +186,84 @@ export class mainHandlebars {
          return oProperty;
        });       
 
+      /**
+       * No Skills...
+       */
+      Handlebars.registerHelper("bNoSkills", function(mArray, options) {
+         const systemData = options.data.root.systemData;
+         let bNoItems = true
+
+         mArray.map(e => {
+            if (systemData.skills[e.id].acquired) bNoItems = false;
+         });
+         return bNoItems;
+       });        
+
+      /**
+       * No Weapons...
+       */
+      Handlebars.registerHelper("bNoWeapons", function(mArray, options) {
+         let bNoItems = true
+         if (options.data.root.items.find(e => e.type === 'weapon')) bNoItems = false;
+         return bNoItems;
+       });   
+       
+      /**
+       * modeVisible
+       */
+      Handlebars.registerHelper("modeVisible", function(mode, options) {
+         const systemData = options.data.root.systemData;
+         if (systemData.modes.find(e => e === mode.id)) return true;
+                                                   else return game.user.isGM;
+       });
+
+      /**
+       * modeStickers
+       */
+      Handlebars.registerHelper("modeStickers", function(mode, options) {
+         const systemData = options.data.root.systemData;
+         if (systemData.modes.find(e => e === mode.id)) return true;
+                                                   else return false;
+       });
+
+      /**
+       * modeClassActive
+       */
+      Handlebars.registerHelper("modeClassActive", function(mode, options) {
+         const systemData = options.data.root.systemData;
+         if (systemData.modes.find(e => e === mode.id)) return '_active';
+                                                   else return '_inactive';
+       });
+
+      /**
+       * imLucky??
+       */
+      Handlebars.registerHelper("imLucky", function(options) {
+         const systemData = options.data.root.systemData;
+         const mModes = Array.from(game.packs.get("conventum.modes"))
+                                 .filter(e => e.system.control.world === systemData.control.world );
+         let bLucky = false;
+         mModes.map(mode => {
+            if (systemData.modes.find(e => e === mode.id))
+               bLucky = bLucky || (mode.system.luck);
+         });
+         return bLucky;
+
+       });
+
+      /**
+       * luckImage
+       */
+      Handlebars.registerHelper("luckImage", function(options) {
+         const systemData = options.data.root.systemData;
+         const luckyMode = 
+                  Array.from(game.packs.get("conventum.modes"))
+                                 .find(e => ( (e.system.control.world === systemData.control.world)
+                                             && (e.system.luck) ) );
+         return luckyMode.img;
+
+       });       
+
    }
 
 
