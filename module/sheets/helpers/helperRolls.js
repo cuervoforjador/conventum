@@ -356,7 +356,7 @@ export class helperRolls {
           }
         });
         await helperActions.setLuck(actor);
-        return nDiff;
+        return (myLuck >= nDiff) ? nDiff : 0;
 
       } else
         return 0;    

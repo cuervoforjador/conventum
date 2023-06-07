@@ -401,7 +401,8 @@
       "actorType": "human",
       "luck": false,
       "byMaster": true,
-      "active": false
+      "active": false,
+      "effect": ""
     },
     "armor": {
       "templates": ["base"],

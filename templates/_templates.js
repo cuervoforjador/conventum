@@ -33,7 +33,8 @@ export const preloadTemplates = async function() {
       itemExtendSkill: CONFIG._root+"/templates/fragments/itemExtendSkill.html",
       itemExtendArmor: CONFIG._root+"/templates/fragments/itemExtendArmor.html",
       itemExtendWeapon: CONFIG._root+"/templates/fragments/itemExtendWeapon.html",
-      itemExtendAction: CONFIG._root+"/templates/fragments/itemExtendAction.html"
+      itemExtendAction: CONFIG._root+"/templates/fragments/itemExtendAction.html",
+      itemExtendMode: CONFIG._root+"/templates/fragments/itemExtendMode.html"
 
   });
 };

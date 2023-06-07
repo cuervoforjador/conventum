@@ -155,7 +155,8 @@ export class mainBackend {
     static async getBackendForMode() {
         return {
             worlds: await game.packs.get("conventum.worlds").getDocuments(),
-            actorTypes: this._getActorTypes()
+            actorTypes: this._getActorTypes(),
+            activeEffects: this._getActiveEffects()
         };
     }    
 
@@ -447,6 +448,20 @@ export class mainBackend {
             mReturn.push({
                 'id': e,
                 'name': e
+            });
+        });
+        return mReturn;
+    }
+
+    /**
+     * _getActiveEffects
+     */
+    static _getActiveEffects() {
+        let mReturn = [];
+        CONFIG.ExtendConfig.activeEffects.forEach(s => {
+            mReturn.push({
+                id: s,
+                name: game.i18n.localize("mode."+s)
             });
         });
         return mReturn;

@@ -31,43 +31,31 @@
                                         nameAttr="id"
                                         labelAttr="name" }}
                     </select>
-                </hbox>                                                         
+                </hbox>  
+                <hbox class="_100">
+                    <nav class="sheet-tabs itemTabsHeader" data-group="primary">
+                        <a data-tab="main">{{ localize "common.mode" }}</a>
+                        <a data-tab="description">{{ localize "common.description" }}</a>
+                    </nav>
+                </hbox>                                                                        
             </itemSubHeader>
         </itemHeaderInfo>
     </itemHeader> 
     
     {{!-- CONTENT --}}
     <itemContent>
+
         <div class="frameContent">
-            <hbox class="_mod">
-                <label class="_120px">{{localize "common.actorType" }}</label>
-                <select name="system.actorType">
-                    {{selectOptions backend.actorTypes 
-                                    selected=systemData.actorType
-                                    localize=false
-                                    nameAttr="id"
-                                    labelAttr="name" }}
-                </select>
-            </hbox>
-            <hbox class="_mod">
-                <label class="_120px">{{localize "common.luck"}}</label>
-                <label class="switch">
-                    <input type="checkbox" 
-                        name="system.luck"
-                        {{checked systemData.luck}} />
-                    <span class="sliderSwitch"></span>
-                </label>
-            </hbox>
-            <hbox class="_mod">
-                <label class="_120px">{{localize "common.byMaster"}}</label>
-                <label class="switch">
-                    <input type="checkbox" 
-                        name="system.byMaster"
-                        {{checked systemData.byMaster}} />
-                    <span class="sliderSwitch"></span>
-                </label>
-            </hbox>            
-        </div>        
+            <section class="sheet-body">
+                <div class="tab main" data-group="primary" data-tab="main">
+                    {{> itemExtendMode }}
+                </div>
+                <div class="tab description" data-group="primary" data-tab="description">
+                    {{> itemDescription }}
+                </div>                
+            </section>
+        </div>
+
     </itemContent>
     
 {{!-- Molding ---}}

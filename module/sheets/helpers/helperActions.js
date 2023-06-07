@@ -127,6 +127,43 @@ export class helperActions {
         }
         await actor.update({system: { modes: mModes }});
         actor.sheet.render(true);
+
+        if (!bActive) this._applyActiveEffect(actor, mode);
+                 else this._removeActiveEffect(actor, mode);
     }    
+
+    /**
+     * _applyActiveEffect
+     * @param {*} actor 
+     * @param {*} mode 
+     */
+    static _applyActiveEffect(actor, mode) {
+
+        actor.createEmbeddedDocuments('ActiveEffect', [{
+            label: mode.name,
+            icon: mode.img,
+            //type: 'suppressed',
+            effects: [],
+            flags: {
+                core: {
+                    statusId: mode.system.effect
+                }
+            },
+            transfer: false,       
+            origin: actor.sheet.token.uuid, //actor.uuid,
+            disabled: false
+        }]);
+    }
+
+    /**
+     * _removeActiveEffect
+     * @param {*} actor 
+     * @param {*} mode 
+     */
+    static _removeActiveEffect(actor, mode) {
+        for (let effect of Array.from(actor.effects).filter(e => e.label === mode.name)) {
+            effect.delete();
+        }
+    }
 
 }

@@ -18,7 +18,10 @@ export class extendSheetMode extends ItemSheet {
       classes: [game.system.id, "sheet", "item"],
       template: CONFIG._root+"/templates/mode.html",
       width: 520,
-      height: 480
+      height: 480,
+      tabs: [
+        {navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "main"}
+      ],       
     });
   }
 
