@@ -345,6 +345,31 @@ a._infoSkill {
     line-height: 19px;
     font-weight: 900;
 }
+
+._chatContent ._messageSpell{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    align-content: flex-end;
+    justify-content: flex-start;
+    position: absolute;
+    top: 0px;
+    left: 55px;
+}
+._chatContent ._messageSpell img {
+    width: 30px;
+    height: 45px;
+    border: 4px solid #ece3d0;
+}
+._chatContent ._messageSpell ._name {
+    width: 190px;
+    padding-left: 5px;
+    padding-bottom: 5px;
+    font-size: 17px;
+    line-height: 13px;
+    font-weight: 900;
+}
+
 ._chatContent ._messageDamage {
     position: absolute;
     top: 91px;

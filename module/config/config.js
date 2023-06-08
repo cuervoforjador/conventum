@@ -29,32 +29,38 @@ export const extendConfig = {
         {
             id: '01',
             i18n: 'config.armorHelmet',
-            name: ''
+            name: '',
+            spellMod: '-25'
         },
         {
             id: '02',
             i18n: 'config.armorSoft',
-            name: ''
+            name: '',
+            spellMod: '-0'
         },
         {
             id: '03',
             i18n: 'config.armorLight',
-            name: ''
+            name: '',
+            spellMod: '-25'
         },
         {
             id: '04',
             i18n: 'config.armorMetallic',
-            name: ''
+            name: '',
+            spellMod: '-50'
         },
         {
             id: '05',
             i18n: 'config.armorComplete',
-            name: ''
+            name: '',
+            spellMod: '-75'
         },
         {
             id: '06',
             i18n: 'config.armorAnimal',
-            name: ''
+            name: '',
+            spellMod: '-0'
         }
     ],
     weaponTypes: [
@@ -144,6 +150,160 @@ export const extendConfig = {
             name: '',
             property: 'heavy'
         }      
+    ],
+    spellShapes: [
+        {
+            id: 'invocatio',
+            name: '',
+        },
+        {
+            id: 'maleficium',
+            name: '',
+        },
+        {
+            id: 'potio',
+            name: '',
+        },
+        {
+            id: 'amuletum',
+            name: '',
+        },
+        {
+            id: 'unguentum',
+            name: '',
+        }        
+    ],
+    spellNature: [
+        {
+            id: 'white',
+            name: ''
+        },
+        {
+            id: 'black',
+            name: ''
+        }
+    ],
+    spellSecondNature: [
+        {
+            id: 'popular',
+            name: ''
+        },
+        {
+            id: 'alchemy',
+            name: ''
+        },
+        {
+            id: 'infernal',
+            name: ''
+        },
+        {
+            id: 'forbidden',
+            name: ''
+        }        
+    ],
+    componentUtility: [
+        {
+            id: 'noUtil',
+            name: '',
+            mod: '-30',
+            witchcraft: '*1'
+        },
+        {
+            id: 'marginal',
+            name: '',
+            mod: '-10',
+            witchcraft: '*1'
+        },
+        {
+            id: 'limited',
+            name: '',
+            mod: '+10',
+            witchcraft: '*1'
+        },
+        {
+            id: 'daily',
+            name: '',
+            mod: '+50',
+            witchcraft: '*1'
+        }             
+    ],
+    componentLocation: [
+        {
+            id: 'remote',
+            name: '',
+            mod: '-50',
+            witchcraft: '*1'
+        },
+        {
+            id: 'far',
+            name: '',
+            mod: '-30',
+            witchcraft: '*1'
+        },
+        {
+            id: 'nofar',
+            name: '',
+            mod: '-10',
+            witchcraft: '*1'
+        },
+        {
+            id: 'nearby',
+            name: '',
+            mod: '+10',
+            witchcraft: '*1'
+        }             
+    ],    
+    componentPotential: [
+        {
+            id: 'horrifying',
+            name: '',
+            mod: '-30',
+            witchcraft: '*4'
+        },        
+        {
+            id: 'witchy',
+            name: '',
+            mod: '-20',
+            witchcraft: '*2'
+        },         
+        {
+            id: 'unusual',
+            name: '',
+            mod: '-10',
+            witchcraft: '*1'
+        },      
+        {
+            id: 'nomagic',
+            name: '',
+            mod: '+10',
+            witchcraft: '*0.5'
+        }                   
+    ],
+    componentPlace: [
+        {
+            id: 'seedytown',
+            name: '',
+            mod: '-20',
+            witchcraft: '*0.5'
+        },
+        {
+            id: 'smalltown',
+            name: '',
+            mod: '+0',
+            witchcraft: '*1'
+        },
+        {
+            id: 'normaltown',
+            name: '',
+            mod: '+10',
+            witchcraft: '*1'
+        },        
+        {
+            id: 'bigtown',
+            name: '',
+            mod: '+20',
+            witchcraft: '*1'
+        }        
     ],
     activeEffects: [
         'dead',

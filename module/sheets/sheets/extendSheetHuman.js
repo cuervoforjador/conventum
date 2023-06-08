@@ -6,6 +6,7 @@ import { mainBackend } from "../backend/mainBackend.js";
 import { helperSheetHuman } from "../helpers/helperSheetHuman.js";
 import { helperSheetArmor } from "../helpers/helperSheetArmor.js";
 import { helperSheetCombat } from "../helpers/helperSheetCombat.js";
+import { helperSheetMagic } from "../helpers/helperSheetMagic.js";
 import { helperRolls } from "../helpers/helperRolls.js";
 import { helperActions } from "../helpers/helperActions.js";
 import { mainUtils } from "../../mainUtils.js";
@@ -79,6 +80,10 @@ export class extendSheetHuman extends ActorSheet {
     //Targets...
     context.targets = helperActions.getTargets(this.actor);
 
+    //Magic...
+    context.magic = await helperSheetMagic.getMagic(this.actor, context.systemData);
+    helperSheetMagic.getMagicPenals(this.actor, context.systemData);
+
     //Checking Items..
     helperSheetHuman.checkMyItems(this.actor);
     helperSheetHuman.itemsInUse(this.actor, context.systemData);
@@ -106,6 +111,7 @@ export class extendSheetHuman extends ActorSheet {
     }
     html.find("._quickButtonAction").click(this._openTabActions.bind(this));
     html.find("._quickButtonWeapons").click(this._openTabWeapons.bind(this));
+    html.find("a._bookmark").click(this._changeBookmark.bind(this));
 
     /* Characteristics */
     html.find("._diceCharacteristic").click(this._diceCharacteristic.bind(this));
@@ -127,6 +133,9 @@ export class extendSheetHuman extends ActorSheet {
     html.find("a._cardInfo").click(this._showMyItem.bind(this));  
     html.find("a._showMyItem").click(this._showMyItem.bind(this));  
     html.find("a._doAction").click(this._doAction.bind(this)); 
+
+    /* Magic */
+    html.find("a.playSpell").click(this._playSpell.bind(this));  
 
     /* Armor */
     html.find("a.locationShield").click(helperSheetArmor.openArmorCloset.bind(this));
@@ -184,6 +193,30 @@ export class extendSheetHuman extends ActorSheet {
         sheetY: hSheet.position().top
       }}
     });
+  }
+
+  _changeBookmark(event) {
+    event.preventDefault();
+    const sBook = event.currentTarget?.dataset.tab;   
+    if (sBook === 'magic') {
+        $(".actor .window-content").prepend('<div class="_imOnFire"></div>');
+        $("form.codex").css({'z-index': 1,
+                             'background-image': 'none'});
+
+          $("._humanAction").css({'transition': '0s'});
+          $("._humanAction").addClass('_reduce');      
+          $("._humanTargets").css({'transition': '0s'});
+          $("._humanTargets").addClass('_reduce');
+    } else {
+        const sFrame = 'systems/conventum/image/frame/'+this.actor.system.control.frame+'/paper.png';
+        $(".window-content ._imOnFire").remove();
+        $("form.codex").css({'background': 'url('+sFrame+')',
+                             'z-index': 'initial'});  
+        $("._humanAction").css({'transition': '0.6s'});
+        $("._humanAction").removeClass('_reduce');
+        $("._humanTargets").css({'transition': '0.6s'});
+        $("._humanTargets").removeClass('_reduce');
+    }
   }
 
   _openTabActions(event) {
@@ -305,6 +338,14 @@ export class extendSheetHuman extends ActorSheet {
     if (!action) return;
 
     helperSheetCombat.doAction(this.actor, actionId);
+  }
+
+  _playSpell(event) {
+    event.preventDefault();
+    const spellId = event.currentTarget?.dataset.itemid;
+    if (!spellId) return;
+
+    helperSheetMagic.playSpell(this.actor, spellId);
   }
 
   async _wearGarment(event) {

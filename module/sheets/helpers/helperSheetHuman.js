@@ -1,5 +1,6 @@
 
 import { helperSheetArmor } from "./helperSheetArmor.js";
+import { helperSheetMagic } from "./helperSheetMagic.js";
 
 /**
  * Helpers for Human Sheet
@@ -158,6 +159,18 @@ export class helperSheetHuman {
           context.systemData.characteristics.primary[skill.system.characteristic.primary].value;
       if (actorSkill.value < actorSkill.initial) actorSkill.value = actorSkill.initial;
       actorSkill.penal = helperSheetArmor.calcPenalByArmor(actor, skill);
+
+      //add Penalizations by Traits...
+      const mTraits = actor.items.filter(e => ( (e.type === 'trait')  
+                                             && (e.system.control.world === actor.system.control.world)
+                                             && (e.system.mod.skill.apply) 
+                                             && (e.system.mod.skill.id === skill.id)));
+      mTraits.map(e => {
+        actorSkill.penal = eval( (Number(actorSkill.penal).toString()
+                                    + helperSheetMagic.penalValue(e.system.mod.skill.bono)).toString());
+        actorSkill.penal = helperSheetMagic.penalValue(actorSkill.penal);
+      });
+
     });
 
     //Acquiring Skills...
@@ -179,6 +192,10 @@ export class helperSheetHuman {
   static async getModes(actor, context) {
     const sWorld = actor.system.control.world;
     const oWorld = await game.packs.get('conventum.worlds').get(sWorld);
+
+    //Synchr DB...
+    await game.packs.get("conventum.modes").getDocuments();
+
     const mModes = Array.from(await game.packs.get('conventum.modes'))
                                 .filter(e => e.system.control.world === sWorld);
     return mModes;
@@ -266,6 +283,10 @@ export class helperSheetHuman {
       _root.secondary.fp.initial = _root.secondary.fp.value;
       _root.secondary.cp.initial = _root.secondary.cp.value;
     }
+    if (_root.secondary.cp.current > _root.secondary.cp.value)
+        _root.secondary.cp.current = _root.secondary.cp.value;
+    if (_root.secondary.fp.current > _root.secondary.fp.value)
+        _root.secondary.fp.current = _root.secondary.fp.value;
 
     //Appearance
     if (systemData.control.initial) {

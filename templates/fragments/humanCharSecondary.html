@@ -68,6 +68,13 @@
             <label>{{localize 'characteristic.cp'}}</label>
             <regField>
                 <input type="number" 
+                       name="system.characteristics.secondary.cp.current" 
+                       value="{{systemData.characteristics.secondary.cp.current}}"
+                       class="{{systemData.characteristics.secondary.cp.class}}" />                
+            </regField>
+            /
+            <regField>
+                <input type="number" 
                        name="system.characteristics.secondary.cp.value" 
                        value="{{systemData.characteristics.secondary.cp.value}}"
                        class="{{systemData.characteristics.secondary.cp.class}}" />

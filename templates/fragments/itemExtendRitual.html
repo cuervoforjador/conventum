@@ -1,0 +1,138 @@
+{{!-- Rituals --}}
+
+{{!-- MAIN --}}
+<div class="tab main" data-group="primary" data-tab="main">
+<slidePanel class="_100" style="height: auto;">
+    <panelContent>     
+        <hbox class="_mod _100">
+            <label class="_80px">{{localize "common.rolls" }}</label>
+            <select class="_120px" name="system.percent.secondary" style="margin-right: 10px;">
+                {{selectOptions backend.secondary 
+                                selected=systemData.percent.secondary
+                                localize=false
+                                nameAttr="id"
+                                labelAttr="name" }}
+            </select>            
+            <select class="_120px" name="system.percent.skill">
+                {{selectOptions backend.skills 
+                                selected=systemData.percent.skill
+                                localize=false
+                                nameAttr="id"
+                                labelAttr="name" }}
+            </select>             
+        </hbox>         
+        <hbox class="_mod _100">
+            <label class="_80px">{{localize "common.ordo" }}</label>
+            <input class="_40px" 
+                    name="system.ordo"
+                    value="{{systemData.ordo}}" 
+                    type="text" 
+                    data-dtype="Number"/>    
+            <label class="_80px">{{localize "common.ptf" }}</label>
+            <input class="_40px" 
+                    disabled
+                    name="system.ptf"
+                    value="{{systemData.ptf}}" 
+                    type="text" 
+                    data-dtype="Number"/>  
+            <label class="_80px">{{localize "common.penal" }}</label>
+            <input class="_80px" 
+                    disabled
+                    name="system.penal"
+                    value="{{systemData.penal}}" 
+                    type="text" />                                        
+        </hbox> 
+        <hbox class="_mod _100">
+            <label class="_80px">{{localize "common.society" }}</label>
+            <select name="system.society">
+                {{selectOptions backend.societies 
+                                selected=systemData.society
+                                localize=false
+                                nameAttr="id"
+                                labelAttr="name" }}
+            </select>
+        </hbox>            
+        <hbox class="_mod _100">
+            <label class="_80px">{{localize "common.duration" }}</label>
+            <input style="width: calc(100% - 90px);"
+                    name="system.duration"
+                    value="{{systemData.duration}}" 
+                    type="text" />                             
+        </hbox>           
+    </panelContent>        
+</slidePanel>
+</div>
+
+{{!-- DETAILS --}}
+<div class="tab ceremony" data-group="primary" data-tab="ceremony">
+<slidePanel class="_100" style="height: 190px;">
+    <panelContent>
+       
+        <vbox class="_mod _text _100">
+            <label class="_100">{{localize "common.ceremony" }}</label>
+            {{editor 
+                systemData.ceremony
+                target="system.ceremony" 
+                button=true
+                engine="prosemirror"
+                owner=owner
+                rollData=rollData
+                editable=editable }}
+        </vbox>
+               
+    </panelContent>
+</slidePanel>
+</div>
+
+{{!-- EFFECTS --}}
+<div class="tab effects" data-group="primary" data-tab="effects">
+<slidePanel class="_100" style="height: 190px;">
+    <panelContent>
+
+        <vbox class="_mod _text _100">
+            <label class="_100">{{localize "common.effects" }}</label>
+            {{editor 
+                systemData.effects
+                target="system.effects" 
+                button=true
+                engine="prosemirror"
+                owner=owner
+                rollData=rollData
+                editable=editable }}
+        </vbox>
+
+    </panelContent>
+</slidePanel>
+</div>
+
+{{!-- DAMAGE --}}
+<div class="tab damage" data-group="primary" data-tab="damage">
+<slidePanel class="_100" style="height: 190px;">
+    <panelContent>
+
+        <hbox class="_mod _100">
+            <label class="_80px">{{localize "common.damage" }}</label>
+            <label class="switch">
+                <input type="checkbox" 
+                    name="system.damage.apply"
+                    {{checked systemData.damage.apply}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+            <input class="_100px"
+                    name="system.damage.damage"
+                    value="{{systemData.damage.damage}}" 
+                    type="text" />                             
+        </hbox>
+        <hbox class="_mod _100">
+            <label class="_80px">{{localize "common.noArmor" }}</label>
+            <label class="switch">
+                <input type="checkbox" 
+                    name="system.damage.noArmor"
+                    {{checked systemData.damage.noArmor}} />
+                <span class="sliderSwitch"></span>
+            </label>                                      
+        </hbox>        
+
+    </panelContent>
+</slidePanel>
+</div>

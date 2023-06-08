@@ -192,6 +192,64 @@ export class mainBackend {
     }
 
     /**
+     * Compendium Backend For Spell Items...
+     */
+    static async getBackendForSpell(systemData) {
+        return {
+            worlds: await game.packs.get("conventum.worlds").getDocuments(),
+            characteristics: this._getCharacteristics('primary', true),
+            secondary: this._getCharacteristics('secondary', true),
+            actorTypes: this._getActorTypes(),
+            spellShapes: this._getSpellShapes(),
+            spellNature: this._getSpellNature(),
+            spellSecondNature: this._getSpellSecondNature(),
+            skills: await this._getSkills(systemData.control.world, true),
+            skillsPenal: await this._getSkills(systemData.control.world),
+            combatSkills: await this._getCombatSkills(systemData.control.world, true),
+            magicSkills: await this._getMagicSkills(systemData.control.world, true)
+        };
+    }    
+
+    /**
+     * Compendium Backend For Ritual Items...
+     */
+    static async getBackendForRitual(systemData) {
+        return {
+            worlds: await game.packs.get("conventum.worlds").getDocuments(),
+            characteristics: this._getCharacteristics('primary', true),
+            secondary: this._getCharacteristics('secondary', true),
+            actorTypes: this._getActorTypes(),
+            societies: await this._getSocieties(systemData.control.world),
+            skills: await this._getSkills(systemData.control.world, true),
+            skillsPenal: await this._getSkills(systemData.control.world),
+            combatSkills: await this._getCombatSkills(systemData.control.world, true),
+            magicSkills: await this._getMagicSkills(systemData.control.world, true)
+        };
+    }  
+
+    /**
+     * Compendium Backend For Component Items...
+     */
+    static async getBackendForComponent(systemData) {
+        return {
+            worlds: await game.packs.get("conventum.worlds").getDocuments(),
+            characteristics: this._getCharacteristics('primary', true),
+            actorTypes: this._getActorTypes(),
+            spellShapes: this._getSpellShapes(),
+            spellNature: this._getSpellNature(),
+            spellSecondNature: this._getSpellSecondNature(),
+            componentUtility: this._getComponentUtility(),
+            componentLocation: this._getComponentLocation(),
+            componentPotential: this._getComponentPotential(),
+            componentPlace: this._getComponentPlace(),
+            skills: await this._getSkills(systemData.control.world, true),
+            skillsPenal: await this._getSkills(systemData.control.world),
+            combatSkills: await this._getCombatSkills(systemData.control.world, true),
+            magicSkills: await this._getMagicSkills(systemData.control.world, true)
+        };
+    }    
+
+    /**
      * Compendium Backend For Actions Items...
      */
     static async getBackendForAction(systemData) {
@@ -293,7 +351,27 @@ export class mainBackend {
                 'value': {}
             });
         return mDocs;
-    }    
+    }   
+    
+    /**
+     * _getMagicSkills
+     * @param {*} sWorld 
+     * @param {*} bFirstClear 
+     * @returns 
+     */
+    static async _getMagicSkills(sWorld, bFirstClear) {
+
+        bFirstClear = (bFirstClear) ? true : false;
+        let mDocs = (await this._getDocuments('skills', sWorld))
+                                .filter(e => e.system.magic.magic);
+        if (bFirstClear)
+            mDocs.unshift({
+                'id': '',
+                'name': '',
+                'value': {}
+            });
+        return mDocs;
+    }     
 
     /**
      * _getCultures
@@ -399,6 +477,55 @@ export class mainBackend {
     static _getWeaponSizes() {
         return CONFIG.ExtendConfig.weaponSizes;
     }
+
+    /**
+     * _getSpellShapes
+     */
+    static _getSpellShapes() {
+        return CONFIG.ExtendConfig.spellShapes;
+    }    
+
+    /**
+     * _getSpellNature
+     */
+    static _getSpellNature() {
+        return CONFIG.ExtendConfig.spellNature;
+    }    
+
+    /**
+     * _getSpellSecondNature
+     */
+    static _getSpellSecondNature() {
+        return CONFIG.ExtendConfig.spellSecondNature;
+    }     
+
+    /**
+     * _getComponentUtility
+     */
+    static _getComponentUtility() {
+        return CONFIG.ExtendConfig.componentUtility;
+    }   
+    
+    /**
+     * _getComponentLocation
+     */
+    static _getComponentLocation() {
+        return CONFIG.ExtendConfig.componentLocation;
+    }    
+
+    /**
+     * _getComponentPotential
+     */
+    static _getComponentPotential() {
+        return CONFIG.ExtendConfig.componentPotential;
+    }     
+
+    /**
+     * _getComponentPlace
+     */
+    static _getComponentPlace() {
+        return CONFIG.ExtendConfig.componentPlace;
+    } 
 
     /**
      * _getDocuments

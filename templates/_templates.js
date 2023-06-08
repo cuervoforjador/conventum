@@ -9,6 +9,7 @@ export const preloadTemplates = async function() {
       humanPageCombat: CONFIG._root+"/templates/fragments/humanPageCombat.html",
       humanPageArmor: CONFIG._root+"/templates/fragments/humanPageArmor.html",
       humanPageItems: CONFIG._root+"/templates/fragments/humanPageItems.html",
+      humanPageMagic: CONFIG._root+"/templates/fragments/humanPageMagic.html",
       humanPosterActions: CONFIG._root+"/templates/fragments/humanPosterActions.html",
       humanPosterTargets: CONFIG._root+"/templates/fragments/humanPosterTargets.html",
       humanHeader: CONFIG._root+"/templates/fragments/humanHeader.html",
@@ -33,6 +34,8 @@ export const preloadTemplates = async function() {
       itemExtendSkill: CONFIG._root+"/templates/fragments/itemExtendSkill.html",
       itemExtendArmor: CONFIG._root+"/templates/fragments/itemExtendArmor.html",
       itemExtendWeapon: CONFIG._root+"/templates/fragments/itemExtendWeapon.html",
+      itemExtendSpell: CONFIG._root+"/templates/fragments/itemExtendSpell.html",
+      itemExtendRitual: CONFIG._root+"/templates/fragments/itemExtendRitual.html",
       itemExtendAction: CONFIG._root+"/templates/fragments/itemExtendAction.html",
       itemExtendMode: CONFIG._root+"/templates/fragments/itemExtendMode.html"
 

@@ -501,11 +501,13 @@ export class helperSheetCombat {
      * @param {*} sTargets 
      * @param {*} sDamage 
      */
-    static async rollDamage(weaponId, actorId, actionId, sTargets, sDamage, messageId, locationId) {
+    static async rollDamage(weaponId, spellId, actorId, actionId, sTargets, sDamage, messageId, locationId) {
         const actor = game.actors.get(actorId);
         if (!actor) return;
         const weapon = actor.items.get(weaponId);
-        if (!weapon) return;
+        const spell = actor.items.get(spellId);
+
+        if ((!weapon) && (!spell)) return;
         const action = (actionId) ? actor.items.get(actionId) : null;
         const mTargets = sTargets.split('.');
 
@@ -533,7 +535,7 @@ export class helperSheetCombat {
 
         //Applying damage to each target...
         for (var i=0; i<mTargets.length; i++) {
-            await helperSheetCombat.applyDamage(mTargets[i], damage, locationId, actor, action);
+            await helperSheetCombat.applyDamage(mTargets[i], damage, locationId, actor, action, spell);
         }
 
     }
@@ -587,7 +589,7 @@ export class helperSheetCombat {
      * @param {*} actorId 
      * @param {*} nDamage 
      */
-    static async applyDamage(actorId, nDamage, locationId, actorFrom, action) {
+    static async applyDamage(actorId, nDamage, locationId, actorFrom, action, spell) {
         let actor = game.actors.get(actorId);
         if (!actor) return;
         const sWorld = actor.system.control.world;
@@ -627,20 +629,30 @@ export class helperSheetCombat {
                                     Number(actor.system.armor[location.id].protection) : 0;
         
         let noByTarget = false;
-        let modProtection = (action) ? action.system.armor.mod.protection : '+0';
-        for (const step of steps) {
-            const oAction = actorFrom.items.get(step.action);
-            if ((oAction.system.armor.mod.stack) && (oAction.id !== action.id))
-                modProtection = modProtection.toString()+ oAction.system.armor.mod.protection;
-            if ((step.targets) && 
-                (step.targets.find(e => e === actorFrom.id))
-                && (oAction.system.armor.mod.targetProtection !== '') ) {
-                    if (oAction.system.armor.targetNoProtection) noByTarget = true;
-                    modProtection = modProtection.toString()+ oAction.system.armor.mod.targetProtection;
-                }
+        let modProtection = '+0';
+
+        if (action) {
+            modProtection = (action) ? action.system.armor.mod.protection : '+0';
+            for (const step of steps) {
+                const oAction = actorFrom.items.get(step.action);
+                if ((oAction.system.armor.mod.stack) && (oAction.id !== action.id))
+                    modProtection = modProtection.toString()+ oAction.system.armor.mod.protection;
+                if ((step.targets) && 
+                    (step.targets.find(e => e === actorFrom.id))
+                    && (oAction.system.armor.mod.targetProtection !== '') ) {
+                        if (oAction.system.armor.targetNoProtection) noByTarget = true;
+                        modProtection = modProtection.toString()+ oAction.system.armor.mod.targetProtection;
+                    }
+            }
         }
+
         armorProtection = (armorProtection != 0) ? eval(armorProtection.toString() + modProtection) : 0;
-        if ((action.system.armor.noProtection) || (noByTarget)) armorProtection = 0;
+        if (action) {
+            if ((action.system.armor.noProtection) || (noByTarget)) armorProtection = 0;
+        }
+        if (spell) {
+            if ((spell.system.damage.noArmor) || (noByTarget)) armorProtection = 0;
+        }
 
         if (armorProtection >= nDamage) { 
             finalDamage = 0;
@@ -657,10 +669,14 @@ export class helperSheetCombat {
         let armorModif = {};
             armorModif[location.id] = {value: nArmor};
 
+        //Concentration penalization
+        let sPenalConc = (Number(actor.system.magic.penal.concentration) - finalDamage*10).toString();
+
         actor.update({
             system: {
                 characteristics: { secondary: { hp: { value: nHp }}},
-                armor: armorModif
+                armor: armorModif,
+                magic: { penal: { concentration: sPenalConc }}
             }
         });
 
@@ -685,7 +701,13 @@ export class helperSheetCombat {
                 }
             }            
             armorEndurance = (armorEndurance != 0) ? eval(armorEndurance.toString() + modEndurance) : 0;
-            if ((action.system.armor.noEndurance) || (noByTarget)) armorDamage = 0;
+            
+            if (action) {
+                if ((action.system.armor.noEndurance) || (noByTarget)) armorDamage = 0;
+            }
+            if (spell) {
+                if (noByTarget) armorDamage = 0;
+            }
 
             armorItem.update({
                 system: {
@@ -693,10 +715,11 @@ export class helperSheetCombat {
                 }
             });
 
-            if ( (action.system.armor.breakArmor) ||
+            if ( ((action) && (action.system.armor.breakArmor)) ||
                  ((armorEndurance - armorDamage) <= 0) ) {
                     helperSheetArmor.destroyArmor(actor, armorItem.id);
             }
+
         }
 
         //Bubble message

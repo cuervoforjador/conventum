@@ -73,7 +73,7 @@
                     
                     <hbox class="_mod">
                         <label>{{localize "common.skill" }}</label>
-                        <select name="system.mod.skill.id">
+                        <select name="system.mod.skill.id"  style="margin-right: 10px;">
                             {{selectOptions backend.skills 
                                             selected=systemData.mod.skill.id
                                             localize=false
@@ -107,7 +107,7 @@
 
                     <hbox class="_mod">
                         <label>{{localize "common.characteristic" }}</label>
-                        <select name="system.mod.characteristic.id">
+                        <select name="system.mod.characteristic.id" style="margin-right: 10px;">
                             {{selectOptions backend.characteristics 
                                             selected=systemData.mod.characteristic.id
                                             localize=false

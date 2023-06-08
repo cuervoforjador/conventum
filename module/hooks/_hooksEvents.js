@@ -24,6 +24,7 @@ export class HookEvents {
         //Roll Damage (Chat Messages)
         $(document).on('click', 'a._rollDamage', function (event) {
             HookEvents._rollDamage($(this).data('weaponid'), 
+                                   $(this).data('spellid'),
                                    $(this).data('actorid'),
                                    $(this).data('actionid'),
                                    $(this).data('targets'),
@@ -79,7 +80,9 @@ export class HookEvents {
             
             const sValue = $(this).val();
             const sFilter = $(this).data('filter');
-            const sDiv = (sFilter === 'world') ? '._worldInfo' : '._extraInfo';
+            let sDiv = (sFilter === 'world') ? '._worldInfo' : '._extraInfo';
+            if ($(this).find("option:selected").data('sdiv')) 
+                sDiv = '.'+$(this).find("option:selected").data('sdiv');
             const sPack = $(event.target).parents('.compendium').data('pack');
             $(".compendium[data-pack='"+sPack+"'] ol.directory-list li.directory-item").each(function(i,e) {
                 if ( $(e).find(sDiv).data("filter") === sValue ) $(e).show();
@@ -158,8 +161,8 @@ export class HookEvents {
      * @param {*} sTargets 
      * @param {*} sDamage 
      */
-    static _rollDamage(weaponId, actorId, actionId, sTargets, sDamage, messageId, locationId) {
-        helperSheetCombat.rollDamage(weaponId, actorId, actionId, sTargets, sDamage, messageId, locationId);
+    static _rollDamage(weaponId, spellId, actorId, actionId, sTargets, sDamage, messageId, locationId) {
+        helperSheetCombat.rollDamage(weaponId, spellId, actorId, actionId, sTargets, sDamage, messageId, locationId);
     }
 
 }

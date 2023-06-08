@@ -23,6 +23,7 @@ export class mainHooks {
     static init(Hooks) {
 
         Hooks.on("setup", () => this._setup());
+        Hooks.on("ready", async () => this._ready());
         Hooks.on("renderHotbar", (element, html, options) => this._renderHotbar(element, html, options));
         Hooks.on("canvasReady", (canvas) => this._canvasReady(canvas));
         Hooks.on("renderCompendiumDirectory", (tab, element, info) => this._renderCompendiumDirectory(tab, element, info));        
@@ -34,7 +35,7 @@ export class mainHooks {
         Hooks.on("createItem", (item, options, sId) => this._createItem(item, options, sId));
         Hooks.on("renderActorSheet", (sheet, html, systemData) => this._renderActorSheet(sheet, html, systemData));
         Hooks.on("renderDialog", (dialog, element, content) => this._renderDialog(dialog, element, content));
-        Hooks.on("renderApplication", (options, element, content) => this._renderApplication(options, element, content));
+        Hooks.on("renderApplication", (app, element, options) => this._renderApplication(app, element, options));
         Hooks.on("getUserContextOptions", (element, content) => this._getUserContextOptions(element, content));
         Hooks.on("getCombatTrackerEntryContext", (html, options) => this._getCombatTrackerEntryContext(html, options));
         Hooks.on("renderCombatTracker", (tracker, html, options) => this._renderCombatTracker(tracker, html, options));
@@ -45,9 +46,12 @@ export class mainHooks {
 
     static _setup() {
         mainConfig.translateConfig();
-        HookEvents.initialEvents();
-        HookTours.initTour();    
+        HookEvents.initialEvents(); 
         helperSocket.onReceived();    
+    }
+
+    static _ready() {
+        HookTours.registerTours();   
     }
 
     static _renderHotbar(element, html, options) {
@@ -132,6 +136,8 @@ export class mainHooks {
     }
 
     static _renderActorSheet(sheet, html, systemData) {
+        
+        //QuickBar
         let hSheet = $('.app.window-app.conventum.sheet.actor');
         if (hSheet.length === 0) return;
         let posX = systemData.systemData.quickBarPosition.x - hSheet.position().left;
@@ -140,6 +146,28 @@ export class mainHooks {
           left: posX,
           top: posY
         });
+
+        //ImOnFire...
+        const sBook = '';
+        if ($(html).find('.tab.magic.active').length === 1) {
+            $('#'+sheet.element[0].id+" .window-content").prepend('<div class="_imOnFire"></div>');
+            $("form.codex").css({'z-index': 1,
+                                 'background-image': 'none'});
+            $("._humanAction").css({'transition': '0s'});
+            $("._humanAction").addClass('_reduce');      
+            $("._humanTargets").css({'transition': '0s'});
+            $("._humanTargets").addClass('_reduce');
+        }
+        else {
+            const sFrame = 'systems/conventum/image/frame/'+sheet.actor.system.control.frame+'/paper.png';
+            $(".window-content ._imOnFire").remove();   
+            $("form.codex").css({'background': 'url('+sFrame+')',
+                                 'z-index': 'initial'});            
+            $("._humanAction").css({'transition': '0.6s'});
+            $("._humanAction").removeClass('_reduce');
+            $("._humanTargets").css({'transition': '0.6s'});
+            $("._humanTargets").removeClass('_reduce');                              
+        }
     }
 
     static async _renderDialog(dialog, element, content) {
@@ -156,8 +184,8 @@ export class mainHooks {
             HookCombat.targetDialogs(dialog, element, content);
     }
 
-    static async _renderApplication(options, element, content) {
-        //...
+    static async _renderApplication(app, element, options) {
+        
     }
 
     static async _getUserContextOptions(element, content) {

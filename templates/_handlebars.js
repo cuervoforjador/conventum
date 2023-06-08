@@ -1,3 +1,5 @@
+import { helperSheetMagic } from "../module/sheets/helpers/helperSheetMagic.js";
+
 export class mainHandlebars {
 
    /**
@@ -120,6 +122,15 @@ export class mainHandlebars {
 
          return (firstEval && secondEval);
        });       
+
+      /**
+       * spellValue
+       */
+      Handlebars.registerHelper("spellValue", function(item, sType, options) {
+         const systemData = options.data.root.data.system;
+         return helperSheetMagic.magicSkillValue(systemData, item);
+       }); 
+
 
       /**
        * locationValue

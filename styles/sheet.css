@@ -1566,6 +1566,194 @@ a._showMyItem {
 }
 
 
+/* Magic */
+ul._magicChars {
+    margin: 0px;
+    padding: 0px;
+    padding-left: 54px;
+    padding-top: 14px;
+    padding-right: 24px;
+    padding-bottom: 8px;
+    border-bottom: 3px solid #1111114d;
+    margin-bottom: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    background: #322c2cc7;
+    z-index: 1;
+}
+ul._magicSkills {
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    z-index: 1;
+}
+li._magicSkill {
+    margin: 0px;
+    margin-bottom: 2px;
+    padding: 0px;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    margin-right: 8px;
+    padding-right: 8px;
+    border-right: 1px solid #33333329;
+}
+._magicSkill img {
+    width: 20px;
+    height: 20px;
+    border: 0px;
+    margin-right: 4px;
+}
+._magicSkill label._value {
+    font-size: 16px;
+    line-height: 18px;
+    font-weight: 900;
+    position: relative;
+    background: #a14b4b1a;
+    border-radius: 3px;
+    width: 30px;
+    height: 23px;
+    text-align: center;
+    top: 0px;
+}
+._magicChars label._name {
+    color: #ffffffcf;
+}
+._magicChars label._name:first-letter {
+    color: #f5f1f1;
+}
+._magicChars label._value {
+    background: #0000007d;
+    color: #ffffffde;
+    transform: rotate(4deg);
+    position: relative;
+    top: 1px;
+    margin-left: -2px;
+}
+._magicChars label._value:first-letter {
+    color: #FFF;
+}
+._magicSkill._long label._value {
+    width: 60px!important;
+}
+._magicChars li._magicSkill {
+    margin-right: 0;
+    padding-right: 5px;
+}
+
+ul.magicPenalizations {
+    display: flex;
+    padding: 0px;
+    padding-left: 10px;
+    padding-right: 5px;
+    margin: 0px;
+    margin-top: 10px;
+    z-index: 1;
+}
+li._penal {
+    border: 1px solid #a78e8e96;
+    margin-right: 5px;
+    border-radius: 3px;
+}
+.magicPenalizations ._penal label._title {
+    font-family: 'Almendra';
+    font-size: 12px;
+    margin: 0px;
+    padding: 0px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background: #3333339e;
+    color: #FFF;
+}
+.magicPenalizations ._penal input[type="text"] {
+    font-family: 'Almendra';
+    text-align: center;
+    font-size: 20px;
+    line-height: 20px;
+    height: 16px;
+}
+.magicList {
+    z-index: 1;
+}
+li._magic {
+    display: flex;
+    height: 30px;
+    align-items: center;
+}
+._magic label._title {
+    width: calc(100% - 185px);
+}
+._magic label._points {
+    font-size: 11px;
+    width: 18px;
+    text-align: center;
+}
+._magic label._points::first-letter {
+    font-size: 11px;
+}
+._magic label._type {
+    font-size: 8px;
+    width: 60px;
+}
+._magic label._type::first-letter {
+    font-size: 10px;
+}
+._magic label._value {
+    width: 30px;
+    text-align: center;
+    border: 0px;
+    font-size: 14px;
+    line-height: 20px;
+    transition: 0.4s;
+}
+label._value:hover {
+    background: #b37a7a85;
+    border-radius: 3px;
+    cursor: pointer;
+}
+._magic label._value::first-letter {
+    font-size: 15px;
+}
+._magic ._head {
+    font-size: 9px!important;
+    line-height: 10px!important;
+    display: flex;
+    flex-wrap: wrap;
+    height: 30px;
+    align-items: center;
+}
+._magic ._head::first-letter {
+    font-size: 10px!important;
+}
+._imOnFire {
+    background: url(/systems/conventum/image/texture/fire.gif);
+    width: calc(100% - 25px);
+    height: calc(100% - 48px);
+    display: block;
+    position: absolute;
+    top: 40px;
+    z-index: 1;
+    background-size: 100% 100%;
+    opacity: 0.2;
+}
+
+._mod._text .editor {
+    border: 1px solid #33333330;
+    border-radius: 3px;
+    width: 100%;
+    height: 150pt;
+    padding: 5px;
+}
+._mod._text .editor-content::first-letter {
+    font-size: 14pt;
+}
+
 /* Items */
 .actorItems {
     width: 100%;
@@ -1673,12 +1861,30 @@ img.imgAction.react {
 ._humanAction:hover {
     left: -196px;
     top: 35px;
-    rotate: -3deg;
+    width: 206px;
+    rotate: -2.8deg;
 }
 ._humanAction img._posterImg {
     width: 195px;
     height: 300px;
 }
+._humanAction._reduce {
+    left: -75px!important;
+    width: 93px!important;    
+    transition: 0!important;
+    rotate: 0deg!important;
+}
+._humanAction._reduce:hover {
+    left: -75px!important;
+    top: 48px!important;
+    width: 93px!important; 
+    rotate: 0deg!important;
+}
+ul._humanTargets._reduce {
+    left: -105px;
+}
+
+
 /* Targets circles */
 ul._humanTargets {
     position: absolute;

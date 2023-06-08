@@ -3,50 +3,80 @@ import { mainBackend } from "../sheets/backend/mainBackend.js";
 
 export class HookTours {
 
-    static async initTour() {
-
-        return;
-
-        if (game.tours.get('system.conventum')) return;
-
-        let oTour = await new Tour(
-            {
-                title: "tour.Title",
-                description: "tour.Description",
-                canBeResumed: true,                
-                display: true,
-                localization: {
-                    "tour.Title": game.i18n.localize("tour.Title"),
-                    "tour.Description": game.i18n.localize("tour.Description"),
-                    "tour.TitleInit": game.i18n.localize("tour.TitleInit"),                    
-                    "tour.ContentInit": game.i18n.localize("tour.ContentInit"),
-                    "tour.TitleWorld": game.i18n.localize("tour.TitleWorld"),                    
-                    "tour.ContentWorld": game.i18n.localize("tour.ContentWorld"),                    
-                },
-                steps: [
-                    {   
-                        id: "initStep",
-                        title: "tour.TitleInit",
-                        content: "tour.ContentInit",
-                        selector: ""
-                    },
-                    {   
-                        id: "world",
-                        title: "tour.TitleWorld",
-                        content: "tour.ContentWorld",
-                        selector: "#compendium",
-                        sidebarTab: "compendium"
-                    },                    
-                ]
-            },
-            {
-                id: "aquelarreTour",
-                namespace: "system",
-                stepIndex: -1
-            }
-        );
-        await oTour.start();
+    /**
+     * registerTours
+     * @returns 
+     */
+    static async registerTours() {
+        
+        await game.tours.register("conventum", "firstSteps", await this._tourFirstStep());
+        
+        this.initTours();
     }
 
+    /**
+     * initTours
+     */
+    static async initTours() {
+        
+        const firstSteps = await game.tours.get('conventum.firstSteps');
+        if (firstSteps.status === 'unstarted') firstSteps.start();
+    }
+
+    /**
+     * ------------ FIRST STEPS TOUR -----------------------------------------------------------------------------------
+     */
+    static async _tourFirstStep() {
+        let sLang = game.i18n.lang;
+        return await new Tour({
+            title: "tour.Title",
+            description: "tour.Description",
+            canBeResumed: true,                
+            display: true,
+            localization: {
+                "tour.Title": game.i18n.localize("tour.Title"),
+                "tour.Description": game.i18n.localize("tour.Description"),
+                "tour.Title01": game.i18n.localize("tour.Title01"),                    
+                "tour.Content01": game.i18n.localize("tour.Content01"),
+                "tour.TitleWorld": game.i18n.localize("tour.TitleWorld"),                    
+                "tour.ContentWorld": game.i18n.localize("tour.ContentWorld"),                    
+            },
+            steps: [
+                {   
+                    id: "step01",
+                    title: "tour.Title01",
+                    content: "tour.Content01",
+                    selector: ""
+                },
+                {   
+                    id: "step02",
+                    title: "tour.Title02",
+                    content: "tour.Content02",
+                    selector: ""
+                },    
+                {   
+                    id: "step03",
+                    title: "tour.Title03",
+                    content: "tour.Content03",
+                    //sidebarTab: "compendium",
+                    selector: '[data-tab="compendium"]',
+                    action: 'click'
+                },                            
+                {   
+                    id: "step04",
+                    title: "tour.Title04",
+                    content: "tour.Content04",
+                    //sidebarTab: "compendium",
+                    selector: '[data-pack="conventum.worlds"]', //'[data-tab="compendium"]',
+                    action: 'click'
+                },                    
+            ]
+        }, {
+            id: "firstSteps",
+            namespace: "conventum",
+            stepIndex: -1
+        });
+    }
 
 }
+

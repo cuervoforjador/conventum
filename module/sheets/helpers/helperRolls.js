@@ -107,7 +107,7 @@ export class helperRolls {
      * @param {*} mods 
      */
     static rollAction(actor, mTargets, action, bLeveled,
-                      skill, nPercent, weapon, sDamage, mods) {
+                      skill, nPercent, weapon, sDamage, mods, spell) {
 
         let oRollAction = {
           actor: actor,
@@ -118,7 +118,8 @@ export class helperRolls {
           weapon: weapon,
           damage: sDamage,
           location: null,
-          mods: mods
+          mods: mods,
+          spell: spell
         }
 
         // Asking for level roll
@@ -282,7 +283,7 @@ export class helperRolls {
                                 && (!e.consumed));
 
       //Aplying location
-      oRollAction.location = oStep.applyLocation;
+      oRollAction.location = (oStep) ? oStep.applyLocation : '';
 
       //Rolling
       sValueMod = (sValueMod) ? sValueMod : '+0';
@@ -298,7 +299,7 @@ export class helperRolls {
       let success = ( nPass >= Number(roll.result) );
 
       //Luck
-      const luck = await this.checkImLucky(actor, nPass, Number(roll.result));
+      const luck = await this.checkImLucky(oRollAction.actor, nPass, Number(roll.result));
       if (luck > 0) success = true;
 
       //Criticals
@@ -323,10 +324,12 @@ export class helperRolls {
       helperMessages.chatMessage(sContent, oRollAction.actor, false, '', '200px');
 
       //Consuming action
-      oStep.consumed = true;
-      oEncounter.update({
-        system: { steps: mSteps }
-      });
+      if (oStep) {
+        oStep.consumed = true;
+        oEncounter.update({
+          system: { steps: mSteps }
+        });
+      }
 
       if (oRollAction.actor.sheet.rendered)
           oRollAction.actor.sheet.render(true);
@@ -391,11 +394,12 @@ export class helperRolls {
      */
     static _getMessageRollForAction(oRollAction, roll, success, sValueMod, oLevel) {
       return '<div class="_messageFrame">'+
-                  helperRolls._getMessageRoll_Actor(oRollAction.actor, '', oRollAction.skill)+
+                  helperRolls._getMessageRoll_Actor(oRollAction.actor, '', oRollAction.skill, '', oRollAction.spell)+
                   '<div class="_result">'+roll.total+'</div>'+
+                  helperRolls._getMessageSpell(oRollAction.actor, oRollAction.spell)+
                   helperRolls._getMessageRoll_Bonif(sValueMod, oLevel)+
                   helperRolls._getMessageRoll_Result(success)+
-                  helperRolls._getMessageAction(oRollAction.actor, oRollAction.action)+
+                  helperRolls._getMessageAction(oRollAction.actor, oRollAction.action, oRollAction.spell)+
                   helperRolls._getMessageWeapon(oRollAction.actor, oRollAction.weapon)+
                   helperRolls._getMessageDamage(oRollAction, success)+
                   helperRolls._getMessageMods(oRollAction.mods)+
@@ -407,7 +411,13 @@ export class helperRolls {
      * _getMessageAction
      * @param {*} action 
      */
-    static _getMessageAction(actor, action) {
+    static _getMessageAction(actor, action, spell) {
+      if (spell) return '<div class="_messageAction">'+
+                '<a class="_showItem" data-itemid="'+spell.id+'" data-actorid="'+actor.id+'">'+
+                  '<img src="'+spell.img+'"/>'+
+                '</a>'+
+                '<div class="_name">'+spell.name+'</div>'+   
+             '</div>';
       return '<div class="_messageAction">'+
                 '<a class="_showItem" data-itemid="'+action.id+'" data-actorid="'+actor.id+'">'+
                   '<img src="'+action.img+'"/>'+
@@ -417,10 +427,24 @@ export class helperRolls {
     }
 
     /**
+     * _getMessageSpell
+     * @param {*} spell 
+     */
+    static _getMessageSpell(actor, spell) {
+      if (!spell) return '';
+      return '<div class="_messageSpell">'+
+                '<a class="_showItem" data-itemid="'+spell.id+'" data-actorid="'+actor.id+'">'+
+                  '<div class="_name">'+spell.name+'</div>'+ 
+                '</a>'+        
+             '</div>';
+    }
+
+    /**
      * _getMessageWeapon
      * @param {*} weapon 
      */
     static _getMessageWeapon(actor, weapon) {
+      if (!weapon) return '';
       return '<div class="_messageWeapon">'+
                 '<a class="_showItem" data-itemid="'+weapon.id+'" data-actorid="'+actor.id+'">'+
                   '<div class="_name">'+weapon.name+'</div>'+ 
@@ -437,7 +461,8 @@ export class helperRolls {
       if (!success) return '';
 
       let weapon = oRollAction.weapon;
-      if (!weapon) return '';
+      let spell = oRollAction.spell;
+      if ((!weapon) && (!spell)) return '';
       let actor = oRollAction.actor;
       if (!actor) return '';
 
@@ -449,13 +474,16 @@ export class helperRolls {
         });
       }
 
+      if ((spell) && (!spell.system.damage.apply)) return '';
+
       const sLocationID = (oRollAction.location) ? oRollAction.location.location : '';
       return '<div class="_messageDamage">'+
-                '<a class="_rollDamage" data-weaponid="'+weapon.id+'" '+
+                '<a class="_rollDamage" data-weaponid="'+((weapon)? weapon.id : '')+'" '+
+                                      ' data-spellid="'+((spell)? spell.id : '')+'" '+
                                       ' data-actorid="'+actor.id+'" '+
                                       ' data-targets="'+sTargets+'" '+
                                       ' data-locationid="'+sLocationID+'" '+
-                                      ' data-actionid="'+oRollAction.action.id+'" '+
+                                      ' data-actionid="'+ ((oRollAction.action) ? oRollAction.action.id : '')+'" '+
                                       ' data-damage="'+oRollAction.damage+'">'+
                    '<img src="/systems/conventum/image/texture/dice.png">'+
                    '<div class="_name">'+oRollAction.damage+'</div>'+
@@ -501,9 +529,9 @@ export class helperRolls {
      * @param {*} skill 
      * @returns 
      */
-    static _getMessageRoll_Actor(actor, sPath, skill, sMod2) {
+    static _getMessageRoll_Actor(actor, sPath, skill, sMod2, spell) {
       sMod2 = (!sMod2) ? '' : sMod2;
-      if (!skill) {
+      if (!skill && !spell) {
         if ( !(sPath.split('.').length > 1) ) return '<div class="_skill"></div>';
         const skillId = sPath.split('.')[1];
         skill = game.packs.get('conventum.skills').get(skillId);
@@ -531,7 +559,8 @@ export class helperRolls {
      * @returns 
      */
     static _getMessageRoll_Skill(sPath, skill) {
-      
+      if ((sPath === '') && (!skill)) return'<div class="_skill"></div>';
+
       let oSkill;
       if (sPath !== '') {
         if ( !(sPath.split('.').length > 1) ) return '<div class="_skill"></div>';

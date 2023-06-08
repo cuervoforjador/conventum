@@ -27,3 +27,6 @@ aside.tour {
     portant: ;
     line-height: 15px;
 }
+.tour footer.step-controls .progress {
+    color: #111111d1!important;
+}

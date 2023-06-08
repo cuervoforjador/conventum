@@ -192,3 +192,23 @@ section.window-content._v10 {
     left: -46px;
     font-family: 'Almendra';
 }
+.compendium ._infoShape {
+    position: relative;
+    width: 100px;
+    height: 40px;
+    margin-left: -100px;
+    margin-top: -40px;
+    top: -3px;
+    left: 19px;
+    font-family: 'Almendra';
+}
+.compendium ._infoType {
+    position: relative;
+    width: 100px;
+    height: 40px;
+    margin-left: -100px;
+    margin-top: -40px;
+    top: 11px;
+    left: 41px;
+    font-family: 'Almendra';
+}

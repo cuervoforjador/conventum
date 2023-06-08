@@ -14,6 +14,9 @@ import { extendSheetLocation } from "./sheets/extendSheetLocation.js";
 import { extendSheetMode } from "./sheets/extendSheetMode.js";
 import { extendSheetArmor } from "./sheets/extendSheetArmor.js";
 import { extendSheetWeapon } from "./sheets/extendSheetWeapon.js";
+import { extendSheetSpell } from "./sheets/extendSheetSpell.js";
+import { extendSheetRitual } from "./sheets/extendSheetRitual.js";
+import { extendSheetComponent } from "./sheets/extendSheetComponent.js";
 import { extendSheetAction } from "./sheets/extendSheetAction.js";
 import { extendSheetActionPool } from "./sheets/extendSheetActionPool.js";
 import { extendSheetItem } from "./sheets/extendSheetItem.js";
@@ -63,6 +66,12 @@ export class mainGameSheets {
                                                          makeDefault: true });
         Items.registerSheet(_system, extendSheetWeapon, { types: ['weapon'],
                                                          makeDefault: true });
+        Items.registerSheet(_system, extendSheetSpell, { types: ['spell'],
+                                                         makeDefault: true });   
+        Items.registerSheet(_system, extendSheetRitual, { types: ['ritual'],
+                                                         makeDefault: true });                                                           
+        Items.registerSheet(_system, extendSheetComponent, { types: ['component'],
+                                                         makeDefault: true });                                                                                                                  
         Items.registerSheet(_system, extendSheetAction, { types: ['action'],
                                                          makeDefault: true });       
         Items.registerSheet(_system, extendSheetActionPool, { types: ['actionPool'],

@@ -37,13 +37,6 @@ export class helperSheetItem {
       }
     }
 
-    //Traits
-    if (systemData.mod) {
-      for (var s in systemData.mod) {
-        systemData.mod[s].apply = !(systemData.mod[s].bono === '');
-      }
-    }
-
     return systemData;
   }
 
@@ -52,6 +45,8 @@ export class helperSheetItem {
    * @param {*} context 
    */
   static molding(context) {
+    if (!context.systemData.control) return;
+
     if (context.systemData.control.mold === '')
       context.systemData.control.mold = context.data._id;
   }

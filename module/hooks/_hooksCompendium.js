@@ -19,6 +19,7 @@ export class HookCompendium {
         'conventum.modes',
         'conventum.armor',
         'conventum.weapons',
+        'conventum.magic',
         'conventum.actions'
     ];
 
@@ -153,7 +154,8 @@ export class HookCompendium {
              (sPack === 'conventum.stratums') ||
              (sPack === 'conventum.skills') ||
              (sPack === 'conventum.status') ||
-             (sPack === 'conventum.weapons') ) {
+             (sPack === 'conventum.weapons') ||
+             (sPack === 'conventum.magic') ) {
             const mDocs = await this._getDocuments('worlds', '');
             compendium._element.find(sHeaderDiv).append(this._createSelect("world", "common.world", mDocs));
         }   
@@ -170,7 +172,29 @@ export class HookCompendium {
             let mDocs = await this._getDocuments('skills', '');
             mDocs = mDocs.filter(e => e.system.combat.combat);
             compendium._element.find(sHeaderDiv).append(this._createSelect("combatSkill", "common.combatSkill", mDocs));
-        }        
+        }     
+        if (sPack === 'conventum.magic') {
+            let mDocs1 = [];
+            CONFIG.ExtendConfig.spellShapes.map(e => {
+                mDocs1.push({
+                    id: e.id,
+                    name: e.name,
+                    system: {control: {world: ''}}
+                });
+            });
+            compendium._element.find(sHeaderDiv).append(this._createSelect("type", "common.shape", mDocs1, '_infoShape'));
+            
+            let mDocs2 = [{
+                id: 'spell',
+                name: game.i18n.localize("common.spell"),
+                system: {control: {world: ''}}
+            },{
+                id: 'ritual',
+                name: game.i18n.localize("common.ritual"),
+                system: {control: {world: ''}}
+            }];
+            compendium._element.find(sHeaderDiv).append(this._createSelect("type", "common.type", mDocs2, '_infoType'));
+        }            
     }
 
     /**
@@ -198,7 +222,16 @@ export class HookCompendium {
                                     oItemDoc.system.combatSkill);    
             this._addDivExtraInfoString(oElement,
                 game.i18n.localize('common.damage')+': '+oItemDoc.system.damage, '_infoDamage');                                                                                                  
-        }        
+        }  
+        if (sPack === 'conventum.magic') {  
+            const sType = game.i18n.localize("common."+oItemDoc.type);
+            this._addDivExtraInfoString(oElement,
+                game.i18n.localize('common.type')+': '+sType, '_infoType', oItemDoc.type);                                         
+            const sShape = (oItemDoc.system.shape) ?
+                            game.i18n.localize("shape."+oItemDoc.system.shape) : '';            
+            this._addDivExtraInfoString(oElement,
+                game.i18n.localize('common.shape')+': '+sShape, '_infoShape', oItemDoc.system.shape);                                                                                                 
+        }              
     }
 
     /**
@@ -209,12 +242,14 @@ export class HookCompendium {
      */
     static _addDivExtraInfo(sCompendium, oElement, oValue) {
         const oExtraDoc = game.packs.get(sCompendium).index.get(oValue);
+        if (!oExtraDoc) return;
         $(oElement).append('<div class="_extraInfo" data-filter="'+oExtraDoc._id+'">'+
                                                             oExtraDoc.name+'</div>');          
     }
-    static _addDivExtraInfoString(oElement, sValue, sClass) {
+    static _addDivExtraInfoString(oElement, sValue, sClass, sFilter) {
+        if (!sFilter) sFilter='null';
         sClass = (sClass) ? sClass : '_extraInfo';
-        $(oElement).append('<div class="'+sClass+'" data-filter="null">'+sValue+'</div>');          
+        $(oElement).append('<div class="'+sClass+'" data-filter="'+sFilter+'">'+sValue+'</div>');          
     }    
 
     /**
@@ -224,13 +259,15 @@ export class HookCompendium {
      * @param {array} mDocs 
      * @returns 
      */
-    static _createSelect(sFilter, sLabel, mDocs) {
+    static _createSelect(sFilter, sLabel, mDocs, sDiv) {
+        if (!sDiv) sDiv = '';
         let sSelectDiv = '<div class="_compendiumFilter">'+
                             '<label>'+game.i18n.localize(sLabel)+'</label>'+
                             '<select class="_cFilter" data-filter="'+sFilter+'">';
         sSelectDiv += '<option value="" selected></option>';
+        const sDivData = (sDiv !== '') ? ' data-sdiv="'+sDiv+'" ' : '';
         mDocs.forEach(e => {
-            sSelectDiv += '<option value="'+e.id+'" data-world="'+e.system.control.world+'">'
+            sSelectDiv += '<option value="'+e.id+'" '+sDivData+' data-world="'+e.system.control.world+'">'
                                                                  +e.name+'</option>';
         });
         sSelectDiv += '</select></div>';  
