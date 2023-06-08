@@ -35,5 +35,34 @@ export class HookActor {
         }        
     }
 
+    /**
+     * onFirePage
+     * @param {*} sheet 
+     */
+    static onFirePage(sheet) {
+        $('#'+sheet.element[0].id+" .window-content").prepend('<div class="_imOnFire"></div>');
+        $('#'+sheet.element[0].id+" form.codex").css({'z-index': 1,
+                                                      'background-image': 'none'});
+        $('#'+sheet.element[0].id+" ._humanAction").css({'transition': '0s'});
+        $('#'+sheet.element[0].id+" ._humanAction").addClass('_reduce');      
+        $('#'+sheet.element[0].id+" ._humanTargets").css({'transition': '0s'});
+        $('#'+sheet.element[0].id+" ._humanTargets").addClass('_reduce');
+    }
+
+    /**
+     * outFirePage
+     * @param {*} sheet 
+     */
+    static outFirePage(sheet) {
+        const sFrame = 'systems/conventum/image/frame/'+sheet.actor.system.control.frame+'/paper.png';
+        $('#'+sheet.element[0].id+" .window-content ._imOnFire").remove();   
+        $('#'+sheet.element[0].id+" form.codex").css({'background': 'url('+sFrame+')',
+                                                      'z-index': 'initial'});            
+        $('#'+sheet.element[0].id+" ._humanAction").css({'transition': '0.6s'});
+        $('#'+sheet.element[0].id+" ._humanAction").removeClass('_reduce');
+        $('#'+sheet.element[0].id+" ._humanTargets").css({'transition': '0.6s'});
+        $('#'+sheet.element[0].id+" ._humanTargets").removeClass('_reduce');         
+    }
+
 
 }

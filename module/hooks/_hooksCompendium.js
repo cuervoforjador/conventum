@@ -23,6 +23,15 @@ export class HookCompendium {
         'conventum.actions'
     ];
 
+    static _frequentCompendiums = [
+        'conventum.worlds',
+        'conventum.languages',
+        'conventum.skills',
+        'conventum.locations',
+        'conventum.modes',
+        'conventum.actions'
+    ];
+
     /**
      * initCompendiums
      */
@@ -32,6 +41,15 @@ export class HookCompendium {
                 await game.packs.get(HookCompendium._compendiums[i])?.getDocuments();
             }
             CONFIG.compendiumInitialized = true;
+        }
+    }
+
+    /**
+     * frequent
+     */
+    static async frequent() {
+        for (let i=0; i < HookCompendium._frequentCompendiums.length; i++) {
+            await game.packs.get(HookCompendium._frequentCompendiums[i])?.getDocuments();
         }
     }
 

@@ -39,6 +39,7 @@ export class helperSocket {
         helperSocket.send({
             action: 'refreshSheets'
         });
+        this._doRefreshSheets();
     }
 
     /**

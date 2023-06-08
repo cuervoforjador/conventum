@@ -9,6 +9,8 @@ import { helperSheetCombat } from "../helpers/helperSheetCombat.js";
 import { helperSheetMagic } from "../helpers/helperSheetMagic.js";
 import { helperRolls } from "../helpers/helperRolls.js";
 import { helperActions } from "../helpers/helperActions.js";
+import { HookActor } from "../../hooks/_hooksActor.js";
+import { HookCompendium } from "../../hooks/_hooksCompendium.js";
 import { mainUtils } from "../../mainUtils.js";
 
 export class extendSheetHuman extends ActorSheet {
@@ -198,25 +200,8 @@ export class extendSheetHuman extends ActorSheet {
   _changeBookmark(event) {
     event.preventDefault();
     const sBook = event.currentTarget?.dataset.tab;   
-    if (sBook === 'magic') {
-        $(".actor .window-content").prepend('<div class="_imOnFire"></div>');
-        $("form.codex").css({'z-index': 1,
-                             'background-image': 'none'});
-
-          $("._humanAction").css({'transition': '0s'});
-          $("._humanAction").addClass('_reduce');      
-          $("._humanTargets").css({'transition': '0s'});
-          $("._humanTargets").addClass('_reduce');
-    } else {
-        const sFrame = 'systems/conventum/image/frame/'+this.actor.system.control.frame+'/paper.png';
-        $(".window-content ._imOnFire").remove();
-        $("form.codex").css({'background': 'url('+sFrame+')',
-                             'z-index': 'initial'});  
-        $("._humanAction").css({'transition': '0.6s'});
-        $("._humanAction").removeClass('_reduce');
-        $("._humanTargets").css({'transition': '0.6s'});
-        $("._humanTargets").removeClass('_reduce');
-    }
+    if (sBook === 'magic') HookActor.onFirePage(this.actor.sheet);
+                      else HookActor.outFirePage(this.actor.sheet);
   }
 
   _openTabActions(event) {
@@ -245,7 +230,7 @@ export class extendSheetHuman extends ActorSheet {
     event.preventDefault();
     const itemId = event.currentTarget?.dataset.itemid;
     const item = (itemId) ? this.actor.items.get(itemId) : null;
-    if (!item) return;
+    if (!item) return;  
     item.delete();
   }
 
@@ -286,12 +271,15 @@ export class extendSheetHuman extends ActorSheet {
     helperActions.setLuck(this.actor);
   }
 
-  _diceSkill(event) {
+  async _diceSkill(event) {
     event.preventDefault();
     const skillId = event.currentTarget?.dataset.itemid;
     const actionId = event.currentTarget?.dataset.actionid;
     const sFormula = event.currentTarget?.dataset.formula;
-    const skillItem = game.packs.get('conventum.skills').get(skillId);
+
+    await HookCompendium.frequent();
+    const skillItem = await game.packs.get('conventum.skills').get(skillId);
+    
     if (!skillItem) return;
     const skill = this.actor.system.skills[skillId];
     if (!skill) return;
@@ -471,6 +459,8 @@ export class extendSheetHuman extends ActorSheet {
   async _playMode(event) {
     event.preventDefault();
     const modeId = event.currentTarget?.dataset.modeid;
+
+    await HookCompendium.frequent();
     const mode = await game.packs.get('conventum.modes').get(modeId);
     helperActions.playMode(this.actor, mode);
   }

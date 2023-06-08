@@ -87,8 +87,10 @@ export class helperRolls {
       // Property to roll
       let rollData = actor.system;
       sPath.split('.').map(e => { rollData = rollData[e]} );
-      rollData = (rollData && rollData.value) ? rollData.value : rollData;        
-      
+      const penal = (rollData && rollData.penal) ? rollData.penal : '+0';
+      rollData = (rollData && rollData.value) ? rollData.value : rollData;
+      rollData = eval(rollData.toString() + penal);
+
       // Asking for level roll
       if (bLeveled) helperRolls._dialogLevel(actor, sPath, rollData, sFormula, actionId);
               else helperRolls.rolls(actor, sPath, rollData, sFormula, null, '', actionId);

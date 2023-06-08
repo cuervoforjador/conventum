@@ -149,25 +149,9 @@ export class mainHooks {
 
         //ImOnFire...
         const sBook = '';
-        if ($(html).find('.tab.magic.active').length === 1) {
-            $('#'+sheet.element[0].id+" .window-content").prepend('<div class="_imOnFire"></div>');
-            $("form.codex").css({'z-index': 1,
-                                 'background-image': 'none'});
-            $("._humanAction").css({'transition': '0s'});
-            $("._humanAction").addClass('_reduce');      
-            $("._humanTargets").css({'transition': '0s'});
-            $("._humanTargets").addClass('_reduce');
-        }
-        else {
-            const sFrame = 'systems/conventum/image/frame/'+sheet.actor.system.control.frame+'/paper.png';
-            $(".window-content ._imOnFire").remove();   
-            $("form.codex").css({'background': 'url('+sFrame+')',
-                                 'z-index': 'initial'});            
-            $("._humanAction").css({'transition': '0.6s'});
-            $("._humanAction").removeClass('_reduce');
-            $("._humanTargets").css({'transition': '0.6s'});
-            $("._humanTargets").removeClass('_reduce');                              
-        }
+        if ($(html).find('.tab.magic.active').length === 1) 
+                HookActor.onFirePage(sheet);
+           else HookActor.outFirePage(sheet);
     }
 
     static async _renderDialog(dialog, element, content) {
