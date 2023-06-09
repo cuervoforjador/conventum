@@ -31,6 +31,11 @@ Aquelarre VTT team is made up of:
       <img class="avatar avatar-user" data-hovercard-type="user" data-hovercard-url="/users/mk1lolo/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" src="https://avatars.githubusercontent.com/u/44495368?v=4" width="150" alt="@mk1lolo">
   </a>
   </td>  
+  <td>
+  <a href="https://github.com/mk1lolo">
+      <img class="avatar avatar-user" data-hovercard-type="user" data-hovercard-url="/users/mk1lolo/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" src="https://cdn.discordapp.com/avatars/1114214929453559839/d774a9dba14f3ccca925f28b86a0e4f1.webp" width="150" alt="@LingInSpain3919">
+  </a>
+  </td>  
 </tr>
 <tr>
   <td>
@@ -42,6 +47,9 @@ Aquelarre VTT team is made up of:
   <td>
    <a href="https://github.com//mk1lolo"><strong>Mk1lolo</strong></a>  
   </td> 
+  <td>
+   <a href=""><strong>LingInSpain</strong></a>  
+  </td>   
 </tr>
 </table>
 
