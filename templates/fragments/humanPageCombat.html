@@ -29,7 +29,7 @@
             <li class="boxWeapon" 
                 id="boxWeapon_{{actions.skill._id}}">
                 <hbox class="_combatSkill">
-                    <a class="_diceSkill" data-itemId="{{actions.skill._id}}" data-actionId="{{actions.action._id}}">
+                    <a class="playSkill" data-itemId="{{actions.skill._id}}" data-actionId="{{actions.action._id}}">
                         <img class="_combatSkillImg" src="{{actions.skill.img}}"/></a>                    
                     <vbox class="_weaponText">
                         <label class="titleWeapon">{{actions.skill.name}}</label>
@@ -50,7 +50,7 @@
                 
                 <hbox>
                     {{#if (evalActionWeapon ../actions weapon) }}
-                    <a class="_playWeapon" data-itemid="{{weapon._id}}" >
+                    <a class="playWeapon" data-itemid="{{weapon._id}}" >
                         <img class="imgWeapon" src="{{weapon.img}}"/>
                     </a>
                     {{else}}

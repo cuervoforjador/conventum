@@ -464,7 +464,7 @@ inkDetail.inkSubline {
         color: #F00;
         margin-left: 3px;
     }            
-    a._diceSkill._shrink img {
+    a.playSkill._shrink img {
         width: 25px;
         height: 25px;
         border: 0px!important;

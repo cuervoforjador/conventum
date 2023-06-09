@@ -6,6 +6,7 @@ import { mainUtils } from "../../mainUtils.js";
 import { helperActions } from "./helperActions.js";
 import { helperMessages } from "./helperMessages.js";
 import { helperSheetCombat } from "./helperSheetCombat.js";
+import { helperSocket } from "../../helpers/helperSocket.js";
 
 export class helperRolls {
 
@@ -109,7 +110,7 @@ export class helperRolls {
      * @param {*} mods 
      */
     static rollAction(actor, mTargets, action, bLeveled,
-                      skill, nPercent, weapon, sDamage, mods, spell) {
+                      skill, nPercent, weapon, sDamage, mods, spell, history) {
 
         let oRollAction = {
           actor: actor,
@@ -121,6 +122,7 @@ export class helperRolls {
           damage: sDamage,
           location: null,
           mods: mods,
+          history: history,
           spell: spell
         }
 
@@ -265,6 +267,8 @@ export class helperRolls {
      */
     static async _rollsForAction(oRollAction, sValueMod, sLevel) {
 
+      await game.packs.get('conventum.worlds').getDocuments();
+
       //Worlds
       const sWorld = oRollAction.actor.system.control.world,
             oWorld = await game.packs.get('conventum.worlds').get(sWorld),
@@ -296,12 +300,19 @@ export class helperRolls {
         await game.dice3d.showForRoll(roll, game.user, true);
       }         
 
+      oRollAction.history.push(game.i18n.localize("common.rollPercent")+' : '+oRollAction.percent.toString());
+      if (oLevel !== '')
+        oRollAction.history.push('['+oLevel.text+'] '+sValueMod.toString());
+
       //Result
       const nPass = Number(oRollAction.percent) + Number(sValueMod);
       let success = ( nPass >= Number(roll.result) );
 
+      oRollAction.history.push(game.i18n.localize("common.roll")+' : '+sFormula);
+      oRollAction.history.push(game.i18n.localize("common.rollResult")+' : '+roll.result.toString());
+
       //Luck
-      const luck = await this.checkImLucky(oRollAction.actor, nPass, Number(roll.result));
+      const luck = await this.checkImLucky(oRollAction.actor, nPass, Number(roll.result), oRollAction.history);
       if (luck > 0) success = true;
 
       //Criticals
@@ -335,7 +346,8 @@ export class helperRolls {
 
       if (oRollAction.actor.sheet.rendered)
           oRollAction.actor.sheet.render(true);
-
+      
+      helperSocket.refreshSheets();
     }
 
     /**
@@ -344,7 +356,7 @@ export class helperRolls {
      * @param {*} nPass 
      * @param {*} nResult 
      */
-    static async checkImLucky(actor, nPass, nResult) {
+    static async checkImLucky(actor, nPass, nResult, history) {
       const modeLuck = Array.from(await game.packs.get("conventum.modes")).find(e =>
                         ((e.system.control.world === actor.system.control.world)
                           && (e.system.luck)) );
@@ -361,6 +373,13 @@ export class helperRolls {
           }
         });
         await helperActions.setLuck(actor);
+
+        if (history) {
+          history.push(' --- '+game.i18n.localize("common.luck")+' --- ');
+          history.push(game.i18n.localize("common.luckLost")+' : '+nDiff.toString());
+          history.push(game.i18n.localize("common.luckChange")+' : '+myLuck.toString()+' -> '+myFinalLuck.toString());
+        }
+
         return (myLuck >= nDiff) ? nDiff : 0;
 
       } else
@@ -404,7 +423,7 @@ export class helperRolls {
                   helperRolls._getMessageAction(oRollAction.actor, oRollAction.action, oRollAction.spell)+
                   helperRolls._getMessageWeapon(oRollAction.actor, oRollAction.weapon)+
                   helperRolls._getMessageDamage(oRollAction, success)+
-                  helperRolls._getMessageMods(oRollAction.mods)+
+                  helperRolls._getMessageHelpTab(oRollAction.history)+
                   helperRolls._getMessageTargets(oRollAction.targets)+
              '</div>';
     }
@@ -494,19 +513,17 @@ export class helperRolls {
     }
 
     /**
-     * _getMessageMods
+     * _getMessageHelpTab
      * @param {*} mods 
      */
-    static _getMessageMods(mods) {
-      return '<div class="_showMods">'+
-              '<div class="_infoMods">i</div>'+
-              '<ul class="_messageMods">'+
-                  '<li>'+game.i18n.localize("common.skill")+': '+mods.skill+'</li>'+
-                  '<li>'+game.i18n.localize("common.skill")+': '+mods.skillTxt+'</li>'+
-                  '<li>'+game.i18n.localize("common.damage")+': '+mods.damage+'</li>'+
-                  '<li>'+game.i18n.localize("common.damage")+': '+mods.damageTxt+'</li>'+
-              '</ul>'+
+    static _getMessageHelpTab(history) {
+      let sReturn = '<div class="_showMods">'+
+                      '<div class="_infoMods">i</div>'+
+                        '<ul class="_messageMods">';
+      history.map(s => sReturn += '<li>'+s+'</li>');
+      sReturn += '</ul>'+
              '</div>';
+      return sReturn;
     }
     
     /**

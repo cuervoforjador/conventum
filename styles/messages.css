@@ -451,6 +451,7 @@ a._infoSkill {
     height: 180px;
     z-index: 30;
     padding-top: 5px;
+    overflow-y: scroll;
 }
 ._chatContent ._showMods:hover ._messageMods {
     display: block;

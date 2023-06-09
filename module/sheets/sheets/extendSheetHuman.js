@@ -128,11 +128,11 @@ export class extendSheetHuman extends ActorSheet {
     html.find("._traitDel").click(this._traitDelete.bind(this));
     
     /* Skills */
-    html.find("._diceSkill").click(this._diceSkill.bind(this)); 
+    html.find(".playSkill").click(this._playSkill.bind(this)); 
     $(".searchSkill").on('input', this._searchSkill.bind(this));
 
     /* Weapons & actions*/
-    html.find("a._playWeapon").click(this._playWeapon.bind(this));  
+    html.find("a.playWeapon").click(this._playWeapon.bind(this));  
     html.find(".weaponHand").click(this._weaponHand.bind(this));  
     html.find("a._encounterInfo").click(this._showItem.bind(this));
     html.find("a._cardInfo").click(this._showMyItem.bind(this));  
@@ -274,7 +274,7 @@ export class extendSheetHuman extends ActorSheet {
     helperActions.setLuck(this.actor);
   }
 
-  async _diceSkill(event) {
+  async _playSkill(event) {
     event.preventDefault();
     const skillId = event.currentTarget?.dataset.itemid;
     const actionId = event.currentTarget?.dataset.actionid;

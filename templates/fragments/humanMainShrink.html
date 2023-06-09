@@ -89,7 +89,7 @@
                         type="checkbox" 
                         name="system.skills.{{skill._id}}.acquired" 
                         {{checkedExtend 'systemData.skills' skill._id 'acquired'}} />  
-                    <a class="_diceSkill _shrink" data-itemId="{{skill._id}}">               
+                    <a class="playSkill _shrink" data-itemId="{{skill._id}}">               
                         <label class="_label _shrink">{{skill.name}}</label>
                     </a>
                     <input class="_skillValue _shrink" 
@@ -120,7 +120,7 @@
 
                 {{#if actions.showSkill}}
                 <li class="boxWeapon _shrink"  id="boxWeapon_{{actions.skill._id}}">
-                    <a class="_diceSkill _shrink" data-itemId="{{actions.skill._id}}" data-actionId="{{actions.action._id}}">
+                    <a class="playSkill _shrink" data-itemId="{{actions.skill._id}}" data-actionId="{{actions.action._id}}">
                         <img class="imgWeapon2 _shrink" src="systems/conventum/image/texture/dice2.png"/></a>   
                     <label class="_label _shrink">{{actions.skill.name}}</label>
                     <label class="_label _shrink">{{itemPropertyExtend 'systemData.skills' actions.skill._id 'value'}}</label>
@@ -135,7 +135,7 @@
                     <li class="boxWeapon _shrink"  id="boxWeapon_{{weapon._id}}">
 
                         {{#if (evalActionWeapon ../actions weapon) }}
-                        <a class="_playWeapon" data-itemid="{{weapon._id}}" >
+                        <a class="playWeapon" data-itemid="{{weapon._id}}" >
                             <img class="imgWeapon2 _shrink" src="systems/conventum/image/texture/dice2.png"/>
                         </a>
                         {{else}}

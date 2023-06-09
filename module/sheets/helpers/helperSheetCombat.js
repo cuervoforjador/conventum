@@ -430,12 +430,12 @@ export class helperSheetCombat {
     /**
      * setTargetPlayWeapon
      * @param {*} actor 
-     * @param {*} actorTokenId 
+     * @param {*} targetActorId 
      * @param {*} action 
      * @param {*} weaponId 
      */
-    static async setTargetPlayWeapon(actor, actorTokenId, action, weaponId) {
-        let oActor = game.actors.get(actorTokenId);
+    static async setTargetPlayWeapon(actor, targetActorId, action, weaponId) {
+        let oActor = game.actors.get(targetActorId);
         let tokenId = oActor.getActiveTokens()[0].id;   
         let encounter = helperSheetCombat.myActiveCombat(actor).encounter;
         let actualStep = encounter.system.steps.filter(e => !e.consumed)[0];
@@ -472,17 +472,18 @@ export class helperSheetCombat {
         const actionItem = (actorActions.action !== '') ? actorActions.action : null;
         let mods = {
             skill: '',
-            skillTxt: '',
-            damage: '',
-            damageTxt: ''
+            damage: ''
         };
+        let history = [];
 
         //CombatSkill
-        helperSheetCombat._modActionCombatSkill(actor, actionItem, weaponItem, mods);
+        history.push(combatSkill.name+' : '+actorSkill);   
+        helperSheetCombat._modActionCombatSkill(actor, actionItem, weaponItem, mods, history);
         let finalPercent = Number(eval(actorSkill.value.toString()+mods.skill));
 
         //Damage
-        helperSheetCombat._modActionCombatDamage(actor, actionItem, weaponItem, mods);
+        history.push(weaponItem.name+' - '+game.i18n.localize("common.damage")+' : '+weaponItem.system.damage);
+        helperSheetCombat._modActionCombatDamage(actor, actionItem, weaponItem, mods, history);
         let finalDamage = weaponItem.system.damage+mods.damage;
 
         //Leveled Rolls
@@ -491,7 +492,7 @@ export class helperSheetCombat {
         helperRolls.rollAction(actor, actorTargets, actionItem, bLeveled,
                                combatSkill, finalPercent,
                                weaponItem, finalDamage,
-                               mods);
+                               mods, null, history);
     }
 
     /**
@@ -590,6 +591,10 @@ export class helperSheetCombat {
      * @param {*} nDamage 
      */
     static async applyDamage(actorId, nDamage, locationId, actorFrom, action, spell) {
+
+        await game.packs.get('conventum.locations').getDocuments();
+        await game.packs.get('conventum.worlds').getDocuments();
+
         let actor = game.actors.get(actorId);
         if (!actor) return;
         const sWorld = actor.system.control.world;
@@ -775,11 +780,13 @@ export class helperSheetCombat {
      * @param {*} action 
      * @param {*} weapon 
      */
-    static _modActionCombatSkill(actor, action, weapon, mods) {
+    static _modActionCombatSkill(actor, action, weapon, mods, history) {
         if (!actor || !action || !weapon) return;
         
         mods.skill = action.system.skill.mod.combatSkill;
-        mods.skillTxt = "";
+        history.push('['+action.name+'] '+
+            game.i18n.localize("common.modCombatSkill")+' : '+
+                action.system.skill.mod.combatSkill);        
 
         let myActiveCombat = helperSheetCombat.myActiveCombat(actor);
         let mySteps = myActiveCombat.encounter.system.steps
@@ -788,13 +795,17 @@ export class helperSheetCombat {
             const oAction = actor.items.get(step.action);
             if ((oAction.system.skill.mod.stack) && (oAction.id !== action.id)) {
                 mods.skill += oAction.system.skill.mod.combatSkill;
-                mods.skillTxt += "/stack";
+                history.push('['+oAction.name+'] '+
+                    game.i18n.localize("common.modCombatSkill")+' : '+
+                        oAction.system.skill.mod.combatSkill);
             }
             if ((step.targets) && 
                 (step.targets.find(e => e === actor.id))
                 && (oAction.system.skill.mod.targetCombatSkill !== '') ) {
                     mods.skill += oAction.system.skill.mod.targetCombatSkill;
-                    mods.skillTxt += "/byTarget";
+                    history.push('['+oAction.name+'] '+
+                        game.i18n.localize("common.modTargetCombatSkill")+' : '+
+                            oAction.system.skill.mod.combatSkill);
             }
         }
     }
@@ -805,11 +816,13 @@ export class helperSheetCombat {
      * @param {*} action 
      * @param {*} weapon 
      */
-    static _modActionCombatDamage(actor, action, weapon, mods) {
+    static _modActionCombatDamage(actor, action, weapon, mods, history) {
         if (!actor || !action || !weapon) return;
         
         mods.damage = action.system.damage.mod.damage;
-        mods.damageTxt = "";
+        history.push('['+action.name+'] '+
+            game.i18n.localize("common.modDamage")+' : '+
+                action.system.damage.mod.damage); 
 
         let myActiveCombat = helperSheetCombat.myActiveCombat(actor);
         let mySteps = myActiveCombat.encounter.system.steps
@@ -818,13 +831,17 @@ export class helperSheetCombat {
             const oAction = actor.items.get(step.action);
             if ((oAction.system.damage.mod.stack) && (oAction.id !== action.id)) {
                 mods.damage += oAction.system.damage.mod.damage;
-                mods.damageTxt += "/stack";
+                history.push('['+oAction.name+'] '+
+                    game.i18n.localize("common.modDamage")+' : '+
+                        oAction.system.damage.mod.damage);
             }
             if ((step.targets) && 
                 (step.targets.find(e => e === actor.id))
                 && (oAction.system.damage.mod.targetDamage !== '') ) {
                     mods.damage += oAction.system.damage.mod.targetDamage;
-                    mods.damageTxt += "/byTarget";
+                    history.push('['+oAction.name+'] '+
+                        game.i18n.localize("common.modTargetDamage")+' : '+
+                            oAction.system.damage.mod.targetDamage);
             }
         }        
 
