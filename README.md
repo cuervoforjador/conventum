@@ -46,10 +46,7 @@ Aquelarre VTT team is made up of:
   </td>
   <td>
    <a href="https://github.com//mk1lolo"><strong>Mk1lolo</strong></a>  
-  </td>
-  <td>
-   <a href="https://github.com//Sembei"><strong>Dr. Slump</strong></a>  
-  </td>  
+  </td> 
 </tr>
 </table>
 
