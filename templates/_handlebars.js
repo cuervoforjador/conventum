@@ -98,11 +98,15 @@ export class mainHandlebars {
          const systemData = options.data.root.data.system;
          const weaponData = weapon.system;
 
-         return (weaponData.combatSkill != '') ? 
-                     systemData.skills[weaponData.combatSkill].value :
-                (weaponData.secondSkill != '') ?
-                     systemData.skills[weaponData.secondSkill].value :
-                     '';
+         if (weaponData.combatSkill != '') {
+            if (systemData.skills[weaponData.combatSkill])
+               return systemData.skills[weaponData.combatSkill].value;
+         }
+         if (weaponData.secondSkill != '') {
+            if (systemData.skills[weaponData.secondSkill])
+               return systemData.skills[weaponData.secondSkill].value;
+         }         
+         return '';
        });
 
       /**

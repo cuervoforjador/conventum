@@ -152,6 +152,11 @@ export class mainHooks {
         if ($(html).find('.tab.magic.active').length === 1) 
                 HookActor.onFirePage(sheet);
            else HookActor.outFirePage(sheet);
+
+        //Lens...
+        if (game.settings.get('conventum', 'lens')) {
+            sheet.setPosition({scale: 1.4});
+        }        
     }
 
     static async _renderDialog(dialog, element, content) {

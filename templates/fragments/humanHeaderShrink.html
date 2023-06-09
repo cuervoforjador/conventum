@@ -11,7 +11,9 @@
             <input name="name" 
                 type="text" 
                 value="{{actor.name}}" 
-                placeholder="{{localize 'common.name'}}" />            
+                placeholder="{{localize 'common.name'}}" />   
+            
+            {{#unless systemData.control.criature}}
             <line class="_100" style="justify-content: flex-end;">
                 <hbox class="switchInit">
                     <label>{{localize 'common.expand'}}</label>
@@ -28,6 +30,8 @@
                     </label>                     
                 </hbox>
             </line> 
+            {{/unless}}
+
             <line class="_100">
                 <hbox class="_100">
                     <label>{{localize 'common.world'}}</label>

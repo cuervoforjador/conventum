@@ -170,6 +170,7 @@ export class HookCompendium {
              (sPack === 'conventum.languages') ||
              (sPack === 'conventum.cultures') ||
              (sPack === 'conventum.stratums') ||
+             (sPack === 'conventum.locations') ||
              (sPack === 'conventum.skills') ||
              (sPack === 'conventum.status') ||
              (sPack === 'conventum.weapons') ||
@@ -186,11 +187,22 @@ export class HookCompendium {
             const mDocs = await this._getDocuments('stratums', '');
             compendium._element.find(sHeaderDiv).append(this._createSelect("stratum", "common.stratum", mDocs));
         }
+        if (sPack === 'conventum.locations') {
+            let mDocs = [];
+            game.template.Actor.types.map(e => {
+                mDocs.push({
+                    id: e,
+                    name: game.i18n.localize('template.'+e),
+                    system: {control: {world: ''}}
+                });
+            });            
+            compendium._element.find(sHeaderDiv).append(this._createSelect("type", "common.type", mDocs, '_infoType'));
+        }           
         if (sPack === 'conventum.weapons') {
             let mDocs = await this._getDocuments('skills', '');
             mDocs = mDocs.filter(e => e.system.combat.combat);
             compendium._element.find(sHeaderDiv).append(this._createSelect("combatSkill", "common.combatSkill", mDocs));
-        }     
+        }  
         if (sPack === 'conventum.magic') {
             let mDocs1 = [];
             CONFIG.ExtendConfig.spellShapes.map(e => {
@@ -235,6 +247,11 @@ export class HookCompendium {
             this._addDivExtraInfoString(oElement,
                 game.i18n.localize('characteristic.'+oItemDoc.system.characteristic.primary));                                                                
         }
+        if (sPack === 'conventum.locations') {  
+            const sType = game.i18n.localize("template."+oItemDoc.system.actorType);
+            this._addDivExtraInfoString(oElement,
+                game.i18n.localize('common.type')+': '+sType, '_infoType', oItemDoc.system.actorType);                                                                                               
+        }         
         if (sPack === 'conventum.weapons') {
             this._addDivExtraInfo("conventum.skills", oElement,
                                     oItemDoc.system.combatSkill);    

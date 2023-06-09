@@ -2,7 +2,20 @@
   "Actor": {
     "types": [
                 "human",
-                "horse"
+                "horse",
+                "humanoid",
+                "quadruped",
+                "birds",
+                "arachnid",
+                "snakes",
+                "arboreal",
+                "wingedHumanoid",
+                "wingedQuadruped",
+                "blemys",
+                "bafometo",
+                "sciopodo",
+                "snakeHumanoid",
+                "basilisk"
              ],
     "templates": {
       "base": {
@@ -10,6 +23,7 @@
           "initial": true,
           "locked": false,
           "expand": true,
+          "criature": false,
           "frame": "catholicae",
           "world": ""
         },
@@ -195,7 +209,130 @@
       }
     },
     "horse": {
-      "templates": ["base"]
+      "templates": ["base"],
+      "control": {
+        "initial": false,
+        "criature": true,
+        "expand": false,
+        "world": ""
+      }
+    },
+    "humanoid": {
+      "templates": ["base"],
+      "control": {
+        "initial": false,
+        "criature": true,
+        "expand": false,
+        "world": ""
+      }
+    },
+    "quadruped": {
+      "templates": ["base"],
+      "control": {
+        "initial": false,
+        "criature": true,
+        "expand": false,
+        "world": ""
+      }
+    },
+    "birds": {
+      "templates": ["base"],
+      "control": {
+        "initial": false,
+        "criature": true,
+        "expand": false,
+        "world": ""
+      }
+    },
+    "arachnid": {
+      "templates": ["base"],
+      "control": {
+        "initial": false,
+        "criature": true,
+        "expand": false,
+        "world": ""
+      }
+    },
+    "snakes": {
+      "templates": ["base"],
+      "control": {
+        "initial": false,
+        "criature": true,
+        "expand": false,
+        "world": ""
+      }
+    },
+    "arboreal": {
+      "templates": ["base"],
+      "control": {
+        "initial": false,
+        "criature": true,
+        "expand": false,
+        "world": ""
+      }
+    },
+    "wingedHumanoid": {
+      "templates": ["base"],
+      "control": {
+        "initial": false,
+        "criature": true,
+        "expand": false,
+        "world": ""
+      }
+    },
+    "wingedQuadruped": {
+      "templates": ["base"],
+      "control": {
+        "initial": false,
+        "criature": true,
+        "expand": false,
+        "world": ""
+      }
+    },
+    "blemys": {
+      "templates": ["base"],
+      "control": {
+        "initial": false,
+        "criature": true,
+        "expand": false,
+        "world": ""
+      }
+    },
+    "bafometo": {
+      "templates": ["base"],
+      "control": {
+        "initial": false,
+        "criature": true,
+        "expand": false,
+        "world": ""
+      }
+    },
+    "sciopodo": {
+      "templates": ["base"],
+      "control": {
+        "initial": false,
+        "criature": true,
+        "expand": false,
+        "world": ""
+      }
+    },
+    "snakeHumanoid": {
+      "templates": ["base"],
+      "control": {
+        "initial": false,
+        "criature": true,
+        "expand": false,
+        "world": ""
+      }
+    },
+    "basilisk": {
+      "templates": ["base"],
+      "control": {
+        "initial": false,
+        "criature": true,
+        "expand": false,
+        "world": ""
+      }
     }
   },
   "Item": {

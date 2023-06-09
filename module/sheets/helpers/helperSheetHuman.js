@@ -59,6 +59,16 @@ export class helperSheetHuman {
   }
 
   /**
+   * criatures
+   * @param {*} actor 
+   * @param {*} systemData 
+   * @param {*} backend 
+   */
+  static criatures(actor, systemData, backend) {
+    systemData.control.criature = (actor.type !== 'human');
+  }
+
+  /**
    * checkMyItems
    * @param {*} actor 
    */
@@ -78,16 +88,18 @@ export class helperSheetHuman {
     }
 
     //Initial actions...
-    const actionsPack = game.packs.get('conventum.actions');
-    const mActorActions = Array.from(actor.items).filter(e => e.type === 'action');
-    for (const oAction of Array.from(actionsPack)
-                               .filter(e => e.system.type.initial)) {
-        if ( !mActorActions.find(e => ( (e.name === oAction.name) ||
-                                        (e.system.control.mold === oAction.id) )) ) {
-            //Adding Action..
-            await Item.create(oAction, {parent: actor});
-            actor.sheet.render(true);
-        }
+    if (actor.type === 'human') {
+      const actionsPack = game.packs.get('conventum.actions');
+      const mActorActions = Array.from(actor.items).filter(e => e.type === 'action');
+      for (const oAction of Array.from(actionsPack)
+                                .filter(e => e.system.type.initial)) {
+          if ( !mActorActions.find(e => ( (e.name === oAction.name) ||
+                                          (e.system.control.mold === oAction.id) )) ) {
+              //Adding Action..
+              await Item.create(oAction, {parent: actor});
+              actor.sheet.render(true);
+          }
+      }
     }
   }
 

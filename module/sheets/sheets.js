@@ -34,8 +34,25 @@ export class mainGameSheets {
         //Actors
         CONFIG.Actor.documentClass = extendActor;
         Actors.unregisterSheet("core", ActorSheet);
-        Actors.registerSheet(_system, extendSheetHuman, { types: ['human'], 
-                                                          makeDefault: true });
+        Actors.registerSheet(_system, extendSheetHuman, { types: [
+                                                                "human",
+                                                                "horse",
+                                                                "humanoid",
+                                                                "quadruped",
+                                                                "birds",
+                                                                "arachnid",
+                                                                "snakes",
+                                                                "arboreal",
+                                                                "wingedHumanoid",
+                                                                "wingedQuadruped",
+                                                                "blemys",
+                                                                "bafometo",
+                                                                "sciopodo",
+                                                                "snakeHumanoid",
+                                                                "basilisk"
+                                                            ], 
+                                                            makeDefault: true });
+
 
         //Items
         CONFIG.Item.documentClass = extendItem;

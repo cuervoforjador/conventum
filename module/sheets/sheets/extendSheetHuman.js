@@ -50,6 +50,9 @@ export class extendSheetHuman extends ActorSheet {
     //Backend && Background...
     context.backend = await mainBackend.getBackendForActor(this.actor, context.systemData);
     
+    //Criatures...
+    helperSheetHuman.criatures(this.actor, context.systemData, context.backend);
+
     //Checking data...
     helperSheetHuman.checkSystemData(this.actor, context.systemData, context.backend);
     
