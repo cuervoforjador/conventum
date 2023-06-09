@@ -30,11 +30,6 @@ Aquelarre VTT team is made up of:
   <a href="https://github.com/mk1lolo">
       <img class="avatar avatar-user" data-hovercard-type="user" data-hovercard-url="/users/mk1lolo/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" src="https://avatars.githubusercontent.com/u/44495368?v=4" width="150" alt="@mk1lolo">
   </a>
-  </td>
-  <td>
-  <a href="https://github.com/Sembei">
-      <img class="avatar avatar-user" data-hovercard-type="user" data-hovercard-url="/users/mk1lolo/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" src="https://avatars.githubusercontent.com/u/1621514?v=4" width="150" alt="@Sembei">
-  </a>
   </td>  
 </tr>
 <tr>
