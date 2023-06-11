@@ -3,6 +3,7 @@
  */
 
 import { helperSheetCombat } from "../sheets/helpers/helperSheetCombat.js";
+import { HookCombat } from "./_hooksCombat.js";
 
 export class HookEvents {
 
@@ -10,6 +11,16 @@ export class HookEvents {
      * First events...
      */    
     static initialEvents() {
+
+        //Combat Track
+        $(document).on('change', 'input.cbInitiativeMod', function (event) {
+            HookCombat.changeInitiativeMod($(this).data('actorid'), $(this).val());
+        });
+        $(document).on('click', 'a.combat-button[data-control="resetAll"]', function (event) {
+            HookCombat.resetAllInitiativeMod();
+        });        
+
+        
 
         //Show Info for skills (Chat Messages)
         $(document).on('click', 'a._infoSkill', function (event) {
@@ -30,7 +41,9 @@ export class HookEvents {
                                    $(this).data('targets'),
                                    $(this).data('damage'),
                                    $(event.currentTarget).parents('li.chat-message').data('messageId'),
-                                   $(this).data('locationid'),);
+                                   $(this).data('locationid'),
+                                   $(this).data('critsuccess'),
+                                   $(this).data('critfailure'));
         });        
         
         //ActionCards
@@ -161,8 +174,8 @@ export class HookEvents {
      * @param {*} sTargets 
      * @param {*} sDamage 
      */
-    static _rollDamage(weaponId, spellId, actorId, actionId, sTargets, sDamage, messageId, locationId) {
-        helperSheetCombat.rollDamage(weaponId, spellId, actorId, actionId, sTargets, sDamage, messageId, locationId);
+    static _rollDamage(weaponId, spellId, actorId, actionId, sTargets, sDamage, messageId, locationId, critSuccess, critFailure) {
+        helperSheetCombat.rollDamage(weaponId, spellId, actorId, actionId, sTargets, sDamage, messageId, locationId, critSuccess, critFailure);
     }
 
 }

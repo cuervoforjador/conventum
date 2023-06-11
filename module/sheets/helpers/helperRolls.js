@@ -300,22 +300,26 @@ export class helperRolls {
         await game.dice3d.showForRoll(roll, game.user, true);
       }         
 
-      oRollAction.history.push(game.i18n.localize("common.rollPercent")+' : '+oRollAction.percent.toString());
-      if (oLevel !== '')
-        oRollAction.history.push('['+oLevel.text+'] '+sValueMod.toString());
-
-      //Result
+      //--- RESULT ---
       const nPass = Number(oRollAction.percent) + Number(sValueMod);
       let success = ( nPass >= Number(roll.result) );
 
-      oRollAction.history.push(game.i18n.localize("common.roll")+' : '+sFormula);
-      oRollAction.history.push(game.i18n.localize("common.rollResult")+' : '+roll.result.toString());
+      oRollAction.history.push(' --- '+game.i18n.localize("common.roll")+' '+sFormula+' --- ');
+      oRollAction.history.push(game.i18n.localize("common.rollResult")+': '+roll.result.toString());
+      if (oLevel !== '') {
+        oRollAction.history.push(oLevel.text+': '+sValueMod.toString());
+      }
+      if (sValueMod) {
+        oRollAction.history.push(game.i18n.localize("common.total")+': '+(roll.result - Number(sValueMod)).toString());
+      }
+      if (success) oRollAction.history.push(game.i18n.localize("common.success"));
+              else oRollAction.history.push(game.i18n.localize("common.failed"));
 
-      //Luck
+      //--- LUCK ---
       const luck = await this.checkImLucky(oRollAction.actor, nPass, Number(roll.result), oRollAction.history);
       if (luck > 0) success = true;
 
-      //Criticals
+      //--- CRITICALS ---
       const dec = Math.trunc(Number(oRollAction.percent) / Number(worldConfig.rolls.skillRange), 0);
       const rest = ( Number(oRollAction.percent) % Number(worldConfig.rolls.skillRange) > 0) ? 1 : 0 ;
       let cFailureLow = Number(worldConfig.rolls.failureRange) +
@@ -331,6 +335,9 @@ export class helperRolls {
                         critSuccess: bCritSuccess,
                         critFailure: bCritFailure 
                      };
+
+      if (bCritSuccess) oRollAction.history.push(game.i18n.localize("common.rollCriticalSuccess"));
+      if (bCritFailure) oRollAction.history.push(game.i18n.localize("common.rollCriticalFailure"));
 
       //Chat Message
       const sContent = helperRolls._getMessageRollForAction(oRollAction, roll, result, sValueMod, oLevel);
@@ -376,8 +383,8 @@ export class helperRolls {
 
         if (history) {
           history.push(' --- '+game.i18n.localize("common.luck")+' --- ');
-          history.push(game.i18n.localize("common.luckLost")+' : '+nDiff.toString());
-          history.push(game.i18n.localize("common.luckChange")+' : '+myLuck.toString()+' -> '+myFinalLuck.toString());
+          history.push(game.i18n.localize("common.luckLost")+': '+nDiff.toString());
+          history.push(game.i18n.localize("common.luckChange")+': '+myLuck.toString()+' -> '+myFinalLuck.toString());
         }
 
         return (myLuck >= nDiff) ? nDiff : 0;
@@ -413,16 +420,16 @@ export class helperRolls {
      * @param {*} sValueMod 
      * @returns 
      */
-    static _getMessageRollForAction(oRollAction, roll, success, sValueMod, oLevel) {
+    static _getMessageRollForAction(oRollAction, roll, result, sValueMod, oLevel) {
       return '<div class="_messageFrame">'+
                   helperRolls._getMessageRoll_Actor(oRollAction.actor, '', oRollAction.skill, '', oRollAction.spell)+
                   '<div class="_result">'+roll.total+'</div>'+
                   helperRolls._getMessageSpell(oRollAction.actor, oRollAction.spell)+
                   helperRolls._getMessageRoll_Bonif(sValueMod, oLevel)+
-                  helperRolls._getMessageRoll_Result(success)+
+                  helperRolls._getMessageRoll_Result(result)+
                   helperRolls._getMessageAction(oRollAction.actor, oRollAction.action, oRollAction.spell)+
                   helperRolls._getMessageWeapon(oRollAction.actor, oRollAction.weapon)+
-                  helperRolls._getMessageDamage(oRollAction, success)+
+                  helperRolls._getMessageDamage(oRollAction, result)+
                   helperRolls._getMessageHelpTab(oRollAction.history)+
                   helperRolls._getMessageTargets(oRollAction.targets)+
              '</div>';
@@ -477,9 +484,9 @@ export class helperRolls {
      * _getMessageDamage
      * @param {*} oAction 
      */
-    static _getMessageDamage(oRollAction, success) {
+    static _getMessageDamage(oRollAction, result) {
       
-      if (!success) return '';
+      if (!result) return '';
 
       let weapon = oRollAction.weapon;
       let spell = oRollAction.spell;
@@ -498,11 +505,17 @@ export class helperRolls {
       if ((spell) && (!spell.system.damage.apply)) return '';
 
       const sLocationID = (oRollAction.location) ? oRollAction.location.location : '';
+
+      if ( (!oRollAction.damage) || (oRollAction.damage === '') ) 
+        return '<div class="_messageDamage"></div>';
+
       return '<div class="_messageDamage">'+
                 '<a class="_rollDamage" data-weaponid="'+((weapon)? weapon.id : '')+'" '+
                                       ' data-spellid="'+((spell)? spell.id : '')+'" '+
                                       ' data-actorid="'+actor.id+'" '+
                                       ' data-targets="'+sTargets+'" '+
+                                      ' data-critsuccess="'+result.critSuccess+'" '+
+                                      ' data-critfailure="'+result.critFailure+'" '+
                                       ' data-locationid="'+sLocationID+'" '+
                                       ' data-actionid="'+ ((oRollAction.action) ? oRollAction.action.id : '')+'" '+
                                       ' data-damage="'+oRollAction.damage+'">'+

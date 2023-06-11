@@ -1,3 +1,4 @@
+import { helperSocket } from "../helpers/helperSocket.js";
 import { mainUtils } from "../mainUtils.js";
 import { mainBackend } from "../sheets/backend/mainBackend.js";
 import { helperSheetHuman } from "../sheets/helpers/helperSheetHuman.js"
@@ -16,7 +17,7 @@ export class HookCombat {
      * @param {*} html          html element
      * @description             Add AQ options to Combat Tab
      */
-    static _changeCombatTabHtml(html) {
+    static _changeCombatTabHtml(html, update) {
         let component = (html[0]) ? html[0] : html;
 
         $(component).addClass("_myCombat");
@@ -38,7 +39,8 @@ export class HookCombat {
 
         if (combatants.length > 0) {
 
-            let combat = this._getCombatFromCombatants(combatants); //Combat
+            //let combat = this._getCombatFromCombatants(combatants);
+            let combat = Array.from(game.combats).filter(e => e.active)[0];
             if (!combat) return;
 
             //Combatants Header
@@ -61,15 +63,25 @@ export class HookCombat {
             //Initiative
             $(component).find("ol#combat-tracker li").each(function(i, li) {
 
-                if ($(li).find(".token-initiative span.charact").length == 0) {
-                    const actor = combat.combatants.get(li.dataset.combatantId).actor;
-                    const oInitiative = helperSheetHuman.calcInitiative(actor);
+                let actor = null,
+                    oInitiative = null,
+                    sIniMod = "",
+                    sTotal = 0;
+
+                if ((combat.combatants.get(li.dataset.combatantId)) &&
+                    (combat.combatants.get(li.dataset.combatantId).actor)) {
+
+                    actor = combat.combatants.get(li.dataset.combatantId).actor;
+                    oInitiative = helperSheetHuman.calcInitiative(actor);
                     
-                    let sTotal = 0;
-                    if (oInitiative.initiative)
-                        sTotal += Number(oInitiative.initiative);
-                    if (combat.combatants.get(li.dataset.combatantId).initiative)
-                        sTotal += Number(combat.combatants.get(li.dataset.combatantId).initiative);
+                    sIniMod = actor.system.initiative.mod;  
+                    if ((!sIniMod)  || (sIniMod === '')) sIniMod = oInitiative.mod;
+
+                    sTotal = Number($(li).find(".token-initiative .initiative").text()) 
+                        + Number(oInitiative.base) 
+                        + Number(sIniMod);
+                }
+                if ( ($(li).find(".token-initiative span.charact").length == 0) && (actor) ) {
 
                     let sShield = actor.system.action.blocked ? '<a class="_unlockTargetCombat" data-actorid="'+actor._id+'">'+
                                                                     '<img src="systems/conventum/image/texture/shield.png" class="_initShield">'+
@@ -79,20 +91,110 @@ export class HookCombat {
                                                                 '</a>';
 
                     $(li).find(".token-initiative").append(
-                        '<span class="charact">'+oInitiative.base+'</span>'+
-                        '<span class="charact">'+oInitiative.mod+'</span>'+
-                        '<span class="charact">'+sTotal.toString()+'</span>'+
+                        '<span class="charact _ibase">'+oInitiative.base+'</span>'+
+                        ( (game.user.isGM) ? 
+                            '<span class="charact _imod">'+
+                                '<input class="cbInitiativeMod" '+
+                                    ' value="'+sIniMod+'" '+
+                                    ' data-actorid="'+actor._id+'"'+
+                                    ' data-combatantid="'+li.dataset.combatantId+'" /></mod>'+
+                            '</span>' :
+                            '<span class="charact _imod" data-actorid="'+actor._id+'">'+sIniMod+'</span>'
+                        )+
+                        '<span class="charact _itotal" data-actorid="'+actor._id+'">'+sTotal.toString()+'</span>'+
                         '<span class="charact">'+sShield+'</span>');
                     
                     $(li).attr('data-initotal', sTotal.toString());
                 }
-            });
 
+                //Updating...
+                if (update && (i>0)) {
+                    $(li).find('._itotal').text(sTotal.toString() );
+                    if (game.user.isGM) 
+                        $(li).find('._imod input').val(sIniMod);
+                    else
+                        $(li).find('._imod').text(sIniMod);
+                    
+                    $(li).attr('data-initotal', sTotal.toString());
+                }
+            });
         }
         $(html).find("ol#combat-tracker")
             .find("li.actor")
-            .sort((a,b) => Number($(b).data("initotal")) - Number($(a).data("initotal")))
+            .sort((a,b) => 
+                    Number($(b).find('._itotal').text()) - Number($(a).find('._itotal').text()) )
             .appendTo("ol#combat-tracker");        
+    }
+
+    /**
+     * refreshCombatTrak
+     */
+    static async refreshCombatTrak() {
+        this._changeCombatTabHtml($("section#combat._myCombat"), true);
+    }
+
+    /**
+     * changeInitiativeMod
+     * @param {*} actor 
+     * @param {*} value 
+     */
+    static async changeInitiativeMod(actorId, value, noRefresh) {
+        noRefresh = (!noRefresh) ? false : noRefresh;
+
+        let actor = game.actors.get(actorId);
+        await actor.update({
+            system: { initiative: {
+                mod: value } }            
+        });
+
+        if (!noRefresh)
+            this._changeCombatTabHtml($("section#combat._myCombat"), true);
+        helperSocket.refreshCombatTrack();
+    }
+
+    /**
+     * resetAllInitiativeMod
+     */
+    static async resetAllInitiativeMod() {
+        const activeCombat = game.combats.find(e => e.active);
+        for (var turn of activeCombat.turns) {
+            await this.changeInitiativeMod(turn.actorId, '', false);
+            await this.resetInitiativeMod(turn.actorId);
+        }
+    }
+
+    /**
+     * resetInitiativeMod
+     * @param {*} actorId 
+     */
+    static async resetInitiativeMod(actorId) {
+        let actor = game.actors.get(actorId);
+        let selector = $('section#combat input.cbInitiativeMod[data-actorid="'+actorId+'"]');
+        let oInitiative = helperSheetHuman.calcInitiative(actor);
+        selector.val(oInitiative.mod);
+        await this.changeInitiativeMod(actorId, '', false);
+    }
+
+    /**
+     * updateCombat
+     * @param {*} combat 
+     * @param {*} combatants 
+     * @param {*} options 
+     * @param {*} sId 
+     */
+    static async updateCombat(combat) {
+        
+        //Initiative mods
+        for (const turn of combat.turns) {
+            if (!turn.initiative) {
+                let actor = game.actors.get(turn.actorId);
+                actor.update({
+                    system: { initiative: {
+                        mod: '' }}            
+                });
+                await this.resetInitiativeMod(turn.actorId);
+            }
+        }
     }
 
     /** --- onAQAction ---

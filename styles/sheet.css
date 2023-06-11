@@ -1511,6 +1511,7 @@ li.boxAction {
     transition: 0.5s;
     transform: rotate(3deg);
     margin-left: -14px;    
+    height: 140px!important;
 }
 li.boxAction:hover {
     transform: rotate(-1deg);
@@ -1520,12 +1521,15 @@ li.boxAction:hover {
 }
 li.boxAction img.imgAction {
     width: 100%;
+    height: 125px!important;
 }
 img.imgAction {
     opacity: 0.5;
 }
 li.boxAction:hover label._actionTitle {
     display: flex;
+    align-items: center;
+    justify-content: center;
 }
 li.boxAction:hover img.imgAction {
     opacity: 1;

@@ -91,15 +91,40 @@ export class helperSheetHuman {
     if (actor.type === 'human') {
       const actionsPack = game.packs.get('conventum.actions');
       const mActorActions = Array.from(actor.items).filter(e => e.type === 'action');
+
+      //Adding Action...
+      let newActionItems = [];
       for (const oAction of Array.from(actionsPack)
                                 .filter(e => e.system.type.initial)) {
-          if ( !mActorActions.find(e => ( (e.name === oAction.name) ||
-                                          (e.system.control.mold === oAction.id) )) ) {
-              //Adding Action..
-              await Item.create(oAction, {parent: actor});
-              actor.sheet.render(true);
+          let thisAction = mActorActions.find(e => ( (e.name === oAction.name) ||
+                                                     (e.system.control.mold === oAction.id) ))
+          if (!thisAction) {
+            newActionItems.push(oAction);
           }
       }
+      if (newActionItems.length > 0) {      
+          await Item.createDocuments(newActionItems, {parent: actor});
+      }
+
+      //Removing actions duplicated...
+      let uniqueActionItemsUpd = mActorActions.reduce((duplex, current) => {
+        if (!duplex.find((item) => item.name === current.name)) {
+          duplex.push(current);
+        }
+        return duplex;
+      }, []);   
+      if (uniqueActionItemsUpd.length !== mActorActions.length) {
+        let mDelete = [];
+        for (let action of mActorActions) {
+          if (!uniqueActionItemsUpd.find(e => e.id === action.id)) {
+            mDelete.push(action.id);
+          }
+        }
+        if (mDelete.length > 0)
+          await Item.deleteDocuments(mDelete, {parent: actor});
+          actor.sheet.render(true);
+      }
+
     }
   }
 
@@ -438,18 +463,49 @@ export class helperSheetHuman {
                         null;
         
     const nBase = Number(actor.system.characteristics.primary.agi.value);
-    const nModificator = 0;
-    const nInitiative = nBase + Number(nModificator);
+    let sModificator = '';
+
+    //Minimum Force weapon
+
+      let sMinWeaponMod = '';
+
+      //Wearing weapons
+      const mWeapons = actor.items.filter(e => (
+             (e.type === 'weapon') && 
+            ((e.system.inHands.inLeftHand) || 
+             (e.system.inHands.inRightHand) || 
+             (e.system.inHands.inBothHands)) ));      
+      mWeapons.map(weaponItem => {
+        if (weaponItem.system.requeriment.primary.apply) {
+
+          if (actor.system.characteristics.primary[
+                weaponItem.system.requeriment.primary.characteristic].value 
+              < weaponItem.system.requeriment.primary.minValue) {
+
+            const nMinVal = 
+              weaponItem.system.requeriment.primary.minValue - 
+                actor.system.characteristics.primary[
+                  weaponItem.system.requeriment.primary.characteristic].value;
+
+            sMinWeaponMod += ' -'+nMinVal.toString();
+          }
+        }
+      });
+
+      sModificator += sMinWeaponMod;
+    
+
+    const nInitiative = eval(nBase.toString() + sModificator);
                     
     if (actor.permission > 0) {
         actor.update({
-            data: { iniative: {
+            system: { initiative: {
                     value: nInitiative } }
         });
     }
     return {
         base: nBase.toString(),
-        mod: nModificator.toString(),
+        mod: sModificator,
         initiative: nInitiative.toString()
     };
 }      

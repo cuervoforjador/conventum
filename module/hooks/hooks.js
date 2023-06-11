@@ -39,7 +39,9 @@ export class mainHooks {
         Hooks.on("getUserContextOptions", (element, content) => this._getUserContextOptions(element, content));
         Hooks.on("getCombatTrackerEntryContext", (html, options) => this._getCombatTrackerEntryContext(html, options));
         Hooks.on("renderCombatTracker", (tracker, html, options) => this._renderCombatTracker(tracker, html, options));
-        Hooks.on("deleteCombat", (combat, render, sId) => this._deleteCombat (combat, render, sId));
+        Hooks.on("updateCombat", (combat, combatants, options, sId) => this._updateCombat(combat, combatants, options, sId));
+        Hooks.on("updateCombatant", (combatant, initiative, options, sId) => this._updateCombatant(combatant, initiative, options, sId));
+        Hooks.on("deleteCombat", (combat, render, sId) => this._deleteCombat(combat, render, sId));
         Hooks.on("preCreateItem", (oFrom, oTo, options, sId) => this._preCreateItem(oFrom, oTo, options, sId));
         Hooks.on("createToken", (document, options, sId) => this._createToken(document, options, sId));
     }
@@ -188,6 +190,15 @@ export class mainHooks {
     static _renderCombatTracker(tracker, html, options) {
         HookCombat.changeCombatTabHtml(html);
     }
+
+    static async _updateCombat(combat, combatants, options, sId) {
+        await HookCombat.updateCombat(combat);
+    }
+
+    static async _updateCombatant(combatant, initiative, options, sId) {
+        if (!initiative.initiative)
+            await HookCombat.resetInitiativeMod(combatant.actorId);
+    }    
 
     static _deleteCombat(combat, render, sId) {
         HookCombat.deleteEncounter(combat.id);

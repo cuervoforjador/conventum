@@ -476,19 +476,100 @@ export class helperSheetCombat {
         };
         let history = [];
 
-        //CombatSkill
-        history.push(combatSkill.name+' : '+actorSkill);   
-        helperSheetCombat._modActionCombatSkill(actor, actionItem, weaponItem, mods, history);
-        let finalPercent = Number(eval(actorSkill.value.toString()+mods.skill));
+        //--- SKILL ---
+        history.push(' --- '+combatSkill.name+' --- ');
+        history.push(game.i18n.localize("common.basePercent")+': '+actorSkill.value+'%');
 
-        //Damage
-        history.push(weaponItem.name+' - '+game.i18n.localize("common.damage")+' : '+weaponItem.system.damage);
+        actorSkill.penal = this.penalValue(actorSkill.penal);
+        if (actorSkill.penal !== '-0')
+            history.push(game.i18n.localize("common.penal")+': '+actorSkill.penal);
+        
+        helperSheetCombat._modActionCombatSkill(actor, actionItem, weaponItem, mods, history);
+
+            //Minimum Force
+            let sByMinimunMod = "";
+            if (weaponItem.system.requeriment.primary.apply) {
+                if (actor.system.characteristics.primary[weaponItem.system.requeriment.primary.characteristic].value < 
+                        weaponItem.system.requeriment.primary.minValue) {
+
+                    history.push(game.i18n.localize("common.weaponRequirement1")+': '+
+                            game.i18n.localize("characteristic."+weaponItem.system.requeriment.primary.characteristic) +
+                            ' > ' + weaponItem.system.requeriment.primary.minValue);
+
+                    const nMinVal = weaponItem.system.requeriment.primary.minValue - 
+                        actor.system.characteristics.primary[weaponItem.system.requeriment.primary.characteristic].value;
+                    
+                        sByMinimunMod = '-' + (nMinVal*5).toString();
+                    history.push(game.i18n.localize("common.penal")+': '+sByMinimunMod);
+                }
+            }        
+
+        let finalPercent = Number(eval( actorSkill.value.toString()+
+                                        this.penalValue(mods.skill)+
+                                        ' '+sByMinimunMod+
+                                        actorSkill.penal));
+        history.push(game.i18n.localize("common.finalPercent")+': '+finalPercent.toString());
+
+
+        //--- DAMAGE ---
+        history.push(' --- '+game.i18n.localize("common.damage")+' --- ');
+        history.push(weaponItem.name+': '+weaponItem.system.damage);
+
         helperSheetCombat._modActionCombatDamage(actor, actionItem, weaponItem, mods, history);
-        let finalDamage = weaponItem.system.damage+mods.damage;
+
+            //Damage Modificator
+            let nCharValue = actor.system.characteristics.primary[weaponItem.system.characteristics].value;
+            history.push(game.i18n.localize("common.baseChar")+': '+
+                game.i18n.localize("characteristic."+weaponItem.system.characteristics));
+            history.push(game.i18n.localize("characteristic."+weaponItem.system.characteristics)+': '+
+                nCharValue.toString());
+
+            if (weaponItem.system.type.range) {
+                nCharValue = actor.system.characteristics.primary['str'].value;
+
+                history.push(game.i18n.localize("common.rangeWeapon")+'!!');
+                history.push(game.i18n.localize("common.applyChar")+': '+
+                    game.i18n.localize("characteristic.str"));
+                history.push(game.i18n.localize("characteristic."+weaponItem.system.characteristics)+': '+
+                    nCharValue.toString());
+            }
+
+            let sDamageMod = '-2D6';
+            if (nCharValue >= 1) sDamageMod = '-1D6';
+            if (nCharValue >= 5) sDamageMod = '-1D4';
+            if (nCharValue >= 10) sDamageMod = '';
+            if (nCharValue >= 15) sDamageMod = '+1D4';
+            if (nCharValue >= 20) sDamageMod = '+1D6';
+            if (nCharValue >= 25) sDamageMod = '+2D6';
+            if (nCharValue >= 30) sDamageMod = '+3D6';
+            if (nCharValue >= 35) sDamageMod = '+4D6';
+            if (nCharValue >= 40) sDamageMod = '+5D6';
+            if (nCharValue >= 45) sDamageMod = '+6D6';
+
+            history.push(game.i18n.localize("common.damageMod")+': '+sDamageMod);
+                        
+            //Minimum Force
+            let sDamageForceMod = "";
+            if (weaponItem.system.requeriment.primary.apply) {
+                history.push(game.i18n.localize("common.weaponRequirement1")+': '+
+                             game.i18n.localize("characteristic."+weaponItem.system.requeriment.primary.characteristic) +
+                             ' > ' + weaponItem.system.requeriment.primary.minValue);
+                if (actor.system.characteristics.primary[weaponItem.system.requeriment.primary.characteristic].value < 
+                        weaponItem.system.requeriment.primary.minValue) {
+
+                    const nMinVal = weaponItem.system.requeriment.primary.minValue - 
+                        actor.system.characteristics.primary[weaponItem.system.requeriment.primary.characteristic].value;
+                    
+                    sDamageForceMod = '-' + nMinVal.toString();
+                    history.push(game.i18n.localize("common.damageMod")+': '+sDamageForceMod);
+                }
+            }
+
+        let finalDamage = weaponItem.system.damage + mods.damage + sDamageMod + sDamageForceMod;
+        history.push(game.i18n.localize("common.finalDamage")+': '+finalDamage.toString());
 
         //Leveled Rolls
         let bLeveled = actionItem.system.rolls.leveled;
-
         helperRolls.rollAction(actor, actorTargets, actionItem, bLeveled,
                                combatSkill, finalPercent,
                                weaponItem, finalDamage,
@@ -502,7 +583,12 @@ export class helperSheetCombat {
      * @param {*} sTargets 
      * @param {*} sDamage 
      */
-    static async rollDamage(weaponId, spellId, actorId, actionId, sTargets, sDamage, messageId, locationId) {
+    static async rollDamage(weaponId, spellId, actorId, actionId, 
+                            sTargets, sDamage, messageId, locationId, 
+                            critSuccess, critFailure) {
+
+        let history = [];
+
         const actor = game.actors.get(actorId);
         if (!actor) return;
         const weapon = actor.items.get(weaponId);
@@ -512,13 +598,20 @@ export class helperSheetCombat {
         const action = (actionId) ? actor.items.get(actionId) : null;
         const mTargets = sTargets.split('.');
 
-        //Rolling Damage...
+        //--- ROLLING DAMAGE ---
         let roll = new Roll(sDamage, {});
         roll.evaluate({async: false});
         if (game.dice3d) {
             game.dice3d.showForRoll(roll);
         }        
-        const damage = roll.total;
+        const damage = (critSuccess) ? 
+                            eval( sDamage.replaceAll('d','*').replaceAll('D','*') ) : roll.total;
+
+        history.push(' --- '+game.i18n.localize("common.damage")+' --- ');
+        history.push(game.i18n.localize("common.roll")+': '+sDamage);
+        if (critSuccess) 
+            history.push(game.i18n.localize("common.critSuccess"));
+        history.push(game.i18n.localize("common.rollResult")+': '+damage.toString());
 
         //Damage in message...
         let message = game.messages.get(messageId);
@@ -536,7 +629,7 @@ export class helperSheetCombat {
 
         //Applying damage to each target...
         for (var i=0; i<mTargets.length; i++) {
-            await helperSheetCombat.applyDamage(mTargets[i], damage, locationId, actor, action, spell);
+            await helperSheetCombat.applyDamage(mTargets[i], damage, locationId, actor, action, spell, history);
         }
 
     }
@@ -590,12 +683,13 @@ export class helperSheetCombat {
      * @param {*} actorId 
      * @param {*} nDamage 
      */
-    static async applyDamage(actorId, nDamage, locationId, actorFrom, action, spell) {
+    static async applyDamage(actorId, nDamage, locationId, actorFrom, action, spell, history) {
 
         await game.packs.get('conventum.locations').getDocuments();
         await game.packs.get('conventum.worlds').getDocuments();
 
         let actor = game.actors.get(actorId);
+
         if (!actor) return;
         const sWorld = actor.system.control.world;
         const oWorld = await game.packs.get('conventum.worlds').get(sWorld);  
@@ -614,6 +708,8 @@ export class helperSheetCombat {
         const mLocations = dLocations.filter(e => (e.system.control.world === sWorld) 
                                                && (e.system.actorType === actor.type));
 
+        history.push(' --- '+game.i18n.localize("common.location")+' --- ');
+
         let location;
         if ((locationId === '') || (!locationId)) {
 
@@ -625,9 +721,17 @@ export class helperSheetCombat {
                 game.dice3d.showForRoll(roll);
             }        
             location = mLocations.find(e => (e.system.range.low <= roll.total) 
-                                         && (e.system.range.high >= roll.total));            
-        } else
+                                         && (e.system.range.high >= roll.total));   
+            
+            history.push(game.i18n.localize("common.locationRoll")+': '+roll.total);
+            history.push(location.name);
+
+        } else {
             location = mLocations.find(e => e.id === locationId);
+
+            history.push(game.i18n.localize("common.locationRoll")+': '+roll.total);
+            history.push(location.name);
+        }
         
         //Armor Protection
         let armorProtection = (actor.system.armor[location.id]) ?
@@ -745,6 +849,7 @@ export class helperSheetCombat {
                           '<li>'+game.i18n.localize("common.armor")+': -'+armorProtection.toString()+'</li>'+
                           '<li>'+game.i18n.localize("common.location")+': * '+location.system.modDamage.toString()+'</li>'+
                        '</ul>'+
+                       helperRolls._getMessageHelpTab(history);
                        '<div class="_msgDamTotal">'+finalDamage.toString()+'</div>';
         helperMessages.chatMessage(sContent, actor, true);
     }
@@ -783,10 +888,11 @@ export class helperSheetCombat {
     static _modActionCombatSkill(actor, action, weapon, mods, history) {
         if (!actor || !action || !weapon) return;
         
-        mods.skill = action.system.skill.mod.combatSkill;
-        history.push('['+action.name+'] '+
-            game.i18n.localize("common.modCombatSkill")+' : '+
-                action.system.skill.mod.combatSkill);        
+        mods.skill = this.penalValue(action.system.skill.mod.combatSkill);
+        if (mods.skill !== '-0')
+            history.push('['+action.name+']</br>'+
+                game.i18n.localize("common.modCombatSkill")+': '+
+                    action.system.skill.mod.combatSkill);        
 
         let myActiveCombat = helperSheetCombat.myActiveCombat(actor);
         let mySteps = myActiveCombat.encounter.system.steps
@@ -795,16 +901,16 @@ export class helperSheetCombat {
             const oAction = actor.items.get(step.action);
             if ((oAction.system.skill.mod.stack) && (oAction.id !== action.id)) {
                 mods.skill += oAction.system.skill.mod.combatSkill;
-                history.push('['+oAction.name+'] '+
-                    game.i18n.localize("common.modCombatSkill")+' : '+
+                history.push('['+oAction.name+']</br>'+
+                    game.i18n.localize("common.modCombatSkill")+': '+
                         oAction.system.skill.mod.combatSkill);
             }
             if ((step.targets) && 
                 (step.targets.find(e => e === actor.id))
                 && (oAction.system.skill.mod.targetCombatSkill !== '') ) {
                     mods.skill += oAction.system.skill.mod.targetCombatSkill;
-                    history.push('['+oAction.name+'] '+
-                        game.i18n.localize("common.modTargetCombatSkill")+' : '+
+                    history.push('['+oAction.name+']</br>'+
+                        game.i18n.localize("common.modTargetCombatSkill")+': '+
                             oAction.system.skill.mod.combatSkill);
             }
         }
@@ -820,9 +926,10 @@ export class helperSheetCombat {
         if (!actor || !action || !weapon) return;
         
         mods.damage = action.system.damage.mod.damage;
-        history.push('['+action.name+'] '+
-            game.i18n.localize("common.modDamage")+' : '+
-                action.system.damage.mod.damage); 
+        if (mods.damage !== '')
+            history.push('['+action.name+']</br>'+
+                game.i18n.localize("common.modDamage")+': '+
+                    action.system.damage.mod.damage); 
 
         let myActiveCombat = helperSheetCombat.myActiveCombat(actor);
         let mySteps = myActiveCombat.encounter.system.steps
@@ -831,20 +938,29 @@ export class helperSheetCombat {
             const oAction = actor.items.get(step.action);
             if ((oAction.system.damage.mod.stack) && (oAction.id !== action.id)) {
                 mods.damage += oAction.system.damage.mod.damage;
-                history.push('['+oAction.name+'] '+
-                    game.i18n.localize("common.modDamage")+' : '+
+                history.push('['+oAction.name+']</br>'+
+                    game.i18n.localize("common.modDamage")+': '+
                         oAction.system.damage.mod.damage);
             }
             if ((step.targets) && 
                 (step.targets.find(e => e === actor.id))
                 && (oAction.system.damage.mod.targetDamage !== '') ) {
                     mods.damage += oAction.system.damage.mod.targetDamage;
-                    history.push('['+oAction.name+'] '+
-                        game.i18n.localize("common.modTargetDamage")+' : '+
+                    history.push('['+oAction.name+']</br>'+
+                        game.i18n.localize("common.modTargetDamage")+': '+
                             oAction.system.damage.mod.targetDamage);
             }
-        }        
+        }
+    }    
 
+    /**
+     * _penalValue
+     * @param {*} sPenal 
+     */
+    static penalValue(sPenal) {
+        if (Number(sPenal) === NaN) return '-0';
+        if (Number(sPenal) >= 0) return '+'+Number(sPenal).toString();
+                            else return Number(sPenal).toString();
     }    
 
 }

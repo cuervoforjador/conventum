@@ -2,7 +2,9 @@
  * Helpers for Socket
  */
 
+import { HookCombat } from "../hooks/_hooksCombat.js";
 import { mainUtils } from "../mainUtils.js";
+import { helperSheetCombat } from "../sheets/helpers/helperSheetCombat.js";
 import { helperSprites } from "./helperSprites.js";
 
 export class helperSocket {
@@ -20,6 +22,10 @@ export class helperSocket {
                 case "refreshSheets":
                     helperSocket._doRefreshSheets();
                     break;
+
+                case "refreshCombat":
+                    helperSocket._doRefreshCombat();
+                    break;                    
             }
         });
     }
@@ -40,6 +46,16 @@ export class helperSocket {
             action: 'refreshSheets'
         });
         this._doRefreshSheets();
+    }
+
+    /**
+     * refreshCombatTrack
+     */
+    static refreshCombatTrack() {
+        helperSocket.send({
+            action: 'refreshCombat'
+        });
+        this._doRefreshCombat();     
     }
 
     /**
@@ -65,4 +81,10 @@ export class helperSocket {
         }
     }
 
+    /**
+     * _doRefreshCombat
+     */
+    static _doRefreshCombat() {
+        HookCombat.refreshCombatTrak();
+    }
 }

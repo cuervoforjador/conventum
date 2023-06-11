@@ -77,6 +77,22 @@ img._initShield {
     max-height: 30px;
     margin-top: 19px;
 }
+input.cbInitiativeMod {
+    width: 22px;
+    font-family: 'Almendra';
+    padding: 0px;
+    margin: 0px;
+    font-size: 15px;
+    line-height: 12px;
+    height: 18px;
+    text-align: center;
+    margin-top: 2px;
+    border: 1px solid #333;
+    background: #a6969682;
+    border-radius: 3px;
+    position: relative;
+    top: 0px;
+}
 
 /* --- ACTION POOLS --- */
 ._actionPool ul._combatants {
