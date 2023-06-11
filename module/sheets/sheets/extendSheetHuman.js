@@ -81,6 +81,11 @@ export class extendSheetHuman extends ActorSheet {
 
     //Playing actions...
     context.actions = helperActions.getActions(this.actor);
+    context.actionsItems = this.actor.items.filter(e => e.type === 'action').sort((a, b) => {
+      if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+      if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+      return 0;
+    });
 
     //Targets...
     context.targets = helperActions.getTargets(this.actor);
@@ -138,6 +143,7 @@ export class extendSheetHuman extends ActorSheet {
     html.find("a._cardInfo").click(this._showMyItem.bind(this));  
     html.find("a._showMyItem").click(this._showMyItem.bind(this));  
     html.find("a._doAction").click(this._doAction.bind(this)); 
+    $(".searchAction").on('input', this._searchAction.bind(this));
 
     /* Magic */
     html.find("a.playSpell").click(this._playSpell.bind(this));  
@@ -299,7 +305,7 @@ export class extendSheetHuman extends ActorSheet {
       else
         $(e).hide();
       if (search === '') $(e).show();
-  }.bind(this));    
+    }.bind(this));    
   }
 
   _playWeapon(event) {
@@ -329,6 +335,18 @@ export class extendSheetHuman extends ActorSheet {
     if (!action) return;
 
     helperSheetCombat.doAction(this.actor, actionId);
+  }
+
+  _searchAction(event) {
+    event.preventDefault();
+    const search = $(event.target).val();
+    $("ul.actorActions li").each(function(i,e) {
+      if ($(e).data("filter").toUpperCase().includes(search.toUpperCase()))
+        $(e).show();
+      else
+        $(e).hide();
+      if (search === '') $(e).show();
+    }.bind(this));    
   }
 
   _playSpell(event) {

@@ -6,6 +6,7 @@ import { helperMessages } from "./helperMessages.js";
 import { helperActions } from "./helperActions.js";
 import { helperRolls } from "./helperRolls.js";
 import { helperSheetArmor } from "./helperSheetArmor.js"
+import { helperSheetMagic } from "./helperSheetMagic.js"
 
 export class helperSheetCombat {
 
@@ -81,6 +82,31 @@ export class helperSheetCombat {
         const updated = await Item.updateDocuments(mUpdates, {parent: actor});
         actor.sheet.render(true);
 
+        //Penalties...
+        let sPenals = '';
+        let sModificator = '';
+        if (oWeapon.system.requeriment.primary.apply) {
+
+            //Minimum Force weapon
+            if (actor.system.characteristics.primary[
+                oWeapon.system.requeriment.primary.characteristic].value 
+                < oWeapon.system.requeriment.primary.minValue) {
+  
+              const nMinVal = 
+                oWeapon.system.requeriment.primary.minValue - 
+                    actor.system.characteristics.primary[
+                        oWeapon.system.requeriment.primary.characteristic].value;
+  
+              sModificator += ' -'+nMinVal.toString();
+            }
+
+            //By Weapon
+            if (oWeapon.system.penalty.initiative !== '') {
+                sModificator += ' '+helperSheetMagic.penalValue(oWeapon.system.penalty.initiative);
+            }
+            sPenals = '<div class="_penals">'+game.i18n.localize("common.initiative")+': '+sModificator+'</div>';
+          }        
+
        //Messaging...
         const sTxtVerb = game.i18n.localize("common.unsheath");
         const sTxtHand = game.i18n.localize("common."+sHand);
@@ -102,6 +128,7 @@ export class helperSheetCombat {
                                             '<div class="_caption">'+sTxtHand+'</div>'+
                                             '<div class="_caption">'+oWeapon.name+'</div>'+
                                         '</div>'+
+                                        sPenals+
                                     '</div>'+
                                 '</div>'+
                             '</div>'+                            
@@ -484,7 +511,7 @@ export class helperSheetCombat {
         if (actorSkill.penal !== '-0')
             history.push(game.i18n.localize("common.penal")+': '+actorSkill.penal);
         
-        helperSheetCombat._modActionCombatSkill(actor, actionItem, weaponItem, mods, history);
+        helperSheetCombat._modActionCombatSkill(actor, combatSkill, actionItem, weaponItem, mods, history);
 
             //Minimum Force
             let sByMinimunMod = "";
@@ -885,14 +912,28 @@ export class helperSheetCombat {
      * @param {*} action 
      * @param {*} weapon 
      */
-    static _modActionCombatSkill(actor, action, weapon, mods, history) {
+    static _modActionCombatSkill(actor, combatSkill, action, weapon, mods, history) {
         if (!actor || !action || !weapon) return;
         
-        mods.skill = this.penalValue(action.system.skill.mod.combatSkill);
-        if (mods.skill !== '-0')
+        mods.skill = "";
+
+        //By Action
+        mods.skill += this.penalValue(action.system.skill.mod.combatSkill);
+        if (this.penalValue(action.system.skill.mod.combatSkill) !== '-0')
             history.push('['+action.name+']</br>'+
                 game.i18n.localize("common.modCombatSkill")+': '+
-                    action.system.skill.mod.combatSkill);        
+                    this.penalValue(action.system.skill.mod.combatSkill));        
+
+        //By Weapon
+        if (weapon.system.penalty.skills[weapon.system.combatSkill]) {
+            mods.skill += this.penalValue(weapon.system.penalty.skills[weapon.system.combatSkill]);
+            history.push('['+combatSkill.name+']</br>'+
+                game.i18n.localize("common.modificator")+': '+
+                    this.penalValue(weapon.system.penalty.skills[weapon.system.combatSkill]));              
+        }
+
+        //Total Modificator
+        mods.skill = this.penalValue(eval(mods.skill));
 
         let myActiveCombat = helperSheetCombat.myActiveCombat(actor);
         let mySteps = myActiveCombat.encounter.system.steps
@@ -925,8 +966,11 @@ export class helperSheetCombat {
     static _modActionCombatDamage(actor, action, weapon, mods, history) {
         if (!actor || !action || !weapon) return;
         
-        mods.damage = action.system.damage.mod.damage;
-        if (mods.damage !== '')
+        mods.damage = "";
+
+        //By Action
+        mods.damage += action.system.damage.mod.damage;
+        if (action.system.damage.mod.damage !== '')
             history.push('['+action.name+']</br>'+
                 game.i18n.localize("common.modDamage")+': '+
                     action.system.damage.mod.damage); 

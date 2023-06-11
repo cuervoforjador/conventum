@@ -290,6 +290,8 @@
     "common.mode":                  "Modo",
     "common.modes":                 "Modos",
     "common.mod":                   "Mods",
+    "common.modificator":           "Modificador",
+    "common.modificators":          "Modificadores",
     "common.modDamage":             "Mod. Daño",
     "common.modTargetDamage":       "Mod. Daño (Objetivo)",
     "common.modEndurance":          "Mod. Resistencia",

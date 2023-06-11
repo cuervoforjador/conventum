@@ -109,25 +109,36 @@
 
         {{!-- ACTIONS --}}
         <div class="tab combatActions" data-group="combatTabs" data-tab="combatActions">
-        <ul class="actorActions">
-        {{#each items as |action id|}}
-        {{#if (itemType action 'action') }}
-            
-            <li data-itemId="{{action._id}}"
-                class="boxAction">
-                <a class="_doAction" data-itemid="{{action._id}}" >
-                <vbox style="background: #FFF;">
-                    <img class="imgAction" src="{{action.img}}" />
-                    <label class="_actionTitle">{{action.name}}</label>
-                </vbox>
-                </a>
-                <a class="_showMyItem" data-itemId="{{action._id}}">
-                    <i class="fas fa-info"></i></a>                
-            </li>
-            
-        {{/if}}
-        {{/each}}    
-        </ul>
+
+            <div class="header-search searchAction">
+                <i class="fas fa-search"></i>
+                <input type="search" 
+                       class="searchAction"
+                       name="searchAction" 
+                       value="" 
+                       placeholder="{{localize 'common.search'}}" 
+                       autocomplete="off">
+            </div>
+
+            <ul class="actorActions">
+            {{#each actionsItems as |action id|}}
+                
+                <li data-itemId="{{action._id}}"
+                    data-filter="{{action.name}}"
+                    class="boxAction">
+                    <a class="_doAction" data-itemid="{{action._id}}" >
+                    <vbox style="background: #FFF;">
+                        <img class="imgAction" src="{{action.img}}" />
+                        <label class="_actionTitle">{{action.name}}</label>
+                    </vbox>
+                    </a>
+                    <a class="_showMyItem" data-itemId="{{action._id}}">
+                        <i class="fas fa-info"></i></a>                
+                </li>
+                
+            {{/each}}    
+            </ul>
+
         </div>
 
     </section>

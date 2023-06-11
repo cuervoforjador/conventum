@@ -767,11 +767,17 @@ label._shortDescription {
     line-height: 12px;
     padding-top: 7px;
 }
-input.searchSkill {
+input.searchSkill,
+input.searchAction {
     border: 1px solid #3333334d!important;
     max-width: calc(100% - 58px)!important;
     border-radius: 2px!important;
     font-family: 'Almendra';
+}
+.header-search.searchAction {
+    padding: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 .actorSkills {
     width: 100%;
@@ -1096,6 +1102,9 @@ label._description::first-letter {
 
 .actorArmor {
     width: 100%;
+    max-width: 370px;
+    display: flex;
+    justify-content: flex-start;
 }
 .actorArmor .armorBox {
     width: 100%;

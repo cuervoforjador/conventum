@@ -231,6 +231,14 @@
     background: #0a871382;
     color: #000;
 }
+._chatBox ._subItem ._penals {
+    position: relative;
+    width: 300px;
+    left: -253px;
+    top: 47px;
+    font-size: 15px;
+    font-weight: 900;
+}
 
 ._chatContent ._Img {
     position: absolute;

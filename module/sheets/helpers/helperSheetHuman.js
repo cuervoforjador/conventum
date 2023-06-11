@@ -465,10 +465,7 @@ export class helperSheetHuman {
     const nBase = Number(actor.system.characteristics.primary.agi.value);
     let sModificator = '';
 
-    //Minimum Force weapon
-
-      let sMinWeaponMod = '';
-
+    
       //Wearing weapons
       const mWeapons = actor.items.filter(e => (
              (e.type === 'weapon') && 
@@ -478,6 +475,7 @@ export class helperSheetHuman {
       mWeapons.map(weaponItem => {
         if (weaponItem.system.requeriment.primary.apply) {
 
+          //Minimum Force weapon
           if (actor.system.characteristics.primary[
                 weaponItem.system.requeriment.primary.characteristic].value 
               < weaponItem.system.requeriment.primary.minValue) {
@@ -487,13 +485,16 @@ export class helperSheetHuman {
                 actor.system.characteristics.primary[
                   weaponItem.system.requeriment.primary.characteristic].value;
 
-            sMinWeaponMod += ' -'+nMinVal.toString();
+            sModificator += ' -'+nMinVal.toString();
           }
         }
-      });
 
-      sModificator += sMinWeaponMod;
-    
+        //Penalty-Bonification
+        if (weaponItem.system.penalty.initiative !== '') {
+          sModificator += helperSheetMagic.penalValue(weaponItem.system.penalty.initiative);
+        }
+      });
+ 
 
     const nInitiative = eval(nBase.toString() + sModificator);
                     
