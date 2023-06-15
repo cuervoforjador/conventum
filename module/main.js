@@ -24,11 +24,12 @@ Hooks.once("init", async function() {
 
   CONFIG._root = [...game.system.esmodules][0].split('/module')[0];
   CONFIG.ExtendConfig = mainConfig.init(extendConfig);
-  CONFIG.debug.hooks = false;
+  CONFIG.debug.hooks = true;
 
   //Game...
   game[game.system.id] = {
-    mainMacros,
+    upWeapons: mainMacros.upWeapons,
+    upActions: mainMacros.upActions,
     useEntity: foundry.utils.isNewerVersion("10", game.version ?? game.data.version)
   };
 

@@ -64,5 +64,14 @@ export class HookActor {
         $('#'+sheet.element[0].id+" ._humanTargets").removeClass('_reduce');         
     }
 
+    /**
+     * setPrototypeToken
+     * @param {*} actor 
+     */
+    static setPrototypeToken(actor) {
+        actor.update({
+            prototypeToken: {actorLink: true}
+        });
+    }
 
 }

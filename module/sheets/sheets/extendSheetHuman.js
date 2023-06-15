@@ -29,7 +29,7 @@ export class extendSheetHuman extends ActorSheet {
       height: 600,
       tabs: [
         {navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "main"},
-        {navSelector: ".tabs_Bio", contentSelector: ".tabsContent_Bio", initial: "combatWeapons"},
+        {navSelector: ".tabs_Bio", contentSelector: ".tabsContent_Bio", initial: "traits"},
         {navSelector: ".tabs_Combat", contentSelector: ".tabsContent_Combat", initial: "combatWeapons"}
       ],      
     });

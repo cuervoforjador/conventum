@@ -10,6 +10,7 @@ import { HookHotBar } from "./_hooksHotBar.js";
 import { HookMessage } from "./_hooksMessage.js";
 import { HookCombat } from "./_hooksCombat.js";
 import { HookTours } from "./_hooksTours.js";
+import { mainMacros } from "../macros/mainMacros.js"
 import { helperSocket } from "../helpers/helperSocket.js";
 import { helperSheetArmor } from "../sheets/helpers/helperSheetArmor.js";
 
@@ -33,6 +34,7 @@ export class mainHooks {
         Hooks.on("renderItemSheet", (sheet, element, systemData) => this._renderItemSheet(sheet, element, systemData));
         Hooks.on("dropActorSheetData", (actor, sheet, item) => this._dropActorSheetData(actor, sheet, item));
         Hooks.on("createItem", (item, options, sId) => this._createItem(item, options, sId));
+        Hooks.on("createActor", (actor, options, sId) => this._createActor(actor, options, sId));
         Hooks.on("renderActorSheet", (sheet, html, systemData) => this._renderActorSheet(sheet, html, systemData));
         Hooks.on("renderDialog", (dialog, element, content) => this._renderDialog(dialog, element, content));
         Hooks.on("renderApplication", (app, element, options) => this._renderApplication(app, element, options));
@@ -54,6 +56,7 @@ export class mainHooks {
 
     static _ready() {
         HookTours.registerTours();   
+        mainMacros.registerMacros();
     }
 
     static _renderHotbar(element, html, options) {
@@ -135,6 +138,10 @@ export class mainHooks {
             await helperSheetArmor.addArmor(item);
         //if (item.type === 'trait')
             //...
+    }
+
+    static async _createActor(actor, options, sId) {
+        HookActor.setPrototypeToken(actor);
     }
 
     static _renderActorSheet(sheet, html, systemData) {
