@@ -24,6 +24,7 @@
           "locked": false,
           "expand": true,
           "criature": false,
+          "mount": false,
           "frame": "catholicae",
           "world": ""
         },
@@ -39,6 +40,12 @@
           "status": "",
           "description": "",
           "background": ""
+        },
+        "equipment": {
+          "mount": "",
+          "income": "",
+          "cash": "",
+          "goods": ""
         },
         "characteristics": {
           "primary": {
@@ -179,10 +186,12 @@
             "unconscious": false,
             "dead": false
           },
+          "rightHanded": true,
           "appearance": ""
         },
         "modes": [],
         "skills": {},
+        "languages": {},
         "armor": {},
         "magic": {
           "penal": {
@@ -213,6 +222,7 @@
       "control": {
         "initial": false,
         "criature": true,
+        "mount": true,
         "expand": false,
         "world": ""
       }
@@ -706,7 +716,8 @@
         "initial": true
       },
       "steps": {
-        "actionSteps": 1
+        "actionSteps": 1,
+        "initiative": "+0"
       },      
       "item": {
         "weapon": {
@@ -746,17 +757,28 @@
           "secondarySkill": "",
           "targetCombatSkill": "",
           "targetSecondarySkill": "",
+          "multSkill": 1,
+          "multSkillTarget": 1,
           "stack": false  
         },
         "useSkill": false,
         "skill": "",
-        "applyRangePenal": true      
+        "skillAsCombat": false,
+        "applyRangePenal": true,
+        "doubleAttack": false  
       },
       "damage": {
         "mod": {
           "damage": "",
           "targetDamage": "",
-          "stack": false
+          "multDamage": 1,
+          "stack": false,
+          "noDamageBon": false,
+          "modDamage1": false,
+          "modDamage2": false
+        },
+        "target": {
+          "mount": false
         }
       },
       "armor": {

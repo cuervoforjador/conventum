@@ -14,22 +14,38 @@
                 placeholder="{{localize 'common.name'}}" />   
             
             {{#unless systemData.control.criature}}
-            <line class="_100" style="justify-content: flex-end;">
-                <hbox class="switchInit">
-                    <label>{{localize 'common.expand'}}</label>
-                    <label class="switch" style="margin-right: -16px;">
-                        <input type="checkbox" 
-                            name="system.control.expand" 
-                            {{checked systemData.control.expand}} />
-                        <span class="sliderSwitch"></span>
-                    </label>
-                    <label>{{localize 'common.initial'}}</label>
-                    <label class="switch">
-                        <input type="checkbox" name="system.control.initial" {{checked systemData.control.initial}} />
-                        <span class="sliderSwitch"></span>
-                    </label>                     
-                </hbox>
-            </line> 
+
+                <line class="_100" style="justify-content: flex-end;">
+                    <hbox class="switchInit">
+                        <label>{{localize 'common.expand'}}</label>
+                        <label class="switch" style="margin-right: -16px;">
+                            <input type="checkbox" 
+                                name="system.control.expand" 
+                                {{checked systemData.control.expand}} />
+                            <span class="sliderSwitch"></span>
+                        </label>
+                        <label>{{localize 'common.initial'}}</label>
+                        <label class="switch">
+                            <input type="checkbox" name="system.control.initial" {{checked systemData.control.initial}} />
+                            <span class="sliderSwitch"></span>
+                        </label>                     
+                    </hbox>
+                </line> 
+                
+            {{else}}
+
+                <line class="_100" style="justify-content: flex-end;">
+                    <hbox class="switchInit">
+                        <label>{{localize 'common.mount'}}</label>
+                        <label class="switch" style="margin-right: -16px;">
+                            <input type="checkbox" 
+                                name="system.control.mount" 
+                                {{checked systemData.control.mount}} />
+                            <span class="sliderSwitch"></span>
+                        </label>                     
+                    </hbox>
+                </line>            
+
             {{/unless}}
 
             <line class="_100">

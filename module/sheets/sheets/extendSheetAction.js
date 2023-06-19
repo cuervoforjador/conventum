@@ -18,7 +18,7 @@ export class extendSheetAction extends ItemSheet {
       classes: [game.system.id, "sheet", "item"],
       template: CONFIG._root+"/templates/action.html",
       width: 900,
-      height: 600,
+      height: 640,
       tabs: [
         {navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "type"}
       ],       

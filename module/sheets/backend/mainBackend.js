@@ -15,6 +15,7 @@ export class mainBackend {
             kingdoms: await this._getKingdoms(systemData.control.world),
             societies: await this._getSocieties(systemData.control.world),
             skills: await this._getSkills(systemData.control.world),
+            languages: await this._getLanguages(systemData.control.world),
             locations: await this._getLocations(systemData.control.world, actor.type)
         };
         
@@ -54,6 +55,17 @@ export class mainBackend {
         if (!mBackend.status.find(e => e.id === systemData.bio.status))
             systemData.bio.status = (mBackend.status.length > 0) ? mBackend.status[0].id : '';
         
+        //Mounts
+        let mMounts = Array.from(game.actors).filter(e => e.system.control.mount);
+        let mAvailable = [];
+        mMounts.map(e => {
+            if (!Array.from(game.actors).find(o => o.system.equipment.mount === e.id)) 
+                mAvailable.push(e);
+        });
+        if (actor.system.equipment.mount !== '') 
+            mAvailable.push(game.actors.get(actor.system.equipment.mount));
+        mBackend.mounts = [{_id: '', name: ''}].concat(mAvailable);
+
         return mBackend;
     }
 

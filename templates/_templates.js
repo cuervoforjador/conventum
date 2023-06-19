@@ -20,6 +20,7 @@ export const preloadTemplates = async function() {
       humanBioDescription: CONFIG._root+"/templates/fragments/humanBioDescription.html",
       humanBioBackground: CONFIG._root+"/templates/fragments/humanBioBackground.html",
       humanBioTraits: CONFIG._root+"/templates/fragments/humanBioTraits.html",
+      humanBioLanguages: CONFIG._root+"/templates/fragments/humanBioLanguages.html",
       humanLanguages: CONFIG._root+"/templates/fragments/humanLanguages.html",
       humanQuickBar: CONFIG._root+"/templates/fragments/humanQuickBar.html",
       humanModesBar: CONFIG._root+"/templates/fragments/humanModesBar.html",

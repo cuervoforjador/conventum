@@ -35,9 +35,11 @@ export class mainHooks {
         Hooks.on("dropActorSheetData", (actor, sheet, item) => this._dropActorSheetData(actor, sheet, item));
         Hooks.on("createItem", (item, options, sId) => this._createItem(item, options, sId));
         Hooks.on("createActor", (actor, options, sId) => this._createActor(actor, options, sId));
+        Hooks.on("updateActor", (actor, stats, options, sId) => this._updateActor(actor, stats, options, sId));
         Hooks.on("renderActorSheet", (sheet, html, systemData) => this._renderActorSheet(sheet, html, systemData));
         Hooks.on("renderDialog", (dialog, element, content) => this._renderDialog(dialog, element, content));
         Hooks.on("renderApplication", (app, element, options) => this._renderApplication(app, element, options));
+        Hooks.on("renderActorDirectory", (directory, element, options) => this._renderActorDirectory(directory, element, options));
         Hooks.on("getUserContextOptions", (element, content) => this._getUserContextOptions(element, content));
         Hooks.on("getCombatTrackerEntryContext", (html, options) => this._getCombatTrackerEntryContext(html, options));
         Hooks.on("renderCombatTracker", (tracker, html, options) => this._renderCombatTracker(tracker, html, options));
@@ -46,6 +48,7 @@ export class mainHooks {
         Hooks.on("deleteCombat", (combat, render, sId) => this._deleteCombat(combat, render, sId));
         Hooks.on("preCreateItem", (oFrom, oTo, options, sId) => this._preCreateItem(oFrom, oTo, options, sId));
         Hooks.on("createToken", (document, options, sId) => this._createToken(document, options, sId));
+        Hooks.on("createChatMessage", (message, options, sId) => this._createChatMessage(message, options, sId));
     }
 
     static _setup() {
@@ -144,17 +147,23 @@ export class mainHooks {
         HookActor.setPrototypeToken(actor);
     }
 
+    static async _updateActor(actor, stats, options, sId) {
+        //...
+    }
+
     static _renderActorSheet(sheet, html, systemData) {
         
         //QuickBar
-        let hSheet = $('.app.window-app.conventum.sheet.actor');
-        if (hSheet.length === 0) return;
-        let posX = systemData.systemData.quickBarPosition.x - hSheet.position().left;
-        let posY = systemData.systemData.quickBarPosition.y - hSheet.position().top;
-        $('._quickBar').css({
-          left: posX,
-          top: posY
-        });
+        if (systemData.systemData.quickBarPosition) {
+            let hSheet = $('.app.window-app.conventum.sheet.actor');
+            if (hSheet.length === 0) return;
+            let posX = systemData.systemData.quickBarPosition.x - hSheet.position().left;
+            let posY = systemData.systemData.quickBarPosition.y - hSheet.position().top;
+            $('._quickBar').css({
+            left: posX,
+            top: posY
+            });
+        }
 
         //ImOnFire...
         const sBook = '';
@@ -184,6 +193,10 @@ export class mainHooks {
 
     static async _renderApplication(app, element, options) {
         
+    }
+
+    static _renderActorDirectory(directory, element, options) {
+        HookActor.renderActorDirectory(element);
     }
 
     static async _getUserContextOptions(element, content) {
@@ -217,5 +230,9 @@ export class mainHooks {
 
     static _createToken(document, options, sId) {
         document._source.actorLink = true;
+    }
+
+    static _createChatMessage(message, options, sId) {
+        HookMessage.createChatMessage(message, options, sId);
     }
 }

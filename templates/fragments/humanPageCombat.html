@@ -15,10 +15,28 @@
         </ul>        
     </hbox>
 
-    <nav class="tabs_Combat _subTabs" data-group="combatTabs">
-        <a data-tab="combatWeapons"><label>{{ localize "common.weapons" }}</label></a>
-        <a data-tab="combatActions"><label>{{ localize "common.actions" }}</label></a>    
-    </nav>
+    <hbox class="_100 _betsu">
+        <nav class="tabs_Combat _subTabs" data-group="combatTabs">
+            <a data-tab="combatWeapons"><label>{{ localize "common.weapons" }}</label></a>
+            <a data-tab="combatActions"><label>{{ localize "common.actions" }}</label></a>
+        </nav>
+        <hbox>
+            {{#if (rightHanded)}}
+                <label>{{localize 'common.rightHanded'}}</label>
+            {{else}}
+                <label>{{localize 'common.leftHanded'}}</label>
+            {{/if}}
+
+            <label class="switch">
+                <input type="checkbox" 
+                    name="system.status.rightHanded" 
+                    {{{editable}}}
+                    {{checked systemData.status.rightHanded}} />
+                <span class="sliderSwitch"></span>
+            </label> 
+        </hbox>
+    </hbox>
+
     <section class="tabsContent_Combat">
             
         {{!-- WEAPONS --}}
@@ -61,7 +79,7 @@
 
                     <vbox class="_weaponText">
                         <label class="titleWeapon">{{weapon.name}}</label>
-                        <label class="damageWeapon">{{weapon.system.damage}}</label>
+                        <label class="damageWeapon">{{weapon.system.damage}} <span class="_small">{{getDamageMod weapon}}</span></label>
                     </vbox>
                     <hbox style="width: 230px;">
                                             
@@ -141,6 +159,6 @@
 
         </div>
 
-    </section>
+    </section>    
 
 </div>

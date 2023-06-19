@@ -2,6 +2,7 @@ import { helperSocket } from "../helpers/helperSocket.js";
 import { mainUtils } from "../mainUtils.js";
 import { mainBackend } from "../sheets/backend/mainBackend.js";
 import { helperSheetHuman } from "../sheets/helpers/helperSheetHuman.js"
+import { helperSheetCombat } from "../sheets/helpers/helperSheetCombat.js";
 
 export class HookCombat {
 
@@ -77,11 +78,20 @@ export class HookCombat {
                     sIniMod = actor.system.initiative.mod;  
                     if ((!sIniMod)  || (sIniMod === '')) sIniMod = oInitiative.mod;
 
-                    sTotal = Number($(li).find(".token-initiative .initiative").text()) 
+                    if (sIniMod === '') sIniMod = '0';
+                    let sIni = $(li).find(".token-initiative .initiative").text();
+                    if (isNaN(Number(sIni))) sIni = 0;
+                    sTotal = Number(sIni) 
                         + Number(oInitiative.base) 
                         + Number(sIniMod);
                 }
                 if ( ($(li).find(".token-initiative span.charact").length == 0) && (actor) ) {
+
+                    //Actor has actions?
+                    let myCombat = helperSheetCombat.myActiveCombat(actor);
+                    if (myCombat) {
+                        let encounter = myCombat.encounter;
+                    }
 
                     let sShield = actor.system.action.blocked ? '<a class="_unlockTargetCombat" data-actorid="'+actor._id+'">'+
                                                                     '<img src="systems/conventum/image/texture/shield.png" class="_initShield">'+
@@ -89,7 +99,7 @@ export class HookCombat {
                                                                 : '<a class="_lockTargetCombat" data-actorid="'+actor._id+'">'+
                                                                     '<img src="systems/conventum/image/texture/shield.png" class="_initShield _alpha">'+
                                                                 '</a>';
-
+                    if (sIniMod === '') sIniMod = '0';
                     $(li).find(".token-initiative").append(
                         '<span class="charact _ibase">'+oInitiative.base+'</span>'+
                         ( (game.user.isGM) ? 
@@ -105,6 +115,12 @@ export class HookCombat {
                         '<span class="charact">'+sShield+'</span>');
                     
                     $(li).attr('data-initotal', sTotal.toString());
+
+                    //Filling gaps...
+                    if ( ($(li).find(".token-initiative").find('.combatant-control').length === 0) 
+                      && ($(li).find(".token-initiative").find('.initiative').length === 0) ) {
+                        $(li).find(".token-initiative").prepend('<span class="initiative">-</span>');
+                    }
                 }
 
                 //Updating...
@@ -142,10 +158,17 @@ export class HookCombat {
         noRefresh = (!noRefresh) ? false : noRefresh;
 
         let actor = game.actors.get(actorId);
-        await actor.update({
-            system: { initiative: {
-                mod: value } }            
-        });
+        if (game.user.isGM) {
+            await actor.update({
+                system: { initiative: {
+                    mod: value } }            
+            });
+        } else {
+            helperSocket.update(actor, {
+                system: { initiative: {
+                            mod: value }} 
+            });        
+        }
 
         if (!noRefresh)
             this._changeCombatTabHtml($("section#combat._myCombat"), true);
@@ -188,10 +211,16 @@ export class HookCombat {
         for (const turn of combat.turns) {
             if (!turn.initiative) {
                 let actor = game.actors.get(turn.actorId);
-                actor.update({
-                    system: { initiative: {
-                        mod: '' }}            
-                });
+                
+                if (game.user.isGM) {
+                    actor.update({
+                        system: { initiative: { mod: '' }}            
+                    });
+                } else {
+                    helperSocket.update(actor, {
+                        system: { initiative: { mod: '' }}            
+                    });
+                }
                 await this.resetInitiativeMod(turn.actorId);
             }
         }
@@ -206,13 +235,20 @@ export class HookCombat {
         let poolAction = game.items.find(e => e.system.combat === activeCombat._id);
 
         if (!poolAction) {
+            const mPeople = Array.from(game.users).filter(e => !e.isGM);
+            let ownership = {};
+            for (const s of mPeople) {
+                ownership[s.id] = 1;
+            }
+            ownership[game.user]
             const newItem = await Item.create([{
                                         name: game.i18n.localize("common.encounter"),
                                         type: 'actionPool',
                                         img: 'systems/conventum/image/texture/encounter.png',
                                         system: {
                                             combat: activeCombat._id
-                                        }
+                                        },
+                                        ownership: ownership
                                     }]);
             poolAction = newItem[0];
         } 
@@ -229,8 +265,14 @@ export class HookCombat {
     static targetDialogs(dialog, element, content) {
         const mButtons = dialog.data.buttons;
         for (const s in mButtons) {
+            let actor = game.actors.get(s);
             let button = $(element).find('button[data-button="'+mButtons[s].actorId+'"]');
             button.html('<img src="'+mButtons[s].img+'"/><label>'+mButtons[s].label+'</label>');
+
+            //Mount
+            let mount = helperSheetCombat.getMount(actor);
+            if (mount) button.append('<img class="_mount" src="'+mount.img+'" />');
+
         }
     }
 

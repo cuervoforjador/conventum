@@ -90,6 +90,8 @@ export class helperRolls {
       sPath.split('.').map(e => { rollData = rollData[e]} );
       const penal = (rollData && rollData.penal) ? rollData.penal : '+0';
       rollData = (rollData && rollData.value) ? rollData.value : rollData;
+      if (rollData.value == 0) rollData = 0;
+
       rollData = eval(rollData.toString() + penal);
 
       // Asking for level roll
@@ -110,7 +112,8 @@ export class helperRolls {
      * @param {*} mods 
      */
     static rollAction(actor, mTargets, action, bLeveled,
-                      skill, nPercent, weapon, sDamage, mods, spell, history) {
+                      skill, nPercent, weapon, sDamage, mods, spell, history,
+                      secondAttack) {
 
         let oRollAction = {
           actor: actor,
@@ -123,8 +126,9 @@ export class helperRolls {
           location: null,
           mods: mods,
           history: history,
-          spell: spell
-        }
+          spell: spell,
+          secondAttack: secondAttack
+        };
 
         // Asking for level roll
         if (bLeveled) helperRolls._dialogLevelForAction(oRollAction);
@@ -142,6 +146,8 @@ export class helperRolls {
      */
     static async _dialogLevel(actor, sPath, rollData, sFormula, actionId, sMod2) {
       sMod2 = (!sMod2) ? '' : sMod2;
+
+      await game.packs.get('conventum.worlds').getDocuments();
       const sWorld = actor.system.control.world;
       const oWorld = await game.packs.get('conventum.worlds').get(sWorld);
 
@@ -169,6 +175,7 @@ export class helperRolls {
      */
     static async _dialogLevelForAction(oRollAction) {
 
+      await game.packs.get('conventum.worlds').getDocuments();
       const sWorld = oRollAction.actor.system.control.world;
       const oWorld = await game.packs.get('conventum.worlds').get(sWorld);
 
@@ -186,6 +193,7 @@ export class helperRolls {
         content: "",
         buttons: oButtons,
         world: oWorld.id });
+      dialog.options.classes.push('_levelRoll');
       dialog.render(true);
     } 
 
@@ -243,6 +251,7 @@ export class helperRolls {
 
       const result = {  
                         success: success,
+                        percent: nPass.toString(),
                         critSuccess: bCritSuccess,
                         critFailure: bCritFailure 
                      };
@@ -332,6 +341,7 @@ export class helperRolls {
 
       const result = {  
                         success: success,
+                        percent: nPass,
                         critSuccess: bCritSuccess,
                         critFailure: bCritFailure 
                      };
@@ -343,12 +353,39 @@ export class helperRolls {
       const sContent = helperRolls._getMessageRollForAction(oRollAction, roll, result, sValueMod, oLevel);
       helperMessages.chatMessage(sContent, oRollAction.actor, false, '', '200px');
 
+      //Double attack!
+      if ((oRollAction.action.system.skill.doubleAttack) &&
+          (result.success)) {
+
+        if (oRollAction.secondAttack) {         
+          const oRollAction2 = {
+              actor: oRollAction.actor,
+              targets: oRollAction.targets,
+              action: oRollAction.action,
+              skill: oRollAction.skill,
+              percent: oRollAction.nPercent,
+              weapon: oRollAction.secondAttack.weapon,
+              damage: oRollAction.secondAttack.damage,
+              location: oRollAction.location,
+              mods: oRollAction.mods,
+              history: oRollAction.secondAttack.history,
+              spell: oRollAction.spell
+          };
+          const sContent2 = helperRolls._getMessageRollForAction(oRollAction2, roll, result, sValueMod, oLevel);
+          helperMessages.chatMessage(sContent2, oRollAction2.actor, false, '', '200px');
+        }
+      }
+
       //Consuming action
       if (oStep) {
         oStep.consumed = true;
-        oEncounter.update({
+        //oEncounter.update({
+        //  system: { steps: mSteps }
+        //});
+        helperSocket.update(oEncounter, {
           system: { steps: mSteps }
-        });
+        });        
+
       }
 
       if (oRollAction.actor.sheet.rendered)
@@ -374,7 +411,7 @@ export class helperRolls {
         const myLuck = actor.system.characteristics.secondary.luck.value;
         const myFinalLuck = (myLuck >= nDiff) ? myLuck - nDiff 
                                               : 0;
-        await actor.update({
+        await actor.updateSource({
           system: {
             characteristics: {secondary: {luck: {value: myFinalLuck}}}
           }
@@ -407,6 +444,7 @@ export class helperRolls {
       return '<div class="_messageFrame">'+
                   helperRolls._getMessageRoll_Actor(actor, sPath, null, sMod2)+
                   '<div class="_result">'+roll.total+'</div>'+
+                  '<div class="_resultOver">'+result.percent.toString()+'</div>'+
                   helperRolls._getMessageRoll_Bonif(sValueMod, oLevel)+
                   helperRolls._getMessageRoll_Result(result)+
              '</div>';
@@ -424,6 +462,7 @@ export class helperRolls {
       return '<div class="_messageFrame">'+
                   helperRolls._getMessageRoll_Actor(oRollAction.actor, '', oRollAction.skill, '', oRollAction.spell)+
                   '<div class="_result">'+roll.total+'</div>'+
+                  '<div class="_resultOver">'+result.percent.toString()+'</div>'+
                   helperRolls._getMessageSpell(oRollAction.actor, oRollAction.spell)+
                   helperRolls._getMessageRoll_Bonif(sValueMod, oLevel)+
                   helperRolls._getMessageRoll_Result(result)+
@@ -486,7 +525,8 @@ export class helperRolls {
      */
     static _getMessageDamage(oRollAction, result) {
       
-      if (!result) return '';
+      if ((!result) || (!result.success)) 
+        return '<div class="_messageDamage"></div>';
 
       let weapon = oRollAction.weapon;
       let spell = oRollAction.spell;
@@ -566,7 +606,11 @@ export class helperRolls {
       if (!skill && !spell) {
         if ( !(sPath.split('.').length > 1) ) return '<div class="_skill"></div>';
         const skillId = sPath.split('.')[1];
-        skill = game.packs.get('conventum.skills').get(skillId);
+
+        if (sPath.split('.')[0] === 'languages')
+          skill = game.packs.get('conventum.languages').get(skillId);
+        else
+          skill = game.packs.get('conventum.skills').get(skillId);
       }
       if (sPath.includes('characteristic')) {
         const sChar = sPath.split('.')[2];

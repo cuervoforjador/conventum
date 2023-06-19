@@ -7,6 +7,8 @@ import { helperActions } from "./helperActions.js";
 import { helperRolls } from "./helperRolls.js";
 import { helperSheetArmor } from "./helperSheetArmor.js"
 import { helperSheetMagic } from "./helperSheetMagic.js"
+import { helperSocket } from "../../helpers/helperSocket.js";
+import { helperSheetHuman } from "./helperSheetHuman.js";
 
 export class helperSheetCombat {
 
@@ -61,6 +63,19 @@ export class helperSheetCombat {
                         oWeapon.system.inHands.inLeftHand ||
                         oWeapon.system.inHands.inRightHand;
         
+        if (bInHand) {
+            let mUpdates = [{ 
+                _id: oWeapon.id,
+                system: { inHands: { 
+                    inBothHands: false,
+                    inLeftHand: false,
+                    inRightHand: false
+                }} }];      
+            await Item.updateDocuments(mUpdates, {parent: actor});
+            actor.sheet.render(true);
+            return;
+        }
+
         let mUpdates = [];
         actor.items.filter(e => e.type == 'weapon').forEach( weapon => {
             let dataMod = { _id: weapon.id,
@@ -433,7 +448,23 @@ export class helperSheetCombat {
                         }]);     
                 }           
             }
-            
+        
+        //Getting actors...
+        mActors.map(e => {
+            e._actor = null;
+            e._actor = game.actors.get(e.actorId);
+        });
+
+        //Filtering by Modes...
+        if (myAction.action) {
+            for (const s in myAction.action.system.modes) {
+                if (myAction.action.system.modes[s].target) {
+                    mActors = mActors.filter(e => 
+                        e.actor.system.modes.find(s0 => s0 === s)
+                    );
+                }
+            }
+        }
 
         //Targets Dialog
         let oButtons = {};
@@ -442,6 +473,7 @@ export class helperSheetCombat {
                 label: e.name,
                 actorId: e.actorId,
                 img: e.img,
+                combatTarget: true,
                 callback: () => helperSheetCombat.setTargetPlayWeapon(actor, e.actorId, action, weaponId)
               }
         });
@@ -450,6 +482,16 @@ export class helperSheetCombat {
             content: "",
             buttons: oButtons });
         
+        //Adding status and mounts...
+        /**
+        $(dialog).find("button.dialog-button").each(function(i,e) {
+            const mClass = $(e).attr("class").split(/\s+/);
+            const actor = game.actors.get(mClass[mClass.length - 1]);
+            const mount = helperSheetCombat.getMount(actor);
+            if (mount) $(e).append('<img class="_mount" src="'+mount.img+'"/>');
+        }.bind(this));
+        */
+
         dialog.options.classes = ['dialog', '_targetDialogs'];
         dialog.render(true);       
     }
@@ -466,9 +508,16 @@ export class helperSheetCombat {
         let tokenId = oActor.getActiveTokens()[0].id;   
         let encounter = helperSheetCombat.myActiveCombat(actor).encounter;
         let actualStep = encounter.system.steps.filter(e => !e.consumed)[0];
-        actualStep.targets = [tokenId];
-        await encounter.update({system: {steps: encounter.system.steps}});
+        actualStep.targets = [oActor.id];
+        actualStep.targetsToken = [tokenId];
+        
+        //await encounter.update({system: {steps: encounter.system.steps}});
+        helperSocket.update(encounter, {
+            system: {steps: encounter.system.steps}
+        });
+
         await game.user.updateTokenTargets([tokenId]);
+
         helperSheetCombat.playWeapon(actor, weaponId);
         if (actor.sheet.rendered) actor.sheet.render(true);
     }
@@ -490,18 +539,42 @@ export class helperSheetCombat {
             ui.notifications.warn(game.i18n.localize("info.noAction"));
             return;
         }
+        const actionItem = (actorActions.action !== '') ? actorActions.action : null;
 
-        const combatSkill = game.packs.get('conventum.skills').get(weaponItem.system.combatSkill);
+        let combatSkill = game.packs.get('conventum.skills').get(weaponItem.system.combatSkill);
         if (!combatSkill) return;
+
+        //Double attack
+        let weaponItem2 = null;
+        if (actionItem.system.skill.doubleAttack) {
+            const mHandWeapons = actor.items.filter(e => (e.type === 'weapon') 
+                                    && ((e.system.inHands.inLeftHand) || (e.system.inHands.inRightHand)) );
+            if (mHandWeapons.length == 2)
+                weaponItem2 = mHandWeapons.filter(e => e.id !== weaponItem.id)[0];
+        }
+          
+        //Replacing skill
+        if ((actionItem) && (actionItem.system.skill.skillAsCombat) &&
+            (actionItem.system.skill.skill !== '')) {
+            
+            combatSkill = game.packs.get('conventum.skills').get(actionItem.system.skill.skill);
+        }
+
         const actorSkill = actor.system.skills[weaponItem.system.combatSkill];
         if (!actorSkill) return;
-
-        const actionItem = (actorActions.action !== '') ? actorActions.action : null;
+        
         let mods = {
             skill: '',
+            skillMult: 1,
             damage: ''
         };
+        let mods2 = {
+            skill: '',
+            skillMult: 1,
+            damage: ''            
+        }
         let history = [];
+        let history2 = [];
 
         //--- SKILL ---
         history.push(' --- '+combatSkill.name+' --- ');
@@ -511,6 +584,13 @@ export class helperSheetCombat {
         if (actorSkill.penal !== '-0')
             history.push(game.i18n.localize("common.penal")+': '+actorSkill.penal);
         
+        //Hand Penalty...
+        if ( helperSheetHuman.getHandPenal(actor, weaponItem) !== '-0') {
+            let sPenal = helperSheetHuman.getHandPenal(actor, weaponItem);
+            actorSkill.penal = this.penalValue(eval(actorSkill.penal+' '+sPenal));
+            history.push(game.i18n.localize("common.clumsyHand")+': '+sPenal+'%');
+        }
+
         helperSheetCombat._modActionCombatSkill(actor, combatSkill, actionItem, weaponItem, mods, history);
 
             //Minimum Force
@@ -531,10 +611,10 @@ export class helperSheetCombat {
                 }
             }        
 
-        let finalPercent = Number(eval( actorSkill.value.toString()+
-                                        this.penalValue(mods.skill)+
-                                        ' '+sByMinimunMod+
-                                        actorSkill.penal));
+        let finalPercent = Number(eval( (actorSkill.value.toString()+
+                                         this.penalValue(mods.skill)+
+                                         ' '+sByMinimunMod+
+                                         actorSkill.penal) ) * Number(mods.skillMult));
         history.push(game.i18n.localize("common.finalPercent")+': '+finalPercent.toString());
 
 
@@ -543,64 +623,52 @@ export class helperSheetCombat {
         history.push(weaponItem.name+': '+weaponItem.system.damage);
 
         helperSheetCombat._modActionCombatDamage(actor, actionItem, weaponItem, mods, history);
+        let sDamageMod = helperSheetHuman.calcDamageMod(actor, weaponItem, history, actionItem);
 
-            //Damage Modificator
-            let nCharValue = actor.system.characteristics.primary[weaponItem.system.characteristics].value;
-            history.push(game.i18n.localize("common.baseChar")+': '+
-                game.i18n.localize("characteristic."+weaponItem.system.characteristics));
-            history.push(game.i18n.localize("characteristic."+weaponItem.system.characteristics)+': '+
-                nCharValue.toString());
-
-            if (weaponItem.system.type.range) {
-                nCharValue = actor.system.characteristics.primary['str'].value;
-
-                history.push(game.i18n.localize("common.rangeWeapon")+'!!');
-                history.push(game.i18n.localize("common.applyChar")+': '+
-                    game.i18n.localize("characteristic.str"));
-                history.push(game.i18n.localize("characteristic."+weaponItem.system.characteristics)+': '+
-                    nCharValue.toString());
-            }
-
-            let sDamageMod = '-2D6';
-            if (nCharValue >= 1) sDamageMod = '-1D6';
-            if (nCharValue >= 5) sDamageMod = '-1D4';
-            if (nCharValue >= 10) sDamageMod = '';
-            if (nCharValue >= 15) sDamageMod = '+1D4';
-            if (nCharValue >= 20) sDamageMod = '+1D6';
-            if (nCharValue >= 25) sDamageMod = '+2D6';
-            if (nCharValue >= 30) sDamageMod = '+3D6';
-            if (nCharValue >= 35) sDamageMod = '+4D6';
-            if (nCharValue >= 40) sDamageMod = '+5D6';
-            if (nCharValue >= 45) sDamageMod = '+6D6';
-
+            if ((actionItem) && (actionItem.system.damage.mod.noDamageBon)) {
+                sDamageMod = '';
+                history.push(actionItem.name+': '+game.i18n.localize("common.noDamageBon"));
+            } else
             history.push(game.i18n.localize("common.damageMod")+': '+sDamageMod);
                         
             //Minimum Force
-            let sDamageForceMod = "";
-            if (weaponItem.system.requeriment.primary.apply) {
-                history.push(game.i18n.localize("common.weaponRequirement1")+': '+
-                             game.i18n.localize("characteristic."+weaponItem.system.requeriment.primary.characteristic) +
-                             ' > ' + weaponItem.system.requeriment.primary.minValue);
-                if (actor.system.characteristics.primary[weaponItem.system.requeriment.primary.characteristic].value < 
-                        weaponItem.system.requeriment.primary.minValue) {
-
-                    const nMinVal = weaponItem.system.requeriment.primary.minValue - 
-                        actor.system.characteristics.primary[weaponItem.system.requeriment.primary.characteristic].value;
-                    
-                    sDamageForceMod = '-' + nMinVal.toString();
-                    history.push(game.i18n.localize("common.damageMod")+': '+sDamageForceMod);
-                }
-            }
+            let sDamageForceMod = helperSheetHuman.calcDamageForceMod(actor, weaponItem, history);
 
         let finalDamage = weaponItem.system.damage + mods.damage + sDamageMod + sDamageForceMod;
         history.push(game.i18n.localize("common.finalDamage")+': '+finalDamage.toString());
+
+        let secondAttack = null;
+        if (weaponItem2) {
+            helperSheetCombat._modActionCombatSkill(actor, combatSkill, actionItem, weaponItem2, mods2, history2);
+            helperSheetCombat._modActionCombatDamage(actor, actionItem, weaponItem2, mods2, history2);        
+            let sDamageMod2 = helperSheetHuman.calcDamageMod(actor, weaponItem2, history2, actionItem);            
+            let sDamageForceMod2 = helperSheetHuman.calcDamageForceMod(actor, weaponItem2, history2);  
+            let finalDamage2 = weaponItem2.system.damage + mods2.damage + sDamageMod2 + sDamageForceMod2;          
+            secondAttack = {
+                weapon: weaponItem2,
+                history: history2,
+                damage: finalDamage2
+            };
+        }
+
+        //Damage Multiplicator
+        if (actionItem.system.damage.mod.multDamage === null)
+                actionItem.system.damage.mod.multDamage = 1;
+        if (actionItem.system.damage.mod.multDamage !== 1) {
+            let multDamage = (actionItem.system.damage.mod.multDamage) ?
+                                actionItem.system.damage.mod.multDamage.toString() : '1';
+            if (multDamage !== '1') {
+                finalDamage = '(' + finalDamage + ') *'+multDamage;
+                history.push(game.i18n.localize("common.multDamage")+': '+multDamage);
+            }
+        }
 
         //Leveled Rolls
         let bLeveled = actionItem.system.rolls.leveled;
         helperRolls.rollAction(actor, actorTargets, actionItem, bLeveled,
                                combatSkill, finalPercent,
                                weaponItem, finalDamage,
-                               mods, null, history);
+                               mods, null, history, secondAttack);
     }
 
     /**
@@ -644,7 +712,8 @@ export class helperSheetCombat {
         let message = game.messages.get(messageId);
 
         let sToFind = $(message.content).find('._rollDamage ._name').parent().parent().html();
-        const sToReplace = '<div class="_name _finalDamage">'+damage.toString()+'</div>';
+        const sToReplace = '<div class="_name _finalDamage">'+damage.toString()+'</div>'+
+                           '<div class="_damagePoints">'+game.i18n.localize("common.damagePoints")+'</div>';
         let newContent = message.content.replace(sToFind, sToReplace);
 
         sToFind = sToFind.replace('.png">', '.png" />');
@@ -693,16 +762,28 @@ export class helperSheetCombat {
         if (!encounter) return;
         let mSteps = encounter.system.steps;
 
-        mSteps.push({
+        const newStep = {
             actor: actor._id,
             action: action._id,
             consumed: false,
             applyLocation: applyLocation
-        });
+        };
+        if (mSteps.find(e => e.actor === actor._id)) {
+            let index = mSteps.findLastIndex(e => e.actor === actor._id);
+            mSteps.splice(index+1, 0, newStep);
+        } else
+            mSteps.unshift(newStep);
 
+        /**
         await encounter.update({
             system: { steps: mSteps }
-        }); 
+        });
+        */ 
+        helperSocket.update(encounter, {
+            system: { steps: mSteps }
+        });
+
+        helperSocket.refreshSheets();
     }
 
     /**
@@ -716,6 +797,10 @@ export class helperSheetCombat {
         await game.packs.get('conventum.worlds').getDocuments();
 
         let actor = game.actors.get(actorId);
+
+        if ((action) && (action.system.damage.target.mount)) {
+            actor = helperSheetCombat.getMount(actor);
+        }
 
         if (!actor) return;
         const sWorld = actor.system.control.world;
@@ -771,8 +856,9 @@ export class helperSheetCombat {
             modProtection = (action) ? action.system.armor.mod.protection : '+0';
             for (const step of steps) {
                 const oAction = actorFrom.items.get(step.action);
-                if ((oAction.system.armor.mod.stack) && (oAction.id !== action.id))
+                if ((oAction.system.armor.mod.stack) && (oAction.id !== action.id)) {
                     modProtection = modProtection.toString()+ oAction.system.armor.mod.protection;
+                }
                 if ((step.targets) && 
                     (step.targets.find(e => e === actorFrom.id))
                     && (oAction.system.armor.mod.targetProtection !== '') ) {
@@ -780,14 +866,24 @@ export class helperSheetCombat {
                         modProtection = modProtection.toString()+ oAction.system.armor.mod.targetProtection;
                     }
             }
+            history.push(action.name);
+            history.push(game.i18n.localize("common.modProtection")+': '+modProtection);
         }
 
         armorProtection = (armorProtection != 0) ? eval(armorProtection.toString() + modProtection) : 0;
         if (action) {
-            if ((action.system.armor.noProtection) || (noByTarget)) armorProtection = 0;
+            if ((action.system.armor.noProtection) || (noByTarget)) {
+                armorProtection = 0;
+                history.push(action.name);
+                history.push(game.i18n.localize("common.noProtection"));                
+            }
         }
         if (spell) {
-            if ((spell.system.damage.noArmor) || (noByTarget)) armorProtection = 0;
+            if ((spell.system.damage.noArmor) || (noByTarget)) {
+                armorProtection = 0;
+                history.push(spell.name);
+                history.push(game.i18n.localize("common.noProtection"));                
+            }
         }
 
         if (armorProtection >= nDamage) { 
@@ -798,17 +894,36 @@ export class helperSheetCombat {
             armorDamage = nDamage; //???
         }
         finalDamage = Math.round(finalDamage);
+        history.push(game.i18n.localize("common.finalDamage")+ ': ' + finalDamage.toString());
 
         //Apply Damage
         const nHp = actor.system.characteristics.secondary.hp.value - finalDamage;
-        const nArmor = actor.system.armor[location.id].value - armorDamage;
+        history.push(game.i18n.localize("common.hitPoints")+ ': ' + 
+                    actor.system.characteristics.secondary.hp.value.toString()+ ' -> '+
+                    nHp.toString());
+
+        let nArmor = (actor.system.armor[location.id]) ? 
+                        actor.system.armor[location.id].value - armorDamage :
+                        0;
+
         let armorModif = {};
+        if (actor.system.armor[location.id])
             armorModif[location.id] = {value: nArmor};
+        history.push(game.i18n.localize("common.armorHit")+ ': ' + nArmor.toString());
 
         //Concentration penalization
         let sPenalConc = (Number(actor.system.magic.penal.concentration) - finalDamage*10).toString();
-
-        actor.update({
+        history.push(game.i18n.localize("common.penalConc")+ ': ' + (finalDamage*10).toString());
+        history.push(game.i18n.localize("common.concentration")+ ': ' + sPenalConc);
+      
+        // actor.update({
+        //    system: {
+        //        characteristics: { secondary: { hp: { value: nHp }}},
+        //        armor: armorModif,
+        //        magic: { penal: { concentration: sPenalConc }}
+        //    }
+        // });
+        helperSocket.update(actor, {
             system: {
                 characteristics: { secondary: { hp: { value: nHp }}},
                 armor: armorModif,
@@ -817,7 +932,8 @@ export class helperSheetCombat {
         });
 
         //Armor damage... (Endurance)
-        if ( actor.system.armor[location.id].itemID 
+        if ( (actor.system.armor[location.id])
+          && (actor.system.armor[location.id].itemID)
           && (actor.system.armor[location.id].itemID !== '') ) {
 
             let armorItem = actor.items.get(actor.system.armor[location.id].itemID);
@@ -845,29 +961,38 @@ export class helperSheetCombat {
                 if (noByTarget) armorDamage = 0;
             }
 
-            armorItem.update({
+            // armorItem.update({
+            //     system: {
+            //         enduranceCurrent: armorEndurance - armorDamage
+            //     }
+            // });
+            helperSocket.update(armorItem, {
                 system: {
                     enduranceCurrent: armorEndurance - armorDamage
                 }
-            });
+            });     
+            history.push(game.i18n.localize("common.armorEnduranceLg"+ ': ' + (armorEndurance - armorDamage).toString() ));
 
             if ( ((action) && (action.system.armor.breakArmor)) ||
                  ((armorEndurance - armorDamage) <= 0) ) {
                     helperSheetArmor.destroyArmor(actor, armorItem.id);
+                    history.push(game.i18n.localize("common.brokeArmor"));
             }
 
         }
 
         //Bubble message
-        let bubble = new ChatBubbles();
-        bubble.broadcast(
-            actor.getActiveTokens()[0],
-            '<div class="_damageBubble">'+finalDamage.toString()+'</div>',
-            {
-                defaultSelected: true,
-                selected: true
-            }
-        );
+        if (actor.getActiveTokens()[0]) {
+            let bubble = new ChatBubbles();
+            bubble.broadcast(
+                actor.getActiveTokens()[0],
+                '<div class="_damageBubble">'+finalDamage.toString()+'</div>',
+                {
+                    defaultSelected: true,
+                    selected: true
+                }
+            );
+        }
 
         //Chat message
         let sContent = '<div class="_msgDamLocation">'+location.name+'</div>'+
@@ -876,8 +1001,9 @@ export class helperSheetCombat {
                           '<li>'+game.i18n.localize("common.armor")+': -'+armorProtection.toString()+'</li>'+
                           '<li>'+game.i18n.localize("common.location")+': * '+location.system.modDamage.toString()+'</li>'+
                        '</ul>'+
-                       helperRolls._getMessageHelpTab(history);
-                       '<div class="_msgDamTotal">'+finalDamage.toString()+'</div>';
+                       helperRolls._getMessageHelpTab(history)+
+                       '<div class="_msgDamTotal">'+finalDamage.toString()+'</div>'+
+                       '<div class="_hitPoints">'+game.i18n.localize("common.hp")+'</div>'
         helperMessages.chatMessage(sContent, actor, true);
     }
 
@@ -924,6 +1050,12 @@ export class helperSheetCombat {
                 game.i18n.localize("common.modCombatSkill")+': '+
                     this.penalValue(action.system.skill.mod.combatSkill));        
 
+        //Skill multiplicator
+        mods.skillMult = action.system.skill.mod.multSkill;
+            history.push('['+action.name+']</br>'+
+                game.i18n.localize("common.modSkillMult")+': '+
+                    action.system.skill.mod.multSkill.toString());            
+
         //By Weapon
         if (weapon.system.penalty.skills[weapon.system.combatSkill]) {
             mods.skill += this.penalValue(weapon.system.penalty.skills[weapon.system.combatSkill]);
@@ -936,10 +1068,15 @@ export class helperSheetCombat {
         mods.skill = this.penalValue(eval(mods.skill));
 
         let myActiveCombat = helperSheetCombat.myActiveCombat(actor);
-        let mySteps = myActiveCombat.encounter.system.steps
-                                              .filter(e => e.actor === actor.id);
-        for (const step of mySteps) {
-            const oAction = actor.items.get(step.action);
+        let mSteps = myActiveCombat.encounter.system.steps
+                                             .filter(e => e.actor !== actor.id);
+
+        let penalSkillAsTarget = '';
+        let multSkillAsTarget = '';
+        let sAction = '';
+        for (const step of mSteps) {
+            const oActor = game.actors.get(step.actor);
+            const oAction = oActor.items.get(step.action);
             if ((oAction.system.skill.mod.stack) && (oAction.id !== action.id)) {
                 mods.skill += oAction.system.skill.mod.combatSkill;
                 history.push('['+oAction.name+']</br>'+
@@ -948,13 +1085,33 @@ export class helperSheetCombat {
             }
             if ((step.targets) && 
                 (step.targets.find(e => e === actor.id))
-                && (oAction.system.skill.mod.targetCombatSkill !== '') ) {
-                    mods.skill += oAction.system.skill.mod.targetCombatSkill;
-                    history.push('['+oAction.name+']</br>'+
-                        game.i18n.localize("common.modTargetCombatSkill")+': '+
-                            oAction.system.skill.mod.combatSkill);
+                && ( (oAction.system.skill.mod.targetCombatSkill !== '') ||
+                     (oAction.system.skill.mod.multSkillTarget !== 0) ) ) {
+                    
+                    if (oAction.system.skill.mod.multSkillTarget === null)
+                            oAction.system.skill.mod.multSkillTarget = 1;
+
+                    penalSkillAsTarget = this.penalValue(oAction.system.skill.mod.targetCombatSkill);
+                    multSkillAsTarget = oAction.system.skill.mod.multSkillTarget;
+                    sAction = oAction.name;
             }
         }
+        if (penalSkillAsTarget !== '') {
+            mods.skill += penalSkillAsTarget; 
+            mods.skill = this.penalValue(eval(mods.skill));
+            history.push('['+sAction+']</br>'+
+                game.i18n.localize("common.modTargetCombatSkill")+': '+
+                    penalSkillAsTarget);            
+        }
+        if ((Number(multSkillAsTarget) !== 0) &&
+            (Number(multSkillAsTarget) !== 1)) {
+            mods.skillMult = Number(mods.skillMult) * Number(multSkillAsTarget);
+            history.push('['+sAction+']</br>'+
+                game.i18n.localize("common.modSkillMultTarget")+': '+
+                    multSkillAsTarget);                    
+        }
+
+
     }
 
     /**
@@ -976,10 +1133,14 @@ export class helperSheetCombat {
                     action.system.damage.mod.damage); 
 
         let myActiveCombat = helperSheetCombat.myActiveCombat(actor);
-        let mySteps = myActiveCombat.encounter.system.steps
-                                              .filter(e => e.actor === actor.id);
-        for (const step of mySteps) {
-            const oAction = actor.items.get(step.action);
+        let mSteps = myActiveCombat.encounter.system.steps
+                                             .filter(e => e.actor !== actor.id);
+        
+        let damageAsTarget = '';
+        let sAction = '';
+        for (const step of mSteps) {
+            const oActor = game.actors.get(step.actor);
+            const oAction = oActor.items.get(step.action);
             if ((oAction.system.damage.mod.stack) && (oAction.id !== action.id)) {
                 mods.damage += oAction.system.damage.mod.damage;
                 history.push('['+oAction.name+']</br>'+
@@ -989,20 +1150,39 @@ export class helperSheetCombat {
             if ((step.targets) && 
                 (step.targets.find(e => e === actor.id))
                 && (oAction.system.damage.mod.targetDamage !== '') ) {
-                    mods.damage += oAction.system.damage.mod.targetDamage;
-                    history.push('['+oAction.name+']</br>'+
-                        game.i18n.localize("common.modTargetDamage")+': '+
-                            oAction.system.damage.mod.targetDamage);
+                    damageAsTarget = oAction.system.damage.mod.targetDamage;
+                    sAction = oAction.name;                   
             }
         }
+        if (damageAsTarget !== '') {
+            mods.damage += damageAsTarget;
+            history.push('['+sAction+']</br>'+
+                game.i18n.localize("common.modTargetDamage")+': '+
+                    damageAsTarget);            
+        }
     }    
+
+    /**
+     * getMount
+     * @param {*} actor 
+     * @returns 
+     */
+    static getMount(actor) {
+        if (actor.system.equipment.mount !== '') {
+            return game.actors.get(actor.system.equipment.mount);
+        } else {
+            return null;
+        }
+    }
 
     /**
      * _penalValue
      * @param {*} sPenal 
      */
     static penalValue(sPenal) {
+        if (!sPenal) return '-0';
         if (Number(sPenal) === NaN) return '-0';
+        if (sPenal === '-0') return '-0';
         if (Number(sPenal) >= 0) return '+'+Number(sPenal).toString();
                             else return Number(sPenal).toString();
     }    

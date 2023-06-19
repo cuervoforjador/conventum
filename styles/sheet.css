@@ -129,9 +129,13 @@ inkDetail.inkSubline {
 .frameContent input,
 .actorChars input {
     background: none!important;
-    border: 0px!important;
+    border: 0px;
     border-radius: 0px!important;
     box-shadow: none!important;
+}
+input._border {
+    border: 1px solid #333333b7!important;
+    border-radius: 2px!important;
 }
 .actorHeader input[name='name'],
 .frameContent input[name='name'] {
@@ -701,6 +705,9 @@ section._description .editor-content p:first-child::first-letter {
     line-height: 32px;
     margin-right: 2px;
 }
+a._traitShow {
+    margin-right: 7px;
+}
 
 ol._traits {
     width: calc(100% - 18px);
@@ -844,7 +851,7 @@ li.boxSkill a._dice:hover {
 }
 input._skillValue {
     text-align: center;
-    font-size: 30px!important;
+    font-size: 26px!important;
     line-height: 35px!important;
     font-weight: 900;
     height: 35px;
@@ -853,7 +860,7 @@ input._skillValue {
     font-family: 'Almendra';
     z-index: 90;
     width: 40px;
-    color: #645d48;
+    color: #373531;
     transition: 0.8s;
 }
 input._acquired {
@@ -878,12 +885,12 @@ input._skillPenal {
     line-height: 26px!important;
     font-size: 23px;
     font-weight: 900;
-    width: 40px;
+    width: 50px;
     text-align: left;
     border-radius: 3px!important;
     margin-bottom: -26px;
     position: relative;
-    left: 7px;
+    left: 28px;
     top: -38px;
     transition: 0.8s;
     color: #ec2626;
@@ -909,6 +916,46 @@ li.boxSkill:hover ._skillPenal {
     text-align: center;
     font-size: 9px!important;
     line-height: 11px!important;
+}
+
+/* Languages */
+._bioLanguages {
+    display: flex;
+    flex-wrap: wrap;
+    padding-right: 16px;
+    padding-left: 7px;
+}
+li.boxLanguages {
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 4px;
+    padding-left: 3px;
+    width: 50%;
+    align-content: center;
+    align-items: center;
+}
+.boxLanguages img._img {
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+}
+.boxLanguages a.playLang img {
+    width: 26px;
+    height: 26px;
+    border: 0px;
+    position: relative;
+    top: 2px;
+}
+.boxLanguages label._label {
+    width: calc(100% - 100px);
+}
+.boxLanguages input._value {
+    width: 35px;
+    border: 0px solid #33333385;
+    border-radius: 4px!important;
+    text-align: center;
+    font-family: 'Almendra';
+    font-size: 20px;
 }
 
 /* Armor */
@@ -1241,7 +1288,12 @@ nav.tabs_Combat._subTabs {
     padding-left: 54px;
     padding-top: 6px;
     background: #ffffff52;
-    border-bottom: 1px solid #2018184d;
+    border-bottom: 0px;
+}
+hbox._betsu {
+    display: flex;
+    justify-content: space-between;
+    padding-right: 8px;
 }
 ul.combatMenu {
     width: 100%;
@@ -1389,7 +1441,8 @@ label.damageWeapon {
     font-family: 'Almendra';
     font-weight: 900;
     color: #333333c7;
-    width: 100px;
+    width: 200px;
+    margin-right: -100px;
     line-height: 20px;
     padding-left: 16px;
     padding-top: 6px;
@@ -1399,6 +1452,9 @@ label.damageWeapon::first-letter {
     font-family: 'Almendra';
     font-weight: 900;
     color: #ae6152;
+}
+span._small {
+    font-size: 16px;
 }
 .boxWeapon a._cardInfo {
     border: 1px solid #33333363;
@@ -1767,6 +1823,52 @@ label._value:hover {
     font-size: 14pt;
 }
 
+/* Equipment */
+nav.tabs_Items._subTabs {
+    padding-left: 53px;
+    padding-right: 25px;
+    padding-top: 25px;
+}
+.actorGoods {
+    padding: 15px;
+}
+._marginRight {
+    margin-right: 10px!important
+}
+.actorGoods line {
+    margin-top: 6px!important;
+    display: flex;
+}
+hbox._100._mountLine {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: space-between;
+}
+select._selectMount {
+    width: 158px;
+}
+._mountLine img {
+    width: 50px;
+    height: 50px;
+    border: 0px;
+}
+.actorGoods label {
+    width: 65px;
+}
+.actorGoods input,
+.actorGoods .editor-content {
+    font-family: 'Almendra';
+    font-size: 15px;
+    line-height: 18px;
+}
+.actorGoods input[type="text"] {
+    text-align: center;
+    font-size: 20px;
+    line-height: 20px;
+    padding-bottom: 4px;
+}
+
 /* Items */
 .actorItems {
     width: 100%;
@@ -2034,6 +2136,9 @@ img._quickButton._active {
 }
 img._quickButton._inactive {
     opacity: 0.5;
+}
+img._quickButton._active {
+    border: 0px;
 }
 
 /* MODE STICKERS !! */

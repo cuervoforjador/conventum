@@ -14,6 +14,18 @@ h2::first-letter {
     position: relative;
 }
 
+/* DISABLED */
+select[disabled="disabled"] {
+    opacity: 1;
+    color: #000;
+}
+
+section.window-content h4.document-name {
+    color: #333;
+}
+
+
+
 /* ITEMS */
 itemHeader {
     width: 100%;
@@ -168,6 +180,39 @@ button {
     text-shadow: 0px 0px 3px #ffffffd6, 0px 0px 9px #ffffff;
     font-weight: 900;
     color: #000000d6;
+}
+
+/* MOUNTS & RIDERS... */
+._mountDrag {
+    max-width: 50px;
+    width: 50px;
+    height: 50px;
+    background: url(/systems/conventum/image/content/modes/enmontura.png);
+    background-size: 50px 50px;
+    position: relative;
+    top: 50px;
+    margin-top: -50px;
+    margin-left: -50px;
+}
+._mountedCircle {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    margin-left: -40px;
+    position: absolute;
+    left: calc(100% - 15px);
+}
+._mountedCircle img {
+    width: 36px!important;
+    height: 36px!important;
+    object-fit: inherit!important;
+    object-position: 0 0!important;
+    display: block!important;
+    flex: 0!important;
+    border-radius: 50%!important;
+    top: 8px;
+    left: 8px;
+    position: relative;
 }
 
 /* BASE */

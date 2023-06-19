@@ -107,9 +107,11 @@
 ._chatBox ._title {
     width: 100%;
     text-align: left;
-    font-size: 16px;    
+    font-size: 16px;
     line-height: 18px;
-    z-index: 10;  
+    z-index: 10;
+    position: relative;
+    top: -10px;
 }
 ._chatBox ._title::first-letter {
     color: #a53434;
@@ -120,6 +122,7 @@
     width: calc(100% - 72px);
     position: relative;
     left: -29px;
+    top: -11px;
     font-size: 16px;
     font-weight: 900;
     text-align: left;
@@ -185,7 +188,22 @@
     margin-left: 10px;
     position: absolute;
     top: 65px;
-    left: 47px;
+    left: 33px;
+}
+._chatContent ._resultOver {
+    font-size: 18px;
+    font-weight: 900;
+    position: relative;
+    left: 110px;
+    top: -28px;
+    border: 1px solid #3333331a;
+    border-radius: 4px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 27px;
+    background: #eee0e042;
+    z-index: 10;
 }
 ._chatBox ._success,
 ._chatBox ._failed {
@@ -212,11 +230,11 @@
 ._chatBox ._critFailure {
     position: absolute;
     top: 70px;
-    left: 0px;
+    left: -6px;
     text-align: center;
-    border: 4px solid #d7ceb8c4;
+    border: 1px solid #d7ceb87d;
     border-radius: 1px;
-    border-bottom-left-radius: 11px;
+    border-radius: 11px;
     font-size: 15px;
     line-height: 22px;
     padding-left: 7px;
@@ -323,11 +341,14 @@ a._infoSkill {
     font-size: 13px;
     line-height: 15px;
     width: 78px;
+    height: 35px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
     text-align: right;
     padding-right: 8px;
+    position: relative;
+    top: 30px;
 }
 
 ._chatContent ._messageWeapon {
@@ -392,8 +413,14 @@ a._infoSkill {
     border-radius: 4px;
 }
 ._chatContent ._messageDamage ._name {
-    width: 94px;
-    line-height: 20px;
+    width: 150px;
+    line-height: 12px;
+    font-size: 18px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    top: 5px;
 }
 ._messageDamage a._rollDamage {
     display: flex;
@@ -402,10 +429,13 @@ a._infoSkill {
 }
 ._messageDamage ._name._finalDamage {
     font-size: 80px;
-    line-height: 100px;
+    line-height: 84px;
+    height: 100px;
     top: -24px;
     left: -14px;
     width: 100px;
+    padding-left: 20px;
+    padding-bottom: 14px;
     text-align: center;
     position: relative;
     background: #9b1b1b2b;
@@ -503,16 +533,22 @@ a._infoSkill {
 
 ._chatContent ul._msgDamInfo {
     position: absolute;
-    left: 33px;
-    top: 46px;
+    left: 53px;
+    top: 23px;
+    padding: 10px;
+    font-size: 15px;
 }
 ._chatContent ._msgDamLocation {
     position: absolute;
     top: -2px;
-    left: calc(100% - 100px);
+    left: calc(100% - 83px);
     width: 100px;
-    text-align: right;
+    padding-right: 10px;
+    text-align: center;
     font-size: 18px;
+    line-height: 18px;
+    border-bottom: 1px solid #33333347;
+    font-weight: 900;
 }
 ._chatContent ._msgDamTotal {
     position: relative;
@@ -528,6 +564,33 @@ a._infoSkill {
     color: #994545;
     border: 8px solid #a55f5f26;
     border-radius: 50%;
+}
+._messageDamage ._damagePoints {
+    font-size: 14px;
+    line-height: 15px;
+    width: 100px;
+    height: 20px;
+    margin-top: -20px;
+    position: relative;
+    top: -95px;
+    left: -8px;
+    color: #7c4b4b75;
+}
+
+._chatContent ._hitPoints {
+    width: 60px;
+    text-align: center;
+    margin-left: -61px;
+    position: relative;
+    left: 128px;
+    top: 31px;
+}
+
+._chatBox ._bigContent {
+    line-height: 90px;
+    font-size: 90px;
+    font-weight: 900;
+    text-align: center;
 }
 
 ._targetDialogs {
@@ -621,4 +684,13 @@ a._infoSkill {
     padding-top: 5px;
     text-shadow: 2px 0 #ffffff63, -2px 0 #ffffff63, 0 2px #ffffff63, 0 -2px #ffffff63, 1px 1px #ffffff63, -1px -1px #ffffff63, 1px -1px #ffffff63, -1px 1px #ffffff63;
     justify-content: center;
+}
+.dialog-button img._mount {
+    width: 45px;
+    height: 45px;
+    margin-left: -45px;
+    margin-top: -45px;
+    position: relative;
+    top: -50px;
+    left: 64px;
 }

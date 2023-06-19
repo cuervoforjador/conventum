@@ -16,6 +16,7 @@
             <label>{{localize 'characteristic.hp'}}</label>
             <regField>
                 <input type="number" 
+                       {{{editable}}}
                        name="system.characteristics.secondary.hp.value" 
                        value="{{systemData.characteristics.secondary.hp.value}}"
                        class="{{systemData.characteristics.secondary.hp.class}}"/>
@@ -25,7 +26,7 @@
         {{#each systemData.status.life as |status key|}}
             <line>
                 <input type="checkbox" 
-                    readonly
+                    disabled="disabled"
                     name="system.status.life.{{key}}" 
                     {{checkedExtend 'systemData.status.life' key ''}} />
                 <label>{{localizeExtend 'status.' key ''}}</label>
@@ -46,6 +47,7 @@
             </a>
             <regField>
                 <input type="number" 
+                       {{{editable}}}
                        name="system.characteristics.secondary.luck.value" 
                        value="{{systemData.characteristics.secondary.luck.value}}"
                        class="{{systemData.characteristics.secondary.luck.class}}" />
@@ -57,6 +59,7 @@
             <label>{{localize 'characteristic.fp'}}</label>
             <regField>
                 <input type="number" 
+                       {{{editable}}}
                        name="system.characteristics.secondary.fp.value" 
                        value="{{systemData.characteristics.secondary.fp.value}}"
                        class="{{systemData.characteristics.secondary.fp.class}}" />
@@ -68,6 +71,7 @@
             <label>{{localize 'characteristic.cp'}}</label>
             <regField>
                 <input type="number" 
+                       {{{editable}}}
                        name="system.characteristics.secondary.cp.current" 
                        value="{{systemData.characteristics.secondary.cp.current}}"
                        class="{{systemData.characteristics.secondary.cp.class}}" />                
@@ -75,6 +79,7 @@
             /
             <regField>
                 <input type="number" 
+                       {{{editable}}}
                        name="system.characteristics.secondary.cp.value" 
                        value="{{systemData.characteristics.secondary.cp.value}}"
                        class="{{systemData.characteristics.secondary.cp.class}}" />
@@ -90,6 +95,7 @@
             </a>            
             <regField>
                 <input type="number" 
+                       {{{editable}}}
                        name="system.characteristics.secondary.temp.value" 
                        value="{{systemData.characteristics.secondary.temp.value}}"
                        class="{{systemData.characteristics.secondary.temp.class}}" />

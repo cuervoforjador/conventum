@@ -18,6 +18,7 @@
                data-filter="{{skill.name}}">
                   <input class="_skillValue" 
                          type="text"
+                         {{{editable}}}
                          name="system.skills.{{skill._id}}.value"
                          value="{{itemPropertyExtend 'systemData.skills' skill._id 'value'}}"  
                          data-dtype="Number"/>              
@@ -25,6 +26,7 @@
                          <img class="imgSkill" src="{{skill.img}}"/></a>
                   <input class="_acquired"
                          type="checkbox" 
+                         {{{editable}}}
                          name="system.skills.{{skill._id}}.acquired" 
                          {{checkedExtend 'systemData.skills' skill._id 'acquired'}} /> 
                   <input class="_skillPenal" 

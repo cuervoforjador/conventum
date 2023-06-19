@@ -6,35 +6,48 @@ export class mainMacros {
    */
   static async registerMacros() {
 
-    const upWeapons = (Array.from(game.macros).find(e => e.name === 'upWeapons')) ?
-      Array.from(game.macros).find(e => e.name === 'upWeapons') :
+    const upWeapons = (Array.from(game.macros).find(e => e.name === 'weapons')) ?
+      Array.from(game.macros).find(e => e.name === 'weapons') :
       await Macro.create({
         command: "game.conventum.upWeapons();",
-        name: "upWeapons",
+        name: "weapons",
         type: "script",
-        img: "/systems/conventum/image/texture/weapons.png"
+        img: "/systems/conventum/image/texture/weapons.png",
+        ownership: {default: 3}
       });
 
-    const upActions = (Array.from(game.macros).find(e => e.name === 'upActions')) ?
-      Array.from(game.macros).find(e => e.name === 'upActions') :
+    const upActions = (Array.from(game.macros).find(e => e.name === 'actions')) ?
+      Array.from(game.macros).find(e => e.name === 'actions') :
       await Macro.create({
         command: "game.conventum.upActions();",
-        name: "upActions",
+        name: "actions",
         type: "script",
-        img: "/systems/conventum/image/texture/actions.png"
+        img: "/systems/conventum/image/texture/actions.png",
+        ownership: {default: 3}
       });
 
-    game.user.assignHotbarMacro(upActions, 1);
-    game.user.assignHotbarMacro(upWeapons, 2);
+      const upEncounter = (Array.from(game.macros).find(e => e.name === 'encounter')) ?
+      Array.from(game.macros).find(e => e.name === 'encounter') :
+      await Macro.create({
+        command: "game.conventum.upEncounter();",
+        name: "encounter",
+        type: "script",
+        img: "/systems/conventum/image/texture/combat.png",
+        ownership: {default: 3}
+      });
+
+
+
+    await game.user.assignHotbarMacro(upActions, 1);
+    await game.user.assignHotbarMacro(upWeapons, 2);
+    await game.user.assignHotbarMacro(upEncounter, 10);
   }
 
   /**
    * upWeapons
    */
-  static upWeapons() {
-    const actor = Array.from(game.actors).find(e => 
-                                              ( (e.ownership[game.userId]) 
-                                              && (e.ownership[game.userId] === 3) ));
+  static async upWeapons() {
+    const actor = await mainMacros._getActor();
     actor.sheet._tabs[0].active = 'combat';
     actor.sheet._tabs[2].active = 'combatWeapons';
     actor.sheet.render(true);
@@ -44,14 +57,43 @@ export class mainMacros {
   /**
    * upActions
    */
-  static upActions() {
-    const actor = Array.from(game.actors).find(e => 
-                                              ( (e.ownership[game.userId]) 
-                                              && (e.ownership[game.userId] === 3) ));
+  static async upActions() {
+    const actor = await mainMacros._getActor();
     actor.sheet._tabs[0].active = 'combat';
     actor.sheet._tabs[2].active = 'combatActions';
     actor.sheet.render(true);
 
   }  
+
+  /**
+   * upEncounter
+   */
+  static async upEncounter() {
+    const actor = await mainMacros._getActor();
+    const encounter = mainMacros._getEncounter(actor);
+    if (encounter)
+      encounter.sheet.render(true);
+  }   
+
+  /**
+   * _getActor
+   * @returns 
+   */
+  static async _getActor() {
+    let actor = Array.from(game.actors).find(e => 
+      ( (e.ownership[game.userId]) 
+      && (e.ownership[game.userId] > 0) ));  
+    return actor;  
+  }
+
+  static _getEncounter(actor) {
+    const activeCombat = Array.from(game.combats).find(e => e.active);
+    if (!activeCombat) return;
+
+    const mEncounters = game.items.filter(e => e.type === 'actionPool');
+    if (mEncounters.length === 0) return;
+    const encounter = mEncounters.find(e => e.system.combat === activeCombat.id);
+    return encounter;
+  }
 
 }

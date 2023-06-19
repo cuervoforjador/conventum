@@ -30,6 +30,7 @@ Hooks.once("init", async function() {
   game[game.system.id] = {
     upWeapons: mainMacros.upWeapons,
     upActions: mainMacros.upActions,
+    upEncounter: mainMacros.upEncounter,
     useEntity: foundry.utils.isNewerVersion("10", game.version ?? game.data.version)
   };
 

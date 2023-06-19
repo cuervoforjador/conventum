@@ -66,6 +66,13 @@
                    type="text"
                    data-dtype="Number" />          
         </hbox>
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.initiative" }}</label>
+            <input class="_100px" 
+                   name="system.steps.initiative"
+                   value="{{systemData.steps.initiative}}" 
+                   type="text" />          
+        </hbox>        
 
     </panelContent>
 </slidePanel>
@@ -218,8 +225,31 @@
             <input class="_100px" 
                    name="system.skill.mod.combatSkill"
                    value="{{systemData.skill.mod.combatSkill}}" 
+                   data-dtype="Number"
                    type="text" />            
-        </hbox>    
+        </hbox>   
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.modTargetCombatSkill" }}</label>
+            <input class="_100px" 
+                   name="system.skill.mod.targetCombatSkill"
+                   value="{{systemData.skill.mod.targetCombatSkill}}" 
+                   data-dtype="Number"
+                   type="text" />           
+        </hbox>        
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.multSkill" }}</label>
+            <input class="_100px" 
+                   name="system.skill.mod.multSkill"
+                   value="{{systemData.skill.mod.multSkill}}" 
+                   type="text" />            
+        </hbox>   
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.multSkillTarget" }}</label>
+            <input class="_100px" 
+                   name="system.skill.mod.multSkillTarget"
+                   value="{{systemData.skill.mod.multSkillTarget}}" 
+                   type="text" />           
+        </hbox>
         <hbox class="_50">
             <label class="_150px">{{localize "common.modSecondarySkill" }}</label>
             <input class="_100px" 
@@ -227,13 +257,7 @@
                    value="{{systemData.skill.mod.secondarySkill}}" 
                    type="text" />            
         </hbox>             
-        <hbox class="_50">
-            <label class="_150px">{{localize "common.modTargetCombatSkill" }}</label>
-            <input class="_100px" 
-                   name="system.skill.mod.targetCombatSkill"
-                   value="{{systemData.skill.mod.targetCombatSkill}}" 
-                   type="text" />           
-        </hbox>
+
         <hbox class="_50">
             <label class="_150px">{{localize "common.modTargetSecondSkill" }}</label>
             <input class="_100px" 
@@ -278,6 +302,25 @@
                                 labelAttr="name" }}
             </select>                             
         </hbox>
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.skillAsCombat" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.skill.skillAsCombat" 
+                        {{checked systemData.skill.skillAsCombat}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>     
+        <lineDiv></lineDiv>
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.doubleAttack" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.skill.doubleAttack" 
+                        {{checked systemData.skill.doubleAttack}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>           
     </panelContent>
 </slidePanel>
 </div>
@@ -301,6 +344,14 @@
                    type="text" />            
         </hbox>
         <hbox class="_50">
+            <label class="_150px">{{localize "common.multDamage" }}</label>
+            <input class="_100px" 
+                   name="system.damage.mod.multDamage"
+                   value="{{systemData.damage.mod.multDamage}}" 
+                   data-dtype="Number"
+                   type="text" />            
+        </hbox>        
+        <hbox class="_50">
             <label class="_150px">{{localize "common.stack" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
@@ -308,7 +359,43 @@
                         {{checked systemData.damage.mod.stack}} />
                 <span class="sliderSwitch"></span>
             </label>            
-        </hbox>                             
+        </hbox>    
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.noDamageBon" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.damage.mod.noDamageBon" 
+                        {{checked systemData.damage.mod.noDamageBon}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>    
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.modDamage1" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.damage.mod.modDamage1" 
+                        {{checked systemData.damage.mod.modDamage1}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>  
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.modDamage2" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.damage.mod.modDamage2" 
+                        {{checked systemData.damage.mod.modDamage2}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>                
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.damageToMount" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.damage.target.mount" 
+                        {{checked systemData.damage.target.mount}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>                                     
     </panelContent>
 </slidePanel>
 </div>
@@ -521,6 +608,15 @@
                     <span class="sliderSwitch"></span>
                 </label>
             </hbox>
+            <hbox class="_50">
+                <label class="_150px">{{localize "common.modeTarget" }}</label>
+                <label class="switch" style="margin-right: 10px">
+                    <input type="checkbox" 
+                        name="system.modes.{{mode._id}}.target" 
+                        {{checkedExtend 'systemData.modes' mode._id 'target'}} />
+                    <span class="sliderSwitch"></span>
+                </label>
+            </hbox>            
             <lineDiv></lineDiv>
         {{/each}}                     
     </panelContent>

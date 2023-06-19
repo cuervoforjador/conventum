@@ -4,8 +4,11 @@
 
 import { helperSheetCombat } from "../sheets/helpers/helperSheetCombat.js";
 import { HookCombat } from "./_hooksCombat.js";
+import { HookActor } from "./_hooksActor.js";
 
 export class HookEvents {
+
+    _dragActor = null
 
     /**
      * First events...
@@ -18,9 +21,7 @@ export class HookEvents {
         });
         $(document).on('click', 'a.combat-button[data-control="resetAll"]', function (event) {
             HookCombat.resetAllInitiativeMod();
-        });        
-
-        
+        });             
 
         //Show Info for skills (Chat Messages)
         $(document).on('click', 'a._infoSkill', function (event) {
@@ -62,6 +63,73 @@ export class HookEvents {
             }
         });        
 
+       //Drag & Drop over actor     
+        $(document).on('drag', 'li.directory-item.document.actor', function (event) {
+            event.preventDefault();
+            this._dragActor = event.target;
+            event.originalEvent.dataTransfer.setData("text", $(event.currentTarget).data('documentId'));            
+        }.bind(this));
+        
+        $(document).on('drop', 'li.directory-item.document.actor', function (event) {
+            event.preventDefault();
+            const suuId = JSON.parse(event.originalEvent.dataTransfer.getData("text")).uuid;
+            const sDragId = suuId.split('.')[suuId.split('.').length - 1];
+            if (!sDragId) return;
+            const oDragActor = game.actors.get(sDragId);
+            const oDragItem = game.items.get(sDragId);
+
+            const sDropId = $(event.currentTarget).data('documentId');
+            if (!sDropId) return;
+            const oDropActor = game.actors.get(sDropId);
+            if (!oDropActor) return;
+
+            if (oDragActor) HookActor.mount(oDragActor, oDropActor);
+            if (oDragItem) {
+                //...
+            }
+
+        }); 
+
+
+            //Riding creatures...
+            $(document).on('dragover', 'li.directory-item.document.actor', function (event) {
+                event.preventDefault();
+                const sOverId = event.currentTarget.dataset.documentId;
+                const sDragId = $(this._dragActor).data('documentId');
+                if (sOverId !== sDragId) {
+                    if (HookActor.dragOverMount(sOverId, sDragId)) {
+                        event.originalEvent.dataTransfer.dropEffect = 'HOLA';
+                        const img = new Image(100, 100);
+                        img.src = "/systems/conventum/image/content/modes/enmontura.png";                    
+                        event.originalEvent.dataTransfer.setDragImage(img, 10, 10);
+                    }
+                }
+            }.bind(this));
+
+            $(document).on('dragenter', 'li.directory-item.document.actor', function (event) {
+                event.preventDefault();
+                const sOverId = event.currentTarget.dataset.documentId;
+                const sDragId = $(this._dragActor).data('documentId');
+                if (sOverId !== sDragId) {
+                    if (HookActor.dragOverMount(sOverId, sDragId)) {
+                        if ($(event.target).find('._mountDrag').length === 0 ) {
+                            $('section.tab.actors-sidebar .directory-list').find('._mountDrag').each(
+                                                                                        function(i,e) { 
+                                                                                            e.remove();});
+                            
+                            let oLi = $(event.target).parents('li.actor');
+                            if (oLi.length !== 0) $(oLi).append('<div class="_mountDrag"></div>');
+                                            else $(event.target).append('<div class="_mountDrag"></div>');
+                        }
+                            
+                    }
+                }   
+            }.bind(this));
+
+            $(document).on('dragend', 'li.directory-item.document.actor', function (event) {
+                $('section.tab.actors-sidebar .directory-list').find('._mountDrag').each(
+                    function(i,e) { e.remove();});
+            });
     }
 
     /**

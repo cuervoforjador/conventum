@@ -10,7 +10,7 @@
         {{#each systemData.characteristics.primary as |char key|}}
         <li class="chars tooltip">            
             <input type="number"
-                   {{#if char.passive}} readonly {{/if}}
+                    {{{editable}}}
                    name="system.characteristics.primary.{{key}}.value" 
                    value="{{itemPropertyExtend 'systemData.characteristics.primary' key 'value'}}"
                    class="{{itemPropertyExtend 'systemData.characteristics.primary' key 'class'}}" />
@@ -28,7 +28,10 @@
 <hbox class="switchInit">
     <label>{{localize 'common.initial'}}</label>
     <label class="switch">
-        <input type="checkbox" name="system.control.initial" {{checked systemData.control.initial}} />
+        <input type="checkbox" 
+               name="system.control.initial" 
+               {{{editable}}}
+               {{checked systemData.control.initial}} />
         <span class="sliderSwitch"></span>
     </label>        
 </hbox>

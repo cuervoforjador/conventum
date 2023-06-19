@@ -29,8 +29,9 @@ export class extendSheetHuman extends ActorSheet {
       height: 600,
       tabs: [
         {navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "main"},
-        {navSelector: ".tabs_Bio", contentSelector: ".tabsContent_Bio", initial: "traits"},
-        {navSelector: ".tabs_Combat", contentSelector: ".tabsContent_Combat", initial: "combatWeapons"}
+        {navSelector: ".tabs_Bio", contentSelector: ".tabsContent_Bio", initial: "languages"},
+        {navSelector: ".tabs_Combat", contentSelector: ".tabsContent_Combat", initial: "combatWeapons"},
+        {navSelector: ".tabs_Items", contentSelector: ".tabsContent_Items", initial: "items"}
       ],      
     });
   }
@@ -41,7 +42,7 @@ export class extendSheetHuman extends ActorSheet {
    * @returns {object} - Context
    */
   async getData() {
-    const context = super.getData();
+    const context = await super.getData();
     context.systemData = this.actor.getRollData();
     
     //World...
@@ -67,6 +68,10 @@ export class extendSheetHuman extends ActorSheet {
 
     //Skills...
     helperSheetHuman.getSkills(this.actor, context);
+    context.systemData.modes = this.actor.system.modes;
+
+    //Languages...
+    helperSheetHuman.getLanguages(this.actor, context);
     context.systemData.modes = this.actor.system.modes;
 
     //Armor...
@@ -111,8 +116,7 @@ export class extendSheetHuman extends ActorSheet {
    */
   activateListeners(html) {
     super.activateListeners(html);
-    if ( !this.isEditable ) return;
-
+    
     /* Misc */
     html.find("._showQuickBar").click(this._showQuickBar.bind(this));
     if (html.find("._quickBar").length > 0) {
@@ -132,6 +136,9 @@ export class extendSheetHuman extends ActorSheet {
     html.find("._traitShow").click(this._traitShow.bind(this));
     html.find("._traitDel").click(this._traitDelete.bind(this));
     
+    /* Languages */
+    html.find(".playLang").click(this._playLang.bind(this)); 
+
     /* Skills */
     html.find(".playSkill").click(this._playSkill.bind(this)); 
     $(".searchSkill").on('input', this._searchSkill.bind(this));
@@ -161,9 +168,12 @@ export class extendSheetHuman extends ActorSheet {
     /* Items */
     html.find("a.actionIcon").click(this._actionIcon.bind(this));    
     html.find("a.showInfo").click(this._showInfo.bind(this));
+    html.find("a.showmyHorse").click(this._showMyHorse.bind(this))
 
     /* Modes */
     html.find("a._mode").click(this._playMode.bind(this));    
+
+    if ( !this.isEditable ) return;
 
   }
 
@@ -280,6 +290,20 @@ export class extendSheetHuman extends ActorSheet {
     helperActions.setLuck(this.actor);
   }
 
+  async _playLang(event) {
+    event.preventDefault();
+    const langId = event.currentTarget?.dataset.itemid;
+
+    await HookCompendium.frequent();
+    const langItem = await game.packs.get('conventum.languages').get(langId);
+    
+    if (!langItem) return;
+    const language = this.actor.system.languages[langId];
+    if (!langItem) return;
+    const sPath = 'languages.'+langId;
+    helperRolls.rollDices(this.actor, sPath, true, '', null);
+  }
+
   async _playSkill(event) {
     event.preventDefault();
     const skillId = event.currentTarget?.dataset.itemid;
@@ -330,6 +354,7 @@ export class extendSheetHuman extends ActorSheet {
 
   _doAction(event) {
     event.preventDefault();
+    HookCompendium.frequent();
     const actionId = event.currentTarget?.dataset.itemid;    
     const action = this.actor.items.get(actionId);
     if (!action) return;
@@ -475,6 +500,13 @@ export class extendSheetHuman extends ActorSheet {
       content: game.i18n.localize(s18n),
       buttons: [] }).render(true);        
   }    
+
+  //_showMyHorse
+  _showMyHorse(event) {
+     event.preventDefault();
+     const sHorseId = event.currentTarget?.dataset.horse;
+     game.actors.get(sHorseId).sheet.render(true);
+  }
 
   // _playMode
   async _playMode(event) {

@@ -2,6 +2,7 @@
  * ACTOR
  */
 
+import { helperSocket } from "../helpers/helperSocket.js";
 import { mainUtils } from "../mainUtils.js";
 import { mainBackend } from "../sheets/backend/mainBackend.js";
 
@@ -71,6 +72,83 @@ export class HookActor {
     static setPrototypeToken(actor) {
         actor.update({
             prototypeToken: {actorLink: true}
+        });
+    }
+
+    /**
+     * dragOverMount    
+     * @param {*} sActor1Id 
+     * @param {*} sActor2Id 
+     */
+    static dragOverMount(sActor1Id, sActor2Id) {
+        const result = this._riderMount(sActor1Id, sActor2Id);
+        return (result !== false);
+    }
+
+    /**
+     * mount
+     * @param {*} actor1 
+     * @param {*} actor2 
+     */
+    static async mount(actor1, actor2) {
+        const result = this._riderMount(actor2.id, actor1.id);
+        if (!result) return;
+
+        let mNoMount = Array.from(game.actors).filter(e => e.system.equipment.mount === result.mount.id);
+        if (mNoMount.length > 0 ) {
+            for (let o of mNoMount) {
+                await o.update({ 
+                    system: { equipment: { mount: '' }}
+                });
+            }
+        }
+        await result.rider.update({
+            system: {equipment: { mount: result.mount.id }}
+        });        
+        helperSocket.refreshSheets();
+        helperSocket.refreshActorsDirectory();
+    }
+
+    /**
+     * _riderMount
+     * @param {*} sActor1Id 
+     * @param {*} sActor2Id 
+     * @returns 
+     */
+    static _riderMount(sActor1Id, sActor2Id) {
+        const actor1 = game.actors.get(sActor1Id);
+        if (!actor1) return false;
+        const actor2 = game.actors.get(sActor2Id);
+        if (!actor2) return false;        
+
+        let rider = null;
+        let mount = null;
+        if (actor2.system.control.mount) mount = actor2;
+        if (!actor1.system.control.mount) rider = actor1;
+        if ((!mount) || (!rider)) return false;
+        return {
+            rider: rider,
+            mount: mount
+        };
+    }    
+
+    /**
+     *renderActorDirectory
+     * @param {*} element 
+     */
+    static renderActorDirectory(element) {
+        $(element).find('li.actor').each(function (i,e) {
+            const actorId = $(e).data('documentId');
+            const actor = game.actors.get(actorId);
+            if ((actor) && (actor.system.equipment.mount !== '')) {
+                const mount = game.actors.get(actor.system.equipment.mount);
+                $(e).append('<div class="_mountedCircle">'+
+                                '<img src="'+mount.img+'" />'+
+                            '</div>');
+            } else {
+                $(e).remove('._mountedCircle');
+            }
+            
         });
     }
 

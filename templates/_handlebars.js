@@ -1,4 +1,6 @@
 import { helperSheetMagic } from "../module/sheets/helpers/helperSheetMagic.js";
+import { helperSheetHuman } from "../module/sheets/helpers/helperSheetHuman.js";
+import { helperSheetCombat } from "../module/sheets/helpers/helperSheetCombat.js";
 
 export class mainHandlebars {
 
@@ -7,6 +9,10 @@ export class mainHandlebars {
     * @param {*} Handlebars 
     */
    static init(Handlebars) {
+
+      Handlebars.registerHelper("editable", function(options) {
+         return (options.data.root.imMaster) ? '' : 'disabled="disabled"';
+      }); 
 
       /**
        * frameUrl
@@ -123,9 +129,52 @@ export class mainHandlebars {
 
          const sSize = CONFIG.ExtendConfig.weaponSizes.find(e => e.id === weapon.system.size).property;
          const secondEval = actionItem.size[sSize];
+         const thirdEval = ((weapon.system.inHands.inLeftHand) || 
+                            (weapon.system.inHands.inRightHand) || 
+                            (weapon.system.inHands.inBothHands));
 
-         return (firstEval && secondEval);
+         //Double attack!
+         let doubleAttackEval = true;
+         if (actionGroup.action.system.skill.doubleAttack) {
+
+            //2 weapons in Hands...
+            const mHandWeapons = options.data.root.data.items.filter(e => 
+                                    (e.type === 'weapon') 
+                                    && ((e.system.inHands.inLeftHand) || (e.system.inHands.inRightHand)) );
+            if (mHandWeapons.length != 2) doubleAttackEval = false;
+
+            //Min 1 small weapon...
+            const smallWeapon = mHandWeapons.find(e => e.system.size === '01');
+            if (!smallWeapon) doubleAttackEval = false;
+
+            //Worst Skill value...
+            if (mHandWeapons.length == 2) {
+               let skill1 = eval( systemData.skills[mHandWeapons[0].system.combatSkill].value.toString() + '+' +
+                                  helperSheetCombat.penalValue(systemData.skills[mHandWeapons[0].system.combatSkill].penal) + 
+                                  helperSheetHuman.getHandPenal(options.data.root.data, mHandWeapons[0]) );
+               let skill2 = eval( systemData.skills[mHandWeapons[1].system.combatSkill].value.toString() + '+' +
+                                  helperSheetCombat.penalValue(systemData.skills[mHandWeapons[1].system.combatSkill].penal) + 
+                                  helperSheetHuman.getHandPenal(options.data.root.data, mHandWeapons[1]) );
+
+               if (skill1 >= skill2) 
+                  doubleAttackEval = (weapon._id === mHandWeapons[0]._id);
+               else
+                  doubleAttackEval = (weapon._id === mHandWeapons[1]._id);
+            }
+         }
+
+         return (firstEval && secondEval && thirdEval && doubleAttackEval);
        });       
+
+      /**
+       * getDamageMod
+       */
+      Handlebars.registerHelper("getDamageMod", function(weapon, options) {
+         const actor = options.data.root.data;
+         const sMod = helperSheetHuman.calcDamageMod(actor, weapon);
+         if (sMod !== '') return '(' + sMod + ')';
+         else return '';
+       });
 
       /**
        * spellValue
@@ -134,7 +183,6 @@ export class mainHandlebars {
          const systemData = options.data.root.data.system;
          return helperSheetMagic.magicSkillValue(systemData, item);
        }); 
-
 
       /**
        * locationValue
@@ -186,6 +234,16 @@ export class mainHandlebars {
        });       
 
       /**
+       * getActorMountImage
+       */
+      Handlebars.registerHelper("getActorMountImage", function(options) {
+         const systemData = options.data.root.systemData;
+         const mount = game.actors.get(systemData.equipment.mount);
+         if (!mount) return "/systems/conventum/image/texture/locationHorse.png";
+         return mount.img;
+       });         
+
+      /**
        * getItemProperty
        */
       Handlebars.registerHelper("getActorItemProperty", function(actorId, itemId, sProperty, options) {
@@ -200,6 +258,15 @@ export class mainHandlebars {
          })
          return oProperty;
        });       
+
+      /**
+       * rightHanded...
+       */
+      Handlebars.registerHelper("rightHanded", function(options) {
+         const systemData = options.data.root.systemData;
+         
+         return (systemData.status.rightHanded === true);
+       });    
 
       /**
        * No Skills...
