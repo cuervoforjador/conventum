@@ -279,7 +279,8 @@ export class helperSheetCombat {
         }
 
         let sContent = '<div class="_posterAction">'+
-                            '<img src="'+action.img+'">'+
+                            '<img src="'+action.img+'" />'+
+                            '<div class="_whiteWrap"></div>'+
                             '<label class="_text">'+
                                 '<h1>'+action.name+'</h1>'+
                                 action.system.description+

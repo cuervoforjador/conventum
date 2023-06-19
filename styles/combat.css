@@ -165,18 +165,24 @@ a._verb._playAction {
     line-height: 24px;
     font-size: 25px;
 }
-._posterAction label._text {
+._posterAction ._whiteWrap {
     height: 435px;
+    width: 280px;
     margin-top: -435px;
+    background: #FFFFFFDB;
+    position: absolute;
+    top: 478px;
+    left: 14px;    
 }
 ._posterAction label._text {
-    height: 435px;
+    height: 313px;
+    margin-top: -435px;
+    overflow-y: scroll;
     position: absolute;
     width: 280px;
     top: 478px;
     left: 14px;
     padding: 10px;
-    background: #ffffffdb;
     text-align: justify;
 }
 ._posterAction ._actionSteps {
