@@ -205,7 +205,59 @@
         "action": {
           "action": ""
         }
-      }
+      },
+      "criatures": {
+        "characteristics": {
+          "primary": {
+            "str": {
+              "min": 0,
+              "max": 200
+            },
+            "agi": {
+              "min": 0,
+              "max": 200        
+            },
+            "abi": {
+              "min": 0,
+              "max": 200         
+            },
+            "end": {
+              "min": 0,
+              "max": 200      
+            },
+            "per": {
+              "min": 0,
+              "max": 200  
+            },
+            "com": {
+              "min": 0,
+              "max": 200    
+            },
+            "cul": {
+              "min": 0,
+              "max": 200     
+            },
+            "app": {
+              "min": 0,
+              "max": 200                   
+            }
+          },
+          "secondary": {
+            "hp": {
+              "min": 0,
+              "max": 200                 
+            },
+            "cp": {
+              "min": 0,
+              "max": 200              
+            },
+            "fp": {
+              "min": 0,
+              "max": 200                  
+            }
+          }
+        }        
+      }      
     },
     "human": {
       "templates": ["base"],
@@ -218,7 +270,7 @@
       }
     },
     "horse": {
-      "templates": ["base"],
+      "templates": ["base", "criatures"],
       "control": {
         "initial": false,
         "criature": true,
@@ -389,6 +441,7 @@
         }
       },
       "skill": {
+        "criature": false,
         "characteristic": {
           "primary": "",
           "secondary": ""

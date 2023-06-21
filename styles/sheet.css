@@ -444,11 +444,11 @@ input._border {
     input._skillValue._shrink {
         font-size: 17px!important;
         line-height: 17px!important;
-        border: 0px!important;
+        background: #b3525229!important;
         padding: 0px!important;
         margin: 0px!important;
         height: 17px;
-        width: 25px;
+        width: 35px;
         border-radius: 3px!important;
     }
     input._skillPenal._shrink {
@@ -542,7 +542,7 @@ input._border {
         margin-right: 3px;
     }
     label._label._shrink._desc {
-        min-width: 120px!important;
+        min-width: 105px!important;
         display: block;
     }
     li.itemEl._shrink {
@@ -568,6 +568,10 @@ input._border {
         opacity: 0.9;
         position: relative;
         top: 5px;
+    }    
+    ._doAction img.imgAction._shrink {
+        width: 20px;
+        height: 20px;
     }    
 
 
@@ -675,6 +679,7 @@ nav._subTabs {
     border-radius: 2px;
     padding: 3px;
     line-height: 35px;
+    cursor: pointer;
 }
 
 section._description {
@@ -800,6 +805,7 @@ input.searchAction {
     align-content: center;
     justify-content: space-around;
     align-items: center;    
+    padding-bottom: 40px;
 }
 li.boxSkill {
     width: 74px;
@@ -1677,7 +1683,7 @@ li._magicSkill {
     margin-right: 4px;
 }
 ._magicSkill label._value {
-    font-size: 16px;
+    font-size: 13px;
     line-height: 18px;
     font-weight: 900;
     position: relative;

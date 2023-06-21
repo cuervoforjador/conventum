@@ -194,9 +194,11 @@ export class helperSheetHuman {
       }
       let actorSkill = context.systemData.skills[skill.id];
 
-      actorSkill.initial = 
-          context.systemData.characteristics.primary[skill.system.characteristic.primary].value;
-      if (actorSkill.value < actorSkill.initial) actorSkill.value = actorSkill.initial;
+      if (!actor.system.control.criature) {
+        actorSkill.initial = 
+            context.systemData.characteristics.primary[skill.system.characteristic.primary].value;
+        if (actorSkill.value < actorSkill.initial) actorSkill.value = actorSkill.initial;
+      }
       actorSkill.penal = helperSheetArmor.calcPenalByArmor(actor, skill);
 
       //add Penalizations by Traits...
@@ -214,7 +216,9 @@ export class helperSheetHuman {
 
     //Acquiring Skills...
     for (const oItem of Array.from(actor.items).filter(e => e.type === 'skill')) {
-        if (oItem.system.control.mold !== '') {
+        if ((oItem.system.control.mold !== '') &&
+            (context.systemData.skills[oItem.system.control.mold])) {
+              
           context.systemData.skills[oItem.system.control.mold].acquired = true;
           let path = {system: {skills: {}}};
           path.system.skills[oItem.system.control.mold] = {acquired: true};
@@ -297,6 +301,8 @@ export class helperSheetHuman {
    */
   static _checkCharacteristics(systemData) {
     
+    if (systemData.control.criature) return;
+
     //Primary Characteristics...
     ["primary", "secondary"].forEach(sGroup => {
       for (const s in systemData.characteristics[sGroup]) {
@@ -350,18 +356,23 @@ export class helperSheetHuman {
       _root.secondary.hp.value = _root.primary.end.value;
       _root.secondary.hp.initial = _root.primary.end.value;
       _root.secondary.hp.max = _root.primary.end.initial;
+    } else {
+      _root.secondary.hp.max = _root.primary.end.value;
+      _root.secondary.hp.initial = _root.primary.end.value;
     }
 
     //Rationality & Irrationality
     _root.secondary.rr.last = Number(_root.secondary.rr.last);
     _root.secondary.irr.last = Number(_root.secondary.irr.last);
-    if ( _root.secondary.irr.value != _root.secondary.irr.last )
-             _root.secondary.rr.value = 100 - _root.secondary.irr.value;
-        else _root.secondary.irr.value = 100 - _root.secondary.rr.value;
+    if (!systemData.control.criature) {
+      if ( _root.secondary.irr.value != _root.secondary.irr.last )
+              _root.secondary.rr.value = 100 - _root.secondary.irr.value;
+          else _root.secondary.irr.value = 100 - _root.secondary.rr.value;
 
-    _root.secondary.rr.last = _root.secondary.rr.value;
-    _root.secondary.irr.last = _root.secondary.irr.value;
-    
+      _root.secondary.rr.last = _root.secondary.rr.value;
+      _root.secondary.irr.last = _root.secondary.irr.value;
+    }
+
     //Faith && Concentration points
     _root.secondary.fp.value = Math.round(_root.secondary.rr.value * 0.20);
     _root.secondary.cp.value = Math.round(_root.secondary.irr.value * 0.20);
@@ -375,10 +386,10 @@ export class helperSheetHuman {
         _root.secondary.fp.current = _root.secondary.fp.value;
 
     //Appearance
-    if (systemData.control.initial) {
-      _root.primary.app.initial = (systemData.bio.female) ? 17 : 15;
-      _root.primary.app.value = (systemData.bio.female) ? 17 : 15;
-    }
+    //if (systemData.control.initial) {
+    //  _root.primary.app.initial = (systemData.bio.female) ? 17 : 15;
+    //  _root.primary.app.value = (systemData.bio.female) ? 17 : 15;
+    //}
 
   }
 
@@ -584,7 +595,10 @@ export class helperSheetHuman {
       let sDamageMod = '-2D6';
 
       //Damage Modificator
-      let nCharValue = actor.system.characteristics.primary[weapon.system.characteristics].value;
+      let nCharValue = 0;
+      if (weapon.system.characteristics === '') return '';
+      
+      nCharValue = actor.system.characteristics.primary[weapon.system.characteristics].value;      
       history.push(game.i18n.localize("common.baseChar")+': '+
           game.i18n.localize("characteristic."+weapon.system.characteristics));
       history.push(game.i18n.localize("characteristic."+weapon.system.characteristics)+': '+

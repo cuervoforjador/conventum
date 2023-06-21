@@ -125,6 +125,9 @@ export class mainHandlebars {
          if (!actionGroup.showPoster) return false;
          if (!actionGroup.action) return false;
          const actionItem = actionGroup.action.system.item.weapon;
+
+         if (systemData.control.criature) return true;
+
          const firstEval = actionItem.type[weapon.system.weaponType];
 
          const sSize = CONFIG.ExtendConfig.weaponSizes.find(e => e.id === weapon.system.size).property;
@@ -290,6 +293,14 @@ export class mainHandlebars {
          return bNoItems;
        });   
        
+      /**
+       * counted
+       */
+      Handlebars.registerHelper("counted", function(type, options) {
+         const actor = options.data.root;
+         return (actor.items.filter(e => e.type === type).length > 0);
+       });
+
       /**
        * modeVisible
        */

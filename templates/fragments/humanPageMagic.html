@@ -14,7 +14,11 @@
         </li>
         <li class="_magicSkill">
             <label class="_name">{{localize 'characteristic.irrShort'}}</label>
-            <label class="_value">{{systemData.characteristics.secondary.irr.value}}</label>            
+            <label class="_value">
+                <a class="_diceSecondary" data-char="irr">
+                {{systemData.characteristics.secondary.irr.value}}
+                </a>
+            </label>
         </li>                
     </ul>
 
@@ -24,7 +28,7 @@
         <li class="_magicSkill">
             <label class="_name">{{skill.name}}</label>
             <label class="_value">
-                <a class="_diceSkill" data-itemId="{{skill._id}}">
+                <a class="diceSkill" data-itemId="{{skill._id}}">
                 {{itemPropertyExtend 'systemData.skills' skill._id 'value'}}
                 </a>
             </label>
@@ -39,6 +43,7 @@
         <li class="_penal">
             <label class="_title">{{localize "common.method"}}</label>
             <input type="text"
+                   {{{editable}}}
                    name="system.magic.penal.method" 
                    value="{{systemData.magic.penal.method}}" />
         </li>
@@ -52,18 +57,21 @@
         <li class="_penal">
             <label class="_title">{{localize "common.concentration"}}</label>
             <input type="text"
+                   {{{editable}}}
                    name="system.magic.penal.concentration" 
                    value="{{systemData.magic.penal.concentration}}" />
         </li>  
         <li class="_penal">
             <label class="_title">{{localize "common.others"}}</label>
             <input type="text"
+                   {{{editable}}}
                    name="system.magic.penal.others" 
                    value="{{systemData.magic.penal.others}}" />
         </li>
         <li class="_penal">
             <label class="_title">{{localize "common.ceremony"}}</label>
             <input type="text"
+                   {{{editable}}}
                    name="system.magic.penal.ceremony" 
                    value="{{systemData.magic.penal.ceremony}}" />
         </li>                              

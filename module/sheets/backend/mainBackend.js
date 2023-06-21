@@ -14,7 +14,7 @@ export class mainBackend {
             worlds: await game.packs.get("conventum.worlds").getDocuments(),
             kingdoms: await this._getKingdoms(systemData.control.world),
             societies: await this._getSocieties(systemData.control.world),
-            skills: await this._getSkills(systemData.control.world),
+            skills: await this._getSkills(systemData.control.world, false, actor),
             languages: await this._getLanguages(systemData.control.world),
             locations: await this._getLocations(systemData.control.world, actor.type)
         };
@@ -146,7 +146,7 @@ export class mainBackend {
     static async getBackendForTrait(systemData) {
         return {
             worlds: await game.packs.get("conventum.worlds").getDocuments(),
-            skills: await this._getSkills(systemData.control.world),
+            skills: await this._getSkills(systemData.control.world, false),
             characteristics: this._getCharacteristics('primary', true)
         };
     }    
@@ -182,7 +182,7 @@ export class mainBackend {
             actorTypes: this._getActorTypes(),
             armorTypes: this._getArmorTypes(),
             locations: await this._getLocations(systemData.control.world, systemData.actorType),
-            skills: await this._getSkills(systemData.control.world)
+            skills: await this._getSkills(systemData.control.world, false)
         };
     }
 
@@ -198,7 +198,7 @@ export class mainBackend {
             weaponTypes: this._getWeaponTypes(),
             locations: await this._getLocations(systemData.control.world, systemData.actorType),
             skills: await this._getSkills(systemData.control.world, true),
-            skillsPenal: await this._getSkills(systemData.control.world),
+            skillsPenal: await this._getSkills(systemData.control.world, false),
             combatSkills: await this._getCombatSkills(systemData.control.world, true)
         };
     }
@@ -216,7 +216,7 @@ export class mainBackend {
             spellNature: this._getSpellNature(),
             spellSecondNature: this._getSpellSecondNature(),
             skills: await this._getSkills(systemData.control.world, true),
-            skillsPenal: await this._getSkills(systemData.control.world),
+            skillsPenal: await this._getSkills(systemData.control.world, false),
             combatSkills: await this._getCombatSkills(systemData.control.world, true),
             magicSkills: await this._getMagicSkills(systemData.control.world, true)
         };
@@ -233,7 +233,7 @@ export class mainBackend {
             actorTypes: this._getActorTypes(),
             societies: await this._getSocieties(systemData.control.world),
             skills: await this._getSkills(systemData.control.world, true),
-            skillsPenal: await this._getSkills(systemData.control.world),
+            skillsPenal: await this._getSkills(systemData.control.world, false),
             combatSkills: await this._getCombatSkills(systemData.control.world, true),
             magicSkills: await this._getMagicSkills(systemData.control.world, true)
         };
@@ -255,7 +255,7 @@ export class mainBackend {
             componentPotential: this._getComponentPotential(),
             componentPlace: this._getComponentPlace(),
             skills: await this._getSkills(systemData.control.world, true),
-            skillsPenal: await this._getSkills(systemData.control.world),
+            skillsPenal: await this._getSkills(systemData.control.world, false),
             combatSkills: await this._getCombatSkills(systemData.control.world, true),
             magicSkills: await this._getMagicSkills(systemData.control.world, true)
         };
@@ -332,10 +332,15 @@ export class mainBackend {
      * @param {*} bFirstClear 
      * @returns 
      */
-    static async _getSkills(sWorld, bFirstClear) {
+    static async _getSkills(sWorld, bFirstClear, actor) {
         bFirstClear = (bFirstClear) ? true : false;
 
         let mDocs = await this._getDocuments('skills', sWorld);
+        if (actor) {
+            if (!actor.system.control.criature)
+                mDocs = mDocs.filter(e => !e.system.criature);
+        }
+
         if (bFirstClear)
             mDocs.unshift({
                 'id': '',

@@ -192,6 +192,17 @@ section.window-content._v10 {
     left: -46px;
     font-family: 'Almendra';
 }
+.compendium ._infoCriature {
+    position: relative;
+    width: 100px;
+    height: 40px;
+    margin-left: -93px;
+    margin-top: -40px;
+    top: 0px;
+    left: 100px;
+    text-align: right;
+    font-family: 'Almendra';
+}
 .compendium ._infoShape {
     position: relative;
     width: 100px;

@@ -203,6 +203,19 @@ export class HookCompendium {
             mDocs = mDocs.filter(e => e.system.combat.combat);
             compendium._element.find(sHeaderDiv).append(this._createSelect("combatSkill", "common.combatSkill", mDocs));
         }  
+        if (sPack === 'conventum.skills') {
+            let mDocs = [{
+                id: 'human',
+                name: game.i18n.localize("common.human"),
+                system: {control: {world: ''}}
+            },{
+                id: 'criature',
+                name: game.i18n.localize("common.criature"),
+                system: {control: {world: ''}}
+            }];
+            compendium._element.find(sHeaderDiv).append(this._createSelect("type", "common.type", mDocs, '_infoCriature'));
+        }
+
         if (sPack === 'conventum.magic') {
             let mDocs1 = [];
             CONFIG.ExtendConfig.spellShapes.map(e => {
@@ -245,7 +258,14 @@ export class HookCompendium {
         }   
         if (sPack === 'conventum.skills') {
             this._addDivExtraInfoString(oElement,
-                game.i18n.localize('characteristic.'+oItemDoc.system.characteristic.primary));                                                                
+                game.i18n.localize('characteristic.'+oItemDoc.system.characteristic.primary)); 
+            
+            const sType = (oItemDoc.system.criature) ? 
+                                game.i18n.localize("common.criature") :
+                                game.i18n.localize("common.human");
+            const sValue = (oItemDoc.system.criature) ? 'criature' : 'human';
+            this._addDivExtraInfoString(oElement,
+                game.i18n.localize('common.type')+': '+sType, '_infoCriature', sValue);                
         }
         if (sPack === 'conventum.locations') {  
             const sType = game.i18n.localize("template."+oItemDoc.system.actorType);

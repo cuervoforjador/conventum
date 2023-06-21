@@ -18,7 +18,7 @@ export class extendSheetArmor extends ItemSheet {
       classes: [game.system.id, "sheet", "item"],
       template: CONFIG._root+"/templates/armor.html",
       width: 700,
-      height: 400,
+      height: 460,
       tabs: [
         {navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "main"}
       ],       

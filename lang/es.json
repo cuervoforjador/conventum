@@ -59,6 +59,7 @@
     "characteristic.rrShort":       "Rac.",
     "characteristic.irrShort":      "Irrac.",
     "characteristic.temp":          "Templanza",
+    "characteristic.tempShort":     "Templ.",
 
     "characteristic.abi_Short":     "HAB",
     "characteristic.agi_Short":     "AGI",
@@ -235,6 +236,7 @@
     "common.cost":                  "Coste",
     "common.config":                "Configuración",
     "common.contact":               "Contacto",
+    "common.criature":              "Criatura",
     "common.crossbows":             "Ballestas",
     "common.culture":               "Cultura",
     "common.damage":                "Daño",
@@ -270,6 +272,7 @@
     "common.height":                "Altura",
     "common.hitPoints":             "Puntos de vida",
     "common.hp":                    "Pt.Vida",
+    "common.human":                 "Humano",
     "common.income":                "Ganancias",
     "common.initial":               "Inicial",
     "common.inLeftHand":            "En mano Izquierda",
@@ -461,12 +464,13 @@
     "tour.Title":                   "Bienvenido",
     "tour.Description":             "Proyecto Conventum (Aquelarre)",
     "tour.Title01":                 "Bienvenido a Aquelarre VTT",
-    "tour.Content01":               "Esta es una versión no oficial del sistema Aquelarre adaptado a FoundryVTT. </br>Puedes consultar mas detalles y una documentación a fondo en <a href='https://github.com/cuervoforjador/conventum#aquelarre-conventum' target='_blank'>Forja de Aquelarre</a>.</br></br>Se trata de un sistema <b>no convencional</b> con una serie de acciones y mecanismos propios, por lo que te recomiendo que sigas este tutorial, <b>al menos hasta el 3er paso, orientado a futuras actualizaciones</b>.",
+    "tour.Content01":               "Esta es una versión no oficial del sistema Aquelarre adaptado a FoundryVTT. </br>Puedes consultar mas detalles y una documentación a fondo en <a href='https://github.com/cuervoforjador/conventum#aquelarre-conventum' target='_blank'>Forja de Aquelarre</a>.</br></br>Se trata de un sistema <b>no convencional</b> con una serie de acciones y mecanismos propios, por lo que te recomiendo encarecidamente que sigas este tutorial hasta el final.",
     "tour.Title02":                 "Importante!",
-    "tour.Content02":               "El sistema se encuentra actualmente en una primera versión alpha. En la página del proyecto podrás ver el estado actual y los puntos pendientes, así como el progreso y toda una serie de peticiones y correcciones.",
+    "tour.Content02":               "El sistema se encuentra en una <b>PRIMERA VERSIÓN ALPHA!</b>.<br><br>En la página del proyecto podrás ver el estado actual y los puntos pendientes, así como el progreso y toda una serie de peticiones y correcciones.",
     "tour.Title03":                 "Compendios",
-    "tour.Content03":               "El sistema se construye básicamente a través de compendios...",
+    "tour.Content03":               "El sistema se construye a través de compendios...<br>Existen compendios que actúan de <b>forma global</b> sobre la configuración del sistema (reglas, lore, ...) y otros que corresponden a objetos locales (armas, hechizos, equipo, rasgos, ...).<br><br>Estos compendios globales, son algo propio de este sistema y es <b>MUY IMPORTANTE</b> que entiendas como funcionan antes de actualizar el sistema. Puesto que si decides crear tus propias reglas y contexto, podrías perder todo tu trabajo si actualizas sin más...",
     "tour.Title04":                 "Orbe",
-    "tour.Content04":               "El sistema se fundamente en un concepto global llamado Orbe. Algo así a una configuración general en la que orientar tu partida."    
-    
+    "tour.Content04":               "El sistema se fundamenta en un concepto global llamado Orbe. Algo así como 'un mundo', una configuración general en la que orientar tu partida.",
+    "tour.Title05":                 "Distintos orbes, distintas reglas",
+    "tour.Content05":               "El orbe básico es 'Aquelarre'. Pero existen otras adaptaciones (No oficiales) en desarrollo: Villa y Corte, Nahui Ollin... incluso propios. Tu mismo puedes crear tu orbe y orientarlo al contexto que decidas."
 }

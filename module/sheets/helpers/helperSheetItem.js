@@ -47,7 +47,7 @@ export class helperSheetItem {
   static molding(context) {
     if (!context.systemData.control) return;
 
-    if (context.systemData.control.mold === '')
+    //if (context.systemData.control.mold === '')
       context.systemData.control.mold = context.data._id;
   }
 

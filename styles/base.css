@@ -133,7 +133,8 @@ itemSubHeader {
     width: calc(100% - 80px);
     text-align: initial;
     background: none;
-    border: 0px;
+    border: 1px solid #33333385;
+    min-width: 34px;
 }
 ._subHeaderHBox select {
     font-family: 'Almendra';
@@ -349,7 +350,7 @@ slidepanel panelcontent {
     background: #c366661c;
     margin-top: -6px;
     padding-top: 5px;
-    padding-bottom: 7px;
+    padding-bottom: 20px;
 }
 panelcontent hbox {
     padding-right: 12px;

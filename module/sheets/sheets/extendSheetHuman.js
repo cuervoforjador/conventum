@@ -141,6 +141,7 @@ export class extendSheetHuman extends ActorSheet {
 
     /* Skills */
     html.find(".playSkill").click(this._playSkill.bind(this)); 
+    html.find("a.diceSkill").click(this._playSkill.bind(this)); 
     $(".searchSkill").on('input', this._searchSkill.bind(this));
 
     /* Weapons & actions*/
