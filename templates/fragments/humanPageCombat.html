@@ -53,7 +53,9 @@
                         <label class="titleWeapon">{{actions.skill.name}}</label>
                     </vbox>   
                     <hbox style="width: 200px;"></hbox>
-                    <label class="_skillValue">{{itemPropertyExtend 'systemData.skills' actions.skill._id 'value'}}</label>
+                    <label class="_skillValue">
+                        {{itemPropertyExtend 'systemData.skills' actions.skill._id 'value'}}
+                    </label>
                     <a class="_cardInfo" data-itemid="{{actions.skill._id}}">
                             <i class="fas fa-info"></i></a>                    
                 </hbox>
@@ -67,15 +69,21 @@
                 id="boxWeapon_{{weapon._id}}">
                 
                 <hbox>
-                    {{#if (evalActionWeapon ../actions weapon) }}
-                    <a class="playWeapon" data-itemid="{{weapon._id}}" >
-                        <img class="imgWeapon" src="{{weapon.img}}"/>
-                    </a>
-                    {{else}}
-                    <a class="showInfo" data-i18n="info.noAction">
-                        <img class="imgWeapon" src="{{weapon.img}}" style="opacity: 0.3;"/>
-                    </a>                    
-                    {{/if}}
+
+                    <div class="mainWeapon">
+                        <a class="playWeaponExpress" data-itemid="{{weapon._id}}">
+                            <img class="imgWeapon _express" src="/systems/conventum/image/content/weapons/Dices.png" />
+                        </a>
+                        {{#if (evalActionWeapon ../actions weapon) }}
+                        <a class="playWeapon" data-itemid="{{weapon._id}}" >
+                            <img class="imgWeapon" src="{{weapon.img}}"/>
+                        </a>
+                        {{else}}
+                        <a class="showInfo" data-i18n="info.noAction">
+                            <img class="imgWeapon" src="{{weapon.img}}" style="opacity: 0.3;"/>
+                        </a>                    
+                        {{/if}} 
+                    </div>                  
 
                     <vbox class="_weaponText">
                         <label class="titleWeapon">{{weapon.name}}</label>
@@ -109,7 +117,9 @@
                         {{/if}}
                         </hbox>
 
-                        <label class="_skillValue">{{getWeaponSkill weapon}}</label>
+                        <label class="_skillValue">
+                            {{getWeaponSkill weapon}}
+                        </label>
 
                         <a class="_cardInfo" data-itemid="{{weapon._id}}">
                                 <i class="fas fa-info"></i></a>

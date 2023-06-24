@@ -623,6 +623,9 @@ export class helperSheetCombat {
         history.push(' --- '+game.i18n.localize("common.damage")+' --- ');
         history.push(weaponItem.name+': '+weaponItem.system.damage);
 
+
+// AQUI !!!!
+
         helperSheetCombat._modActionCombatDamage(actor, actionItem, weaponItem, mods, history);
         let sDamageMod = helperSheetHuman.calcDamageMod(actor, weaponItem, history, actionItem);
 

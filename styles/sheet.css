@@ -1352,6 +1352,28 @@ img.imgWeapon {
     border: 1px solid #8d54104f;
     border-radius: 4px;
 }
+.mainWeapon,
+img.imgWeapon._express {
+    transition: 0.4s;
+}
+img.imgWeapon._express {
+    margin-right: -40px;
+    position: absolute;
+    width: 34px!important;
+    z-index: 0!important;
+    left: 45px;
+    transform: rotate(0deg);
+    opacity: 0;
+}
+.mainWeapon:hover img.imgWeapon._express {
+    display: block;
+    left: 60px;
+    width: 34px!important;
+    transform: rotate(5deg);
+    margin-top: 5px;    
+    opacity: 1;
+}   
+
 .boxWeapon hbox,
 .boxWeapon vbox {
     width: 100%;
@@ -1412,6 +1434,13 @@ li.boxWeapon ._targets ._target img {
 }
 .boxWeapon img.imgWeapon {
     width: 80px!important;
+}
+.boxWeapon img.imgWeapon._express {
+    width: 34px!important;
+}
+img.imgWeapon:hover {
+    border: 4px solid #720b0b91;
+    /* opacity: 1!important; */
 }
 label.titleWeapon {
     font-size: 18px;
@@ -1529,6 +1558,7 @@ img._combatSkillImg {
 hbox._encountersBox {
     display: flex;
     width: 100%;
+    min-height: 60px;
     justify-content: space-between;
     flex-direction: row;
     flex-wrap: nowrap;

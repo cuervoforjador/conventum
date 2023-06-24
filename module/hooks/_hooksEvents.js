@@ -61,7 +61,17 @@ export class HookEvents {
                         buttons: {}
                         }).render(true);
             }
-        });        
+        });    
+        $(document).on('change', '._actTargetType', function (event) {
+            $('._actTargetLocation option').each(function(i,e) {
+                $(e).remove();
+            }.bind(this));
+            const sType = $( "._actTargetType option:selected" ).val();
+            Array.from(game.packs.get("conventum.locations")).filter(e => e.system.actorType === sType)
+            .forEach(oLocation => {
+                $('._actTargetLocation').append('<option value="'+oLocation.id+'">'+oLocation.name+'</option>');
+            });            
+        });      
 
        //Drag & Drop over actor     
         $(document).on('drag', 'li.directory-item.document.actor', function (event) {

@@ -12,6 +12,7 @@ import { helperActions } from "../helpers/helperActions.js";
 import { HookActor } from "../../hooks/_hooksActor.js";
 import { HookCompendium } from "../../hooks/_hooksCompendium.js";
 import { mainUtils } from "../../mainUtils.js";
+import { aqCombat } from "../../actions/aqCombat.js";
 
 export class extendSheetHuman extends ActorSheet {
 
@@ -146,6 +147,7 @@ export class extendSheetHuman extends ActorSheet {
 
     /* Weapons & actions*/
     html.find("a.playWeapon").click(this._playWeapon.bind(this));  
+    html.find("a.playWeaponExpress").click(this._playWeaponExpress.bind(this)); 
     html.find(".weaponHand").click(this._weaponHand.bind(this));  
     html.find("a._encounterInfo").click(this._showItem.bind(this));
     html.find("a._cardInfo").click(this._showMyItem.bind(this));  
@@ -321,6 +323,8 @@ export class extendSheetHuman extends ActorSheet {
     helperRolls.rollDices(this.actor, sPath, true, sFormula, actionId);
   }
 
+
+
   _searchSkill(event) {
     event.preventDefault();
     const search = $(event.target).val();
@@ -339,12 +343,18 @@ export class extendSheetHuman extends ActorSheet {
     if (!weaponId) return;
 
     const actorActions = helperActions.getActions(this.actor);
-    const actorTargets = helperActions.getTargets(this.actor);
 
     if (!actorActions.showPoster) return;
-      helperSheetCombat.selectTargetsAndPlayWeapon(this.actor, actorActions.action, weaponId);
-
+    aqCombat.dialogTargets(this.actor.id, weaponId);
   }
+
+  _playWeaponExpress(event) {
+    event.preventDefault();
+    const weaponId = event.currentTarget?.dataset.itemid;
+    if (!weaponId) return;
+
+    aqCombat.dialogTargetsExpress(this.actor.id, weaponId);
+  }  
 
   _weaponHand(event) {
     event.preventDefault();
@@ -359,8 +369,7 @@ export class extendSheetHuman extends ActorSheet {
     const actionId = event.currentTarget?.dataset.itemid;    
     const action = this.actor.items.get(actionId);
     if (!action) return;
-
-    helperSheetCombat.doAction(this.actor, actionId);
+    aqCombat.addAction(this.actor.id, actionId);
   }
 
   _searchAction(event) {

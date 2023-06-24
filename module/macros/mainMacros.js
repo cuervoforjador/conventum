@@ -86,8 +86,16 @@ export class mainMacros {
     return actor;  
   }
 
+  /**
+   * _getEncounter
+   * @param {*} actor 
+   * @returns 
+   */
   static _getEncounter(actor) {
-    const activeCombat = Array.from(game.combats).find(e => e.active);
+    const currentScene = Array.from(game.scenes).find(e => e.id === game.user.viewedScene);
+    if (!currentScene) return null;
+    let activeCombat = Array.from(game.combats).find(e => 
+                               ((e._source.scene === game.user.viewedScene) && (e.active)) );
     if (!activeCombat) return;
 
     const mEncounters = game.items.filter(e => e.type === 'actionPool');

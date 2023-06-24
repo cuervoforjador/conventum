@@ -3,6 +3,7 @@ import { mainUtils } from "../mainUtils.js";
 import { mainBackend } from "../sheets/backend/mainBackend.js";
 import { helperSheetHuman } from "../sheets/helpers/helperSheetHuman.js"
 import { helperSheetCombat } from "../sheets/helpers/helperSheetCombat.js";
+import { aqActions } from "../actions/aqActions.js";
 
 export class HookCombat {
 
@@ -40,8 +41,7 @@ export class HookCombat {
 
         if (combatants.length > 0) {
 
-            //let combat = this._getCombatFromCombatants(combatants);
-            let combat = Array.from(game.combats).filter(e => e.active)[0];
+            let combat = aqActions.getCurrentCombat();
             if (!combat) return;
 
             //Combatants Header
@@ -179,7 +179,7 @@ export class HookCombat {
      * resetAllInitiativeMod
      */
     static async resetAllInitiativeMod() {
-        const activeCombat = game.combats.find(e => e.active);
+        const activeCombat = aqActions.getCurrentCombat();
         for (var turn of activeCombat.turns) {
             await this.changeInitiativeMod(turn.actorId, '', false);
             await this.resetInitiativeMod(turn.actorId);
@@ -229,9 +229,11 @@ export class HookCombat {
     /** --- onAQAction ---
      * @param html 
      */    
-    static async onAQAction(event) {
+    static async onAQAction(event, noRender) {
 
-        const activeCombat = game.combats.find(e => e.active);
+        noRender = (!noRender) ? false : noRender;
+
+        const activeCombat = aqActions.getCurrentCombat();
         let poolAction = game.items.find(e => e.system.combat === activeCombat._id);
 
         if (!poolAction) {
@@ -252,9 +254,10 @@ export class HookCombat {
                                     }]);
             poolAction = newItem[0];
         } 
-        poolAction.sheet.render(true, {
-            editable: game.user.isGM
-        });
+        if (!noRender)
+            poolAction.sheet.render(true, {
+                editable: game.user.isGM
+            });
     }    
 
     /** --- targetDialogs ---
@@ -276,12 +279,35 @@ export class HookCombat {
         }
     }
 
+    /**
+     * targetDialogsExpress
+     * @param {*} dialog 
+     * @param {*} element 
+     * @param {*} content 
+     */
+    static targetDialogsExpress(dialog, element, content) {
+        const mButtons = dialog.data.buttons;
+        for (const s in mButtons) {
+            let actor = game.actors.get(s);
+            let button = $(element).find('button[data-button="'+mButtons[s].actorId+'"]');
+            button.html('<img src="'+mButtons[s].img+'"/><label>'+mButtons[s].label+'</label>');
+        }
+    }
+
+    /**
+     * createEncounter
+     * @param {*} combatId 
+     */
+    static async createEncounter() {
+        this.onAQAction(null, true);
+    }
+
     /** --- deleteEncounter ---
      * @param {*} combatId 
      */
     static async deleteEncounter(combatId) {
         let poolAction = game.items.find(e => e.system.combat === combatId);
-        await poolAction.delete();
+        if (poolAction) await poolAction.delete();
     }    
 
     /** --- _getCombatFromCombatants ---

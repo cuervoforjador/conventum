@@ -685,7 +685,7 @@ a._infoSkill {
     text-shadow: 2px 0 #ffffff63, -2px 0 #ffffff63, 0 2px #ffffff63, 0 -2px #ffffff63, 1px 1px #ffffff63, -1px -1px #ffffff63, 1px -1px #ffffff63, -1px 1px #ffffff63;
     justify-content: center;
 }
-.dialog-button img._mount {
+._targetDialogs .dialog-button img._mount {
     width: 45px;
     height: 45px;
     margin-left: -45px;
@@ -693,4 +693,33 @@ a._infoSkill {
     position: relative;
     top: -50px;
     left: 64px;
+}
+
+._targetDialogsExpress section.window-content {
+    overflow: inherit;
+}
+._targetDialogsExpress .dialog-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+._targetDialogsExpress button.dialog-button {
+    width: 150px;
+    min-width: 150px;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+    justify-content: flex-start;
+    background: #ffffff8c;
+    margin-bottom: 6px;
+    border: 1px solid #3333334a;
+}
+._targetDialogsExpress button img {
+    width: 35px;
+    height: 35px;
+    border: none;
+    padding: 2px;
+    margin-left: -4px;
+    margin-right: 7px;
 }

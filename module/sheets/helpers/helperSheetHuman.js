@@ -589,37 +589,20 @@ export class helperSheetHuman {
    * @param {*} history 
    * @returns 
    */
-  static calcDamageMod(actor, weapon, history, action) {
+  static calcDamageMod(actor, weapon, action) {
       
       if (!history) history = [];
       let sDamageMod = '-2D6';
 
-      //Damage Modificator
       let nCharValue = 0;
       if (weapon.system.characteristics === '') return '';
       
-      nCharValue = actor.system.characteristics.primary[weapon.system.characteristics].value;      
-      history.push(game.i18n.localize("common.baseChar")+': '+
-          game.i18n.localize("characteristic."+weapon.system.characteristics));
-      history.push(game.i18n.localize("characteristic."+weapon.system.characteristics)+': '+
-          nCharValue.toString());
+      nCharValue = (!weapon.system.type.range) ?
+                      actor.system.characteristics.primary[weapon.system.characteristics].value :
+                      actor.system.characteristics.primary['str'].value;
 
-      if (weapon.system.type.range) {
-          nCharValue = actor.system.characteristics.primary['str'].value;
-
-          history.push(game.i18n.localize("common.rangeWeapon")+'!!');
-          history.push(game.i18n.localize("common.applyChar")+': '+
-              game.i18n.localize("characteristic.str"));
-          history.push(game.i18n.localize("characteristic."+weapon.system.characteristics)+': '+
-              nCharValue.toString());
-      }
-
-      if ((action) && (action.system.damage.mod.modDamage1)) {
-        nCharValue += 5;
-      }
-      if ((action) && (action.system.damage.mod.modDamage2)) {
-        nCharValue += 10;
-      }
+      if ((action) && (action.system.damage.mod.modDamage1))  nCharValue += 5;
+      if ((action) && (action.system.damage.mod.modDamage2))  nCharValue += 10;
 
       if (nCharValue >= 1) sDamageMod = '-1D6';
       if (nCharValue >= 5) sDamageMod = '-1D4';

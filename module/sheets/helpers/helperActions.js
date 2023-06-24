@@ -2,6 +2,7 @@
  * Helpers for Actions
  */
 
+import { helperSocket } from "../../helpers/helperSocket.js";
 import { mainUtils } from "../../mainUtils.js";
 import { helperMessages } from "./helperMessages.js";
 import { helperSheetCombat } from "./helperSheetCombat.js"
@@ -73,23 +74,6 @@ export class helperActions {
     }
 
     /**
-     * playMode
-     * @param {*} actor 
-     * @param {*} mode 
-     */
-    static playMode(actor, mode) {
-
-        //--- LUCK ---
-        if (mode.system.luck) {
-            this.playLuck(actor, mode);
-            return;
-        }
-
-        this.playMode(actor, mode);
-        return;
-    }
-
-    /**
      * setLuck
      * @param {*} actor 
      */
@@ -125,8 +109,10 @@ export class helperActions {
             mModes = actor.system.modes;
             mModes.push(mode.id);
         }
-        await actor.update({system: { modes: mModes }});
-        actor.sheet.render(true);
+        //await actor.update({system: { modes: mModes }});
+        //actor.sheet.render(true);
+        await helperSocket.update(actor, {system: { modes: mModes }});
+        //helperSocket.refreshSheets();
 
         if (!bActive) this._applyActiveEffect(actor, mode);
                  else this._removeActiveEffect(actor, mode);

@@ -42,7 +42,9 @@ export class mainHooks {
         Hooks.on("renderActorDirectory", (directory, element, options) => this._renderActorDirectory(directory, element, options));
         Hooks.on("getUserContextOptions", (element, content) => this._getUserContextOptions(element, content));
         Hooks.on("getCombatTrackerEntryContext", (html, options) => this._getCombatTrackerEntryContext(html, options));
+        Hooks.on("createCombatant", (combatant, options, id) => this._createCombatant(combatant, options, id));
         Hooks.on("renderCombatTracker", (tracker, html, options) => this._renderCombatTracker(tracker, html, options));
+        Hooks.on("createCombat", (combat, options, sId) => this._createCombat(combat, options, sId));
         Hooks.on("updateCombat", (combat, combatants, options, sId) => this._updateCombat(combat, combatants, options, sId));
         Hooks.on("updateCombatant", (combatant, initiative, options, sId) => this._updateCombatant(combatant, initiative, options, sId));
         Hooks.on("deleteCombat", (combat, render, sId) => this._deleteCombat(combat, render, sId));
@@ -189,6 +191,8 @@ export class mainHooks {
         //Targets Dialog
         if (element.hasClass('_targetDialogs'))
             HookCombat.targetDialogs(dialog, element, content);
+        if (element.hasClass('_targetDialogsExpress'))
+            HookCombat.targetDialogsExpress(dialog, element, content);            
     }
 
     static async _renderApplication(app, element, options) {
@@ -211,8 +215,16 @@ export class mainHooks {
         HookCombat.changeCombatTabHtml(html);
     }
 
+    static _createCombat(combat, options, sId) {
+        HookCombat.createEncounter();
+    }
+
     static async _updateCombat(combat, combatants, options, sId) {
         await HookCombat.updateCombat(combat);
+    }
+
+    static async _createCombatant(combatant, options, id) {
+        //await HookCombat.createEncounter();
     }
 
     static async _updateCombatant(combatant, initiative, options, sId) {
