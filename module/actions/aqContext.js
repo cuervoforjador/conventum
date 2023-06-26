@@ -338,7 +338,7 @@ export class aqContext {
             this.msgError("No Step found or this step does not belong to the actor!");
             return;
         }
-        this._locationId = step.applyLocation;
+        this._locationId = (step.applyLocation) ? step.applyLocation.location : '';
     }
 
     /**
@@ -1132,7 +1132,7 @@ export class aqContext {
                                 targetData.armor.finalProtection.toString()+'</li>'+
                 '</ul>'+
                 this._getMessageHelpTab()+
-                '<div class="_msgDamTotal">'+targetData.finalDamagePoints.toString()+'</div>'+
+                '<div class="_msgDamTotal">'+targetData.finalHitDamage.toString()+'</div>'+
                 '<div class="_hitPoints">'+game.i18n.localize("common.hp")+'</div>';
     }
 
@@ -1412,7 +1412,7 @@ export class aqContext {
         }
 
         //Mounted target...
-        if ((this._action) && (action.system.damage.target.mount)) {
+        if ((this._action) && (this._action.system.damage.target.mount)) {
             target = this._getMount(targetId);
         }
 
@@ -1452,7 +1452,7 @@ export class aqContext {
             this._targetsDamage[targetId].locationId = this._targetsDamage[targetId].location.id;
         }
 
-        this.msgHistory("common.location", location.name);
+        this.msgHistory("common.location", this._targetsDamage[targetId].location.name);
         return this._targetsDamage[targetId].location;
     }
 
