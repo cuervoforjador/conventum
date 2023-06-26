@@ -278,8 +278,11 @@ export class aqCombat {
                                      express: true});
 
         //Targets Dialog
+        let mActors = Array.from(game.actors).filter( e => 
+            (  (e.id !== actorId)
+            && (e.system.control.visible) ) );
         let oButtons = {};
-        Array.from(game.actors).map(e => {
+        mActors.map(e => {
             oButtons[e.id] = {
                 label: e.name,
                 actorId: e.id,
@@ -317,6 +320,14 @@ export class aqCombat {
     static rollAction(context) {
         if (context.getAskForLevels()) this._dialogLevel(context);
                                   else this._rollAction(context);
+    }
+
+    /**
+     * rollDamage
+     * @param {*} context 
+     */
+    static async rollDamage(context) {
+        await context.rollDamage();
     }
 
     /**
@@ -362,7 +373,7 @@ export class aqCombat {
         if (!context.getExpress()) {
             context.consumeStep();   
             aqActions.updateCurrentStep({
-                system: { context: context.export() }
+                system: { context: context }
             });
         }
     }

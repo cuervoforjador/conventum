@@ -26,16 +26,18 @@ export class helperMessages {
                                 '<div class="_content">'+sContent+'</div>'+
                         '</div>'
                     '</div>';
+        const message = 
+            ChatMessage.create({content: 
+                        '<div class="_chatBox" style="height: '+sHeight+';">'+
+                            '<div class="_chatPaper"></div>'+
+                            '<div class="_chatShadow"></div>'+
+                            '<div class="_chatFrame"'+
+                                ' style="background: url(/systems/conventum/image/frame/'+
+                                    sFrame + '/chatFrame.png)"></div>'+
+                            '<div class="_chatContent">'+sContent+'</div>'+                        
+                        '</div>' });
         
-        ChatMessage.create({content: 
-                    '<div class="_chatBox" style="height: '+sHeight+';">'+
-                        '<div class="_chatPaper"></div>'+
-                        '<div class="_chatShadow"></div>'+
-                        '<div class="_chatFrame"'+
-                            ' style="background: url(/systems/conventum/image/frame/'+
-                                sFrame + '/chatFrame.png)"></div>'+
-                        '<div class="_chatContent">'+sContent+'</div>'+                        
-                    '</div>' });
+        return message;
     }
 
 }

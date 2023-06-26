@@ -1442,6 +1442,39 @@ img.imgWeapon:hover {
     border: 4px solid #720b0b91;
     /* opacity: 1!important; */
 }
+.playWeaponExpress label {
+    cursor: pointer;
+}
+.boxWeapon ._noActionWrap {
+    width: 200px;
+    height: 40px;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    flex-direction: row;
+    margin-left: -200px;
+    margin-top: -40px;
+    position: relative;
+    top: 75px;
+    justify-content: flex-end;
+}
+.boxWeapon ._noActionWrap img {
+    width: 23px;
+    height: 20px;
+    border: none;
+    position: relative;
+    top: -3px;
+    opacity: 0.5;
+}
+.playWeaponExpress:hover img {
+    opacity: 1;
+}
+.spaceBetween {
+    display: flex;
+    justify-content: space-between!important;
+    padding-left: 15px;
+}
+
 label.titleWeapon {
     font-size: 18px;
     font-family: 'Almendra';
@@ -1461,6 +1494,8 @@ label._skillValue {
     font-weight: bold;
     line-height: 25px;
     width: 50px;
+    position: relative;
+    top: 7px;
 }
 label._skillValue::first-letter {
     font-size: 45px;
@@ -1503,6 +1538,8 @@ span._small {
 }
 hbox._weaponHands {
     width: 80px;
+    position: relative;
+    top: 3px;    
 }
 li.boxWeapon:first-child hbox._weaponHands {
     

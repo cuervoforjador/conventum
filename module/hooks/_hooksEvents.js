@@ -5,6 +5,8 @@
 import { helperSheetCombat } from "../sheets/helpers/helperSheetCombat.js";
 import { HookCombat } from "./_hooksCombat.js";
 import { HookActor } from "./_hooksActor.js";
+import { aqCombat } from "../actions/aqCombat.js";
+import { aqContext } from "../actions/aqContext.js";
 
 export class HookEvents {
 
@@ -35,6 +37,14 @@ export class HookEvents {
 
         //Roll Damage (Chat Messages)
         $(document).on('click', 'a._rollDamage', function (event) {
+            const messageId = $(event.target).parents('li.chat-message').data('messageId');
+            let message = game.messages.get(messageId);
+
+            let context = Object.assign(new aqContext(), message.flags);
+            context.init();
+            aqCombat.rollDamage(context);
+
+            /*
             HookEvents._rollDamage($(this).data('weaponid'), 
                                    $(this).data('spellid'),
                                    $(this).data('actorid'),
@@ -45,6 +55,7 @@ export class HookEvents {
                                    $(this).data('locationid'),
                                    $(this).data('critsuccess'),
                                    $(this).data('critfailure'));
+            */
         });        
         
         //ActionCards

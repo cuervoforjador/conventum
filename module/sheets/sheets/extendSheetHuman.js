@@ -27,7 +27,7 @@ export class extendSheetHuman extends ActorSheet {
       classes: [game.system.id, "sheet", "actor"],
       template: CONFIG._root+"/templates/human.html",
       width: 400,
-      height: 600,
+      height: 620,
       tabs: [
         {navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "main"},
         {navSelector: ".tabs_Bio", contentSelector: ".tabsContent_Bio", initial: "languages"},

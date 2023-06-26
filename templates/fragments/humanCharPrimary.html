@@ -25,13 +25,29 @@
     </ul>
 </div>
 
-<hbox class="switchInit">
-    <label>{{localize 'common.initial'}}</label>
-    <label class="switch">
-        <input type="checkbox" 
-               name="system.control.initial" 
-               {{{editable}}}
-               {{checked systemData.control.initial}} />
-        <span class="sliderSwitch"></span>
-    </label>        
+<hbox class="switchInit spaceBetween">
+    <hbox>
+        <label class="switch">
+            <input type="checkbox" 
+                name="system.control.visible" 
+                {{{editable}}}
+                {{checked systemData.control.visible}} />
+            <span class="sliderSwitch"></span>
+        </label>
+        <a class="showInfo" data-i18n="info.targetvisible">
+        <label>{{localize 'common.targetvisible'}}</label>
+        </a>
+    </hbox>
+    <hbox>
+        <a class="showInfo" data-i18n="info.initial">
+        <label>{{localize 'common.initial'}}</label>
+        </a>
+        <label class="switch">
+            <input type="checkbox" 
+                name="system.control.initial" 
+                {{{editable}}}
+                {{checked systemData.control.initial}} />
+            <span class="sliderSwitch"></span>
+        </label>        
+    </hbox>
 </hbox>

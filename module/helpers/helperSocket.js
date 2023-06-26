@@ -54,7 +54,9 @@ export class helperSocket {
 
         if (game.user.isGM) {
             await entity.update(data);
-            entity.sheet.render(true);
+            if (entity.sheet)
+                entity.sheet.render(true);
+            
         } else {
             helperSocket.send({
                 action: 'update',
@@ -120,6 +122,7 @@ export class helperSocket {
         let entity = null;
         if (game.items.get(payload.id)) entity = game.items.get(payload.id);
         if (game.actors.get(payload.id)) entity = game.actors.get(payload.id);
+        if (game.messages.get(payload.id)) entity = game.messages.get(payload.id);
         if (!entity) return;
 
         entity.update(payload.data);

@@ -70,20 +70,15 @@
                 
                 <hbox>
 
-                    <div class="mainWeapon">
-                        <a class="playWeaponExpress" data-itemid="{{weapon._id}}">
-                            <img class="imgWeapon _express" src="/systems/conventum/image/content/weapons/Dices.png" />
-                        </a>
-                        {{#if (evalActionWeapon ../actions weapon) }}
-                        <a class="playWeapon" data-itemid="{{weapon._id}}" >
-                            <img class="imgWeapon" src="{{weapon.img}}"/>
-                        </a>
-                        {{else}}
-                        <a class="showInfo" data-i18n="info.noAction">
-                            <img class="imgWeapon" src="{{weapon.img}}" style="opacity: 0.3;"/>
-                        </a>                    
-                        {{/if}} 
-                    </div>                  
+                    {{#if (evalActionWeapon ../actions weapon) }}
+                    <a class="playWeapon" data-itemid="{{weapon._id}}" >
+                        <img class="imgWeapon" src="{{weapon.img}}"/>
+                    </a>
+                    {{else}}
+                    <a class="showInfo" data-i18n="info.noAction">
+                        <img class="imgWeapon" src="{{weapon.img}}" style="opacity: 0.3;"/>
+                    </a>                    
+                    {{/if}} 
 
                     <vbox class="_weaponText">
                         <label class="titleWeapon">{{weapon.name}}</label>
@@ -124,6 +119,13 @@
                         <a class="_cardInfo" data-itemid="{{weapon._id}}">
                                 <i class="fas fa-info"></i></a>
                         
+                        <a class="playWeaponExpress" data-itemid="{{weapon._id}}">
+                            <div class="_noActionWrap">
+                                <label>{{localize "common.noAction"}}</label>
+                                <img src="/systems/conventum/image/texture/dice2.png" />
+                            </div>
+                        </a>
+
                     </hbox>
                     
                 </hbox>

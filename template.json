@@ -25,6 +25,7 @@
           "expand": true,
           "criature": false,
           "mount": false,
+          "visible": false,
           "frame": "catholicae",
           "world": ""
         },
