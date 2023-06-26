@@ -132,20 +132,33 @@ export class aqContext {
      * init
      */
     init() {
-        if (this._actor) this._actor = game.actors.get(this._actor._id);
-        if (!this._actor) {
+        if (this.safeBox.actorId) this._actor = game.actors.get(this.safeBox.actorId);
+        else {
             this.msgError("Critic error!");
             return;              
         }
 
-        if (this._action) this._action = this._actor.items.get(this._action._id);
-        if (this._weapon) this._weapon = this._actor.items.get(this._weapon._id);
-        if (this._weapon2) this._weapon2 = this._actor.items.get(this._weapon2._id);
-        if (this._spell) this._spell = this._actor.items.get(this._spell._id);
+        if (this.safeBox.actionId) this._action = this._actor.items.get(this.safeBox.actionId);
+        if (this.safeBox.weaponId) this._weapon = this._actor.items.get(this.safeBox.weaponId);
+        if (this.safeBox.weapon2Id) this._weapon2 = this._actor.items.get(this.safeBox.weapon2Id);
+        if (this.safeBox.spellId) this._spell = this._actor.items.get(this.safeBox.spellId);
         
         this._getActionSkill();
         this._combat = aqActions.getCurrentCombat();
         this._encounter = aqActions.getCurrentEncounter();
+    }
+
+    /**
+     * _consolidate
+     */
+    _consolidate() {
+        this.safeBox = {
+            actorId: this._actor ? this._actor._id : null,
+            actionId: this._action ? this._action._id : null,
+            weaponId: this._weapon ? this._weapon._id : null,
+            weapon2Id: this._weapon2 ? this._weapon2._id : null,
+            spellId: this._spell ? this._spell._id : null,
+        };
     }
 
     /**
@@ -558,6 +571,7 @@ export class aqContext {
         let message = await helperMessages.chatMessage(
             this._getMessageContent(), this._actor, false, '', '200px');
         this._messageId = message.id;
+        this._consolidate();
         helperSocket.update(message, {flags: this});
 
         if (this._weapon2) {
@@ -1206,6 +1220,7 @@ export class aqContext {
         sToFind = sToFind.replaceAll('=""', '');
         newContent = message.content.replace(sToFind, sToReplace);
 
+        this._consolidate();
         await helperSocket.update(message, {content: newContent });
 
     }
@@ -1353,6 +1368,7 @@ export class aqContext {
         let message = await helperMessages.chatMessage(
             this._getDamageMessageContent(targetId), target, true);
         this._messageId = message.id;
+        this._consolidate();
         helperSocket.update(message, {flags: this});
 
         //Bubble...
