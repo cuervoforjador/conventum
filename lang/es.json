@@ -441,8 +441,8 @@
     "common.shielded":              "Protegido por escudo",
     "common.shieldProtection":      "Protección del escudo",
     "common.shieldBroken":          "Escudo roto!",
-    "common.shieldDamage":          "Daño al escudo",
     "common.shieldEndurance":       "Resistencia del escudo",
+    "common.shieldDamage":          "Daño al escudo",
     "common.unsheath":              "Desenvaina arma",
     "common.unwear":                "Quitar",
     "common.useSkill":              "Usar Habilidad",
@@ -500,7 +500,7 @@
     "tour.Title":                   "Bienvenido",
     "tour.Description":             "Proyecto Conventum (Aquelarre)",
     "tour.Title01":                 "Bienvenido a Aquelarre VTT",
-    "tour.Content01":               "Esta es una versión no oficial del sistema Aquelarre adaptado a FoundryVTT. </br>Puedes consultar mas detalles y una documentación a fondo en <a href='https://github.com/cuervoforjador/conventum#aquelarre-conventum' target='_blank'>Forja de Aquelarre</a>.</br></br>Se trata de un sistema <b>no convencional</b> con una serie de acciones y mecanismos propios, por lo que te recomiendo encarecidamente que sigas este tutorial hasta el final.",
+    "tour.Content01":               "Esta es una versión no oficial del sistema Aquelarre adaptado a FoundryVTT. </br>Puedes consultar mas detalles y una documentación a fondo en <a href='https://github.com/cuervoforjador/conventum#aquelarre-conventum' target='_blank'>Forja de Aquelarre</a>.</br></br>Se trata de un sistema <b>no convencional</b> con una serie de acciones y mecanismos propios, por lo que te recomiendo encarecidamente que consultes la página del proyecto en la que iremos actualizando manuales y guías.",
     "tour.Title02":                 "Importante!",
     "tour.Content02":               "El sistema se encuentra en una <b>PRIMERA VERSIÓN ALPHA!</b>.<br><br>En la página del proyecto podrás ver el estado actual y los puntos pendientes, así como el progreso y toda una serie de peticiones y correcciones.",
     "tour.Title03":                 "Compendios",
@@ -508,5 +508,5 @@
     "tour.Title04":                 "Orbe",
     "tour.Content04":               "El sistema se fundamenta en un concepto global llamado Orbe. Algo así como 'un mundo', una configuración general en la que orientar tu partida.",
     "tour.Title05":                 "Distintos orbes, distintas reglas",
-    "tour.Content05":               "El orbe básico es 'Aquelarre'. Pero existen otras adaptaciones (No oficiales) en desarrollo: Villa y Corte, Nahui Ollin... incluso propios. Tu mismo puedes crear tu orbe y orientarlo al contexto que decidas."
+    "tour.Content05":               "El orbe básico es 'Aquelarre'. Pero existen otras adaptaciones (No oficiales) en desarrollo: Villa y Corte, Nahui Ollin... incluso propios. Tu mismo puedes crear tu orbe y orientarlo al contexto que decidas.<br><br>No obstante recuerda antes de lanzarte, que si realizas una actualización, todo tu trabajo será machacado y antes deberías de haberlo guardado debidamente."
 }

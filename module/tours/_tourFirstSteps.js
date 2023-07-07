@@ -46,7 +46,7 @@ export class aqFirstSteps extends aqTours {
                     id: "step05",
                     title: "tour.Title05",
                     content: "tour.Content05",
-                    selector: 'li.directory-item[data-document-id="6BNdSX7o2LoQupsC"]'
+                    selector: 'li.directory-item'
                 },                                    
             ]
         }, {
