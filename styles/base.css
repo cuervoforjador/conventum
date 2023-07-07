@@ -142,7 +142,7 @@ itemSubHeader {
     line-height: 18px;
     width: calc(100% - 80px);
     text-align: initial;
-    background: none;
+    background: #af888852;
     border: 0px;
 }
 

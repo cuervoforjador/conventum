@@ -52,9 +52,10 @@ export class helperSocket {
      */
     static async update(entity, data) {
 
-        if (game.user.isGM) {
+        if ( (game.user.isGM) ||
+             ((entity.ownership[game.userId]) && (entity.ownership[game.userId] === 3)) ) {
             await entity.update(data);
-            if (entity.sheet)
+            if ((entity.sheet) && (entity.sheet.rendered))
                 entity.sheet.render(true);
             
         } else {
@@ -116,7 +117,7 @@ export class helperSocket {
      * _update
      * @param {*} payload 
      */
-    static _update(payload) {
+    static async _update(payload) {
         if (!game.user.isGM) return;
         
         let entity = null;
@@ -125,7 +126,8 @@ export class helperSocket {
         if (game.messages.get(payload.id)) entity = game.messages.get(payload.id);
         if (!entity) return;
 
-        entity.update(payload.data);
+        await entity.update(payload.data);
+        if (entity.sheet.rendered) entity.sheet.render(true);
         this.refreshSheets();
     }
 

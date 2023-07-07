@@ -174,7 +174,7 @@ export class aqCombat {
      * @param {*} weaponId 
      * @returns 
      */
-    static dialogTargets(actorId, weaponId) {
+    static async dialogTargets(actorId, weaponId) {
 
         const actor = game.actors.get(actorId);
         if (!actor) return;
@@ -235,6 +235,25 @@ export class aqCombat {
         //Creating context...
         let context = new aqContext({actorId: actorId, 
                                      weaponId: weaponId});
+
+        //Multiple targets...
+        if ((action) && 
+            (action.system.target.multiple)) {
+                
+            let mTargets = [];
+            Array.from(game.user.targets).map(target => {
+                mTargets.push(target.document.actorId) });
+            if (mTargets.length === 0) {
+                new Dialog({
+                    title: 'Info',
+                    content: game.i18n.localize("info.multipleTargets"),
+                    buttons: [] }).render(true);                      
+            } else {
+                await context.setTargets(mTargets);
+                await aqCombat.playWeapon(context);                
+            }  
+            return;            
+        }
 
         //Targets Dialog
         let oButtons = {};
@@ -314,12 +333,30 @@ export class aqCombat {
     }
 
     /**
+     * playSpell
+     * @param {*} context 
+     */
+    static async playSpell(context) {
+        await context.prepareContext();
+        this.rollSpell(context);
+    }    
+
+    /**
      * rollAction
      * @param {*} context 
      */
     static rollAction(context) {
-        if (context.getAskForLevels()) this._dialogLevel(context);
+        if (context.getAskForLevels()) this._dialogLevel(context, false);
                                   else this._rollAction(context);
+    }
+
+    /**
+     * rollSpell
+     * @param {*} context 
+     */
+    static rollSpell(context) {
+        if (context.getAskForLevels()) this._dialogLevel(context, true);
+                                  else this._rollSpell(context);
     }
 
     /**
@@ -334,7 +371,8 @@ export class aqCombat {
      * _dialogLevel
      * @param {*} context 
      */
-    static async _dialogLevel(context) {
+    static async _dialogLevel(context, bSpell) {
+        bSpell = (!bSpell) ? false : bSpell;
 
         const worldConfig = context.getWorldConfig();
         let oButtons = {};
@@ -346,7 +384,8 @@ export class aqCombat {
               callback: () => {
                 context.setRollBono(oConfig.bono);
                 context.setRollLevel(s);
-                aqCombat._rollAction(context);
+                if (bSpell) aqCombat._rollSpell(context);
+                       else aqCombat._rollAction(context);
               }
             }
         }
@@ -377,5 +416,16 @@ export class aqCombat {
             });
         }
     }
+
+    /**
+     * _rollSpell
+     * @param {*} context 
+     */
+    static async _rollSpell(context) {
+
+        context.setRollFormula('1d100');
+        await context.roll();
+        context.message();
+    }    
 
 }

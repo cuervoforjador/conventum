@@ -28,7 +28,7 @@
 
             <li class="charsShrink">
                 <label>
-                    {{localize 'characteristic.rrShort'}}
+                    <a class="_diceSecondary" data-char="rr">{{localize 'characteristic.rrShort'}}</a>
                 </label>
                 <input type="number"
                     {{{editable}}}
@@ -38,7 +38,7 @@
             </li>
             <li class="charsShrink">
                 <label>
-                    {{localize 'characteristic.irrShort'}}
+                    <a class="_diceSecondary" data-char="irr">{{localize 'characteristic.irrShort'}}</a>
                 </label>
                 <input type="number"
                     {{{editable}}}
@@ -48,7 +48,7 @@
             </li>
             <li class="charsShrink">
                 <label>
-                    {{localize 'characteristic.tempShort'}}
+                    <a class="_diceSecondary" data-char="temp">{{localize 'characteristic.tempShort'}}</a>
                 </label>
                 <input type="number"
                     {{{editable}}}
@@ -91,7 +91,7 @@
             {{/each}}              
         </div>
     </div>
-    <div>
+    <div class="shrinkRight">
 
         {{!-- SKILLS --}}
         <div class="skillsShrink">
@@ -143,7 +143,8 @@
                 {{#if actions.showSkill}}
                 <li class="boxWeapon _shrink"  id="boxWeapon_{{actions.skill._id}}">
                     <a class="playSkill _shrink" data-itemId="{{actions.skill._id}}" data-actionId="{{actions.action._id}}">
-                        <img class="imgWeapon2 _shrink" src="systems/conventum/image/texture/dice2.png"/></a>   
+                        <img class="imgWeapon2 _shrink" src="systems/conventum/image/texture/dice2.png"/></a>                      
+
                     <label class="_label _shrink">{{actions.skill.name}}</label>
                     <label class="_label _shrink">{{itemPropertyExtend 'systemData.skills' actions.skill._id 'value'}}</label>
                     <label class="_label _shrink"></label>
@@ -157,16 +158,23 @@
                     <li class="boxWeapon _shrink"  id="boxWeapon_{{weapon._id}}">
 
                         {{#if (evalActionWeapon ../actions weapon) }}
-                        <a class="playWeapon" data-itemid="{{weapon._id}}" >
+                        <a class="playWeapon" data-itemid="{{weapon._id}}" 
+                            title="{{localize 'help.action'}}">
                             <img class="imgWeapon2 _shrink" src="systems/conventum/image/texture/dice2.png"/>
                         </a>
                         {{else}}
-                        <a class="showInfo" data-i18n="info.noAction">
+                        <a class="showInfo" data-i18n="info.noAction"
+                            title="{{localize 'help.action'}}">
                             <img class="imgWeapon2 _shrink" src="systems/conventum/image/texture/dice2.png" 
                                 style="opacity: 0.3;"/>
                         </a>                    
                         {{/if}} 
                         
+                        <a class="playWeaponExpress" data-itemid="{{weapon._id}}"
+                            title="{{localize 'help.express'}}">
+                            <img class="imgWeapon2 _shrink" src="/systems/conventum/image/texture/express.png"/>
+                        </a>  
+
                         <a class="actionIcon" data-itemId="{{weapon._id}}" data-action="show">
                         <label class="_label _shrink">{{weapon.name}}</label>
                         </a>
@@ -232,65 +240,144 @@
         </div>
         {{/if}}
 
+    </div>
+
+    {{!-- ITEMS --}}
+    {{#if (counted 'item')}}
+    <div class="_total">
+        <h3 class="_shrink">{{localize "common.items"}}</h3>
+        <ol class="itemList">
+        {{#each items as |item id|}}
+        {{#if (itemType item 'item') }} 
+        
+            <li class="itemEl _shrink" data-item-id="{{item._id}}">
+                <div class="_actionsBox" style="z-index: 100;">                 
+                    {{#if ../imMaster}}
+                    <a class="actionIcon" data-itemId="{{item._id}}" data-action="delete">
+                        <img class="imgAction" src="systems/conventum/image/texture/destroy.png" /></a>
+                    {{/if}}
+                </div>                
+                <a class="actionIcon" data-itemId="{{item._id}}" data-action="show">
+                    <label class="_label _shrink">{{item.name}}</label>
+                </a>
+            </li>
+
+        {{/if}}
+        {{/each}}            
+        </ol>
+    </div>
+    {{/if}}
+
+    {{!-- SPELLS --}}
+    {{#if (counted 'spell')}}
+    <div class="_total" style="margin-top: 12px;">
+        <h3 class="_shrink">{{localize "common.spells"}}</h3>
+        <ul class="magicList _shrink">
+
+        <li class="_magic" style="border-bottom: 1px solid #33333330;">
+            <label class="_title _head"></label>
+            <label class="_points _head" style="margin-left: -8px;">Vis Ordo</label>
+            <label class="_points _head" style="margin-left: 11px;">Ptc Ptf</label>
+            <label class="_type _head"></label>
+            <label class="_points _head" style="margin-left: -11px;">{{localize "common.penalShort"}}</label>
+            <label class="_value _head" style="margin-left: 8px;">Rr Irr</label>            
+        </li>             
+        {{#each items as |item id|}}
+        {{#if (itemType item 'spell') }} 
         
 
-        {{#if (counted 'item')}}
-        <div class="_total">
-            <h3 class="_shrink">{{localize "common.items"}}</h3>
-            <ol class="itemList">
-            {{#each items as |item id|}}
-            {{#if (itemType item 'item') }} 
-            
-                <li class="itemEl _shrink" data-item-id="{{item._id}}">
-                    <div class="_actionsBox" style="z-index: 100;">                 
-                        {{#if ../imMaster}}
-                        <a class="actionIcon" data-itemId="{{item._id}}" data-action="delete">
-                            <img class="imgAction" src="systems/conventum/image/texture/destroy.png" /></a>
-                        {{/if}}
-                    </div>                
+            <li class="itemEl _magic _spell _shrink" data-item-id="{{item._id}}">
+                <label class="_title">
                     <a class="actionIcon" data-itemId="{{item._id}}" data-action="show">
-                        <label class="_label _shrink">{{item.name}}</label>
+                        {{item.name}}
                     </a>
-                </li>
-
-            {{/if}}
-            {{/each}}            
-            </ol>
-        </div>
+                </label>
+                <label class="_points">{{item.system.vis}}</label>
+                <label class="_points">{{item.system.ptc}}</label>
+                <label class="_type">{{item.system.shape}}</label>
+                <label class="_points">{{item.system.penal}}</label>
+                <label class="_value">
+                    <a class="playSpell" data-itemId="{{item._id}}">
+                        {{spellValue item 'spell'}}
+                    </a>
+                </label>
+            </li>
         {{/if}}
-
-        {{#if (counted 'action')}}
-        <div class="_total" style="margin-top: 12px;">
-            <h3 class="_shrink">{{localize "common.actions"}}</h3>
-            <ol class="itemList">
-            {{#each items as |item id|}}
-            {{#if (itemType item 'action') }} 
-            
-                <li class="itemEl _shrink" 
-                    data-item-id="{{item._id}}"
-                    style="margin-right: 10px;">
-                    <div class="_actionsBox" style="z-index: 100;">                 
-                        {{#if ../imMaster}}
-                        <a class="actionIcon" data-itemId="{{item._id}}" data-action="delete">
-                            <img class="imgAction" src="systems/conventum/image/texture/destroy.png" /></a>
-                        {{/if}}
-                    </div>                
-                    <a class="_doAction" data-itemId="{{item._id}}" >
-                        <label class="_label _shrink">{{item.name}}</label>
-                    </a>
-                    <a class="actionIcon" data-itemid="{{item._id}}" data-action="show">
-                        <img class="imgAction _shrink" 
-                             src="systems/conventum/image/texture/edit.png" 
-                             style="width: 15px; height: 15px;"/>
-                    </a>
-                </li>
-
-            {{/if}}
-            {{/each}}            
-            </ol>
-        </div>
-        {{/if}}
-
+        {{/each}}            
+        </ul>
     </div>
+    {{/if}}
+
+    {{!-- RITUALS --}}
+    {{#if (counted 'ritual')}}
+    <div class="_total" style="margin-top: 12px;">
+        <h3 class="_shrink">{{localize "common.rituals"}}</h3>
+        <ul class="magicList _shrink">
+
+        <li class="_magic" style="border-bottom: 1px solid #33333330;">
+            <label class="_title _head"></label>
+            <label class="_points _head" style="margin-left: -8px;">Vis Ordo</label>
+            <label class="_points _head" style="margin-left: 11px;">Ptc Ptf</label>
+            <label class="_type _head"></label>
+            <label class="_points _head" style="margin-left: -11px;">{{localize "common.penalShort"}}</label>
+            <label class="_value _head" style="margin-left: 8px;">Rr Irr</label>            
+        </li>             
+        {{#each items as |item id|}}
+        {{#if (itemType item 'ritual') }} 
+        
+            <li class="itemEl _magic _ritual _shrink" data-item-id="{{item._id}}">
+                <label class="_title">
+                    <a class="actionIcon" data-itemId="{{item._id}}" data-action="show">
+                        {{item.name}}
+                    </a>
+                </label>
+                <label class="_points">{{item.system.ordo}}</label>
+                <label class="_points">{{item.system.ptf}}</label>
+                <label class="_type"></label>
+                <label class="_points">{{item.system.penal}}</label>
+                <label class="_value">
+                    <a class="playSpell" data-itemId="{{item._id}}">
+                        {{spellValue item 'ritual'}}
+                    </a>
+                </label>
+            </li>
+        {{/if}}
+        {{/each}}            
+        </ul>
+    </div>
+    {{/if}}    
+
+    {{!-- ACTIONS --}}
+    {{#if (counted 'action')}}
+    <div class="_total" style="margin-top: 12px;">
+        <h3 class="_shrink">{{localize "common.actions"}}</h3>
+        <ol class="itemList">            
+        {{#each items as |item id|}}
+        {{#if (itemType item 'action') }} 
+        
+            <li class="itemEl _shrink" 
+                data-item-id="{{item._id}}"
+                style="margin-right: 10px;">
+                <div class="_actionsBox" style="z-index: 100;">                 
+                    {{#if ../imMaster}}
+                    <a class="actionIcon" data-itemId="{{item._id}}" data-action="delete">
+                        <img class="imgAction" src="systems/conventum/image/texture/destroy.png" /></a>
+                    {{/if}}
+                </div>                
+                <a class="_doAction" data-itemId="{{item._id}}" >
+                    <label class="_label _shrink">{{item.name}}</label>
+                </a>
+                <a class="actionIcon" data-itemid="{{item._id}}" data-action="show">
+                    <img class="imgAction _shrink" 
+                            src="systems/conventum/image/texture/edit.png" 
+                            style="width: 15px; height: 15px;"/>
+                </a>
+            </li>
+
+        {{/if}}
+        {{/each}}            
+        </ol>
+    </div>
+    {{/if}}
 
 </div>

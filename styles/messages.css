@@ -111,7 +111,7 @@
     line-height: 18px;
     z-index: 10;
     position: relative;
-    top: -10px;
+    top: -8px;
 }
 ._chatBox ._title::first-letter {
     color: #a53434;
@@ -131,7 +131,7 @@
 }
 ._chatBox ._skill._characteristic {
     position: relative;
-    top: -38px;
+    top: -43px;
     font-size: 24px;
     width: 270px;
     text-align: left;
@@ -421,6 +421,7 @@ a._infoSkill {
     align-items: center;
     position: relative;
     top: 5px;
+    z-index: 100;
 }
 ._messageDamage a._rollDamage {
     display: flex;
@@ -487,7 +488,7 @@ a._infoSkill {
     left: -11px;
     width: calc(100% + 24px);
     height: 180px;
-    z-index: 30;
+    z-index: 3000;
     padding-top: 5px;
     overflow-y: scroll;
 }

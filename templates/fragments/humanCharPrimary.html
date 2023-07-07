@@ -14,6 +14,9 @@
                    name="system.characteristics.primary.{{key}}.value" 
                    value="{{itemPropertyExtend 'systemData.characteristics.primary' key 'value'}}"
                    class="{{itemPropertyExtend 'systemData.characteristics.primary' key 'class'}}" />
+            {{#if (evalCharPenal char)}}
+            <label class="_penalCharact">{{char.penal}}</label>
+            {{/if}}
             <input type="hidden" 
                    name="system.characteristics.primary.{{key}}.temp"  
                    value="{{itemPropertyExtend 'systemData.characteristics.primary' key 'temp'}}"/>
@@ -48,6 +51,11 @@
                 {{{editable}}}
                 {{checked systemData.control.initial}} />
             <span class="sliderSwitch"></span>
-        </label>        
+        </label>     
+        {{#if systemData.control.initial}}
+        <a class="showInfo" data-i18n="info.initial">
+            <img src="/systems/conventum/image/texture/warning.png" class="_warning" />
+        </a>
+        {{/if}}
     </hbox>
 </hbox>

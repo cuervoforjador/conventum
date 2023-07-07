@@ -209,7 +209,16 @@
                         {{checked systemData.target.lastDefender}} />
                 <span class="sliderSwitch"></span>
             </label>            
-        </hbox>              
+        </hbox>  
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.multipleTarget" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.target.multiple" 
+                        {{checked systemData.target.multiple}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>                    
 
     </panelContent>
 </slidePanel>
@@ -235,7 +244,15 @@
                    value="{{systemData.skill.mod.targetCombatSkill}}" 
                    data-dtype="Number"
                    type="text" />           
-        </hbox>        
+        </hbox> 
+        <hbox class="_100">
+            <label class="_150px">{{localize "common.modCombat2Skill" }}</label>
+            <input class="_100px" 
+                   name="system.skill.mod.combatSkill2"
+                   value="{{systemData.skill.mod.combatSkill2}}" 
+                   data-dtype="Number"
+                   type="text" />            
+        </hbox>               
         <hbox class="_50">
             <label class="_150px">{{localize "common.multSkill" }}</label>
             <input class="_100px" 
@@ -395,7 +412,25 @@
                         {{checked systemData.damage.target.mount}} />
                 <span class="sliderSwitch"></span>
             </label>            
-        </hbox>                                     
+        </hbox>   
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.noDamage" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.damage.noDamage" 
+                        {{checked systemData.damage.noDamage}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>         
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.damageXendurance" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.damage.damageXendurance" 
+                        {{checked systemData.damage.damageXendurance}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>                                          
     </panelContent>
 </slidePanel>
 </div>
@@ -616,7 +651,16 @@
                         {{checkedExtend 'systemData.modes' mode._id 'target'}} />
                     <span class="sliderSwitch"></span>
                 </label>
-            </hbox>            
+            </hbox>      
+            <hbox class="_50">
+                <label class="_150px">{{localize "common.modeTargetIn" }}</label>
+                <label class="switch" style="margin-right: 10px">
+                    <input type="checkbox" 
+                        name="system.modes.{{mode._id}}.targetIn" 
+                        {{checkedExtend 'systemData.modes' mode._id 'targetIn'}} />
+                    <span class="sliderSwitch"></span>
+                </label>
+            </hbox>                  
             <lineDiv></lineDiv>
         {{/each}}                     
     </panelContent>

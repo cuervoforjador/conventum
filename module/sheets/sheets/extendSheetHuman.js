@@ -65,6 +65,12 @@ export class extendSheetHuman extends ActorSheet {
     context.traits = this.actor.items.filter(e=>e.type === 'trait');
 
     //Modes...
+    if (!context.systemData.modes.length) {
+      context.systemData.modes = [];
+      this.actor.update({
+        system: { modes: []}
+      });
+    }
     context.modes = await helperSheetHuman.getModes(this.actor, context);
 
     //Skills...
@@ -143,6 +149,7 @@ export class extendSheetHuman extends ActorSheet {
     /* Skills */
     html.find(".playSkill").click(this._playSkill.bind(this)); 
     html.find("a.diceSkill").click(this._playSkill.bind(this)); 
+    html.find("a.experienceSkill").click(this._experienceSkill.bind(this)); 
     $(".searchSkill").on('input', this._searchSkill.bind(this));
 
     /* Weapons & actions*/
@@ -244,7 +251,7 @@ export class extendSheetHuman extends ActorSheet {
     const item = (itemId) ? this.actor.items.get(itemId) : null;
     if (!item) return;
     item.sheet.render(true, {
-      editable: false
+      editable: game.user.isGM
     });
   }
 
@@ -263,7 +270,8 @@ export class extendSheetHuman extends ActorSheet {
     if (!item) return;
     item.sheet.render(true, {
       editable: game.user.isGM
-    });    
+    }); 
+    item.sheet._tabs[0].active = 'description';   
   }
 
   _showItem(event) {
@@ -274,6 +282,7 @@ export class extendSheetHuman extends ActorSheet {
     item.sheet.render(true, {
       editable: game.user.isGM
     });    
+    item.sheet._tabs[0].active = 'description';
   }  
 
   _diceCharacteristic(event) {
@@ -323,7 +332,14 @@ export class extendSheetHuman extends ActorSheet {
     helperRolls.rollDices(this.actor, sPath, true, sFormula, actionId);
   }
 
-
+  async _experienceSkill(event) {
+    event.preventDefault();
+    const skillId = event.currentTarget?.dataset.itemid;
+    let oData = {system: {skills: {}}};
+    oData.system.skills[skillId] = {experienced: 
+          !this.actor.system.skills[skillId].experienced };
+    await this.actor.update(oData);   
+  }
 
   _searchSkill(event) {
     event.preventDefault();
@@ -396,7 +412,7 @@ export class extendSheetHuman extends ActorSheet {
     event.preventDefault();
     const itemId = event.currentTarget?.dataset.itemid;
     await helperSheetArmor.wearGarment(this.actor, itemId).then(() => {
-          mainUtils.delay(500).then(() => this.actor.sheet.render());
+          mainUtils.delay(500).then(() => this.actor.sheet.render(true));
     });
     
   }
@@ -405,7 +421,7 @@ export class extendSheetHuman extends ActorSheet {
     event.preventDefault();
     const itemId = $($(event.currentTarget).parents("ol.armorCloset")).data("currentitem");
     await helperSheetArmor.unwearGarment(this.actor, itemId).then(() => {
-          mainUtils.delay(500).then(() => this.actor.sheet.render());
+          mainUtils.delay(500).then(() => this.actor.sheet.render(true));
     });
   }
 
@@ -491,6 +507,7 @@ export class extendSheetHuman extends ActorSheet {
       item.sheet.render(true, {
         editable: game.user.isGM
       });
+      item.sheet._tabs[0].active = 'description';
     if (action === 'delete') {
       if (item.type === 'armor') {
         helperSheetArmor.destroyArmor(this.actor, item.id, true);

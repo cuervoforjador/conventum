@@ -227,6 +227,14 @@ input._border {
     margin-top: 8px;
     padding-right: 8px;
 }
+img._warning {
+    width: 30px;
+    border: none;
+    margin-bottom: -10px;
+    position: relative;
+    top: -1px;
+    opacity: 0.8;
+}
 
 /* Characteristics */
 .actorChars {
@@ -283,6 +291,26 @@ input._border {
 ._temporal {
     color: #9f4436!important;
 }
+label._penalCharact {
+    font-size: 11px;
+    width: 24px;
+    height: 20px;
+    line-height: 15px;
+    text-align: center;
+    background: #fff3f3c7;
+    color: #000;
+    border: 1px solid #0000003d;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    position: relative;
+    top: -8px;
+    left: 13px;
+}
 
 .actorChars li.chars .tooltiptext {
     font-size: 15px;
@@ -320,6 +348,9 @@ input._border {
     .shrinkLeft {
         border-right: 1px solid #33333347;
         padding-right: 8px;
+    }    
+    .shrinkRight {
+        max-width: calc(100% - 111px)!important;
     }    
     .headerInfo._shrink {
         height: auto;
@@ -549,7 +580,13 @@ input._border {
         margin: 0px;
         padding: 0px;
         margin-right: 5px;
+        display: flex;
+        justify-content: flex-start;
+        flex-flow: wrap;
     }
+    li.itemEl._magic._shrink {
+        width: 100%;
+    }    
     .mainShrink ._total {
         width: 100%;
     }    
@@ -886,6 +923,44 @@ li.boxSkill:hover input._acquired {
     margin-bottom: -24px;
     opacity: 1;
 }
+input._experienced {
+    margin-bottom: -20px;
+    position: relative;
+    top: -67px;
+    left: 20px;
+    opacity: 0.5;
+    line-height: 12px!important;
+    font-size: 12px;
+    height: 15px;
+    transition: 0.8s;
+}
+li.boxSkill:hover input._experienced {
+    transform: translate(-57px, -4px);
+    height: 20px;
+    top: -62px;
+    margin-bottom: -24px;
+    opacity: 1;
+}
+.experienceSkill img {
+    width: 23px;
+    height: 23px;
+    position: relative;
+    top: -82px;
+    left: -49px;
+    margin-bottom: -23px;
+    border: 0px;
+    opacity: 0.6;
+    display: flex;
+}
+li.boxSkill:hover .experienceSkill img {
+    left: -53px!important;
+    top: -61px;
+    opacity: 1!important;
+    background: #FFF;
+    padding: 1px;
+    border: 1px solid #333333bf;
+    margin-bottom: -30px;
+}
 input._skillPenal {
     font-family: 'Almendra';
     line-height: 26px!important;
@@ -900,7 +975,7 @@ input._skillPenal {
     top: -38px;
     transition: 0.8s;
     color: #ec2626;
-    opacity: 0.6;
+    opacity: 0.8;
     text-shadow: 2px 0 #ffffff63, -2px 0 #ffffff63, 0 2px #ffffff63, 0 -2px #ffffff63, 1px 1px #ffffff63, -1px -1px #ffffff63, 1px -1px #ffffff63, -1px 1px #ffffff63;
 }
 li.boxSkill:hover ._skillPenal {
@@ -1854,6 +1929,11 @@ li._magic {
     line-height: 20px;
     transition: 0.4s;
 }
+ul.magicList._shrink {
+    background: #9778781f;
+    border-top: 1px solid #33333378;
+    border-bottom: 1px solid #3336;
+}
 label._value:hover {
     background: #b37a7a85;
     border-radius: 3px;
@@ -2071,6 +2151,20 @@ img.imgAction.react {
 ul._humanTargets._reduce {
     left: -105px;
 }
+._humanAction a._showMyItem {
+    top: 0px;
+    left: 0px;
+    width: auto;
+    height: auto;
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+    position: initial;
+}
+._void {
+    width: 100%;
+    height: 100%;
+}
 
 
 /* Targets circles */
@@ -2247,13 +2341,11 @@ img._quickButton._active {
 *************************************************************************************** */
 .itemTabsHeader {
     width: 100%;
-    border: 0px!important;
+    background: #e5adad30;
     padding-left: 10px;
 }
 .itemTabsHeader a {
     margin-right: 4px;
-    border-top: 1px solid #333;
-    border-bottom: 1px solid #333;
     font-family: 'Almendra';
     font-size: 16px;
     padding-left: 5px;

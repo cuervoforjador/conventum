@@ -237,8 +237,9 @@ export class HookEvents {
                                       .filter(e => e.id === skillId);
         if (!oDoc || (oDoc.length === 0)) return;
         oDoc[0].sheet.render(true, {
-          editable: false
+          editable: game.user.isGM
         });        
+        oDoc[0].sheet._tabs[0].active = 'description';        
     }    
 
     /**
@@ -253,7 +254,8 @@ export class HookEvents {
 
         item.sheet.render(true, {
           editable: game.user.isGM
-        });        
+        });  
+        item.sheet._tabs[0].active = 'description';      
     }     
 
     /**

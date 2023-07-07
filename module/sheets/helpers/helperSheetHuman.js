@@ -50,7 +50,7 @@ export class helperSheetHuman {
    */
   static async checkSystemData(actor, systemData, backend) {
 
-    this._checkCharacteristics(systemData);
+    this._checkCharacteristics(actor, systemData);
     this._calcCharacteristics(systemData);
     this._calcHPStatus(systemData);
     this._calcAPPStatus(systemData);
@@ -189,19 +189,18 @@ export class helperSheetHuman {
           value: 0,
           penal: 0,
           initial: 0,
-          acquired: false
+          acquired: false,
+          experienced: false
         };
       }
       let actorSkill = context.systemData.skills[skill.id];
 
-      if (!actor.system.control.criature) {
-        actorSkill.initial = 
-            context.systemData.characteristics.primary[skill.system.characteristic.primary].value;
-        if (actorSkill.value < actorSkill.initial) actorSkill.value = actorSkill.initial;
-      }
+      //Penalizations...
+      
+      //by armor...
       actorSkill.penal = helperSheetArmor.calcPenalByArmor(actor, skill);
 
-      //add Penalizations by Traits...
+      //by Traits...
       const mTraits = actor.items.filter(e => ( (e.type === 'trait')  
                                              && (e.system.control.world === actor.system.control.world)
                                              && (e.system.mod.skill.apply) 
@@ -211,6 +210,15 @@ export class helperSheetHuman {
                                     + helperSheetMagic.penalValue(e.system.mod.skill.bono)).toString());
         actorSkill.penal = helperSheetMagic.penalValue(actorSkill.penal);
       });
+
+      //Values
+      if (!actor.system.control.criature) {
+        actorSkill.initial = 
+            context.systemData.characteristics.primary[skill.system.characteristic.primary].value + 
+            Number(context.systemData.characteristics.primary[skill.system.characteristic.primary].penal);
+
+        if (!actorSkill.acquired) actorSkill.value = actorSkill.initial;
+      }
 
     });
 
@@ -299,7 +307,7 @@ export class helperSheetHuman {
    * _checkCharacteristics
    * @param {*} systemData 
    */
-  static _checkCharacteristics(systemData) {
+  static _checkCharacteristics(actor, systemData) {
     
     if (systemData.control.criature) return;
 
@@ -316,14 +324,29 @@ export class helperSheetHuman {
           if ( _root.value > _root.initial ) _root.value = _root.initial;
           continue;
         } else {
-          if ( _root.value < _root.min ) _root.value = _root.min;
-          if ( _root.value > _root.max ) _root.value = _root.max;
+          if (( _root.value < _root.min ) && (systemData.control.initial)) 
+            _root.value = _root.min;
+          if (( _root.value > _root.max ) && (systemData.control.initial)) 
+            _root.value = _root.max;
         }    
 
         //Initial && temporal values...
         _root.temp = _root.value.value;  
         _root.initial = (systemData.control.initial) ? _root.value : _root.initial;
         _root.class = (_root.initial != _root.temp) ? "_temporal" : "";
+
+        //Penalizations...
+        const mTraits = actor.items.filter(e => ( (e.type === 'trait')  
+                                               && (e.system.control.world === actor.system.control.world)
+                                               && (e.system.mod.characteristic.apply) 
+                                               && (e.system.mod.characteristic.id === s)));        
+        mTraits.map(e => {
+          _root.penal = '+0';
+          _root.penal = eval( Number(_root.penal).toString() +
+                              helperSheetMagic.penalValue(e.system.mod.characteristic.bono)).toString();
+          _root.penal = helperSheetMagic.penalValue(_root.penal);
+        });
+
       }
     });
 

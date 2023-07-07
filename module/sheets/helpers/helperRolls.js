@@ -233,6 +233,14 @@ export class helperRolls {
       //Result
       const nPass = Number(sMinValue) + Number(sValueMod);
       let success = ( nPass >= Number(roll.result) );
+      
+      //Experienced
+      if ((success) && (sPath.split('.')[0] === 'skills')) {
+        const skillID = sPath.split('.')[1];
+        let updateData = {system: { skills: {}}};
+        updateData.system.skills[skillID] = {experienced: true};
+        await helperSocket.update(actor, updateData);
+      }
 
       //Luck
       const luck = await this.checkImLucky(actor, nPass, Number(roll.result));
@@ -382,7 +390,7 @@ export class helperRolls {
         //oEncounter.update({
         //  system: { steps: mSteps }
         //});
-        helperSocket.update(oEncounter, {
+        await helperSocket.update(oEncounter, {
           system: { steps: mSteps }
         });        
 
@@ -411,12 +419,13 @@ export class helperRolls {
         const myLuck = actor.system.characteristics.secondary.luck.value;
         const myFinalLuck = (myLuck >= nDiff) ? myLuck - nDiff 
                                               : 0;
-        await actor.updateSource({
+        await helperSocket.update(actor, {
           system: {
-            characteristics: {secondary: {luck: {value: myFinalLuck}}}
+            characteristics: {secondary: {luck: {value: myFinalLuck}}},
+            modes: helperActions.modesWithoutLuck(actor)
           }
         });
-        await helperActions.setLuck(actor);
+        //await helperActions.setLuck(actor);
 
         if (history) {
           history.push(' --- '+game.i18n.localize("common.luck")+' --- ');

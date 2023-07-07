@@ -153,26 +153,21 @@ export class aqActions {
      */
     static getLastStep(actorId, bLastAttacker, bLastDefender) {
 
-        const mSteps = this.getCurrentEncounterSteps();
-        if (!mSteps) return;
-
-        const action = (actorId) ? this.getCurrentAction(actorId) : null;
-
-        let lastStep;
-        for (const step of mSteps) {
+        let mSteps = this.getCurrentEncounterSteps();
+        if ((!mSteps) || (mSteps.length === 0)) return;
+        if (mSteps.length === 1) return mSteps[0];
         
-            const stepActor = game.actors.get(step.actor);
-            const stepAction = stepActor.items.get(step.action);
-        
-            if ( (step.actor === actorId)
-              && (bLastAttacker ? stepAction.system.type.attack : true)
-              && (bLastDefender ? stepAction.system.type.defense : true)
-              && (step.action === action.id)
-              && (!step.consumed) ) break;
-            else lastStep = step;
+        mSteps = mSteps.filter(e => e.consumed);
+        if ((!bLastAttacker) && (!bLastDefender)) return mSteps[mSteps.length - 1];
+
+        for (let i=mSteps.length - 1; i<mSteps.length; i--) {
+            const stepAction = mSteps[i];
+            const actorAction = game.actors.get(stepAction.actor).items.get(stepAction.action);
+            
+            if ((actorAction.system.type.attack) && (bLastAttacker)) return stepAction;
+            if ((actorAction.system.type.defense) && (bLastDefender)) return stepAction;
         }
-
-        return lastStep;
+        return mSteps[mSteps.length - 1];
 
     }
 

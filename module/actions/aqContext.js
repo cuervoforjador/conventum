@@ -1,6 +1,7 @@
 
-import { aqActions } from "./aqActions.js"
-import { helperSocket } from "../helpers/helperSocket.js"
+import { aqActions } from "./aqActions.js";
+import { aqCombat } from "./aqCombat.js";
+import { helperSocket } from "../helpers/helperSocket.js";
 import { helperSheetHuman } from "../sheets/helpers/helperSheetHuman.js";
 import { helperSheetArmor } from "../sheets/helpers/helperSheetArmor.js";
 import { helperActions } from "../sheets/helpers/helperActions.js";
@@ -17,6 +18,7 @@ export class aqContext {
     _locationId         =''
 
     _skill              =null
+    _charAsSkill        =false
     _percentBase        =0
     _percentMod         =''
     _percentMult        =1
@@ -48,6 +50,7 @@ export class aqContext {
     _damageMessageId    =''
 
     _luckMode           =false
+    _modes              =[]
 
     _combat             =null
     _encounter          =null
@@ -61,6 +64,12 @@ export class aqContext {
     _targetsToken       =[]
 
     _express            =false
+    _noCombat           =false
+    _noAction           =false
+    _defensive          =false
+    _shielded           =false
+    _shieldedTarget     =false
+    _damageToShield     =false
 
     /**
      * constructor
@@ -97,32 +106,53 @@ export class aqContext {
             }
             this.setWorld(this._actor.system.control.world);
 
+            if ((options.spellId !== undefined) && (options.spellId !== '')) {
+                this._spell = this._actor.items.get(options.spellId);
+                if (!this._spell) {
+                    this.msgError("There is no spell for this Id!");
+                    return;              
+                }
+                this.msgHistory("common.spell", this._spell.name);            
+                this._noCombat = true;
+                this._noAction = true;
+            }
+
             this._weapon = this._actor.items.get(options.weaponId);
-            if (!this._weapon) {
+            this._weapon = (this._weapon !== undefined) ? this._weapon : null;
+            if ((!this._weapon) && (!this._noCombat)) {
                 this.msgError("There is no weapon for this Id!");
                 return;              
             }
-            this.msgHistory("common.weapon", this._weapon.name);
+            if (this._weapon)
+                this.msgHistory("common.weapon", this._weapon.name);
 
             if (options.express) return;
 
             this._combat = aqActions.getCurrentCombat();
-            if (!this._combat) {
+            this._combat = (this._combat !== undefined) ? this._combat : null;
+            if ((!this._combat) && (!this._noCombat)) {
                 this.msgError("There is no active combat!");
                 return;              
             }
 
             this._encounter = aqActions.getCurrentEncounter();
-            if (!this._encounter) {
+            this._encounter = (this._encounter !== undefined) ? this._encounter : null;
+            if ((!this._encounter) && (!this._noCombat)) {
                 this.msgError("There is no active encounter!");
                 return;              
             }
 
             this._action = aqActions.getCurrentAction(this._actor.id);
-            if (!this._action) {
+            this._action = (this._action !== undefined) ? this._action : null;
+            if ((!this._action) && (!this._noCombat)) {
                 this.msgError("Error with Action!");
                 return;
             }        
+
+            //Defensive action
+            if ((this._action) && (this._action.system.type.defense)) {
+                this._defensive = true;
+            }
 
             this._applyLocation();
         }
@@ -332,6 +362,10 @@ export class aqContext {
      * _applyLocation
      */
     _applyLocation() {
+        if (this._noCombat) {
+            this._locationId = '';
+            return;
+        }
 
         const step = aqActions.getCurrentStep();
         if ((!step) || (step.actor !== this._actor.id)) {
@@ -484,6 +518,7 @@ export class aqContext {
         this._getActionMulty();
 
         this._getPercentPenal();
+        this._getMagicMods();
         this._getHandPenal();
         this._getWeaponPenal();
         this._getWeaponRequirementPenal();
@@ -492,6 +527,7 @@ export class aqContext {
         this._getPercentFinal();
 
         this._getDamageBase();
+        this._getSpellDamageBase();
         this._getActionDamageMulty();
 
         this._getDamageBon();
@@ -524,6 +560,7 @@ export class aqContext {
      */
     getAskForLevels() {
         if (this._express) return true;
+        if (this._noCombat) return true;
         return this._action.system.rolls.leveled;
     }
 
@@ -537,7 +574,8 @@ export class aqContext {
         if (game.dice3d)
           await game.dice3d.showForRoll(this._roll, game.user, true);  
 
-        await this._evalRoll();      
+        await this._evalRoll();
+        await this._postRoll();
     }
 
     /**
@@ -572,12 +610,12 @@ export class aqContext {
             this._getMessageContent(), this._actor, false, '', '200px');
         this._messageId = message.id;
         this._consolidate();
-        helperSocket.update(message, {flags: this});
+        await helperSocket.update(message, {flags: this});
 
         if (this._weapon2) {
             let message2 = await helperMessages.chatMessage(
                 this._getMessageContent(true), this._actor, false, '', '200px');
-            helperSocket.update(message2, {context: this});
+            await helperSocket.update(message2, {context: this});
         }
     }
 
@@ -585,7 +623,7 @@ export class aqContext {
      * consumeStep
      */
     consumeStep() {
-        if (!this._express) {
+        if ((!this._express) && (!this._noCombat)) {
             if (aqActions.getCurrentStep().actor === this._actor.id)
                                             aqActions.consumeCurrentStep();
         }
@@ -664,6 +702,17 @@ export class aqContext {
 
         if (this._rollCritSuccess) this.msgHistory("common.rollCriticalSuccess", "");
         if (this._rollCritFailure) this.msgHistory("common.rollCriticalFailure", "");
+
+        //Damage x Endurance (Critical Failure)
+        if ((!this._noAction) &&            
+            (this._action.system.damage.damageXendurance) &&
+            (this._rollCritFailure)) {
+
+                this._action.system.damage.noDamage = false;
+                this._action.system.damage.damageXendurance = false;
+                this._rollSuccess = true;
+        }
+
     }
 
     /**
@@ -682,12 +731,10 @@ export class aqContext {
             const myLuck = this._actor.system.characteristics.secondary.luck.value;
             const myFinalLuck = (myLuck >= nDiff) ? myLuck - nDiff : 0;        
             
-            // Two times!, Twice as effective!!! ;)
             await helperSocket.update(this._actor, { system: {
-                        characteristics: {secondary: {luck: {value: myFinalLuck}}} }});
-            await helperSocket.update(this._actor, { system: {
-                        characteristics: {secondary: {luck: {value: myFinalLuck}}} }});                        
-            await helperActions.playMode(this._actor, modeLuck);
+                        characteristics: {secondary: {luck: {value: myFinalLuck}}},
+                        modes: helperActions.modesWithoutLuck(this._actor)
+                    }});
 
             this.msgHistory("common.luck", '');
             this.msgHistory("common.luckLost", nDiff.toString());
@@ -695,6 +742,66 @@ export class aqContext {
 
             if (myLuck >= nDiff) 
                 this._rollSuccess = true;
+        }
+    }
+
+    /**
+     * _postRoll
+     */
+    async _postRoll() {
+        await this._evalShields();
+        await this._evalModes();
+        await this._removeDamageMessage();
+    }
+
+    /**
+     * _evalShields
+     */
+    async _evalShields() {
+        if ((!this._defensive) || (!this._weapon.system.type.shield)) return;
+        
+        this._shielded = true;
+
+        //Updating last action message
+        let mActionMessages = Array.from(game.messages).filter(e => ((e.flags) && (e.flags.safeBox)));
+        if (mActionMessages.length === 0) return;
+
+        let message = mActionMessages[mActionMessages.length - 1];
+        if (!message) {
+            this.msgError("No message found!");
+            return;              
+        } 
+
+        await helperSocket.update(message, {flags: {
+                                                _shieldedTarget: this._rollSuccess,
+                                                _damageToShield: true } });
+    }
+
+    /**
+     * _evalModes
+     */
+    async _evalModes() {
+        if (!this._rollSuccess) return;
+
+        const mModes = Array.from(await game.packs.get('conventum.modes'))
+                            .filter(e => (e.system.control.world === this._worldId));
+        
+        for (const s in this._action.system.modes) {
+            const mode = mModes.find(e => e.id === s);
+            const systemMode = this._action.system.modes[s];
+            
+            if (systemMode.active)
+                helperActions.playMode(this._actor, mode, true);
+            if (systemMode.break)
+                helperActions.removeMode(this._actor, mode);
+            //if (systemMode.allowed)
+            //if (systemMode.target)
+            if (systemMode.targetIn) {
+                for (const sTarget of this._targets) {
+                    const target = game.actors.get(sTarget);
+                    helperActions.playMode(target, mode, true);
+                }
+            }                                         
         }
     }
 
@@ -714,6 +821,27 @@ export class aqContext {
     _getActionSkill() {
         this._skill = null;
 
+
+        //No Combat
+        if (this._noCombat) {
+            
+            //Spells
+            if (this._spell) {
+
+                if (this._spell.system.percent.secondary) {
+                    this._skill = this._spell.system.percent.secondary;
+                    this._charAsSkill = true;
+                    this.msgHistory("common.skill", game.i18n.localize('characteristic.'+this._spell.system.percent.secondary));                    
+                } else {
+                    this._skill = game.packs.get('conventum.skills').get(this._spell.system.percent.skill);
+                    this.msgHistory("common.skill", this._skill.name);
+                }
+            }
+
+            return;
+        }
+
+        //Usual...
         if ((this._weapon.system.combatSkill) && 
             (this._weapon.system.combatSkill !== ''))
         this._skill = game.packs.get('conventum.skills').get(this._weapon.system.combatSkill);
@@ -748,7 +876,9 @@ export class aqContext {
      * _getPercentBase
      */
     _getPercentBase() {
-        this._percentBase = this._actor.system.skills[this._skill.id].value;
+        this._percentBase = (!this._charAsSkill) ?
+                this._actor.system.skills[this._skill.id].value :
+                this._actor.system.characteristics.secondary[this._skill].value;
         if (!this._percentBase)
             this._percentBase = 0;
         this.msgHistory("common.basePercent", this._percentBase.toString()+'%');
@@ -758,7 +888,8 @@ export class aqContext {
      * _getPercentPenal
      */
     _getPercentPenal() {
-        let penal = this.clearPenalty(this._actor.system.skills[this._skill.id].penal);
+        let penal = (!this._charAsSkill) ?
+                this.clearPenalty(this._actor.system.skills[this._skill.id].penal) : '0';
         if (Number(penal) !== 0) {
             this._percentMod = this.addPenalties(this._percentMod, penal);
             this.msgHistory("common.penalSkill", this._percentMod.toString()+'%');
@@ -766,9 +897,32 @@ export class aqContext {
     }
 
     /**
+     * _getMagicMods
+     */
+    _getMagicMods() {
+        if (!this._spell) return;
+
+        const systemData = this._actor.system;
+        if (this._spell.type === 'ritual') {
+            this._percentMod = this.addPenalties(this._percentMod, systemData.magic.penal.ceremony);
+            this._percentMod = this.addPenalties(this._percentMod, systemData.magic.penal.concentration);
+            this._percentMod = this.addPenalties(this._percentMod, systemData.magic.penal.others);
+
+        } else {
+            this._percentMod = this.addPenalties(this._percentMod, systemData.magic.penal.method);
+            this._percentMod = this.addPenalties(this._percentMod, systemData.magic.penal.armor);
+            this._percentMod = this.addPenalties(this._percentMod, systemData.magic.penal.concentration);
+            this._percentMod = this.addPenalties(this._percentMod, systemData.magic.penal.others);
+        }
+        this.msgHistory("common.penalSkill", this._percentMod.toString()+'%');
+    }
+
+    /**
      * _getHandPenal
      */
     _getHandPenal() {
+        if (this._noCombat) return;
+
         let penal = this.clearPenalty(helperSheetHuman.getHandPenal(this._actor, this._weapon));
         if (Number(penal) !== 0) {
             this._percentMod = this.addPenalties(this._percentMod, penal);
@@ -780,7 +934,9 @@ export class aqContext {
      * _getWeaponPenal
      */
     _getWeaponPenal() {
+        if (this._noCombat) return;
         if (!this._weapon.system.penalty.skills[this._skill.id]) return;
+
         let penal = this.clearPenalty(this._weapon.system.penalty.skills[this._skill.id]);
         if (Number(penal) !== 0) {
             this._percentMod = this.addPenalties(this._percentMod, penal);
@@ -792,6 +948,8 @@ export class aqContext {
      * _getWeaponRequirementPenal
      */
     _getWeaponRequirementPenal() {
+        if (this._noCombat) return;
+
         let penal = '+0';
         if (this._weapon.system.requeriment.primary.apply) {
 
@@ -816,6 +974,8 @@ export class aqContext {
      * _getActionPenal
      */
     _getActionPenal() {
+        if (this._noAction) return;
+
         let penal = this.clearPenalty(this._action.system.skill.mod.combatSkill);
         if (Number(penal) !== 0) {
             this._percentMod = this.addPenalties(this._percentMod, penal);
@@ -827,6 +987,8 @@ export class aqContext {
      * _getActionMulty
      */
     _getActionMulty() {
+        if (this._noAction) return;
+
         let mod = this.clearMult(this._action.system.skill.mod.multSkill);
         if (mod !== 1) {
             this._percentMult = this.multPenalties(this._percentMult, mod);
@@ -838,6 +1000,7 @@ export class aqContext {
      * _getByTargetPenalMulty
      */
     _getByTargetPenalMulty() {
+        if (this._noCombat) return;
 
         let stackPenal = '+0';
         let penal = '+0';
@@ -887,6 +1050,8 @@ export class aqContext {
      * _getDamageBase
      */
     _getDamageBase() {
+        if ((this._noCombat) || (this._defensive)) return;
+
         this._damageBase = this._weapon.system.damage;
         this.msgHistory("common.baseDamage", this._damageBase.toString());
         if (this._weapon2) {
@@ -896,9 +1061,21 @@ export class aqContext {
     }
 
     /**
+     * _getSpellDamageBase
+     */
+    _getSpellDamageBase() {
+        if ((!this._spell) || (!this._spell.system.damage.apply)) return;
+
+        this._damageBase = this._spell.system.damage.damage;
+        this.msgHistory("common.baseDamage", this._damageBase.toString());
+    }    
+
+    /**
      * _getActionDamageMulty
      */
     _getActionDamageMulty() {
+        if ((this._noCombat) || (this._defensive)) return;
+
         let mod = this.clearMult(this._action.system.damage.mod.multDamage);
         if (mod !== 1) {
             this._damageMult = this.multPenalties(this._damageMult, mod);
@@ -914,6 +1091,8 @@ export class aqContext {
      * _getDamageBon
      */
     _getDamageBon() {
+        if ((this._noCombat) || (this._defensive)) return;
+
         let penal = helperSheetHuman.calcDamageMod(this._actor, this._weapon, this._action);
         let penal2 = (this._weapon2) ? 
                         helperSheetHuman.calcDamageMod(this._actor, this._weapon2, this._action) : '';
@@ -948,6 +1127,8 @@ export class aqContext {
      * _getWeaponRequirmDamagePenal
      */
     _getWeaponRequirmDamagePenal() {
+        if ((this._noCombat) || (this._defensive)) return;
+
         let penal = '';
         if (this._weapon.system.requeriment.primary.apply) {
 
@@ -981,6 +1162,7 @@ export class aqContext {
      * _getDamageByTargetPenal
      */
     _getDamageByTargetPenal() {
+        if ((this._noCombat) || (this._defensive)) return;
 
         let stackPenal = '';
         let penal = '';
@@ -1016,6 +1198,7 @@ export class aqContext {
      * _getDamageFinal
      */
     _getDamageFinal() {
+        if ( ((this._noCombat) && (this._damageBase === "")) || (this._defensive)) return;
 
         if (this._damageMult !== 1)
              this._damage = '(' + this._damageBase + ')*' + this._damageMult.toString() + ' '
@@ -1033,6 +1216,16 @@ export class aqContext {
     }
 
     /**
+     * _removeDamageMessage
+     */
+    async _removeDamageMessage() {
+        if ((!this._defensive) || (this._shielded)) return;
+
+        if (this._rollSuccess)
+            await this._clearDamageMessage();
+    }
+
+    /**
      * _getMessageContent
      * @param {*} b2weapon 
      */
@@ -1047,10 +1240,17 @@ export class aqContext {
 
                     '<div class="_vertical">'+
                         '<div class="_title">'+this._actor.name+'</div>'+
-                        '<a class="_infoSkill" data-itemId="'+this._skill.id+'">'+
-                            '<div class="_Img"><img src="'+this._skill.img+'"/></div>'+
-                        '</a>'+
-                        '<div class="_skill">'+this._skill.name+'</div>'+
+                        ( (this._spell) ?
+                            '<a class="_infoSkill" data-itemId="'+this._spell.id+'">'+
+                                '<div class="_Img"><img src="'+this._spell.img+'"/></div>'+
+                            '</a>'+
+                            '<div class="_skill"></div>' :              
+
+                            '<a class="_infoSkill" data-itemId="'+this._skill.id+'">'+
+                                '<div class="_Img"><img src="'+this._skill.img+'"/></div>'+
+                            '</a>'+
+                            '<div class="_skill">'+this._skill.name+'</div>'
+                        ) +
                     '</div>'+
 
                     '<div class="_result">'+this._roll.total+'</div>'+
@@ -1081,7 +1281,7 @@ export class aqContext {
                      '<div class="_critFailure">'+game.i18n.localize("common.rollCriticalFailure")+'</div>' :
                      '' ) +                    
 
-                    ( ((this._action) || (this._spell)) ? 
+                    ( (this._action) ? 
                     '<div class="_messageAction">'+
                         '<a class="_showItem"'+
                             ' data-itemid="'+( (this._spell) ? this._spell.id : this._action.id )+'"'+
@@ -1124,16 +1324,48 @@ export class aqContext {
      */
     _getDamageMessageContent(targetId) {
         const targetData = this._targetsDamage[targetId];
+        let mainInfo = '<li>'+targetData.armor.name+'</li>'+
+                       '<li>'+game.i18n.localize("common.finalProtection")+': '+
+                                targetData.armor.finalProtection.toString()+'</li>';
+
+        //Damage x Resistance (Stuning...)
+        if (this._action.system.damage.damageXendurance)
+            mainInfo = this._getStunnedText(targetId);
 
         return '<div class="_msgDamLocation">'+targetData.location.name+'</div>'+
-                '<ul class="_msgDamInfo">'+
-                    '<li>'+targetData.armor.name+'</li>'+
-                    '<li>'+game.i18n.localize("common.finalProtection")+': '+
-                                targetData.armor.finalProtection.toString()+'</li>'+
-                '</ul>'+
+                '<ul class="_msgDamInfo">'+mainInfo+'</ul>'+
                 this._getMessageHelpTab()+
-                '<div class="_msgDamTotal">'+targetData.finalHitDamage.toString()+'</div>'+
-                '<div class="_hitPoints">'+game.i18n.localize("common.hp")+'</div>';
+                ( (this._action.system.damage.noDamage) ? '' :
+                  '<div class="_msgDamTotal">'+targetData.finalHitDamage.toString()+'</div>'+
+                  '<div class="_hitPoints">'+game.i18n.localize("common.hp")+'</div>' );
+    }
+
+    /**
+     * _getStunnedText
+     * @param {*} targetId 
+     */
+    _getStunnedText(targetId) {
+        const targetData = this._targetsDamage[targetId];
+        let mainInfo = '';
+
+        mainInfo = '<li>'+
+                        game.i18n.localize("characteristic.end")+': '+
+                        '<b>'+targetData.target.system.characteristics.primary.end.value.toString()+'</b> vs '+
+                        game.i18n.localize("common.finalDamage")+': '+
+                        '<b>'+targetData.finalHitDamage.toString()+'</b> '+
+                    '<li>';
+        if (targetData.finalHitDamage >= targetData.target.system.characteristics.primary.end.value) {
+            let mins = (targetData.finalHitDamage - 
+                            targetData.target.system.characteristics.primary.end.value)*10;
+            if (mins === 0) mins = 10;
+            mainInfo += '<li>'+
+                            '<b>'+game.i18n.localize("mode.stun")+'</b> '+
+                            mins.toString()+' min.'+
+                        '<li>';
+        } else {
+            mainInfo += '<li><b> NO '+game.i18n.localize("mode.stun")+'</b><li>';
+        }
+        return mainInfo;
     }
 
     /**
@@ -1226,6 +1458,31 @@ export class aqContext {
     }
 
     /**
+     * _clearDamageMessage
+     */
+    async _clearDamageMessage() {
+
+        let mActionMessages = Array.from(game.messages).filter(e => ((e.flags) && (e.flags.safeBox)));
+        let message = mActionMessages[mActionMessages.length - 1];
+        if (!message) {
+            this.msgError("No message found!");
+            return;              
+        } 
+
+        let sToFind = $(message.content).find('._rollDamage ._name').parent().parent().html();
+        const sToReplace = '';
+        let newContent = message.content.replace(sToFind, sToReplace);
+
+        sToFind = sToFind.replace('.png">', '.png" />');
+        sToFind = sToFind.replaceAll('=""', '');
+        newContent = message.content.replace(sToFind, sToReplace);
+
+        this._consolidate();
+        await helperSocket.update(message, {content: newContent });
+
+    }    
+
+    /**
      * _applyTargetDamage
      */
     async _applyTargetDamage() {
@@ -1265,6 +1522,9 @@ export class aqContext {
         };
         let targetData = this._targetsDamage[targetId];
 
+        //Modes
+        this._modes = this._actor.system.modes;
+
         //Target
         targetData.target = await this._getDamageTarget(targetId);
         if (!targetData.target) return;       
@@ -1274,6 +1534,11 @@ export class aqContext {
         targetData.location = await this._getDamageLocation(targetId);
         if (!targetData.location) return;
         let location = targetData.location;
+
+        //No Damage...
+        let noDamage = (this._action.system.damage.noDamage);
+        if (this._action.system.damage.noDamage)
+            this.msgHistory("common.noDamage", this._action.name);
 
         //Armor
         let armor = ((target.system.armor[location.id]) &&
@@ -1288,18 +1553,36 @@ export class aqContext {
         } else
             this.msgHistory("common.noArmor", '');
 
+        //Shields...
+        let shield = null;
+        if (this._damageToShield) {
+            let mItems = Array.from(target.items).filter(e => ((e.type === 'weapon') 
+                                                            && (e.system.type.shield) && (e.system.inUse)));
+            shield = (mItems.length > 0) ? mItems[0] : null;
+        }
+
         //Calculating...
-        targetData.armor.finalProtection = eval(targetData.armor.protection + targetData.armor.modProtection);        
+        let bShieldAbs = false;     //Shield absorbs damage...
+        if ((this._shieldedTarget) && (shield)) {
+            targetData.armor.finalProtection = eval(shield.system.protection + targetData.armor.protection + targetData.armor.modProtection);
+            bShieldAbs = (shield.system.protection >= this._damagePoints);
+        } else {
+            targetData.armor.finalProtection = eval(targetData.armor.protection + targetData.armor.modProtection);        
+        }
+
         if (targetData.armor.finalProtection >= this._damagePoints) 
             targetData.finalDamagePoints = 0;            
         else 
             targetData.finalDamagePoints = Math.round((this._damagePoints - targetData.armor.finalProtection))
-        
-        if (armor) {
+        if (shield) {
+            this.msgHistory("common.shieldProtection", shield.system.protection);         
+        }
+        if ((armor) && (!bShieldAbs)) {
             this.msgHistory("common.armorProtection", targetData.armor.protection);
             this.msgHistory("common.modProtection", targetData.armor.modProtection);
             this.msgHistory("common.finalProtection", targetData.armor.finalProtection);
         }
+        
         this.msgHistory("common.finalDamage", targetData.finalDamagePoints);
 
         targetData.finalHitDamage = Math.round(targetData.finalDamagePoints *
@@ -1311,13 +1594,15 @@ export class aqContext {
         //Hiting...
         targetData.hitPoints = target.system.characteristics.secondary.hp.value;
         targetData.finalHitPoints = targetData.hitPoints - targetData.finalHitDamage;
+            if (noDamage) targetData.finalHitPoints = targetData.hitPoints;
+        let characteristicsUpdate = { secondary: { hp: { value: targetData.finalHitPoints }}};
+
         this.msgHistory("common.hitPoints", targetData.hitPoints);
         this.msgHistory("common.finalHitPoints", targetData.finalHitPoints);
 
-
         //Armor damage
         let armorDataUpdate = {};
-        if (armor) {
+        if ((armor) && (!noDamage) && (!bShieldAbs)) {
             targetData.armor.armorDamage = eval(targetData.endurance + targetData.armor.modEndurance);
             targetData.armor.finalEndurance = Number(targetData.armor.endurance) - targetData.armor.armorDamage;
                 if (targetData.armor.finalEndurance < 0) targetData.armor.finalEndurance = 0;
@@ -1345,22 +1630,59 @@ export class aqContext {
             }            
         }
 
-        //Concentration penalization
-        targetData.concentration = Number(target.system.magic.penal.concentration);
-        targetData.concentrationPenal =  targetData.finalHitDamage*10;
-        targetData.finalConcentration = targetData.concentration - targetData.finalHitDamage*10;
-            if (targetData.finalConcentration < 0) targetData.finalConcentration = 0;
+        //Shield Damage
+        if (this._shieldedTarget) {
+            let nShieldEndurance = Number(shield.system.endurance) - this._damagePoints;
+            if (nShieldEndurance < 0) nShieldEndurance = 0;
 
-        this.msgHistory("common.concentration", targetData.concentration);
-        this.msgHistory("common.penalConc", targetData.concentrationPenal);
-        this.msgHistory("common.finalConcentration", targetData.finalConcentration);
+            //Updating shield...
+            await helperSocket.update(shield, {
+                system: {
+                    endurance: nShieldEndurance,
+                    protection: (nShieldEndurance === 0) ? 0 : shield.system.protection
+                }
+            }); 
+            this.msgHistory("common.shieldDamage", this._damagePoints);
+            this.msgHistory("common.finalEndurance", nShieldEndurance);                        
+
+            if (nShieldEndurance === 0)
+                this.msgHistory("common.shieldBroken", shield.name);
+        }                                
+
+
+        //Concentration penalization
+        let magicUpdate = {};
+        if (!noDamage) {
+            targetData.concentration = Number(target.system.magic.penal.concentration);
+            targetData.concentrationPenal =  targetData.finalHitDamage*10;
+            targetData.finalConcentration = targetData.concentration - targetData.finalHitDamage*10;
+                if (targetData.finalConcentration < 0) targetData.finalConcentration = 0;
+
+            this.msgHistory("common.concentration", targetData.concentration);
+            this.msgHistory("common.penalConc", targetData.concentrationPenal);
+            this.msgHistory("common.finalConcentration", targetData.finalConcentration);
+
+            magicUpdate = { penal: { concentration: targetData.concentrationPenal }};
+        }
+
+        //Damage x Endurance
+        if (this._action.system.damage.damageXendurance) {
+            if (targetData.finalHitDamage >= target.system.characteristics.primary.end.value) {
+                const stunMode = Array.from(await game.packs.get('conventum.modes'))
+                                      .filter(e => e.system.stun)[0];
+                if (!this._modes.find(stunMode.id)) {
+                    this._modes.push(stunMode.id);
+                }
+            }
+        }
 
         //Updating...
-        helperSocket.update(target, {
+        await helperSocket.update(target, {
             system: {
-                characteristics: { secondary: { hp: { value: targetData.finalHitPoints }}},
+                characteristics: characteristicsUpdate,
                 armor: armorDataUpdate,
-                magic: { penal: { concentration: targetData.concentrationPenal }}
+                magic: magicUpdate,
+                modes: this._modes
             }
         });
 
@@ -1369,7 +1691,7 @@ export class aqContext {
             this._getDamageMessageContent(targetId), target, true);
         this._messageId = message.id;
         this._consolidate();
-        helperSocket.update(message, {flags: this});
+        await helperSocket.update(message, {flags: this});
 
         //Bubble...
         this._hitBubble(target, targetData.finalHitDamage);

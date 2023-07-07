@@ -98,6 +98,26 @@ export class mainHandlebars {
        });        
 
       /**
+       * evalCharPenal
+       */
+      Handlebars.registerHelper("evalCharPenal", function(char, options) {
+         return (Number(char.penal) !== 0);
+       });
+
+      /**
+       * alphaExperiencedSkill
+       */
+      Handlebars.registerHelper("alphaExperiencedSkill", function(skillID, options) {
+         if ((!options.data.root.data.system.skills[skillID]) || 
+             (!options.data.root.data.system.skills[skillID].experienced)) return "opacity: 0";
+             
+         if (options.data.root.data.system.skills[skillID].experienced)
+            return "opacity: 0.7";
+         else
+            return "opacity: 0";
+       });
+
+      /**
        * getWeaponSkill
        */
       Handlebars.registerHelper("getWeaponSkill", function(weapon, options) {
@@ -306,6 +326,7 @@ export class mainHandlebars {
        */
       Handlebars.registerHelper("modeVisible", function(mode, options) {
          const systemData = options.data.root.systemData;
+         if (!systemData.modes.length) return game.user.isGM;
          if (systemData.modes.find(e => e === mode.id)) return true;
                                                    else return game.user.isGM;
        });
@@ -315,6 +336,7 @@ export class mainHandlebars {
        */
       Handlebars.registerHelper("modeStickers", function(mode, options) {
          const systemData = options.data.root.systemData;
+         if (!systemData.modes.length) return false;
          if (systemData.modes.find(e => e === mode.id)) return true;
                                                    else return false;
        });
@@ -324,6 +346,7 @@ export class mainHandlebars {
        */
       Handlebars.registerHelper("modeClassActive", function(mode, options) {
          const systemData = options.data.root.systemData;
+         if (!systemData.modes.length) return '_inactive';
          if (systemData.modes.find(e => e === mode.id)) return '_active';
                                                    else return '_inactive';
        });
@@ -333,6 +356,8 @@ export class mainHandlebars {
        */
       Handlebars.registerHelper("imLucky", function(options) {
          const systemData = options.data.root.systemData;
+         if (!systemData.modes.length) return false;
+
          const mModes = Array.from(game.packs.get("conventum.modes"))
                                  .filter(e => e.system.control.world === systemData.control.world );
          let bLucky = false;

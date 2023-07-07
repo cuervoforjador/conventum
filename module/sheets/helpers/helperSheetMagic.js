@@ -7,6 +7,8 @@ import { helperMessages } from "./helperMessages.js";
 import { helperSheetCombat } from "./helperSheetCombat.js";
 import { helperActions } from "./helperActions.js";
 import { helperRolls } from "./helperRolls.js";
+import { aqCombat } from "../../actions/aqCombat.js";
+import { aqContext } from "../../actions/aqContext.js";
 
 export class helperSheetMagic {
 
@@ -96,42 +98,11 @@ export class helperSheetMagic {
         const spellItem = actor.items.get(spellId);
         if (!spellItem) return;
         
-        const actorActions = helperActions.getActions(actor);
-        const actorTargets = helperActions.getTargets(actor);
-        
-        //No actions...
-        /*
-        if (!actorActions.showPoster) {
-            ui.notifications.warn(game.i18n.localize("info.noAction"));
-            return;
-        }
-        */
+        //Creating context...
+        let context = new aqContext({actorId: actor.id, 
+                                     spellId: spellId});
+        await aqCombat.playSpell(context);
 
-        const combatSkill = null;
-        let actorSkill = null;
-        
-        if (spellItem.system.percent.secondary)
-            actorSkill = actor.system.characteristics.secondary[spellItem.system.percent.secondary];
-        else
-            actorSkill = actor.system.skills[spellItem.system.percent.skill];
-        if (!actorSkill) return;
-
-        //Other mods...
-        let mods = {};
-        let finalPercent = helperSheetMagic.magicSkillValue(actor.system, spellItem);
-
-        //Damage
-        let finalDamage = (spellItem.system.damage.apply) ? 
-                                spellItem.system.damage.damage : '';
-
-        //Leveled Rolls
-        //let bLeveled = spellItem.system.rolls.leveled;
-        const bLeveled = true;
-
-        helperRolls.rollAction(actor, actorTargets, null, bLeveled,
-                               combatSkill, finalPercent,
-                               null, finalDamage,
-                               mods, spellItem);
     }
 
     /**
@@ -145,3 +116,10 @@ export class helperSheetMagic {
     }
 
 }
+
+
+
+
+
+
+

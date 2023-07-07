@@ -98,10 +98,13 @@ export class helperActions {
      * playMode
      * @param {*} actor 
      * @param {*} mode 
+     * @param {*} bForce 
      */
-    static async playMode(actor, mode) {
+    static async playMode(actor, mode, bForce) {
         const bActive = (actor.system.modes.find(e => e === mode.id)) ? true : false;
-        
+        bForce = (!bForce) ? false : bForce;
+        if ((bForce) && (bActive)) return;
+
         let mModes = [];
         if (bActive) {
             mModes = actor.system.modes.filter(e => e !== mode.id);
@@ -109,14 +112,34 @@ export class helperActions {
             mModes = actor.system.modes;
             mModes.push(mode.id);
         }
-        //await actor.update({system: { modes: mModes }});
-        //actor.sheet.render(true);
         await helperSocket.update(actor, {system: { modes: mModes }});
-        //helperSocket.refreshSheets();
 
-        if (!bActive) this._applyActiveEffect(actor, mode);
-                 else this._removeActiveEffect(actor, mode);
-    }    
+        if ((!bActive) || (bForce)) this._applyActiveEffect(actor, mode);
+                               else this._removeActiveEffect(actor, mode);
+    }
+
+    /**
+     * removeMode
+     * @param {*} actor 
+     * @param {*} mode 
+     * @param {*} bForce 
+     */
+    static async removeMode(actor, mode) {
+        let mModes = actor.system.modes.filter(e => e !== mode.id);
+        await helperSocket.update(actor, {system: { modes: mModes }});
+        this._removeActiveEffect(actor, mode);
+    }
+
+    /**
+     * modesWithoutLuck
+     * @param {*} actor 
+     */
+    static async modesWithoutLuck(actor) {
+        const modeLuck = Array.from(await game.packs.get('conventum.modes'))
+                                .find(e => ( (e.system.control.world === actor.system.control.world)
+                                          && (e.system.luck) ));
+        return actor.system.modes.filter(e => e !== modeLuck.id);        
+    }
 
     /**
      * _applyActiveEffect
@@ -124,6 +147,11 @@ export class helperActions {
      * @param {*} mode 
      */
     static _applyActiveEffect(actor, mode) {
+        if (!actor) return;
+        let scene = Array.from(game.scenes).find(e => e.active);
+        if (!scene) return;
+        let token = Array.from(scene.tokens).find(e => e.actorId === actor.id);
+        if (!token) return;
 
         actor.createEmbeddedDocuments('ActiveEffect', [{
             label: mode.name,
@@ -136,9 +164,10 @@ export class helperActions {
                 }
             },
             transfer: false,       
-            origin: actor.sheet.token.uuid, //actor.uuid,
+            origin: token.uuid, //actor.sheet.token.uuid, //actor.uuid,
             disabled: false
         }]);
+
     }
 
     /**

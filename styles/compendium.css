@@ -217,6 +217,7 @@ section.window-content._v10 {
     position: relative;
     width: 100px;
     height: 40px;
+    line-height: 15px;
     margin-left: -100px;
     margin-top: -40px;
     top: 11px;

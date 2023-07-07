@@ -12,7 +12,7 @@
                             labelAttr="name" }}
         </select>
     </hbox>
-    <hbox class="_mod">
+    <hbox class="_mod _50">
         <label class="_120px">{{localize "common.luck"}}</label>
         <label class="switch">
             <input type="checkbox" 
@@ -21,6 +21,15 @@
             <span class="sliderSwitch"></span>
         </label>
     </hbox>
+    <hbox class="_mod _50">
+        <label class="_120px">{{localize "common.stun"}}</label>
+        <label class="switch">
+            <input type="checkbox" 
+                name="system.stun"
+                {{checked systemData.stun}} />
+            <span class="sliderSwitch"></span>
+        </label>
+    </hbox>    
     <hbox class="_mod">
         <label class="_120px">{{localize "common.byMaster"}}</label>
         <label class="switch">

@@ -55,6 +55,7 @@
               "max": 20,
               "value": 10,
               "temp": 0,
+              "penal": "+0",
               "initial": 10,
               "passive": false
             },
@@ -63,6 +64,7 @@
               "max": 20,
               "value": 10,
               "temp": 0,
+              "penal": "+0",
               "initial": 10,
               "passive": false              
             },
@@ -71,6 +73,7 @@
               "max": 20,
               "value": 10,
               "temp": 0,
+              "penal": "+0",
               "initial": 10,
               "passive": false              
             },
@@ -79,6 +82,7 @@
               "max": 20,
               "value": 10,
               "temp": 0,
+              "penal": "+0",
               "initial": 10,
               "passive": false              
             },
@@ -87,6 +91,7 @@
               "max": 20,
               "value": 10,
               "temp": 0,
+              "penal": "+0",
               "initial": 10,
               "passive": false              
             },
@@ -95,6 +100,7 @@
               "max": 20,
               "value": 10,
               "temp": 0,
+              "penal": "+0",
               "initial": 10,
               "passive": false              
             },
@@ -103,6 +109,7 @@
               "max": 20,
               "value": 10,
               "temp": 0,
+              "penal": "+0",
               "initial": 10,
               "passive": false              
             },
@@ -111,6 +118,7 @@
               "max": 20,
               "value": 12,
               "temp": 0,
+              "penal": "+0",
               "initial": 12,
               "passive": true                          
             }
@@ -121,6 +129,7 @@
               "max": 100,
               "value": 10,
               "temp": 0,
+              "penal": "+0",
               "initial": 10                     
             },
             "temp": {
@@ -128,6 +137,7 @@
               "max": 100,
               "value": 50,
               "temp": 0,
+              "penal": "+0",
               "initial": 50                          
             },
             "rr": {
@@ -136,6 +146,7 @@
               "value": 50,
               "current": 50,
               "temp": 0,
+              "penal": "+0",
               "initial": 50,
               "last": 50                   
             },
@@ -145,6 +156,7 @@
               "value": 50,
               "current": 50,
               "temp": 0,
+              "penal": "+0",
               "initial": 50,
               "last": 50
             },
@@ -154,6 +166,7 @@
               "value": 10,
               "current": 10,
               "temp": 0,
+              "penal": "+0",
               "initial": 10                      
             },
             "cp": {
@@ -162,6 +175,7 @@
               "value": 10,
               "current": 10,
               "temp": 0,
+              "penal": "+0",
               "initial": 10                     
             },
             "fp": {
@@ -170,6 +184,7 @@
               "value": 10,
               "current": 10,
               "temp": 0,
+              "penal": "+0",
               "initial": 10                          
             }
           }
@@ -621,6 +636,7 @@
       "templates": ["base"],
       "actorType": "human",
       "luck": false,
+      "stun": false,
       "byMaster": true,
       "active": false,
       "effect": ""
@@ -803,17 +819,19 @@
         "combatants": true,
         "lastPlayed": false,
         "lastAttacker": false,
-        "lastDefender": false
+        "lastDefender": false,
+        "multiple": false
       },
       "skill": {
         "mod": {
           "combatSkill": "",
+          "combatSkill2": "",
           "secondarySkill": "",
           "targetCombatSkill": "",
           "targetSecondarySkill": "",
           "multSkill": 1,
           "multSkillTarget": 1,
-          "stack": false  
+          "stack": false
         },
         "useSkill": false,
         "skill": "",
@@ -833,7 +851,9 @@
         },
         "target": {
           "mount": false
-        }
+        },
+        "noDamage": false,
+        "damageXendurance": false
       },
       "armor": {
         "mod": {
