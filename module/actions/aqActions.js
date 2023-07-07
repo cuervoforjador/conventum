@@ -121,13 +121,13 @@ export class aqActions {
     /**
      * consumeCurrentStep
      */
-    static consumeCurrentStep() {
+    static async consumeCurrentStep() {
         let encounter = this.getCurrentEncounter();
         let mSteps = encounter.system.steps;
         if (mSteps.filter(e => !e.consumed).length > 0) {
             let currentStep = mSteps.filter(e => !e.consumed)[0];
             currentStep.consumed = true;
-            helperSocket.update(encounter, {
+            await helperSocket.update(encounter, {
               system: { steps: mSteps }
             });              
         }
@@ -135,12 +135,26 @@ export class aqActions {
     }
 
     /**
+     * getUpdatedSteps
+     * @returns 
+     */
+    static getUpdatedSteps() {
+        let encounter = this.getCurrentEncounter();
+        let mSteps = encounter.system.steps;
+        if (mSteps.filter(e => !e.consumed).length > 0) {
+            let currentStep = mSteps.filter(e => !e.consumed)[0];
+            currentStep.consumed = true;
+        }
+        return mSteps;
+    }
+
+    /**
      * updateCurrentStep
      * @param {*} oData 
      */
-    static updateCurrentStep(oData) {
+    static async updateCurrentStep(oData) {
         let encounter = this.getCurrentEncounter();
-        helperSocket.update(encounter, oData); 
+        await helperSocket.update(encounter, oData); 
         helperSocket.refreshSheets();        
     }
 

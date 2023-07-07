@@ -33,6 +33,7 @@ a._dice:hover {
     width: auto!important;
     border-bottom-left-radius: 25px;
     border-bottom-right-radius: 25px;
+    z-index: 10000!important;
 }
 ._levelRoll section.window-content,
 ._charRoll section.window-content {

@@ -234,6 +234,7 @@ export class HookCombat {
         noRender = (!noRender) ? false : noRender;
 
         const activeCombat = aqActions.getCurrentCombat();
+        if (!activeCombat) return;
         let poolAction = game.items.find(e => e.system.combat === activeCombat._id);
 
         if (!poolAction) {
@@ -242,7 +243,7 @@ export class HookCombat {
             for (const s of mPeople) {
                 ownership[s.id] = 1;
             }
-            ownership[game.user]
+            //ownership[game.user]
             const newItem = await Item.create([{
                                         name: game.i18n.localize("common.encounter"),
                                         type: 'actionPool',

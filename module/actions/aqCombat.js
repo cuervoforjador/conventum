@@ -347,7 +347,7 @@ export class aqCombat {
      */
     static rollAction(context) {
         if (context.getAskForLevels()) this._dialogLevel(context, false);
-                                  else this._rollAction(context);
+                                  else this._postRollAction(context);
     }
 
     /**
@@ -356,7 +356,7 @@ export class aqCombat {
      */
     static rollSpell(context) {
         if (context.getAskForLevels()) this._dialogLevel(context, true);
-                                  else this._rollSpell(context);
+                                  else this._postRollSpell(context);
     }
 
     /**
@@ -384,8 +384,8 @@ export class aqCombat {
               callback: () => {
                 context.setRollBono(oConfig.bono);
                 context.setRollLevel(s);
-                if (bSpell) aqCombat._rollSpell(context);
-                       else aqCombat._rollAction(context);
+                if (bSpell) aqCombat._postRollSpell(context);
+                       else aqCombat._postRollAction(context);
               }
             }
         }
@@ -403,25 +403,19 @@ export class aqCombat {
      * _rollAction
      * @param {*} context 
      */
-    static async _rollAction(context) {
+    static async _postRollAction(context) {
 
         context.setRollFormula('1d100');
         await context.roll();
         context.message();
-        
-        if (!context.getExpress()) {
-            context.consumeStep();   
-            aqActions.updateCurrentStep({
-                system: { context: context }
-            });
-        }
+
     }
 
     /**
-     * _rollSpell
+     * _postRollSpell
      * @param {*} context 
      */
-    static async _rollSpell(context) {
+    static async _postRollSpell(context) {
 
         context.setRollFormula('1d100');
         await context.roll();

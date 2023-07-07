@@ -71,6 +71,17 @@ export class aqContext {
     _shieldedTarget     =false
     _damageToShield     =false
 
+    safeBox = {
+        actorId         :null,
+        actionId        :null,
+        weaponId        :null,
+        weapon2Id       :null,
+        spellId         :null,
+        skillId         :null,
+        combatId        :null,
+        encounterId     :null
+    }
+
     /**
      * constructor
      * @param {*} options {
@@ -154,6 +165,7 @@ export class aqContext {
                 this._defensive = true;
             }
 
+            this._consolidate();
             this._applyLocation();
         }
     }
@@ -188,6 +200,9 @@ export class aqContext {
             weaponId: this._weapon ? this._weapon._id : null,
             weapon2Id: this._weapon2 ? this._weapon2._id : null,
             spellId: this._spell ? this._spell._id : null,
+            skillId: this._skill ? this._skill._id : null,
+            combatId: this._combat ? this._combat._id : null,
+            encounterId: this._encounter ? this._encounter._id : null
         };
     }
 
@@ -622,10 +637,10 @@ export class aqContext {
     /**
      * consumeStep
      */
-    consumeStep() {
+    async consumeStep() {
         if ((!this._express) && (!this._noCombat)) {
             if (aqActions.getCurrentStep().actor === this._actor.id)
-                                            aqActions.consumeCurrentStep();
+                                      await aqActions.consumeCurrentStep();
         }
     }
 
@@ -752,6 +767,18 @@ export class aqContext {
         await this._evalShields();
         await this._evalModes();
         await this._removeDamageMessage();
+
+        //Consuming action in Encounter
+        if (!this._express) {   
+            let encounter = aqActions.getCurrentEncounter();
+            await helperSocket.update(encounter, {
+                system: { 
+                    //context: this,
+                    steps: aqActions.getUpdatedSteps()
+                }
+            });
+            helperSocket.refreshSheets();
+        }        
     }
 
     /**

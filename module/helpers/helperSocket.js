@@ -20,7 +20,7 @@ export class helperSocket {
             switch (payload.action) {
                 
                 case "update":
-                    helperSocket._update(payload);
+                    helperSocket._postUpdate(payload);
                     break;
 
                 case "refreshSheets":
@@ -52,11 +52,22 @@ export class helperSocket {
      */
     static async update(entity, data) {
 
+        //delete data._id;
+
         if ( (game.user.isGM) ||
-             ((entity.ownership[game.userId]) && (entity.ownership[game.userId] === 3)) ) {
-            await entity.update(data);
-            if ((entity.sheet) && (entity.sheet.rendered))
-                entity.sheet.render(true);
+             ((entity.ownership !== undefined) && 
+              (entity.ownership[game.userId]) && (entity.ownership[game.userId] === 3)) ) {
+        
+            //Messages...
+            if (game.messages.get(entity.id)) {
+                await this._updateFlagsMessages(entity, data);
+                            
+            } else {
+            //Another entities...
+                await entity.update(data);
+                if ((entity.sheet) && (entity.sheet.rendered))
+                await entity.sheet.render(true);                
+            }            
             
         } else {
             helperSocket.send({
@@ -114,21 +125,48 @@ export class helperSocket {
     }
 
     /**
-     * _update
+     * _postUpdate
      * @param {*} payload 
      */
-    static async _update(payload) {
+    static async _postUpdate(payload) {
         if (!game.user.isGM) return;
         
         let entity = null;
         if (game.items.get(payload.id)) entity = game.items.get(payload.id);
         if (game.actors.get(payload.id)) entity = game.actors.get(payload.id);
-        if (game.messages.get(payload.id)) entity = game.messages.get(payload.id);
+        if (game.messages.get(payload.id)) {
+            entity = game.messages.get(payload.id);
+            await this._updateFlagsMessages(entity, payload.data);
+            return;
+        }
         if (!entity) return;
 
         await entity.update(payload.data);
         if (entity.sheet.rendered) entity.sheet.render(true);
-        this.refreshSheets();
+        //this.refreshSheets();
+    }
+
+    /**
+     * _updateFlagsMessages
+     * @param {*} entity 
+     * @param {*} data 
+     */
+    static async _updateFlagsMessages(entity, data) {
+        let updateData = {...{_id: entity.id}, ...data};
+        if ((data.flags) || (data.flags !== undefined)) {
+            updateData.flags._actor = null;
+            updateData.flags._action = null;
+            updateData.flags._weapon = null;
+            updateData.flags._weapon2 = null;
+            updateData.flags._spell = null;
+
+            updateData.flags._skill = null;
+            updateData.flags._combat = null;
+            updateData.flags._encounter = null;
+            updateData.flags._roll = null;
+            updateData.flags._targetsDamage = {};
+        }
+        await ChatMessage.updateDocuments([updateData]);        
     }
 
     /**

@@ -62,10 +62,17 @@ export class helperActions {
 
         oTargets.targets = [];
         mTargets.forEach(target => {
+
+            const actorId = ((target.document.actorId) &&
+                             (target.document.actorId !== undefined) &&
+                             (target.document.actorId != '')) ?
+                                target.document.actorId : target.document._actor._id;
+            const actor = game.actors.get(actorId);
+            
             oTargets.targets.push({
-                id: target.document._actor._id,
-                name: target.document._actor.name,
-                img: target.document._actor.img
+                id: actor.id,
+                name: actor.name,
+                img: actor.img
             });
         });
 
