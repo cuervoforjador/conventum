@@ -1,5 +1,3 @@
-2023/07/07-20:28:42.184 4d0 Recovering log #3
-2023/07/07-20:28:42.185 4d0 Level-0 table #5: started
-2023/07/07-20:28:42.226 4d0 Level-0 table #5: 1425 bytes OK
-2023/07/07-20:28:42.232 4d0 Delete type=0 #3
-2023/07/07-20:28:42.232 4d0 Delete type=3 #2
+2023/07/07-20:33:14.776 3d3c Recovering log #6
+2023/07/07-20:33:14.788 3d3c Delete type=0 #6
+2023/07/07-20:33:14.789 3d3c Delete type=3 #4
