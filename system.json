@@ -2,10 +2,10 @@
   "id": "conventum",
   "title": "Aquelarre-Conventum",
   "description": "Demonic and medieval game",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "compatibility": {
     "minimum": "10",
-    "verified": "11",
+    "verified": "10",
     "maximum": "11"
   },
   "authors": [
@@ -54,7 +54,7 @@
       "label": "Orbis",
       "type": "Item",
       "name": "worlds",
-      "path": "packs/worlds",
+      "path": "packs/worlds.db",
       "banner": "systems/conventum/image/content/compendium/bannerOrbis.png",
       "system": "conventum",
       "ownership": {
@@ -67,7 +67,7 @@
       "label": "Regna",
       "type": "Item",
       "name": "kingdoms",
-      "path": "packs/kingdoms",
+      "path": "packs/kingdoms.db",
       "banner": "systems/conventum/image/content/compendium/bannerRegna.png",
       "system": "conventum",
       "ownership": {
@@ -80,7 +80,7 @@
       "label": "Societas",
       "type": "Item",
       "name": "societies",
-      "path": "packs/societies",
+      "path": "packs/societies.db",
       "banner": "systems/conventum/image/content/compendium/bannerSocietas.png",
       "system": "conventum",
       "ownership": {
@@ -93,7 +93,7 @@
       "label": "Linguae",
       "type": "Item",
       "name": "languages",
-      "path": "packs/languages",
+      "path": "packs/languages.db",
       "banner": "systems/conventum/image/content/compendium/bannerLinguae.png",
       "system": "conventum",
       "ownership": {
@@ -106,7 +106,7 @@
       "label": "Gentes",
       "type": "Item",
       "name": "cultures",
-      "path": "packs/cultures",
+      "path": "packs/cultures.db",
       "banner": "systems/conventum/image/content/compendium/bannerGentes.png",
       "system": "conventum",
       "ownership": {
@@ -119,7 +119,7 @@
       "label": "Stratum",
       "type": "Item",
       "name": "stratums",
-      "path": "packs/stratums",
+      "path": "packs/stratums.db",
       "banner": "systems/conventum/image/content/compendium/bannerStratum.png",
       "system": "conventum",
       "ownership": {
@@ -132,7 +132,7 @@
       "label": "Status",
       "type": "Item",
       "name": "status",
-      "path": "packs/status",
+      "path": "packs/status.db",
       "banner": "systems/conventum/image/content/compendium/bannerStatus.png",
       "system": "conventum",
       "ownership": {
@@ -145,7 +145,7 @@
       "label": "Competentiae",
       "type": "Item",
       "name": "skills",
-      "path": "packs/skills",
+      "path": "packs/skills.db",
       "banner": "systems/conventum/image/content/compendium/bannerCompetentiae.png",
       "system": "conventum",
       "ownership": {
@@ -158,7 +158,7 @@
       "label": "Locis",
       "type": "Item",
       "name": "locations",
-      "path": "packs/locations",
+      "path": "packs/locations.db",
       "banner": "systems/conventum/image/content/compendium/bannerLocis.png",
       "system": "conventum",
       "ownership": {
@@ -171,7 +171,7 @@
       "label": "Modi",
       "type": "Item",
       "name": "modes",
-      "path": "packs/modes",
+      "path": "packs/modes.db",
       "banner": "systems/conventum/image/content/compendium/bannerModi.png",
       "system": "conventum",
       "ownership": {
@@ -184,7 +184,7 @@
       "label": "Armis",
       "type": "Item",
       "name": "armor",
-      "path": "packs/armor",
+      "path": "packs/armor.db",
       "banner": "systems/conventum/image/content/compendium/bannerArmis.png",
       "system": "conventum",
       "ownership": {
@@ -197,7 +197,7 @@
       "label": "Arma",
       "type": "Item",
       "name": "weapons",
-      "path": "packs/weapons",
+      "path": "packs/weapons.db",
       "banner": "systems/conventum/image/content/compendium/bannerArma.png",
       "system": "conventum",
       "ownership": {
@@ -210,7 +210,7 @@
       "label": "ArsMagica",
       "type": "Item",
       "name": "magic",
-      "path": "packs/magic",
+      "path": "packs/magic.db",
       "banner": "systems/conventum/image/content/compendium/bannerArsMagica.png",
       "system": "conventum",
       "ownership": {
@@ -223,7 +223,7 @@
       "label": "Actiones",
       "type": "Item",
       "name": "actions",
-      "path": "packs/actions",
+      "path": "packs/actions.db",
       "banner": "systems/conventum/image/content/compendium/bannerActiones.png",
       "system": "conventum",
       "ownership": {
