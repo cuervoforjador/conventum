@@ -1,0 +1,49 @@
+<form class="codex" 
+      autocomplete="off">
+
+    {{!-- FRAME --}}
+    {{> itemFrame }}
+    
+    {{!-- HEADER --}}
+    <itemHeader class="_chrome">
+             
+        {{!-- Image --}}
+        <itemImage>
+            <img src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+        </itemImage>
+
+        {{!-- Header Info --}}
+        <itemHeaderInfo>
+            <itemTitle>
+                <input type="text" name="name" value="{{item.name}}" placeholder=""/>
+            </itemTitle>
+            <itemSubHeader>
+                <hbox class="_subHeaderHBox">
+                    <label>{{localize "common.world" }}</label>
+                    <select name="system.control.world">
+                        {{selectOptions backend.worlds 
+                                        selected=systemData.control.world
+                                        localize=false
+                                        nameAttr="id"
+                                        labelAttr="name" }}
+                    </select>
+                </hbox>              
+            </itemSubHeader>
+
+            {{!-- CONTENT --}}
+            <itemContent>
+        
+                {{> itemDescription }}
+        
+            </itemContent>            
+
+        </itemHeaderInfo>
+
+    </itemHeader> 
+    
+{{!-- Molding ---}}
+<input name="system.control.mold"
+        value="{{systemData.control.mold}}" 
+        type="hidden" />   
+
+</form>

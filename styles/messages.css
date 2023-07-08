@@ -67,7 +67,7 @@
 }
 ._chatBox ._chatFrame {
     background: url(/systems/conventum/image/frame/chatFrame.png);
-    background-size: 100% 100%;
+    background-size: 100% 100%!important;
     width: 100%;
     height: 100%;    
     position: relative;      
@@ -107,9 +107,11 @@
 ._chatBox ._title {
     width: 100%;
     text-align: left;
-    font-size: 16px;    
+    font-size: 16px;
     line-height: 18px;
-    z-index: 10;  
+    z-index: 10;
+    position: relative;
+    top: -8px;
 }
 ._chatBox ._title::first-letter {
     color: #a53434;
@@ -120,11 +122,20 @@
     width: calc(100% - 72px);
     position: relative;
     left: -29px;
+    top: -11px;
     font-size: 16px;
     font-weight: 900;
     text-align: left;
     z-index: 10;
     line-height: 13px;
+}
+._chatBox ._skill._characteristic {
+    position: relative;
+    top: -43px;
+    font-size: 24px;
+    width: 270px;
+    text-align: left;
+    left: -4px;
 }
 ._chatBox ._itemCaption {
     width: 140px;
@@ -155,6 +166,18 @@
     top: 64px;
     left: 145px;  
 }
+._chatBox span._bonifText {
+    position: relative;
+    font-size: 11px;
+    width: 85px!important;
+    text-align: center;
+    display: flex;
+    height: 23px;
+    top: 23px;
+    left: -26px;
+    justify-content: center;
+    margin-bottom: -23px;
+}
 ._chatBox ._result {
     font-size: 60px;
     font-weight: 900;
@@ -165,7 +188,22 @@
     margin-left: 10px;
     position: absolute;
     top: 65px;
-    left: 47px;
+    left: 33px;
+}
+._chatContent ._resultOver {
+    font-size: 18px;
+    font-weight: 900;
+    position: relative;
+    left: 107px;
+    top: -28px;
+    border: 1px solid #3333331a;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 27px;
+    background: #eee0e042;
+    z-index: 10;
 }
 ._chatBox ._success,
 ._chatBox ._failed {
@@ -192,11 +230,11 @@
 ._chatBox ._critFailure {
     position: absolute;
     top: 70px;
-    left: 0px;
+    left: -6px;
     text-align: center;
-    border: 4px solid #d7ceb8c4;
+    border: 1px solid #d7ceb87d;
     border-radius: 1px;
-    border-bottom-left-radius: 11px;
+    border-radius: 11px;
     font-size: 15px;
     line-height: 22px;
     padding-left: 7px;
@@ -210,6 +248,14 @@
 ._chatBox ._critSuccess {
     background: #0a871382;
     color: #000;
+}
+._chatBox ._subItem ._penals {
+    position: relative;
+    width: 300px;
+    left: -253px;
+    top: 47px;
+    font-size: 15px;
+    font-weight: 900;
 }
 
 ._chatContent ._Img {
@@ -276,4 +322,405 @@
 }
 a._infoSkill {
     z-index: 15;
+}
+
+._chatContent ._messageAction {
+    position: absolute;
+    left: calc(100% - 124px);
+    top: 100px;
+    display: flex;
+    flex-direction: row-reverse;
+    width: 120px;
+}
+._chatContent ._messageAction img {
+    width: 42px;
+    height: 62px;
+    border: 4px solid #9a8e736e;
+}
+._chatContent ._messageAction ._name {
+    font-size: 13px;
+    line-height: 15px;
+    width: 78px;
+    height: 35px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    text-align: right;
+    padding-right: 8px;
+    position: relative;
+    top: 30px;
+}
+
+._chatContent ._messageWeapon {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    align-content: flex-end;
+    justify-content: flex-start;
+    position: absolute;
+    top: 148px;
+    left: 8px;
+}
+._chatContent ._messageWeapon img {
+    width: 30px;
+    height: 45px;
+    border: 4px solid #ece3d0;
+}
+._chatContent ._messageWeapon ._name {
+    width: 140px;
+    padding-left: 5px;
+    padding-bottom: 5px;
+    font-size: 17px;
+    line-height: 19px;
+    font-weight: 900;
+}
+
+._chatContent ._messageSpell{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    align-content: flex-end;
+    justify-content: flex-start;
+    position: absolute;
+    top: 0px;
+    left: 55px;
+}
+._chatContent ._messageSpell img {
+    width: 30px;
+    height: 45px;
+    border: 4px solid #ece3d0;
+}
+._chatContent ._messageSpell ._name {
+    width: 190px;
+    padding-left: 5px;
+    padding-bottom: 5px;
+    font-size: 17px;
+    line-height: 13px;
+    font-weight: 900;
+}
+
+._chatContent ._messageDamage {
+    position: absolute;
+    top: 91px;
+    left: -4px;
+    font-size: 28px;
+    line-height: 30px;
+    font-family: 'Almendra';
+    font-weight: 900;
+    padding: 3px;
+    padding-left: 6px;
+    padding-right: 6px;
+    border-radius: 4px;
+}
+._chatContent ._messageDamage ._name {
+    width: 150px;
+    line-height: 12px;
+    font-size: 18px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    top: 5px;
+    z-index: 100;
+}
+._messageDamage a._rollDamage {
+    display: flex;
+    align-content: center;
+    align-items: center;
+}
+._messageDamage ._name._finalDamage {
+    font-size: 80px;
+    line-height: 84px;
+    height: 100px;
+    top: -24px;
+    left: -14px;
+    width: 100px;
+    padding-left: 20px;
+    padding-bottom: 14px;
+    text-align: center;
+    position: relative;
+    background: #9b1b1b2b;
+    border-top-right-radius: 50%;
+    color: #9a3737b8;
+}
+._damageBubble {
+    font-size: 50px!important;
+    height: 60px!important;
+    line-height: 60px!important;
+    font-family: 'Almendra';
+    background: #a98383;
+    color: #9b2d2d;
+    width: 100%;
+    text-align: center;
+}
+._chatContent ._messageDamage img {
+    width: 48px;
+    border: 0px;
+    margin-right: 4px;
+}
+._chatContent ._infoMods {
+    display: block;
+    position: absolute;
+    top: -17px;
+    left: -17px;
+    border-bottom-right-radius: 9px;
+    background: #ffffffde;
+    width: 20px;
+    height: 20px;
+    line-height: 19px;
+    font-size: 16px;
+    font-family: 'Almendra';
+    text-align: center;
+    font-weight: 900;
+    border: 1px solid #333333b3;
+    cursor: pointer;
+}
+._chatContent ._infoMods:hover {
+    background: #7a0c0c;
+    color: #FFF;
+}
+._chatContent ul._messageMods {
+    display: none;
+    background: #f6eedee6;
+    border: 1px solid #333;
+    position: absolute;
+    top: -17px;
+    left: -11px;
+    width: calc(100% + 24px);
+    height: 180px;
+    z-index: 3000;
+    padding-top: 5px;
+    overflow-y: scroll;
+}
+._chatContent ._showMods:hover ._messageMods {
+    display: block;
+}
+
+._chatContent ul._messageTargets {
+    display: flex;
+    position: absolute;
+    top: 33px;
+    left: -36px;
+    width: 262px;
+    z-index: 25;
+    flex-direction: column;
+}
+._chatContent ._messageTargets li {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-size: 30px 30px;
+    margin-right: 5px;
+    margin-bottom: 3px;
+    -webkit-box-shadow: 0px 0px 5px 0px rgb(0 0 0 / 93%);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.93);
+    box-shadow: 0px 0px 5px 0px rgb(0 0 0 / 93%);
+}
+._chatContent ._messageTargets li:hover ._targetName {
+    display: block;
+}
+._chatContent ._messageTargets label._targetName {
+    display: none;
+    width: 150px;
+    position: absolute;
+    left: 44px;
+    margin-top: 17px;
+    font-weight: 900;
+    background: #ffffffed;
+    border-radius: 4px;
+    line-height: 19px;
+    padding-left: 5px;
+}
+
+._chatContent ul._msgDamInfo {
+    position: absolute;
+    left: 53px;
+    top: 23px;
+    padding: 10px;
+    font-size: 15px;
+}
+._chatContent ._msgDamLocation {
+    position: absolute;
+    top: -2px;
+    left: calc(100% - 83px);
+    width: 100px;
+    padding-right: 10px;
+    text-align: center;
+    font-size: 18px;
+    line-height: 18px;
+    border-bottom: 1px solid #33333347;
+    font-weight: 900;
+}
+._chatContent ._msgDamTotal {
+    position: relative;
+    font-size: 80px;
+    font-weight: 900;
+    line-height: 63px;
+    padding-bottom: 11px;
+    width: 100px;
+    text-align: center;
+    margin-top: -72px;
+    top: 48px;
+    left: 56px;
+    color: #994545;
+    border: 8px solid #a55f5f26;
+    border-radius: 50%;
+}
+._messageDamage ._damagePoints {
+    font-size: 14px;
+    line-height: 15px;
+    width: 100px;
+    height: 20px;
+    margin-top: -20px;
+    position: relative;
+    top: -95px;
+    left: -8px;
+    color: #7c4b4b75;
+}
+
+._chatContent ._hitPoints {
+    width: 60px;
+    text-align: center;
+    margin-left: -61px;
+    position: relative;
+    left: 128px;
+    top: 31px;
+}
+
+._chatBox ._bigContent {
+    line-height: 90px;
+    font-size: 90px;
+    font-weight: 900;
+    text-align: center;
+}
+
+._targetDialogs {
+    height: auto!important;
+    width: auto!important;
+    display: flex!important;
+    flex-direction: column!important;
+    align-content: center!important;
+    align-items: center!important;
+    flex-wrap: nowrap!important;
+    justify-content: space-around!important;
+    border-bottom-left-radius: 100px;
+    border-bottom-right-radius: 100px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+}
+._targetDialogs header.window-header.flexrow.draggable {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 16px;
+    border-top: 6px solid #111;
+    border-left: 6px solid #111;
+    border-right: 6px solid #111;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    background: #c51919cc;
+    border-color: #3c3a3afa!important;
+    padding-bottom: 2px;
+}
+._targetDialogs h4.window-title::first-letter {
+    background: none!important;
+    font-size: 13px!important;
+    margin-right: -1px!important;
+    padding-left: 7px!important;
+}
+._targetDialogs section.window-content {
+    border-bottom-left-radius: 100px;
+    border-bottom-right-radius: 100px;
+    padding-bottom: 65px;
+    min-width: 156px;
+    border-color: #3c3a3afa!important;
+    background: url(/systems/conventum/image/texture/tile02.png)!important;
+    background-size: 140px 140px!important;    
+}
+._targetDialogs h4.window-title {
+    margin-top: -3px!important;
+    padding-left: 1px;
+}
+._targetDialogs .dialog-content {
+    display: none;
+}
+._targetDialogs .dialog-buttons {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: space-evenly;
+    align-items: center;
+}
+._targetDialogs button {
+    max-width: 80px!important;
+    width: 80px!important;
+    max-height: 85px!important;
+    height: 85px!important;
+    padding: 0px;
+    margin: 0px;
+    border-radius: 50%;
+    border: 5px solid #3b415c!important;
+    margin-bottom: 35px!Important;
+    background: #3b415c!important;
+}
+._targetDialogs button img {
+    width: 80px;
+    height: 76px;
+    border-radius: 50%;
+    border: 0px;
+    -webkit-box-shadow: 0px 0px 11px 4px rgb(0 0 0 / 52%);
+    box-shadow: 0px 0px 11px 4px rgb(0 0 0 / 52%);
+}
+._targetDialogs label {
+    font-size: 17px;
+    line-height: 23px!important;
+    position: relative;
+    display: flex;
+    background: #3b415c;
+    width: 150px;
+    top: -13px;
+    left: -36px;
+    color: #000;
+    padding-top: 5px;
+    text-shadow: 2px 0 #ffffff63, -2px 0 #ffffff63, 0 2px #ffffff63, 0 -2px #ffffff63, 1px 1px #ffffff63, -1px -1px #ffffff63, 1px -1px #ffffff63, -1px 1px #ffffff63;
+    justify-content: center;
+}
+._targetDialogs .dialog-button img._mount {
+    width: 45px;
+    height: 45px;
+    margin-left: -45px;
+    margin-top: -45px;
+    position: relative;
+    top: -50px;
+    left: 64px;
+}
+
+._targetDialogsExpress section.window-content {
+    overflow: inherit;
+}
+._targetDialogsExpress .dialog-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+._targetDialogsExpress button.dialog-button {
+    width: 150px;
+    min-width: 150px;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+    justify-content: flex-start;
+    background: #ffffff8c;
+    margin-bottom: 6px;
+    border: 1px solid #3333334a;
+}
+._targetDialogsExpress button img {
+    width: 35px;
+    height: 35px;
+    border: none;
+    padding: 2px;
+    margin-left: -4px;
+    margin-right: 7px;
 }

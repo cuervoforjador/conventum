@@ -11,8 +11,15 @@ import { extendSheetStatus } from "./sheets/extendSheetStatus.js";
 import { extendSheetSkill } from "./sheets/extendSheetSkill.js";
 import { extendSheetTrait } from "./sheets/extendSheetTrait.js";
 import { extendSheetLocation } from "./sheets/extendSheetLocation.js";
+import { extendSheetMode } from "./sheets/extendSheetMode.js";
 import { extendSheetArmor } from "./sheets/extendSheetArmor.js";
 import { extendSheetWeapon } from "./sheets/extendSheetWeapon.js";
+import { extendSheetSpell } from "./sheets/extendSheetSpell.js";
+import { extendSheetRitual } from "./sheets/extendSheetRitual.js";
+import { extendSheetComponent } from "./sheets/extendSheetComponent.js";
+import { extendSheetAction } from "./sheets/extendSheetAction.js";
+import { extendSheetActionPool } from "./sheets/extendSheetActionPool.js";
+import { extendSheetItem } from "./sheets/extendSheetItem.js";
 export class mainGameSheets {
 
     /**
@@ -27,8 +34,25 @@ export class mainGameSheets {
         //Actors
         CONFIG.Actor.documentClass = extendActor;
         Actors.unregisterSheet("core", ActorSheet);
-        Actors.registerSheet(_system, extendSheetHuman, { types: ['human'], 
-                                                          makeDefault: true });
+        Actors.registerSheet(_system, extendSheetHuman, { types: [
+                                                                "human",
+                                                                "horse",
+                                                                "humanoid",
+                                                                "quadruped",
+                                                                "birds",
+                                                                "arachnid",
+                                                                "snakes",
+                                                                "arboreal",
+                                                                "wingedHumanoid",
+                                                                "wingedQuadruped",
+                                                                "blemys",
+                                                                "bafometo",
+                                                                "sciopodo",
+                                                                "snakeHumanoid",
+                                                                "basilisk"
+                                                            ], 
+                                                            makeDefault: true });
+
 
         //Items
         CONFIG.Item.documentClass = extendItem;
@@ -52,10 +76,24 @@ export class mainGameSheets {
         Items.registerSheet(_system, extendSheetTrait, { types: ['trait'],
                                                          makeDefault: true });
         Items.registerSheet(_system, extendSheetLocation, { types: ['location'],
-                                                         makeDefault: true });      
+                                                         makeDefault: true });
+        Items.registerSheet(_system, extendSheetMode, { types: ['mode'],
+                                                         makeDefault: true });                                                             
         Items.registerSheet(_system, extendSheetArmor, { types: ['armor'],
                                                          makeDefault: true });
         Items.registerSheet(_system, extendSheetWeapon, { types: ['weapon'],
-                                                         makeDefault: true });                                                                                                                                                                       
+                                                         makeDefault: true });
+        Items.registerSheet(_system, extendSheetSpell, { types: ['spell'],
+                                                         makeDefault: true });   
+        Items.registerSheet(_system, extendSheetRitual, { types: ['ritual'],
+                                                         makeDefault: true });                                                           
+        Items.registerSheet(_system, extendSheetComponent, { types: ['component'],
+                                                         makeDefault: true });                                                                                                                  
+        Items.registerSheet(_system, extendSheetAction, { types: ['action'],
+                                                         makeDefault: true });       
+        Items.registerSheet(_system, extendSheetActionPool, { types: ['actionPool'],
+                                                         makeDefault: true });    
+        Items.registerSheet(_system, extendSheetItem, { types: ['item'],
+                                                         makeDefault: true });                                                                                                                                                                     
     }
 }

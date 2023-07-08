@@ -14,7 +14,8 @@ export class mainBackend {
             worlds: await game.packs.get("conventum.worlds").getDocuments(),
             kingdoms: await this._getKingdoms(systemData.control.world),
             societies: await this._getSocieties(systemData.control.world),
-            skills: await this._getSkills(systemData.control.world),
+            skills: await this._getSkills(systemData.control.world, false, actor),
+            languages: await this._getLanguages(systemData.control.world),
             locations: await this._getLocations(systemData.control.world, actor.type)
         };
         
@@ -54,6 +55,17 @@ export class mainBackend {
         if (!mBackend.status.find(e => e.id === systemData.bio.status))
             systemData.bio.status = (mBackend.status.length > 0) ? mBackend.status[0].id : '';
         
+        //Mounts
+        let mMounts = Array.from(game.actors).filter(e => e.system.control.mount);
+        let mAvailable = [];
+        mMounts.map(e => {
+            if (!Array.from(game.actors).find(o => o.system.equipment.mount === e.id)) 
+                mAvailable.push(e);
+        });
+        if (actor.system.equipment.mount !== '') 
+            mAvailable.push(game.actors.get(actor.system.equipment.mount));
+        mBackend.mounts = [{_id: '', name: ''}].concat(mAvailable);
+
         return mBackend;
     }
 
@@ -134,7 +146,7 @@ export class mainBackend {
     static async getBackendForTrait(systemData) {
         return {
             worlds: await game.packs.get("conventum.worlds").getDocuments(),
-            skills: await this._getSkills(systemData.control.world),
+            skills: await this._getSkills(systemData.control.world, false),
             characteristics: this._getCharacteristics('primary', true)
         };
     }    
@@ -150,6 +162,17 @@ export class mainBackend {
     }
 
     /**
+     * Compendium Backend For Modes Items...
+     */
+    static async getBackendForMode() {
+        return {
+            worlds: await game.packs.get("conventum.worlds").getDocuments(),
+            actorTypes: this._getActorTypes(),
+            activeEffects: this._getActiveEffects()
+        };
+    }    
+
+    /**
      * Compendium Backend For Armor Items...
      */
     static async getBackendForArmor(systemData) {
@@ -159,7 +182,7 @@ export class mainBackend {
             actorTypes: this._getActorTypes(),
             armorTypes: this._getArmorTypes(),
             locations: await this._getLocations(systemData.control.world, systemData.actorType),
-            skills: await this._getSkills(systemData.control.world)
+            skills: await this._getSkills(systemData.control.world, false)
         };
     }
 
@@ -172,9 +195,110 @@ export class mainBackend {
             characteristics: this._getCharacteristics('primary', true),
             actorTypes: this._getActorTypes(),
             weaponSizes: this._getWeaponSizes(),
+            weaponTypes: this._getWeaponTypes(),
+            locations: await this._getLocations(systemData.control.world, systemData.actorType),
+            skills: await this._getSkills(systemData.control.world, true),
+            skillsPenal: await this._getSkills(systemData.control.world, false),
+            combatSkills: await this._getCombatSkills(systemData.control.world, true)
+        };
+    }
+
+    /**
+     * Compendium Backend For Spell Items...
+     */
+    static async getBackendForSpell(systemData) {
+        return {
+            worlds: await game.packs.get("conventum.worlds").getDocuments(),
+            characteristics: this._getCharacteristics('primary', true),
+            secondary: this._getCharacteristics('secondary', true),
+            actorTypes: this._getActorTypes(),
+            spellShapes: this._getSpellShapes(),
+            spellNature: this._getSpellNature(),
+            spellSecondNature: this._getSpellSecondNature(),
+            skills: await this._getSkills(systemData.control.world, true),
+            skillsPenal: await this._getSkills(systemData.control.world, false),
+            combatSkills: await this._getCombatSkills(systemData.control.world, true),
+            magicSkills: await this._getMagicSkills(systemData.control.world, true)
+        };
+    }    
+
+    /**
+     * Compendium Backend For Ritual Items...
+     */
+    static async getBackendForRitual(systemData) {
+        return {
+            worlds: await game.packs.get("conventum.worlds").getDocuments(),
+            characteristics: this._getCharacteristics('primary', true),
+            secondary: this._getCharacteristics('secondary', true),
+            actorTypes: this._getActorTypes(),
+            societies: await this._getSocieties(systemData.control.world),
+            skills: await this._getSkills(systemData.control.world, true),
+            skillsPenal: await this._getSkills(systemData.control.world, false),
+            combatSkills: await this._getCombatSkills(systemData.control.world, true),
+            magicSkills: await this._getMagicSkills(systemData.control.world, true)
+        };
+    }  
+
+    /**
+     * Compendium Backend For Component Items...
+     */
+    static async getBackendForComponent(systemData) {
+        return {
+            worlds: await game.packs.get("conventum.worlds").getDocuments(),
+            characteristics: this._getCharacteristics('primary', true),
+            actorTypes: this._getActorTypes(),
+            spellShapes: this._getSpellShapes(),
+            spellNature: this._getSpellNature(),
+            spellSecondNature: this._getSpellSecondNature(),
+            componentUtility: this._getComponentUtility(),
+            componentLocation: this._getComponentLocation(),
+            componentPotential: this._getComponentPotential(),
+            componentPlace: this._getComponentPlace(),
+            skills: await this._getSkills(systemData.control.world, true),
+            skillsPenal: await this._getSkills(systemData.control.world, false),
+            combatSkills: await this._getCombatSkills(systemData.control.world, true),
+            magicSkills: await this._getMagicSkills(systemData.control.world, true)
+        };
+    }    
+
+    /**
+     * Compendium Backend For Actions Items...
+     */
+    static async getBackendForAction(systemData) {
+        return {
+            worlds: await game.packs.get("conventum.worlds").getDocuments(),
+            characteristics: this._getCharacteristics('primary', true),
+            actorTypes: this._getActorTypes(),
+            weaponTypes: this._getWeaponTypes(),
+            weaponSizes: this._getWeaponSizes(),
+            locations: await this._getLocations(systemData.control.world, systemData.location.actorType),
+            modes: await this._getModes(systemData.control.world),
+            skills: await this._getSkills(systemData.control.world, true),
+            combatSkills: await this._getCombatSkills(systemData.control.world, true)
+        };
+    }
+
+    /**
+     * Compendium Backend For Action Pools Combat Items...
+     */
+    static async getBackendForActionPool(systemData) {
+        return {
+            worlds: await game.packs.get("conventum.worlds").getDocuments(),
+            characteristics: this._getCharacteristics('primary', true),
+            actorTypes: this._getActorTypes(),
+            weaponSizes: this._getWeaponSizes(),
             locations: await this._getLocations(systemData.control.world, systemData.actorType),
             skills: await this._getSkills(systemData.control.world, true),
             combatSkills: await this._getCombatSkills(systemData.control.world, true)
+        };
+    }
+
+    /**
+     * Compendium Backend For Standard Items...
+     */
+    static async getBackendForItem(systemData) {
+        return {
+            worlds: await game.packs.get("conventum.worlds").getDocuments()
         };
     }
 
@@ -208,10 +332,15 @@ export class mainBackend {
      * @param {*} bFirstClear 
      * @returns 
      */
-    static async _getSkills(sWorld, bFirstClear) {
+    static async _getSkills(sWorld, bFirstClear, actor) {
         bFirstClear = (bFirstClear) ? true : false;
 
         let mDocs = await this._getDocuments('skills', sWorld);
+        if (actor) {
+            if (!actor.system.control.criature)
+                mDocs = mDocs.filter(e => !e.system.criature);
+        }
+
         if (bFirstClear)
             mDocs.unshift({
                 'id': '',
@@ -239,7 +368,27 @@ export class mainBackend {
                 'value': {}
             });
         return mDocs;
-    }    
+    }   
+    
+    /**
+     * _getMagicSkills
+     * @param {*} sWorld 
+     * @param {*} bFirstClear 
+     * @returns 
+     */
+    static async _getMagicSkills(sWorld, bFirstClear) {
+
+        bFirstClear = (bFirstClear) ? true : false;
+        let mDocs = (await this._getDocuments('skills', sWorld))
+                                .filter(e => e.system.magic.magic);
+        if (bFirstClear)
+            mDocs.unshift({
+                'id': '',
+                'name': '',
+                'value': {}
+            });
+        return mDocs;
+    }     
 
     /**
      * _getCultures
@@ -301,6 +450,17 @@ export class mainBackend {
     }
 
     /**
+     * _getModes
+     * @param {*} sWorld 
+     * @param {*} sActorType 
+     * @returns 
+     */
+    static async _getModes(sWorld) {
+        let mModes = await this._getDocuments('modes', sWorld);
+        return mModes;
+    }
+
+    /**
      * _getActorTypes
      */
     static _getActorTypes() {
@@ -322,11 +482,67 @@ export class mainBackend {
     }
 
     /**
+     * _getWeaponTypes
+     */
+    static _getWeaponTypes() {
+        return CONFIG.ExtendConfig.weaponTypes;
+    }
+
+    /**
      * _getWeaponSizes
      */
     static _getWeaponSizes() {
         return CONFIG.ExtendConfig.weaponSizes;
     }
+
+    /**
+     * _getSpellShapes
+     */
+    static _getSpellShapes() {
+        return CONFIG.ExtendConfig.spellShapes;
+    }    
+
+    /**
+     * _getSpellNature
+     */
+    static _getSpellNature() {
+        return CONFIG.ExtendConfig.spellNature;
+    }    
+
+    /**
+     * _getSpellSecondNature
+     */
+    static _getSpellSecondNature() {
+        return CONFIG.ExtendConfig.spellSecondNature;
+    }     
+
+    /**
+     * _getComponentUtility
+     */
+    static _getComponentUtility() {
+        return CONFIG.ExtendConfig.componentUtility;
+    }   
+    
+    /**
+     * _getComponentLocation
+     */
+    static _getComponentLocation() {
+        return CONFIG.ExtendConfig.componentLocation;
+    }    
+
+    /**
+     * _getComponentPotential
+     */
+    static _getComponentPotential() {
+        return CONFIG.ExtendConfig.componentPotential;
+    }     
+
+    /**
+     * _getComponentPlace
+     */
+    static _getComponentPlace() {
+        return CONFIG.ExtendConfig.componentPlace;
+    } 
 
     /**
      * _getDocuments
@@ -376,6 +592,20 @@ export class mainBackend {
             mReturn.push({
                 'id': e,
                 'name': e
+            });
+        });
+        return mReturn;
+    }
+
+    /**
+     * _getActiveEffects
+     */
+    static _getActiveEffects() {
+        let mReturn = [];
+        CONFIG.ExtendConfig.activeEffects.forEach(s => {
+            mReturn.push({
+                id: s,
+                name: game.i18n.localize("mode."+s)
             });
         });
         return mReturn;

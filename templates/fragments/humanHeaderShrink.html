@@ -1,0 +1,72 @@
+<div class="actorHeader _shrink">
+
+    <div class="headerInfo _shrink">
+        <div class="_portrait">
+            <img class="profile-img" 
+                 src="{{actor.img}}" 
+                 data-edit="img" 
+                 title="{{actor.name}}" />
+        </div>        
+        <div class="_info">            
+            <input name="name" 
+                {{{editable}}}
+                type="text" 
+                value="{{actor.name}}" 
+                placeholder="{{localize 'common.name'}}" />   
+            
+            {{#unless systemData.control.criature}}
+
+                <line class="_100" style="justify-content: flex-end;">
+                    <hbox class="switchInit">
+                        <label>{{localize 'common.expand'}}</label>
+                        <label class="switch" style="margin-right: -16px;">
+                            <input type="checkbox" 
+                                name="system.control.expand" 
+                                {{checked systemData.control.expand}} />
+                            <span class="sliderSwitch"></span>
+                        </label>
+                        <label>{{localize 'common.initial'}}</label>
+                        <label class="switch">
+                            <input type="checkbox" 
+                                   {{{editable}}}
+                                   name="system.control.initial" 
+                                   {{checked systemData.control.initial}} />
+                            <span class="sliderSwitch"></span>
+                        </label>                     
+                    </hbox>
+                </line> 
+                
+            {{else}}
+
+                <line class="_100" style="justify-content: flex-end;">
+                    <hbox class="switchInit">
+                        <label>{{localize 'common.mount'}}</label>
+                        <label class="switch" style="margin-right: -16px;">
+                            <input type="checkbox" 
+                                {{{editable}}}
+                                name="system.control.mount" 
+                                {{checked systemData.control.mount}} />
+                            <span class="sliderSwitch"></span>
+                        </label>                     
+                    </hbox>
+                </line>            
+
+            {{/unless}}
+
+            <line class="_100">
+                <hbox class="_100">
+                    <label>{{localize 'common.world'}}</label>
+                    <select name="system.control.world"
+                            {{{editable}}}>
+                        {{selectOptions backend.worlds 
+                                        selected=systemData.control.world
+                                        localize=false
+                                        nameAttr="id"
+                                        labelAttr="name" }}
+                    </select>
+                </hbox>
+            </line>                                          
+        </div>        
+    </div>
+
+</div>

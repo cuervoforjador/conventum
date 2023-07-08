@@ -1,0 +1,21 @@
+<div class="_modesBar">
+    
+     <ul class="_wrapModesBar">
+     {{#each modes as |mode id|}}
+          <li>
+               {{#if ../imMaster}}
+               <a class="_mode" data-modeid="{{mode._id}}">
+               {{/if}}
+                    {{#if (modeVisible mode)}}
+                    <img class="_quickButton {{modeClassActive mode}}" 
+                         title="{{mode.name}}"
+                         src="{{mode.img}}" />
+                    {{/if}}
+               {{#if ../imMaster}}
+               </a>
+               {{/if}}
+          </li>
+     {{/each}}
+     </ul>
+
+</div>

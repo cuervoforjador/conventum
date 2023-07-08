@@ -32,6 +32,15 @@
                                         labelAttr="name" }}
                     </select>
                 </hbox>
+                <hbox class="_subHeaderHBox" style="margin-bottom:10px;">
+                    <label>{{localize "common.criature" }}</label> 
+                    <label class="switch" style="margin-right: 10px; margin-left: 10px;">
+                        <input type="checkbox" 
+                            name="system.criature" 
+                            {{checked systemData.criature}} />
+                        <span class="sliderSwitch"></span>
+                    </label>
+                </hbox>                
                 <hbox class="_100">
                     <nav class="sheet-tabs itemTabsHeader" data-group="primary">
                         <a data-tab="main">{{ localize "common.skill" }}</a>
@@ -59,4 +68,9 @@
         
     </itemContent>
     
+{{!-- Molding ---}}
+<input name="system.control.mold"
+        value="{{systemData.control.mold}}" 
+        type="hidden" />   
+
 </form>

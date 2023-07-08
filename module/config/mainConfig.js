@@ -26,9 +26,42 @@ export class mainConfig {
         });
 
         //Weapon Types
-        oConfig.weaponSizes.map(e => {
+        oConfig.weaponTypes.map(e => {
             e.name = game.i18n.localize(e.i18n)
         });        
+
+        //Weapon Sizes
+        oConfig.weaponSizes.map(e => {
+            e.name = game.i18n.localize(e.i18n)
+        });     
+        
+        //Spell shapes
+        oConfig.spellShapes.map(e => {
+            e.name = game.i18n.localize("shape."+e.id)
+        });     
+        
+        //Spell Natures
+        oConfig.spellNature.map(e => {
+            e.name = game.i18n.localize("nature."+e.id)
+        });     
+        oConfig.spellSecondNature.map(e => {
+            e.name = game.i18n.localize("nature."+e.id)
+        });   
+        
+        //Components
+        oConfig.componentUtility.map(e => {
+            e.name = game.i18n.localize("component."+e.id)
+        });       
+        oConfig.componentLocation.map(e => {
+            e.name = game.i18n.localize("component."+e.id)
+        });           
+        oConfig.componentPotential.map(e => {
+            e.name = game.i18n.localize("component."+e.id)
+        });    
+        oConfig.componentPlace.map(e => {
+            e.name = game.i18n.localize("component."+e.id)
+        });        
+
     }
 
 }

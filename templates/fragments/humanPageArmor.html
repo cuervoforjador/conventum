@@ -49,6 +49,7 @@
                         </vbox>
                     </hbox>
                 </li>
+                <ol class="_inGarment">
                 {{#each data.items as |item id|}}
                 {{#if (itemType item 'armor') }}
                     <li class="armorGarment" data-itemId="{{item._id}}">
@@ -57,6 +58,7 @@
                     </li>
                 {{/if}}
                 {{/each}}
+                </ol>
             </ol>
 
 
@@ -81,20 +83,22 @@
                     <div class="_shieldR">
                         <label>{{localize 'common.actual'}}</label>
                         <input type="number" 
+                               {{{editable}}}
                                data-locationId="{{localization._id}}"
-                               name="system.armor.{{localization._id}}.value" 
-                               value="{{armorValue localization._id 'value'}}" 
-                               class="_shieldInput _armorEndCurrent" />
-                        <input type="hidden" 
-                               name="system.armor.{{localization._id}}.lastValue" 
-                               value="{{armorValue localization._id 'lastValue'}}" />                               
+                               data-property="endurance"
+                               name="system.armor.{{localization._id}}.endurance" 
+                               value="{{armorValue localization._id 'endurance'}}" 
+                               class="_shieldInput _armorUpdateValue" />                             
                     </div>
                     <div class="_shieldB">
                         <label>{{localize 'common.prot'}}</label>
                         <input type="number" 
+                               {{{editable}}}
+                               data-locationId="{{localization._id}}"
+                               data-property="protection"                        
                                name="system.armor.{{localization._id}}.protection" 
                                value="{{armorValue localization._id 'protection'}}" 
-                               class="_shieldInput" />
+                               class="_shieldInput _armorUpdateValue" />
                         <input type="hidden" 
                                name="system.armor.{{localization._id}}.lastItem" 
                                value="{{armorValue localization._id 'lastItem'}}" />

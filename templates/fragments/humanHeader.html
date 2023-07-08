@@ -15,9 +15,17 @@
         <div class="_info">            
             <line class="_100" style="justify-content: flex-end;">
                 <hbox class="switchInit">
+                    <label>{{localize 'common.expand'}}</label>
+                    <label class="switch" style="margin-right: -16px;">
+                        <input type="checkbox" 
+                            name="system.control.expand" 
+                            {{checked systemData.control.expand}} />
+                        <span class="sliderSwitch"></span>
+                    </label>
                     <label>{{localize 'common.female'}}</label>
                     <label class="switch" style="margin-right: -16px;">
                         <input type="checkbox" 
+                            {{{editable}}}
                             name="system.bio.female" 
                             {{checked systemData.bio.female}} />
                         <span class="sliderSwitch"></span>
@@ -27,7 +35,8 @@
             <line class="_100">
                 <hbox class="_100">
                     <label>{{localize 'common.world'}}</label>
-                    <select name="system.control.world">
+                    <select name="system.control.world"
+                            {{{editable}}}>
                         {{selectOptions backend.worlds 
                                         selected=systemData.control.world
                                         localize=false
@@ -39,7 +48,8 @@
             <line class="_100">
                 <hbox class="_100">
                     <label>{{localize 'common.kingdom'}}</label>
-                    <select name="system.bio.kingdom">
+                    <select name="system.bio.kingdom"
+                            {{{editable}}}>
                         {{selectOptions backend.kingdoms 
                                         selected=systemData.bio.kingdom
                                         localize=false
@@ -51,7 +61,8 @@
             <line class="_100">
                 <hbox class="_100">
                     <label>{{localize 'common.culture'}}</label>
-                    <select name="system.bio.culture">
+                    <select name="system.bio.culture"
+                            {{{editable}}}>
                         {{selectOptions backend.cultures 
                                         selected=systemData.bio.culture
                                         localize=false

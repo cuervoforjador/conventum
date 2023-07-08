@@ -2,13 +2,30 @@
   "Actor": {
     "types": [
                 "human",
-                "horse"
+                "horse",
+                "humanoid",
+                "quadruped",
+                "birds",
+                "arachnid",
+                "snakes",
+                "arboreal",
+                "wingedHumanoid",
+                "wingedQuadruped",
+                "blemys",
+                "bafometo",
+                "sciopodo",
+                "snakeHumanoid",
+                "basilisk"
              ],
     "templates": {
       "base": {
         "control": {
           "initial": true,
           "locked": false,
+          "expand": true,
+          "criature": false,
+          "mount": false,
+          "visible": false,
           "frame": "catholicae",
           "world": ""
         },
@@ -25,6 +42,12 @@
           "description": "",
           "background": ""
         },
+        "equipment": {
+          "mount": "",
+          "income": "",
+          "cash": "",
+          "goods": ""
+        },
         "characteristics": {
           "primary": {
             "str": {
@@ -32,6 +55,7 @@
               "max": 20,
               "value": 10,
               "temp": 0,
+              "penal": "+0",
               "initial": 10,
               "passive": false
             },
@@ -40,6 +64,7 @@
               "max": 20,
               "value": 10,
               "temp": 0,
+              "penal": "+0",
               "initial": 10,
               "passive": false              
             },
@@ -48,6 +73,7 @@
               "max": 20,
               "value": 10,
               "temp": 0,
+              "penal": "+0",
               "initial": 10,
               "passive": false              
             },
@@ -56,6 +82,7 @@
               "max": 20,
               "value": 10,
               "temp": 0,
+              "penal": "+0",
               "initial": 10,
               "passive": false              
             },
@@ -64,6 +91,7 @@
               "max": 20,
               "value": 10,
               "temp": 0,
+              "penal": "+0",
               "initial": 10,
               "passive": false              
             },
@@ -72,6 +100,7 @@
               "max": 20,
               "value": 10,
               "temp": 0,
+              "penal": "+0",
               "initial": 10,
               "passive": false              
             },
@@ -80,6 +109,7 @@
               "max": 20,
               "value": 10,
               "temp": 0,
+              "penal": "+0",
               "initial": 10,
               "passive": false              
             },
@@ -88,6 +118,7 @@
               "max": 20,
               "value": 12,
               "temp": 0,
+              "penal": "+0",
               "initial": 12,
               "passive": true                          
             }
@@ -98,6 +129,7 @@
               "max": 100,
               "value": 10,
               "temp": 0,
+              "penal": "+0",
               "initial": 10                     
             },
             "temp": {
@@ -105,13 +137,16 @@
               "max": 100,
               "value": 50,
               "temp": 0,
+              "penal": "+0",
               "initial": 50                          
             },
             "rr": {
               "min": 0,
               "max": 100,
               "value": 50,
+              "current": 50,
               "temp": 0,
+              "penal": "+0",
               "initial": 50,
               "last": 50                   
             },
@@ -119,7 +154,9 @@
               "min": 0,
               "max": 100,
               "value": 50,
+              "current": 50,
               "temp": 0,
+              "penal": "+0",
               "initial": 50,
               "last": 50
             },
@@ -127,24 +164,35 @@
               "min": 0,
               "max": 20,
               "value": 10,
+              "current": 10,
               "temp": 0,
+              "penal": "+0",
               "initial": 10                      
             },
             "cp": {
               "min": 0,
               "max": 20,
               "value": 10,
+              "current": 10,
               "temp": 0,
+              "penal": "+0",
               "initial": 10                     
             },
             "fp": {
               "min": 0,
               "max": 20,
               "value": 10,
+              "current": 10,
               "temp": 0,
+              "penal": "+0",
               "initial": 10                          
             }
           }
+        },
+        "initiative": {
+          "value": 0,
+          "base": 0,
+          "mod": ""
         },
         "status": {
           "life": {
@@ -154,21 +202,220 @@
             "unconscious": false,
             "dead": false
           },
+          "rightHanded": true,
           "appearance": ""
         },
+        "modes": [],
         "skills": {},
-        "armor": {}
-      }
+        "languages": {},
+        "armor": {},
+        "magic": {
+          "penal": {
+            "method": "-0",
+            "armor": "-0",
+            "ceremony": "-0",
+            "concentration": "-0",
+            "others": "-0"
+          }
+        },
+        "action": {
+          "action": ""
+        }
+      },
+      "criatures": {
+        "characteristics": {
+          "primary": {
+            "str": {
+              "min": 0,
+              "max": 200
+            },
+            "agi": {
+              "min": 0,
+              "max": 200        
+            },
+            "abi": {
+              "min": 0,
+              "max": 200         
+            },
+            "end": {
+              "min": 0,
+              "max": 200      
+            },
+            "per": {
+              "min": 0,
+              "max": 200  
+            },
+            "com": {
+              "min": 0,
+              "max": 200    
+            },
+            "cul": {
+              "min": 0,
+              "max": 200     
+            },
+            "app": {
+              "min": 0,
+              "max": 200                   
+            }
+          },
+          "secondary": {
+            "hp": {
+              "min": 0,
+              "max": 200                 
+            },
+            "cp": {
+              "min": 0,
+              "max": 200              
+            },
+            "fp": {
+              "min": 0,
+              "max": 200                  
+            }
+          }
+        }        
+      }      
     },
     "human": {
-      "templates": ["base"]
+      "templates": ["base"],
+      "quickBar": false,
+      "quickBarPosition": {
+        "x": 0,
+        "y": 0,
+        "sheetX": 0,
+        "sheetY": 0
+      }
     },
     "horse": {
-      "templates": ["base"]
+      "templates": ["base", "criatures"],
+      "control": {
+        "initial": false,
+        "criature": true,
+        "mount": true,
+        "expand": false,
+        "world": ""
+      }
+    },
+    "humanoid": {
+      "templates": ["base"],
+      "control": {
+        "initial": false,
+        "criature": true,
+        "expand": false,
+        "world": ""
+      }
+    },
+    "quadruped": {
+      "templates": ["base"],
+      "control": {
+        "initial": false,
+        "criature": true,
+        "expand": false,
+        "world": ""
+      }
+    },
+    "birds": {
+      "templates": ["base"],
+      "control": {
+        "initial": false,
+        "criature": true,
+        "expand": false,
+        "world": ""
+      }
+    },
+    "arachnid": {
+      "templates": ["base"],
+      "control": {
+        "initial": false,
+        "criature": true,
+        "expand": false,
+        "world": ""
+      }
+    },
+    "snakes": {
+      "templates": ["base"],
+      "control": {
+        "initial": false,
+        "criature": true,
+        "expand": false,
+        "world": ""
+      }
+    },
+    "arboreal": {
+      "templates": ["base"],
+      "control": {
+        "initial": false,
+        "criature": true,
+        "expand": false,
+        "world": ""
+      }
+    },
+    "wingedHumanoid": {
+      "templates": ["base"],
+      "control": {
+        "initial": false,
+        "criature": true,
+        "expand": false,
+        "world": ""
+      }
+    },
+    "wingedQuadruped": {
+      "templates": ["base"],
+      "control": {
+        "initial": false,
+        "criature": true,
+        "expand": false,
+        "world": ""
+      }
+    },
+    "blemys": {
+      "templates": ["base"],
+      "control": {
+        "initial": false,
+        "criature": true,
+        "expand": false,
+        "world": ""
+      }
+    },
+    "bafometo": {
+      "templates": ["base"],
+      "control": {
+        "initial": false,
+        "criature": true,
+        "expand": false,
+        "world": ""
+      }
+    },
+    "sciopodo": {
+      "templates": ["base"],
+      "control": {
+        "initial": false,
+        "criature": true,
+        "expand": false,
+        "world": ""
+      }
+    },
+    "snakeHumanoid": {
+      "templates": ["base"],
+      "control": {
+        "initial": false,
+        "criature": true,
+        "expand": false,
+        "world": ""
+      }
+    },
+    "basilisk": {
+      "templates": ["base"],
+      "control": {
+        "initial": false,
+        "criature": true,
+        "expand": false,
+        "world": ""
+      }
     }
   },
   "Item": {
     "types": [
+        "item",
         "world",
         "society",
         "kingdom",
@@ -179,15 +426,22 @@
         "skill",
         "trait",
         "location",
+        "mode",
         "armor",
-        "weapon"
+        "weapon",
+        "spell",
+        "ritual",
+        "component",        
+        "action",
+        "actionPool"
     ],
     "templates": {
       "base": {
         "control": {
           "initial": true,
           "locked": false,
-          "world": ""
+          "world": "",
+          "mold": ""
         },
         "range": {
           "low": 0,
@@ -203,6 +457,7 @@
         }
       },
       "skill": {
+        "criature": false,
         "characteristic": {
           "primary": "",
           "secondary": ""
@@ -226,8 +481,14 @@
           "contact": false,
           "distance": false,
           "fire": false
+        },
+        "magic": {
+          "magic": false
         }
       }
+    },
+    "item": {
+      "templates": ["base"]
     },
     "world": {
       "templates": ["base"],
@@ -294,7 +555,15 @@
           "failureRange": "90",
           "failureMin": "100",
           "criticalSuccessStep": "01",
-          "criticalFailureStep": "01"              
+          "criticalFailureStep": "01",
+          "charAndLevels": true            
+        },
+        "actions": {
+          "fixedNumber": true,
+          "actionNumber": 2,
+          "initiativePercent": 0,
+          "penalFrom": 0,
+          "penaltyPorc": ""
         }
       }
     },
@@ -363,12 +632,21 @@
         "left": "0px"
       }
     },
+    "mode": {
+      "templates": ["base"],
+      "actorType": "human",
+      "luck": false,
+      "stun": false,
+      "byMaster": true,
+      "active": false,
+      "effect": ""
+    },
     "armor": {
       "templates": ["base"],
       "armorType": "02",
       "protection": 0,
       "endurance": 0,
-      "enduranceCurrent": 0,
+      "total": 0,
       "inUse": false,
       "requeriment": {
         "apply": false,
@@ -388,6 +666,9 @@
     },
     "weapon": {
       "templates": ["base"],
+      "weight": "",
+      "cost": "",
+      "inUse": false,
       "combatSkill": "",
       "secondSkill": "",
       "characteristic": "",
@@ -395,8 +676,10 @@
         "contact": true,
         "2hands": false,
         "range": false,
-        "fire": false
-      },       
+        "fire": false,
+        "shield": false
+      },  
+      "weaponType": "",     
       "size": "",
       "requirement": {
         "primary": {
@@ -411,6 +694,16 @@
         }
       },
       "damage": "",
+      "protection": 0,
+      "endurance": 0,
+      "enduranceCurrent": 0,
+      "actorType": "human",
+      "rangeLocation": {},
+      "penalty": {
+        "skills": {},
+        "initiative": "",
+        "movement": ""
+      },      
       "poison": {
         "apply": false,
         "damage": ""
@@ -427,9 +720,172 @@
         "inLeftHand": false,
         "inRightHand": false,
         "inBothHands": false
+      }
+    },
+    "spell": {
+      "templates": ["base"],
+      "vis": 1,
+      "ptc": 1,
+      "percent": {
+        "primary": "",
+        "secondary": "irr",
+        "skill": ""
+      },      
+      "damage": {
+        "apply": false,
+        "damage": "",
+        "noArmor": false
+      },      
+      "penal": "0",
+      "shape": "invocatio",
+      "nature": "white",
+      "secondNature": "popular",
+      "expiration": "",
+      "duration": "",
+      "components": "",
+      "preparation": "",
+      "effects": ""
+    },
+    "ritual": {
+      "templates": ["base"],
+      "ordo": 1,
+      "ptf": 1,
+      "percent": {
+        "secondary": "rr",
+        "skill": ""
+      },      
+      "damage": {
+        "apply": false,
+        "damage": "",
+        "noArmor": false
       },
-      "weight": "",
-      "cost": ""
+      "penal": "0",
+      "society": "",
+      "ceremony": "",
+      "duration": "",
+      "effects": ""
+    },    
+    "component": {
+      "templates": ["base"],
+      "utility": "daily",
+      "location": "nearby",
+      "potential": "nomagic",
+      "place": "smalltown",
+      "mod0": "+0",
+      "witchcraft0": "*1",
+      "mod": "",
+      "witchcraft": ""
+    },    
+    "action": {
+      "templates": ["base"],
+      "type": {
+        "attack": false,
+        "defense": false,
+        "movement": false,
+        "spell": false,
+        "initial": true
+      },
+      "steps": {
+        "actionSteps": 1,
+        "initiative": "+0"
+      },      
+      "item": {
+        "weapon": {
+          "contact": false,
+          "range": false,
+          "shield": false,
+          "type": {
+            "bow": false,
+            "crossbow": false,
+            "knife": false,
+            "sword": false,
+            "longsword": false,
+            "axe": false,
+            "sling": false,
+            "spear": false,
+            "mace": false,
+            "stick": false,
+            "fight": false
+          },
+          "size": {
+            "light": false,
+            "middle": false,
+            "heavy": false
+          }
+        }
+      },
+      "target": {
+        "myself": false,
+        "combatants": true,
+        "lastPlayed": false,
+        "lastAttacker": false,
+        "lastDefender": false,
+        "multiple": false
+      },
+      "skill": {
+        "mod": {
+          "combatSkill": "",
+          "combatSkill2": "",
+          "secondarySkill": "",
+          "targetCombatSkill": "",
+          "targetSecondarySkill": "",
+          "multSkill": 1,
+          "multSkillTarget": 1,
+          "stack": false
+        },
+        "useSkill": false,
+        "skill": "",
+        "skillAsCombat": false,
+        "applyRangePenal": true,
+        "doubleAttack": false  
+      },
+      "damage": {
+        "mod": {
+          "damage": "",
+          "targetDamage": "",
+          "multDamage": 1,
+          "stack": false,
+          "noDamageBon": false,
+          "modDamage1": false,
+          "modDamage2": false
+        },
+        "target": {
+          "mount": false
+        },
+        "noDamage": false,
+        "damageXendurance": false
+      },
+      "armor": {
+        "mod": {
+          "endurance": "",
+          "protection": "",
+          "targetEndurance": "",
+          "targetProtection": "",
+          "stack": false
+        },
+        "noEndurance": false,
+        "noProtection": false,
+        "targetNoEndurance": false,
+        "targetNoProtection": false,
+        "breakArmor": false
+      },
+      "location": {
+        "focusLocation": {},
+        "actorType": "human",
+        "askForLocation": false
+      },
+      "consume": {
+        "destroy1targetAction": false,
+        "destroyAllTargetActions": false
+      },
+      "rolls": {
+        "leveled": true
+      },
+      "modes": {}
+    },
+    "actionPool": {
+      "steps": [],
+      "combat": ""
     }
   }
 }

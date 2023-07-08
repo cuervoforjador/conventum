@@ -1,0 +1,52 @@
+{{!-- Modes --}}
+
+<slidePanel class="_100">
+
+    <hbox class="_mod">
+        <label class="_120px">{{localize "common.actorType" }}</label>
+        <select name="system.actorType">
+            {{selectOptions backend.actorTypes 
+                            selected=systemData.actorType
+                            localize=false
+                            nameAttr="id"
+                            labelAttr="name" }}
+        </select>
+    </hbox>
+    <hbox class="_mod _50">
+        <label class="_120px">{{localize "common.luck"}}</label>
+        <label class="switch">
+            <input type="checkbox" 
+                name="system.luck"
+                {{checked systemData.luck}} />
+            <span class="sliderSwitch"></span>
+        </label>
+    </hbox>
+    <hbox class="_mod _50">
+        <label class="_120px">{{localize "common.stun"}}</label>
+        <label class="switch">
+            <input type="checkbox" 
+                name="system.stun"
+                {{checked systemData.stun}} />
+            <span class="sliderSwitch"></span>
+        </label>
+    </hbox>    
+    <hbox class="_mod">
+        <label class="_120px">{{localize "common.byMaster"}}</label>
+        <label class="switch">
+            <input type="checkbox" 
+                name="system.byMaster"
+                {{checked systemData.byMaster}} />
+            <span class="sliderSwitch"></span>
+        </label>
+    </hbox>        
+    <hbox class="_mod">
+        <label class="_120px">{{localize "common.activeEffect"}}</label>
+        <select name="system.effect">
+            {{selectOptions backend.activeEffects 
+                            selected=systemData.effect
+                            localize=false
+                            nameAttr="id"
+                            labelAttr="name" }}
+        </select>
+    </hbox> 
+</slidePanel>

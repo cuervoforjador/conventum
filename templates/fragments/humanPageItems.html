@@ -1,6 +1,257 @@
 {{!-- Items Tab --}}
 <div class="tab items" data-group="primary" data-tab="items">
 
-    
+    <nav class="tabs_Items _subTabs" data-group="equipmentTabs">
+        <a data-tab="items"><label>{{ localize "common.equipment" }}</label></a>
+        <a data-tab="weapons"><label>{{ localize "common.weapons" }}</label></a>    
+        <a data-tab="armor"><label>{{ localize "common.armor" }}</label></a>    
+        <a data-tab="spells"><label>{{ localize "common.spells" }}</label></a>    
+        <a data-tab="actions"><label>{{ localize "common.actions" }}</label></a>  
+        <a data-tab="goods"><label>{{ localize "common.goods" }}</label></a>    
+    </nav>
+
+    <section class="tabsContent_Items">
+
+        <div class="tab items" data-group="equipmentTabs" data-tab="items">
+            <div class="actorItems">
+                {{!-- ITEMS --}}
+                <h1 class="_sectionTitle" style="padding-left: 14px">{{localize "common.equipment"}}</h1>
+                <ol class="itemList">
+                    {{#each items as |item id|}}
+                    {{#if (itemType item 'item') }}
+            
+                        <li class="itemEl" data-item-id="{{item._id}}">
+                            <a class="actionIcon" data-itemId="{{item._id}}" data-action="show">
+                            <div class="_itemContent">
+                                <img src="{{item.img}}" title="{{item.name}}" width="24" height="24" />
+                                <h4 class="item-name">{{item.name}}</h4>
+                            </div>
+                            </a>
+                            <div class="_actionsBox" style="z-index: 100;">                 
+                                {{#if ../imMaster}}
+                                <a class="actionIcon" data-itemId="{{item._id}}" data-action="delete">
+                                    <img class="imgAction" src="systems/conventum/image/texture/destroy.png" /></a>
+                                {{/if}}
+                            </div>
+                        </li>
+            
+                    {{/if}}
+                    {{/each}}
+                </ol>
+            </div>
+        </div>  
+
+        <div class="tab weapons" data-group="equipmentTabs" data-tab="weapons">
+            <div class="actorItems">
+                {{!-- WEAPONS --}}
+                <h1 class="_sectionTitle" style="padding-left: 55px; padding-top: 10px;">{{localize "common.weapons"}}</h1>
+                <ol class="itemList">
+                    {{#each items as |item id|}}
+                    {{#if (itemType item 'weapon') }}
+            
+                        <li class="itemEl" data-item-id="{{item._id}}">
+                            <a class="actionIcon" data-itemId="{{item._id}}" data-action="show">
+                            <div class="_itemContent">
+                                <img src="{{item.img}}" title="{{item.name}}" width="24" height="24" />
+                                <h4 class="item-name">{{item.name}}</h4>
+                            </div>
+                            </a>
+                            <div class="_actionsBox">
+                                {{#if item.system.inHands.inLeftHand}}
+                                    <img class="imgUsed" src="systems/conventum/image/texture/inLeftHand.png" />
+                                {{/if}}
+                                {{#if item.system.inHands.inRightHand}}
+                                    <img class="imgUsed" src="systems/conventum/image/texture/inRightHand.png" />
+                                {{/if}}
+                                {{#if item.system.inHands.inBothHands}}
+                                    <img class="imgUsed" src="systems/conventum/image/texture/inBothHands.png" />
+                                {{/if}}                                                
+                                {{#if ../imMaster}}                         
+                                <a class="actionIcon" data-itemId="{{item._id}}" data-action="delete">
+                                    <img class="imgAction" src="systems/conventum/image/texture/destroy.png" /></a>
+                                {{/if}}
+                            </div>
+                        </li>
+            
+                    {{/if}}
+                    {{/each}}
+                </ol>
+            </div>
+        </div> 
+
+        <div class="tab armor" data-group="equipmentTabs" data-tab="armor">
+            <div class="actorItems">
+                {{!-- ARMOR --}}
+                <h1 class="_sectionTitle" style="padding-left: 14px">{{localize "common.armor"}}</h1>
+                <ol class="itemList">
+                    {{#each items as |item id|}}
+                    {{#if (itemType item 'armor') }}
+            
+                        <li class="itemEl" data-item-id="{{item._id}}">
+                            <a class="actionIcon" data-itemId="{{item._id}}" data-action="show">
+                            <div class="_itemContent">
+                                <img src="{{item.img}}" title="{{item.name}}" width="24" height="24" />
+                                <h4 class="item-name">{{item.name}}</h4>
+                            </div>
+                            </a>
+                            <div class="_actionsBox">
+                                {{#if item.system.inUse}}
+                                    <img class="imgUsed" src="systems/conventum/image/texture/wear.png" />
+                                {{/if}}  
+                                {{#if ../imMaster}}                                    
+                                <a class="actionIcon" data-itemId="{{item._id}}" data-action="delete">
+                                    <img class="imgAction" src="systems/conventum/image/texture/destroy.png" /></a>
+                                {{/if}}
+                            </div>
+                        </li>
+            
+                    {{/if}}
+                    {{/each}}
+                </ol>
+            </div>
+        </div> 
+
+        <div class="tab spells" data-group="equipmentTabs" data-tab="spells">
+            <div class="actorItems">
+                {{!-- SPELLS --}}
+                <h1 class="_sectionTitle" style="padding-left: 14px">{{localize "common.spells"}}</h1>
+                <ol class="itemList">
+                    {{#each items as |item id|}}
+                    {{#if (itemType item 'spell') }}
+            
+                        <li class="itemEl" data-item-id="{{item._id}}">
+                            <a class="actionIcon" data-itemId="{{item._id}}" data-action="show">
+                            <div class="_itemContent">
+                                <img src="{{item.img}}" title="{{item.name}}" width="24" height="24" />
+                                <h4 class="item-name">{{item.name}}</h4>
+                            </div>
+                            </a>
+                            <div class="_actionsBox" style="z-index: 100;">                 
+                                {{#if ../imMaster}}
+                                <a class="actionIcon" data-itemId="{{item._id}}" data-action="delete">
+                                    <img class="imgAction" src="systems/conventum/image/texture/destroy.png" /></a>
+                                {{/if}}
+                            </div>
+                        </li>
+            
+                    {{/if}}
+                    {{/each}}
+                </ol>
+                <ol class="itemList">
+                    {{#each items as |item id|}}
+                    {{#if (itemType item 'ritual') }}
+            
+                        <li class="itemEl" data-item-id="{{item._id}}">
+                            <a class="actionIcon" data-itemId="{{item._id}}" data-action="show">
+                            <div class="_itemContent">
+                                <img src="{{item.img}}" title="{{item.name}}" width="24" height="24" />
+                                <h4 class="item-name">{{item.name}}</h4>
+                            </div>
+                            </a>
+                            <div class="_actionsBox" style="z-index: 100;">                 
+                                {{#if ../imMaster}}
+                                <a class="actionIcon" data-itemId="{{item._id}}" data-action="delete">
+                                    <img class="imgAction" src="systems/conventum/image/texture/destroy.png" /></a>
+                                {{/if}}
+                            </div>
+                        </li>
+            
+                    {{/if}}
+                    {{/each}}
+                </ol>                
+            </div>
+        </div> 
+
+        <div class="tab actions" data-group="equipmentTabs" data-tab="actions">
+            <div class="actorItems">
+                {{!-- ACTIONS --}}
+                <h1 class="_sectionTitle" style="padding-left: 14px">{{localize "common.actions"}}</h1>
+                <ol class="itemList">
+                    {{#each items as |item id|}}
+                    {{#if (itemType item 'action') }}
+            
+                        <li class="itemEl" data-item-id="{{item._id}}">
+                            <a class="actionIcon" data-itemId="{{item._id}}" data-action="show">
+                            <div class="_itemContent">
+                                <img src="{{item.img}}" title="{{item.name}}" width="24" height="24" />
+                                <h4 class="item-name">{{item.name}}</h4>
+                            </div>
+                            </a>
+                            <div class="_actionsBox" style="z-index: 100;">                 
+                                {{#if ../imMaster}}
+                                <a class="actionIcon" data-itemId="{{item._id}}" data-action="delete">
+                                    <img class="imgAction" src="systems/conventum/image/texture/destroy.png" /></a>
+                                {{/if}}
+                            </div>
+                        </li>
+            
+                    {{/if}}
+                    {{/each}}
+                </ol>
+            </div>
+        </div>    
+
+        <div class="tab goods" data-group="equipmentTabs" data-tab="goods">
+            <div class="actorGoods">
+
+                {{!-- GOODS --}}
+                <h1 class="_sectionTitle" style="padding-left: 14px">{{localize "common.goods"}}</h1>
+
+                <line class="_100">
+                    <hbox class="_100">
+                        <label>{{localize 'common.cash'}}</label>
+                        <input class="_40px _border _marginRight" 
+                                name="system.equipment.cash"
+                                value="{{systemData.equipment.cash}}" 
+                                data-dtype="Number"
+                                type="text" />                             
+                        <label>{{localize 'common.income'}}</label>
+                        <input class="_40px _border _marginRight" 
+                                name="system.equipment.income"
+                                {{{editable}}}
+                                value="{{systemData.equipment.income}}" 
+                                data-dtype="Number"
+                                type="text" />                             
+                    </hbox>
+
+                </line>
+                <line class="_100">
+                    <hbox class="_100 _mountLine">
+                        <hbox>
+                            <label>{{localize 'common.mount'}}</label>
+                            <select name="system.equipment.mount"
+                                    {{{editable}}}
+                                    class="_marginRight _selectMount">
+                                {{selectOptions backend.mounts 
+                                                selected=systemData.equipment.mount
+                                                localize=false
+                                                nameAttr="_id"
+                                                labelAttr="name" }}
+                            </select>
+                        </hbox>
+                        <a class="showmyHorse" data-horse="{{systemData.equipment.mount}}">
+                            <img src="{{getActorMountImage}}" />
+                        </a>
+                    </hbox>
+                </line>   
+                <line class="_100">
+                    <vbox class="_mod _text _100">
+                        <label class="_100">{{localize "common.goods" }}</label>
+                        {{editor 
+                            systemData.equipment.goods
+                            target="system.equipment.goods" 
+                            button=true
+                            engine="prosemirror"
+                            owner=owner
+                            editable=imMaster
+                            rollData=rollData
+                            editable=editable }}
+                    </vbox>                        
+                </line>
+
+            </div>
+        </div>   
+
+    </section>
 
 </div>

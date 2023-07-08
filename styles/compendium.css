@@ -180,3 +180,51 @@ section.window-content._v10 {
     border: 1px solid #3333333b;
     border-radius: 1px;
 }
+
+/* Others */
+.compendium ._infoDamage {
+    position: relative;
+    width: 100px;
+    height: 40px;
+    margin-left: -100px;
+    margin-top: -40px;
+    top: 13px;
+    left: -46px;
+    color: #111;
+    font-family: 'Almendra';
+}
+.compendium ._infoCriature {
+    position: relative;
+    width: 100px;
+    height: 40px;
+    margin-left: -93px;
+    margin-top: -40px;
+    top: 0px;
+    left: 100px;
+    color: #111;
+    text-align: right;
+    font-family: 'Almendra';
+}
+.compendium ._infoShape {
+    position: relative;
+    width: 100px;
+    height: 40px;
+    margin-left: -100px;
+    margin-top: -40px;
+    top: 7px;
+    left: 19px;
+    color: #111;
+    font-family: 'Almendra';
+}
+.compendium ._infoType {
+    position: relative;
+    width: 100px;
+    height: 40px;
+    line-height: 15px;
+    margin-left: -100px;
+    margin-top: -40px;
+    top: 11px;
+    left: 41px;
+    color: #111;
+    font-family: 'Almendra';
+}

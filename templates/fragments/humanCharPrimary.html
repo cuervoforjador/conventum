@@ -1,17 +1,22 @@
 <div class="actorChars">
     <ul class="labelLine">
         {{#each systemData.characteristics.primary as |char key|}}
+        <a class="_diceCharacteristic" data-char="{{key}}">
             <li class="label">{{localizeExtend 'characteristic.' key '_Short'}}</li>
+        </a>
         {{/each}}
     </ul>
     <ul class="charsLine">
         {{#each systemData.characteristics.primary as |char key|}}
         <li class="chars tooltip">            
             <input type="number"
-                   {{#if char.passive}} readonly {{/if}}
+                    {{{editable}}}
                    name="system.characteristics.primary.{{key}}.value" 
                    value="{{itemPropertyExtend 'systemData.characteristics.primary' key 'value'}}"
                    class="{{itemPropertyExtend 'systemData.characteristics.primary' key 'class'}}" />
+            {{#if (evalCharPenal char)}}
+            <label class="_penalCharact">{{char.penal}}</label>
+            {{/if}}
             <input type="hidden" 
                    name="system.characteristics.primary.{{key}}.temp"  
                    value="{{itemPropertyExtend 'systemData.characteristics.primary' key 'temp'}}"/>
@@ -23,10 +28,34 @@
     </ul>
 </div>
 
-<hbox class="switchInit">
-    <label>{{localize 'common.initial'}}</label>
-    <label class="switch">
-        <input type="checkbox" name="system.control.initial" {{checked systemData.control.initial}} />
-        <span class="sliderSwitch"></span>
-    </label>        
+<hbox class="switchInit spaceBetween">
+    <hbox>
+        <label class="switch">
+            <input type="checkbox" 
+                name="system.control.visible" 
+                {{{editable}}}
+                {{checked systemData.control.visible}} />
+            <span class="sliderSwitch"></span>
+        </label>
+        <a class="showInfo" data-i18n="info.targetvisible">
+        <label>{{localize 'common.targetvisible'}}</label>
+        </a>
+    </hbox>
+    <hbox>
+        <a class="showInfo" data-i18n="info.initial">
+        <label>{{localize 'common.initial'}}</label>
+        </a>
+        <label class="switch">
+            <input type="checkbox" 
+                name="system.control.initial" 
+                {{{editable}}}
+                {{checked systemData.control.initial}} />
+            <span class="sliderSwitch"></span>
+        </label>     
+        {{#if systemData.control.initial}}
+        <a class="showInfo" data-i18n="info.initial">
+            <img src="/systems/conventum/image/texture/warning.png" class="_warning" />
+        </a>
+        {{/if}}
+    </hbox>
 </hbox>

@@ -1,0 +1,383 @@
+<div class="mainShrink">
+
+    <div class="shrinkLeft">
+        {{!-- CHARACTERISTICS --}}
+        <ul class="charsLineShrink">
+
+            {{#each systemData.characteristics.primary as |char key|}}
+            <li class="charsShrink"> 
+                
+                    <label>
+                        <a class="_diceCharacteristic" data-char="{{key}}">
+                        {{localizeExtend 'characteristic.' key '_Short'}}
+                        </a>
+                    </label>
+                <input type="number"
+                    {{{editable}}}
+                    name="system.characteristics.primary.{{key}}.value" 
+                    value="{{itemPropertyExtend 'systemData.characteristics.primary' key 'value'}}"
+                    class="_temporal" />
+                <input type="hidden" 
+                    name="system.characteristics.primary.{{key}}.temp"  
+                    value="{{itemPropertyExtend 'systemData.characteristics.primary' key 'temp'}}"/>
+                <input type="hidden"
+                    name="system.characteristics.primary.{{key}}.initial"
+                    value="{{itemPropertyExtend 'systemData.characteristics.primary' key 'initial'}}"/>
+            </li>
+            {{/each}}
+
+            <li class="charsShrink">
+                <label>
+                    <a class="_diceSecondary" data-char="rr">{{localize 'characteristic.rrShort'}}</a>
+                </label>
+                <input type="number"
+                    {{{editable}}}
+                    class="_temporal"
+                    name="system.characteristics.secondary.rr.value" 
+                    value="{{systemData.characteristics.secondary.rr.value}}" />
+            </li>
+            <li class="charsShrink">
+                <label>
+                    <a class="_diceSecondary" data-char="irr">{{localize 'characteristic.irrShort'}}</a>
+                </label>
+                <input type="number"
+                    {{{editable}}}
+                    class="_temporal"
+                    name="system.characteristics.secondary.irr.value" 
+                    value="{{systemData.characteristics.secondary.irr.value}}" />
+            </li>
+            <li class="charsShrink">
+                <label>
+                    <a class="_diceSecondary" data-char="temp">{{localize 'characteristic.tempShort'}}</a>
+                </label>
+                <input type="number"
+                    {{{editable}}}
+                    class="_temporal"
+                    name="system.characteristics.secondary.temp.value" 
+                    value="{{systemData.characteristics.secondary.temp.value}}" />
+            </li>
+
+
+        </ul>
+
+        {{!-- HIT POINTS --}}
+        <div class="hitPointsShrink">
+            <line>
+                <label>{{localize 'characteristic.hpShrink'}}</label>
+                <input type="number" 
+                    {{{editable}}}
+                    class="_hitPointsShrink"
+                    name="system.characteristics.secondary.hp.value" 
+                    value="{{systemData.characteristics.secondary.hp.value}}"
+                    class="{{systemData.characteristics.secondary.hp.class}}"/>
+            </line>
+            <line>
+                <label style="text-align: right; width: 100%;"> 
+                    / {{systemData.characteristics.secondary.hp.initial}}
+                </label>              
+            </line>
+            {{#each systemData.status.life as |status key|}}
+            <line          
+                {{#if (checkedExtend 'systemData.status.life' key '') }} style="display: block;"
+                            {{else}} style="display: none;" {{/if}}>
+                <input type="checkbox" 
+                    class="_hitStatusShrink"
+                    disabled="disabled"
+                    style="display: none"
+                    name="system.status.life.{{key}}" 
+                    {{checkedExtend 'systemData.status.life' key ''}} />
+                <label class="_hitLabelShrink">{{localizeExtend 'status.' key ''}}</label>
+            </line>
+            {{/each}}              
+        </div>
+    </div>
+    <div class="shrinkRight">
+
+        {{!-- SKILLS --}}
+        <div class="skillsShrink">
+            <h3 class="_shrink">{{localize "common.skills"}}</h3>
+            <ul class="wrapSkillShrink">
+                {{!-- No Items --}}
+                {{#if (bNoSkills backend.skills)}}
+                <label class="_noSkills">{{localize "info.noSkills"}}</label>
+                {{/if}}
+
+                {{#each backend.skills as |skill key|}}
+                {{#if (itemPropertyExtend 'systemData.skills' skill._id 'acquired')}}
+                <li class="boxSkillShrink">
+                    <input class="_acquired _shrink"
+                        type="checkbox" 
+                        {{{editable}}}
+                        name="system.skills.{{skill._id}}.acquired" 
+                        {{checkedExtend 'systemData.skills' skill._id 'acquired'}} />  
+                    <a class="playSkill _shrink" data-itemId="{{skill._id}}">               
+                        <label class="_label _shrink">{{skill.name}}</label>
+                    </a>
+                    <input class="_skillValue _shrink" 
+                        type="text"
+                        {{{editable}}}
+                        name="system.skills.{{skill._id}}.value"
+                        value="{{itemPropertyExtend 'systemData.skills' skill._id 'value'}}"  
+                        data-dtype="Number"/>
+                    <label class="_penal _shrink">{{itemPropertyExtend 'systemData.skills' skill._id 'penal'}}</label>                
+                    <input name="system.skills.{{skill._id}}.initial" 
+                        value="{{itemPropertyExtend 'systemData.skills' skill._id 'initial'}}" 
+                        type="hidden"/>                                                           
+                </li>
+                {{/if}}
+                {{/each}}
+            </ul>
+        </div>
+            
+        {{!-- WEAPONS --}}
+        {{#if (counted 'weapon')}}
+        <div class="weaponsShrink">
+            <h3 class="_shrink">{{localize "common.weapons"}}</h3>
+            <ul class="wrapSkillShrink">
+                
+                {{!-- No Items --}}
+                {{#if (bNoWepons)}}
+                <label class="_noSkills">{{localize "info.noWeapons"}}</label>
+                {{/if}}
+
+                {{#if actions.showSkill}}
+                <li class="boxWeapon _shrink"  id="boxWeapon_{{actions.skill._id}}">
+                    <a class="playSkill _shrink" data-itemId="{{actions.skill._id}}" data-actionId="{{actions.action._id}}">
+                        <img class="imgWeapon2 _shrink" src="systems/conventum/image/texture/dice2.png"/></a>                      
+
+                    <label class="_label _shrink">{{actions.skill.name}}</label>
+                    <label class="_label _shrink">{{itemPropertyExtend 'systemData.skills' actions.skill._id 'value'}}</label>
+                    <label class="_label _shrink"></label>
+                    
+                </li>
+                {{/if}}
+
+                {{#each items as |weapon id|}}
+                {{#if (itemType weapon 'weapon') }}
+
+                    <li class="boxWeapon _shrink"  id="boxWeapon_{{weapon._id}}">
+
+                        {{#if (evalActionWeapon ../actions weapon) }}
+                        <a class="playWeapon" data-itemid="{{weapon._id}}" 
+                            title="{{localize 'help.action'}}">
+                            <img class="imgWeapon2 _shrink" src="systems/conventum/image/texture/dice2.png"/>
+                        </a>
+                        {{else}}
+                        <a class="showInfo" data-i18n="info.noAction"
+                            title="{{localize 'help.action'}}">
+                            <img class="imgWeapon2 _shrink" src="systems/conventum/image/texture/dice2.png" 
+                                style="opacity: 0.3;"/>
+                        </a>                    
+                        {{/if}} 
+                        
+                        <a class="playWeaponExpress" data-itemid="{{weapon._id}}"
+                            title="{{localize 'help.express'}}">
+                            <img class="imgWeapon2 _shrink" src="/systems/conventum/image/texture/express.png"/>
+                        </a>  
+
+                        <a class="actionIcon" data-itemId="{{weapon._id}}" data-action="show">
+                        <label class="_label _shrink">{{weapon.name}}</label>
+                        </a>
+                        <label class="_label _shrink">{{getWeaponSkill weapon}} % </label>
+                        <label class="_label _shrink">( {{weapon.system.damage}} )</label>
+
+                        {{#if ../imMaster}}                         
+                        <a class="actionIcon" data-itemId="{{weapon._id}}" data-action="delete">
+                            <img class="imgAction _shrink" src="systems/conventum/image/texture/destroy.png" /></a>
+                        {{/if}}
+                        
+                    </li>
+                {{/if}}
+                {{/each}}
+
+            </ul>
+        </div>
+        {{/if}}
+
+        {{!-- ARMORS --}}
+        {{#if (counted 'armor')}}
+        <div class="weaponsShrink">
+            <h3 class="_shrink">{{localize "common.armor"}}</h3>
+            <ul class="wrapArmorShrink">
+
+                {{#each items as |armor id|}}
+                {{#if (itemType armor 'armor') }}
+                <li>
+
+                    {{#if ../imMaster}}                         
+                    <a class="actionIcon" data-itemId="{{armor._id}}" data-action="delete">
+                        <img class="imgAction _shrink" src="systems/conventum/image/texture/destroy.png" /></a>
+                    {{/if}}
+
+                    <a class="actionIcon" data-itemId="{{armor._id}}" data-action="show">
+                        <label class="_label _shrink _desc">{{armor.name}}</label>
+                    </a>
+                    
+                    <label class="_label _shrink _short">({{localize "common.protectionShort"}}</label>
+                    <input class="_skillValue _shrink _armorShrinkValue" 
+                        data-itemId="{{armor._id}}"
+                        data-property="protection"
+                        type="text"
+                        {{{editable}}}
+                        value="{{armor.system.protection}}"
+                        data-dtype="Number"/>                               
+
+                    <label class="_label _shrink _short">)  {{localize "common.enduranceShort"}}</label>
+                    <input class="_skillValue _shrink _armorShrinkValue" 
+                        style="margin-left: 5px!important"
+                        data-itemId="{{armor._id}}"
+                        data-property="endurance"
+                        type="text"
+                        {{{editable}}}
+                        value="{{armor.system.endurance}}"
+                        data-dtype="Number"/> 
+
+                </li>
+                {{/if}}
+                {{/each}}
+
+            </ul>        
+        </div>
+        {{/if}}
+
+    </div>
+
+    {{!-- ITEMS --}}
+    {{#if (counted 'item')}}
+    <div class="_total">
+        <h3 class="_shrink">{{localize "common.items"}}</h3>
+        <ol class="itemList">
+        {{#each items as |item id|}}
+        {{#if (itemType item 'item') }} 
+        
+            <li class="itemEl _shrink" data-item-id="{{item._id}}">
+                <div class="_actionsBox" style="z-index: 100;">                 
+                    {{#if ../imMaster}}
+                    <a class="actionIcon" data-itemId="{{item._id}}" data-action="delete">
+                        <img class="imgAction" src="systems/conventum/image/texture/destroy.png" /></a>
+                    {{/if}}
+                </div>                
+                <a class="actionIcon" data-itemId="{{item._id}}" data-action="show">
+                    <label class="_label _shrink">{{item.name}}</label>
+                </a>
+            </li>
+
+        {{/if}}
+        {{/each}}            
+        </ol>
+    </div>
+    {{/if}}
+
+    {{!-- SPELLS --}}
+    {{#if (counted 'spell')}}
+    <div class="_total" style="margin-top: 12px;">
+        <h3 class="_shrink">{{localize "common.spells"}}</h3>
+        <ul class="magicList _shrink">
+
+        <li class="_magic" style="border-bottom: 1px solid #33333330;">
+            <label class="_title _head"></label>
+            <label class="_points _head" style="margin-left: -8px;">Vis Ordo</label>
+            <label class="_points _head" style="margin-left: 11px;">Ptc Ptf</label>
+            <label class="_type _head"></label>
+            <label class="_points _head" style="margin-left: -11px;">{{localize "common.penalShort"}}</label>
+            <label class="_value _head" style="margin-left: 8px;">Rr Irr</label>            
+        </li>             
+        {{#each items as |item id|}}
+        {{#if (itemType item 'spell') }} 
+        
+
+            <li class="itemEl _magic _spell _shrink" data-item-id="{{item._id}}">
+                <label class="_title">
+                    <a class="actionIcon" data-itemId="{{item._id}}" data-action="show">
+                        {{item.name}}
+                    </a>
+                </label>
+                <label class="_points">{{item.system.vis}}</label>
+                <label class="_points">{{item.system.ptc}}</label>
+                <label class="_type">{{item.system.shape}}</label>
+                <label class="_points">{{item.system.penal}}</label>
+                <label class="_value">
+                    <a class="playSpell" data-itemId="{{item._id}}">
+                        {{spellValue item 'spell'}}
+                    </a>
+                </label>
+            </li>
+        {{/if}}
+        {{/each}}            
+        </ul>
+    </div>
+    {{/if}}
+
+    {{!-- RITUALS --}}
+    {{#if (counted 'ritual')}}
+    <div class="_total" style="margin-top: 12px;">
+        <h3 class="_shrink">{{localize "common.rituals"}}</h3>
+        <ul class="magicList _shrink">
+
+        <li class="_magic" style="border-bottom: 1px solid #33333330;">
+            <label class="_title _head"></label>
+            <label class="_points _head" style="margin-left: -8px;">Vis Ordo</label>
+            <label class="_points _head" style="margin-left: 11px;">Ptc Ptf</label>
+            <label class="_type _head"></label>
+            <label class="_points _head" style="margin-left: -11px;">{{localize "common.penalShort"}}</label>
+            <label class="_value _head" style="margin-left: 8px;">Rr Irr</label>            
+        </li>             
+        {{#each items as |item id|}}
+        {{#if (itemType item 'ritual') }} 
+        
+            <li class="itemEl _magic _ritual _shrink" data-item-id="{{item._id}}">
+                <label class="_title">
+                    <a class="actionIcon" data-itemId="{{item._id}}" data-action="show">
+                        {{item.name}}
+                    </a>
+                </label>
+                <label class="_points">{{item.system.ordo}}</label>
+                <label class="_points">{{item.system.ptf}}</label>
+                <label class="_type"></label>
+                <label class="_points">{{item.system.penal}}</label>
+                <label class="_value">
+                    <a class="playSpell" data-itemId="{{item._id}}">
+                        {{spellValue item 'ritual'}}
+                    </a>
+                </label>
+            </li>
+        {{/if}}
+        {{/each}}            
+        </ul>
+    </div>
+    {{/if}}    
+
+    {{!-- ACTIONS --}}
+    {{#if (counted 'action')}}
+    <div class="_total" style="margin-top: 12px;">
+        <h3 class="_shrink">{{localize "common.actions"}}</h3>
+        <ol class="itemList">            
+        {{#each items as |item id|}}
+        {{#if (itemType item 'action') }} 
+        
+            <li class="itemEl _shrink" 
+                data-item-id="{{item._id}}"
+                style="margin-right: 10px;">
+                <div class="_actionsBox" style="z-index: 100;">                 
+                    {{#if ../imMaster}}
+                    <a class="actionIcon" data-itemId="{{item._id}}" data-action="delete">
+                        <img class="imgAction" src="systems/conventum/image/texture/destroy.png" /></a>
+                    {{/if}}
+                </div>                
+                <a class="_doAction" data-itemId="{{item._id}}" >
+                    <label class="_label _shrink">{{item.name}}</label>
+                </a>
+                <a class="actionIcon" data-itemid="{{item._id}}" data-action="show">
+                    <img class="imgAction _shrink" 
+                            src="systems/conventum/image/texture/edit.png" 
+                            style="width: 15px; height: 15px;"/>
+                </a>
+            </li>
+
+        {{/if}}
+        {{/each}}            
+        </ol>
+    </div>
+    {{/if}}
+
+</div>

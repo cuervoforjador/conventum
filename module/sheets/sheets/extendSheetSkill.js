@@ -37,6 +37,9 @@ export class extendSheetSkill extends ItemSheet {
     context.systemData = await helperSheetItem.checkSystemData(context.systemData);
     context.backend = await mainBackend.getBackendForSkill(context.systemData);
 
+    //Molding...
+    helperSheetItem.molding(context);
+
     return context;
   }
 

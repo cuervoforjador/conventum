@@ -129,9 +129,13 @@ inkDetail.inkSubline {
 .frameContent input,
 .actorChars input {
     background: none!important;
-    border: 0px!important;
+    border: 0px;
     border-radius: 0px!important;
     box-shadow: none!important;
+}
+input._border {
+    border: 1px solid #333333b7!important;
+    border-radius: 2px!important;
 }
 .actorHeader input[name='name'],
 .frameContent input[name='name'] {
@@ -223,6 +227,14 @@ inkDetail.inkSubline {
     margin-top: 8px;
     padding-right: 8px;
 }
+img._warning {
+    width: 30px;
+    border: none;
+    margin-bottom: -10px;
+    position: relative;
+    top: -1px;
+    opacity: 0.8;
+}
 
 /* Characteristics */
 .actorChars {
@@ -279,6 +291,26 @@ inkDetail.inkSubline {
 ._temporal {
     color: #9f4436!important;
 }
+label._penalCharact {
+    font-size: 11px;
+    width: 24px;
+    height: 20px;
+    line-height: 15px;
+    text-align: center;
+    background: #fff3f3c7;
+    color: #000;
+    border: 1px solid #0000003d;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    position: relative;
+    top: -8px;
+    left: 13px;
+}
 
 .actorChars li.chars .tooltiptext {
     font-size: 15px;
@@ -288,6 +320,297 @@ inkDetail.inkSubline {
 .actorChars li.chars .tooltiptext::after {
     left: calc(76px - 20px)!important;
 }
+
+    /*... Shrinks ...*/
+    section.window-content._shrink {
+        padding: 0px;
+    }
+    ._shrink ._portrait {
+        min-width: 110px!important;
+        height: 121px!important;
+        margin-left: -5px;
+    }    
+    ._shrink img.profile-img {
+        width: 110px!important;
+        height: 110px!important;
+    }    
+    ._shrink input[name='name'] {
+        background: none!important;
+        border-bottom: 3px solid #9f4436!important;
+        font-size: 22px;
+        line-height: 22px!important;
+        height: auto!important;
+    }    
+    .mainShrink {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .shrinkLeft {
+        border-right: 1px solid #33333347;
+        padding-right: 8px;
+    }    
+    .shrinkRight {
+        max-width: calc(100% - 111px)!important;
+    }    
+    .headerInfo._shrink {
+        height: auto;
+    }
+    h3._shrink {
+        margin-bottom: 0px;
+        font-family: 'Almendra';
+        padding-left: 4px;
+        padding-top: 7px;
+        margin-left: 4px;
+        margin-right: 4px;
+        border-bottom: 0px;
+        font-size: 16px;
+        line-height: 16px;
+    }    
+    h3._shrink::first-letter {
+        font-size: 28px;
+        font-weight: 900;
+        color: #bb4848;
+    }    
+    ul.charsLineShrink,
+    .hitPointsShrink {
+        margin: 0px;
+        padding: 0px;
+        padding-left: 14px;
+        width: 90px;
+        display: flex;
+        flex-direction: column;
+    }    
+    .hitPointsShrink {
+        margin-top: 2px;
+        padding-top: 2px;
+    }
+    li.charsShrink {
+        display: flex;
+        width: 100%;
+        margin: 0px;
+        padding: 0px;
+        align-content: center;
+        flex-direction: row;
+        align-items: center;
+    }
+    .charsShrink label {
+        width: 100px;
+    }    
+    .charsShrink input._temporal,
+    .hitPointsShrink input {
+        border: 1px solid #3333336b!important;
+        border-radius: 3px!important;
+        height: 20px;
+        line-height: 20px;
+        text-align: center;
+        font-family: 'Almendra';
+        font-size: 18px;
+        padding-bottom: 4px;
+        color: #333!important;
+        margin-bottom: 2px;
+        margin-top: 2px;
+    }
+    .hitPointsShrink label {
+        font-size: 11px;
+    }
+    .hitPointsShrink line {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+        align-content: space-between;
+    }    
+    input._hitPointsShrink {
+        width: 34px;
+        background: #cb979740!important;
+    }
+    input._hitStatusShrink {
+        height: 13px;
+        width: 13px;
+        margin: 0px;
+        padding: 0px;
+    }        
+    label._hitLabelShrink {
+        width: 100%;
+        display: flex;
+        font-size: 10px;
+        padding-right: 3px;
+        justify-content: flex-end;
+    }
+    label._shrink {
+        font-family: 'Almendra';
+        font-size: 15px;
+        line-height: 18px;
+    } 
+    .skillsShrink, .weaponsShrink, .wrapArmorShrink {
+        width: 275px;
+        padding-left: 5px;
+    }    
+    ul.wrapSkillShrink {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0px!important;
+        padding: 0px!important;
+        padding-left: 6px!important;
+        padding-top: 6px!important;
+    }
+    li.boxSkillShrink {
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        align-items: center;
+        justify-content: flex-start;
+        width: 50%;
+    }
+    label._label._shrink {
+        cursor: pointer;
+    }    
+    input._acquired._shrink {
+        position: initial;
+        top: initial;
+        left: initial;
+        opacity: 0.6;
+        margin: 0px;
+    }
+    input._skillValue._shrink {
+        font-size: 17px!important;
+        line-height: 17px!important;
+        background: #b3525229!important;
+        padding: 0px!important;
+        margin: 0px!important;
+        height: 17px;
+        width: 35px;
+        border-radius: 3px!important;
+    }
+    input._skillPenal._shrink {
+        line-height: 17px!important;
+        font-size: 17px!important;
+        position: initial;
+        top: auto;
+        left: auto;
+        margin: 0px!important;
+        opacity: 1;
+        text-shadow: none!important;
+    }
+    label._penal._shrink {
+        font-size: 16px;
+        font-family: 'Almendra';
+        font-weight: 900;
+        color: #F00;
+        margin-left: 3px;
+    }            
+    a.playSkill._shrink img {
+        width: 25px;
+        height: 25px;
+        border: 0px!important;
+        opacity: 1;
+    }    
+    a._diceSecondary img {
+        border: none;
+        width: 24px;
+    }    
+    ._activeLuck label {
+        border: 1px solid #3333332b;
+        padding: 4px;
+        font-size: 11px;
+        border-radius: 2px;
+        background: #c17d7d2b;
+        cursor: pointer;
+    }
+    label._noSkills {
+        font-family: 'Almendra';
+        font-size: 13px;
+        line-height: 17px;
+        white-space: pre-line;
+        text-align: justify;
+        padding: 5px;
+        border: 1px solid #33333357;
+        border-radius: 4px;
+    }
+    label._noSkills::first-letter {
+        font-size: 20px;
+        color: #5a4b4b;
+    }
+    .weaponsShrink {
+        margin-top: 7px;
+    }
+    img.imgWeapon2._shrink {
+        width: 24px!important;
+        height: 23px!important;
+        margin-right: 2px;
+        border: 0px;
+    }
+    li.boxWeapon._shrink {
+        border-bottom: 0px!important;
+        margin-top: -9px!important;
+    }
+    img.imgAction._shrink {
+        width: 20px;
+        border: 0px;
+        position: relative;
+        top: 5px;
+        opacity: 0.8;
+    }        
+    label._label._shrink._short {
+        margin-right: -2px;
+        line-height: 10px;
+    }
+    ul.wrapArmorShrink {
+        margin-top: 3px;
+    }    
+    .wrapArmorShrink li {
+        line-height: 14px;
+        margin: 0px;
+        padding: 0px;
+        height: 20px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-content: center;
+        align-items: center;
+    }  
+    ul.wrapArmorShrink li img.imgAction._shrink {
+        margin-right: 3px;
+    }
+    label._label._shrink._desc {
+        min-width: 105px!important;
+        display: block;
+    }
+    li.itemEl._shrink {
+        margin: 0px;
+        padding: 0px;
+        margin-right: 5px;
+        display: flex;
+        justify-content: flex-start;
+        flex-flow: wrap;
+    }
+    li.itemEl._magic._shrink {
+        width: 100%;
+    }    
+    .mainShrink ._total {
+        width: 100%;
+    }    
+    .mainShrink ._total ol.itemList {
+        padding: 0px;
+        padding-left: 6px;
+        padding-right: 6px;
+        margin: 0px;
+        display: flex;
+        flex-wrap: wrap;
+        flex-flow: wrap;
+    }    
+    .itemEl._shrink img.imgAction {
+        width: 20px;
+        height: 20px;
+        opacity: 0.9;
+        position: relative;
+        top: 5px;
+    }    
+    ._doAction img.imgAction._shrink {
+        width: 20px;
+        height: 20px;
+    }    
+
 
 .actorHeader .switchInit,
 .frameContent .switchInit {
@@ -393,6 +716,7 @@ nav._subTabs {
     border-radius: 2px;
     padding: 3px;
     line-height: 35px;
+    cursor: pointer;
 }
 
 section._description {
@@ -422,6 +746,9 @@ section._description .editor-content p:first-child::first-letter {
     border-radius: 4px;
     line-height: 32px;
     margin-right: 2px;
+}
+a._traitShow {
+    margin-right: 7px;
 }
 
 ol._traits {
@@ -479,6 +806,28 @@ label._shortDescription {
 }
 
 /* Skills */
+.skills .header-search.flexrow {
+    padding-left: 53px;
+    padding-top: 12px;
+}
+.skills i.fas.fa-search {
+    width: 20px;
+    max-width: 20px;
+    line-height: 12px;
+    padding-top: 7px;
+}
+input.searchSkill,
+input.searchAction {
+    border: 1px solid #3333334d!important;
+    max-width: calc(100% - 58px)!important;
+    border-radius: 2px!important;
+    font-family: 'Almendra';
+}
+.header-search.searchAction {
+    padding: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
 .actorSkills {
     width: 100%;
     padding: 10px;
@@ -493,6 +842,7 @@ label._shortDescription {
     align-content: center;
     justify-content: space-around;
     align-items: center;    
+    padding-bottom: 40px;
 }
 li.boxSkill {
     width: 74px;
@@ -504,6 +854,9 @@ li.boxSkill {
     align-content: flex-start;
     justify-content: flex-start;
     align-items: center;
+}
+li.boxSkill:hover {
+    z-index: 10000;
 }
 li.boxSkill:hover ._skillValue {
     border: 1px solid #5e272757!important;
@@ -541,7 +894,7 @@ li.boxSkill a._dice:hover {
 }
 input._skillValue {
     text-align: center;
-    font-size: 30px!important;
+    font-size: 26px!important;
     line-height: 35px!important;
     font-weight: 900;
     height: 35px;
@@ -550,8 +903,85 @@ input._skillValue {
     font-family: 'Almendra';
     z-index: 90;
     width: 40px;
-    color: #645d48;
+    color: #373531;
     transition: 0.8s;
+}
+input._acquired {
+    margin-bottom: -20px;
+    position: relative;
+    top: -83px;
+    left: 50px;
+    opacity: 0.5;
+    line-height: 12px!important;
+    font-size: 12px;
+    height: 15px;
+    transition: 0.8s;
+}
+li.boxSkill:hover input._acquired {
+    transform: translate(-57px, -4px);
+    height: 20px;
+    margin-bottom: -24px;
+    opacity: 1;
+}
+input._experienced {
+    margin-bottom: -20px;
+    position: relative;
+    top: -67px;
+    left: 20px;
+    opacity: 0.5;
+    line-height: 12px!important;
+    font-size: 12px;
+    height: 15px;
+    transition: 0.8s;
+}
+li.boxSkill:hover input._experienced {
+    transform: translate(-57px, -4px);
+    height: 20px;
+    top: -62px;
+    margin-bottom: -24px;
+    opacity: 1;
+}
+.experienceSkill img {
+    width: 23px;
+    height: 23px;
+    position: relative;
+    top: -82px;
+    left: -49px;
+    margin-bottom: -23px;
+    border: 0px;
+    opacity: 0.6;
+    display: flex;
+}
+li.boxSkill:hover .experienceSkill img {
+    left: -53px!important;
+    top: -61px;
+    opacity: 1!important;
+    background: #FFF;
+    padding: 1px;
+    border: 1px solid #333333bf;
+    margin-bottom: -30px;
+}
+input._skillPenal {
+    font-family: 'Almendra';
+    line-height: 26px!important;
+    font-size: 23px;
+    font-weight: 900;
+    width: 50px;
+    text-align: left;
+    border-radius: 3px!important;
+    margin-bottom: -26px;
+    position: relative;
+    left: 28px;
+    top: -38px;
+    transition: 0.8s;
+    color: #ec2626;
+    opacity: 0.8;
+    text-shadow: 2px 0 #ffffff63, -2px 0 #ffffff63, 0 2px #ffffff63, 0 -2px #ffffff63, 1px 1px #ffffff63, -1px -1px #ffffff63, 1px -1px #ffffff63, -1px 1px #ffffff63;
+}
+li.boxSkill:hover ._skillPenal {
+    transform: translate(7px, 15px);
+    text-align: center;
+    opacity: 1;
 }
 .imgSkill {
     width: 100%;
@@ -567,6 +997,46 @@ input._skillValue {
     text-align: center;
     font-size: 9px!important;
     line-height: 11px!important;
+}
+
+/* Languages */
+._bioLanguages {
+    display: flex;
+    flex-wrap: wrap;
+    padding-right: 16px;
+    padding-left: 7px;
+}
+li.boxLanguages {
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 4px;
+    padding-left: 3px;
+    width: 50%;
+    align-content: center;
+    align-items: center;
+}
+.boxLanguages img._img {
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+}
+.boxLanguages a.playLang img {
+    width: 26px;
+    height: 26px;
+    border: 0px;
+    position: relative;
+    top: 2px;
+}
+.boxLanguages label._label {
+    width: calc(100% - 100px);
+}
+.boxLanguages input._value {
+    width: 35px;
+    border: 0px solid #33333385;
+    border-radius: 4px!important;
+    text-align: center;
+    font-family: 'Almendra';
+    font-size: 20px;
 }
 
 /* Armor */
@@ -624,6 +1094,9 @@ li.armorGarment img {
     border: 0px!important;
     padding: 0px!important;
     margin: 0px!important;
+}
+ol._inGarment {
+    display: flex;
 }
 ._garmentLabel {
     background: #ffffffd9;
@@ -757,6 +1230,9 @@ label._description::first-letter {
 
 .actorArmor {
     width: 100%;
+    max-width: 370px;
+    display: flex;
+    justify-content: flex-start;
 }
 .actorArmor .armorBox {
     width: 100%;
@@ -888,19 +1364,988 @@ label.armorLocation {
     line-height: 18px;
 }
 
+/* Combat & Weapons */
+nav.tabs_Combat._subTabs {
+    padding-left: 54px;
+    padding-top: 6px;
+    background: #ffffff52;
+    border-bottom: 0px;
+}
+hbox._betsu {
+    display: flex;
+    justify-content: space-between;
+    padding-right: 8px;
+}
+ul.combatMenu {
+    width: 100%;
+    height: 50px;
+    padding-left: 30px;
+    padding-right: 30px;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    align-items: center;
+    border-bottom: 3px solid #953c2e75;
+    list-style-type: none;
+    margin-top: 5px;
+}
+._combatOption img {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    border: 0px; 
+}
+._combatOption img:hover {
+    background: #bf8b2c26;
+    border-radius: 5px;
+}
+ul.actorWeapons {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    margin-left: -8px;
+}
+li.boxWeapon {
+    width: 99%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    justify-content: flex-start;
+    border-bottom: 1px solid #33333352;
+    padding-top: 6px;
+}
+li.boxWeapon:first-child {
+
+}
+img.imgWeapon {
+    width: 40px;
+    height: 60px;
+    border: 1px solid #8d54104f;
+    border-radius: 4px;
+}
+.mainWeapon,
+img.imgWeapon._express {
+    transition: 0.4s;
+}
+img.imgWeapon._express {
+    margin-right: -40px;
+    position: absolute;
+    width: 34px!important;
+    z-index: 0!important;
+    left: 45px;
+    transform: rotate(0deg);
+    opacity: 0;
+}
+.mainWeapon:hover img.imgWeapon._express {
+    display: block;
+    left: 60px;
+    width: 34px!important;
+    transform: rotate(5deg);
+    margin-top: 5px;    
+    opacity: 1;
+}   
+
+.boxWeapon hbox,
+.boxWeapon vbox {
+    width: 100%;
+    align-items: flex-start;
+}
+.boxWeapon ul.boxActions {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: flex-start;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+    margin-bottom: 5px;
+    background: #4a000045;
+    padding-top: 5px;
+    border: 1px solid #6611112e;
+    border-radius: 3px;
+}
+.boxWeapon ul.boxActions li img._actionImg {
+    width: 60px;
+    min-width: 60px;
+    -webkit-box-shadow: 0px 0px 15px 5px rgb(0 0 0 / 17%);
+    box-shadow: 0px 0px 15px 5px rgb(0 0 0 / 17%);
+    border: 1px solid #33333391;
+    transition: 0.4s;
+}
+.boxWeapon ul.boxActions li img._actionImg:hover {
+    transform: rotate(4deg);
+}
+
+ul.actorWeapons li.boxWeapon ._targets {
+    position: relative;
+    top: -140px;
+    left: 2px;
+    z-index: 10000;
+    width: calc(100% - 4px);
+    height: 60px;
+    overflow: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
+}
+li.boxWeapon ._targets ._target img {
+    border-radius: 50%;
+    width: 50pxpx;
+    height: 50px;
+    margin-left: 5px;
+    -webkit-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.72); 
+    box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.72);
+    border: 1px solid #33333391;
+}
+.boxWeapon img.imgWeapon {
+    width: 80px!important;
+}
+.boxWeapon img.imgWeapon._express {
+    width: 34px!important;
+}
+img.imgWeapon:hover {
+    border: 4px solid #720b0b91;
+    /* opacity: 1!important; */
+}
+.playWeaponExpress label {
+    cursor: pointer;
+}
+.boxWeapon ._noActionWrap {
+    width: 200px;
+    height: 40px;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    flex-direction: row;
+    margin-left: -200px;
+    margin-top: -40px;
+    position: relative;
+    top: 75px;
+    justify-content: flex-end;
+}
+.boxWeapon ._noActionWrap img {
+    width: 23px;
+    height: 20px;
+    border: none;
+    position: relative;
+    top: -3px;
+    opacity: 0.5;
+}
+.playWeaponExpress:hover img {
+    opacity: 1;
+}
+.spaceBetween {
+    display: flex;
+    justify-content: space-between!important;
+    padding-left: 15px;
+}
+
+label.titleWeapon {
+    font-size: 18px;
+    font-family: 'Almendra';
+    padding-left: 9px;
+    padding-top: 10px;
+}
+label.titleWeapon::first-letter {
+    color: #ae6152;
+    font-family: 'Almendra';
+    font-size: 28px;
+    font-weight: 900;
+}
+label._skillValue {
+    font-family: 'Almendra';
+    font-size: 37px;
+    color: #333333bf;
+    font-weight: bold;
+    line-height: 25px;
+    width: 50px;
+    position: relative;
+    top: 7px;
+}
+label._skillValue::first-letter {
+    font-size: 45px;
+    color: #333333bf;
+    font-weight: bold;
+    font-family: 'Almendra';
+}
+li.boxWeapon:first-child label._skillValue {
+    
+}
+label.damageWeapon {
+    font-size: 20px;
+    font-family: 'Almendra';
+    font-weight: 900;
+    color: #333333c7;
+    width: 200px;
+    margin-right: -100px;
+    line-height: 20px;
+    padding-left: 16px;
+    padding-top: 6px;
+}
+label.damageWeapon::first-letter {
+    font-size: 24px;
+    font-family: 'Almendra';
+    font-weight: 900;
+    color: #ae6152;
+}
+span._small {
+    font-size: 16px;
+}
+.boxWeapon a._cardInfo {
+    border: 1px solid #33333363;
+    color: #4423079e;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    border-radius: 3px;
+    top: -4px;
+    left: -1px;
+}
+hbox._weaponHands {
+    width: 80px;
+    position: relative;
+    top: 3px;    
+}
+li.boxWeapon:first-child hbox._weaponHands {
+    
+}
+img.weaponHand {
+    width: 25px;
+    height: 40px;
+    border: 0px solid #333;
+    cursor: pointer;
+    transition: 0.2s;
+}
+img.weapon2Hands {
+    width: 60px;
+    height: 40px;
+    border: 0px solid #333;
+    cursor: pointer;
+    transition: 0.2s;
+}
+img._alpha {
+    opacity: 0.35;
+}
+img.weaponHand._alpha:hover,
+img.weapon2Hands._alpha:hover {
+    opacity: 1;
+}
+img.weaponLeftHand {
+}
+img.weaponRightHand {
+    margin-left: 7px;
+}
+._chatContent img._backHand {
+    position: absolute;
+    width: 59px;
+    height: 86px;
+    border: 0px solid #333;
+    left: calc(100% - 66px);
+    top: 4px;
+    opacity: 0.2;
+}
+img._combatSkillImg {
+    width: 72px;
+    margin-right: 3px;
+}
+._combatSkill label._skillValue {
+    position: relative;
+    left: -9px;
+}
+._combatSkill a._cardInfo {
+    width: 48px;
+}
+
+/* Combat && actions */
+hbox._encountersBox {
+    display: flex;
+    width: 100%;
+    min-height: 60px;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    align-items: center;
+    padding-left: 56px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid #33333336;
+}
+label._captionCombat {
+    font-size: 17px;
+    margin-top: 7px;
+}
+label._captionCombat::first-letter {
+    font-size: 20px;
+}
+ul._myCombats {
+    display: flex;
+    margin-right: 4px;
+    margin-bottom: 0px;
+    padding-right: 40px;
+    padding-top: 4px;
+    justify-content: flex-start;
+    padding-left: 50px;
+    flex-direction: row;
+}
+ul._myCombats li._myCombat {
+    margin-right: 10px;
+}
+ul._myCombats li._myCombat:hover {
+    cursor: pointer;
+}
+li._myCombat img {
+    border-radius: 50%;
+    border: 1px solid #333;
+    width: 38px;
+    height: 38px;
+}
+ul.actorActions {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 4px;
+    justify-content: space-around;
+    align-content: space-around;
+}
+li.boxAction {
+    width: 80px;
+    margin-bottom: -8px;
+    cursor: pointer;
+    transition: 0.5s;
+    transform: rotate(3deg);
+    margin-left: -14px;    
+    height: 140px!important;
+}
+li.boxAction:hover {
+    transform: rotate(-1deg);
+    margin-right: 10px;
+    width: 83px;
+    margin-bottom: -14px;
+}
+li.boxAction img.imgAction {
+    width: 100%;
+    height: 125px!important;
+}
+img.imgAction {
+    opacity: 0.5;
+}
+li.boxAction:hover label._actionTitle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+li.boxAction:hover img.imgAction {
+    opacity: 1;
+}
+label._actionTitle {
+    width: 100%;
+    height: 40px;
+    background: #ca9292b5;
+    position: relative;
+    top: -45px;
+    left: 2px;
+    margin-bottom: -40px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 16px;
+    color: #000;
+    display: none;
+    cursor: pointer;
+    text-shadow: 2px 0 #ffffff63, -2px 0 #ffffff63, 0 2px #ffffff63, 0 -2px #ffffff63, 1px 1px #ffffff63, -1px -1px #ffffff63, 1px -1px #ffffff63, -1px 1px #ffffff63;
+    align-content: center;
+    align-items: center;
+}
+a._showMyItem {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #333;
+    font-size: 12px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    background: #ffffffd1;
+    position: relative;
+    top: -119px;
+    left: 55px;
+    border-radius: 1px;
+    z-index: 10;
+}
+
+
+/* Magic */
+ul._magicChars {
+    margin: 0px;
+    padding: 0px;
+    padding-left: 54px;
+    padding-top: 14px;
+    padding-right: 24px;
+    padding-bottom: 8px;
+    border-bottom: 3px solid #1111114d;
+    margin-bottom: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    background: #322c2cc7;
+    z-index: 1;
+}
+ul._magicSkills {
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    z-index: 1;
+}
+li._magicSkill {
+    margin: 0px;
+    margin-bottom: 2px;
+    padding: 0px;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    margin-right: 8px;
+    padding-right: 8px;
+    border-right: 1px solid #33333329;
+}
+._magicSkill img {
+    width: 20px;
+    height: 20px;
+    border: 0px;
+    margin-right: 4px;
+}
+._magicSkill label._value {
+    font-size: 13px;
+    line-height: 18px;
+    font-weight: 900;
+    position: relative;
+    background: #a14b4b1a;
+    border-radius: 3px;
+    width: 30px;
+    height: 23px;
+    text-align: center;
+    top: 0px;
+}
+._magicChars label._name {
+    color: #ffffffcf;
+}
+._magicChars label._name:first-letter {
+    color: #f5f1f1;
+}
+._magicChars label._value {
+    background: #0000007d;
+    color: #ffffffde;
+    transform: rotate(4deg);
+    position: relative;
+    top: 1px;
+    margin-left: -2px;
+}
+._magicChars label._value:first-letter {
+    color: #FFF;
+}
+._magicSkill._long label._value {
+    width: 60px!important;
+}
+._magicChars li._magicSkill {
+    margin-right: 0;
+    padding-right: 5px;
+}
+
+ul.magicPenalizations {
+    display: flex;
+    padding: 0px;
+    padding-left: 10px;
+    padding-right: 5px;
+    margin: 0px;
+    margin-top: 10px;
+    z-index: 1;
+}
+li._penal {
+    border: 1px solid #a78e8e96;
+    margin-right: 5px;
+    border-radius: 3px;
+}
+.magicPenalizations ._penal label._title {
+    font-family: 'Almendra';
+    font-size: 12px;
+    margin: 0px;
+    padding: 0px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background: #3333339e;
+    color: #FFF;
+}
+.magicPenalizations ._penal input[type="text"] {
+    font-family: 'Almendra';
+    text-align: center;
+    font-size: 20px;
+    line-height: 20px;
+    height: 16px;
+}
+.magicList {
+    z-index: 1;
+}
+li._magic {
+    display: flex;
+    height: 30px;
+    align-items: center;
+}
+._magic label._title {
+    width: calc(100% - 185px);
+}
+._magic label._points {
+    font-size: 11px;
+    width: 18px;
+    text-align: center;
+}
+._magic label._points::first-letter {
+    font-size: 11px;
+}
+._magic label._type {
+    font-size: 8px;
+    width: 60px;
+}
+._magic label._type::first-letter {
+    font-size: 10px;
+}
+._magic label._value {
+    width: 30px;
+    text-align: center;
+    border: 0px;
+    font-size: 14px;
+    line-height: 20px;
+    transition: 0.4s;
+}
+ul.magicList._shrink {
+    background: #9778781f;
+    border-top: 1px solid #33333378;
+    border-bottom: 1px solid #3336;
+}
+label._value:hover {
+    background: #b37a7a85;
+    border-radius: 3px;
+    cursor: pointer;
+}
+._magic label._value::first-letter {
+    font-size: 15px;
+}
+._magic ._head {
+    font-size: 9px!important;
+    line-height: 10px!important;
+    display: flex;
+    flex-wrap: wrap;
+    height: 30px;
+    align-items: center;
+}
+._magic ._head::first-letter {
+    font-size: 10px!important;
+}
+._imOnFire {
+    background: url(/systems/conventum/image/texture/fire.gif);
+    width: calc(100% - 25px);
+    height: calc(100% - 48px);
+    display: block;
+    position: absolute;
+    top: 40px;
+    z-index: 1;
+    background-size: 100% 100%;
+    opacity: 0.2;
+}
+
+._mod._text .editor {
+    border: 1px solid #33333330;
+    border-radius: 3px;
+    width: 100%;
+    height: 150pt;
+    padding: 5px;
+}
+._mod._text .editor-content::first-letter {
+    font-size: 14pt;
+}
+
+/* Equipment */
+nav.tabs_Items._subTabs {
+    padding-left: 53px;
+    padding-right: 25px;
+    padding-top: 25px;
+}
+.actorGoods {
+    padding: 15px;
+}
+._marginRight {
+    margin-right: 10px!important
+}
+.actorGoods line {
+    margin-top: 6px!important;
+    display: flex;
+}
+hbox._100._mountLine {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: space-between;
+}
+select._selectMount {
+    width: 158px;
+}
+._mountLine img {
+    width: 50px;
+    height: 50px;
+    border: 0px;
+}
+.actorGoods label {
+    width: 65px;
+}
+.actorGoods input,
+.actorGoods .editor-content {
+    font-family: 'Almendra';
+    font-size: 15px;
+    line-height: 18px;
+}
+.actorGoods input[type="text"] {
+    text-align: center;
+    font-size: 20px;
+    line-height: 20px;
+    padding-bottom: 4px;
+}
+
+/* Items */
+.actorItems {
+    width: 100%;
+}
+._sectionTitle {
+    font-family: 'Almendra';
+    font-size: 17px;
+    line-height: 25px;
+    padding-top: 2px;
+    font-weight: 900;
+    color: #191717d6;
+}
+._sectionTitle::first-letter {
+    color: #bb4545;
+    font-size: 28px;
+}
+ol.itemList {
+    padding: 0px;
+    padding-left: 6px;
+    padding-right: 2px;
+    margin: 0px;
+    display: flex;
+    flex-flow: column;
+    width: 100%;
+}
+li.itemEl {
+    list-style-type: none;
+    padding: 0px;
+    padding-left: 8px;
+    padding-right: 8px;
+    margin: 0px;
+    margin-bottom: 5px;
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+}
+.itemEl .imgUsed {
+    border: 0px;
+    width: 21px;
+    height: 21px;
+    margin-left: 4px;
+    margin-right: 4px;
+    margin-bottom: 4px;
+    opacity: 0.7;
+}
+.itemEl .imgUsed:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+.itemEl h4.item-name {
+    font-family: 'Almendra';
+    line-height: 25px;
+    font-size: 14px;
+    padding-left: 4px;
+}
+.itemEl ._actionsBox {
+    height: 25px;
+    margin-right: 4px;
+}
+.itemEl ._itemContent {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: flex-start;    
+}
+._actionsBox a.actionIcon:hover .imgAction {
+    opacity: 1;
+}
+._actionsBox img.imgAction {
+    width: 26px;
+    height: 23px;
+    border: 0px solid #33333347;
+    opacity: 0.65;
+    border-bottom: 0px!important;
+}
+img.imgAction.consume, 
+img.imgAction.react {
+    margin-top: -2px;
+    width: 19px;
+    height: 19px;
+}
+
+
+/* Action Cards */
+._humanAction {
+    position: absolute;
+    left: -72px;
+    top: 48px;
+    width: 210px;
+    height: 315px;
+    rotate: 4deg;
+    z-index: -1;
+    border: 8px solid #333;
+    transition: 0.6s;
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.93);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.93);
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.93);
+}
+._humanAction:hover {
+    left: -196px;
+    top: 35px;
+    width: 206px;
+    rotate: -2.8deg;
+}
+._humanAction img._posterImg {
+    width: 195px;
+    height: 300px;
+}
+._humanAction._reduce {
+    left: -75px!important;
+    width: 93px!important;    
+    transition: 0!important;
+    rotate: 0deg!important;
+}
+._humanAction._reduce:hover {
+    left: -75px!important;
+    top: 48px!important;
+    width: 93px!important; 
+    rotate: 0deg!important;
+}
+ul._humanTargets._reduce {
+    left: -105px;
+}
+._humanAction a._showMyItem {
+    top: 0px;
+    left: 0px;
+    width: auto;
+    height: auto;
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+    position: initial;
+}
+._void {
+    width: 100%;
+    height: 100%;
+}
+
+
+/* Targets circles */
+ul._humanTargets {
+    position: absolute;
+    top: 350px;
+    left: -93px;
+    z-index: -11;
+}
+ul._humanTargets li {
+    width: 100px;
+    height: 100px;
+    margin-top: -10px;
+    border-radius: 50%;
+    position: relative;
+    top: 0px;
+    left: 0px;
+    border: 6px solid #333;
+    transition: 0.6s;
+    -webkit-box-shadow: 0px 0px 5px 0px rgb(0 0 0 / 93%);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.93);
+    box-shadow: 0px 0px 5px 0px rgb(0 0 0 / 93%);
+    background-size: 100px 100px;
+}
+ul._humanTargets li:hover {
+    left: -20px;
+    top: 0px;
+    position: relative;
+}
+ul._humanTargets li label._targetName {
+    width: 100px;
+    height: 70px;
+    display: flex;
+    position: relative;
+    top: 10px;
+    align-items: center;
+    font-size: 20px;
+    line-height: 18px;
+    font-family: 'Almendra';
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+    text-shadow: 2px 0 #ffffff63, -2px 0 #ffffff63, 0 2px #ffffff63, 0 -2px #ffffff63, 1px 1px #ffffff63, -1px -1px #ffffff63, 1px -1px #ffffff63, -1px 1px #ffffff63;
+}
+
+/* QUICK BAR */
+._quickBar {
+    width: auto;
+    padding-right: 7px;
+    height: 60px;
+    z-index: 10000;
+    cursor: move;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background: #000000a8;
+    border: 1px solid #867878;
+    border-radius: 3px;
+    -webkit-box-shadow: 0px 0px 5px 2px rgb(0 0 0 / 75%);
+    -moz-box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 5px 2px rgb(0 0 0 / 75%);
+}
+a._showQuickBar ._buttonQuickBar:hover {
+    transform: rotate(-2deg);
+    left: calc(100% - 25px);
+    top: 12px;
+}
+a._showQuickBar ._buttonQuickBar {
+    width: 52px;
+    height: 27px;
+    background: #F00;
+    position: absolute;
+    top: 15px;
+    left: calc(100% - 12px);
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    z-index: 0;
+    transform: rotate(17deg);
+    transition: 0.7s;
+    background-size: 64px 50px!important;
+    background-position: -6px -1px!important;
+}
+._quickBar ul {
+    padding: 0px;
+    margin: 0px;
+    display: flex;
+}
+img._quickButton {
+    width: 49px;
+    height: 49px;
+    margin-top: 4px;
+    margin-left: 6px;
+    opacity: 0.7;
+    border: 1px solid #ffffffa1;
+}
+img._quickButton:hover {
+    opacity: 1;
+}
+
+/* MODES BAR */
+._modesBar {
+    display: flex;
+    z-index: 900000;
+    position: absolute;
+    top: calc( 100% - 64px );
+    left: 55px;
+}
+ul._wrapModesBar {
+    display: flex;
+    padding: 0px;
+    margin: 0px;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    padding-right: 3px;
+}
+ul._wrapModesBar li {
+    margin-left: -6px;
+}
+._mode img._quickButton {
+    width: 40px;
+    height: 40px;
+    opacity: 0.5;
+    margin-left: 3px;
+}
+._mode img._quickButton {
+    width: 40px;
+    height: 40px;
+    opacity: 0.5;
+}
+._mode img._quickButton:hover {
+    opacity: 1;
+}
+img._quickButton._active {
+    opacity: 1;
+}
+img._quickButton._inactive {
+    opacity: 0.5;
+}
+img._quickButton._active {
+    border: 0px;
+}
+
+/* MODE STICKERS !! */
+.modeStickers {
+    display: flex;
+    position: absolute;
+    top: 38px;
+    left: 7px;
+    width: 85px;
+    height: 85px;
+    transform: rotate(10deg);
+    opacity: 0.9;
+    z-index: 9999999;
+    flex-direction: column;
+}
+._imLucky {
+    margin-bottom: -60px;
+    width: 85px;
+    height: 85px;
+    transition: 0.5s!important;
+}
+._imLucky:hover {
+    z-index: 90000000;
+    position: relative;
+    translate: 10px;
+}
+._imLucky img {
+    border: 0px;
+}
 
 /* ***************************************************************************************
    ITEMS
 *************************************************************************************** */
 .itemTabsHeader {
     width: 100%;
-    border: 0px!important;
+    background: #e5adad30;
     padding-left: 10px;
 }
 .itemTabsHeader a {
     margin-right: 4px;
-    border-top: 1px solid #333;
-    border-bottom: 1px solid #333;
     font-family: 'Almendra';
     font-size: 16px;
     padding-left: 5px;
@@ -910,7 +2355,7 @@ label.armorLocation {
     background: #dba4a46b;
 }
 ol.itemList {
-    padding-bottom: 60px;
+    padding-bottom: 10px;
     padding-left: 6px;
     padding-right: 0px;
     padding-top: 20px;

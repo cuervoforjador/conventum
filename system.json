@@ -1,136 +1,237 @@
 {
   "id": "conventum",
   "title": "Aquelarre-Conventum",
-  "description": "Demonic and medieval game",  
-  "version": "1.0.0",
+  "description": "Demonic and medieval game",
+  "version": "1.1.1",
   "compatibility": {
-    "minimum": 10,
-    "verified": 11,
-    "maximum": 11
+    "minimum": "10",
+    "verified": "10",
+    "maximum": "11"
   },
-  "authors": [{
-    "name": "CuervoForjador",
-    "url": "https://twitter.com/cuervoforjador",
-    "email": "cuervoForjador@gmail.com",
-    "discord": "Cuervito#4806"
-  }],
-  "esmodules": ["module/main.js"],
+  "authors": [
+    {
+      "name": "CuervoForjador",
+      "url": "https://twitter.com/cuervoforjador",
+      "email": "cuervoForjador@gmail.com",
+      "discord": "Cuervito#4806",
+      "flags": {}
+    }
+  ],
+  "esmodules": [
+    "module/main.js"
+  ],
   "socket": true,
+  "scripts": [
+    "https://code.jquery.com/ui/1.13.2/jquery-ui.js"
+  ],
   "styles": [
     "styles/main.css",
-	  "styles/base.css",
+    "styles/base.css",
     "styles/frame.css",
     "styles/sheet.css",
     "styles/compendium.css",
     "styles/roll.css",
     "styles/messages.css",
-    "styles/tours.css"
+    "styles/tours.css",
+    "styles/combat.css"
   ],
   "languages": [
     {
       "lang": "en",
       "name": "English",
       "path": "lang/en.json",
-      "title": "Conven-Conventum",
-      "description": "Demonic and medieval game"
+      "flags": {}
     },
     {
       "lang": "es",
       "name": "Spanish",
       "path": "lang/es.json",
-      "title": "Aquelarre-Conventum",
-      "description": "Juego de rol Demoniaco medieval"      
-    }    
+      "flags": {}
+    }
   ],
   "packs": [
     {
-			"label": "Orbis",
-			"type": "Item",
-			"name": "worlds",
-			"path": "./packs/worlds.db",
+      "label": "Orbis",
+      "type": "Item",
+      "name": "worlds",
+      "path": "packs/worlds.db",
       "banner": "systems/conventum/image/content/compendium/bannerOrbis.png",
-			"system": "conventum"
-		},
+      "system": "conventum",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
+    },
     {
-			"label": "Regna",
-			"type": "Item",
-			"name": "kingdoms",
-			"path": "./packs/kingdoms.db",
+      "label": "Regna",
+      "type": "Item",
+      "name": "kingdoms",
+      "path": "packs/kingdoms.db",
       "banner": "systems/conventum/image/content/compendium/bannerRegna.png",
-      "system": "conventum"
-		},
+      "system": "conventum",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
+    },
     {
-			"label": "Societas",
-			"type": "Item",
-			"name": "societies",
-			"path": "./packs/societies.db",
+      "label": "Societas",
+      "type": "Item",
+      "name": "societies",
+      "path": "packs/societies.db",
       "banner": "systems/conventum/image/content/compendium/bannerSocietas.png",
-      "system": "conventum"
-		},
+      "system": "conventum",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
+    },
     {
-			"label": "Linguae",
-			"type": "Item",
-			"name": "languages",
-			"path": "./packs/languages.db",
+      "label": "Linguae",
+      "type": "Item",
+      "name": "languages",
+      "path": "packs/languages.db",
       "banner": "systems/conventum/image/content/compendium/bannerLinguae.png",
-      "system": "conventum"
-		},
+      "system": "conventum",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
+    },
     {
-			"label": "Gentes",
-			"type": "Item",
-			"name": "cultures",
-			"path": "./packs/cultures.db",
+      "label": "Gentes",
+      "type": "Item",
+      "name": "cultures",
+      "path": "packs/cultures.db",
       "banner": "systems/conventum/image/content/compendium/bannerGentes.png",
-      "system": "conventum"
-		},
+      "system": "conventum",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
+    },
     {
-			"label": "Stratum",
-			"type": "Item",
-			"name": "stratums",
-			"path": "./packs/stratums.db",
+      "label": "Stratum",
+      "type": "Item",
+      "name": "stratums",
+      "path": "packs/stratums.db",
       "banner": "systems/conventum/image/content/compendium/bannerStratum.png",
-      "system": "conventum"
-		},
+      "system": "conventum",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
+    },
     {
-			"label": "Status",
-			"type": "Item",
-			"name": "status",
-			"path": "./packs/status.db",
+      "label": "Status",
+      "type": "Item",
+      "name": "status",
+      "path": "packs/status.db",
       "banner": "systems/conventum/image/content/compendium/bannerStatus.png",
-      "system": "conventum"
-		},
+      "system": "conventum",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
+    },
     {
-			"label": "Competentiae",
-			"type": "Item",
-			"name": "skills",
-			"path": "./packs/skills.db",
+      "label": "Competentiae",
+      "type": "Item",
+      "name": "skills",
+      "path": "packs/skills.db",
       "banner": "systems/conventum/image/content/compendium/bannerCompetentiae.png",
-      "system": "conventum"
-		},
+      "system": "conventum",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
+    },
     {
-			"label": "Locis",
-			"type": "Item",
-			"name": "locations",
-			"path": "./packs/locations.db",
+      "label": "Locis",
+      "type": "Item",
+      "name": "locations",
+      "path": "packs/locations.db",
       "banner": "systems/conventum/image/content/compendium/bannerLocis.png",
-      "system": "conventum"
-		},
+      "system": "conventum",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
+    },
     {
-			"label": "Armis",
-			"type": "Item",
-			"name": "armor",
-			"path": "./packs/armor.db",
+      "label": "Modi",
+      "type": "Item",
+      "name": "modes",
+      "path": "packs/modes.db",
+      "banner": "systems/conventum/image/content/compendium/bannerModi.png",
+      "system": "conventum",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
+    },
+    {
+      "label": "Armis",
+      "type": "Item",
+      "name": "armor",
+      "path": "packs/armor.db",
       "banner": "systems/conventum/image/content/compendium/bannerArmis.png",
-      "system": "conventum"
-		},
+      "system": "conventum",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
+    },
     {
-			"label": "Arma",
-			"type": "Item",
-			"name": "weapons",
-			"path": "./packs/weapons.db",
+      "label": "Arma",
+      "type": "Item",
+      "name": "weapons",
+      "path": "packs/weapons.db",
       "banner": "systems/conventum/image/content/compendium/bannerArma.png",
-      "system": "conventum"
-		}
+      "system": "conventum",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
+    },
+    {
+      "label": "ArsMagica",
+      "type": "Item",
+      "name": "magic",
+      "path": "packs/magic.db",
+      "banner": "systems/conventum/image/content/compendium/bannerArsMagica.png",
+      "system": "conventum",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
+    },
+    {
+      "label": "Actiones",
+      "type": "Item",
+      "name": "actions",
+      "path": "packs/actions.db",
+      "banner": "systems/conventum/image/content/compendium/bannerActiones.png",
+      "system": "conventum",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
+    }
   ],
   "url": "https://github.com/cuervoforjador/conventum",
   "manifest": "https://github.com/cuervoforjador/conventum/releases/download/v01/system.json",

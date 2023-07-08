@@ -37,6 +37,9 @@ export class extendSheetTrait extends ItemSheet {
     context.systemData = await helperSheetItem.checkSystemData(context.systemData);
     context.backend = await mainBackend.getBackendForTrait(context.systemData);
 
+    //Molding...
+    helperSheetItem.molding(context);
+
     return context;
   }
 

@@ -37,6 +37,9 @@ export class extendSheetKingdom extends ItemSheet {
     context.systemData = await helperSheetItem.checkSystemData(context.systemData);
     context.backend = await mainBackend.getBackendForKingdom(context.systemData);
 
+    //Molding...
+    helperSheetItem.molding(context);
+
     return context;
   }
 

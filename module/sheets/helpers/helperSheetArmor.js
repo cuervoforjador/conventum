@@ -1,8 +1,48 @@
 /**
  * Helpers for Armor in Human Sheet
  */
+import { helperMessages } from "./helperMessages.js";
 
 export class helperSheetArmor {
+
+    /**
+     * addArmor
+     * @param {*} item 
+     * @param {*} actor 
+     */
+    static async addArmor(item, actor) {
+        await item.update({system: {total: item.system.endurance}});
+    }
+ 
+    /**
+     * setLocations
+     * @param {*} actor 
+     * @param {*} systemData 
+     */
+    static setLocations(actor, systemData) {
+        for (const s in systemData.armor) {
+          if ( !(systemData.armor[s].itemID) 
+             || (systemData.armor[s].itemID === '')) {
+
+                systemData.armor[s].protection = 0;
+                systemData.armor[s].endurance = 0;
+                systemData.armor[s].total = 0;
+                continue;
+          }
+
+          const item = actor.items.get(systemData.armor[s].itemID);
+          if (!item) {
+            systemData.armor[s].protection = 0;
+            systemData.armor[s].endurance = 0;
+            systemData.armor[s].total = 0;
+            continue;
+          }
+
+          systemData.armor[s].protection = item.system.protection;
+          systemData.armor[s].endurance = item.system.endurance;
+          systemData.armor[s].total = item.system.total;
+        }
+    }
 
     /**
      * openArmorCloset
@@ -59,6 +99,81 @@ export class helperSheetArmor {
      */
     static async unwearGarment(actor, itemId) {
         await helperSheetArmor._dropGarment(actor, itemId);
+    }
+
+    /**
+     * destroyArmor
+     * @param {*} actor 
+     * @param {*} itemId 
+     */
+    static async destroyArmor(actor, itemId, bDelete) {
+        bDelete = (!bDelete) ? false : bDelete;
+        let armor = actor.items.get(itemId);
+
+        const sTxtVerb = game.i18n.localize("info.armorBroke");
+        const sTxtDetail = armor.name;
+        
+        if (!bDelete) {
+            
+            const sContent = '<div class="_messageFrame">'+
+                                '<img class="_backHand" src="'+armor.img+'" />'+
+                                '<div class="_messageImg"><img src="'+actor.img+'"/></div>'+
+                                '<div class="_vertical" style="margin-top: -50px;">'+
+                                    '<div class="_title">'+actor.name+'</div>'+
+                                    '<div class="_boxItems" style="top: 30px; left: 70px; width: calc(100% - 58px);">'+                                    
+                                        '<div class="_subItem">'+
+                                            '<a class="_showItem" data-itemid="'+armor.id+'" data-actorid="'+actor.id+'">'+
+                                                '<img src="'+armor.img+'" />'+
+                                            '</a>'+
+                                            '<div style="display: flex; flex-direction: column; width: 100%;">'+
+                                                '<div class="_caption">'+sTxtVerb+'</div>'+
+                                                '<div class="_caption">'+sTxtDetail+'</div>'+
+                                            '</div>'+
+                                        '</div>'+
+                                    '</div>'+
+                                '</div>'+                            
+                            '</div>';
+            
+            helperMessages.chatMessage(sContent, 
+                                    actor, 
+                                    false,
+                                    actor.system.control.frame, 
+                                    '140px');        
+
+        }
+
+        this._dropGarment(actor, itemId);
+        await Item.deleteDocuments([itemId], {parent: actor});
+    }
+
+    /**
+     * calcPenalByArmor
+     * @param {*} actor 
+     * @param {*} skill 
+     */
+    static calcPenalByArmor(actor, skill) {
+        let nPenal = 0;
+
+        let mArmors = [];
+        for (const s in actor.system.armor) {
+            if ( (actor.system.armor[s].itemID) &&
+                 (actor.system.armor[s].itemID !== '') ) {
+                if (!mArmors.find(e => e === actor.system.armor[s].itemID))
+                    mArmors.push(actor.system.armor[s].itemID);
+            }
+        }
+        mArmors.forEach(armorId => {
+            if (actor.items.get(armorId)) {
+                const n = actor.items.get(armorId).system.penalty.skills[skill.id];
+                if ((n) && (n !== ''))
+                    nPenal = eval(nPenal.toString() + n);
+            }
+        });
+
+        nPenal = nPenal.toString();
+        if (nPenal === '0') nPenal = '';
+        
+        return nPenal;
     }
 
     /**
@@ -270,11 +385,11 @@ export class helperSheetArmor {
             itemID: item._id,
             protection: item.system.protection,
             endurance: item.system.endurance,
-            total: Number(item.system.endurance),
+            total: Number(item.system.total),
             name: item.name,
             img: item.img,
             hasImage: true,
-            value: Number(item.system.enduranceCurrent)
+            value: Number(item.system.endurance)
         }
         await actor.update({
             system: { armor: armorData }

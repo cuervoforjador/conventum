@@ -1,6 +1,176 @@
 {{!-- Combat Tab --}}
 <div class="tab combat" data-group="primary" data-tab="combat">
 
-    
+    <hbox class="_encountersBox">
+        <label class="_captionCombat">{{ localize "common.encounters"}}</label>
+        <ul class="_myCombats">
+            {{#each combats as |combat id|}}
+            <li class="_myCombat" >
+                <a class="_encounterInfo" data-itemId="{{combat.encounter._id}}">
+                    <img class="_encounter {{#unless combat.combat.active}} _alpha {{/unless}}" 
+                        src="{{combat.encounter.img}}" />
+                </a>
+            </li>
+            {{/each}}
+        </ul>        
+    </hbox>
+
+    <hbox class="_100 _betsu">
+        <nav class="tabs_Combat _subTabs" data-group="combatTabs">
+            <a data-tab="combatWeapons"><label>{{ localize "common.weapons" }}</label></a>
+            <a data-tab="combatActions"><label>{{ localize "common.actions" }}</label></a>
+        </nav>
+        <hbox>
+            {{#if (rightHanded)}}
+                <label>{{localize 'common.rightHanded'}}</label>
+            {{else}}
+                <label>{{localize 'common.leftHanded'}}</label>
+            {{/if}}
+
+            <label class="switch">
+                <input type="checkbox" 
+                    name="system.status.rightHanded" 
+                    {{{editable}}}
+                    {{checked systemData.status.rightHanded}} />
+                <span class="sliderSwitch"></span>
+            </label> 
+        </hbox>
+    </hbox>
+
+    <section class="tabsContent_Combat">
+            
+        {{!-- WEAPONS --}}
+        <div class="tab combatWeapons" data-group="combatTabs" data-tab="combatWeapons">
+        <ul class="actorWeapons">
+
+            {{#if actions.showSkill}}
+            <li class="boxWeapon" 
+                id="boxWeapon_{{actions.skill._id}}">
+                <hbox class="_combatSkill">
+                    <a class="playSkill" data-itemId="{{actions.skill._id}}" data-actionId="{{actions.action._id}}">
+                        <img class="_combatSkillImg" src="{{actions.skill.img}}"/></a>                    
+                    <vbox class="_weaponText">
+                        <label class="titleWeapon">{{actions.skill.name}}</label>
+                    </vbox>   
+                    <hbox style="width: 200px;"></hbox>
+                    <label class="_skillValue">
+                        {{itemPropertyExtend 'systemData.skills' actions.skill._id 'value'}}
+                    </label>
+                    <a class="_cardInfo" data-itemid="{{actions.skill._id}}">
+                            <i class="fas fa-info"></i></a>                    
+                </hbox>
+            </li>
+            {{/if}}
+
+        {{#each items as |weapon id|}}
+        {{#if (itemType weapon 'weapon') }}
+
+            <li class="boxWeapon" 
+                id="boxWeapon_{{weapon._id}}">
+                
+                <hbox>
+
+                    {{#if (evalActionWeapon ../actions weapon) }}
+                    <a class="playWeapon" data-itemid="{{weapon._id}}" >
+                        <img class="imgWeapon" src="{{weapon.img}}"/>
+                    </a>
+                    {{else}}
+                    <a class="showInfo" data-i18n="info.noAction">
+                        <img class="imgWeapon" src="{{weapon.img}}" style="opacity: 0.3;"/>
+                    </a>                    
+                    {{/if}} 
+
+                    <vbox class="_weaponText">
+                        <label class="titleWeapon">{{weapon.name}}</label>
+                        <label class="damageWeapon">{{weapon.system.damage}} <span class="_small">{{getDamageMod weapon}}</span></label>
+                    </vbox>
+                    <hbox style="width: 230px;">
+                                            
+                        <hbox class="_weaponHands">
+                        {{#if weapon.system.type.2hands}}
+
+                            {{!-- Both hands --}}
+                            <img class="weaponHand weapon2Hands {{#unless weapon.system.inHands.inBothHands}} _alpha {{/unless}}" 
+                                    src="systems/conventum/image/texture/inBothHands.png"
+                                    data-itemid="{{weapon._id}}" 
+                                    data-hand="inBothHands"/>
+
+                        {{else}}
+
+                            {{!-- Left hand --}}
+                            <img class="weaponHand weaponLeftHand {{#unless weapon.system.inHands.inLeftHand}} _alpha {{/unless}}" 
+                                src="systems/conventum/image/texture/inLeftHand.png"
+                                data-itemid="{{weapon._id}}" 
+                                data-hand="inLeftHand"/>
+
+                            {{!-- Right hand --}}
+                            <img class="weaponHand weaponRightHand {{#unless weapon.system.inHands.inRightHand}} _alpha {{/unless}}" 
+                                src="systems/conventum/image/texture/inRightHand.png"
+                                data-itemid="{{weapon._id}}" 
+                                data-hand="inRightHand"/>
+                        
+                        {{/if}}
+                        </hbox>
+
+                        <label class="_skillValue">
+                            {{getWeaponSkill weapon}}
+                        </label>
+
+                        <a class="_cardInfo" data-itemid="{{weapon._id}}">
+                                <i class="fas fa-info"></i></a>
+                        
+                        <a class="playWeaponExpress" data-itemid="{{weapon._id}}">
+                            <div class="_noActionWrap">
+                                <label>{{localize "common.noAction"}}</label>
+                                <img src="/systems/conventum/image/texture/dice2.png" />
+                            </div>
+                        </a>
+
+                    </hbox>
+                    
+                </hbox>
+
+            </li>
+
+        {{/if}}
+        {{/each}}
+        </ul>
+        </div>
+
+        {{!-- ACTIONS --}}
+        <div class="tab combatActions" data-group="combatTabs" data-tab="combatActions">
+
+            <div class="header-search searchAction">
+                <i class="fas fa-search"></i>
+                <input type="search" 
+                       class="searchAction"
+                       name="searchAction" 
+                       value="" 
+                       placeholder="{{localize 'common.search'}}" 
+                       autocomplete="off">
+            </div>
+
+            <ul class="actorActions">
+            {{#each actionsItems as |action id|}}
+                
+                <li data-itemId="{{action._id}}"
+                    data-filter="{{action.name}}"
+                    class="boxAction">
+                    <a class="_doAction" data-itemid="{{action._id}}" >
+                    <vbox style="background: #FFF;">
+                        <img class="imgAction" src="{{action.img}}" />
+                        <label class="_actionTitle">{{action.name}}</label>
+                    </vbox>
+                    </a>
+                    <a class="_showMyItem" data-itemId="{{action._id}}">
+                        <i class="fas fa-info"></i></a>                
+                </li>
+                
+            {{/each}}    
+            </ul>
+
+        </div>
+
+    </section>    
 
 </div>

@@ -15,28 +15,29 @@ export class helperMessages {
      * @param {string} sHeight 
      */
     static chatMessage(sContent, actor, bSimpleText, sFrame, sHeight) {
-        sFrame = (sFrame) ? sFrame : '';
+        sFrame = (sFrame) ? sFrame : actor.system.control.frame.toString();
         sHeight = (sHeight) ? sHeight : '140px';
 
         if (bSimpleText) 
-            sContent = '<div class="_messageFrame">'
+            sContent = '<div class="_messageFrame">'+
                         '<div class="_messageImg"><img src="'+actor.img+'"/></div>'+
                         '<div class="_vertical">'+
                                 '<div class="_title">'+actor.name+'</div>'+
                                 '<div class="_content">'+sContent+'</div>'+
                         '</div>'
                     '</div>';
+        const message = 
+            ChatMessage.create({content: 
+                        '<div class="_chatBox" style="height: '+sHeight+';">'+
+                            '<div class="_chatPaper"></div>'+
+                            '<div class="_chatShadow"></div>'+
+                            '<div class="_chatFrame"'+
+                                ' style="background: url(/systems/conventum/image/frame/'+
+                                    sFrame + '/chatFrame.png)"></div>'+
+                            '<div class="_chatContent">'+sContent+'</div>'+                        
+                        '</div>' });
         
-        ChatMessage.create({content: 
-                    '<div class="_chatBox" style="height: '+sHeight+';">'+
-                        '<div class="_chatPaper"></div>'+
-                        '<div class="_chatShadow"></div>'+
-                        '<div class="_chatFrame"'+
-                            ' style="background: url(/systems/conventum/image/frame/'+
-                                    actor.system.control.frame.toString() +
-                                    '/chatFrame'+sFrame+'.png)"></div>'+
-                        '<div class="_chatContent">'+sContent+'</div>'+                        
-                    '</div>' });
+        return message;
     }
 
 }

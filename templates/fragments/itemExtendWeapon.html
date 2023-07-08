@@ -1,10 +1,29 @@
 {{!-- Weapons --}}
 
+{{!-- MAIN --}}
 <div class="tab main" data-group="primary" data-tab="main">
-<slidePanel class="_100" style="height: 190px;">
+<slidePanel class="_100" >
     <panelContent>
         <hbox class="_mod _100">
-            <label class="_120px">{{localize "common.combatSkill" }}</label>
+            <label class="_80px">{{localize "common.type" }}</label>
+            <select name="system.weaponType">
+                {{selectOptions backend.weaponTypes 
+                                selected=systemData.weaponType
+                                localize=false
+                                nameAttr="id"
+                                labelAttr="name" }}
+            </select>   
+            <label class="_80px">{{localize "common.characteristic" }}</label>
+            <select name="system.characteristics">
+                {{selectOptions backend.characteristics 
+                                selected=systemData.characteristics
+                                localize=false
+                                nameAttr="id"
+                                labelAttr="name" }}
+            </select>                      
+        </hbox>
+        <hbox class="_mod _100">
+            <label class="_80px">{{localize "common.skill" }}</label>
             <select name="system.combatSkill">
                 {{selectOptions backend.combatSkills 
                                 selected=systemData.combatSkill
@@ -12,11 +31,7 @@
                                 nameAttr="id"
                                 labelAttr="name" }}
             </select>            
-        </hbox>
-
-        <hbox class="_mod _100">
-            <label class="_120px">{{localize "common.otherSkill" }}</label>
-            <select name="system.secondSkill">
+            <select name="system.secondSkill" style="margin-left: 5px;">
                 {{selectOptions backend.skills 
                                 selected=systemData.secondSkill
                                 localize=false
@@ -26,30 +41,26 @@
         </hbox>
 
         <hbox class="_mod _100">
-            <label class="_120px">{{localize "common.characteristic" }}</label>
-            <select name="system.characteristics">
-                {{selectOptions backend.characteristics 
-                                selected=systemData.characteristics
-                                localize=false
-                                nameAttr="id"
-                                labelAttr="name" }}
-            </select>            
-        </hbox>
-
-        <hbox class="_mod _100">
-            <label class="_120px">{{localize "common.size" }}</label>
-            <select name="system.size">
+            <label class="_80px">{{localize "common.shield" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.type.shield" 
+                        {{checked systemData.type.shield}} />
+                <span class="sliderSwitch"></span>
+            </label>             
+            <label class="_40px">{{localize "common.size" }}</label>
+            <select name="system.size" class="_80px">
                 {{selectOptions backend.weaponSizes 
                                 selected=systemData.size
                                 localize=false
                                 nameAttr="id"
                                 labelAttr="name" }}
-            </select>            
+            </select>                         
         </hbox> 
 
 
         <hbox class="_mod _100">
-            <label class="_120px">{{localize "common.weaponTypeContact" }}</label>
+            <label class="_80px">{{localize "common.weaponTypeContact" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.type.contact" 
@@ -66,7 +77,7 @@
         </hbox>   
 
         <hbox class="_mod _100">
-            <label class="_120px">{{localize "common.weaponTypeRange" }}</label>
+            <label class="_80px">{{localize "common.weaponTypeRange" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.type.range" 
@@ -86,8 +97,9 @@
 </slidePanel>
 </div>
 
+{{!-- REQUIREMENTS --}}
 <div class="tab requirement" data-group="primary" data-tab="requirement">
-    <slidePanel class="_100" style="height: 190px;">
+    <slidePanel class="_100" >
         <panelContent>
 
         <hbox class="_mod _100">
@@ -138,8 +150,9 @@
 </slidePanel>
 </div>
 
+{{!-- DAMAGE --}}
 <div class="tab damage" data-group="primary" data-tab="damage">
-    <slidePanel class="_100" style="height: 190px;">
+    <slidePanel class="_100" >
         <panelContent>
 
         <hbox class="_mod _100">
@@ -148,7 +161,7 @@
                    name="system.damage"
                    value="{{systemData.damage}}" 
                    type="text" /> 
-        </hbox>
+        </hbox>       
         <hbox class="_mod _100">
             <label class="_80px">{{localize "common.poison" }}</label>  
             <label class="switch" style="margin-right: 10px; margin-left: 10px!important;">
@@ -166,8 +179,9 @@
 </slidePanel>
 </div>
 
+{{!-- RANGE --}}
 <div class="tab range" data-group="primary" data-tab="range">
-    <slidePanel class="_100" style="height: 190px;">
+    <slidePanel class="_100" >
         <panelContent>
 
         <hbox class="_mod _100">
@@ -212,19 +226,123 @@
                     name="system.range.largeRange"
                     value="{{systemData.range.largeRange}}" 
                     type="text" />
-        </hbox>   
-        
-        {{!-- Hiddens ---}}
-        <input name="system.inHands.inLeftHand"
-               value="{{systemData.inHands.inLeftHand}}" 
-               type="hidden" /> 
-        <input name="system.inHands.inRightHand"
-               value="{{systemData.inHands.inRightHand}}" 
-               type="hidden" /> 
-        <input name="system.inHands.inBothHands"
-               value="{{systemData.inHands.inBothHands}}" 
-               type="hidden" />             
+        </hbox>                         
         
     </panelContent>
 </slidePanel>
 </div>
+
+{{!-- SHIELD --}}
+<div class="tab shield" data-group="primary" data-tab="shield">
+    <slidePanel class="_100" >
+        <panelContent>
+
+            <hbox class="_mod _100">
+                <label class="_80px">{{localize "common.endurance" }}</label>
+                <input class="_60px _marginLeft _center" 
+                       name="system.endurance"
+                       value="{{systemData.endurance}}" 
+                       type="text" 
+                       data-dtype="Number"/> 
+                <label class="_60px">{{localize "common.protection" }}</label>
+                <input class="_60px _marginLeft _center" 
+                        name="system.protection"
+                        value="{{systemData.protection}}" 
+                        type="text" 
+                        data-dtype="Number"/>                    
+            </hbox>
+
+        </panelContent>
+    </slidePanel>
+</div>
+
+{{!-- RANGE LOCATION --}}
+<div class="tab rangeLocation" data-group="primary" data-tab="rangeLocation">
+    <slidePanel class="_100" >
+        <panelContent>            
+            <div class="_100" style="display: flex; flex-wrap: wrap;">
+
+                <hbox class="_mod _100">
+                    <label class="_80px">{{localize "common.actorType" }}</label>
+                    <select name="system.actorType">
+                        {{selectOptions backend.actorTypes 
+                                        selected=systemData.actorType
+                                        localize=false
+                                        nameAttr="id"
+                                        labelAttr="name" }}
+                    </select>            
+                </hbox> 
+            
+                {{#each backend.locations as |localization id|}}           
+                <hbox class="_mod _50">
+                    <label class="_80px">{{locationValue localization._id 'name'}}</label>
+                    <label class="switch" style="margin-right: 10px">
+                        <input type="checkbox" 
+                            name="system.rangeLocation.{{localization._id}}.apply" 
+                            {{checkedExtend 'systemData.rangeLocation' localization._id 'apply'}} />
+                        <span class="sliderSwitch"></span>
+                    </label>
+                </hbox>
+                {{/each}}            
+            </div>
+
+        </panelContent>
+    </slidePanel>
+</div>
+
+{{!-- PENAL --}}
+<div class="tab penal" data-group="primary" data-tab="penal">
+    <slidePanel class="_100" >
+        <panelContent> 
+            <div class="_100" style="display: flex; flex-wrap: wrap;">
+                
+                <hbox class="_100" style="margin-bottom: 10px; 
+                                        padding-bottom: 4px;
+                                        border-bottom: 1px solid #63202056;">
+                    <hbox class="_mod _50">
+                        <label class="_80px">{{localize 'common.initiative'}}</label>
+                        <input class="_80px" 
+                            name="system.penalty.initiative"
+                            value="{{systemData.penalty.initiative}}" 
+                            type="text" />            
+                    </hbox>
+                    <hbox class="_mod _50">
+                        <label class="_80px">{{localize 'common.movement'}}</label>
+                        <input class="_80px" 
+                            name="system.penalty.movement"
+                            value="{{systemData.penalty.movement}}" 
+                            type="text" />            
+                    </hbox>  
+                </hbox>
+
+                {{#each backend.skillsPenal as |skill id|}}
+                <hbox class="_mod _50">
+                    <label class="_80px">{{skill.name}}</label>
+                    <input class="_80px" 
+                        name="system.penalty.skills.{{skill._id}}"
+                        value="{{itemProperty 'system.penalty.skills' skill._id}}" 
+                        type="text" />
+                </hbox>
+                {{/each}}
+            
+            </div>
+    </panelContent>
+</slidePanel>
+</div>
+
+{{!-- Hiddens ---}}
+<input name="system.inHands.inLeftHand"
+       value="{{systemData.inHands.inLeftHand}}" 
+       type="hidden" /> 
+<input name="system.inHands.inRightHand"
+       value="{{systemData.inHands.inRightHand}}" 
+       type="hidden" /> 
+<input name="system.inHands.inBothHands"
+       value="{{systemData.inHands.inBothHands}}" 
+       type="hidden" />   
+<input name="system.inUse"
+       value="{{systemData.inUse}}" 
+       type="hidden" /> 
+<input name="system.enduranceCurrent"
+       value="{{systemData.enduranceCurrent}}" 
+       type="hidden" />          

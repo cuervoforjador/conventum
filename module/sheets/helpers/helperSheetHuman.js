@@ -1,7 +1,12 @@
+
+import { helperSheetArmor } from "./helperSheetArmor.js";
+import { helperSheetMagic } from "./helperSheetMagic.js";
+import { helperActions } from "./helperActions.js";
+import { helperSheetCombat } from "./helperSheetCombat.js";
+
 /**
  * Helpers for Human Sheet
  */
-
 export class helperSheetHuman {
 
   /**
@@ -43,15 +48,255 @@ export class helperSheetHuman {
    * checkSystemData
    * @param {*} systemData 
    */
-  static async checkSystemData(systemData, backend) {
+  static async checkSystemData(actor, systemData, backend) {
 
-    this._checkCharacteristics(systemData);
+    this._checkCharacteristics(actor, systemData);
     this._calcCharacteristics(systemData);
     this._calcHPStatus(systemData);
     this._calcAPPStatus(systemData);
     this._calcWeight(systemData);
     this._calcHeight(systemData);
     this._checkBio(systemData, backend);
+    this._checkWeaponsInHands(actor, systemData);
+  }
+
+  /**
+   * criatures
+   * @param {*} actor 
+   * @param {*} systemData 
+   * @param {*} backend 
+   */
+  static criatures(actor, systemData, backend) {
+    systemData.control.criature = (actor.type !== 'human');
+  }
+
+  /**
+   * checkMyItems
+   * @param {*} actor 
+   */
+  static async checkMyItems(actor, systemData) {
+    let mItems = actor.items;
+
+    //Forbidden items...
+    for (const s of CONFIG.ExtendConfig.noHumanItems) {
+      const pack = await game.packs.get('conventum.'+s);
+      if (!pack) continue;
+      if (Array.from(pack).length < 1) continue;
+      const sType = Array.from(pack)[0].type;
+      for (const oItem of Array.from(mItems).filter(e => e.type === sType)) {
+        //Deleting...
+        oItem.delete();
+      }
+    }
+
+    //Initial actions...
+    if (actor.type === 'human') {
+      const actionsPack = game.packs.get('conventum.actions');
+      const mActorActions = Array.from(actor.items).filter(e => e.type === 'action');
+
+      //Adding Action...
+      let newActionItems = [];
+      for (const oAction of Array.from(actionsPack)
+                                .filter(e => e.system.type.initial)) {
+          let thisAction = mActorActions.find(e => ( (e.name === oAction.name) ||
+                                                     (e.system.control.mold === oAction.id) ))
+          if (!thisAction) {
+            newActionItems.push(oAction);
+          }
+      }
+      if (newActionItems.length > 0) {      
+          await Item.createDocuments(newActionItems, {parent: actor});
+      }
+
+      //Removing actions duplicated...
+      let uniqueActionItemsUpd = mActorActions.reduce((duplex, current) => {
+        if (!duplex.find((item) => item.name === current.name)) {
+          duplex.push(current);
+        }
+        return duplex;
+      }, []);   
+      if (uniqueActionItemsUpd.length !== mActorActions.length) {
+        let mDelete = [];
+        for (let action of mActorActions) {
+          if (!uniqueActionItemsUpd.find(e => e.id === action.id)) {
+            mDelete.push(action.id);
+          }
+        }
+        if (mDelete.length > 0)
+          await Item.deleteDocuments(mDelete, {parent: actor});
+          actor.sheet.render(true);
+      }
+
+    }
+  }
+
+  /**
+   * itemsInUse
+   * @param {*} actor 
+   * @param {*} systemData 
+   */
+  static async itemsInUse(actor, systemData) {
+    
+    //Armor...
+    let mArmor = actor.items.filter(e => e.type === 'armor');
+    for (let item of mArmor) {
+      let inUse = false;
+      for (const s in systemData.armor) {
+        if (systemData.armor[s].itemID === item.id) inUse = true;
+      }
+      await item.update({system: {inUse: inUse}});
+    }
+
+    //Weapons...
+    let mWeapons = actor.items.filter(e => e.type === 'weapon');
+    for (let item of mWeapons) {
+
+      const bInLeftHand = (item.system.inHands.inLeftHand === 'true') ? true : 
+                          (item.system.inHands.inLeftHand === 'false') ? false : 
+                          (!item.system.inHands.inLeftHand) ? false : 
+                            item.system.inHands.inLeftHand;
+      const bInRightHand = (item.system.inHands.inRightHand === 'true') ? true : 
+                          (item.system.inHands.inRightHand === 'false') ? false : 
+                          (!item.system.inHands.inRightHand) ? false : 
+                            item.system.inHands.inRightHand;                            
+      const bInBothHands = (item.system.inHands.inBothHands === 'true') ? true : 
+                          (item.system.inHands.inBothHands === 'false') ? false : 
+                          (!item.system.inHands.inBothHands) ? false : 
+                            item.system.inHands.inBothHands;
+      const inUse = (bInLeftHand || bInRightHand || bInBothHands);
+
+      await item.update({system: {
+                          inUse: inUse,
+                          inHands: {
+                            inLeftHand: bInLeftHand,
+                            inRightHand: bInRightHand,
+                            inBothHands: bInBothHands
+                          }
+                        }});
+    }    
+
+  }
+
+  /**
+   * getSkills
+   * @param {*} context 
+   */
+  static getSkills(actor, context) {
+
+    context.backend.skills.forEach( skill => {
+      if (!context.systemData.skills[skill.id]) {
+        context.systemData.skills[skill.id] = {
+          value: 0,
+          penal: 0,
+          initial: 0,
+          acquired: false,
+          experienced: false
+        };
+      }
+      let actorSkill = context.systemData.skills[skill.id];
+
+      //Penalizations...
+      
+      //by armor...
+      actorSkill.penal = helperSheetArmor.calcPenalByArmor(actor, skill);
+
+      //by Traits...
+      const mTraits = actor.items.filter(e => ( (e.type === 'trait')  
+                                             && (e.system.control.world === actor.system.control.world)
+                                             && (e.system.mod.skill.apply) 
+                                             && (e.system.mod.skill.id === skill.id)));
+      mTraits.map(e => {
+        actorSkill.penal = eval( (Number(actorSkill.penal).toString()
+                                    + helperSheetMagic.penalValue(e.system.mod.skill.bono)).toString());
+        actorSkill.penal = helperSheetMagic.penalValue(actorSkill.penal);
+      });
+
+      //Values
+      if (!actor.system.control.criature) {
+        actorSkill.initial = 
+            context.systemData.characteristics.primary[skill.system.characteristic.primary].value + 
+            Number(context.systemData.characteristics.primary[skill.system.characteristic.primary].penal);
+
+        if (!actorSkill.acquired) actorSkill.value = actorSkill.initial;
+      }
+
+    });
+
+    //Acquiring Skills...
+    for (const oItem of Array.from(actor.items).filter(e => e.type === 'skill')) {
+        if ((oItem.system.control.mold !== '') &&
+            (context.systemData.skills[oItem.system.control.mold])) {
+              
+          context.systemData.skills[oItem.system.control.mold].acquired = true;
+          let path = {system: {skills: {}}};
+          path.system.skills[oItem.system.control.mold] = {acquired: true};
+          actor.update(path);
+        }
+    }
+  }
+
+  /**
+     * getLanguages
+     * @param {*} context 
+     */
+  static async getLanguages(actor, context) {
+
+    await game.packs.get('conventum.cultures').getDocuments();
+    const myCulture = game.packs.get('conventum.cultures').get(context.systemData.bio.culture);
+
+    context.backend.languages.forEach( lang => {
+      if (!context.systemData.languages[lang.id]) {
+        context.systemData.languages[lang.id] = {
+          value: 0,
+          penal: 0,
+          initial: 0,
+          acquired: false
+        };
+      }
+
+      let actorSkill = context.systemData.languages[lang.id];
+      actorSkill.initial = 0;
+      let expr = myCulture.system.backend.languages[lang.id].toUpperCase();
+      
+      for (const s in context.systemData.characteristics.primary) {
+        expr = expr.replace(s.toUpperCase(), 
+                context.systemData.characteristics.primary[s].value);
+        expr = expr.replace('X', '*');
+      }
+      if (expr === '') expr = '0';
+      actorSkill.initial = Number(eval(expr));
+
+      if (context.systemData.control.initial) 
+        actorSkill.value = actorSkill.initial;
+
+    });
+  }
+
+  /**
+   * getModes
+   * @param {*} actor 
+   * @param {*} context 
+   */
+  static async getModes(actor, context) {
+    const sWorld = actor.system.control.world;
+    const oWorld = await game.packs.get('conventum.worlds').get(sWorld);
+
+    //Synchr DB...
+    await game.packs.get("conventum.modes").getDocuments();
+
+    const mModes = Array.from(await game.packs.get('conventum.modes'))
+                                .filter(e => e.system.control.world === sWorld);
+    return mModes;
+  }
+
+  static getHandPenal(actor, weapon) {
+
+    if ( ((actor.system.status.rightHanded) &&
+          (weapon.system.inHands.inLeftHand)) || 
+         ((!actor.system.status.rightHanded) &&
+          (weapon.system.inHands.inRightHand)) ) return '-25'
+                                            else return '-0';
+
   }
 
 /** ***********************************************************************************************
@@ -62,8 +307,10 @@ export class helperSheetHuman {
    * _checkCharacteristics
    * @param {*} systemData 
    */
-  static _checkCharacteristics(systemData) {
+  static _checkCharacteristics(actor, systemData) {
     
+    if (systemData.control.criature) return;
+
     //Primary Characteristics...
     ["primary", "secondary"].forEach(sGroup => {
       for (const s in systemData.characteristics[sGroup]) {
@@ -77,14 +324,29 @@ export class helperSheetHuman {
           if ( _root.value > _root.initial ) _root.value = _root.initial;
           continue;
         } else {
-          if ( _root.value < _root.min ) _root.value = _root.min;
-          if ( _root.value > _root.max ) _root.value = _root.max;
+          if (( _root.value < _root.min ) && (systemData.control.initial)) 
+            _root.value = _root.min;
+          if (( _root.value > _root.max ) && (systemData.control.initial)) 
+            _root.value = _root.max;
         }    
 
         //Initial && temporal values...
         _root.temp = _root.value.value;  
         _root.initial = (systemData.control.initial) ? _root.value : _root.initial;
         _root.class = (_root.initial != _root.temp) ? "_temporal" : "";
+
+        //Penalizations...
+        const mTraits = actor.items.filter(e => ( (e.type === 'trait')  
+                                               && (e.system.control.world === actor.system.control.world)
+                                               && (e.system.mod.characteristic.apply) 
+                                               && (e.system.mod.characteristic.id === s)));        
+        mTraits.map(e => {
+          _root.penal = '+0';
+          _root.penal = eval( Number(_root.penal).toString() +
+                              helperSheetMagic.penalValue(e.system.mod.characteristic.bono)).toString();
+          _root.penal = helperSheetMagic.penalValue(_root.penal);
+        });
+
       }
     });
 
@@ -117,18 +379,23 @@ export class helperSheetHuman {
       _root.secondary.hp.value = _root.primary.end.value;
       _root.secondary.hp.initial = _root.primary.end.value;
       _root.secondary.hp.max = _root.primary.end.initial;
+    } else {
+      _root.secondary.hp.max = _root.primary.end.value;
+      _root.secondary.hp.initial = _root.primary.end.value;
     }
 
     //Rationality & Irrationality
     _root.secondary.rr.last = Number(_root.secondary.rr.last);
     _root.secondary.irr.last = Number(_root.secondary.irr.last);
-    if ( _root.secondary.irr.value != _root.secondary.irr.last )
-             _root.secondary.rr.value = 100 - _root.secondary.irr.value;
-        else _root.secondary.irr.value = 100 - _root.secondary.rr.value;
+    if (!systemData.control.criature) {
+      if ( _root.secondary.irr.value != _root.secondary.irr.last )
+              _root.secondary.rr.value = 100 - _root.secondary.irr.value;
+          else _root.secondary.irr.value = 100 - _root.secondary.rr.value;
 
-    _root.secondary.rr.last = _root.secondary.rr.value;
-    _root.secondary.irr.last = _root.secondary.irr.value;
-    
+      _root.secondary.rr.last = _root.secondary.rr.value;
+      _root.secondary.irr.last = _root.secondary.irr.value;
+    }
+
     //Faith && Concentration points
     _root.secondary.fp.value = Math.round(_root.secondary.rr.value * 0.20);
     _root.secondary.cp.value = Math.round(_root.secondary.irr.value * 0.20);
@@ -136,12 +403,16 @@ export class helperSheetHuman {
       _root.secondary.fp.initial = _root.secondary.fp.value;
       _root.secondary.cp.initial = _root.secondary.cp.value;
     }
+    if (_root.secondary.cp.current > _root.secondary.cp.value)
+        _root.secondary.cp.current = _root.secondary.cp.value;
+    if (_root.secondary.fp.current > _root.secondary.fp.value)
+        _root.secondary.fp.current = _root.secondary.fp.value;
 
     //Appearance
-    if (systemData.control.initial) {
-      _root.primary.app.initial = (systemData.bio.female) ? 17 : 15;
-      _root.primary.app.value = (systemData.bio.female) ? 17 : 15;
-    }
+    //if (systemData.control.initial) {
+    //  _root.primary.app.initial = (systemData.bio.female) ? 17 : 15;
+    //  _root.primary.app.value = (systemData.bio.female) ? 17 : 15;
+    //}
 
   }
 
@@ -249,5 +520,153 @@ export class helperSheetHuman {
     //...
   }
 
+  /**
+   * _checkWeaponsInHands
+   * @param {*} systemData 
+   */
+  static _checkWeaponsInHands(actor, systemData) {
+
+    let mWeapons = Array.from(actor.items).filter(e => e.type === 'weapon');
+  }
+
+  /**
+   * calcInitiative
+   * @param {*} actor 
+   * @returns 
+   */
+  static calcInitiative(actor) {
+
+    const actionItem = (actor.system.action.lastAction) ?
+                          actor.items.get(actor.system.action.lastAction) : 
+                          null;
+
+    const subItem = (actor.system.action.subItem) ? 
+                        actor.items.get(actor.system.action.subItem) : 
+                        null;
+        
+    const nBase = Number(actor.system.characteristics.primary.agi.value);
+    let sModificator = '';
+
+    
+      //Wearing weapons
+      const mWeapons = actor.items.filter(e => (
+             (e.type === 'weapon') && 
+            ((e.system.inHands.inLeftHand) || 
+             (e.system.inHands.inRightHand) || 
+             (e.system.inHands.inBothHands)) ));      
+      mWeapons.map(weaponItem => {
+        if (weaponItem.system.requeriment.primary.apply) {
+
+          //Minimum Force weapon
+          if (actor.system.characteristics.primary[
+                weaponItem.system.requeriment.primary.characteristic].value 
+              < weaponItem.system.requeriment.primary.minValue) {
+
+            const nMinVal = 
+              weaponItem.system.requeriment.primary.minValue - 
+                actor.system.characteristics.primary[
+                  weaponItem.system.requeriment.primary.characteristic].value;
+
+            sModificator += ' -'+nMinVal.toString();
+          }
+        }
+
+        //Penalty-Bonification
+        if (weaponItem.system.penalty.initiative !== '') {
+          sModificator += helperSheetMagic.penalValue(weaponItem.system.penalty.initiative);
+        }
+
+        //Actions
+        let myActiveCombat = helperSheetCombat.myActiveCombat(actor);
+        if ((myActiveCombat) && (myActiveCombat.encounter.system.steps.length > 0)) {
+           let mStillActiveActions = myActiveCombat.encounter.system.steps.filter(e => ((!e.consumed) && (e.actor === actor.id)));
+           mStillActiveActions.map(e => {
+             const action = actor.items.get(e.action);
+             if (action.system.steps.initiative !== '+0')
+              sModificator += ' ' + action.system.steps.initiative;
+           });
+        }
+
+      });
+ 
+
+    const nInitiative = eval(nBase.toString() + sModificator);
+                    
+    if (actor.permission > 0) {
+        actor.update({
+            system: { initiative: {
+                    value: nInitiative } }
+        });
+    }
+    return {
+        base: nBase.toString(),
+        mod: sModificator,
+        initiative: nInitiative.toString()
+    };
+  }
+  
+  /**
+   * calcDamageMod
+   * @param {*} actor 
+   * @param {*} weapon 
+   * @param {*} history 
+   * @returns 
+   */
+  static calcDamageMod(actor, weapon, action) {
+      
+      if (!history) history = [];
+      let sDamageMod = '-2D6';
+
+      let nCharValue = 0;
+      if (weapon.system.characteristics === '') return '';
+      
+      nCharValue = (!weapon.system.type.range) ?
+                      actor.system.characteristics.primary[weapon.system.characteristics].value :
+                      actor.system.characteristics.primary['str'].value;
+
+      if ((action) && (action.system.damage.mod.modDamage1))  nCharValue += 5;
+      if ((action) && (action.system.damage.mod.modDamage2))  nCharValue += 10;
+
+      if (nCharValue >= 1) sDamageMod = '-1D6';
+      if (nCharValue >= 5) sDamageMod = '-1D4';
+      if (nCharValue >= 10) sDamageMod = '';
+      if (nCharValue >= 15) sDamageMod = '+1D4';
+      if (nCharValue >= 20) sDamageMod = '+1D6';
+      if (nCharValue >= 25) sDamageMod = '+2D6';
+      if (nCharValue >= 30) sDamageMod = '+3D6';
+      if (nCharValue >= 35) sDamageMod = '+4D6';
+      if (nCharValue >= 40) sDamageMod = '+5D6';
+      if (nCharValue >= 45) sDamageMod = '+6D6';
+
+      return sDamageMod;
+  }
+
+  /**
+   * calcDamageMod
+   * @param {*} actor 
+   * @param {*} weapon 
+   * @param {*} history 
+   * @returns 
+   */
+  static calcDamageForceMod(actor, weapon, history) {
+
+    let sDamageForceMod = "";
+    if (weapon.system.requeriment.primary.apply) {
+      history.push(game.i18n.localize("common.weaponRequirement1")+': '+
+                   game.i18n.localize("characteristic."+weapon.system.requeriment.primary.characteristic) +
+                   ' > ' + weapon.system.requeriment.primary.minValue);
+      if (actor.system.characteristics.primary[weapon.system.requeriment.primary.characteristic].value < 
+        weapon.system.requeriment.primary.minValue) {
+
+          const nMinVal = weapon.system.requeriment.primary.minValue - 
+              actor.system.characteristics.primary[weapon.system.requeriment.primary.characteristic].value;
+          
+          sDamageForceMod = '-' + nMinVal.toString();
+          history.push(game.i18n.localize("common.damageMod")+': '+sDamageForceMod);
+      }
+    }    
+    return sDamageForceMod;
+
+  }
 
 }

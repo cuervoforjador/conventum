@@ -23,9 +23,10 @@
             </itemTitle>
             <itemSubHeader>
                 <hbox class="_100">
-                    <nav class="sheet-tabs itemTabsHeader" data-group="traitTabs">
+                    <nav class="sheet-tabs itemTabsHeader" data-group="configTabs">
                         <a data-tab="main">{{ localize "common.description" }}</a>
                         <a data-tab="rolls">{{ localize "common.rolls" }}</a>
+                        <a data-tab="actions">{{ localize "common.actions" }}</a>
                     </nav>
                 </hbox>                  
             </itemSubHeader>
@@ -39,12 +40,12 @@
             <section class="sheet-body">
 
                 {{!- Description -}}
-                <div class="tab main" data-group="traitTabs" data-tab="main">
+                <div class="tab main" data-group="configTabs" data-tab="main">
                     {{> itemDescription }}
                 </div>
 
                 {{!-- Rolls --}}
-                <div class="tab rolls" data-group="traitTabs" data-tab="rolls">
+                <div class="tab rolls" data-group="configTabs" data-tab="rolls">
 
                     {{!-- Criticals success & failures --}}
                     <h1 class="_modTitle">{{localize "common.rollSuccFail" }}</h1>
@@ -87,6 +88,16 @@
                     {{!-- Roll levels --}}
                     <h1 class="_modTitle">{{localize "common.rollLevel" }}</h1>
 
+                    <hbox class="_mod">
+                        <label style="width: calc(100% - 100px)">{{localize "common.charAndLevels" }}</label>
+                        <label class="switch" style="margin-right: -16px;">
+                            <input type="checkbox" 
+                                name="system.config.rolls.charAndLevels" 
+                                {{checked 'systemData.config.rolls.charAndLevels'}} />
+                            <span class="sliderSwitch"></span>
+                        </label>                        
+                    </hbox>
+
                     {{#each mRollDice as |sRoll key|}}
                     <hbox class="_mod">
                         <label>{{localizeExtend "common." sRoll "" }}</label>
@@ -111,9 +122,53 @@
                     </hbox>
                     {{/each}}
 
+                </div>
 
+                {{!-- Actions --}}
+                <div class="tab actions" data-group="configTabs" data-tab="actions">
+                    
+                    {{!-- Actions turns --}}
+                    <h1 class="_modTitle">{{localize "common.actions" }}</h1>
+                    <hbox class="_mod">
+                        <label style="width: 100px;">{{localize "config.fixedNumber" }}</label>
+                        <label class="switch">
+                            <input type="checkbox" 
+                                name="system.config.actions.fixedNumber" 
+                                {{checked systemData.config.actions.fixedNumber}} />
+                            <span class="sliderSwitch"></span>
+                        </label>       
+                        <input type="text" 
+                               style="width: 40px; text-align: center"
+                               name="system.config.actions.actionNumber"
+                               value="{{systemData.config.actions.actionNumber}}" 
+                               data-dtype="Number" />                                          
+                    </hbox>
+                    <label class="_infoText">{{localize "info.fixedNumber"}}</label>
 
+                    <hbox class="_mod">
+                        <label style="width: 100px;">{{localize "config.initiativePercent" }}</label>
+                        <input type="text" 
+                               style="width: 40px; text-align: center"
+                               name="system.config.actions.initiativePercent"
+                               value="{{systemData.config.actions.initiativePercent}}" 
+                               data-dtype="Number" />
+                    </hbox>
+                    <label class="_infoText">{{localize "info.initiativePercent"}}</label>
 
+                    <hbox class="_mod">
+                        <label style="width: 100px;">{{localize "config.penalFrom" }}</label>
+                        <input type="text" 
+                               style="width: 40px; text-align: center"
+                               name="system.config.actions.penalFrom"
+                               value="{{systemData.config.actions.penalFrom}}" 
+                               data-dtype="Number" />
+                        <label style="width: 100px;">{{localize "config.penaltyPorc" }}</label>
+                        <input type="text" 
+                                style="width: 40px; text-align: center"
+                                name="system.config.actions.penaltyPorc"
+                                value="{{systemData.config.actions.penaltyPorc}}" />                               
+                    </hbox>
+                    <label class="_infoText">{{localize "info.penalAction"}}</label>
 
                 </div>
 
@@ -121,4 +176,9 @@
         </div>
     </itemContent>
     
+{{!-- Molding ---}}
+<input name="system.control.mold"
+        value="{{systemData.control.mold}}" 
+        type="hidden" />   
+
 </form>

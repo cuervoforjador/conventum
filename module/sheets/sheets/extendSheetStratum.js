@@ -37,6 +37,9 @@ export class extendSheetStratum extends ItemSheet {
     context.systemData = await helperSheetItem.checkSystemData(context.systemData);
     context.backend = await mainBackend.getBackendForStratums(context.systemData);
 
+    //Molding...
+    helperSheetItem.molding(context);
+
     return context;
   }
 

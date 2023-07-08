@@ -1,0 +1,10 @@
+<ul class="_humanTargets">
+{{#each targets.targets as |target id|}}
+     <li data-id="{{target.id}}"
+         style="background-image: url('{{target.img}}');">
+
+          <label class="_targetName">{{target.name}}</label>
+
+     </li>
+{{/each}}
+</ul>
