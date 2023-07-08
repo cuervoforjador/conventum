@@ -234,7 +234,7 @@
     }
   ],
   "url": "https://github.com/cuervoforjador/conventum",
-  "manifest": "https://github.com/cuervoforjador/conventum/releases/download/v01/system.json",
-  "download": "https://github.com/cuervoforjador/conventum/releases/download/v01/system.zip",
+  "manifest": "https://github.com/cuervoforjador/conventum/releases/download/v11/system.json",
+  "download": "https://github.com/cuervoforjador/conventum/releases/download/v11/system.zip",
   "license": "LICENSE.txt"
 }
