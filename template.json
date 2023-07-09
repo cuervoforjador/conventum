@@ -27,7 +27,8 @@
           "mount": false,
           "visible": false,
           "frame": "catholicae",
-          "world": ""
+          "world": "",
+          "listSkills": false
         },
         "bio": {
           "female": false,

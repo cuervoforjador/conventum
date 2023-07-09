@@ -833,6 +833,83 @@ input.searchAction {
     padding: 10px;
     padding-right: 5px;
 }
+
+._tileBox {
+    max-width: 58px;
+    margin-left: 8px;
+    z-index: 900;
+}
+._tileIcon i {
+    font-size: 18px;
+}
+ul.listSkill {
+    padding: 0px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-top: 35px;
+    margin-bottom: 35px;
+}
+li.rowSkill {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: flex-start;
+}
+.rowSkill input._rowAcquired {
+    width: 15px;
+    height: 16px;
+}
+.rowSkill label._rowTitleSkill {
+    font-size: 11px;
+    line-height: 14px;
+    width: calc(100% - 164px);
+}
+.rowSkill input._rowSkillValue {
+    background: #c99e9e3b!important;
+    line-height: 20px!important;
+    font-size: 18px!important;
+    height: 20px;
+    width: 35px;
+    font-family: 'Almendra';
+    text-align: center;
+    padding-bottom: 0px;
+    font-weight: 900;
+    border-radius: 3px!important;
+}
+.rowSkill input._rowSkillPenal {
+    width: 40px;
+    color: #ec2626;
+    opacity: 0.8;
+    text-align: center;
+    font-family: 'Almendra';
+    font-size: 18px;
+    font-weight: 900;
+    text-shadow: 2px 0 #ffffff63, -2px 0 #ffffff63, 0 2px #ffffff63, 
+                 0 -2px #ffffff63, 1px 1px #ffffff63, -1px -1px #ffffff63, 
+                 1px -1px #ffffff63, -1px 1px #ffffff63;
+}
+.rowSkill .experienceSkill img {
+    position: inherit;
+    top: 0px;
+    left: 0px;
+    margin-bottom: 0px;
+    margin-left: 5px;
+    width: 18px;
+    height: 18px;
+}
+
+.actorHeader input, .frameContent input, .actorChars input {
+    background: none!important;
+    border: 0px;
+    border-radius: 0px!important;
+    box-shadow: none!important;
+}
+.rowSkill a.playSkill ._rowDice {
+    width: 22px;
+    border: 0px;
+    cursor: pointer;
+}
+
 .wrapSkill {
     list-style: none;
     padding: 0px;
@@ -2320,6 +2397,10 @@ img._quickButton._active {
     opacity: 0.9;
     z-index: 9999999;
     flex-direction: column;
+}
+._shrink .modeStickers {
+    left: -40px;
+    top: -16px;
 }
 ._imLucky {
     margin-bottom: -60px;

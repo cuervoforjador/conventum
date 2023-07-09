@@ -109,12 +109,22 @@ export class mainHandlebars {
        */
       Handlebars.registerHelper("alphaExperiencedSkill", function(skillID, options) {
          if ((!options.data.root.data.system.skills[skillID]) || 
-             (!options.data.root.data.system.skills[skillID].experienced)) return "opacity: 0";
-             
-         if (options.data.root.data.system.skills[skillID].experienced)
-            return "opacity: 0.7";
-         else
-            return "opacity: 0";
+             (!options.data.root.data.system.skills[skillID].experienced)) 
+               return (options.data.root.data.system.control.listSkills) ?
+                  "opacity: 0.3" : "opacity: 0";
+
+
+         if (options.data.root.data.system.control.listSkills) {
+            if (options.data.root.data.system.skills[skillID].experienced)
+               return "opacity: 1";
+            else
+               return "opacity: 0.3";
+         } else {
+            if (options.data.root.data.system.skills[skillID].experienced)
+               return "opacity: 0.7";
+            else
+               return "opacity: 0";
+         }
        });
 
       /**

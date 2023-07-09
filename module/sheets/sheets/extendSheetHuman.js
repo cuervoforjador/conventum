@@ -147,7 +147,8 @@ export class extendSheetHuman extends ActorSheet {
     html.find(".playLang").click(this._playLang.bind(this)); 
 
     /* Skills */
-    html.find(".playSkill").click(this._playSkill.bind(this)); 
+    html.find("._tileIcon").click(this._gridSkills.bind(this));
+    html.find(".playSkill").click(this._playSkill.bind(this));
     html.find("a.diceSkill").click(this._playSkill.bind(this)); 
     html.find("a.experienceSkill").click(this._experienceSkill.bind(this)); 
     $(".searchSkill").on('input', this._searchSkill.bind(this));
@@ -341,16 +342,30 @@ export class extendSheetHuman extends ActorSheet {
     await this.actor.update(oData);   
   }
 
+  _gridSkills(event) {
+    event.preventDefault();
+    const sMode = event.currentTarget?.dataset.mode;
+    this.actor.update({
+      system: {control: { listSkills: (sMode === 'list')}}
+    });
+
+  }
+
   _searchSkill(event) {
     event.preventDefault();
     const search = $(event.target).val();
-    $(".wrapSkill li.boxSkill").each(function(i,e) {
+    const sSelect = (this.actor.system.control.listSkills) ?
+                        ".listSkill li.rowSkill" :
+                        ".wrapSkill li.boxSkill";
+
+    $(sSelect).each(function(i,e) {
       if ($(e).data("filter").toUpperCase().includes(search.toUpperCase()))
         $(e).show();
       else
         $(e).hide();
       if (search === '') $(e).show();
     }.bind(this));    
+
   }
 
   _playWeapon(event) {
