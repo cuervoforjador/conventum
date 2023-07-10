@@ -1106,10 +1106,10 @@ export class aqContext {
         let mod = this.clearMult(this._action.system.damage.mod.multDamage);
         if (mod !== 1) {
             this._damageMult = this.multPenalties(this._damageMult, mod);
-            this.msgHistory("common.multDamage", penal);
+            this.msgHistory("common.multDamage", this._damageMult);
             if (this._weapon2) {
                 this._damage2Mult = this.multPenalties(this._damage2Mult, mod);
-                this.msgHistory("common.multDamage", penal, true);                
+                this.msgHistory("common.multDamage", this._damage2Mult, true);                
             }
         }
     }
