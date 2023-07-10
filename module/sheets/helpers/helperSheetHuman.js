@@ -321,7 +321,12 @@ export class helperSheetHuman {
         //Hit Points exception
         if (s === 'hp') {
           _root.initial = (systemData.control.initial) ? _root.value : _root.initial;
-          if ( _root.value > _root.initial ) _root.value = _root.initial;
+          if (!systemData.control.initial) {
+             if (_root.value > _root.initial) _root.max = _root.value;
+                                         else _root.max = _root.initial;
+          } else {
+             if ( _root.value > _root.initial ) _root.value = _root.initial;
+          }
           continue;
         } else {
           if (( _root.value < _root.min ) && (systemData.control.initial)) 

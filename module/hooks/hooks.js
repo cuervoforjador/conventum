@@ -12,6 +12,7 @@ import { HookCombat } from "./_hooksCombat.js";
 import { HookTours } from "./_hooksTours.js";
 import { mainMacros } from "../macros/mainMacros.js"
 import { helperSocket } from "../helpers/helperSocket.js";
+import { helperSprites } from "../helpers/helperSprites.js";
 import { helperSheetArmor } from "../sheets/helpers/helperSheetArmor.js";
 
 
@@ -51,6 +52,8 @@ export class mainHooks {
         Hooks.on("preCreateItem", (oFrom, oTo, options, sId) => this._preCreateItem(oFrom, oTo, options, sId));
         Hooks.on("createToken", (document, options, sId) => this._createToken(document, options, sId));
         Hooks.on("createChatMessage", (message, options, sId) => this._createChatMessage(message, options, sId));
+        Hooks.on("sightRefresh", async (layer) => this._sightRefresh(layer));
+        Hooks.on("targetToken", (user, token, option) => this._targetToken(user, token, option));  
     }
 
     static _setup() {
@@ -247,4 +250,15 @@ export class mainHooks {
     static _createChatMessage(message, options, sId) {
         HookMessage.createChatMessage(message, options, sId);
     }
+
+    static _sightRefresh(layer) {
+        helperSprites.sightRefresh(layer);
+    }
+
+    static _targetToken(user, token, option) {
+        if (!option) return;
+        
+        helperSprites.stylingToken(token);
+    }
+
 }
