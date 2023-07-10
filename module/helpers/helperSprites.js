@@ -35,6 +35,7 @@ export class helperSprites {
         if (!token) return;
 
         //Text
+        if ((!token.hud) || (token.hud.children === undefined)) return;
         let textToken = token.hud.children.find(e => e.text);
         textToken.style.fontFamily = "Almendra";
 

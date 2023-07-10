@@ -1731,6 +1731,22 @@ img.weaponRightHand {
     top: 4px;
     opacity: 0.2;
 }
+._shrink hbox._weaponHands {
+    position: initial;
+    width: 50px;
+    height: 25px;
+}
+._shrink img.weaponHand {
+    width: 15px;
+    height: 23px;
+}
+._shrink img.weapon2Hands {
+    width: 35px;
+}
+vbox._shrinkWeaponBox {
+    border-bottom: 1px solid #33333326;
+    margin-bottom: 6px;
+}
 img._combatSkillImg {
     width: 72px;
     margin-right: 3px;

@@ -667,7 +667,7 @@ export class aqContext {
             if (game.dice3d)
                 await game.dice3d.showForRoll(roll);
 
-            this._damagePoints = roll.total;
+            this._damagePoints = Math.round(roll.total);
             this.msgHistory("common.damagePoints", this._damagePoints);
         }
 
