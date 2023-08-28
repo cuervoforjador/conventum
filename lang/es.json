@@ -188,6 +188,7 @@
     "common.actions":               "Acciones",
     "common.actionAttack":          "Ataque",
     "common.actionDefense":         "Defensa",
+    "common.actionSpells":          "Magia",
     "common.actionSteps":           "Núm. de acciones",
     "common.action1step":           "1 acción",
     "common.action2steps":          "2 acciones",

@@ -1811,6 +1811,7 @@ ul.actorActions {
     align-content: space-around;
 }
 li.boxAction {
+    /*
     width: 80px;
     margin-bottom: -8px;
     cursor: pointer;
@@ -1818,29 +1819,41 @@ li.boxAction {
     transform: rotate(3deg);
     margin-left: -14px;    
     height: 140px!important;
+    */
 }
 li.boxAction:hover {
+    /*
     transform: rotate(-1deg);
     margin-right: 10px;
     width: 83px;
     margin-bottom: -14px;
+    */
 }
 li.boxAction img.imgAction {
+    /*
     width: 100%;
     height: 125px!important;
+    */
 }
 img.imgAction {
+    /*
     opacity: 0.5;
+    */
 }
 li.boxAction:hover label._actionTitle {
+    /*
     display: flex;
     align-items: center;
     justify-content: center;
+    */
 }
 li.boxAction:hover img.imgAction {
+    /*
     opacity: 1;
+    */
 }
 label._actionTitle {
+    /*
     width: 100%;
     height: 40px;
     background: #ca9292b5;
@@ -1857,8 +1870,10 @@ label._actionTitle {
     text-shadow: 2px 0 #ffffff63, -2px 0 #ffffff63, 0 2px #ffffff63, 0 -2px #ffffff63, 1px 1px #ffffff63, -1px -1px #ffffff63, 1px -1px #ffffff63, -1px 1px #ffffff63;
     align-content: center;
     align-items: center;
+    */
 }
 a._showMyItem {
+    /*
     width: 20px;
     height: 20px;
     border: 1px solid #333;
@@ -1873,8 +1888,76 @@ a._showMyItem {
     left: 55px;
     border-radius: 1px;
     z-index: 10;
+    */
 }
 
+hbox.actionBlock {
+    border-bottom: 1px solid #333;
+    display: flex;
+    align-items: center;
+    background: #b790902b;
+    padding-bottom: 3px;
+}
+.actionBlock h2 {
+    margin-left: 10px;
+    border-bottom: 0px;
+    width: calc(100% - 50px);
+    line-height: 20px;
+    margin-top: 0px;
+    margin-bottom: 5px;
+}
+a._sheetExpand {
+    width: 25px;
+    text-align: center;
+    font-size: 18px;
+}
+ul.boxActions {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 12px;
+}
+li.boxAction {
+    width: 49%;
+}
+hbox.lineAction {
+    margin-bottom: 0px;
+}
+.lineAction img.imgAction {
+    width: 17px;
+    height: 25px;
+    margin-right: 6px;
+}
+
+.boxAction ._actionText {
+    width: calc(100% - 60px);
+    text-align: left;
+    display: flex;
+    margin-top: -10px;
+    align-content: flex-start;
+    align-items: flex-start;
+    justify-content: center;
+}
+.lineAction label.titleAction {
+    font-size: 16px;
+    line-height: 16px;
+    font-family: var(--font-aq);
+    margin: 0px;
+    cursor: pointer;
+}
+.lineAction label.titleAction::first-letter {
+    font-size: 27px;
+    color: #9b3e3e;
+}
+.boxAction a._showMyItem i {
+    width: 25px;
+    height: 25px;
+    font-size: 13px;
+    border: 1px solid #333;
+    border-radius: 3px;
+    background: #ffffff59;
+    text-align: center;
+    padding: 5px;
+}
 
 /* Magic */
 ul._magicChars {
