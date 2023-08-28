@@ -827,6 +827,10 @@ input.searchAction {
     padding: 5px;
     padding-left: 15px;
     padding-right: 15px;
+    background: #b790902b;
+    border-top: 1px solid #3333334f;
+    border-radius: 0px!important;
+    padding-top: 8px;
 }
 .actorSkills {
     width: 100%;
@@ -1892,7 +1896,8 @@ a._showMyItem {
 }
 
 hbox.actionBlock {
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid #33333329;
+    border-top: 1px solid #33333329;
     display: flex;
     align-items: center;
     background: #b790902b;
