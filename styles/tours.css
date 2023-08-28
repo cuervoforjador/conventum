@@ -1,5 +1,5 @@
 aside.tour {
-    background: url(/systems/conventum/image/texture/paper.png)!important;
+    background: var(--paper-aq)!important;
     background-repeat: repeat!important;
     background-size: 250px!important;
     border: 2px solid #251d1d!important;
@@ -11,7 +11,7 @@ aside.tour {
 }
 .tour header h3 {
     color: #333!important;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
 }
 .tour header h3::first-letter {
     color: #b92b2b;
@@ -22,7 +22,7 @@ aside.tour {
     color: #333!important;
 }
 .tour p {
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     color: #333!important;
     text-align: justify!important;
     font-size: 16px!important;

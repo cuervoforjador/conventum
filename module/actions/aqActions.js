@@ -29,11 +29,14 @@ export class aqActions {
      * @param {*} actorId 
      * @returns 
      */
-    static getMyCurrentCombat(actorId) {
+    static getMyCurrentCombat(actorId, tokenId) {
         const combat = this.getCurrentCombat();
         if (!combat) return;
 
-        const myCombatant = Array.from(combat.combatants).find(e => (e.actorId === actorId));
+        const myCombatant = (tokenId) ?
+                    Array.from(combat.combatants).find(e => ((e.actorId === actorId) &&
+                                                             (e.tokenId === tokenId))) : 
+                    Array.from(combat.combatants).find(e => (e.actorId === actorId));
         if (!myCombatant) return;
 
         return combat;
@@ -66,8 +69,8 @@ export class aqActions {
      * @param {*} actorId 
      * @returns 
      */
-    static getMyCurrentEncounter(actorId) {
-        const myCombat = this.getMyCurrentCombat(actorId);
+    static getMyCurrentEncounter(actorId, tokenId) {
+        const myCombat = this.getMyCurrentCombat(actorId, tokenId);
         if (!myCombat) return;
         return game.items.filter(e => e.type === 'actionPool')
                          .find( e => e.system.combat === myCombat._id );
@@ -160,12 +163,11 @@ export class aqActions {
 
     /**
      * getLastStep
-     * @param {*} actorId 
      * @param {*} bLastAttacker 
      * @param {*} bLastDefender 
      * @returns 
      */
-    static getLastStep(actorId, bLastAttacker, bLastDefender) {
+    static getLastStep(bLastAttacker, bLastDefender) {
 
         let mSteps = this.getCurrentEncounterSteps();
         if ((!mSteps) || (mSteps.length === 0)) return;
@@ -190,17 +192,22 @@ export class aqActions {
     /**
      * getCurrentAction
      * @param {*} actorId (optional) - Returns Null if Actor isnt in the encounter
+     * @param {*} tokenId (optional)
      * @returns 
      */
-    static getCurrentAction(actorId) {
+    static getCurrentAction(actorId, tokenId) {
         const step = this.getCurrentStep();
         if (!step) return;
         if (!actorId) return step;
 
-        const actor = game.actors.get(actorId);
+        const actor = (tokenId) ? game.scenes.active.tokens.get(tokenId).getActor()
+                                : game.actors.get(actorId);       
         if (!actor) return;
-
-        return (step.actor === actorId) ? actor.items.get(step.action) : null;
+        if (tokenId)
+            return ((step.actor === actorId) && 
+                    (step.tokenId === tokenId)) ? actor.items.get(step.action) : null;
+         else
+            return (step.actor === actorId) ? actor.items.get(step.action) : null;
     }
 
     /**
@@ -223,8 +230,9 @@ export class aqActions {
      * @param {*} actorId 
      * @returns 
      */
-    static getActions(actorId) {
-        const actor = game.actors.get(actorId);
+    static getActions(actorId, tokenId) {
+        const actor = (tokenId) ? game.scenes.active.tokens.get(tokenId).getActor() :
+                                  game.actors.get(actorId);
         if (!actor) return [];
 
         const encounter = this.getCurrentEncounter();
@@ -233,7 +241,11 @@ export class aqActions {
         if ( (!encounter.system.steps) ||
              (encounter.system.steps.length === 0) ) return [];
 
-        return encounter.system.steps.filter(e => e.actor === actorId);        
+        if (tokenId)
+          return encounter.system.steps.filter(e => ((e.actor === actorId) && 
+                                                     (e.tokenId === tokenId)) );
+        else
+          return encounter.system.steps.filter(e => e.actor === actorId);
     }
 
     /**
@@ -255,8 +267,9 @@ export class aqActions {
      * getMaxActions
      * @param {*} actorId
      */
-    static getMaxActions(actorId) {
-        const actor = game.actors.get(actorId);
+    static getMaxActions(actorId, tokenId) {
+        const actor = (tokenId) ? game.scenes.active.tokens.get(tokenId).getActor() :
+                                  game.actors.get(actorId);        
         if (!actor) return;        
 
         const sWorld = actor.system.control.world;
@@ -272,13 +285,13 @@ export class aqActions {
      * getActionsInfo
      * @param {*} actorId 
      */
-    static getActionsInfo(actorId) {
-        const mMyactions = this.getActions(actorId);
+    static getActionsInfo(actorId, tokenId) {
+        const mMyactions = this.getActions(actorId, tokenId);
 
         return {
             actActions: mMyactions,
             numActions: mMyactions.length,
-            maxActions: this.getMaxActions(actorId),
+            maxActions: this.getMaxActions(actorId, tokenId),
         };
     }
 

@@ -13,7 +13,7 @@
 ._custoLiCompendium._v10 h4,
 ._custoHeaderCompendium h3,
 ._custoHeaderCompendium._v10 h4 {
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
 }
 ._custoLiCompendium h3 a,
 ._custoLiCompendium._v10 h4 a,
@@ -40,6 +40,23 @@
 }
 ._custoLiCompendium footer .source,
 ._custoLiCompendium._v10 footer {
+    display: none;
+}
+
+._custoLiCompendium h3.entry-name.compendium-name {
+    position: absolute;
+    top: 41px;
+    left: calc(100% - 251px);
+    width: 300px!important;
+    text-align: right!important;
+    border: 0px!important;
+    background: none!important;
+    font-size: 21px!important;
+    color: #000000;
+    font-weight: 900;
+    text-shadow: 1px 0 #ffffff63, -1px 0 #ffffff63, 0 1px #ffffff63, 0 -1px #ffffff63, 1px 1px #ffffff63, -1px -1px #ffffff63, 1px -1px #ffffff63, -1px 1px #ffffff63!important;    
+}
+._custoLiCompendium h3.entry-name.compendium-name i {
     display: none;
 }
 
@@ -74,14 +91,14 @@ section.window-content._v10 {
     margin-bottom: 0px!important;
 }
 .compendium ol.directory-list {
-    background-image: url(../image/texture/tile02.png);
+    background-image: var(--tile2-aq);
     background-repeat: repeat;
     background-size: 250px 250px;
 }
 .compendium ol.directory-list li {    
     padding: 5px;
     height: 68px;
-    background-image: url(../image/texture/paper.png);
+    background-image: var(--paper-aq);
     background-repeat: repeat;
     background-size: 250px 250px;
     margin-left: 6px;
@@ -107,7 +124,7 @@ section.window-content._v10 {
     color: #333;
     font-size: 17px;
     line-height: 22px;
-    font-family: 'Almendra', serif;
+    font-family: var(--font-aq);
     text-shadow: 0 0 3px #fff, 0 0 1px #000;
 }
 .compendium ol.directory-list li.context-item {
@@ -118,11 +135,26 @@ section.window-content._v10 {
     color: #333;
 }
 .compendium input[type="search"] {
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     border-radius: 1px;
     background: none!important;
     border: 1px solid #33333338;
 }
+
+/**
+li._customCompendium {
+    display: flex;
+    flex-wrap: wrap!important;
+}
+li._customCompendium img.thumbnail {
+    width: 50px!important;
+    height: 50px!important;
+}
+li._customCompendium h4.entry-name, 
+li._customCompendium ._repoInfo {
+    min-width: calc(100% - 60px)!important;
+}
+*/
 
 .compendium ._worldInfo {
     position: relative;
@@ -131,7 +163,7 @@ section.window-content._v10 {
     width: 150px;
     height: 22px;
     line-height: 22px;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     text-align: right;
     padding-right: 8px;
     color: #9f3333;
@@ -143,7 +175,7 @@ section.window-content._v10 {
     width: 150px;
     height: 22px;
     line-height: 13px;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     text-align: left;
     padding-right: 8px;
     color: #333;
@@ -156,7 +188,7 @@ section.window-content._v10 {
     height: 22px;
     line-height: 22px;
     font-size: 16px;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     text-align: right;
     padding-right: 8px;
     color: #3333339e;
@@ -168,14 +200,14 @@ section.window-content._v10 {
 }
 ._compendiumFilter label {
     width: 85px;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     color: #333;
     text-align: right!important;
     padding-right: 5px;
 }
 ._compendiumFilter select {
     width: calc(100% - 90px);
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     background: none;
     border: 1px solid #3333333b;
     border-radius: 1px;
@@ -191,7 +223,7 @@ section.window-content._v10 {
     top: 13px;
     left: -46px;
     color: #111;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
 }
 .compendium ._infoCriature {
     position: relative;
@@ -203,7 +235,7 @@ section.window-content._v10 {
     left: 100px;
     color: #111;
     text-align: right;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
 }
 .compendium ._infoShape {
     position: relative;
@@ -214,7 +246,7 @@ section.window-content._v10 {
     top: 7px;
     left: 19px;
     color: #111;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
 }
 .compendium ._infoType {
     position: relative;
@@ -226,5 +258,5 @@ section.window-content._v10 {
     top: 11px;
     left: 41px;
     color: #111;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
 }

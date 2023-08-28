@@ -1,0 +1,28 @@
+<hbox class="_header">
+    <vbox>
+        <h1>{{localize 'wizard.title05'}}</h1>
+        <p>{{localize 'wizard.text05'}}</p>
+    </vbox>
+    <div class="_dicesBox">
+        <a class="wizardDices"
+           data-field="status"
+           data-compendium="status">
+            <img src="/systems/conventum/image/texture/dice.png">
+        </a>
+    </div>    
+</hbox>
+
+<ul>
+{{#each backend.status as |status key|}}
+<a class="wizardOption"
+   data-field="status"
+   data-value="{{status.id}}"
+   data-compendium="status">
+    <li class="_wizardOption" data-filter="{{status.name}}">
+        <img src="{{status.img}}" />
+        <label class="_range">{{status.system.range.low}} - {{status.system.range.high}}</label>
+        <label>{{status.name}}</label>
+    </li>
+</a>
+{{/each}}
+</ul>

@@ -10,18 +10,21 @@ export class aqCombat {
      * @param {*} actorId 
      * @param {*} actionId 
      */
-    static async addAction(actorId, actionId) {
+    static async addAction(actorId, actionId, isToken, tokenId) {
 
         await game.packs.get('conventum.worlds').getDocuments();
         await game.packs.get('conventum.locations').getDocuments();
 
-        const actor = game.actors.get(actorId);
+        let myEncounter = aqActions.getMyCurrentEncounter(actorId, tokenId);
+
+        const actor = (isToken) ? (await game.scenes.active.tokens.get(tokenId)).getActor() : 
+                                  game.actors.get(actorId);
         if (!actor) return;
 
         const action = actor.items.get(actionId);
         if (!action) return;
 
-        if (!aqActions.getMyCurrentEncounter(actorId)) {
+        if (!myEncounter) {
             new Dialog({
               title: game.i18n.localize("common.actions"),
               content: game.i18n.localize("info.actionNoCombat"),
@@ -31,7 +34,7 @@ export class aqCombat {
         }
 
         const actionLocation = aqActions.getActionLocation(action);
-        const actionInfo = aqActions.getActionsInfo(actorId);
+        const actionInfo = aqActions.getActionsInfo(actorId, tokenId);
         const actionCost = aqActions.getActionCost(action);
         const nTotal = actionInfo.numActions + actionCost;
         const bAvailable = (nTotal <= actionInfo.maxActions);
@@ -142,22 +145,33 @@ export class aqCombat {
         const activeCombat = aqActions.getCurrentCombat();
         if (!activeCombat) return;
         
-        if (!Array.from(activeCombat.combatants).find(e => e.actorId === actor._id))
-            return;
+        if (actor.isToken) {
+            if (!Array.from(activeCombat.combatants).find(e => ((e.actorId === actor._id) && 
+                                                                (e.tokenId === actor.token._id)) ))
+                return;
+        } else {
+            if (!Array.from(activeCombat.combatants).find(e => e.actorId === actor._id))
+                return;
+        }
 
         let encounter = game.items.filter(e => e.type === 'actionPool')
                                   .find(e => e.system.combat === activeCombat._id);
         if (!encounter) return;
         let mSteps = encounter.system.steps;
 
+        const myUniqeId = actor.isToken ? actor.token._id : actor._id;
         const newStep = {
             actor: actor._id,
+            isToken: actor.isToken,
+            tokenId: actor.isToken ? actor.token._id : null,
+            uniqeId: myUniqeId,
             action: action._id,
             consumed: false,
             applyLocation: applyLocation
         };
-        if (mSteps.find(e => e.actor === actor._id)) {
-            let index = mSteps.findLastIndex(e => e.actor === actor._id);
+        
+        if (mSteps.find(e => e.uniqeId === myUniqeId)) {
+            let index = mSteps.findLastIndex(e => e.uniqeId === myUniqeId);
             mSteps.splice(index+1, 0, newStep);
         } else
             mSteps.unshift(newStep);
@@ -170,19 +184,21 @@ export class aqCombat {
 
     /**
      * dialogTargets
-     * @param {*} actorId 
+     * @param {*} uniqeId 
      * @param {*} weaponId 
      * @returns 
      */
-    static async dialogTargets(actorId, weaponId) {
+    static async dialogTargets(uniqeId, weaponId) {
 
-        const actor = game.actors.get(actorId);
+        const tokenId = (game.scenes.active.tokens.get(uniqeId)) ? uniqeId : null;
+        const actor = (tokenId) ? game.scenes.active.tokens.get(uniqeId).getActor() : game.actors.get(uniqeId);
+        const actorId = actor.id;        
         if (!actor) return;
 
         const weapon = actor.items.get(weaponId);
         if (!weapon) return;
 
-        const action = aqActions.getCurrentAction(actorId);
+        const action = aqActions.getCurrentAction(actorId, tokenId);
         if (!action) return;
 
         const combat = aqActions.getCurrentCombat();
@@ -192,26 +208,29 @@ export class aqCombat {
 
         //Combatants
         if (action.system.target.combatants)
-            mActors = mActors.concat(combat.turns.filter(
-                                    e => e.actorId !== actorId ));
+            mActors = mActors.concat(combat.turns.filter(e => 
+                                         !((e.actorId === actorId) &&
+                                           (e.tokenId === tokenId)) ));
 
         //MySelf
         if (action.system.target.myself)
             mActors = mActors.concat(combat.turns.filter(
-                                    e => e.actorId === actorId ));
+                                    e => ((e.actorId === actorId) &&
+                                          (e.tokenId === tokenId)) ));
 
         //Last Played, Attacker, Defender
         if ( (action.system.target.lastPlayed) ||
              (action.system.target.lastAttacker) ||
              (action.system.target.lastDefender) ) {
 
-            let lastStep = aqActions.getLastStep(actorId, 
-                                        action.system.target.lastAttacker, 
-                                        action.system.target.lastDefender);
+            let lastStep = aqActions.getLastStep(action.system.target.lastAttacker, 
+                                                 action.system.target.lastDefender);
             if (lastStep && lastStep.consumed) {
-                let lastActor = game.actors.get(lastStep.actor);
+                let lastActor = (lastStep.isToken) ? game.scenes.active.tokens.get(lastStep.tokenId).getActor() : 
+                                                     game.actors.get(lastStep.actor);
                 mActors = mActors.concat([{
                             actorId: lastStep.actor,
+                            tokenId: lastStep.tokenId,
                             name: lastActor.name,
                             img: lastActor.img
                         }]);                
@@ -221,7 +240,9 @@ export class aqCombat {
         //Getting actors...
         mActors.map(e => {
             e._actor = null;
-            e._actor = game.actors.get(e.actorId);
+            e._actor = (game.scenes.active.tokens.get(e.tokenId)) ? 
+                                game.scenes.active.tokens.get(e.tokenId).getActor() :
+                                game.actors.get(e.actorId);
         });
 
         //Filtering by Modes...
@@ -234,6 +255,7 @@ export class aqCombat {
 
         //Creating context...
         let context = new aqContext({actorId: actorId, 
+                                     tokenId: tokenId,
                                      weaponId: weaponId});
 
         //Multiple targets...
@@ -242,7 +264,7 @@ export class aqCombat {
                 
             let mTargets = [];
             Array.from(game.user.targets).map(target => {
-                mTargets.push(target.document.actorId) });
+                mTargets.push(target.document.id) });
             if (mTargets.length === 0) {
                 new Dialog({
                     title: 'Info',
@@ -258,13 +280,17 @@ export class aqCombat {
         //Targets Dialog
         let oButtons = {};
         mActors.map(e => {
-            oButtons[e.actorId] = {
-                label: e.name,
+            const uniqeId = (e.actor.isToken) ? e.tokenId : e.actorId;
+            oButtons[uniqeId] = {
+                label: e.actor.name,
+                uniqeId: uniqeId,
                 actorId: e.actorId,
-                img: e.img,
+                tokenId: (e.actor.isToken) ? e.tokenId : null,
+                isToken: (e.actor.isToken),
+                img: e.actor.img,
                 combatTarget: true,
                 callback: async () => {
-                    await context.setTargets([e.actorId]);
+                    await context.setTargets([uniqeId]);
                     await aqCombat.playWeapon(context);
                 }
             }
@@ -280,12 +306,14 @@ export class aqCombat {
 
     /**
      * dialogTargetsExpress
-     * @param {*} actorId 
+     * @param {*} uniqeId 
      * @param {*} weaponId 
      */
-    static dialogTargetsExpress(actorId, weaponId) {
+    static dialogTargetsExpress(uniqeId, weaponId) {
 
-        const actor = game.actors.get(actorId);
+        const tokenId = (game.scenes.active.tokens.get(uniqeId)) ? uniqeId : null;
+        const actor = (tokenId) ? game.scenes.active.tokens.get(uniqeId).getActor() : game.actors.get(uniqeId);
+        const actorId = actor.id;        
         if (!actor) return;
 
         const weapon = actor.items.get(weaponId);
@@ -293,6 +321,7 @@ export class aqCombat {
 
         //Creating context...
         let context = new aqContext({actorId: actorId, 
+                                     tokenId: tokenId,
                                     weaponId: weaponId,
                                      express: true});
 

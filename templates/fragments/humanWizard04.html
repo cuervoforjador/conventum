@@ -1,0 +1,28 @@
+<hbox class="_header">
+    <vbox>
+        <h1>{{localize 'wizard.title04'}}</h1>
+        <p>{{localize 'wizard.text04'}}</p>
+    </vbox>
+    <div class="_dicesBox">
+        <a class="wizardDices"
+           data-field="stratum"
+           data-compendium="stratums">
+            <img src="/systems/conventum/image/texture/dice.png">
+        </a>
+    </div>    
+</hbox>
+
+<ul>
+{{#each backend.stratums as |stratum key|}}
+<a class="wizardOption"
+   data-field="stratum"
+   data-value="{{stratum.id}}"
+   data-compendium="stratums">
+    <li class="_wizardOption" data-filter="{{stratum.name}}">
+        <img src="{{stratum.img}}" />
+        <label class="_range">{{stratum.system.range.low}} - {{stratum.system.range.high}}</label>
+        <label>{{stratum.name}}</label>
+    </li>
+</a>
+{{/each}}
+</ul>

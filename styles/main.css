@@ -19,3 +19,14 @@
   /*  font-family: 'Augusta', cursive;   */
   /*  font-family: 'Augusta-Shadow', cursive;   */
 
+/* ----------------------------------------- */
+/*  Root                                     */
+/* ----------------------------------------- */
+:root {
+  --font-aq: 'Almendra', sans-serif;
+  --font2-aq: 'Uncial Antiqua', cursive;
+  --font3-aq: 'Augusta';
+  --paper-aq: url(/systems/conventum/image/texture/paper.png);
+  --tile1-aq: url(/systems/conventum/image/texture/tile01.png);
+  --tile2-aq: url(/systems/conventum/image/texture/tile02.png);
+}

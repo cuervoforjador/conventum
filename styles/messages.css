@@ -8,7 +8,7 @@
     color: #ffffffa6;
 }
 .chat-message .message-header .message-sender {
-    font-family: 'Uncial Antiqua';
+    font-family: var(--font2-aq);
     font-size: 11px;
     color: #FFF;
     margin-top: 3px;
@@ -29,12 +29,12 @@
     font-family: 'MedievalSharp';
 }
 .chat-message .message-content {
-    background: url(/systems/conventum/image/texture/paper.png);
+    background: var(--paper-aq);
     background-size: 100% 100%;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
     border: 2px solid #333;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     padding: 5px;
     color: #000;    
 }
@@ -52,7 +52,7 @@
     border-bottom-right-radius: 3px;
 }
 ._chatBox ._chatPaper {
-    background: url(/systems/conventum/image/texture/paper.png);
+    background: var(--paper-aq);
     background-size: 100% 100%;
     width: 100%;
     height: 100%;       
@@ -79,7 +79,7 @@
     width: calc(100% - 40px);
     margin-top: 20px;
     margin-left: 20px;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     color: #000000b5;  
 }
 ._chatBox ._messageFrame {
@@ -316,7 +316,7 @@
 ._chatContent ._boxItems ._subItem ._caption {
     font-size: 15px;
     line-height: 18px;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     font-weight: 900;
     padding-left: 5px;
 }
@@ -339,7 +339,7 @@ a._infoSkill {
 }
 ._chatContent ._messageAction ._name {
     font-size: 13px;
-    line-height: 15px;
+    line-height: 11px;
     width: 78px;
     height: 35px;
     display: flex;
@@ -348,7 +348,7 @@ a._infoSkill {
     text-align: right;
     padding-right: 8px;
     position: relative;
-    top: 30px;
+    top: 18px;
 }
 
 ._chatContent ._messageWeapon {
@@ -405,7 +405,7 @@ a._infoSkill {
     left: -4px;
     font-size: 28px;
     line-height: 30px;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     font-weight: 900;
     padding: 3px;
     padding-left: 6px;
@@ -447,7 +447,7 @@ a._infoSkill {
     font-size: 50px!important;
     height: 60px!important;
     line-height: 60px!important;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     background: #a98383;
     color: #9b2d2d;
     width: 100%;
@@ -469,7 +469,7 @@ a._infoSkill {
     height: 20px;
     line-height: 19px;
     font-size: 16px;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     text-align: center;
     font-weight: 900;
     border: 1px solid #333333b3;
@@ -634,7 +634,7 @@ a._infoSkill {
     padding-bottom: 65px;
     min-width: 156px;
     border-color: #3c3a3afa!important;
-    background: url(/systems/conventum/image/texture/tile02.png)!important;
+    background: var(--tile2-aq)!important;
     background-size: 140px 140px!important;    
 }
 ._targetDialogs h4.window-title {

@@ -10,6 +10,9 @@ Install in Foundry VTT from the Game Systems tab, using the following manifest:
 
 or search for it directly as a package like "Aquelarre".
 
+## Game aids
+<a href="https://github.com/cuervoforjador/conventum/wiki/Gu%C3%ADa-r%C3%A1pida-de-Combate">Combate (En español)</a>
+
 ## Contributing
 
 Aquelarre VTT team is made up of: 

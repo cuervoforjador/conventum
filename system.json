@@ -2,10 +2,10 @@
   "id": "conventum",
   "title": "Aquelarre-Conventum",
   "description": "Demonic and medieval game",
-  "version": "1.1.1",
+  "version": "1.1.3",
   "compatibility": {
     "minimum": "10",
-    "verified": "10",
+    "verified": "11",
     "maximum": "11"
   },
   "authors": [
@@ -47,14 +47,20 @@
       "name": "Spanish",
       "path": "lang/es.json",
       "flags": {}
-    }
+    },
+    {
+      "lang": "ja",
+      "name": "日本語",
+      "path": "lang/ja.json",
+      "flags": {}
+    }    
   ],
   "packs": [
     {
       "label": "Orbis",
       "type": "Item",
       "name": "worlds",
-      "path": "packs/worlds.db",
+      "path": "packs/worlds",
       "banner": "systems/conventum/image/content/compendium/bannerOrbis.png",
       "system": "conventum",
       "ownership": {
@@ -67,7 +73,7 @@
       "label": "Regna",
       "type": "Item",
       "name": "kingdoms",
-      "path": "packs/kingdoms.db",
+      "path": "packs/kingdoms",
       "banner": "systems/conventum/image/content/compendium/bannerRegna.png",
       "system": "conventum",
       "ownership": {
@@ -80,7 +86,7 @@
       "label": "Societas",
       "type": "Item",
       "name": "societies",
-      "path": "packs/societies.db",
+      "path": "packs/societies",
       "banner": "systems/conventum/image/content/compendium/bannerSocietas.png",
       "system": "conventum",
       "ownership": {
@@ -93,7 +99,7 @@
       "label": "Linguae",
       "type": "Item",
       "name": "languages",
-      "path": "packs/languages.db",
+      "path": "packs/languages",
       "banner": "systems/conventum/image/content/compendium/bannerLinguae.png",
       "system": "conventum",
       "ownership": {
@@ -106,7 +112,7 @@
       "label": "Gentes",
       "type": "Item",
       "name": "cultures",
-      "path": "packs/cultures.db",
+      "path": "packs/cultures",
       "banner": "systems/conventum/image/content/compendium/bannerGentes.png",
       "system": "conventum",
       "ownership": {
@@ -119,7 +125,7 @@
       "label": "Stratum",
       "type": "Item",
       "name": "stratums",
-      "path": "packs/stratums.db",
+      "path": "packs/stratums",
       "banner": "systems/conventum/image/content/compendium/bannerStratum.png",
       "system": "conventum",
       "ownership": {
@@ -132,7 +138,7 @@
       "label": "Status",
       "type": "Item",
       "name": "status",
-      "path": "packs/status.db",
+      "path": "packs/status",
       "banner": "systems/conventum/image/content/compendium/bannerStatus.png",
       "system": "conventum",
       "ownership": {
@@ -145,7 +151,7 @@
       "label": "Competentiae",
       "type": "Item",
       "name": "skills",
-      "path": "packs/skills.db",
+      "path": "packs/skills",
       "banner": "systems/conventum/image/content/compendium/bannerCompetentiae.png",
       "system": "conventum",
       "ownership": {
@@ -158,7 +164,7 @@
       "label": "Locis",
       "type": "Item",
       "name": "locations",
-      "path": "packs/locations.db",
+      "path": "packs/locations",
       "banner": "systems/conventum/image/content/compendium/bannerLocis.png",
       "system": "conventum",
       "ownership": {
@@ -171,7 +177,7 @@
       "label": "Modi",
       "type": "Item",
       "name": "modes",
-      "path": "packs/modes.db",
+      "path": "packs/modes",
       "banner": "systems/conventum/image/content/compendium/bannerModi.png",
       "system": "conventum",
       "ownership": {
@@ -184,7 +190,7 @@
       "label": "Armis",
       "type": "Item",
       "name": "armor",
-      "path": "packs/armor.db",
+      "path": "packs/armor",
       "banner": "systems/conventum/image/content/compendium/bannerArmis.png",
       "system": "conventum",
       "ownership": {
@@ -197,7 +203,7 @@
       "label": "Arma",
       "type": "Item",
       "name": "weapons",
-      "path": "packs/weapons.db",
+      "path": "packs/weapons",
       "banner": "systems/conventum/image/content/compendium/bannerArma.png",
       "system": "conventum",
       "ownership": {
@@ -210,7 +216,7 @@
       "label": "ArsMagica",
       "type": "Item",
       "name": "magic",
-      "path": "packs/magic.db",
+      "path": "packs/magic",
       "banner": "systems/conventum/image/content/compendium/bannerArsMagica.png",
       "system": "conventum",
       "ownership": {
@@ -223,7 +229,7 @@
       "label": "Actiones",
       "type": "Item",
       "name": "actions",
-      "path": "packs/actions.db",
+      "path": "packs/actions",
       "banner": "systems/conventum/image/content/compendium/bannerActiones.png",
       "system": "conventum",
       "ownership": {
@@ -231,10 +237,23 @@
         "ASSISTANT": "OWNER"
       },
       "flags": {}
-    }
+    },
+    {
+      "label": "Officiorum",
+      "type": "Item",
+      "name": "professions",
+      "path": "packs/professions",
+      "banner": "systems/conventum/image/content/compendium/bannerOfficiorum.png",
+      "system": "conventum",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
+    }    
   ],
   "url": "https://github.com/cuervoforjador/conventum",
-  "manifest": "https://github.com/cuervoforjador/conventum/releases/download/v01/system.json",
-  "download": "https://github.com/cuervoforjador/conventum/releases/download/v01/system.zip",
+  "manifest": "https://github.com/cuervoforjador/conventum/releases/download/v113/system.json",
+  "download": "https://github.com/cuervoforjador/conventum/releases/download/v113/system.zip",
   "license": "LICENSE.txt"
 }

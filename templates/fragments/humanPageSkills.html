@@ -9,46 +9,97 @@
                value="" 
                placeholder="{{localize 'common.search'}}" 
                autocomplete="off">
+       <hbox class="_tileBox">
+              {{#if systemData.control.listSkills}}
+              <a class="_tileIcon" data-mode="tile">
+                     <i class="fa-solid fa-grid"></i></a>
+              {{else}}              
+              <a class="_tileIcon" data-mode="list">
+                     <i class="fa-solid fa-list"></i></a>
+              {{/if}}
+                     
+       </hbox>
     </div>
 
-    <ul class="wrapSkill">
-        {{#each backend.skills as |skill key|}}
-    
-           <li class="boxSkill"
-               data-filter="{{skill.name}}">
-                  <input class="_skillValue" 
-                         type="text"
-                         {{{editable}}}
-                         name="system.skills.{{skill._id}}.value"
-                         value="{{itemPropertyExtend 'systemData.skills' skill._id 'value'}}"  
-                         data-dtype="Number"/>              
-                  <a class="playSkill" data-itemId="{{skill._id}}">
-                         <img class="imgSkill" src="{{skill.img}}"/></a>
-                  <input class="_acquired"
-                         type="checkbox" 
-                         title="{{localize 'help.acquired'}}" 
-                         {{{editable}}}
-                         name="system.skills.{{skill._id}}.acquired" 
-                         {{checkedExtend 'systemData.skills' skill._id 'acquired'}} />
-                  <input class="_skillPenal" 
-                         disabled
-                         type="text"
-                         name="system.skills.{{skill._id}}.penal"
-                         value="{{itemPropertyExtend 'systemData.skills' skill._id 'penal'}}" /> 
-                  
-                  <a class="experienceSkill" data-itemId="{{skill._id}}"
-                     title="{{localize 'help.experienced'}}">
-                     <img src="/systems/conventum/image/texture/book.png" 
-                          style="{{alphaExperiencedSkill skill._id}}"/>
-                  </a> 
+    {{#if systemData.control.listSkills}}
 
-                  <label class="titleSkill">{{skill.name}}</label>                   
-                  <input name="system.skills.{{skill._id}}.initial" 
-                         value="{{itemPropertyExtend 'systemData.skills' skill._id 'initial'}}" 
-                         type="hidden"/>
-           </li>
-    
-        {{/each}}
-    </ul>    
+       <ul class="listSkill">
+              {{#each backend.skills as |skill key|}}
+              <li class="rowSkill" data-filter="{{skill.name}}">
+                     <input class="_rowAcquired"
+                            type="checkbox" 
+                            title="{{localize 'help.acquired'}}" 
+                            {{{editable}}}
+                            name="system.skills.{{skill._id}}.acquired" 
+                            {{checkedExtend 'systemData.skills' skill._id 'acquired'}} />                     
+                     <label class="_rowTitleSkill">{{skill.name}}</label>
+                     <input class="_rowSkillValue" 
+                            type="text"
+                            {{{editable}}}
+                            name="system.skills.{{skill._id}}.value"
+                            value="{{itemPropertyExtend 'systemData.skills' skill._id 'value'}}"  
+                            data-dtype="Number"/> 
+                     <input class="_rowSkillPenal" 
+                            disabled
+                            type="text"
+                            name="system.skills.{{skill._id}}.penal"
+                            value="{{itemPropertyExtend 'systemData.skills' skill._id 'penal'}}" />                                                 
+                     <a class="playSkill" data-itemId="{{skill._id}}">
+                            <img class="_rowDice" src="/systems/conventum/image/texture/dice2.png"/></a> 
+                     <a class="experienceSkill" data-itemId="{{skill._id}}"
+                            title="{{localize 'help.experienced'}}">
+                            <img src="/systems/conventum/image/texture/book.png" 
+                            style="{{alphaExperiencedSkill skill._id}}"/>
+                     </a>     
+                     <input name="system.skills.{{skill._id}}.initial" 
+                            value="{{itemPropertyExtend 'systemData.skills' skill._id 'initial'}}" 
+                            type="hidden"/>                                                                                           
+              </li>
+              {{/each}}
+       </ul>
+
+    {{else}}
+
+       <ul class="wrapSkill">
+              {{#each backend.skills as |skill key|}}
+       
+              <li class="boxSkill"
+                     data-filter="{{skill.name}}">
+                     <input class="_skillValue" 
+                            type="text"
+                            {{{editable}}}
+                            name="system.skills.{{skill._id}}.value"
+                            value="{{itemPropertyExtend 'systemData.skills' skill._id 'value'}}"  
+                            data-dtype="Number"/>              
+                     <a class="playSkill" data-itemId="{{skill._id}}">
+                            <img class="imgSkill" src="{{skill.img}}"/></a>
+                     <input class="_acquired"
+                            type="checkbox" 
+                            title="{{localize 'help.acquired'}}" 
+                            {{{editable}}}
+                            name="system.skills.{{skill._id}}.acquired" 
+                            {{checkedExtend 'systemData.skills' skill._id 'acquired'}} />
+                     <input class="_skillPenal" 
+                            disabled
+                            type="text"
+                            name="system.skills.{{skill._id}}.penal"
+                            value="{{itemPropertyExtend 'systemData.skills' skill._id 'penal'}}" /> 
+                     
+                     <a class="experienceSkill" data-itemId="{{skill._id}}"
+                            title="{{localize 'help.experienced'}}">
+                            <img src="/systems/conventum/image/texture/book.png" 
+                            style="{{alphaExperiencedSkill skill._id}}"/>
+                     </a> 
+
+                     <label class="titleSkill">{{skill.name}}</label>                   
+                     <input name="system.skills.{{skill._id}}.initial" 
+                            value="{{itemPropertyExtend 'systemData.skills' skill._id 'initial'}}" 
+                            type="hidden"/>
+              </li>
+       
+              {{/each}}
+       </ul>    
+
+    {{/if}}
 
 </div>

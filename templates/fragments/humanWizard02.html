@@ -1,0 +1,28 @@
+<hbox class="_header">
+    <vbox>
+        <h1>{{localize 'wizard.title02'}}</h1>
+        <p>{{localize 'wizard.text02'}}</p>
+    </vbox>
+    <div class="_dicesBox">
+        <a class="wizardDices"
+           data-field="kingdom"
+           data-compendium="kingdoms">
+            <img src="/systems/conventum/image/texture/dice.png">
+        </a>
+    </div>    
+</hbox>
+
+<ul>
+{{#each backend.kingdoms as |kingdom key|}}
+<a class="wizardOption"
+   data-field="kingdom"
+   data-value="{{kingdom.id}}"
+   data-compendium="kingdoms">
+    <li class="_wizardOption" data-filter="{{kingdom.name}}">
+        <img src="{{kingdom.img}}" />
+        <label class="_range">{{kingdom.system.range.low}} - {{kingdom.system.range.high}}</label>
+        <label>{{kingdom.name}}</label>
+    </li>
+</a>
+{{/each}}
+</ul>

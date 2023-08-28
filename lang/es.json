@@ -23,6 +23,7 @@
     "template.actionPool":          "Pool de acciones",
     "template.mode":                "Modo",
     "template.item":                "Item",
+    "template.profession":          "Profesión",
 
     "template.human":               "Humano",
     "template.horse":               "Caballo",
@@ -240,6 +241,7 @@
     "common.criature":              "Criatura",
     "common.crossbows":             "Ballestas",
     "common.culture":               "Cultura",
+    "common.custo":                 "Custo",
     "common.damage":                "Daño",
     "common.damagePoints":          "Pt. Daño",
     "common.damageMod":             "Modificador de Daño",
@@ -508,5 +510,48 @@
     "tour.Title04":                 "Orbe",
     "tour.Content04":               "El sistema se fundamenta en un concepto global llamado Orbe. Algo así como 'un mundo', una configuración general en la que orientar tu partida.",
     "tour.Title05":                 "Distintos orbes, distintas reglas",
-    "tour.Content05":               "El orbe básico es 'Aquelarre'. Pero existen otras adaptaciones (No oficiales) en desarrollo: Villa y Corte, Nahui Ollin... incluso propios. Tu mismo puedes crear tu orbe y orientarlo al contexto que decidas.<br><br>No obstante recuerda antes de lanzarte, que si realizas una actualización, todo tu trabajo será machacado y antes deberías de haberlo guardado debidamente."
+    "tour.Content05":               "El orbe básico es 'Aquelarre'. Pero existen otras adaptaciones (No oficiales) en desarrollo: Villa y Corte, Nahui Ollin... incluso propios. Tu mismo puedes crear tu orbe y orientarlo al contexto que decidas.<br><br>No obstante recuerda antes de lanzarte, que si realizas una actualización, todo tu trabajo será machacado y antes deberías de haberlo guardado debidamente.",
+    
+    "common.main":                  "Principal",
+    "common.no":                    "No",
+    "common.yes":                   "Sí",
+    "common.requirement":           "Requisito",
+    "common.wizard":                "Wizard",
+
+    "info.askForWizard":            "Deseas crear la ficha de tu personaje a través del asistente?.",
+    "info.profActorNoInitial":      "Solo se pueden añadir profesiones a jugadores en estado Inicial",
+    "info.profNoKingdom":           "El reino del actor no es compatible con la profesión",
+    "info.profNoSociety":           "La sociedad del actor no es compatible con la profesión",
+    "info.profNoCulture":           "La cultura del actor no es compatible con la profesión",
+    "info.profNoStratum":           "El estrato social del actor no es compatible con la profesión",
+    "info.profNoStatus":            "La posición social del actor no es compatible con la profesión",
+    "info.profNoChar":              "Alguna de las características del actor es inferior al requisito de la profesión",
+
+    "wizard.text01":                "Antes que nada deberás decidir el Orbe en el que jugarás.\n\n Cada orbe tiene sus propias reglas, configuraciones y contexto. Una vez decidas el Orbe, no podrás volver atrás.",
+    "wizard.title01":               "Orbe",    
+    "wizard.text02":                "¿A qué reino pertenece tu personaje?",
+    "wizard.title02":               "Reino",
+    "wizard.text03":                "¿A qué cultura/pueblo pertenece tu personaje?",
+    "wizard.title03":               "Cultura/Pueblo",
+    "wizard.text04":                "¿A qué estrato social pertenece tu personaje?",    
+    "wizard.title04":               "Estrato",
+    "wizard.text05":                "¿A qué posició social pertenece tu personaje?",
+    "wizard.title05":               "Posición social",
+    "wizard.text06":                "",
+    "wizard.title06":               "",
+    "wizard.text07":                "",
+    "wizard.title07":               "",
+    "wizard.text08":                "",
+    "wizard.title08":               "",
+    "wizard.text09":                "",
+    "wizard.title09":               "",
+    "wizard.text10":                "",
+    "wizard.title10":               ""
+    
+    
+    
+    
+    
+
+
 }

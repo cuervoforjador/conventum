@@ -165,18 +165,34 @@ export class helperSheetCombat {
      */
     static getActorCombats(actor) {
         let mCombats = [];
-        Array.from(game.combats).filter( e => Array.from(e.combatants)
-                                                   .find(d => (d.actorId === actor._id)) )
-                                                   .forEach( combat => {
+        if (actor.isToken) {
+            Array.from(game.combats).filter( e => Array.from(e.combatants)
+                        .find(d => ( (d.actorId === actor._id) &&
+                                     (d.tokenId === actor.token._id) )) )
+                        .forEach( combat => {
 
-            const encounter = game.items.filter(e => e.type === 'actionPool')
-                                        .find( e => e.system.combat === combat._id );
-            if (!encounter) return;
-            mCombats.push({
+                const encounter = game.items.filter(e => e.type === 'actionPool')
+                .find( e => e.system.combat === combat._id );
+                if (!encounter) return;
+                mCombats.push({
                 combat: game.combats.get(combat._id),
                 encounter: encounter 
+                });
             });
-        });
+        } else {
+            Array.from(game.combats).filter( e => Array.from(e.combatants)
+                        .find(d => (d.actorId === actor._id)) )
+                        .forEach( combat => {
+
+                const encounter = game.items.filter(e => e.type === 'actionPool')
+                .find( e => e.system.combat === combat._id );
+                if (!encounter) return;
+                mCombats.push({
+                combat: game.combats.get(combat._id),
+                encounter: encounter 
+                });
+            });
+        }
         return mCombats;
     }
 
@@ -358,9 +374,10 @@ export class helperSheetCombat {
      * @param {*} actorId 
      * @param {*} actionId 
      */
-    static async playAction(actorId, actionId) {
+    static async playAction(actorId, tokenId, actionId) {
 
-        let actor = game.actors.get(actorId);
+        let actor = (tokenId) ? game.scenes.active.tokens.get(tokenId).getActor() :
+                                game.actors.get(actorId);         
         if (!actor) return;
         let item = actor.items.get(actionId);
         if (!item) return;
@@ -741,6 +758,9 @@ export class helperSheetCombat {
      */
     static async _addAction(actor, action, dialog, button) {
         
+        //!!OBSOLETE
+        const obsolete = 0; obsolete = 1;
+
         //Apply Location...
         let applyLocation = dialog.find('#actApplyLocation')[0] ? 
             {

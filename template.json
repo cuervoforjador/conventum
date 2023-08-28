@@ -27,7 +27,22 @@
           "mount": false,
           "visible": false,
           "frame": "catholicae",
-          "world": ""
+          "world": "",
+          "listSkills": false,
+          "askedForWizard": false,
+          "wizard": false
+        },
+        "wizard": {
+          "01": true,
+          "02": false,
+          "03": false,
+          "04": false,
+          "05": false,
+          "06": false,
+          "07": false,
+          "08": false,
+          "09": false,
+          "10": false
         },
         "bio": {
           "female": false,
@@ -424,6 +439,7 @@
         "stratum",
         "status",
         "skill",
+        "profession",
         "trait",
         "location",
         "mode",
@@ -461,14 +477,6 @@
         "characteristic": {
           "primary": "",
           "secondary": ""
-        },
-        "profession": {
-          "primary": false,
-          "secondary": false,
-          "paternal": false,
-          "modCharPrimary": 1,
-          "modCharSecondary": 1,
-          "modCharPaternal": 1          
         },
         "mods": {
           "char": "",
@@ -564,6 +572,14 @@
           "initiativePercent": 0,
           "penalFrom": 0,
           "penaltyPorc": ""
+        },
+        "custo": {
+          "fontFamily": "'Almendra', sans-serif",
+          "fontFamily2": "'Uncial Antiqua', cursive",
+          "fontFamily3": "'Augusta'",
+          "paper": "url(/systems/conventum/image/texture/paper.png)",
+          "tile1": "url(/systems/conventum/image/texture/tile01.png)",
+          "tile2": "url(/systems/conventum/image/texture/tile02.png)"
         }
       }
     },
@@ -604,6 +620,23 @@
     "skill": {
       "templates": ["base", "stats", "skill"]
     },
+    "profession": {
+      "templates": ["base", "stats"],
+      "requirement": {
+        "primary": {},
+        "secondary": {},
+        "kingdoms": {},
+        "societies": {},
+        "cultures": {},
+        "stratums": {},
+        "status": {}
+      },
+      "skills": {
+        "primary": {},
+        "secondary": {}
+      },
+      "income": 0
+    },    
     "trait": {
       "templates": ["base", "stats"],
       "mod": {

@@ -142,12 +142,17 @@
 
                 {{#if actions.showSkill}}
                 <li class="boxWeapon _shrink"  id="boxWeapon_{{actions.skill._id}}">
-                    <a class="playSkill _shrink" data-itemId="{{actions.skill._id}}" data-actionId="{{actions.action._id}}">
-                        <img class="imgWeapon2 _shrink" src="systems/conventum/image/texture/dice2.png"/></a>                      
-
-                    <label class="_label _shrink">{{actions.skill.name}}</label>
-                    <label class="_label _shrink">{{itemPropertyExtend 'systemData.skills' actions.skill._id 'value'}}</label>
-                    <label class="_label _shrink"></label>
+                    <vbox class="_shrinkWeaponBox">
+                        <hbox class="_100">
+                            <label class="_label _shrink">{{actions.skill.name}}</label>
+                            <label class="_label _shrink">{{itemPropertyExtend 'systemData.skills' actions.skill._id 'value'}}</label>
+                            <label class="_label _shrink"></label>
+                        </hbox>
+                        <hbox class="_100">
+                            <a class="playSkill _shrink" data-itemId="{{actions.skill._id}}" data-actionId="{{actions.action._id}}">
+                                <img class="imgWeapon2 _shrink" src="systems/conventum/image/texture/dice2.png"/></a> 
+                        </hbox>                     
+                    </vbox>
                     
                 </li>
                 {{/if}}
@@ -157,35 +162,65 @@
 
                     <li class="boxWeapon _shrink"  id="boxWeapon_{{weapon._id}}">
 
-                        {{#if (evalActionWeapon ../actions weapon) }}
-                        <a class="playWeapon" data-itemid="{{weapon._id}}" 
-                            title="{{localize 'help.action'}}">
-                            <img class="imgWeapon2 _shrink" src="systems/conventum/image/texture/dice2.png"/>
-                        </a>
-                        {{else}}
-                        <a class="showInfo" data-i18n="info.noAction"
-                            title="{{localize 'help.action'}}">
-                            <img class="imgWeapon2 _shrink" src="systems/conventum/image/texture/dice2.png" 
-                                style="opacity: 0.3;"/>
-                        </a>                    
-                        {{/if}} 
-                        
-                        <a class="playWeaponExpress" data-itemid="{{weapon._id}}"
-                            title="{{localize 'help.express'}}">
-                            <img class="imgWeapon2 _shrink" src="/systems/conventum/image/texture/express.png"/>
-                        </a>  
+                        <vbox class="_shrinkWeaponBox">
+                            <hbox class="_100">
+                                <a class="actionIcon" data-itemId="{{weapon._id}}" data-action="show">
+                                    <label class="_label _shrink">{{weapon.name}}</label>
+                                </a>
+                                <label class="_label _shrink">{{getWeaponSkill weapon}} % </label>
+                                <label class="_label _shrink">( {{weapon.system.damage}} )</label>
+                            </hbox>
+                            <hbox class="_100">
+                                {{#if (evalActionWeapon ../actions weapon) }}
+                                <a class="playWeapon" data-itemid="{{weapon._id}}" 
+                                    title="{{localize 'help.action'}}">
+                                    <img class="imgWeapon2 _shrink" src="systems/conventum/image/texture/dice2.png"/>
+                                </a>
+                                {{else}}
+                                <a class="showInfo" data-i18n="info.noAction"
+                                    title="{{localize 'help.action'}}">
+                                    <img class="imgWeapon2 _shrink" src="systems/conventum/image/texture/dice2.png" 
+                                        style="opacity: 0.3;"/>
+                                </a>                    
+                                {{/if}} 
+                                
+                                <a class="playWeaponExpress" data-itemid="{{weapon._id}}"
+                                    title="{{localize 'help.express'}}">
+                                    <img class="imgWeapon2 _shrink" src="/systems/conventum/image/texture/express.png"/>
+                                </a>  
 
-                        <a class="actionIcon" data-itemId="{{weapon._id}}" data-action="show">
-                        <label class="_label _shrink">{{weapon.name}}</label>
-                        </a>
-                        <label class="_label _shrink">{{getWeaponSkill weapon}} % </label>
-                        <label class="_label _shrink">( {{weapon.system.damage}} )</label>
+                                <hbox class="_weaponHands">
+                                {{#if weapon.system.type.2hands}}
 
-                        {{#if ../imMaster}}                         
-                        <a class="actionIcon" data-itemId="{{weapon._id}}" data-action="delete">
-                            <img class="imgAction _shrink" src="systems/conventum/image/texture/destroy.png" /></a>
-                        {{/if}}
-                        
+                                    {{!-- Both hands --}}
+                                    <img class="weaponHand weapon2Hands {{#unless weapon.system.inHands.inBothHands}} _alpha {{/unless}}" 
+                                            src="systems/conventum/image/texture/inBothHands.png"
+                                            data-itemid="{{weapon._id}}" 
+                                            data-hand="inBothHands"/>
+
+                                {{else}}
+
+                                    {{!-- Left hand --}}
+                                    <img class="weaponHand weaponLeftHand {{#unless weapon.system.inHands.inLeftHand}} _alpha {{/unless}}" 
+                                        src="systems/conventum/image/texture/inLeftHand.png"
+                                        data-itemid="{{weapon._id}}" 
+                                        data-hand="inLeftHand"/>
+
+                                    {{!-- Right hand --}}
+                                    <img class="weaponHand weaponRightHand {{#unless weapon.system.inHands.inRightHand}} _alpha {{/unless}}" 
+                                        src="systems/conventum/image/texture/inRightHand.png"
+                                        data-itemid="{{weapon._id}}" 
+                                        data-hand="inRightHand"/>
+                                
+                                {{/if}}
+                                </hbox>
+
+                                {{#if ../imMaster}}                         
+                                <a class="actionIcon" data-itemId="{{weapon._id}}" data-action="delete">
+                                    <img class="imgAction _shrink" src="systems/conventum/image/texture/destroy.png" /></a>
+                                {{/if}}
+                            </hbox>
+                        </vbox>
                     </li>
                 {{/if}}
                 {{/each}}

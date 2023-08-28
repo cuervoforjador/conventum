@@ -3,6 +3,7 @@ import { helperSheetArmor } from "./helperSheetArmor.js";
 import { helperSheetMagic } from "./helperSheetMagic.js";
 import { helperActions } from "./helperActions.js";
 import { helperSheetCombat } from "./helperSheetCombat.js";
+import { mainBackend } from "../backend/mainBackend.js";
 
 /**
  * Helpers for Human Sheet
@@ -20,6 +21,7 @@ export class helperSheetHuman {
       const mWorlds = await game.packs.get("conventum.worlds").getDocuments();
       systemData.control.world = mWorlds[0].id;
     }
+
   }
 
   /**
@@ -190,7 +192,9 @@ export class helperSheetHuman {
           penal: 0,
           initial: 0,
           acquired: false,
-          experienced: false
+          experienced: false,
+          profPrimary: false,
+          profSecondary: false
         };
       }
       let actorSkill = context.systemData.skills[skill.id];
@@ -289,6 +293,12 @@ export class helperSheetHuman {
     return mModes;
   }
 
+  /**
+   * getHandPenal
+   * @param {*} actor 
+   * @param {*} weapon 
+   * @returns 
+   */
   static getHandPenal(actor, weapon) {
 
     if ( ((actor.system.status.rightHanded) &&
@@ -298,6 +308,328 @@ export class helperSheetHuman {
                                             else return '-0';
 
   }
+
+  /**
+   * askForWizard
+   * @param {*} actor 
+   * @param {*} systemData 
+   */
+  static async askForWizard(actor, systemData) {
+    if ( (systemData.control.initial)
+      && (!systemData.control.askedForWizard)
+      && (!systemData.control.wizard) ) {
+
+        let dialog = new Dialog({
+          title: game.i18n.localize("common.wizard"),
+          content: game.i18n.localize("info.askForWizard"),
+          buttons: {
+            "yes": {
+              label: game.i18n.localize("common.yes"),
+              callback: async () => {
+                systemData.control.wizard = true;
+                systemData.control.askedForWizard = true;
+                await actor.update({system: {control: {
+                                          wizard: true,
+                                          askedForWizard: true
+                                      }}});
+              }              
+            },
+            "no": {
+              label: game.i18n.localize("common.no"),
+              callback: async () => {
+                systemData.control.wizard = false;
+                systemData.control.askedForWizard = true;
+                await actor.update({system: {control: {
+                    wizard: false,
+                    askedForWizard: true
+                }}});                
+              }              
+            }
+          },
+          world: systemData.control.world });
+        dialog.options.classes.push('_wizardQuestion');
+        dialog.render(true);
+        await actor.update({system: {control: {
+          askedForWizard: true
+        }}});          
+    }
+  }
+
+  /**
+   * wz_UpdateWorld
+   * @param {*} actor 
+   * @param {*} world 
+   */
+  static async wz_UpdateWorld(actor, world) {
+    await actor.update({ system: {
+                            control: {world: world},
+                            wizard: {
+                              "01": false,
+                              "02": true
+                            }
+                          }});
+  }  
+
+  /**
+   * wz_Dices
+   * @param {*} actor 
+   * @param {*} sField 
+   * @param {*} sPack
+   */
+  static async wz_Dices(actor, sField, sPack) {
+    const backend = await mainBackend.getBackendForActor(actor, actor.system);
+    let sFormula = '1d100';
+
+    let mDocuments = null;
+    if (sField === 'world')
+        mDocuments = (await (game.packs.get('conventum.'+sPack)).getDocuments()).filter(e => 
+                                                                    e.system.control.world === actor.system.control.world);
+    else
+        mDocuments = backend[sPack];
+
+    if (sField === 'kingdom') {
+      sFormula = '1d10';
+    }
+    if (sField === 'culture') {
+      sFormula = '1d10';
+    }   
+    if (sField === 'stratum') {
+      sFormula = '1d10';
+    }
+    if (sField === 'status') {
+      sFormula = '1d10';
+    }
+
+    //Rolling...
+    let roll = new Roll(sFormula, {});
+    roll.evaluate({async: false});
+    if (game.dice3d) {
+        await game.dice3d.showForRoll(roll, game.user, true);
+    }    
+    const result = Number(roll.result);
+
+    let item = mDocuments.find(e => 
+                  ((e.system.range.low <= result) &&
+                   (e.system.range.high >= result)) );
+    
+    await actor.update(this._wz_dataUpdate(sField, item));
+
+    let dialog = new Dialog({
+      title: game.i18n.localize("common.wizard"),
+      content: '<div class="_content">'+
+                  '<img src="'+item.img+'" />'+
+                  '<h1>'+item.name+'</h1>'+
+                  '<desc>'+item.system.description+'</desc>'+
+               '</div>',
+      buttons: {},
+      world: actor.system.control.world });
+    dialog.options.classes.push('_wizardDialog _wizardResult');
+    dialog.options.width = 300;
+    dialog.options.height = 380;    
+    dialog.render(true);
+
+  }
+
+  /**
+   * _wz_dataUpdate
+   * @param {*} sField
+   * @param {*} item 
+   */
+  static _wz_dataUpdate(sField, item) {
+
+    if (sField === 'kingdom') {
+      return {system: {
+              bio: { kingdom: item.id },
+              wizard: {
+                "02": false,
+                "03": true
+              }              
+             }};
+    }
+    if (sField === 'culture') {
+      return {system: {
+              bio: { culture: item.id },
+              wizard: {
+                "03": false,
+                "04": true
+              }              
+             }};
+    }
+    if (sField === 'stratum') {
+      return {system: {
+              bio: { stratum: item.id },
+              wizard: {
+                "04": false,
+                "05": true
+              }              
+             }};
+    }    
+    if (sField === 'position') {
+      return {system: {
+              bio: { position: item.id },
+              wizard: {
+                "05": false,
+                "06": true
+              }              
+             }};
+    }    
+
+  }
+
+  /**
+   * addProfession
+   * @param {*} item 
+   * @param {*} sNewId 
+   */
+  static async addProfession(item, sId) {
+    const actor = item.parent;
+
+    //Only initialized actors...
+    if (!item.parent.system.control.initial) {
+      ui.notifications.warn(game.i18n.localize('info.profActorNoInitial'));
+      await item.delete();
+      return;
+    }
+
+    //Last Profession...
+    let mProfessions = Array.from(item.parent.items).filter(e => e.type === 'profession');
+    for (var i=0; i < (mProfessions.length - 1); i++) {
+      mProfessions[i].delete();
+    }
+
+    //Requeriments
+
+      //Kingdom
+      if  ( !( (item.system.requirement.kingdoms[actor.system.bio.kingdom]) &&
+               (item.system.requirement.kingdoms[actor.system.bio.kingdom].apply) )) {
+        ui.notifications.warn(game.i18n.localize('info.profNoKingdom'));
+        await item.delete();
+        return;
+      }
+
+      //Society
+      const culture = await (game.packs.get("conventum.cultures")).getDocument(actor.system.bio.culture);
+      actor.system.bio.society = culture.system.backend.society;
+      if  ( !( (item.system.requirement.societies[actor.system.bio.society]) &&
+               (item.system.requirement.societies[actor.system.bio.society].apply) )) {
+        ui.notifications.warn(game.i18n.localize('info.profNoSociety'));
+        await item.delete();
+        return;
+      }
+
+      //Culture
+      if  ( !( (item.system.requirement.cultures[actor.system.bio.culture]) &&
+               (item.system.requirement.cultures[actor.system.bio.culture].apply) )) {
+        ui.notifications.warn(game.i18n.localize('info.profNoCulture'));
+        await item.delete();
+        return;
+      }      
+    
+      //Stratum
+      const stratum = await game.packs.get("conventum.stratums").getDocument(actor.system.bio.stratum);
+      if  ( !( (item.system.requirement.stratums[actor.system.bio.stratum]) &&
+               (item.system.requirement.stratums[actor.system.bio.stratum].apply) )) {
+        ui.notifications.warn(game.i18n.localize('info.profNoStratum'));
+        await item.delete();
+        return;
+      }      
+    
+      //Status
+      const status = await game.packs.get("conventum.status").getDocument(actor.system.bio.status);
+      const mStatus = (await game.packs.get("conventum.status").getDocuments()).
+                                              filter(e => e.system.backend.stratum === stratum.id);
+      if (!mStatus.find(e => e._id === actor.system.bio.status)) {
+        actor.system.bio.status = mStatus[0]._id;
+      }
+
+      if  ( !( (item.system.requirement.status[actor.system.bio.status]) &&
+               (item.system.requirement.status[actor.system.bio.status].apply) )) {
+        ui.notifications.warn(game.i18n.localize('info.profNoStatus'));
+        await item.delete();
+        return;
+      }      
+    
+      //Primary characteristics...
+      for (let s in item.system.requirement.primary) {
+        if ((s != '') && (item.system.requirement.primary[s].apply)) {
+          if ( Number(item.parent.system.characteristics.primary[s].value) <
+                 Number(item.system.requirement.primary[s].mod) ) {
+            
+            ui.notifications.warn(game.i18n.localize('info.profNoChar'));
+            await item.delete();
+            return;
+          }
+        }
+      }
+
+      //Secondary characteristics...
+      for (let s in item.system.requirement.secondary) {
+        if ((s != '') && (item.system.requirement.secondary[s].apply)) {
+          if ( Number(item.parent.system.characteristics.secondary[s].value) <
+                 Number(item.system.requirement.secondary[s].mod) ) {
+            
+            ui.notifications.warn(game.i18n.localize('info.profNoChar'));
+            await item.delete();
+            return;
+          }
+        }
+      }      
+
+    //Reset skills...
+    let data = {};
+    for (let s in actor.system.skills) {
+      if ((actor.system.skills[s])
+       && (actor.system.skills[s] !== undefined)) {
+        data[s] = {};
+        data[s].value = 0;
+        data[s].acquired = false;
+        data[s].experienced = false;
+        data[s].profPrimary = false;
+        data[s].profSecondary = false;
+      }
+    }
+
+    //Adding skills...
+    const mSkills = await (game.packs.get("conventum.skills")).getDocuments();
+
+    for (let s in item.system.skills.primary) {
+      let value = 0;
+      if ((item.system.skills.primary[s].apply) 
+        && (actor.system.skills[s])
+        && (actor.system.skills[s] !== undefined)) {
+
+        const skill = mSkills.find(e => e._id === s);
+        const charBase = skill.system.characteristic.primary;
+        const nValue = Number(actor.system.characteristics.primary[charBase].value) *
+                         Number(item.system.skills.primary[s].mod);
+
+        data[s].value = nValue;
+        data[s].acquired = true;
+        data[s].profPrimary = true;
+      }
+    }
+    for (let s in item.system.skills.secondary) {
+      let value = 0;
+      if ((item.system.skills.secondary[s].apply) 
+        && (actor.system.skills[s])
+        && (actor.system.skills[s] !== undefined)) {
+
+        const skill = mSkills.find(e => e._id === s);
+        const charBase = skill.system.characteristic.primary;
+        const nValue = Number(actor.system.characteristics.primary[charBase].value) *
+                         Number(item.system.skills.secondary[s].mod);
+        
+        data[s].value = nValue;
+        data[s].acquired = true;
+        data[s].profSecondary = true;
+      }
+    }
+
+    await actor.update({
+            system: { skills: data }});
+
+  }
+    
 
 /** ***********************************************************************************************
   SYSTEM CUSTOMIZATION...
@@ -321,7 +653,12 @@ export class helperSheetHuman {
         //Hit Points exception
         if (s === 'hp') {
           _root.initial = (systemData.control.initial) ? _root.value : _root.initial;
-          if ( _root.value > _root.initial ) _root.value = _root.initial;
+          if (!systemData.control.initial) {
+             if (_root.value > _root.initial) _root.max = _root.value;
+                                         else _root.max = _root.initial;
+          } else {
+             if ( _root.value > _root.initial ) _root.value = _root.initial;
+          }
           continue;
         } else {
           if (( _root.value < _root.min ) && (systemData.control.initial)) 
@@ -516,8 +853,11 @@ export class helperSheetHuman {
    * @param {*} systemData
    * @param {*} backend
    */  
-  static _checkBio(systemData, backend) {
+  static async _checkBio(systemData, backend) {
     //...
+
+    //const status = await game.packs.get("conventum.status").getDocument(systemData.bio.status);
+
   }
 
   /**

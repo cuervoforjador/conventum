@@ -1,0 +1,28 @@
+<hbox class="_header">
+    <vbox>
+        <h1>{{localize 'wizard.title03'}}</h1>
+        <p>{{localize 'wizard.text03'}}</p>
+    </vbox>
+    <div class="_dicesBox">
+        <a class="wizardDices"
+           data-field="culture"
+           data-compendium="cultures">
+            <img src="/systems/conventum/image/texture/dice.png">
+        </a>
+    </div>    
+</hbox>
+
+<ul>
+{{#each backend.cultures as |culture key|}}
+<a class="wizardOption"
+   data-field="culture"
+   data-value="{{culture.id}}"
+   data-compendium="cultures">
+    <li class="_wizardOption" data-filter="{{culture.name}}">
+        <img src="{{culture.img}}" />
+        <label class="_range">{{culture.system.range.low}} - {{culture.system.range.high}}</label>
+        <label>{{culture.name}}</label>
+    </li>
+</a>
+{{/each}}
+</ul>

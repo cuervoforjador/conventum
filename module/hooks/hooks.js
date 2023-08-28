@@ -12,7 +12,10 @@ import { HookCombat } from "./_hooksCombat.js";
 import { HookTours } from "./_hooksTours.js";
 import { mainMacros } from "../macros/mainMacros.js"
 import { helperSocket } from "../helpers/helperSocket.js";
+import { helperCusto } from "../helpers/helperCusto.js";
+import { helperSprites } from "../helpers/helperSprites.js";
 import { helperSheetArmor } from "../sheets/helpers/helperSheetArmor.js";
+import { helperSheetHuman } from "../sheets/helpers/helperSheetHuman.js";
 
 
 export class mainHooks {
@@ -51,6 +54,8 @@ export class mainHooks {
         Hooks.on("preCreateItem", (oFrom, oTo, options, sId) => this._preCreateItem(oFrom, oTo, options, sId));
         Hooks.on("createToken", (document, options, sId) => this._createToken(document, options, sId));
         Hooks.on("createChatMessage", (message, options, sId) => this._createChatMessage(message, options, sId));
+        Hooks.on("sightRefresh", async (layer) => this._sightRefresh(layer));
+        Hooks.on("targetToken", (user, token, option) => this._targetToken(user, token, option));  
     }
 
     static _setup() {
@@ -62,6 +67,10 @@ export class mainHooks {
     static _ready() {
         HookTours.registerTours();   
         mainMacros.registerMacros();
+        
+        //CSS
+        helperCusto.custoCSS();
+
     }
 
     static _renderHotbar(element, html, options) {
@@ -117,7 +126,9 @@ export class mainHooks {
     static async _dropActorSheetData(actor, sheet, item) {
         if (item.type === 'Item') {
             const mO = item.uuid.split('.');
-            const sType = mO[mO.length-2];
+            const sType = (mO[0] === 'Compendium') ?
+                                mO[mO.length-3] :
+                                mO[mO.length-2];
             
             //No Human Items...
             if (CONFIG.ExtendConfig.noHumanItems.find(e => e === sType)) {
@@ -143,6 +154,14 @@ export class mainHooks {
             await helperSheetArmor.addArmor(item);
         //if (item.type === 'trait')
             //...
+        if ( (item.type === 'profession') &&
+             ((item.parent) && (item.parent.type === 'human')) ) {
+            
+            await item.parent.sheet.close();
+            await helperSheetHuman.addProfession(item, sId);      
+            await item.parent.sheet.render(true);        
+        }
+            
     }
 
     static async _createActor(actor, options, sId) {
@@ -241,10 +260,27 @@ export class mainHooks {
     }
 
     static _createToken(document, options, sId) {
-        document._source.actorLink = true;
+        if (document._source.actorId) {
+            if (game.actors.get(document._source.actorId).system.control.criature) {
+                document._source.actorLink = false;
+            } else {
+                document._source.actorLink = true;
+            }
+        }
     }
 
     static _createChatMessage(message, options, sId) {
         HookMessage.createChatMessage(message, options, sId);
     }
+
+    static _sightRefresh(layer) {
+        helperSprites.sightRefresh(layer);
+    }
+
+    static _targetToken(user, token, option) {
+        if (!option) return;
+        
+        helperSprites.stylingToken(token);
+    }
+
 }

@@ -6,6 +6,7 @@ import { helperSheetHuman } from "../sheets/helpers/helperSheetHuman.js";
 import { helperSheetArmor } from "../sheets/helpers/helperSheetArmor.js";
 import { helperActions } from "../sheets/helpers/helperActions.js";
 import { helperMessages } from "../sheets/helpers/helperMessages.js";
+import { helperSprites } from "../helpers/helperSprites.js";
 
 export class aqContext {
 
@@ -73,6 +74,7 @@ export class aqContext {
 
     safeBox = {
         actorId         :null,
+        tokenId         :null,
         actionId        :null,
         weaponId        :null,
         weapon2Id       :null,
@@ -110,7 +112,9 @@ export class aqContext {
         } 
         else {
 
-            this._actor = game.actors.get(options.actorId);
+            this._actor = (options.tokenId) ?
+                                game.scenes.active.tokens.get(options.tokenId).getActor() :
+                                game.actors.get(options.actorId);
             if (!this._actor) {
                 this.msgError("There is no actor for this Id!");
                 return;              
@@ -196,6 +200,7 @@ export class aqContext {
     _consolidate() {
         this.safeBox = {
             actorId: this._actor ? this._actor._id : null,
+            tokenId: (this._actor && this._actor.isToken) ? this._actor.token._id : null, 
             actionId: this._action ? this._action._id : null,
             weaponId: this._weapon ? this._weapon._id : null,
             weapon2Id: this._weapon2 ? this._weapon2._id : null,
@@ -213,6 +218,7 @@ export class aqContext {
     export() {
         return {
             actorId:            this._actor.id,
+            tokenId:            this._actor.isToken ? this._actor.token._id : null,
             actionId:           (this._action) ? this._action.id : '',
             weaponId:           (this._weapon) ? this._weapon._id : '',
             weapon2Id:          (this._weapon2) ? this._weapon2._id : '',
@@ -391,6 +397,24 @@ export class aqContext {
     }
 
     /**
+     *acquireActor
+     * @param {*} uniqeId 
+     */
+    acquireActor(uniqeId) {
+        return (game.scenes.active.tokens.get(uniqeId)) ? 
+                    game.scenes.active.tokens.get(uniqeId).getActor() :
+                    game.actors.get(uniqeId);
+    }
+
+    /**
+     * acquireUniqeId
+     * @param {*} actor 
+     */
+    acquireUniqeId(actor) {
+        return (actor.isToken) ? actor.token.id : actor.id;
+    }
+
+    /**
      * setExpress
      * @param {*} bExpress 
      */
@@ -447,13 +471,13 @@ export class aqContext {
         const mTargets = [],
               mTargetsToken = [];
         for (const sTargetId of mTargetsId) {
-            const actor = game.actors.get(sTargetId);
+            const actor = this.acquireActor(sTargetId);
             if (!actor) {
                 this.msgError("There is no actor for this Id!");
                 return;
             }
-
-            mTargets.push(actor.id);
+            
+            mTargets.push(this.acquireUniqeId(actor));
             if (actor.getActiveTokens().length > 0) {
                 mTargetsToken.push(actor.getActiveTokens()[0].id);
                 await game.user.updateTokenTargets(actor.getActiveTokens()[0].id);
@@ -462,6 +486,7 @@ export class aqContext {
         }
         this._targets = mTargets;
         this._targetsToken = mTargetsToken;
+        await this.updateTokensTargets();
     }
 
     /**
@@ -480,12 +505,12 @@ export class aqContext {
         currentStep.targetsToken = [];
 
         for (const sTargetId of mTargetsId) {
-            const actor = game.actors.get(sTargetId);
+            const actor = this.acquireActor(sTargetId);
             if (!actor) {
                 this.msgError("There is no actor for this Id!");
                 return;
             }
-            currentStep.targets.push(actor.id);
+            currentStep.targets.push(this.acquireUniqeId(actor));
             if (actor.getActiveTokens().length > 0)
                 currentStep.targetsToken.push(actor.getActiveTokens()[0].id);
             this.msgHistory("common.target", actor.name);            
@@ -667,7 +692,7 @@ export class aqContext {
             if (game.dice3d)
                 await game.dice3d.showForRoll(roll);
 
-            this._damagePoints = roll.total;
+            this._damagePoints = Math.round(roll.total);
             this.msgHistory("common.damagePoints", this._damagePoints);
         }
 
@@ -1106,10 +1131,10 @@ export class aqContext {
         let mod = this.clearMult(this._action.system.damage.mod.multDamage);
         if (mod !== 1) {
             this._damageMult = this.multPenalties(this._damageMult, mod);
-            this.msgHistory("common.multDamage", penal);
+            this.msgHistory("common.multDamage", this._damageMult);
             if (this._weapon2) {
                 this._damage2Mult = this.multPenalties(this._damage2Mult, mod);
-                this.msgHistory("common.multDamage", penal, true);                
+                this.msgHistory("common.multDamage", this._damage2Mult, true);                
             }
         }
     }
@@ -1451,7 +1476,7 @@ export class aqContext {
     _getMessageTargets() {
         let sContent = '';
         this._targets.forEach(targetId => {
-          const target = game.actors.get(targetId);
+          const target = this.acquireActor(targetId);
           sContent += '<li style="background-image: url('+"'"+target.img+"'"+')">'+
                           '<label class="_targetName">'+target.name+'</label>'+
                       '</li>';
@@ -1721,7 +1746,11 @@ export class aqContext {
         await helperSocket.update(message, {flags: this});
 
         //Bubble...
-        this._hitBubble(target, targetData.finalHitDamage);
+        //this._hitBubble(target, targetData.finalHitDamage);
+
+        //Sprite
+        helperSprites.blood(targetData.finalHitDamage);
+
     }
 
     /**
@@ -1754,7 +1783,7 @@ export class aqContext {
      */
     async _getDamageTarget(targetId) {
 
-        let target = game.actors.get(targetId);
+        let target = this.acquireActor(targetId);
         if (!target) {
             this.msgError("There is no actor for this Id!");
             return;                
