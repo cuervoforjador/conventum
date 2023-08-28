@@ -24,7 +24,7 @@ section.window-content {
     background-repeat: repeat!important;
     background-size: 250px!important;
     border: 6px solid #251d1d!important;
-    color: #333;
+    color: #333333de!important;
 } 
 
 /* Forms... */
@@ -312,7 +312,7 @@ li.macro.active._aqMacro:hover {
     box-shadow: none!important;
     color: #000000b3!important;
     border-radius: 22px!important;
-    font-family: 'Almendra'!important;
+    font-family: var(--font-aq)!important;
     text-shadow: 2px 0 #ffffff63, -2px 0 #ffffff63, 0 2px #ffffff63, 0 -2px #ffffff63, 1px 1px #ffffff63, -1px -1px #ffffff63, 1px -1px #ffffff63, -1px 1px #ffffff63;
 }
 #hotbar .bar-controls .page-number {

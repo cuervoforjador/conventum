@@ -52,11 +52,14 @@ export class extendSheetHuman extends ActorSheet {
     //Backend && Background...
     context.backend = await mainBackend.getBackendForActor(this.actor, context.systemData);
     
+    //Wizard
+    helperSheetHuman.askForWizard(this.actor, context.systemData);
+
     //Criatures...
     helperSheetHuman.criatures(this.actor, context.systemData, context.backend);
 
     //Checking data...
-    helperSheetHuman.checkSystemData(this.actor, context.systemData, context.backend);
+    await helperSheetHuman.checkSystemData(this.actor, context.systemData, context.backend);
     
     //Custo...
     context.custo = await helperSheetHuman.getCusto(context.systemData, context.backend);
@@ -92,7 +95,8 @@ export class extendSheetHuman extends ActorSheet {
     context.imMaster = game.user.isGM;
 
     //Playing actions...
-    context.actions = helperActions.getActions(this.actor);
+    context.actions = helperActions.getActions(this.actor, 
+                                               this.actor.isToken ? this.actor.token.id : null );
     context.actionsItems = this.actor.items.filter(e => e.type === 'action').sort((a, b) => {
       if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
       if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
@@ -124,6 +128,20 @@ export class extendSheetHuman extends ActorSheet {
   activateListeners(html) {
     super.activateListeners(html);
     
+    $("li.boxSkill:first-child").hover(
+      function() {
+        $(".crest").hide();
+        $(".modeStickers").hide();
+      }, function() {
+        $(".crest").show();
+        $(".modeStickers").show();
+      }
+    );
+
+    /* Wizard */
+    html.find(".wizardOption").click(this._wizardOption.bind(this));
+    html.find(".wizardDices").click(this._wizardDices.bind(this));
+
     /* Misc */
     html.find("._showQuickBar").click(this._showQuickBar.bind(this));
     if (html.find("._quickBar").length > 0) {
@@ -191,6 +209,31 @@ export class extendSheetHuman extends ActorSheet {
   /** ******************************************
    *  EVENTS
    ****************************************** */
+
+  async _wizardOption(event) {
+    event.preventDefault();
+    const sField = event.currentTarget?.dataset.field;
+    const sValue = event.currentTarget?.dataset.value;
+    const sCompendium = event.currentTarget?.dataset.compendium;
+
+    if (sField === 'world') helperSheetHuman.wz_UpdateWorld(this.actor, sValue);
+    else {
+      const item = await (game.packs.get('conventum.'+sCompendium)).getDocument(sValue);
+      item.sheet.render(true, {
+        editable: false //game.user.isGM
+      }); 
+      item.sheet._tabs[0].active = 'description';         
+    }
+
+  }
+
+  _wizardDices(event) {
+    event.preventDefault();
+    const sField = event.currentTarget?.dataset.field;   
+    const sCompendium = event.currentTarget?.dataset.compendium;
+    helperSheetHuman.wz_Dices(this.actor, sField, sCompendium);
+  }
+
   _setQuickBar(quickBar) {
     return (quickBar === 'false') ? false : 
            (quickBar === 'true') ? true :
@@ -376,7 +419,8 @@ export class extendSheetHuman extends ActorSheet {
     const actorActions = helperActions.getActions(this.actor);
 
     if (!actorActions.showPoster) return;
-    aqCombat.dialogTargets(this.actor.id, weaponId);
+    const uniqeId = (this.actor.isToken) ? this.actor.token.id : this.actor.id;
+    aqCombat.dialogTargets(uniqeId, weaponId);
   }
 
   _playWeaponExpress(event) {
@@ -384,7 +428,8 @@ export class extendSheetHuman extends ActorSheet {
     const weaponId = event.currentTarget?.dataset.itemid;
     if (!weaponId) return;
 
-    aqCombat.dialogTargetsExpress(this.actor.id, weaponId);
+    const uniqeId = (this.actor.isToken) ? this.actor.token.id : this.actor.id;
+    aqCombat.dialogTargetsExpress(uniqeId, weaponId);
   }  
 
   _weaponHand(event) {
@@ -400,7 +445,10 @@ export class extendSheetHuman extends ActorSheet {
     const actionId = event.currentTarget?.dataset.itemid;    
     const action = this.actor.items.get(actionId);
     if (!action) return;
-    aqCombat.addAction(this.actor.id, actionId);
+    aqCombat.addAction(this.actor.id, 
+                       actionId, 
+                       this.actor.isToken, 
+                       this.actor.isToken ? this.actor.token.id : null);
   }
 
   _searchAction(event) {

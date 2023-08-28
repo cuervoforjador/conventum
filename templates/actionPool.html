@@ -4,10 +4,11 @@
       <div class="_actionPool">
          <ul class="_combatants">
          {{#each combat.combatants as |combatant id|}}
-            <li class="_combatant" data-combatId="{{../combatId}}" 
-                                   data-actorId="{{combatant.actorId}}">
+            <li class="_combatant" data-combatId="{{../combatId}}"
+                                   data-actorId="{{combatant.actorId}}" 
+                                   data-tokenId="{{combatant.tokenId}}">
                 <img class="_actor" src="{{combatant.img}}">
-                <h2 class="_combName">{{combatant.name}}</h2>
+                <h2 class="_combName">{{getActorProperty combatant.actorId combatant.tokenId 'name'}}</h2>
             </li>
          {{/each}}
          </ul>
@@ -16,20 +17,25 @@
          {{#each systemData.steps as |step id|}}        
                <li class="_step {{#if step.consumed}}_consumed{{/if}}"
                   data-actorId="{{step.actor}}"
+                  data-tokenId="{{step.tokenId}}"
+                  data-uniqeId="{{step.uniqeId}}"
                   data-actionId="{{step.action}}"
+                  data-applyLocation="{{step.applyLocation}}"
                   data-consumed="{{step.consumed}}">
                   <div class="_actor">
-                     <img src="{{getActorProperty step.actor 'img'}}" />
-                     <h3>{{getActorProperty step.actor 'name'}}</h3>
+                     <img src="{{getActorProperty step.actor step.tokenId 'img'}}" />
+                     <h3>{{getActorProperty step.actor step.tokenId 'name'}}</h3>
                   </div>
                   <div class="_encounter">
-                     <h3>{{getActorItemProperty step.actor step.action 'name'}}</h3>
+                     <h3>{{getActorItemProperty step.actor step.tokenId step.action 'name'}}</h3>
                      <a class="_verb tooltip"
                         data-actionId="{{step.action}}" 
                         data-stepId="{{id}}"
                         data-actorId="{{step.actor}}" 
+                        data-tokenId="{{step.tokenId}}"
+                        data-uniqeId="{{step.uniqeId}}"                        
                         data-verb="show">                  
-                        <img src="{{getActorItemProperty step.actor step.action 'img'}}" />
+                        <img src="{{getActorItemProperty step.actor step.tokenId step.action 'img'}}" />
                      </a>
                   </div>
                   <div class="_actionsBox">                 
@@ -37,7 +43,9 @@
                      <a class="_verb actionIcon tooltip" 
                            data-actionId="{{step.action}}" 
                            data-stepId="{{id}}"
-                           data-actorId="{{step.actor}}" 
+                           data-actorId="{{step.actor}}"
+                           data-tokenId="{{step.tokenId}}"
+                           data-uniqeId="{{step.uniqeId}}"                            
                            data-verb="delete">
                         <img class="imgAction" src="systems/conventum/image/texture/destroy.png" />
                         <span class="tooltiptext">{{localize "info.deleteAction"}}</span>
@@ -47,7 +55,9 @@
                         <a class="_verb actionIcon tooltip" 
                               data-actionId="{{step.action}}"
                               data-stepId="{{id}}" 
-                              data-actorId="{{step.actor}}" 
+                              data-actorId="{{step.actor}}"
+                              data-tokenId="{{step.tokenId}}"
+                              data-uniqeId="{{step.uniqeId}}"                               
                               data-verb="react">
                            <img class="imgAction react" src="systems/conventum/image/texture/react.png" />
                            <span class="tooltiptext">{{localize "info.reactAction"}}</span>
@@ -58,6 +68,8 @@
                               data-actionId="{{step.action}}"
                               data-stepId="{{id}}"
                               data-actorId="{{step.actor}}" 
+                              data-tokenId="{{step.tokenId}}"
+                              data-uniqeId="{{step.uniqeId}}"                              
                               data-verb="consume">
                            <img class="imgAction consume" src="systems/conventum/image/texture/consume.png" />
                            <span class="tooltiptext">{{localize "info.consumeAction"}}</span>
@@ -73,7 +85,7 @@
 
 {{!-- Molding ---}}
 <input name="system.control.mold"
-         value="{{systemData.control.mold}}" 
-         type="hidden" />   
+       value="{{systemData.control.mold}}" 
+       type="hidden" />   
 
 </form>

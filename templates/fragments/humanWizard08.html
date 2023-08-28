@@ -1,0 +1,14 @@
+<h1>{{localize 'wizard.title08'}}</h1>
+<p>{{localize 'wizard.text08'}}</p>
+<ul>
+{{#each backend.worlds as |world key|}}
+<a class="wizardOption"
+   data-field="world"
+   data-value="{{world.id}}">
+    <li class="_wizardOption" data-filter="{{world.name}}">
+        <img src="{{world.img}}" />
+        <label>{{world.name}}</label>
+    </li>
+</a>
+{{/each}}
+</ul>

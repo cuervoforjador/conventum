@@ -1,7 +1,6 @@
-
 /* BASE */
 h2 {
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     line-height: 34px;
     font-size: 20px;
     padding-bottom: 0px;
@@ -81,12 +80,12 @@ itemHeaderInfo {
     width: 120px;
 }
 ._chrome panelcontent h3 {
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     padding-top: 7px;
 }
 ._chrome panelcontent hbox input {
     border: 1px solid #33333380!important;
-    font-family: 'Almendra', serif;
+    font-family: var(--font-aq);
 }
 
 itemTitle {
@@ -96,7 +95,7 @@ itemTitle {
     height: 65px;
 }
 itemTitle input[type="text"] {
-    font-family: 'Almendra', serif;
+    font-family: var(--font-aq);
     border: 0px;
     background: transparent;
     font-size: 28px;
@@ -115,6 +114,11 @@ itemSubHeader {
     height: 95px;
     padding: 10px;
 }
+._subHeaderNew {
+    padding: 5px;
+    padding-left: 15px;
+    margin-bottom: -12px;
+}
 ._subHeaderHBox {
     width: 100%;
 }
@@ -122,12 +126,12 @@ itemSubHeader {
     width: 80px;
     text-align: end;
     padding-right: 2px;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     font-size: 17px;
     line-height: 20px;
 }
 ._subHeaderHBox input {
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     font-size: 17px;
     line-height: 18px;
     width: calc(100% - 80px);
@@ -137,7 +141,7 @@ itemSubHeader {
     min-width: 34px;
 }
 ._subHeaderHBox select {
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     font-size: 17px;
     line-height: 18px;
     width: calc(100% - 80px);
@@ -150,10 +154,16 @@ itemSubHeader {
     margin-top: -20px;
 }
 
+.tab h3 {
+    font-family: 'Almendra'!important;
+    padding-left: 10px;
+    font-weight: 900;
+}
+
 /* TEXT-EDITOR */
 itemcontent .editor {
     min-height: calc(100% - 160px);
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     color: #333;
     padding: 15px; 
 }
@@ -173,11 +183,11 @@ itemContent .editor-content::first-letter {
 
 /* BUTTONS */
 button {
-    background-image: url(../image/texture/tile01.png);
+    background-image: var(--tile1-aq);
     background-repeat: repeat;
     background-size: 99px 67px;
     border: 1px solid #11111173;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     text-shadow: 0px 0px 3px #ffffffd6, 0px 0px 9px #ffffff;
     font-weight: 900;
     color: #000000d6;
@@ -282,7 +292,7 @@ info:hover {
     color: #FFF;
 }
 .dialog-content ._infoDialog {
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     font-size: 16px;
     text-align: justify;
     white-space: pre-line;
@@ -299,7 +309,7 @@ regField {
     margin-right: 5px;
     margin-left: 3px;
     text-align: center;  
-    font-family: 'Uncial Antiqua', cursive;  
+    font-family: var(--font2-aq);
 }
 regField input {
     display: block!important;
@@ -307,7 +317,7 @@ regField input {
     color: #555!important;  
 }
 infotext {
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     font-size: 13px;
     margin: 10px;
     color: #333333f2;
@@ -330,7 +340,7 @@ slidepanel paneltitle {
     margin-bottom: 6px;
 }
 slidepanel paneltitle h3 {
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     font-size: 16px;
     line-height: 14px;
     padding-top: 2px;
@@ -419,7 +429,7 @@ input:checked + .sliderSwitch:before {
 
 /* Messages */
 .dialog-content {
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     font-size: 16px;
     line-height: 18px;
     text-align: justify;
@@ -492,8 +502,17 @@ a img {
 ._marginLeft {
     margin-left: 10px!important;
 }
+._marginTop {
+    margin-top: 4px;
+}
 ._center {
     text-align: center!important;
+}
+._p5 {
+    padding: 5px;
+}
+._p10 {
+    padding: 10px;
 }
 ._100 {
     width: 100%;
@@ -604,7 +623,7 @@ a img {
 ._normalText {
     font-size: 15px!important;
     line-height: 18px!important;
-    font-family: 'Almendra'!important;
+    font-family: var(--font-aq)!important;
 }
 .labeled label {
     padding-left: 5px;

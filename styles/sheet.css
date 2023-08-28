@@ -93,7 +93,7 @@ inkDetail.inkSubline {
 ._info line label,
 .actorHeader label,
 .frameContent label {
-    font-family: 'Uncial Antiqua', cursive;
+    font-family: var(--font2-aq);
     font-size: 10px;
     line-height: 13px;
     margin-right: 4px;
@@ -145,14 +145,14 @@ input._border {
     line-height: 38px;
     padding-top: 7px;
     height: 49px;
-    font-family: 'Augusta';
+    font-family: var(--font3-aq);
     border-bottom: 5px solid #9f4436!important;
     color: #333;
     background: #d6a3861c!important;
 }
 .actorHeader select,
 .frameContent select {
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
 }
 
 .actorHeader .headerInfo {
@@ -258,12 +258,12 @@ img._warning {
 }
 .actorChars li.label {
     list-style-type: none;
-    font-family: 'Augusta';
+    font-family: var(--font3-aq);
     font-size: 11px;
     height: 31px;
     padding-top: 8px;
     width: 32px;
-    font-family: 'Uncial Antiqua', cursive;
+    font-family: var(--font2-aq);;
 }
 .actorChars li.label::first-letter {
     color: #9f4436;
@@ -278,7 +278,7 @@ img._warning {
     font-size: 20px;
     line-height: 32px;
     border: 1px solid #9f443629;
-    font-family: 'Augusta';
+    font-family: var(--font3-aq);
     border-bottom-left-radius: 50%;
     border-bottom-right-radius: 50%;
     background: #bfadad5e;
@@ -357,7 +357,7 @@ label._penalCharact {
     }
     h3._shrink {
         margin-bottom: 0px;
-        font-family: 'Almendra';
+        font-family: var(--font-aq);
         padding-left: 4px;
         padding-top: 7px;
         margin-left: 4px;
@@ -403,7 +403,7 @@ label._penalCharact {
         height: 20px;
         line-height: 20px;
         text-align: center;
-        font-family: 'Almendra';
+        font-family: var(--font-aq);
         font-size: 18px;
         padding-bottom: 4px;
         color: #333!important;
@@ -438,7 +438,7 @@ label._penalCharact {
         justify-content: flex-end;
     }
     label._shrink {
-        font-family: 'Almendra';
+        font-family: var(--font-aq);
         font-size: 15px;
         line-height: 18px;
     } 
@@ -494,7 +494,7 @@ label._penalCharact {
     }
     label._penal._shrink {
         font-size: 16px;
-        font-family: 'Almendra';
+        font-family: var(--font-aq);
         font-weight: 900;
         color: #F00;
         margin-left: 3px;
@@ -518,7 +518,7 @@ label._penalCharact {
         cursor: pointer;
     }
     label._noSkills {
-        font-family: 'Almendra';
+        font-family: var(--font-aq);
         font-size: 13px;
         line-height: 17px;
         white-space: pre-line;
@@ -636,7 +636,7 @@ label._penalCharact {
     margin-right: 5px;
     margin-left: 3px;
     text-align: center;  
-    font-family: 'Uncial Antiqua', cursive;  
+    font-family: var(--font2-aq);
     -webkit-box-shadow: 0px 0px 11px -1px rgb(0 0 0 / 27%);
     box-shadow: 0px 0px 11px -1px rgb(0 0 0 / 27%);    
 }
@@ -710,7 +710,7 @@ nav._subTabs {
 }
 ._subTabs a label {
     font-size: 14px;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     border: 1px solid #975959a1;
     background: #c5929226;
     border-radius: 2px;
@@ -730,12 +730,12 @@ section._description .editor-content {
     padding-right: 10px;
 }
 section._description .editor p {
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     font-size: 15px;
     line-height: 20px;
 }
 section._description .editor-content p:first-child::first-letter {
-    font-family: 'Augusta';
+    font-family: var(--font3-aq);
     font-size: 32px;
     color: #ffffffd9;
     background: #993131d6;
@@ -787,7 +787,7 @@ ol._traits li vbox {
 ol._traits li h3 {
     font-size: 12px;
     line-height: 14px;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     text-decoration: none;
     border-bottom: 0px;
     margin-bottom: 0px;
@@ -795,10 +795,10 @@ ol._traits li h3 {
 ol._traits li h3::first-letter {
     color: #ab3030;
     font-size: 22px;
-    font-family: 'Uncial Antiqua', cursive;
+    font-family: var(--font2-aq);
 }
 label._shortDescription {
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     font-size: 10px;
     line-height: 11px;
     text-align: justify;
@@ -821,7 +821,7 @@ input.searchAction {
     border: 1px solid #3333334d!important;
     max-width: calc(100% - 58px)!important;
     border-radius: 2px!important;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
 }
 .header-search.searchAction {
     padding: 5px;
@@ -870,7 +870,7 @@ li.rowSkill {
     font-size: 18px!important;
     height: 20px;
     width: 35px;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     text-align: center;
     padding-bottom: 0px;
     font-weight: 900;
@@ -881,7 +881,7 @@ li.rowSkill {
     color: #ec2626;
     opacity: 0.8;
     text-align: center;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     font-size: 18px;
     font-weight: 900;
     text-shadow: 2px 0 #ffffff63, -2px 0 #ffffff63, 0 2px #ffffff63, 
@@ -977,7 +977,7 @@ input._skillValue {
     height: 35px;
     margin-bottom: -76px;
     margin-left: 18px!important;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     z-index: 90;
     width: 40px;
     color: #373531;
@@ -1039,7 +1039,7 @@ li.boxSkill:hover .experienceSkill img {
     margin-bottom: -30px;
 }
 input._skillPenal {
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     line-height: 26px!important;
     font-size: 23px;
     font-weight: 900;
@@ -1112,7 +1112,7 @@ li.boxLanguages {
     border: 0px solid #33333385;
     border-radius: 4px!important;
     text-align: center;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     font-size: 20px;
 }
 
@@ -1124,7 +1124,7 @@ ol.armorCloset {
     width: 350px;
     height: 400px;
     transform: rotate(3deg);
-    background-image: url(/systems/conventum/image/texture/paper.png);
+    background-image: var(--paper-aq);
     background-position: center;
     background-size: 350px 400px;
     background-repeat: no-repeat;
@@ -1179,7 +1179,7 @@ ol._inGarment {
     background: #ffffffd9;
     font-size: 11px;
     line-height: 10px;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     color: #000;
     width: 90px;
     max-width: 90px;
@@ -1207,7 +1207,7 @@ ol._inGarment {
     background: #333333d4;
     width: 30px;
     text-align: center;
-    font-family: Almendra;
+    font-family: var(--font-aq);
     left: calc(100% - 33px);
     top: 4px;
     border: 1px solid #ffffff8f;
@@ -1223,7 +1223,7 @@ ol._inGarment {
 .unwearArmor {
     margin-right: 32px;
     padding: 5px;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     font-size: 20px;
     line-height: 20px;
     font-weight: 900;
@@ -1259,7 +1259,7 @@ li.infoGarment label._title {
     text-align: center;
     font-size: 18px;
     line-height: 35px;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     font-weight: 900;
     color: #333333c7;
 }
@@ -1267,7 +1267,7 @@ li.infoGarment label._title::first-letter {
     text-align: center;
     font-size: 30px;
     line-height: 35px;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     font-weight: 900;
     color: #a61a1a;
 }
@@ -1283,18 +1283,18 @@ li.infoGarment ._infoFields hbox {
 }
 label._field {
     font-weight: 900;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     font-size: 14px;
 }
 label._field::first-letter {
     font-weight: 900;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     font-size: 18px;
     color: #333;
 }
 label._description {
     font-weight: 100;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     font-size: 11px;
     line-height: 12px;
     color: #333;
@@ -1386,7 +1386,7 @@ label._description::first-letter {
     border: 1px solid #6a2a0b40!important;
     background: #bb76553d!important;
     color: #333;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     height: 17px;
     line-height: 12px;
     width: 60%;
@@ -1629,18 +1629,18 @@ img.imgWeapon:hover {
 
 label.titleWeapon {
     font-size: 18px;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     padding-left: 9px;
     padding-top: 10px;
 }
 label.titleWeapon::first-letter {
     color: #ae6152;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     font-size: 28px;
     font-weight: 900;
 }
 label._skillValue {
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     font-size: 37px;
     color: #333333bf;
     font-weight: bold;
@@ -1653,14 +1653,14 @@ label._skillValue::first-letter {
     font-size: 45px;
     color: #333333bf;
     font-weight: bold;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
 }
 li.boxWeapon:first-child label._skillValue {
     
 }
 label.damageWeapon {
     font-size: 20px;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     font-weight: 900;
     color: #333333c7;
     width: 200px;
@@ -1671,7 +1671,7 @@ label.damageWeapon {
 }
 label.damageWeapon::first-letter {
     font-size: 24px;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     font-weight: 900;
     color: #ae6152;
 }
@@ -1969,7 +1969,7 @@ li._penal {
     border-radius: 3px;
 }
 .magicPenalizations ._penal label._title {
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     font-size: 12px;
     margin: 0px;
     padding: 0px;
@@ -1982,7 +1982,7 @@ li._penal {
     color: #FFF;
 }
 .magicPenalizations ._penal input[type="text"] {
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     text-align: center;
     font-size: 20px;
     line-height: 20px;
@@ -2104,7 +2104,7 @@ select._selectMount {
 }
 .actorGoods input,
 .actorGoods .editor-content {
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     font-size: 15px;
     line-height: 18px;
 }
@@ -2120,7 +2120,7 @@ select._selectMount {
     width: 100%;
 }
 ._sectionTitle {
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     font-size: 17px;
     line-height: 25px;
     padding-top: 2px;
@@ -2169,7 +2169,7 @@ li.itemEl {
     cursor: pointer;
 }
 .itemEl h4.item-name {
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     line-height: 25px;
     font-size: 14px;
     padding-left: 4px;
@@ -2296,7 +2296,7 @@ ul._humanTargets li label._targetName {
     align-items: center;
     font-size: 20px;
     line-height: 18px;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     align-content: center;
     justify-content: center;
     text-align: center;
@@ -2433,6 +2433,165 @@ img._quickButton._active {
     border: 0px;
 }
 
+/* WIZARD */
+._wizardQuestion {
+    z-index: 150!important;
+}
+._wizard content {
+
+}
+._wizardResult {
+    width: 300px!important;
+    height: 380px!important;
+}
+._wizard footer {
+    height: 35px;
+    padding-top: 5px;
+    line-height: 30px;
+    display: flex;
+    justify-content: flex-end;
+}
+._wizard {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+}
+a.wizardNext {
+    font-family: var(--font-aq);
+    font-size: 16px;
+    padding-left: 5px;
+    padding-right: 5px;    
+    border: 1px solid #333;
+    border-radius: 3px;
+    background: #7034171c;
+    cursor: pointer;
+    height: 30px;
+}
+._wizard hbox._header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+._wizard ._header vbox {
+    width: calc(100% - 55px);
+    display: flex;
+    align-content: flex-start;
+    justify-content: center;
+    align-items: flex-start;
+}
+._wizard h1 {
+    font-family: var(--font-aq);
+    line-height: 22px;
+    border-bottom: 3px solid #ba1d1d;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+._wizard ul {
+    border-top: 1px solid #640f0f70;
+    width: 100%;
+    padding: 0px;
+    padding-top: 5px;
+    margin: 0px;
+}
+li._wizardOption {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+    justify-content: flex-start;
+    cursor: pointer;
+    margin-bottom: 3px;
+}
+li._wizardOption:hover {
+    background-color: #4d07073b;
+}
+._wizardOption img {
+    width: 40px;
+    height: 40px;
+    border: 0px;
+}
+._wizard label {
+    font-family: var(--font-aq);
+    font-size: 16px;
+    padding-left: 5px;
+    padding-right: 5px;
+    display: block;
+}
+._wizard label::first-letter {
+    color: #a30505;
+    font-size: 26px;
+    font-weight: 900;
+    padding-right: 1px;
+}
+._wizard label._range {
+    font-family: var(--font-aq);
+    font-size: 20px;
+    padding-left: 5px;
+    padding-right: 5px;
+    display: block;
+    width: 60px;
+    text-align: center;    
+}
+._wizard label._range::first-letter {
+    color: #333;
+    font-size: 20px;
+    font-weight: 100;
+    padding-right: 0px;
+}
+._wizard p {
+    white-space: pre-line;
+    text-align: justify;
+    padding: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-family: var(--font-aq);
+    font-size: 16px;
+    line-height: 18px;
+}
+.wizardDices img {
+    padding: 5px;
+    width: 53px;
+    height: 50px;
+    border: 0px;
+}
+._dicesBox {
+    width: 53px;
+}
+a.wizardDices img:hover {
+    border-radius: 50%;
+    background-color: #4d07073b;
+    cursor: pointer;
+}
+._wizardDialog ._content img {
+    width: calc(100% - 10px);
+    height: calc(100% - 40px);
+    position: absolute;
+    z-index: 0;
+    top: 35px;
+    left: 5px;
+    opacity: 0.2;
+}
+._wizardDialog ._content h1 {
+    z-index: 10;
+    width: calc(100% - 10px);
+    left: 5px;
+    font-size: 30px;
+    line-height: 28px;
+    font-weight: 900;
+    text-align: center;
+}
+._wizardDialog ._content h1::first-letter {
+    font-size: 48px;
+    color: rgb(159, 36, 36);
+}
+desc p {
+    line-height: 13px;
+}
+
 /* ***************************************************************************************
    ITEMS
 *************************************************************************************** */
@@ -2443,7 +2602,7 @@ img._quickButton._active {
 }
 .itemTabsHeader a {
     margin-right: 4px;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     font-size: 16px;
     padding-left: 5px;
     padding-right: 5px;
@@ -2466,7 +2625,7 @@ li.itemList {
 li.itemList input {
     line-height: 10px!important;
     font-size: 15px;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     padding: 0px!important;
     height: 18px;
     margin-top: 3px;
@@ -2507,13 +2666,13 @@ hbox._mod input {
     border-radius: 3px!important;
     width: 150px;
     margin-right: 10px;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
 }
 hbox._mod label.switch {
     margin-left: 0px!important;
 }
 h1._modTitle {
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     padding-left: 16px;
     font-size: 22px;
     margin-bottom: 9px!important;
@@ -2525,4 +2684,28 @@ h1._modTitle::first-letter {
     color: #a30505;
     font-size: 40px;
     font-weight: 900;
+}
+
+ul.profSkills {
+    padding-bottom: 60px;
+    padding-top: 22px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
+}
+li._profSkill {
+    width: 50%;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 5px;
+}
+li._profSkill input {
+    border: 1px solid #3333335e;
+    font-family: var(--font2-aq);
+    background: #ffffff59!important;
+    border-radius: 3px!important;
 }

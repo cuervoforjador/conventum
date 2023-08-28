@@ -82,7 +82,9 @@ export class extendSheetActionPool extends ItemSheet {
   _showActor(event) {
     event.preventDefault();
     const actorId = event.currentTarget?.dataset.actorid;
-    const oActor = (actorId) ? game.actors.get(actorId) : null;
+    const tokenId = event.currentTarget?.dataset.tokenid;
+    const oActor = (tokenId) ? game.scenes.active.tokens.get(tokenId).getActor() :
+                               (actorId) ? game.actors.get(actorId) : null;     
     if (!oActor) return;
     oActor.sheet.render(true, {
       editable: game.user.isGM
@@ -95,6 +97,8 @@ export class extendSheetActionPool extends ItemSheet {
     const actionId = event.currentTarget?.dataset.actionid,
           stepId = Number(event.currentTarget?.dataset.stepid),
           actorId = event.currentTarget?.dataset.actorid,
+          tokenId = event.currentTarget?.dataset.tokenid,
+          uniqeId = event.currentTarget?.dataset.uniqeid,
           sVerb = event.currentTarget?.dataset.verb;
 
     //Indexing...
@@ -102,7 +106,8 @@ export class extendSheetActionPool extends ItemSheet {
 
     // SHOW
     if (sVerb === 'show') {
-      let actor = game.actors.get(actorId);
+      let actor = (tokenId) ? game.scenes.active.tokens.get(tokenId).getActor() :
+                              game.actors.get(actorId);       
       if (!actor) return;
       let item = actor.items.get(actionId);
       if (!item) return;
@@ -115,7 +120,7 @@ export class extendSheetActionPool extends ItemSheet {
     if (sVerb === 'delete') {
       let mSteps = this.item.system.steps.filter(e => !( (e.action === actionId) && 
                                                          (e.index === stepId) &&
-                                                         (e.actor === actorId) ) );
+                                                         (e.uniqeId === uniqeId) ) );
       if (!mSteps) return;
       await this.item.update({
         system: { steps: mSteps }
@@ -130,7 +135,7 @@ export class extendSheetActionPool extends ItemSheet {
       mSteps.forEach(function(step) {
         if ( (step.action === actionId) && 
              (step.index === stepId) && 
-             (step.actor === actorId) )
+             (step.uniqeId === uniqeId) )
           step.consumed = true;
       }.bind(this));
 
@@ -147,7 +152,7 @@ export class extendSheetActionPool extends ItemSheet {
       mSteps.forEach(function(step) {
         if ( (step.action === actionId) && 
              (step.index === stepId) && 
-             (step.actor === actorId) )
+             (step.uniqeId === uniqeId) )
           step.consumed = false;
       }.bind(this));
 
@@ -162,9 +167,9 @@ export class extendSheetActionPool extends ItemSheet {
 
       let oStep = this.item.system.steps.find(e => ( (e.action === actionId) && 
                                                      (e.index === stepId) && 
-                                                     (e.actor === actorId) ) );
+                                                     (e.uniqeId === uniqeId) ) );
       if (!oStep) return;
-      helperSheetCombat.playAction(actorId, actionId);
+      helperSheetCombat.playAction(actorId, tokenId, actionId);
       helperSocket.refreshSheets();
     }
 
@@ -178,8 +183,12 @@ export class extendSheetActionPool extends ItemSheet {
 
         mSteps.push({
           actor: $(e).data('actorid'),
+          isToken: ($(e).data('istoken') === true),
+          tokenId: $(e).data('tokenid'),
+          uniqeId: $(e).data('uniqeid'),
           action: $(e).data('actionid'),
-          consumed: ($(e).data('consumed') === true)    
+          consumed: ($(e).data('consumed') === true),
+          applyLocation: $(e).data('applyLocation')
         });
       });
 

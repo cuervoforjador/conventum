@@ -2,7 +2,7 @@
 /* --- COMBAT TRACKER --- */
 
 .AQbutton {
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     font-size: 13px;
     font-weight: 900;
     line-height: 16px;
@@ -38,11 +38,11 @@
     background-size: 34px;
 }
 .token-initiative span {
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     font-size: 15px;
 }
 span.combatInitTitle {
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     font-size: 10px!important;
 }
 ._myCombat span.initiative, 
@@ -79,7 +79,7 @@ img._initShield {
 }
 input.cbInitiativeMod {
     width: 22px;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     padding: 0px;
     margin: 0px;
     font-size: 15px;
@@ -123,7 +123,7 @@ li._combatant img._actor {
     display: block;
 }
 li._combatant h2._combName {
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     display: none;
     border-bottom: 0px;
     line-height: 12px;
@@ -282,7 +282,7 @@ li._step ._actor img {
 }
 li._step ._actor h3 {
     border: 0px;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     padding-top: 3px;
     font-size: 15px;
     padding-left: 6px;
@@ -310,7 +310,7 @@ li._step ._encounter img:hover {
 }
 li._step ._encounter h3 {
     border: 0px;
-    font-family: 'Almendra';
+    font-family: var(--font-aq);
     font-size: 15px;
     line-height: 17px;
     padding-right: 6px;

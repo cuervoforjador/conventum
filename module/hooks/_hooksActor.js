@@ -71,7 +71,7 @@ export class HookActor {
      */
     static setPrototypeToken(actor) {
         actor.update({
-            prototypeToken: {actorLink: true}
+            prototypeToken: {actorLink: !actor.system.control.criature}
         });
     }
 

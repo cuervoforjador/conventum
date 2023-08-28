@@ -1,72 +1,78 @@
 <form class="codex"
       style="background: url({{frameUrl}}/paper.png)"
       autocomplete="off">
-   
-    {{#if systemData.control.expand}}
-      {{> humanFrame }}
-      {{> humanCrest }}
-    {{/if}}
-     
-    <div class="frameContent">
-      <section class="sheet-body">
-        {{#if systemData.control.expand}}
-
-          {{> humanPageMain }}
-          {{> humanPageBio }}
-          {{> humanPageSkills }}
-          {{> humanPageCombat }}
-          {{> humanPageArmor }}
-          {{> humanPageMagic }}
-          {{> humanPageItems }}
-
-        {{else}}
-
-          {{> humanHeaderShrink }}
-          {{> humanMainShrink }}    
-        
-        {{/if}}
-      </section>
-    </div>
-
-    {{#if actions.showPoster }}
-      {{> humanPosterActions }}
-    {{/if}}
-
-    {{#if targets.showTargets }}
-      {{> humanPosterTargets }}
-    {{/if}}
-
-    {{!-- QUICK BARS --}}
-    {{#if systemData.quickBar }}
-      {{> humanQuickBar }}
-    {{/if}}
     
-    {{!-- MODES STICKERS --}}
-    <div class="modeStickers">
-    {{#each modes as |mode id|}}
-      {{#if (modeStickers mode)}}
-      <div class="_imLucky">
-        <img src="{{mode.img}}" />
-      </div>
-      {{/if}}
-    {{/each}}
-    </div>
+    {{#if systemData.control.wizard}}
+      {{> humanWizard }}
 
+    {{else}}
 
-    {{!-- Hiddens ---}}
-    <input name="system.quickBar"
-           value="{{systemData.quickBar}}" 
-           type="hidden" /> 
-    <input name="system.quickBarPosition.x"
-           value="{{systemData.quickBarPosition.x}}" 
-           type="hidden" />   
-    <input name="system.quickBarPosition.y"
-           value="{{systemData.quickBarPosition.y}}" 
-           type="hidden" />                    
-    <input name="system.quickBarPosition.sheetX"
-           value="{{systemData.quickBarPosition.sheetX}}" 
-           type="hidden" />  
-    <input name="system.quickBarPosition.sheetY"
-           value="{{systemData.quickBarPosition.sheetY}}"
-           type="hidden" />            
+        {{#if systemData.control.expand}}
+          {{> humanFrame }}
+          {{> humanCrest }}
+        {{/if}}
+        
+        <div class="frameContent">
+          <section class="sheet-body">
+            {{#if systemData.control.expand}}
+
+              {{> humanPageMain }}
+              {{> humanPageBio }}
+              {{> humanPageSkills }}
+              {{> humanPageCombat }}
+              {{> humanPageArmor }}
+              {{> humanPageMagic }}
+              {{> humanPageItems }}
+
+            {{else}}
+
+              {{> humanHeaderShrink }}
+              {{> humanMainShrink }}    
+            
+            {{/if}}
+          </section>
+        </div>
+
+        {{#if actions.showPoster }}
+          {{> humanPosterActions }}
+        {{/if}}
+
+        {{#if targets.showTargets }}
+          {{> humanPosterTargets }}
+        {{/if}}
+
+        {{!-- QUICK BARS --}}
+        {{#if systemData.quickBar }}
+          {{> humanQuickBar }}
+        {{/if}}
+        
+        {{!-- MODES STICKERS --}}
+        <div class="modeStickers">
+        {{#each modes as |mode id|}}
+          {{#if (modeStickers mode)}}
+          <div class="_imLucky">
+            <img src="{{mode.img}}" />
+          </div>
+          {{/if}}
+        {{/each}}
+        </div>
+
+        {{!-- Hiddens ---}}
+        <input name="system.quickBar"
+              value="{{systemData.quickBar}}" 
+              type="hidden" /> 
+        <input name="system.quickBarPosition.x"
+              value="{{systemData.quickBarPosition.x}}" 
+              type="hidden" />   
+        <input name="system.quickBarPosition.y"
+              value="{{systemData.quickBarPosition.y}}" 
+              type="hidden" />                    
+        <input name="system.quickBarPosition.sheetX"
+              value="{{systemData.quickBarPosition.sheetX}}" 
+              type="hidden" />  
+        <input name="system.quickBarPosition.sheetY"
+              value="{{systemData.quickBarPosition.sheetY}}"
+              type="hidden" />   
+           
+    {{/if}}
 </form>

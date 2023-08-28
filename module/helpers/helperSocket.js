@@ -74,6 +74,7 @@ export class helperSocket {
                 action: 'update',
                 type: entity.type,
                 id: entity.id,
+                tokenId: entity.isToken ? entity.token.id : null,
                 data: data
             });            
         }
@@ -119,6 +120,7 @@ export class helperSocket {
             "action": payload.action ? payload.action : "noAction",
             "userId": payload.userId ? payload.userId : game.userId,
             "id": payload.id ? payload.id : '',
+            "tokenId": payload.tokenId ? payload.tokenId : '',
             "data": payload.data ? payload.data : {},
             "force": false,
         };
@@ -132,8 +134,14 @@ export class helperSocket {
         if (!game.user.isGM) return;
         
         let entity = null;
-        if (game.items.get(payload.id)) entity = game.items.get(payload.id);
-        if (game.actors.get(payload.id)) entity = game.actors.get(payload.id);
+        if (game.items.get(payload.id)) {
+            entity = game.items.get(payload.id);
+        }
+        if (game.actors.get(payload.id)) {
+            entity = (game.scenes.active.tokens.get(payload.tokenId)) ? 
+                        game.scenes.active.tokens.get(payload.tokenId).getActor() :
+                        game.actors.get(payload.id);            
+        }
         if (game.messages.get(payload.id)) {
             entity = game.messages.get(payload.id);
             await this._updateFlagsMessages(entity, payload.data);

@@ -18,7 +18,7 @@ export class mainBackend {
             languages: await this._getLanguages(systemData.control.world),
             locations: await this._getLocations(systemData.control.world, actor.type)
         };
-        
+                
         //Kingdom
         if (systemData.bio.kingdom === '')
             systemData.bio.kingdom = (mBackend.kingdoms.length > 0) ? mBackend.kingdoms[0].id : '';
@@ -28,6 +28,8 @@ export class mainBackend {
         //Culture
         mBackend.cultures = await this._getCultures(systemData.control.world,
                                                     systemData.bio.kingdom);
+        if (mBackend.cultures === undefined) return;
+
         if (systemData.bio.culture === '')
             systemData.bio.culture = (mBackend.cultures.length > 0) ? mBackend.cultures[0].id : '';
         if (!mBackend.cultures.find(e => e.id === systemData.bio.culture))
@@ -65,6 +67,9 @@ export class mainBackend {
         if (actor.system.equipment.mount !== '') 
             mAvailable.push(game.actors.get(actor.system.equipment.mount));
         mBackend.mounts = [{_id: '', name: ''}].concat(mAvailable);
+
+        //Sorting...
+        this._sortByRange(mBackend.kingdoms);
 
         return mBackend;
     }
@@ -139,6 +144,23 @@ export class mainBackend {
             characteristics: this._getCharacteristics('primary', true)
         };
     }
+
+    /**
+     * Compendium Backend For Professions Items...
+     */
+    static async getBackendForProfession(systemData) {
+        return {
+            worlds: await game.packs.get("conventum.worlds").getDocuments(),
+            charPrimary: this._getCharacteristics('primary', false),
+            charSecondary: this._getCharacteristics('secondary', false),
+            skills: await this._getSkills(systemData.control.world, false),
+            kingdoms: await this._getKingdoms(systemData.control.world),
+            societies: await this._getSocieties(systemData.control.world), 
+            cultures: await this._getCultures(systemData.control.world), 
+            stratums: await this._getStratums(systemData.control.world),
+            status: await this._getStatus(systemData.control.world)  
+        };
+    }    
 
     /**
      * Compendium Backend For Traits Items...
@@ -402,9 +424,14 @@ export class mainBackend {
             for (var s in oKingdom.system.backend.cultures) {
                 if (oKingdom.system.backend.cultures[s].checked) {
                     let oDoc = await game.packs.get("conventum.cultures").getDocument(s);
-                    if (oDoc) mCultures.push( oDoc );
+                    if (oDoc) {
+                        oDoc.system.range.low = Number(oKingdom.system.backend.cultures[s].low);
+                        oDoc.system.range.high = Number(oKingdom.system.backend.cultures[s].high);
+                        if (oDoc) mCultures.push( oDoc );
+                    }
                 }
             }
+            this._sortByRange(mCultures);
             return mCultures;
         } else
             return this._getDocuments('cultures', sWorld);
@@ -420,7 +447,9 @@ export class mainBackend {
             return this._getDocuments('stratums', sWorld);
         else {
             let mStratums = await this._getDocuments('stratums', sWorld);
-            return mStratums.filter(e => e.system.backend.society === sSociety);
+            mStratums = mStratums.filter(e => e.system.backend.society === sSociety);
+            this._sortByRange(mStratums);
+            return mStratums;            
         }
     }    
 
@@ -434,7 +463,9 @@ export class mainBackend {
             return this._getDocuments('status', sWorld);
         else {
             let mStatus = await this._getDocuments('status', sWorld);
-            return mStatus.filter(e => e.system.backend.stratum === sStratum);
+            mStatus = mStatus.filter(e => e.system.backend.stratum === sStratum);
+            this._sortByRange(mStatus);
+            return mStatus;             
         }
     }      
 
@@ -624,5 +655,19 @@ export class mainBackend {
             return 0;
         }); 
     }
+
+    /**
+     * _sortByRange
+     * @param {array} mArray 
+     */
+    static _sortByRange(mArray) {
+        mArray.sort((a, b) => {
+            const rangeA = a.system.range.low;
+            const rangeB = b.system.range.low;
+            if (rangeA < rangeB) return -1;
+            if (rangeB > rangeA) return 1;
+            return 0;
+        }); 
+    }    
 
 }

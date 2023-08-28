@@ -15,6 +15,7 @@ export class helperActions {
      * @returns 
      */
     static getActions(actor) {
+        const uniqeId = (actor.isToken) ? actor.token.id : actor.id;
         let oActions = {
             showPoster: false,
             showSkill: false,
@@ -30,7 +31,7 @@ export class helperActions {
         let mStillActiveActions = myActiveCombat.encounter.system.steps.filter(e => !e.consumed);
         if (mStillActiveActions.length < 1) return oActions;
 
-        if (mStillActiveActions[0].actor === actor.id) {
+        if (mStillActiveActions[0].uniqeId === uniqeId) {
             oActions.action = actor.items.get(mStillActiveActions[0].action);
         }
 
@@ -47,7 +48,7 @@ export class helperActions {
     }
 
     /**
-     * getActions
+     * getTargets
      * @param {*} actor 
      * @returns 
      */

@@ -269,14 +269,16 @@ export class HookCombat {
     static targetDialogs(dialog, element, content) {
         const mButtons = dialog.data.buttons;
         for (const s in mButtons) {
-            let actor = game.actors.get(s);
-            let button = $(element).find('button[data-button="'+mButtons[s].actorId+'"]');
-            button.html('<img src="'+mButtons[s].img+'"/><label>'+mButtons[s].label+'</label>');
+            let actor = (game.scenes.active.tokens.get(s)) ? game.scenes.active.tokens.get(s).getActor()
+                                                           : game.actors.get(s);
+
+            const uniqeId = (actor.isToken) ? actor.token.id : actor.id;
+            let button = $(element).find('button[data-button="'+uniqeId+'"]');
+            button.html('<img src="'+actor.img+'"/><label>'+actor.name+'</label>');
 
             //Mount
             let mount = helperSheetCombat.getMount(actor);
             if (mount) button.append('<img class="_mount" src="'+mount.img+'" />');
-
         }
     }
 
@@ -289,9 +291,12 @@ export class HookCombat {
     static targetDialogsExpress(dialog, element, content) {
         const mButtons = dialog.data.buttons;
         for (const s in mButtons) {
-            let actor = game.actors.get(s);
-            let button = $(element).find('button[data-button="'+mButtons[s].actorId+'"]');
-            button.html('<img src="'+mButtons[s].img+'"/><label>'+mButtons[s].label+'</label>');
+            let actor = (game.scenes.active.tokens.get(s)) ? game.scenes.active.tokens.get(s).getActor()
+                                                           : game.actors.get(s);
+
+            const uniqeId = (actor.isToken) ? actor.token.id : actor.id;
+            let button = $(element).find('button[data-button="'+uniqeId+'"]');
+            button.html('<img src="'+actor.img+'"/><label>'+actor.name+'</label>');
         }
     }
 

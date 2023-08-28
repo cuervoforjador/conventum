@@ -100,6 +100,7 @@ export class helperSheetMagic {
         
         //Creating context...
         let context = new aqContext({actorId: actor.id, 
+                                     tokenId: (actor.isToken) ? actor.token.id : null, 
                                      spellId: spellId});
         await aqCombat.playSpell(context);
 

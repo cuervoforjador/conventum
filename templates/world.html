@@ -27,6 +27,7 @@
                         <a data-tab="main">{{ localize "common.description" }}</a>
                         <a data-tab="rolls">{{ localize "common.rolls" }}</a>
                         <a data-tab="actions">{{ localize "common.actions" }}</a>
+                        <a data-tab="custo">{{ localize "common.custo" }}</a>
                     </nav>
                 </hbox>                  
             </itemSubHeader>
@@ -169,6 +170,54 @@
                                 value="{{systemData.config.actions.penaltyPorc}}" />                               
                     </hbox>
                     <label class="_infoText">{{localize "info.penalAction"}}</label>
+
+                </div>
+
+                {{!-- Custo --}}
+                <div class="tab custo" data-group="configTabs" data-tab="custo">
+                    
+                    <hbox class="_mod">
+                        <label style="width: 100px;">Font Family 1</label>      
+                        <input type="text"
+                               style="width: calc(100% - 130px);"
+                               name="system.config.custo.fontFamily"
+                               value="{{systemData.config.custo.fontFamily}}" />
+                    </hbox>
+                    <hbox class="_mod">
+                        <label style="width: 100px;">Font Family 2</label>      
+                        <input type="text"
+                               style="width: calc(100% - 130px);"
+                               name="system.config.custo.fontFamily2"
+                               value="{{systemData.config.custo.fontFamily2}}" />                                          
+                    </hbox>
+                    <hbox class="_mod">
+                        <label style="width: 100px;">Font Family 3</label>      
+                        <input type="text"
+                               style="width: calc(100% - 130px);"
+                               name="system.config.custo.fontFamily3"
+                               value="{{systemData.config.custo.fontFamily3}}" />                                          
+                    </hbox>                                        
+                    <hbox class="_mod">
+                        <label style="width: 100px;">Paper</label>      
+                        <input type="text"
+                               style="width: calc(100% - 130px);"
+                               name="system.config.custo.paper"
+                               value="{{systemData.config.custo.paper}}" />                                          
+                    </hbox>
+                    <hbox class="_mod">
+                        <label style="width: 100px;">Tile</label>      
+                        <input type="text"
+                               style="width: calc(100% - 130px);"
+                               name="system.config.custo.tile1"
+                               value="{{systemData.config.custo.tile1}}" />                                          
+                    </hbox>
+                    <hbox class="_mod">
+                        <label style="width: 100px;">Tile</label>      
+                        <input type="text"
+                               style="width: calc(100% - 130px);"
+                               name="system.config.custo.tile2"
+                               value="{{systemData.config.custo.tile2}}" />                                          
+                    </hbox>                                                            
 
                 </div>
 

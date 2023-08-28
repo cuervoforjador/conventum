@@ -10,9 +10,27 @@ export class mainHandlebars {
     */
    static init(Handlebars) {
 
+      /**
+       * editable
+       */
       Handlebars.registerHelper("editable", function(options) {
          return (options.data.root.imMaster) ? '' : 'disabled="disabled"';
       }); 
+
+      /**
+       * wizardStep
+       */
+      Handlebars.registerHelper("wizardStep", function(key, options) {
+         return 'humanWizard' + key;
+      });
+
+      /**
+       * wizardVisible
+       */
+      Handlebars.registerHelper("wizardVisible", function(key, options) {
+         const root = options.data.root.data.system.wizard;
+         return root[key];
+      });      
 
       /**
        * frameUrl
@@ -256,8 +274,10 @@ export class mainHandlebars {
       /**
        * getActorProperty
        */
-      Handlebars.registerHelper("getActorProperty", function(actorId, sProperty, options) {
-         let oProperty = game.actors.get(actorId);
+      Handlebars.registerHelper("getActorProperty", function(actorId, tokenId, sProperty, options) {
+         let oProperty = (tokenId) ? game.scenes.active.tokens.get(tokenId).getActor() :
+                         game.actors.get(actorId); 
+
          if (!oProperty) return;
          
          sProperty.split('.').forEach(s => {
@@ -279,8 +299,9 @@ export class mainHandlebars {
       /**
        * getItemProperty
        */
-      Handlebars.registerHelper("getActorItemProperty", function(actorId, itemId, sProperty, options) {
-         let oActor = game.actors.get(actorId);
+      Handlebars.registerHelper("getActorItemProperty", function(actorId, tokenId, itemId, sProperty, options) {
+         let oActor = (tokenId) ? game.scenes.active.tokens.get(tokenId).getActor() :
+                                  game.actors.get(actorId);          
          if (!oActor) return;
 
          let oProperty = oActor.items.get(itemId);
