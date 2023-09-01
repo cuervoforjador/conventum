@@ -80,6 +80,13 @@ export class mainHandlebars {
          return (item.type === sType);
        }); 
 
+       /**
+        * noEmpty
+        */
+       Handlebars.registerHelper("noEmpty", function(mArray, options) {
+         return (mArray.length > 0);
+       });        
+
       /**
        * checkedExtend
        */

@@ -41,6 +41,146 @@ form .form-group label::first-letter {
     background: #333;
 }
 
+/* Menus... */
+li.gameIconRaven {
+    background: url(/systems/conventum/image/icons/raven.png)!important;
+    background-size: 32px!important;
+    background-repeat: no-repeat no-repeat!important;
+    background-position-y: 2px!important;      
+    background-position-x: 0px!important;      
+}
+li.gameIconCowled {
+    background: url(/systems/conventum/image/icons/cowled.png)!important;
+    background-size: 32px!important;
+    background-repeat: no-repeat no-repeat!important;
+    background-position-y: 2px!important;        
+    background-position-x: 2px!important;    
+}
+li.gameIconD10 {
+    background: url(/systems/conventum/image/icons/d10.png)!important;
+    background-size: 32px!important;
+    background-repeat: no-repeat no-repeat!important;
+    background-position-y: 2px!important;    
+    background-position-x: 2px!important;        
+}
+li.gameIconActions, 
+.buttonAction .gameIconActions {
+    background: url(/systems/conventum/image/icons/action.png)!important;
+    background-size: 32px 32px!important;
+    background-repeat: no-repeat no-repeat!important;
+    background-position-y: 1px!important;    
+    background-position-x: 2px!important;    
+}
+li.gameIconSpells {
+    background: url(/systems/conventum/image/icons/spell.png)!important;
+    background-size: 28px 28px!important;
+    background-repeat: no-repeat no-repeat!important;
+    background-position-y: 3px!important;   
+    background-position-x: 4px!important;    
+}
+li.gameIconCombat {
+    background: url(/systems/conventum/image/icons/combat.png)!important;
+    background-size: 28px 28px!important;
+    background-repeat: no-repeat no-repeat!important;
+    background-position-y: 3px!important;   
+    background-position-x: 4px!important;    
+}
+li.gameIconEncounter,
+.buttonAction .gameIconEncounter {
+    background: url(/systems/conventum/image/icons/tasks.png)!important;
+    background-size: 45px 42px!important;
+    background-repeat: no-repeat no-repeat!important;
+    background-position-y: -3px!important;
+    background-position-x: -4px!important;  
+}
+li ._red {
+    width: 32px;
+    height: 32px;
+    background: #e20c0c82;
+    border-radius: 3px;
+}
+a.buttonAction {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.wButtonAction {
+    width: 38px;
+    height: 38px;
+    border: 1px solid #3333334d;
+    border-radius: 3px;    
+}
+._gameIcon {
+    width: 38px;
+    height: 38px;
+    margin-left: -38px;
+}
+._wrapWButton {
+    width: 38px;
+    height: 38px;
+    background: #0000006f;
+}
+._autoHeight {
+    height: auto!important;
+}
+._wizardCombat h2 {
+    font-size: 17px;
+    line-height: 18px;
+    width: calc(100% - 30px);
+    border: 0px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    padding-top: 4px;
+}
+._wizardCombat h2:first-letter {
+    font-size: 22px;
+    font-weight: 900;
+}
+._wInfo {
+    display: none;
+    font-size: 16px;
+    line-height: 20px;
+    padding: 5px;
+    padding-left: 15px;
+    padding-bottom: 15px;    
+}
+hbox._showMore {
+    cursor: pointer;
+    border: 1px solid #33333359;
+    padding: 4px;
+    margin-bottom: 5px;
+    border-radius: 2px;
+}
+hbox._showNoMore {
+    border: 1px solid #33333359;
+    padding: 4px;
+    margin-bottom: 5px;
+    border-radius: 2px;
+}
+hbox._showMore:hover {
+    background: rgba(91, 52, 52, 0.249);
+}
+._good {
+    width: 25px;
+    height: 20px;
+    background: url(/systems/conventum/image/texture/ok.png);
+    background-size: 18px 17px;
+    margin-bottom: -6px;
+    margin-left: 3px;
+    background-repeat: no-repeat no-repeat;
+}
+._bad {
+    width: 25px;
+    height: 20px;
+    background: url(/systems/conventum/image/texture/noOk.png);
+    background-size: 18px 17px;
+    margin-bottom: -6px;
+    margin-left: 3px;
+    background-repeat: no-repeat no-repeat;
+}
+
+
 /* Frames... */
 ._frame {
     position: absolute;

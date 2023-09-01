@@ -331,14 +331,18 @@ export class aqCombat {
             && (e.system.control.visible) ) );
         let oButtons = {};
         mActors.map(e => {
+            const uniqeId = (e.isToken) ? e.tokenId : e.actorId;
             oButtons[e.id] = {
                 label: e.name,
-                actorId: e.id,
+                uniqeId: uniqeId,
+                actorId: e.actorId,
+                tokenId: (e.isToken) ? e.tokenId : null,
+                isToken: (e.isToken),
                 img: e.img,
                 combatTarget: true,
                 callback: async () => {
                     context.setExpress(true);
-                    await context.setTargets([e.id]);
+                    await context.setTargets([uniqeId]);
                     await aqCombat.playWeapon(context);
                 }
             }

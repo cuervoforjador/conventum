@@ -5,6 +5,7 @@
 import { helperSheetCombat } from "../sheets/helpers/helperSheetCombat.js";
 import { HookCombat } from "./_hooksCombat.js";
 import { HookActor } from "./_hooksActor.js";
+import { helperControls } from "../helpers/helperControls.js";
 import { aqCombat } from "../actions/aqCombat.js";
 import { aqContext } from "../actions/aqContext.js";
 
@@ -24,6 +25,17 @@ export class HookEvents {
         $(document).on('click', 'a.combat-button[data-control="resetAll"]', function (event) {
             HookCombat.resetAllInitiativeMod();
         });             
+
+        //WizardCombat click
+        $(document).on('click', 'hbox._showMore', function (event) {
+            $(event.target).parent().parent().find('._wInfo').slideToggle();
+        });
+        $(document).on('click', '.combatWizardActionsButton', function (event) {
+            helperControls.playActions();
+        });        
+        $(document).on('click', '.combatWizardEncounterButton', function (event) {
+            helperControls.playEncounter();
+        });        
 
         //Show Info for skills (Chat Messages)
         $(document).on('click', 'a._infoSkill', function (event) {
