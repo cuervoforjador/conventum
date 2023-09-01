@@ -13,6 +13,12 @@
          {{/each}}
          </ul>
 
+         {{#if (noEmpty systemData.steps) }}
+            <label class="_infoActionPool">{{localize 'info.poolActions1'}}</label>
+         {{else}}
+            <label class="_infoActionPool">{{localize 'info.poolActions2'}}</label>
+         {{/if}}
+
          <ul class="_steps" data-encounterId="{{encounterId}}">
          {{#each systemData.steps as |step id|}}        
                <li class="_step {{#if step.consumed}}_consumed{{/if}}"

@@ -150,6 +150,147 @@
                        autocomplete="off">
             </div>
 
+            {{!-- MOVEMENT --}}   
+            <hbox class="actionBlock">
+                <h2>{{localize 'common.movement'}}</h2>
+                {{#if systemData.sheet.expandedA1}}
+                    <a class="_sheetExpand" data-expand="expandedA1" data-visible="false">
+                        <i class="fas fa-angle-double-up"></i>
+                    </a>
+                {{else}}
+                    <a class="_sheetExpand" data-expand="expandedA1" data-visible="true">
+                        <i class="fas fa-angle-double-down"></i>
+                    </a>
+                {{/if}}
+            </hbox>
+            {{#if systemData.sheet.expandedA1}}
+                <ul class="boxActions">
+                {{#each actionsItems as |action id|}}
+                {{#if action.system.type.movement}}
+                    <li data-itemId="{{action._id}}"
+                        data-filter="{{action.name}}"
+                        class="boxAction">
+
+                        <hbox class="lineAction">
+                            <a class="_showMyItem" data-itemid="{{action._id}}">
+                                <img class="imgAction" src="{{action.img}}"/>
+                            </a>
+                            <a class="_doAction" data-itemid="{{action._id}}" >
+                                <label class="titleAction">{{action.name}}</label>
+                            </a>
+                        </hbox>
+                    </li>
+                {{/if}}
+                {{/each}}
+                </ul>
+            {{/if}}            
+
+            {{!-- ATTACK --}}   
+            <hbox class="actionBlock">
+                <h2>{{localize 'common.actionAttack'}}</h2>
+                {{#if systemData.sheet.expandedA2}}
+                    <a class="_sheetExpand" data-expand="expandedA2" data-visible="false">
+                        <i class="fas fa-angle-double-up"></i>
+                    </a>
+                {{else}}
+                    <a class="_sheetExpand" data-expand="expandedA2" data-visible="true">
+                        <i class="fas fa-angle-double-down"></i>
+                    </a>
+                {{/if}}
+            </hbox>
+            {{#if systemData.sheet.expandedA2}}
+                <ul class="boxActions">
+                {{#each actionsItems as |action id|}}
+                {{#if action.system.type.attack}}
+                    <li data-itemId="{{action._id}}"
+                        data-filter="{{action.name}}"
+                        class="boxAction">
+
+                        <hbox class="lineAction">
+                            <a class="_showMyItem" data-itemid="{{action._id}}">
+                                <img class="imgAction" src="{{action.img}}"/>
+                            </a>
+                            <a class="_doAction" data-itemid="{{action._id}}" >
+                                <label class="titleAction">{{action.name}}</label>
+                            </a>
+                        </hbox>
+                    </li>
+                {{/if}}
+                {{/each}}
+                </ul>
+            {{/if}}
+
+            {{!-- DEFENSE --}}   
+            <hbox class="actionBlock">
+                <h2>{{localize 'common.actionDefense'}}</h2>
+                {{#if systemData.sheet.expandedA3}}
+                    <a class="_sheetExpand" data-expand="expandedA3" data-visible="false">
+                        <i class="fas fa-angle-double-up"></i>
+                    </a>
+                {{else}}
+                    <a class="_sheetExpand" data-expand="expandedA3" data-visible="true">
+                        <i class="fas fa-angle-double-down"></i>
+                    </a>
+                {{/if}}
+            </hbox>
+            {{#if systemData.sheet.expandedA3}}
+                <ul class="boxActions">
+                {{#each actionsItems as |action id|}}
+                {{#if action.system.type.defense}}
+                    <li data-itemId="{{action._id}}"
+                        data-filter="{{action.name}}"
+                        class="boxAction">
+
+                        <hbox class="lineAction">
+                            <a class="_showMyItem" data-itemid="{{action._id}}">
+                                <img class="imgAction" src="{{action.img}}"/>
+                            </a>
+                            <a class="_doAction" data-itemid="{{action._id}}" >
+                                <label class="titleAction">{{action.name}}</label>
+                            </a>
+                        </hbox>
+                    </li>
+                {{/if}}
+                {{/each}}
+                </ul>
+            {{/if}}
+            
+            {{!-- MAGIC --}}   
+            <hbox class="actionBlock">
+                <h2>{{localize 'common.actionSpells'}}</h2>
+                {{#if systemData.sheet.expandedA4}}
+                    <a class="_sheetExpand" data-expand="expandedA4" data-visible="false">
+                        <i class="fas fa-angle-double-up"></i>
+                    </a>
+                {{else}}
+                    <a class="_sheetExpand" data-expand="expandedA4" data-visible="true">
+                        <i class="fas fa-angle-double-down"></i>
+                    </a>
+                {{/if}}
+            </hbox>
+            {{#if systemData.sheet.expandedA4}}
+                <ul class="boxActions">
+                {{#each actionsItems as |action id|}}
+                {{#if action.system.type.spell}}
+                    <li data-itemId="{{action._id}}"
+                        data-filter="{{action.name}}"
+                        class="boxAction">
+
+                        <hbox class="lineAction">
+                            <a class="_showMyItem" data-itemid="{{action._id}}">
+                                <img class="imgAction" src="{{action.img}}"/>
+                            </a>
+                            <a class="_doAction" data-itemid="{{action._id}}" >
+                                <label class="titleAction">{{action.name}}</label>
+                            </a>
+                        </hbox>
+                    </li>
+                {{/if}}
+                {{/each}}
+                </ul>
+            {{/if}}            
+
+        <!--
             <ul class="actorActions">
             {{#each actionsItems as |action id|}}
                 
@@ -168,6 +309,7 @@
                 
             {{/each}}    
             </ul>
+        -->
 
         </div>
 

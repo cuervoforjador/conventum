@@ -24,7 +24,7 @@ Hooks.once("init", async function() {
 
   CONFIG._root = [...game.system.esmodules][0].split('/module')[0];
   CONFIG.ExtendConfig = mainConfig.init(extendConfig);
-  CONFIG.debug.hooks = false;
+  CONFIG.debug.hooks = true;
 
   //Game...
   game[game.system.id] = {

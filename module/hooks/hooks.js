@@ -13,6 +13,7 @@ import { HookTours } from "./_hooksTours.js";
 import { mainMacros } from "../macros/mainMacros.js"
 import { helperSocket } from "../helpers/helperSocket.js";
 import { helperCusto } from "../helpers/helperCusto.js";
+import { helperControls } from "../helpers/helperControls.js";
 import { helperSprites } from "../helpers/helperSprites.js";
 import { helperSheetArmor } from "../sheets/helpers/helperSheetArmor.js";
 import { helperSheetHuman } from "../sheets/helpers/helperSheetHuman.js";
@@ -28,6 +29,8 @@ export class mainHooks {
 
         Hooks.on("setup", () => this._setup());
         Hooks.on("ready", async () => this._ready());
+        Hooks.on("getSceneControlButtons", (mScenes) => this._getSceneControlButtons(mScenes));
+        Hooks.on("renderSceneControls", (controls, html, options) => this._renderSceneControls(controls, html, options));
         Hooks.on("renderHotbar", (element, html, options) => this._renderHotbar(element, html, options));
         Hooks.on("canvasReady", (canvas) => this._canvasReady(canvas));
         Hooks.on("renderCompendiumDirectory", (tab, element, info) => this._renderCompendiumDirectory(tab, element, info));        
@@ -68,9 +71,15 @@ export class mainHooks {
         HookTours.registerTours();   
         mainMacros.registerMacros();
         
-        //CSS
         helperCusto.custoCSS();
+    }
 
+    static _getSceneControlButtons(mScenes) {
+        helperControls.getSceneControlButtons(mScenes);
+    }
+
+    static _renderSceneControls(controls, html, options) {
+        helperControls.renderSceneControls(controls, html, options);
     }
 
     static _renderHotbar(element, html, options) {
@@ -211,7 +220,9 @@ export class mainHooks {
         if (element.hasClass('_targetDialogs'))
             HookCombat.targetDialogs(dialog, element, content);
         if (element.hasClass('_targetDialogsExpress'))
-            HookCombat.targetDialogsExpress(dialog, element, content);            
+            HookCombat.targetDialogsExpress(dialog, element, content);      
+        if (element.hasClass('_actionsDialogsExpress'))
+            helperControls.targetActionsExpress(dialog, element, content);               
     }
 
     static async _renderApplication(app, element, options) {
@@ -239,6 +250,7 @@ export class mainHooks {
     }
 
     static async _updateCombat(combat, combatants, options, sId) {
+        HookCombat.createEncounter();
         await HookCombat.updateCombat(combat);
     }
 

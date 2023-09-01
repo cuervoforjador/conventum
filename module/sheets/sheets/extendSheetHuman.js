@@ -179,6 +179,7 @@ export class extendSheetHuman extends ActorSheet {
     html.find("a._cardInfo").click(this._showMyItem.bind(this));  
     html.find("a._showMyItem").click(this._showMyItem.bind(this));  
     html.find("a._doAction").click(this._doAction.bind(this)); 
+    html.find("a._sheetExpand").click(this._sheetExpand.bind(this)); 
     $(".searchAction").on('input', this._searchAction.bind(this));
 
     /* Magic */
@@ -305,6 +306,15 @@ export class extendSheetHuman extends ActorSheet {
     const item = (itemId) ? this.actor.items.get(itemId) : null;
     if (!item) return;  
     item.delete();
+  }
+
+  _sheetExpand(event) {
+    event.preventDefault();
+    const sProperty = event.currentTarget?.dataset.expand;
+    const bValue = (event.currentTarget?.dataset.visible === 'true');
+    let data = {sheet: {}};
+        data.sheet[sProperty] = bValue;
+    this.actor.update({system: data});
   }
 
   _showMyItem(event) {
@@ -454,7 +464,7 @@ export class extendSheetHuman extends ActorSheet {
   _searchAction(event) {
     event.preventDefault();
     const search = $(event.target).val();
-    $("ul.actorActions li").each(function(i,e) {
+    $("ul.boxActions li").each(function(i,e) {
       if ($(e).data("filter").toUpperCase().includes(search.toUpperCase()))
         $(e).show();
       else

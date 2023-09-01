@@ -20,8 +20,8 @@ export class extendSheetActionPool extends ItemSheet {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: [game.system.id, "sheet", "item"],
       template: CONFIG._root+"/templates/actionPool.html",
-      width: 350,
-      height: 400,
+      width: 400,
+      height: 500,
       tabs: [
         {navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "main"}
       ],       

@@ -141,7 +141,10 @@ export class aqContext {
             if (this._weapon)
                 this.msgHistory("common.weapon", this._weapon.name);
 
-            if (options.express) return;
+            if (options.express) {
+                this._noAction = true;
+                return;
+            }
 
             this._combat = aqActions.getCurrentCombat();
             this._combat = (this._combat !== undefined) ? this._combat : null;
@@ -834,6 +837,7 @@ export class aqContext {
      */
     async _evalModes() {
         if (!this._rollSuccess) return;
+        if (this._noAction) return;
 
         const mModes = Array.from(await game.packs.get('conventum.modes'))
                             .filter(e => (e.system.control.world === this._worldId));
@@ -1381,13 +1385,13 @@ export class aqContext {
                                 targetData.armor.finalProtection.toString()+'</li>';
 
         //Damage x Resistance (Stuning...)
-        if (this._action.system.damage.damageXendurance)
+        if ((!this._noAction) && (this._action.system.damage.damageXendurance))
             mainInfo = this._getStunnedText(targetId);
 
         return '<div class="_msgDamLocation">'+targetData.location.name+'</div>'+
                 '<ul class="_msgDamInfo">'+mainInfo+'</ul>'+
                 this._getMessageHelpTab()+
-                ( (this._action.system.damage.noDamage) ? '' :
+                ( ((!this._noAction) && (this._action.system.damage.noDamage)) ? '' :
                   '<div class="_msgDamTotal">'+targetData.finalHitDamage.toString()+'</div>'+
                   '<div class="_hitPoints">'+game.i18n.localize("common.hp")+'</div>' );
     }
@@ -1588,8 +1592,8 @@ export class aqContext {
         let location = targetData.location;
 
         //No Damage...
-        let noDamage = (this._action.system.damage.noDamage);
-        if (this._action.system.damage.noDamage)
+        let noDamage = (this._noAction) ? false : (this._action.system.damage.noDamage);
+        if (noDamage)
             this.msgHistory("common.noDamage", this._action.name);
 
         //Armor
@@ -1718,7 +1722,7 @@ export class aqContext {
         }
 
         //Damage x Endurance
-        if (this._action.system.damage.damageXendurance) {
+        if ((!this._noAction) && (this._action.system.damage.damageXendurance)) {
             if (targetData.finalHitDamage >= target.system.characteristics.primary.end.value) {
                 const stunMode = Array.from(await game.packs.get('conventum.modes'))
                                       .filter(e => e.system.stun)[0];

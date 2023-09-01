@@ -696,31 +696,65 @@ a._infoSkill {
     left: 64px;
 }
 
-._targetDialogsExpress section.window-content {
+._targetDialogsExpress section.window-content,
+._actionsDialogsExpress section.window-content {
     overflow: inherit;
 }
-._targetDialogsExpress .dialog-buttons {
+._targetDialogsExpress .dialog-buttons,
+._actionsDialogsExpress .dialog-buttons {
     display: flex;
     flex-wrap: wrap;
-    align-items: flex-start;
+    align-items: stretch;
 }
-._targetDialogsExpress button.dialog-button {
+._targetDialogsExpress button.dialog-button,
+._actionsDialogsExpress button.dialog-button {
     width: 150px;
     min-width: 150px;
     display: flex;
     flex-direction: row;
-    align-content: center;
-    align-items: center;
+    align-items: flex-start;
+    align-content: flex-start;
     justify-content: flex-start;
     background: #ffffff8c;
     margin-bottom: 6px;
     border: 1px solid #3333334a;
 }
-._targetDialogsExpress button img {
+._targetDialogsExpress button img,
+._actionsDialogsExpress button img {
     width: 35px;
     height: 35px;
     border: none;
     padding: 2px;
     margin-left: -4px;
     margin-right: 7px;
+}
+._actionsDialogsExpress vbox {
+    width: 100%;
+    align-items: flex-start;
+}
+._actionsDialogsExpress hbox {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+}
+._actionsDialogsExpress ul._action {
+    margin: 0px;
+    padding: 0px;
+}
+._actionsDialogsExpress ul._action li {
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 100;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    align-content: center;
+}
+._finalButton {
+    min-width: calc(100%)!important;
+    background: #8639397d!important;
+    display: flex!important;
+    align-items: center!important;
+    justify-content: center!important;    
 }

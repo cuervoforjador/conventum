@@ -298,6 +298,12 @@
         "y": 0,
         "sheetX": 0,
         "sheetY": 0
+      },
+      "sheet": {
+        "expandedA1": true,
+        "expandedA2": true,
+        "expandedA3": true,
+        "expandedA4": true        
       }
     },
     "horse": {
