@@ -122,6 +122,8 @@ export class helperControls {
 
         //No Combat
         const combat = aqActions.getCurrentCombat();
+        const encounter = aqActions.getCurrentEncounter();
+
         if (!combat) {
 
             new Dialog({
@@ -136,6 +138,7 @@ export class helperControls {
             content += '<div class="_wizardCombat">';
             const sBad = '<div class="_bad"></div>';
             const sGood = '<div class="_good"></div>';
+            const sExp = '<div class="_exp"></div>';
 
             //Combatants
             let sTitle = '<h2>'+game.i18n.localize('title.combatants')+'</h2>';
@@ -144,8 +147,8 @@ export class helperControls {
                 content += '<div class="_wInfo"><p>'+game.i18n.localize("info.noCombatant")+'</p></div> </div>';
             } else {
                 content += '<hbox class="_showNoMore">'+sGood+sTitle+'</hbox>';
-            }   
-
+            }    
+            
             //Initiative
             sTitle = '<h2>'+game.i18n.localize('title.initiative')+'</h2>';
             if ( (Array.from(combat.combatants).length === 0) || 
@@ -154,7 +157,7 @@ export class helperControls {
                 content += '<div class="_wInfo"><p>'+game.i18n.localize("info.noInitiative")+'</p></div> </div>';
             } else {
                 content += '<hbox class="_showNoMore">'+sGood+sTitle+'</hbox>';
-            }
+            }            
                  
             //Declaring Actions
             sTitle = '<h2>'+game.i18n.localize('title.actions')+'</h2>';
@@ -180,12 +183,24 @@ export class helperControls {
 
             //Sorting Actions
             sTitle = '<h2>'+game.i18n.localize('title.actionsSort')+'</h2>';
-                content += '<div> <hbox class="_showMore">'+sBad+sTitle+'</hbox>';
+                content += '<div> <hbox class="_showMore">'+sExp+sTitle+'</hbox>';
                 content += '<div class="_wInfo"><p>'+game.i18n.localize("info.orderActions1")+'</p>'+
                                 buttonEncounter+
                                 '<p>'+game.i18n.localize("info.orderActions2")+'</p>'+
                                 '</div> </div>';
         
+            //Playing actions
+            sTitle = '<h2>'+game.i18n.localize('title.actionsPlay')+'</h2>';
+
+            if ( (Array.from(combat.combatants).length === 0) ||
+                 (noActionsChars !== '') || 
+                 ((encounter) && 
+                  (encounter.system.steps.find(e => !e.consumed))) ) {
+                content += '<div> <hbox class="_showMore">'+sBad+sTitle+'</hbox>';
+                content += '<div class="_wInfo"><p>'+game.i18n.localize("info.noActionsPlayed")+'</p></div> </div>';
+            } else {
+                content += '<hbox class="_showNoMore">'+sGood+sTitle+'</hbox>';
+            }            
 
             //Conclusion
             sTitle = '<h2>'+game.i18n.localize('title.conclusion')+'</h2>';

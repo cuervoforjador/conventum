@@ -179,6 +179,15 @@ hbox._showMore:hover {
     margin-left: 3px;
     background-repeat: no-repeat no-repeat;
 }
+._exp {
+    width: 25px;
+    height: 20px;
+    background: none;
+    background-size: 18px 17px;
+    margin-bottom: -6px;
+    margin-left: 3px;
+    background-repeat: no-repeat no-repeat;
+}
 
 
 /* Frames... */

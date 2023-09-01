@@ -546,7 +546,7 @@
     "title.initiative":             "2. Tiradas de Iniciativa",
     "title.actions":                "3. Declarar acciones",
     "title.actionsSort":            "4. Ordenar acciones",
-    "title.actionsResolve":         "5. Resolver acciones",
+    "title.actionsPlay":            "5. Jugar acciones",
     "title.conclusion":             "6. Conclusión",
     "info.noCombat":                "No tienes creado ningún combate.<br/><br/>Para poder acceder a la pila de acciones, es necesario que crees antes un combate y vincules los personajes que desees a él.<br/><br/>La forma más rapida de hacerlo es seleccionando directamente los Token de los personajes involucrados, pulsando botón derecho sobre ellos y volviendo a pulsar sobre el icono inferior-derecha de combate.",
     "info.noCombatant":             "No existen combatientes asociados al combate.<br/>Añade personajes y criaturas. Click derecho sobre el <b>Token</b> de cualquier Personaje y a continuación click sobre el icono inferior-derecha de combate.",
@@ -555,6 +555,7 @@
     "info.noActions2":              "Puedes acceder al <b>panel rápido de acciones</b> a través del botón: ",
     "info.orderActions1":           "Antes de resolver las acciones de jugadores y PNJs, es necesario que el director de juego las ordene coherentemente.<br/>Abre el listado de acciones del <b>Encuentro</b> a través del botón:",
     "info.orderActions2":           "y <b>arrastra cada acción</b> de arriba a abajo para ordernarlas según creas conveniente.",
+    "info.noActionsPlayed":         "Hay acciones que aun no se han consumido",
 
     "wizard.text01":                "Antes que nada deberás decidir el Orbe en el que jugarás.\n\n Cada orbe tiene sus propias reglas, configuraciones y contexto. Una vez decidas el Orbe, no podrás volver atrás.",
     "wizard.title01":               "Orbe",    
