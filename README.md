@@ -1,4 +1,4 @@
-<h1>Aquelarre for FoundryVTT</h1>
+![image](https://github.com/cuervoforjador/conventum/assets/77968758/d2bfbb87-0358-452b-a0a5-eca9e49377e5)<h1>Aquelarre for FoundryVTT</h1>
 
 ## Important!
 This system is currently under development. Refrain from installing it until further notice.
@@ -13,8 +13,7 @@ or search for it directly as a package like "Aquelarre".
 ## Game aids
 <a href="https://github.com/cuervoforjador/conventum/wiki/Gu%C3%ADa-r%C3%A1pida-de-Combate">Combate (En español)</a>
 
-## Contributing
-
+## Fortuna Maledicta
 Aquelarre VTT team is made up of: 
 
 <table>
