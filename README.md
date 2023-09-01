@@ -35,10 +35,15 @@ Aquelarre VTT team is made up of:
   </a>
   </td>  
   <td>
-  <a href="https://github.com/mk1lolo">
-      <img class="avatar avatar-user" data-hovercard-type="user" data-hovercard-url="/users/mk1lolo/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" src="https://cdn.discordapp.com/avatars/1114214929453559839/d774a9dba14f3ccca925f28b86a0e4f1.webp" width="150" alt="@LingInSpain3919">
+  <a href="">
+      <img class="avatar avatar-user" data-hovercard-type="user" data-hovercard-url="" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" src="https://cdn.discordapp.com/avatars/1114214929453559839/d774a9dba14f3ccca925f28b86a0e4f1.webp" width="150" alt="@LingInSpain3919">
   </a>
   </td>  
+  <td>
+  <a href="https://github.com/tanynys">
+      <img class="avatar avatar-user" data-hovercard-type="user" data-hovercard-url="/users/tanynys/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" src="https://cdn.discordapp.com/avatars/281447229334618113/319e8d3887aea4bc7f701974442a89ef.webp" width="150" alt="@Tanys">
+  </a>
+  </td>   
 </tr>
 <tr>
   <td>
@@ -52,6 +57,9 @@ Aquelarre VTT team is made up of:
   </td> 
   <td>
    <a href=""><strong>LingInSpain</strong></a>  
+  </td>   
+  <td>
+   <a href=""><strong>Tanys</strong></a>  
   </td>   
 </tr>
 </table>
