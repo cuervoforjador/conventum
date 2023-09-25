@@ -5,18 +5,7 @@
     {{> itemFrame }}
     
     {{!-- HEADER --}}
-    <itemHeader>
-             
-        {{!-- Filigrees --}}
-        <inkDetail class="inkCorner"></inkDetail>
-        <inkDetail class="inkSubline"></inkDetail>
-
-        {{!-- Image --}}
-        <itemImage>
-            <img src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
-        </itemImage>
-
-        {{!-- Header Info --}}
+    <itemHeader class="_chrome">
         <itemHeaderInfo>
             <itemTitle>
                 <input type="text" name="name" value="{{item.name}}" placeholder=""/>
@@ -39,114 +28,30 @@
                            value="{{systemData.income}}" 
                            type="number" />
                     <label class="_marginLeft">maravedíes</label>
-                </hbox>                 
-                    <nav class="sheet-tabs itemTabsHeader _100 _marginTop" data-group="primary">
-                        <a data-tab="main">{{ localize "common.requirement" }}</a>
-                        <a data-tab="kingdoms">{{ localize "template.kingdom" }}</a>
-                        <a data-tab="cultures">{{ localize "template.culture" }}</a>
-                        <a data-tab="societies">{{ localize "template.society" }}</a>
-                        <a data-tab="stratums">{{ localize "template.stratum" }}</a>
-                        <a data-tab="status">{{ localize "template.status" }}</a>
-                        <a data-tab="skills1">{{ localize "common.primary" }}</a>
-                        <a data-tab="skills2">{{ localize "common.secondary" }}</a>
-                        <a data-tab="description">{{ localize "common.description" }}</a>
-                    </nav> 
+                </hbox>
             </vbox>
         </itemHeaderInfo>
     </itemHeader> 
     
     {{!-- CONTENT --}}
     <itemContent>
-
+        <nav class="sheet-tabs itemTabsHeader _100 _marginTop" data-group="primary">
+            <a data-tab="main">{{ localize "common.requirement" }}</a>
+            <a data-tab="kingdoms">{{ localize "template.kingdom" }}</a>
+            <a data-tab="cultures">{{ localize "template.culture" }}</a>
+            <a data-tab="societies">{{ localize "template.society" }}</a>
+            <a data-tab="stratums">{{ localize "template.stratum" }}</a>
+            <a data-tab="status">{{ localize "template.status" }}</a>
+            <a data-tab="skills1">{{ localize "common.primary" }}</a>
+            <a data-tab="skills2">{{ localize "common.secondary" }}</a>
+            <a data-tab="description">{{ localize "common.description" }}</a>
+        </nav> 
         <div class="frameContent">
             <section class="sheet-body">
-                <div class="tab kingdoms" data-group="primary" data-tab="kingdoms">
-                    <h3>{{localize "template.kingdom" }}</h3>
-                    <ul class="profSkills">
-                        {{#each backend.kingdoms as |item key|}}
-                        <li class="_profSkill">
-                            <label class="switch" style="margin-right: 10px; margin-left: 10px;">
-                                <input type="checkbox" 
-                                    name="system.requirement.kingdoms.{{item._id}}.apply"
-                                    {{checkedExtend 'system.requirement.kingdoms' item._id 'apply'}} />
-                                <span class="sliderSwitch"></span>
-                            </label>                            
-                            <label class="_120px">{{item.name}}</label>                          
-                        </li>
-                        {{/each}}                     
-                    </ul>
-                </div>          
 
-                <div class="tab cultures" data-group="primary" data-tab="cultures">
-                    <h3>{{localize "template.culture" }}</h3>
-                    <ul class="profSkills">
-                        {{#each backend.cultures as |item key|}}
-                        <li class="_profSkill">
-                            <label class="switch" style="margin-right: 10px; margin-left: 10px;">
-                                <input type="checkbox" 
-                                    name="system.requirement.cultures.{{item._id}}.apply"
-                                    {{checkedExtend 'system.requirement.cultures' item._id 'apply'}} />
-                                <span class="sliderSwitch"></span>
-                            </label>                            
-                            <label class="_120px">{{item.name}}</label>                         
-                        </li>
-                        {{/each}}                     
-                    </ul>
-                </div>
-
-                <div class="tab societies" data-group="primary" data-tab="societies">
-                    <h3>{{localize "template.society" }}</h3>
-                    <ul class="profSkills">
-                        {{#each backend.societies as |item key|}}
-                        <li class="_profSkill">
-                            <label class="switch" style="margin-right: 10px; margin-left: 10px;">
-                                <input type="checkbox" 
-                                    name="system.requirement.societies.{{item._id}}.apply"
-                                    {{checkedExtend 'system.requirement.societies' item._id 'apply'}} />
-                                <span class="sliderSwitch"></span>
-                            </label>                            
-                            <label class="_120px">{{item.name}}</label>                         
-                        </li>
-                        {{/each}}                     
-                    </ul>
-                </div>
-
-                <div class="tab stratums" data-group="primary" data-tab="stratums">
-                    <h3>{{localize "template.stratum" }}</h3>
-                    <ul class="profSkills">
-                        {{#each backend.stratums as |item key|}}
-                        <li class="_profSkill">
-                            <label class="switch" style="margin-right: 10px; margin-left: 10px;">
-                                <input type="checkbox" 
-                                    name="system.requirement.stratums.{{item._id}}.apply"
-                                    {{checkedExtend 'system.requirement.stratums' item._id 'apply'}} />
-                                <span class="sliderSwitch"></span>
-                            </label>                            
-                            <label class="_120px">{{item.name}}</label>                       
-                        </li>
-                        {{/each}}                     
-                    </ul>
-                </div>                
-
-                <div class="tab status" data-group="primary" data-tab="status">
-                    <h3>{{localize "template.status" }}</h3>
-                    <ul class="profSkills">
-                        {{#each backend.status as |item key|}}
-                        <li class="_profSkill">
-                            <label class="switch" style="margin-right: 10px; margin-left: 10px;">
-                                <input type="checkbox" 
-                                    name="system.requirement.status.{{item._id}}.apply"
-                                    {{checkedExtend 'system.requirement.status' item._id 'apply'}} />
-                                <span class="sliderSwitch"></span>
-                            </label>                            
-                            <label class="_120px">{{item.name}}</label>                         
-                        </li>
-                        {{/each}}                     
-                    </ul>
-                </div>
-
+                {{!--- REQUIREMENT ---}}
                 <div class="tab main" data-group="primary" data-tab="main">
-                    <h3>{{localize "common.requirement" }}</h3>
+
                     <ul class="profSkills">
                         {{#each backend.charPrimary as |char key|}}
                         <li class="_profSkill">
@@ -181,7 +86,99 @@
                     </ul>
                 </div>
 
+                {{!--- KINGDOMS ---}}
+                <div class="tab kingdoms" data-group="primary" data-tab="kingdoms">
+
+                    <ul class="profSkills">
+                        {{#each backend.kingdoms as |item key|}}
+                        <li class="_profSkill">
+                            <label class="switch" style="margin-right: 10px; margin-left: 10px;">
+                                <input type="checkbox" 
+                                    name="system.requirement.kingdoms.{{item._id}}.apply"
+                                    {{checkedExtend 'system.requirement.kingdoms' item._id 'apply'}} />
+                                <span class="sliderSwitch"></span>
+                            </label>                            
+                            <label class="_120px">{{item.name}}</label>                          
+                        </li>
+                        {{/each}}                     
+                    </ul>
+                </div>          
+
+                {{!--- CULTURES ---}}
+                <div class="tab cultures" data-group="primary" data-tab="cultures">
+
+                    <ul class="profSkills">
+                        {{#each backend.cultures as |item key|}}
+                        <li class="_profSkill">
+                            <label class="switch" style="margin-right: 10px; margin-left: 10px;">
+                                <input type="checkbox" 
+                                    name="system.requirement.cultures.{{item._id}}.apply"
+                                    {{checkedExtend 'system.requirement.cultures' item._id 'apply'}} />
+                                <span class="sliderSwitch"></span>
+                            </label>                            
+                            <label class="_120px">{{item.name}}</label>                         
+                        </li>
+                        {{/each}}                     
+                    </ul>
+                </div>
+
+                {{!--- SOCIETIES ---}}
+                <div class="tab societies" data-group="primary" data-tab="societies">
+
+                    <ul class="profSkills">
+                        {{#each backend.societies as |item key|}}
+                        <li class="_profSkill">
+                            <label class="switch" style="margin-right: 10px; margin-left: 10px;">
+                                <input type="checkbox" 
+                                    name="system.requirement.societies.{{item._id}}.apply"
+                                    {{checkedExtend 'system.requirement.societies' item._id 'apply'}} />
+                                <span class="sliderSwitch"></span>
+                            </label>                            
+                            <label class="_120px">{{item.name}}</label>                         
+                        </li>
+                        {{/each}}                     
+                    </ul>
+                </div>
+
+                {{!--- STRATUMS ---}}
+                <div class="tab stratums" data-group="primary" data-tab="stratums">
+
+                    <ul class="profSkills">
+                        {{#each backend.stratums as |item key|}}
+                        <li class="_profSkill">
+                            <label class="switch" style="margin-right: 10px; margin-left: 10px;">
+                                <input type="checkbox" 
+                                    name="system.requirement.stratums.{{item._id}}.apply"
+                                    {{checkedExtend 'system.requirement.stratums' item._id 'apply'}} />
+                                <span class="sliderSwitch"></span>
+                            </label>                            
+                            <label class="_120px">{{item.name}}</label>                       
+                        </li>
+                        {{/each}}                     
+                    </ul>
+                </div>                
+
+                {{!--- STATUS ---}}
+                <div class="tab status" data-group="primary" data-tab="status">
+
+                    <ul class="profSkills">
+                        {{#each backend.status as |item key|}}
+                        <li class="_profSkill">
+                            <label class="switch" style="margin-right: 10px; margin-left: 10px;">
+                                <input type="checkbox" 
+                                    name="system.requirement.status.{{item._id}}.apply"
+                                    {{checkedExtend 'system.requirement.status' item._id 'apply'}} />
+                                <span class="sliderSwitch"></span>
+                            </label>                            
+                            <label class="_120px">{{item.name}}</label>                         
+                        </li>
+                        {{/each}}                     
+                    </ul>
+                </div>
+
+                {{!--- SKILLS 1 ---}}
                 <div class="tab skills1" data-group="primary" data-tab="skills1">
+
                     <ul class="profSkills">
                         {{#each backend.skills as |skill key|}}
                         <li class="_profSkill">
@@ -201,7 +198,9 @@
                     </ul>               
                 </div>     
 
+                {{!--- SKILLS 2 ---}}
                 <div class="tab skills2" data-group="primary" data-tab="skills2">
+                    
                     <ul class="profSkills">
                         {{#each backend.skills as |skill key|}}
                         <li class="_profSkill">
@@ -221,9 +220,18 @@
                     </ul>               
                 </div>
 
+                {{!--- DESCRIPTION & IMAGE ---}}
                 <div class="tab description" data-group="primary" data-tab="description">
-                    {{> itemDescription }}
-                </div>                
+                <slidePanel class="_100">
+                    <panelContent>
+                        <itemImage>
+                            <img src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+                        </itemImage>                                    
+                        {{> itemDescription }}
+                    </panelContent>
+                </slidePanel>
+                </div> 
+
             </section>
         </div>
 

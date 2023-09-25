@@ -37,9 +37,11 @@
           {{> humanPosterActions }}
         {{/if}}
 
+        {{!-- 
         {{#if targets.showTargets }}
           {{> humanPosterTargets }}
         {{/if}}
+        --}}
 
         {{!-- QUICK BARS --}}
         {{#if systemData.quickBar }}
@@ -51,7 +53,9 @@
         {{#each modes as |mode id|}}
           {{#if (modeStickers mode)}}
           <div class="_imLucky">
-            <img src="{{mode.img}}" />
+            <a class="_showMode" data-itemid="{{mode._id}}">
+              <img src="{{mode.img}}" title="{{mode.name}}"/>
+            </a>
           </div>
           {{/if}}
         {{/each}}

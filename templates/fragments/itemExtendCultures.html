@@ -4,8 +4,8 @@
 {{#each backend.cultures as |item key|}}
 
     <li class="itemList" data-item="{{key}}">
-        <hbox class="_100">
-            <label style="width: 100px">{{item.name}}</label>
+        <hbox class="_large">
+            <label style="width: 150px">{{item.name}}</label>
             <label class="switch">
                 <input type="checkbox" 
                     name="system.backend.cultures.{{item.id}}.checked"
@@ -13,12 +13,12 @@
                 <span class="sliderSwitch"></span>
             </label>
             <input type="text" 
-                   style="margin-left: 5px; text-align: center; width: 20px;"
+                   style="margin-left: 5px; text-align: center; width: 30px;"
                    name="system.backend.cultures.{{item.id}}.low"
                    value="{{itemPropertyExtend 'systemData.backend.cultures' item.id 'low'}}" />
 
             <input type="text" 
-                   style="margin-left: 5px; text-align: center; width: 20px;"
+                   style="margin-left: 5px; text-align: center; width: 30px;"
                    name="system.backend.cultures.{{item.id}}.high"
                    value="{{itemPropertyExtend 'systemData.backend.cultures' item.id 'high'}}" />
         </hbox>

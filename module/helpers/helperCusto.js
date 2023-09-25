@@ -27,4 +27,49 @@ export class helperCusto {
         document.documentElement.style.setProperty('--tile2-aq', myWorld.system.config.custo.tile2);
     }
 
+    /**
+     * initialImages
+     * @param {*} item 
+     * @param {*} options 
+     * @param {*} sId 
+     */
+    static initialImages(item, options, sId) {
+
+        if (item.type === 'world')
+            item.img = '/systems/conventum/image/content/world/aquelarre.png';       
+        if (item.type === 'society')
+            item.img = '/systems/conventum/image/content/society/base.png';       
+        if (item.type === 'kingdom')
+            item.img = '/systems/conventum/image/content/kingdom/base.png';       
+        if (item.type === 'culture')
+            item.img = '/systems/conventum/image/content/cultures/base.png';         
+        if (item.type === 'language')
+            item.img = '/systems/conventum/image/content/others/lingua.png';    
+        if (item.type === 'stratum')
+            item.img = '/systems/conventum/image/content/stratum/base.png';    
+        if (item.type === 'status')
+            item.img = '/systems/conventum/image/content/status/status.png';    
+        if (item.type === 'skill')
+            item.img = '/systems/conventum/image/content/skills/base.png';    
+        if (item.type === 'profession')
+            item.img = '/systems/conventum/image/content/profession/base.png';   
+        if (item.type === 'location')
+            item.img = '/systems/conventum/image/content/others/location.png';   
+        if (item.type === 'mode')
+            item.img = '/systems/conventum/image/content/modes/base.png';   
+        if (item.type === 'armor')
+            item.img = '/systems/conventum/image/content/armor/base.png';   
+        if (item.type === 'weapon')
+            item.img = '/systems/conventum/image/content/weapons/base.png'; 
+        if (item.type === 'action')
+            item.img = '/systems/conventum/image/content/action/base.png';       
+        if (item.type === 'spell')
+            item.img = '/systems/conventum/image/content/spells/base.png';           
+        if (item.type === 'ritual')
+            item.img = '/systems/conventum/image/content/spells/base.png';                    
+        if (item.type === 'trait')
+            item.img = '/systems/conventum/image/content/traits/trait10.png';
+
+    }
+
 }

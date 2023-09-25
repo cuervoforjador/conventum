@@ -13,6 +13,8 @@ import { HookActor } from "../../hooks/_hooksActor.js";
 import { HookCompendium } from "../../hooks/_hooksCompendium.js";
 import { mainUtils } from "../../mainUtils.js";
 import { aqCombat } from "../../actions/aqCombat.js";
+import { aqContext } from "../../actions/aqContext.js";
+import { aqActions } from "../../actions/aqActions.js";
 
 export class extendSheetHuman extends ActorSheet {
 
@@ -89,7 +91,7 @@ export class extendSheetHuman extends ActorSheet {
 
     //Combat
     context.combats = helperSheetCombat.getActorCombats(this.actor);
-    context.combatBackend = helperSheetCombat.getActorCombatBackend(context, this.actor);
+    context.combatBackend = helperSheetCombat.getActorCombatBackend(this.actor);
 
     //Im Master..
     context.imMaster = game.user.isGM;
@@ -156,6 +158,7 @@ export class extendSheetHuman extends ActorSheet {
     html.find("._diceCharacteristic").click(this._diceCharacteristic.bind(this));
     html.find("._diceSecondary").click(this._diceSecondary.bind(this));
     html.find("._activeLuck").click(this._activeLuck.bind(this));
+    html.find("a._showMode").click(this._showMode.bind(this));
     
     /* Traits */
     html.find("._traitShow").click(this._traitShow.bind(this));
@@ -168,12 +171,17 @@ export class extendSheetHuman extends ActorSheet {
     html.find("._tileIcon").click(this._gridSkills.bind(this));
     html.find(".playSkill").click(this._playSkill.bind(this));
     html.find("a.diceSkill").click(this._playSkill.bind(this)); 
+    html.find("a._skillInfo").click(this._skillInfo.bind(this)); 
     html.find("a.experienceSkill").click(this._experienceSkill.bind(this)); 
     $(".searchSkill").on('input', this._searchSkill.bind(this));
 
     /* Weapons & actions*/
+    html.find("a.playCombatSkill").click(this._playCombatSkill.bind(this));  
     html.find("a.playWeapon").click(this._playWeapon.bind(this));  
+    html.find("a._whyThisPercent").click(this._whyThisPercent.bind(this));  
     html.find("a.playWeaponExpress").click(this._playWeaponExpress.bind(this)); 
+    html.find("a.playMovement").click(this._playMovement.bind(this));
+    html.find("a.showRejectInfo").click(this._showRejectInfo.bind(this));
     html.find(".weaponHand").click(this._weaponHand.bind(this));  
     html.find("a._encounterInfo").click(this._showItem.bind(this));
     html.find("a._cardInfo").click(this._showMyItem.bind(this));  
@@ -198,9 +206,12 @@ export class extendSheetHuman extends ActorSheet {
     /* Items */
     html.find("a.actionIcon").click(this._actionIcon.bind(this));    
     html.find("a.showInfo").click(this._showInfo.bind(this));
-    html.find("a.showmyHorse").click(this._showMyHorse.bind(this))
+    html.find("a.showmyHorse").click(this._showMyHorse.bind(this));
+    html.find("a.synchActions").click(this._synchActions.bind(this));
 
     /* Modes */
+    html.find("a._showBarModes").click(this._showBarModes.bind(this)); 
+    html.find("a._closeModesBar").click(this._hideBarModes.bind(this)); 
     html.find("a._mode").click(this._playMode.bind(this));    
 
     if ( !this.isEditable ) return;
@@ -370,6 +381,17 @@ export class extendSheetHuman extends ActorSheet {
     helperRolls.rollDices(this.actor, sPath, true, '', null);
   }
 
+  async _showMode(event) {
+    event.preventDefault();
+    await HookCompendium.frequent();
+    const modeId = event.currentTarget?.dataset.itemid;
+    const item = await game.packs.get('conventum.modes').get(modeId);
+    item.sheet.render(true, {
+      editable: false
+    });
+    item.sheet._tabs[0].active = 'description';
+  }
+
   async _playSkill(event) {
     event.preventDefault();
     const skillId = event.currentTarget?.dataset.itemid;
@@ -384,6 +406,18 @@ export class extendSheetHuman extends ActorSheet {
     if (!skill) return;
     const sPath = 'skills.'+skillId;
     helperRolls.rollDices(this.actor, sPath, true, sFormula, actionId);
+  }
+
+  async _skillInfo(event) {
+    event.preventDefault();
+    const skillId = event.currentTarget?.dataset.itemid;
+    await HookCompendium.frequent();
+
+    const item = await game.packs.get('conventum.skills').get(skillId);
+    item.sheet.render(true, {
+      editable: game.user.isGM
+    });
+    item.sheet._tabs[0].active = 'description';            
   }
 
   async _experienceSkill(event) {
@@ -419,6 +453,96 @@ export class extendSheetHuman extends ActorSheet {
       if (search === '') $(e).show();
     }.bind(this));    
 
+  }
+
+  _playMovement(event) {
+    event.preventDefault();
+    const skillId = event.currentTarget?.dataset.itemid;
+    const actionId = event.currentTarget?.dataset.actionid;
+    const sFormula = event.currentTarget?.dataset.formula;
+
+    if (skillId !== '') {
+      
+    }
+  }
+
+  _showRejectInfo(event) {
+    event.preventDefault();
+
+    const weaponId = event.currentTarget?.dataset.weaponid;
+    const weapon = this.actor.items.get(weaponId);
+    const actorId = this.actor.id;
+    const tokenId = (this.actor.isToken) ? this.actor.token.id : null;
+    const action = aqActions.getCurrentAction(actorId, tokenId);
+
+    const info = aqCombat.checkActionWeapon(action, weapon, this.actor);
+    new Dialog({
+      title: 'Info',
+      content: info.descr,
+      buttons: [] }).render(true);
+  }
+
+  async _playCombatSkill(event) {
+      event.preventDefault();
+      const actorActions = helperActions.getActions(this.actor);
+      if (!actorActions.showPoster) return;
+      const uniqeId = (this.actor.isToken) ? this.actor.token.id : this.actor.id;
+
+      if (actorActions.action.system.target.forceSelection) {
+          aqCombat.dialogTargets(uniqeId, null);
+      } else {
+          aqCombat.playCombatSkill(uniqeId);
+      }
+  }
+
+  _whyThisPercent(event) {
+    event.preventDefault();
+
+    const uniqeId = (this.actor.isToken) ? this.actor.token.id : this.actor.id;
+
+    const weaponId = event.currentTarget?.dataset.weaponid;
+    if (!weaponId) return;
+    const weapon = this.actor.items.get(weaponId);
+    
+    const actorActions = helperActions.getActions(this.actor);
+    if (!actorActions.showPoster) {
+        new Dialog({
+          title: game.i18n.localize("common.details"),
+          content: aqCombat.checkActionWeapon(null, weapon, this.actor).descr,
+          buttons: {} }).render(true);       
+        return;
+    }
+    const action = actorActions.action;
+
+    let auxContext = new aqContext({actorId: this.actor.id, 
+                                    tokenId: (this.actor.isToken) ? this.actor.token.id : '',
+                                    weaponId: weaponId,
+                                    simulate: true});
+    auxContext.prepareContext(true);    
+    let mHistory = auxContext._history;
+    let sHistory = '';
+    mHistory.map(s => {sHistory += '<li>'+s+'</li>';})
+
+    let weaponEval = aqCombat.checkActionWeapon(action, weapon, this.actor);
+
+    let oButtons = {};
+    if (weaponEval.check) {
+      oButtons[weaponId] = {
+        label: game.i18n.localize("common.playWeapon"),
+        callback: async () => {
+          aqCombat.dialogTargets(uniqeId, weaponId);
+        }
+      }      
+    } else {
+      sHistory += '<li class="_noPossible">'+weaponEval.descr+'</li>';
+    }
+
+    sHistory = '<ul class="_dialogHistory">'+sHistory+'</ul>';
+
+    new Dialog({
+      title: game.i18n.localize("common.details"),
+      content: sHistory,
+      buttons: oButtons }).render(true);      
   }
 
   _playWeapon(event) {
@@ -607,6 +731,26 @@ export class extendSheetHuman extends ActorSheet {
      const sHorseId = event.currentTarget?.dataset.horse;
      game.actors.get(sHorseId).sheet.render(true);
   }
+
+  //_synchActions
+  async _synchActions(event) {
+    event.preventDefault();
+    for (let item of Array.from(this.actor.items).filter(e => (e.type === 'action'))) {
+       await item.delete();
+    }
+  }
+
+  // _showBarModes
+  _showBarModes(event) {
+    event.preventDefault();
+    $('._modesBar').toggle();
+  }
+
+  // _hideBarModes
+  _hideBarModes(event) {
+    event.preventDefault();
+    $('._modesBar').toggle();
+  }  
 
   // _playMode
   async _playMode(event) {

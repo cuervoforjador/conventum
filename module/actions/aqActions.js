@@ -213,10 +213,11 @@ export class aqActions {
     /**
      * getCurrentActionSkill
      * @param {*} actorId 
+     * @param {*} tokenId 
      * @returns 
      */
-    static async getCurrentActionSkill(actorId) {
-        const action = this.getCurrentAction(actorId);
+    static async getCurrentActionSkill(actorId, tokenId) {
+        const action = this.getCurrentAction(actorId, tokenId);
         if (!action) return null;
 
         await game.packs.get('conventum.skills').getDocuments();       
@@ -264,6 +265,28 @@ export class aqActions {
     }
 
     /**
+     * getModeLocation
+     * @param {*} actor
+     */
+    static getModeLocation(actor) {
+        let mLocations = [];
+        let sLocation = '';
+
+        actor.system.modes.map(sMode => {
+            const mode = game.packs.get("conventum.modes").get(sMode);
+
+            for (const s in mode.system.config.location.focusLocation) {
+                if (mode.system.config.location.focusLocation[s].apply) {
+                    mLocations.push(s);
+                }
+            }
+        });
+
+        if (mLocations.length > 0) return mLocations[0];
+        return '';
+    }
+
+    /**
      * getMaxActions
      * @param {*} actorId
      */
@@ -287,11 +310,20 @@ export class aqActions {
      */
     static getActionsInfo(actorId, tokenId) {
         const mMyactions = this.getActions(actorId, tokenId);
+        const actor = (tokenId) ? game.scenes.active.tokens.get(tokenId).getActor() :
+                                  game.actors.get(actorId);
+
+        let sumActions = 0;
+        mMyactions.map(action => {
+            const oAction = actor.items.find(e => e.id === action.action);
+            sumActions += this.getActionCost(actor, oAction);
+        });
 
         return {
             actActions: mMyactions,
             numActions: mMyactions.length,
             maxActions: this.getMaxActions(actorId, tokenId),
+            sumActions: sumActions
         };
     }
 
@@ -299,8 +331,28 @@ export class aqActions {
      * getActionCost
      * @param {*} action 
      */
-    static getActionCost(action) {
-        return ( action.system.steps.actionSteps ) ? Number(action.system.steps.actionSteps) : 1;
+    static getActionCost(actor, action) {
+        if ( action.system.steps.actionSteps === '' ) return 1;
+        if ( Number( action.system.steps.actionSteps) === 0 ) return 0;
+
+        let nCost = Number(action.system.steps.actionSteps);
+
+        let nFromModes = 0;
+        let noPoints = false;
+        actor.system.modes.map(sMode => {
+            const mode = game.packs.get("conventum.modes").get(sMode);
+            if (mode.system.config.actionPoints === '')
+                mode.system.config.actionPoints = 0;
+
+            if (Number(mode.system.config.actionPoints) !== 0) {
+                nFromModes += Number(mode.system.config.actionPoints);
+            }
+            if (mode.system.config.noActionPoints) noPoints = true;
+        });
+        if (nFromModes != 0) nCost = nFromModes;
+        if (noPoints) nCost = 0;
+
+        return nCost;
     }
 
 }

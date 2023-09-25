@@ -67,162 +67,159 @@ export const extendConfig = {
         {
             id: 'bow',
             i18n: 'common.bows',
-            name: ''
+            name: 'bows'
         },        
         {
             id: 'crossbow',
             i18n: 'common.crossbows',
-            name: ''
+            name: 'crossbows'
         },
         {
             id: 'knife',
             i18n: 'common.knifes',
-            name: ''
+            name: 'knifes'
         },
         {
             id: 'sword',
             i18n: 'common.swords',
-            name: ''
+            name: 'swords'
         },
         {
             id: 'longsword',
             i18n: 'common.longswords',
-            name: ''
+            name: 'longswords'
         },
         {
             id: 'axe',
             i18n: 'common.axes',
-            name: ''
+            name: 'axes'
         },
         {
             id: 'sling',
             i18n: 'common.slings',
-            name: ''
+            name: 'slings'
         },
         {
             id: 'spear',
             i18n: 'common.spears',
-            name: ''
+            name: 'spears'
         },
         {
             id: 'mace',
             i18n: 'common.maces',
-            name: ''
+            name: 'maces'
         },
         {
             id: 'stick',
             i18n: 'common.sticks',
-            name: ''
+            name: 'sticks'
         },      
         {
             id: 'shield',
             i18n: 'common.shields',
-            name: ''
+            name: 'shields'
         },                                                   
         {
             id: 'fight',
             i18n: 'common.fight',
-            name: ''
+            name: 'fight'
         },             
     ],    
-    weaponSizes: [
-        {
-            id: '00',
-            i18n: 'config.weaponSizeNO',
-            name: '',
-            property: 'none'
-        },        
+    weaponSizes: [     
         {
             id: '01',
             i18n: 'config.weaponSizeLight',
-            name: '',
-            property: 'light'
+            name: 'weaponSizeLight',
+            property: 'light',
+            multipler: 3
         },
         {
             id: '02',
             i18n: 'config.weaponSizeMiddle',
-            name: '',
-            property: 'middle'
+            name: 'weaponSizeMiddle',
+            property: 'middle',
+            multipler: 4
         },
         {
             id: '03',
             i18n: 'config.weaponSizeHeavy',
-            name: '',
-            property: 'heavy'
+            name: 'weaponSizeHeavy',
+            property: 'heavy',
+            multipler: 5
         }      
     ],
     spellShapes: [
         {
             id: 'invocatio',
-            name: '',
+            name: 'invocatio',
         },
         {
             id: 'maleficium',
-            name: '',
+            name: 'maleficium',
         },
         {
             id: 'potio',
-            name: '',
+            name: 'potio',
         },
         {
             id: 'amuletum',
-            name: '',
+            name: 'amuletum',
         },
         {
             id: 'unguentum',
-            name: '',
+            name: 'unguentum',
         }        
     ],
     spellNature: [
         {
             id: 'white',
-            name: ''
+            name: 'white'
         },
         {
             id: 'black',
-            name: ''
+            name: 'black'
         }
     ],
     spellSecondNature: [
         {
             id: 'popular',
-            name: ''
+            name: 'popular'
         },
         {
             id: 'alchemy',
-            name: ''
+            name: 'alchemy'
         },
         {
             id: 'infernal',
-            name: ''
+            name: 'infernal'
         },
         {
             id: 'forbidden',
-            name: ''
+            name: 'forbidden'
         }        
     ],
     componentUtility: [
         {
             id: 'noUtil',
-            name: '',
+            name: 'noUtil',
             mod: '-30',
             witchcraft: '*1'
         },
         {
             id: 'marginal',
-            name: '',
+            name: 'marginal',
             mod: '-10',
             witchcraft: '*1'
         },
         {
             id: 'limited',
-            name: '',
+            name: 'limited',
             mod: '+10',
             witchcraft: '*1'
         },
         {
             id: 'daily',
-            name: '',
+            name: 'daily',
             mod: '+50',
             witchcraft: '*1'
         }             
@@ -230,25 +227,25 @@ export const extendConfig = {
     componentLocation: [
         {
             id: 'remote',
-            name: '',
+            name: 'remote',
             mod: '-50',
             witchcraft: '*1'
         },
         {
             id: 'far',
-            name: '',
+            name: 'far',
             mod: '-30',
             witchcraft: '*1'
         },
         {
             id: 'nofar',
-            name: '',
+            name: 'nofar',
             mod: '-10',
             witchcraft: '*1'
         },
         {
             id: 'nearby',
-            name: '',
+            name: 'nearby',
             mod: '+10',
             witchcraft: '*1'
         }             
@@ -256,25 +253,25 @@ export const extendConfig = {
     componentPotential: [
         {
             id: 'horrifying',
-            name: '',
+            name: 'horrifying',
             mod: '-30',
             witchcraft: '*4'
         },        
         {
             id: 'witchy',
-            name: '',
+            name: 'witchy',
             mod: '-20',
             witchcraft: '*2'
         },         
         {
             id: 'unusual',
-            name: '',
+            name: 'unusual',
             mod: '-10',
             witchcraft: '*1'
         },      
         {
             id: 'nomagic',
-            name: '',
+            name: 'nomagic',
             mod: '+10',
             witchcraft: '*0.5'
         }                   
@@ -282,25 +279,25 @@ export const extendConfig = {
     componentPlace: [
         {
             id: 'seedytown',
-            name: '',
+            name: 'seedytown',
             mod: '-20',
             witchcraft: '*0.5'
         },
         {
             id: 'smalltown',
-            name: '',
+            name: 'smalltown',
             mod: '+0',
             witchcraft: '*1'
         },
         {
             id: 'normaltown',
-            name: '',
+            name: 'normaltown',
             mod: '+10',
             witchcraft: '*1'
         },        
         {
             id: 'bigtown',
-            name: '',
+            name: 'bigtown',
             mod: '+20',
             witchcraft: '*1'
         }        

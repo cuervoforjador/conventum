@@ -52,9 +52,9 @@ export class HookCombat {
                     '<div class="token-initiative">'+
                         '<span class="initiative combatInitTitle">1D10</span>'+
                         '<span class="charact combatInitTitle">'+game.i18n.localize("config.combatTitleSkill")+'</span>'+
+                        '<span class="charact combatInitTitle">'+game.i18n.localize("config.combatTitleAction")+'</span>'+
                         '<span class="charact combatInitTitle">'+game.i18n.localize("config.combatTitleMod")+'</span>'+
                         '<span class="charact combatInitTitle">'+game.i18n.localize("config.combatTitleTotal")+'</span>'+
-                        '<span class="charact combatInitTitle"></span>'+
                     '</div>'+
                 '</li>';
             if ($(component).find("ol#combat-tracker li._header").length == 0) {
@@ -67,6 +67,7 @@ export class HookCombat {
                 let actor = null,
                     oInitiative = null,
                     sIniMod = "",
+                    sAction = 0,
                     sTotal = 0;
 
                 if ((combat.combatants.get(li.dataset.combatantId)) &&
@@ -83,25 +84,15 @@ export class HookCombat {
                     if (isNaN(Number(sIni))) sIni = 0;
                     sTotal = Number(sIni) 
                         + Number(oInitiative.base) 
+                        + Number(oInitiative.action) 
                         + Number(sIniMod);
                 }
                 if ( ($(li).find(".token-initiative span.charact").length == 0) && (actor) ) {
 
-                    //Actor has actions?
-                    let myCombat = helperSheetCombat.myActiveCombat(actor);
-                    if (myCombat) {
-                        let encounter = myCombat.encounter;
-                    }
-
-                    let sShield = actor.system.action.blocked ? '<a class="_unlockTargetCombat" data-actorid="'+actor._id+'">'+
-                                                                    '<img src="systems/conventum/image/texture/shield.png" class="_initShield">'+
-                                                                '</a>'
-                                                                : '<a class="_lockTargetCombat" data-actorid="'+actor._id+'">'+
-                                                                    '<img src="systems/conventum/image/texture/shield.png" class="_initShield _alpha">'+
-                                                                '</a>';
                     if (sIniMod === '') sIniMod = '0';
                     $(li).find(".token-initiative").append(
                         '<span class="charact _ibase">'+oInitiative.base+'</span>'+
+                        '<span class="charact _iactn">'+oInitiative.action+'</span>'+
                         ( (game.user.isGM) ? 
                             '<span class="charact _imod">'+
                                 '<input class="cbInitiativeMod" '+
@@ -111,8 +102,7 @@ export class HookCombat {
                             '</span>' :
                             '<span class="charact _imod" data-actorid="'+actor._id+'">'+sIniMod+'</span>'
                         )+
-                        '<span class="charact _itotal" data-actorid="'+actor._id+'">'+sTotal.toString()+'</span>'+
-                        '<span class="charact">'+sShield+'</span>');
+                        '<span class="charact _itotal" data-actorid="'+actor._id+'">'+sTotal.toString()+'</span>');
                     
                     $(li).attr('data-initotal', sTotal.toString());
 
@@ -124,8 +114,11 @@ export class HookCombat {
                 }
 
                 //Updating...
-                if (update && (i>0)) {
+                if (oInitiative) {
+                    $(li).find('._iactn').text(oInitiative.action.toString() );
                     $(li).find('._itotal').text(sTotal.toString() );
+                }
+                if (update && (i>0)) {
                     if (game.user.isGM) 
                         $(li).find('._imod input').val(sIniMod);
                     else
@@ -274,7 +267,10 @@ export class HookCombat {
 
             const uniqeId = (actor.isToken) ? actor.token.id : actor.id;
             let button = $(element).find('button[data-button="'+uniqeId+'"]');
-            button.html('<img src="'+actor.img+'"/><label>'+actor.name+'</label>');
+            button.html('<img src="'+actor.img+'"/>'+
+                        '<label>'+actor.name+'</label>'+
+                        '<label class="_distance">'+game.i18n.localize("common.distance")+': '+
+                                                    mButtons[s].distance+'</label>');
 
             //Mount
             let mount = helperSheetCombat.getMount(actor);
@@ -296,7 +292,15 @@ export class HookCombat {
 
             const uniqeId = (actor.isToken) ? actor.token.id : actor.id;
             let button = $(element).find('button[data-button="'+uniqeId+'"]');
-            button.html('<img src="'+actor.img+'"/><label>'+actor.name+'</label>');
+            button.html('<img src="'+actor.img+'"/>'+
+                        '<vbox class="_targetDialogTitle">'+
+                            '<label>'+actor.name+'</label>'+
+                            '<label class="_distance">'+game.i18n.localize("common.distance")+': '+
+                                                        mButtons[s].distance+' '+
+                                                        ( (game.scenes.active.grid.units) ?
+                                                          game.scenes.active.grid.units :
+                                                          game.i18n.localize("common.distanceUnit"))+'</label>'+
+                        '</vbox>');
         }
     }
 

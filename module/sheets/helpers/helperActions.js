@@ -19,6 +19,9 @@ export class helperActions {
         let oActions = {
             showPoster: false,
             showSkill: false,
+            showMovement: false,
+            showSkillValue: true,
+            itsMyTurn: false,
             action: '',
             skillId: '',
             skill: null
@@ -35,14 +38,29 @@ export class helperActions {
             oActions.action = actor.items.get(mStillActiveActions[0].action);
         }
 
-        oActions.showPoster = (oActions.action !== '');
+        oActions.itsMyTurn = (oActions.action !== '');
+        oActions.showPoster = oActions.itsMyTurn;
 
         //Skills
         oActions.showSkill = (oActions.action) ? oActions.action.system.skill.useSkill : false;
-        oActions.skillId = (oActions.action) ? oActions.action.system.skill.skill : '';
-        oActions.skill = (oActions.showSkill) ? 
-                    game.packs.get('conventum.skills').get(oActions.action.system.skill.skill) :
-                    null;
+        if (oActions.action !== undefined) {
+            
+            if ((oActions.action !== '') &&
+                (oActions.action.system.skill.skillAsCombat)) oActions.showSkill = false;
+
+            oActions.skillId = (oActions.action) ? oActions.action.system.skill.skill : '';
+            oActions.skill = (oActions.showSkill) ? 
+                        game.packs.get('conventum.skills').get(oActions.action.system.skill.skill) :
+                        null;
+
+            //Movements
+            if ((oActions.action) && (oActions.action !== '')) 
+                oActions.showMovement = (oActions.action.system.type.movement);
+
+            //Show Skill value
+            oActions.showSkillValue = !(oActions.action.system.skill.autoSuccess);
+
+        }
 
         return oActions;
     }

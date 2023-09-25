@@ -95,6 +95,12 @@ input.cbInitiativeMod {
 }
 
 /* --- ACTION POOLS --- */
+._actionPool {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+}
 ._actionPool ul._combatants {
     list-style-type: none;
     display: flex;
@@ -103,6 +109,34 @@ input.cbInitiativeMod {
     justify-content: flex-end;
     border: 1px solid #333333b5;
     border-radius: 2px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    margin-bottom: 0px;
+}
+ul._poolMenu {
+    background: #333;
+    margin: 0px;
+    margin-bottom: 6px;
+    padding: 4px;
+    display: flex;
+    justify-content: flex-end;
+}
+ul._poolMenu li._button {
+    width: fit-content;
+    border: 1px solid #ffffff87;
+    border-radius: 2px;
+    margin-left: 5px;
+}
+ul._poolMenu li._button:hover {
+    background: #584747;
+}
+ul._poolMenu label {
+    color: #FFF;
+    font-family: var(--font-aq);
+    font-size: 16px;
+    padding-left: 5px;
+    padding-right: 5px;
+    cursor: pointer;
 }
 ._actionPool ul._combatants li._combatant {
     width: 60px;
@@ -166,6 +200,76 @@ a._verb._playAction {
     line-height: 19px;
     display: block;
 }
+ul._historySteps {
+    margin: 0px;
+    margin-top: 10px;
+    padding: 0px;
+    padding-left: 4px;
+    background: #333;
+    border-top: 4px solid #0000005e;
+    height: 130px;
+    overflow-y: scroll;
+}
+ul._historySteps li._historyStep {
+    display: flex;
+    align-content: center;
+    align-items: center;
+}
+li._historyStep ._actor {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+}
+li._historyStep ._actor img {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #333333b8;
+}
+li._historyStep ._actor h3 {
+    color: #FFF;
+    font-family: var(--font-aq)!important;
+    font-size: 14px;
+    padding: 0px;
+    padding-left: 5px;
+    margin: 0px;
+    border: 0px;
+}
+li._historyStep ._action {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    width: 100%;
+}
+li._historyStep ._action h3 {
+    padding: 0px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin: 0px;
+    font-family: var(--font-aq)!important;
+    font-size: 15px;
+    line-height: 15px;
+    color: #FFF;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    border: 0px;
+}
+li._historyStep ._assaultId {
+    width: 25px;
+    height: 25px;
+    color: #ffffffd9;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    font-family: var(--font-aq)!important;
+    border: 1px solid #ffffff7a;
+    margin-right: 3px;
+    font-size: 20px;
+    line-height: 25px;
+    border-radius: 1px;
+}
 
 /* --- PLAYING ACTIONS --- */
 ._posterAction {
@@ -183,20 +287,22 @@ a._verb._playAction {
     width: 280px;
     margin-top: -435px;
     background: #FFFFFFDB;
+    background: #fff5ed;
     position: absolute;
     top: 478px;
     left: 14px;    
 }
 ._posterAction label._text {
-    height: 313px;
+    height: 320px;
     margin-top: -435px;
     overflow-y: scroll;
     position: absolute;
-    width: 280px;
-    top: 478px;
-    left: 14px;
+    width: 296px;
+    top: 471px;
+    left: 6px;
     padding: 10px;
     text-align: justify;
+    border-bottom: 1px solid #3333336b;
 }
 ._posterAction ._actionSteps {
     position: absolute;

@@ -442,6 +442,12 @@ label._penalCharact {
         font-size: 15px;
         line-height: 18px;
     } 
+    ._skillInfo {
+        width: 100%;
+    }
+    .rowSkill a._skillInfo {
+        width: calc(100% - 136px)!important;
+    }    
     .skillsShrink, .weaponsShrink, .wrapArmorShrink {
         width: 275px;
         padding-left: 5px;
@@ -711,8 +717,9 @@ nav._subTabs {
 ._subTabs a label {
     font-size: 14px;
     font-family: var(--font-aq);
-    border: 1px solid #975959a1;
-    background: #c5929226;
+    border: 1px solid #000000a1;
+    background: #00000080;
+    color: #FFF;
     border-radius: 2px;
     padding: 3px;
     line-height: 35px;
@@ -783,14 +790,24 @@ ol._traits li vbox {
     align-items: flex-start;
     padding-left: 8px;
     padding-right: 8px;
+    display: flex;
+    justify-content: flex-start;
+    align-content: flex-start;
+    min-height: 55px;
+}
+._traits li hbox {
+    width: 100%;
 }
 ol._traits li h3 {
     font-size: 12px;
     line-height: 14px;
     font-family: var(--font-aq);
     text-decoration: none;
+    padding: 0px;
+    padding-top: 2px;
     border-bottom: 0px;
     margin-bottom: 0px;
+    width: 100%;
 }
 ol._traits li h3::first-letter {
     color: #ab3030;
@@ -858,6 +875,10 @@ li.rowSkill {
     align-content: center;
     align-items: center;
     justify-content: flex-start;
+    border-bottom: 1px solid #33333312;
+}
+li.rowSkill:nth-child(odd) {
+    background: #d9b4b436;
 }
 .rowSkill input._rowAcquired {
     width: 15px;
@@ -866,7 +887,8 @@ li.rowSkill {
 .rowSkill label._rowTitleSkill {
     font-size: 11px;
     line-height: 14px;
-    width: calc(100% - 164px);
+    width: 100%;
+    cursor: pointer;
 }
 .rowSkill input._rowSkillValue {
     background: #c99e9e3b!important;
@@ -1023,24 +1045,30 @@ li.boxSkill:hover input._experienced {
     opacity: 1;
 }
 .experienceSkill img {
-    width: 23px;
-    height: 23px;
+    width: 14px;
+    height: 14px;
     position: relative;
-    top: -82px;
-    left: -49px;
+    top: -65px;
+    left: 8px;
     margin-bottom: -23px;
     border: 0px;
+    background: #ffffffcf;
+    border: 1px solid #333333c9;
+    padding: 1px;
     opacity: 0.6;
     display: flex;
 }
 li.boxSkill:hover .experienceSkill img {
     left: -53px!important;
     top: -61px;
-    opacity: 1!important;
-    background: #FFF;
+    opacity: 0.8!important;
+    background: #fffffff0;
     padding: 1px;
     border: 1px solid #333333bf;
     margin-bottom: -30px;
+    border-radius: 1px;
+    width: 21px;
+    height: 21px;
 }
 input._skillPenal {
     font-family: var(--font-aq);
@@ -1078,6 +1106,28 @@ li.boxSkill:hover ._skillPenal {
     text-align: center;
     font-size: 9px!important;
     line-height: 11px!important;
+    cursor: pointer;
+}
+ul._dialogHistory {
+    padding: 0px;
+    margin: 0px;
+    margin-bottom: 7px;
+}
+._dialogHistory li {
+    margin-top: 3px;
+    border-bottom: 1px solid #3333331f;
+    padding-left: 5px;
+}
+._dialogHistory li:nth-child(odd) {
+    background: #d9b4b436;
+}
+li._noPossible {
+    background: #333!important;
+    color: #FFF;
+    padding: 4px;
+    padding-left: 8px;
+    margin-top: 5px;
+    border-radius: 3px;
 }
 
 /* Languages */
@@ -1447,15 +1497,16 @@ label.armorLocation {
 
 /* Combat & Weapons */
 nav.tabs_Combat._subTabs {
-    padding-left: 54px;
+    padding-left: 14px;
     padding-top: 6px;
-    background: #ffffff52;
     border-bottom: 0px;
 }
 hbox._betsu {
     display: flex;
     justify-content: space-between;
     padding-right: 8px;
+    border-bottom: 1px solid #33333336;
+    background: #9e545429;
 }
 ul.combatMenu {
     width: 100%;
@@ -1487,6 +1538,7 @@ ul.actorWeapons {
     display: flex;
     flex-flow: column;
     margin-left: -8px;
+    padding-bottom: 50px;
 }
 li.boxWeapon {
     width: 99%;
@@ -1636,6 +1688,7 @@ label.titleWeapon {
     font-family: var(--font-aq);
     padding-left: 9px;
     padding-top: 10px;
+    cursor: pointer;
 }
 label.titleWeapon::first-letter {
     color: #ae6152;
@@ -1643,7 +1696,8 @@ label.titleWeapon::first-letter {
     font-size: 28px;
     font-weight: 900;
 }
-label._skillValue {
+label._skillValue,
+label._skillValue2 {
     font-family: var(--font-aq);
     font-size: 37px;
     color: #333333bf;
@@ -1652,12 +1706,18 @@ label._skillValue {
     width: 50px;
     position: relative;
     top: 7px;
+    cursor: pointer;
 }
-label._skillValue::first-letter {
+label._skillValue::first-letter,
+label._skillValue2::first-letter {
     font-size: 45px;
     color: #333333bf;
     font-weight: bold;
     font-family: var(--font-aq);
+}
+label._skillValue2 {
+    left: -10px;
+    top: 1px;
 }
 li.boxWeapon:first-child label._skillValue {
     
@@ -1682,11 +1742,36 @@ label.damageWeapon::first-letter {
 span._small {
     font-size: 16px;
 }
+.damageWeapon span._small {
+    background: #6034342e;
+    border-radius: 10px;
+    color: #735c5cfc;
+    padding-left: 3px;
+    padding-right: 3px;
+    padding-bottom: 2px;
+}
+
+._combatSkill vbox._weaponText {
+    margin-top: -8px;
+    min-width: 250px;
+}
+._combatSkill label.damageWeapon {
+    font-size: 17px;
+    margin-top: -3px;
+    margin-bottom: 3px;
+}
+._combatSkill label.damageWeapon::first-letter {
+    font-size: inherit;
+}
+
 .boxWeapon a._cardInfo {
     border: 1px solid #33333363;
     color: #4423079e;
     width: 25px;
+    min-width: 25px;
     height: 25px;
+    padding-top: 3px!important;
+    font-weight: 900;
     text-align: center;
     border-radius: 3px;
     top: -4px;
@@ -1726,15 +1811,6 @@ img.weaponLeftHand {
 img.weaponRightHand {
     margin-left: 7px;
 }
-._chatContent img._backHand {
-    position: absolute;
-    width: 59px;
-    height: 86px;
-    border: 0px solid #333;
-    left: calc(100% - 66px);
-    top: 4px;
-    opacity: 0.2;
-}
 ._shrink hbox._weaponHands {
     position: initial;
     width: 50px;
@@ -1753,6 +1829,11 @@ vbox._shrinkWeaponBox {
 }
 img._combatSkillImg {
     width: 72px;
+    min-width: 38px;
+    margin-right: 3px;
+}
+img._combatMovementImg {
+    width: 32px;
     margin-right: 3px;
 }
 ._combatSkill label._skillValue {
@@ -1761,37 +1842,91 @@ img._combatSkillImg {
 }
 ._combatSkill a._cardInfo {
     width: 48px;
+    padding-top: 2px;
 }
 
 /* Combat && actions */
-hbox._encountersBox {
+vbox._encountersBox {
+    display: flex;
     display: flex;
     width: 100%;
-    min-height: 60px;
-    justify-content: space-between;
-    flex-direction: row;
-    flex-wrap: nowrap;
+    padding-left: 43px;
+    padding-top: 10px;
     align-content: center;
-    align-items: center;
-    padding-left: 56px;
-    padding-bottom: 3px;
+    align-items: flex-start;
     border-bottom: 1px solid #33333336;
 }
 label._captionCombat {
-    font-size: 17px;
-    margin-top: 7px;
+    font-size: 20px;
+    line-height: 24px;
+    margin-top: 4px;
+    width: 100%;
+    padding-left: 10px;
 }
 label._captionCombat::first-letter {
-    font-size: 20px;
+    font-size: 28px;
+}
+label._captionCombat2 {
+    width: 100%;
+    padding-left: 9px;
+    padding-right: 5px;
+    padding-top: 1px;
+    font-family: var(--font-aq);
+    font-size: 14px;
+    line-height: 18px;
+}
+label._captionCombat3 {
+    margin-top: 5px;
+    margin-bottom: 0px;
+    background: #94c95352;
+    border: 1px solid #33681c52;
+    width: 100%;
+    padding: 5px;
+    border-top-left-radius: 13px;
+    border-bottom-left-radius: 13px;
+    font-family: var(--font-aq);
+    font-size: 14px;
+    line-height: 18px;    
+}
+label._captionCombat32 {
+    margin-top: 5px;
+    margin-bottom: 0px;
+    background: #c9535352;
+    border: 1px solid #85212152;
+    width: 100%;
+    padding: 5px;
+    border-top-left-radius: 13px;
+    border-bottom-left-radius: 13px;
+    font-family: var(--font-aq);
+    font-size: 14px;
+    line-height: 18px;    
+}
+label._captionCombat4 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 10px;
+    background: #c9535352;
+    border: 1px solid #85212152;
+    width: 100%;
+    padding: 7px;
+    padding-right: 50px;
+    border-top-left-radius: 13px;
+    border-bottom-left-radius: 13px;
+    font-family: var(--font-aq);
+    font-size: 14px;
+    line-height: 18px;    
+}
+._actionBold {
+    font-weight: 900;
+    margin-left: 1px;
+    font-size: 13px;
 }
 ul._myCombats {
     display: flex;
-    margin-right: 4px;
+    width: 100%;
     margin-bottom: 0px;
-    padding-right: 40px;
-    padding-top: 4px;
-    justify-content: flex-start;
-    padding-left: 50px;
+    padding-right: 3px;
+    justify-content: flex-end;
     flex-direction: row;
 }
 ul._myCombats li._myCombat {
@@ -1925,12 +2060,19 @@ li.boxAction {
     width: 49%;
 }
 hbox.lineAction {
-    margin-bottom: 0px;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 2px;
+    margin-top: 2px;
 }
 .lineAction img.imgAction {
     width: 17px;
+    min-width: 17px;
     height: 25px;
-    margin-right: 6px;
+    margin-right: 4px;
 }
 
 .boxAction ._actionText {
@@ -1952,6 +2094,21 @@ hbox.lineAction {
 .lineAction label.titleAction::first-letter {
     font-size: 27px;
     color: #9b3e3e;
+}
+._actionInfo {
+    font-family: var(--font-aq);
+    font-size: 13px;
+    line-height: 16px;
+    text-align: left;
+    display: flex;
+    margin: 0px!important;
+    align-content: flex-start;
+    align-items: flex-start;
+    justify-content: flex-start;
+    white-space: pre-line;
+    padding: 0px;
+    padding-bottom: 10px;
+    width: 100%;
 }
 .boxAction a._showMyItem i {
     width: 25px;
@@ -2446,35 +2603,107 @@ img._quickButton:hover {
 }
 
 /* MODES BAR */
+._showBarModes {
+    position: absolute;
+    top: calc(100% - 27px);
+    left: calc(50% - 28px);
+}
+._showBarModes label {
+    width: 110px;
+    text-align: center;
+    font-size: 11px;
+    border: 1px solid #333;
+    padding: 6px;
+    margin: 0px;
+    cursor: pointer;
+    border-radius: 2px;
+    background: #85545421;
+}
 ._modesBar {
     display: flex;
     z-index: 900000;
     position: absolute;
-    top: calc( 100% - 64px );
-    left: 55px;
+    top: 87px;
+    left: 20px;
+    width: calc(100% - 40px);
+    height: calc(100% - 107px);
+    background: url(/systems/conventum/image/texture/paper.png)!important;
+    border: 4px solid #333;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: center;
+    align-items: center;
+    overflow-y: scroll;
+}
+._modesBar ._headerBar {
+    height: 30px!important;
+    max-height: 30px!important;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    align-content: center;
+    flex-direction: row;
+    padding: 4px;
 }
 ul._wrapModesBar {
     display: flex;
     padding: 0px;
     margin: 0px;
-    align-content: center;
-    justify-content: center;
-    align-items: center;
+    align-content: flex-start;
+    align-items: flex-start;
     padding-right: 3px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 5px;
+}
+._modesBar ._headerBar ._button {
+    font-size: 25px;
+    line-height: 28px;
+    border: 1px solid #333;
+    width: 28px;
+    height: 28px;
+    border-radius: 2px;
+    color: #FFF;
+    background: #333;
+    text-align: center;
+    font-family: var(--font-aq);
+}
+._modesBar ._headerBar ._button:hover {
+    color: #c56060;
+    background: #000;
+    font-weight: 900;
 }
 ul._wrapModesBar li {
-    margin-left: -6px;
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    width: calc(25% - 4px);
+    max-width: 25%;
+    height: 98px;
+    justify-content: flex-start;
+    align-content: center;
+    align-items: center;
+    margin-bottom: 5px;
+    padding-top: 3px;
+    border: 1px solid #33333361;
+    border-radius: 3px;
+}
+ul._wrapModesBar li._active {
+    background: #7b3b3b40;
 }
 ._mode img._quickButton {
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
+    margin: 0px;
     opacity: 0.5;
-    margin-left: 3px;
 }
-._mode img._quickButton {
-    width: 40px;
-    height: 40px;
-    opacity: 0.5;
+label._modeBarLabel {
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+    text-align: center;
 }
 ._mode img._quickButton:hover {
     opacity: 1;
@@ -2683,20 +2912,29 @@ desc p {
 /* ***************************************************************************************
    ITEMS
 *************************************************************************************** */
+.frameContent {
+    margin-top: -4px;
+}
 .itemTabsHeader {
     width: 100%;
-    background: #e5adad30;
-    padding-left: 10px;
+    background: #92666617;
+    padding-left: 9px;
+    border-top: 3px solid #8d3f3f8a!important;
+    border-bottom: 3px solid #8d3f3f8a!important;
 }
 .itemTabsHeader a {
-    margin-right: 4px;
+    margin-right: 0px;
+    margin-left: -3px;
     font-family: var(--font-aq);
     font-size: 16px;
-    padding-left: 5px;
-    padding-right: 5px;
+    padding-left: 13px;
+    padding-right: 12px;
+    border-right: 1px solid #333333a3;
+    border-bottom: 1px solid #3333334a;
 }
 .itemTabsHeader a.active {
-    background: #dba4a46b;
+    background: #2c07076b;
+    color: #ffffffde;
 }
 ol.itemList {
     padding-bottom: 10px;
@@ -2730,10 +2968,38 @@ itemcontent .editor {
     height: 400px;
 }
 itemcontent section.sheet-body {
-    margin-top: 10px;
+    margin-top: 0px;
 }
 itemcontent section.sheet-body .tab hbox label {
     margin-left: 10px;
+}
+itemcontent .frameContent panelcontent label {
+    min-width: 50%;
+    max-width: 50%;
+    text-align: right;
+}
+itemcontent .frameContent panelcontent hbox {
+    min-height: 30px;
+}
+itemcontent .frameContent panelcontent input {
+    font-family: var(--font-aq)!important;
+    border: 1px solid #33333326;
+    background: #aa808026!important;
+    width: 45px;
+    text-align: center;
+    margin-left: 10px;
+    border-radius: 2px!important;
+}
+itemcontent .editor {
+    height: 400px;
+    border: 1px solid #3333334f;
+    width: calc(100% - 150px);
+}
+itemcontent itemImage {
+    padding: 0px!important;
+    width: 140px;
+    height: auto!important;
+    align-items: flex-start;
 }
 hbox._mod {
     width: calc(100% - 30px);
@@ -2743,6 +3009,19 @@ hbox._mod label {
     width: 165px;
     text-align: right;
     margin-right: 10px;
+    min-width: inherit!important;
+    max-width: inherit!important;    
+}
+hbox._mod input {
+    text-align: left!important;
+}
+hbox._large {
+    width: 100%;
+}
+hbox._large label {
+    min-width: inherit!important;
+    max-width: inherit!important;
+    text-align: left!important;
 }
 hbox._mod select,
 hbox._mod ._mute {
@@ -2796,4 +3075,7 @@ li._profSkill input {
     font-family: var(--font2-aq);
     background: #ffffff59!important;
     border-radius: 3px!important;
+}
+.actorItems ul._poolMenu {
+    margin-top: -8px;
 }

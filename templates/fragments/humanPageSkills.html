@@ -32,7 +32,12 @@
                             {{{editable}}}
                             name="system.skills.{{skill._id}}.acquired" 
                             {{checkedExtend 'systemData.skills' skill._id 'acquired'}} />                     
-                     <label class="_rowTitleSkill">{{skill.name}}</label>
+                     <a class="_skillInfo" data-itemid="{{skill._id}}">
+                     <hbox>
+                            <label class="_rowTitleSkill">{{skill.name}}</label>
+                     </hbox>                     
+                     </a>
+
                      <input class="_rowSkillValue" 
                             type="text"
                             {{{editable}}}
@@ -91,7 +96,11 @@
                             style="{{alphaExperiencedSkill skill._id}}"/>
                      </a> 
 
-                     <label class="titleSkill">{{skill.name}}</label>                   
+                     <a class="_skillInfo" data-itemid="{{skill._id}}">
+                     <hbox>
+                            <label class="titleSkill">{{skill.name}}</label>  
+                     </hbox>
+                     </a>                 
                      <input name="system.skills.{{skill._id}}.initial" 
                             value="{{itemPropertyExtend 'systemData.skills' skill._id 'initial'}}" 
                             type="hidden"/>

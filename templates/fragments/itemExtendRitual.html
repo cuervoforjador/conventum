@@ -4,30 +4,37 @@
 <div class="tab main" data-group="primary" data-tab="main">
 <slidePanel class="_100" style="height: auto;">
     <panelContent>     
-        <hbox class="_mod _100">
+        <hbox class="_50">  
             <label class="_80px">{{localize "common.rolls" }}</label>
-            <select class="_120px" name="system.percent.secondary" style="margin-right: 10px;">
+            <select class="_120px" name="system.percent.secondary" style="margin-left: 10px;">
                 {{selectOptions backend.secondary 
                                 selected=systemData.percent.secondary
                                 localize=false
                                 nameAttr="id"
                                 labelAttr="name" }}
-            </select>            
-            <select class="_120px" name="system.percent.skill">
+            </select> 
+        </hbox>
+        <hbox class="_50">    
+        </hbox>
+        <hbox class="_50">   
+            <label class="_80px">{{localize "common.skill" }}</label>                               
+            <select class="_120px" name="system.percent.skill" style="margin-left:10px">
                 {{selectOptions backend.skills 
                                 selected=systemData.percent.skill
                                 localize=false
                                 nameAttr="id"
                                 labelAttr="name" }}
             </select>             
-        </hbox>         
-        <hbox class="_mod _100">
+        </hbox>
+        <hbox class="_50">  
             <label class="_80px">{{localize "common.ordo" }}</label>
             <input class="_40px" 
                     name="system.ordo"
                     value="{{systemData.ordo}}" 
                     type="text" 
-                    data-dtype="Number"/>    
+                    data-dtype="Number"/>  
+        </hbox>
+        <hbox class="_50">                        
             <label class="_80px">{{localize "common.ptf" }}</label>
             <input class="_40px" 
                     disabled
@@ -35,24 +42,26 @@
                     value="{{systemData.ptf}}" 
                     type="text" 
                     data-dtype="Number"/>  
+        </hbox>
+        <hbox class="_50">                      
             <label class="_80px">{{localize "common.penal" }}</label>
             <input class="_80px" 
                     disabled
                     name="system.penal"
                     value="{{systemData.penal}}" 
                     type="text" />                                        
-        </hbox> 
-        <hbox class="_mod _100">
+        </hbox>
+        <hbox class="_50">  
             <label class="_80px">{{localize "common.society" }}</label>
-            <select name="system.society">
+            <select name="system.society" style="margin-left:10px">
                 {{selectOptions backend.societies 
                                 selected=systemData.society
                                 localize=false
                                 nameAttr="id"
                                 labelAttr="name" }}
             </select>
-        </hbox>            
-        <hbox class="_mod _100">
+        </hbox>
+        <hbox class="_50">  
             <label class="_80px">{{localize "common.duration" }}</label>
             <input style="width: calc(100% - 90px);"
                     name="system.duration"
@@ -69,7 +78,6 @@
     <panelContent>
        
         <vbox class="_mod _text _100">
-            <label class="_100">{{localize "common.ceremony" }}</label>
             {{editor 
                 systemData.ceremony
                 target="system.ceremony" 
@@ -90,7 +98,6 @@
     <panelContent>
 
         <vbox class="_mod _text _100">
-            <label class="_100">{{localize "common.effects" }}</label>
             {{editor 
                 systemData.effects
                 target="system.effects" 
@@ -110,14 +117,17 @@
 <slidePanel class="_100" >
     <panelContent>
 
-        <hbox class="_mod _100">
-            <label class="_80px">{{localize "common.damage" }}</label>
+        <hbox class="_50">  
+            <label class="_80px">{{localize "common.apply" }}</label>
             <label class="switch">
                 <input type="checkbox" 
                     name="system.damage.apply"
                     {{checked systemData.damage.apply}} />
                 <span class="sliderSwitch"></span>
-            </label>            
+            </label> 
+        </hbox>
+        <hbox class="_50">     
+            <label class="_80px">{{localize "common.damage" }}</label>                    
             <input class="_100px"
                     name="system.damage.damage"
                     value="{{systemData.damage.damage}}" 

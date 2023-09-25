@@ -4,6 +4,8 @@ import { helperSheetMagic } from "./helperSheetMagic.js";
 import { helperActions } from "./helperActions.js";
 import { helperSheetCombat } from "./helperSheetCombat.js";
 import { mainBackend } from "../backend/mainBackend.js";
+import { aqCombat } from "../../actions/aqCombat.js";
+import { aqActions } from "../../actions/aqActions.js";
 
 /**
  * Helpers for Human Sheet
@@ -237,6 +239,13 @@ export class helperSheetHuman {
           actor.update(path);
         }
     }
+
+    //No acquired? initial values...
+    context.backend.skills.forEach( skill => {
+      if (!skill.acquired) 
+        skill.value = Number(skill.initial);
+    });
+
   }
 
   /**
@@ -288,8 +297,9 @@ export class helperSheetHuman {
     //Synchr DB...
     await game.packs.get("conventum.modes").getDocuments();
 
-    const mModes = Array.from(await game.packs.get('conventum.modes'))
-                                .filter(e => e.system.control.world === sWorld);
+    let mModes = Array.from(await game.packs.get('conventum.modes'))
+                      .filter(e => e.system.control.world === sWorld);
+    mainBackend._sortByName(mModes);
     return mModes;
   }
 
@@ -301,6 +311,8 @@ export class helperSheetHuman {
    */
   static getHandPenal(actor, weapon) {
 
+    if (!weapon) return '-0';
+    
     if ( ((actor.system.status.rightHanded) &&
           (weapon.system.inHands.inLeftHand)) || 
          ((!actor.system.status.rightHanded) &&
@@ -698,17 +710,17 @@ export class helperSheetHuman {
     let _root = systemData.characteristics;
    
     //Luck
+    _root.secondary.luck.initial = _root.primary.per.value +
+                                   _root.primary.com.value +
+                                   _root.primary.cul.value;    
     if (systemData.control.initial) {
-      _root.secondary.luck.initial = _root.primary.per.value +
-                                     _root.primary.com.value +
-                                     _root.primary.cul.value;
       _root.secondary.luck.value = _root.secondary.luck.initial;
     }
 
     //Temperance
+    _root.secondary.temp.initial = 50;
     if (systemData.control.initial) {
-      _root.secondary.temp.initial = 50;
-      _root.secondary.temp.value = 50;
+      _root.secondary.temp.value = _root.secondary.temp.initial;
     }
 
     //Hit Points
@@ -886,7 +898,7 @@ export class helperSheetHuman {
         
     const nBase = Number(actor.system.characteristics.primary.agi.value);
     let sModificator = '';
-
+    let nAction = 0;
     
       //Wearing weapons
       const mWeapons = actor.items.filter(e => (
@@ -915,19 +927,22 @@ export class helperSheetHuman {
         if (weaponItem.system.penalty.initiative !== '') {
           sModificator += helperSheetMagic.penalValue(weaponItem.system.penalty.initiative);
         }
-
-        //Actions
-        let myActiveCombat = helperSheetCombat.myActiveCombat(actor);
-        if ((myActiveCombat) && (myActiveCombat.encounter.system.steps.length > 0)) {
-           let mStillActiveActions = myActiveCombat.encounter.system.steps.filter(e => ((!e.consumed) && (e.actor === actor.id)));
-           mStillActiveActions.map(e => {
-             const action = actor.items.get(e.action);
-             if (action.system.steps.initiative !== '+0')
-              sModificator += ' ' + action.system.steps.initiative;
-           });
-        }
-
       });
+
+      //Actions
+      const myActiveCombat = aqActions.getMyCurrentCombat(actor.id, actor.tokenId);
+      const myEncounter = aqActions.getMyCurrentEncounter(actor.id, actor.tokenId);
+      if ( (myActiveCombat) 
+        && (myEncounter) 
+        && (myEncounter.system.steps.length > 0)) {
+
+          let mStillActiveActions = myEncounter.system.steps.filter(e => ((!e.consumed) && (e.actor === actor.id)));
+          mStillActiveActions.map(e => {
+            const action = actor.items.get(e.action);
+            if ((action) && (action.system.steps.initiative !== '+0'))
+              nAction += Number(action.system.steps.initiative);
+          });
+      }      
  
 
     const nInitiative = eval(nBase.toString() + sModificator);
@@ -940,6 +955,7 @@ export class helperSheetHuman {
     }
     return {
         base: nBase.toString(),
+        action: nAction,
         mod: sModificator,
         initiative: nInitiative.toString()
     };
@@ -949,12 +965,11 @@ export class helperSheetHuman {
    * calcDamageMod
    * @param {*} actor 
    * @param {*} weapon 
-   * @param {*} history 
+   * @param {*} action
    * @returns 
    */
   static calcDamageMod(actor, weapon, action) {
       
-      if (!history) history = [];
       let sDamageMod = '-2D6';
 
       let nCharValue = 0;

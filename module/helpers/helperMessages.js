@@ -16,7 +16,7 @@ export class helperMessages {
      */
     static chatMessage(sContent, actor, bSimpleText, sFrame, sHeight) {
         sFrame = (sFrame) ? sFrame : '';
-        sHeight = (sHeight) ? sHeight : '140px';
+        sHeight = (sHeight) ? sHeight : '154px';
 
         if (bSimpleText) 
             sContent = this.simpleContent(actor, sContent);

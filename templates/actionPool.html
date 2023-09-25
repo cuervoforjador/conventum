@@ -2,91 +2,134 @@
       autocomplete="off">
 
       <div class="_actionPool">
-         <ul class="_combatants">
-         {{#each combat.combatants as |combatant id|}}
-            <li class="_combatant" data-combatId="{{../combatId}}"
-                                   data-actorId="{{combatant.actorId}}" 
-                                   data-tokenId="{{combatant.tokenId}}">
-                <img class="_actor" src="{{combatant.img}}">
-                <h2 class="_combName">{{getActorProperty combatant.actorId combatant.tokenId 'name'}}</h2>
+         <div>
+            <div class="_header">
+               <ul class="_combatants">
+               {{#each combat.combatants as |combatant id|}}
+                  <li class="_combatant" data-combatId="{{../combatId}}"
+                                       data-actorId="{{combatant.actorId}}" 
+                                       data-tokenId="{{combatant.tokenId}}">
+                     <img class="_actor" src="{{combatant.img}}">
+                     <h2 class="_combName">{{getActorProperty combatant.actorId combatant.tokenId 'name'}}</h2>
+                  </li>
+               {{/each}}
+               </ul>
+
+               {{#if imMaster}}
+               <ul class="_poolMenu">
+                  <a class="_menuButton" 
+                     data-verb="reRoll">
+                     <li class="_button">   
+                           <label>{{localize "common.rollInitiatives"}}</label>
+                     </li>               
+                  </a>                  
+                  <a class="_menuButton" 
+                     data-verb="reset">
+                     <li class="_button">   
+                           <label>{{localize "common.assaultReset"}}</label>
+                     </li>               
+                  </a>
+                  <a class="_menuButton" 
+                     data-verb="next">
+                     <li class="_button">
+                           <label>{{localize "common.assaultNext"}}</label>
+                     </li>
+                  </a>
+               </ul>
+               {{/if}}
+
+               {{#if (noEmpty systemData.steps) }}
+                  <label class="_infoActionPool">{{localize 'info.poolActions1'}}</label>
+               {{else}}
+                  <label class="_infoActionPool">{{localize 'info.poolActions2'}}</label>
+               {{/if}}
+            </div>
+
+            <ul class="_steps" data-encounterId="{{encounterId}}">
+            {{#each systemData.steps as |step id|}}        
+                  <li class="_step {{#if step.consumed}}_consumed{{/if}}"
+                     data-actorId="{{step.actor}}"
+                     data-tokenId="{{step.tokenId}}"
+                     data-uniqeId="{{step.uniqeId}}"
+                     data-actionId="{{step.action}}"
+                     data-applyLocation="{{step.applyLocation}}"
+                     data-consumed="{{step.consumed}}">
+                     <div class="_actor">
+                        <img src="{{getActorProperty step.actor step.tokenId 'img'}}" />
+                        <h3>{{getActorProperty step.actor step.tokenId 'name'}}</h3>
+                     </div>
+                     <div class="_encounter">
+                        <h3>{{getActorItemProperty step.actor step.tokenId step.action 'name'}}</h3>
+                        <a class="_verb tooltip"
+                           data-actionId="{{step.action}}" 
+                           data-stepId="{{id}}"
+                           data-actorId="{{step.actor}}" 
+                           data-tokenId="{{step.tokenId}}"
+                           data-uniqeId="{{step.uniqeId}}"                        
+                           data-verb="show">                  
+                           <img src="{{getActorItemProperty step.actor step.tokenId step.action 'img'}}" />
+                        </a>
+                     </div>
+                     <div class="_actionsBox">                 
+                        {{#if ../imMaster}}
+                        <a class="_verb actionIcon tooltip" 
+                              data-actionId="{{step.action}}" 
+                              data-stepId="{{id}}"
+                              data-actorId="{{step.actor}}"
+                              data-tokenId="{{step.tokenId}}"
+                              data-uniqeId="{{step.uniqeId}}"                            
+                              data-verb="delete">
+                           <img class="imgAction" src="systems/conventum/image/texture/destroy.png" />
+                           <span class="tooltiptext">{{localize "info.deleteAction"}}</span>
+                        </a>
+
+                           {{#if step.consumed}}
+                           <a class="_verb actionIcon tooltip" 
+                                 data-actionId="{{step.action}}"
+                                 data-stepId="{{id}}" 
+                                 data-actorId="{{step.actor}}"
+                                 data-tokenId="{{step.tokenId}}"
+                                 data-uniqeId="{{step.uniqeId}}"                               
+                                 data-verb="react">
+                              <img class="imgAction react" src="systems/conventum/image/texture/react.png" />
+                              <span class="tooltiptext">{{localize "info.reactAction"}}</span>
+                           </a>                              
+
+                           {{else}}                
+                           <a class="_verb actionIcon tooltip" 
+                                 data-actionId="{{step.action}}"
+                                 data-stepId="{{id}}"
+                                 data-actorId="{{step.actor}}" 
+                                 data-tokenId="{{step.tokenId}}"
+                                 data-uniqeId="{{step.uniqeId}}"                              
+                                 data-verb="consume">
+                              <img class="imgAction consume" src="systems/conventum/image/texture/consume.png" />
+                              <span class="tooltiptext">{{localize "info.consumeAction"}}</span>
+                           </a>
+
+                           {{/if}}
+                        {{/if}}
+                  </div>
+                  </li>
+            {{/each}}
+            </ul>
+         </div>
+
+         <ul class="_historySteps">
+         {{#each systemData.history as |reg id|}} 
+            <li class="_historyStep">
+               <div class="_assaultId">{{reg.assaultId}}</div>
+               <div class="_actor">
+                  <img src="{{getActorProperty reg.actor reg.tokenId 'img'}}" />
+                  <h3>{{getActorProperty reg.actor reg.tokenId 'name'}}</h3>
+               </div>
+               <div class="_action">
+                  <h3>{{getActorItemProperty reg.actor reg.tokenId reg.action 'name'}}</h3>
+               </div>
             </li>
          {{/each}}
          </ul>
 
-         {{#if (noEmpty systemData.steps) }}
-            <label class="_infoActionPool">{{localize 'info.poolActions1'}}</label>
-         {{else}}
-            <label class="_infoActionPool">{{localize 'info.poolActions2'}}</label>
-         {{/if}}
-
-         <ul class="_steps" data-encounterId="{{encounterId}}">
-         {{#each systemData.steps as |step id|}}        
-               <li class="_step {{#if step.consumed}}_consumed{{/if}}"
-                  data-actorId="{{step.actor}}"
-                  data-tokenId="{{step.tokenId}}"
-                  data-uniqeId="{{step.uniqeId}}"
-                  data-actionId="{{step.action}}"
-                  data-applyLocation="{{step.applyLocation}}"
-                  data-consumed="{{step.consumed}}">
-                  <div class="_actor">
-                     <img src="{{getActorProperty step.actor step.tokenId 'img'}}" />
-                     <h3>{{getActorProperty step.actor step.tokenId 'name'}}</h3>
-                  </div>
-                  <div class="_encounter">
-                     <h3>{{getActorItemProperty step.actor step.tokenId step.action 'name'}}</h3>
-                     <a class="_verb tooltip"
-                        data-actionId="{{step.action}}" 
-                        data-stepId="{{id}}"
-                        data-actorId="{{step.actor}}" 
-                        data-tokenId="{{step.tokenId}}"
-                        data-uniqeId="{{step.uniqeId}}"                        
-                        data-verb="show">                  
-                        <img src="{{getActorItemProperty step.actor step.tokenId step.action 'img'}}" />
-                     </a>
-                  </div>
-                  <div class="_actionsBox">                 
-                     {{#if ../imMaster}}
-                     <a class="_verb actionIcon tooltip" 
-                           data-actionId="{{step.action}}" 
-                           data-stepId="{{id}}"
-                           data-actorId="{{step.actor}}"
-                           data-tokenId="{{step.tokenId}}"
-                           data-uniqeId="{{step.uniqeId}}"                            
-                           data-verb="delete">
-                        <img class="imgAction" src="systems/conventum/image/texture/destroy.png" />
-                        <span class="tooltiptext">{{localize "info.deleteAction"}}</span>
-                     </a>
-
-                        {{#if step.consumed}}
-                        <a class="_verb actionIcon tooltip" 
-                              data-actionId="{{step.action}}"
-                              data-stepId="{{id}}" 
-                              data-actorId="{{step.actor}}"
-                              data-tokenId="{{step.tokenId}}"
-                              data-uniqeId="{{step.uniqeId}}"                               
-                              data-verb="react">
-                           <img class="imgAction react" src="systems/conventum/image/texture/react.png" />
-                           <span class="tooltiptext">{{localize "info.reactAction"}}</span>
-                        </a>                              
-
-                        {{else}}                
-                        <a class="_verb actionIcon tooltip" 
-                              data-actionId="{{step.action}}"
-                              data-stepId="{{id}}"
-                              data-actorId="{{step.actor}}" 
-                              data-tokenId="{{step.tokenId}}"
-                              data-uniqeId="{{step.uniqeId}}"                              
-                              data-verb="consume">
-                           <img class="imgAction consume" src="systems/conventum/image/texture/consume.png" />
-                           <span class="tooltiptext">{{localize "info.consumeAction"}}</span>
-                        </a>
-
-                        {{/if}}
-                     {{/if}}
-               </div>
-               </li>
-         {{/each}}
-         </ul>
       </div>
 
 {{!-- Molding ---}}

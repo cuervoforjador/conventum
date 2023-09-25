@@ -1,8 +1,30 @@
 {{!-- Combat Tab --}}
 <div class="tab combat" data-group="primary" data-tab="combat">
 
-    <hbox class="_encountersBox">
-        <label class="_captionCombat">{{ localize "common.encounters"}}</label>
+    {{#if combatBackend.inCombats }}
+    <vbox class="_encountersBox" style="padding-bottom:10px;">
+        <vbox>
+            <label class="_captionCombat">{{ localize "common.encounters"}}</label>
+            <label class="_captionCombat2">{{ localize "info.encounters"}}</label>
+        </vbox>
+
+        {{#if combatBackend.inActiveCombat }}
+            <label class="_captionCombat3">{{ localize "info.inActiveCombat"}}</label>
+
+            {{#if actions.itsMyTurn }}
+            <label class="_captionCombat3" style="margin-left: 14px">
+                {{ localize "info.myTurn"}}:
+                <span class="_actionBold">{{actions.action.name}}</span>
+            </label>
+            {{else}}
+            <label class="_captionCombat32" style="margin-left: 14px">{{ localize "info.noMyTurn"}}</label>
+            {{/if}}            
+
+        {{else}}
+        <label class="_captionCombat32">{{ localize "info.inNoActiveCombat"}}</label>
+        {{/if}}
+        
+        {{!-- 
         <ul class="_myCombats">
             {{#each combats as |combat id|}}
             <li class="_myCombat" >
@@ -12,8 +34,15 @@
                 </a>
             </li>
             {{/each}}
-        </ul>        
-    </hbox>
+        </ul> 
+        --}}
+
+    </vbox>
+    {{else}}
+    <vbox class="_encountersBox">
+        <label class="_captionCombat4">{{ localize "info.inNoCombat"}}</label>
+    </vbox>
+    {{/if}}
 
     <hbox class="_100 _betsu">
         <nav class="tabs_Combat _subTabs" data-group="combatTabs">
@@ -47,24 +76,33 @@
             <li class="boxWeapon" 
                 id="boxWeapon_{{actions.skill._id}}">
                 <hbox class="_combatSkill">
-                    <a class="playSkill" data-itemId="{{actions.skill._id}}" data-actionId="{{actions.action._id}}">
-                        <img class="_combatSkillImg" src="{{actions.skill.img}}"/></a>                    
+                    <a class="playCombatSkill" data-itemId="{{actions.skill._id}}">
+                        <img class="_combatSkillImg" src="{{actions.skill.img}}"/>
+                    </a>                    
                     <vbox class="_weaponText">
-                        <label class="titleWeapon">{{actions.skill.name}}</label>
+                        <a class="playCombatSkill" data-itemId="{{actions.skill._id}}">
+                            <hbox>
+                                <label class="titleWeapon">{{actions.action.name}}</label>
+                            </hbox>
+                        </a>
+                        <label class="damageWeapon">{{actions.skill.name}}</label>
                     </vbox>   
                     <hbox style="width: 200px;"></hbox>
-                    <label class="_skillValue">
+                    {{#if actions.showSkillValue}}
+                    <label class="_skillValue2">
                         {{itemPropertyExtend 'systemData.skills' actions.skill._id 'value'}}
                     </label>
-                    <a class="_cardInfo" data-itemid="{{actions.skill._id}}">
+                    {{else}}
+                    <label class="_skillValue2"></label>
+                    {{/if}}
+                    <a class="_cardInfo" data-itemid="{{actions.action._id}}">
                             <i class="fas fa-info"></i></a>                    
                 </hbox>
             </li>
             {{/if}}
 
-        {{#each items as |weapon id|}}
-        {{#if (itemType weapon 'weapon') }}
-
+            {{#each items as |weapon id|}}
+            {{#if (itemType weapon 'weapon') }}
             <li class="boxWeapon" 
                 id="boxWeapon_{{weapon._id}}">
                 
@@ -75,14 +113,33 @@
                         <img class="imgWeapon" src="{{weapon.img}}"/>
                     </a>
                     {{else}}
-                    <a class="showInfo" data-i18n="info.noAction">
+                    <a class="showRejectInfo" data-weaponid="{{weapon._id}}">
                         <img class="imgWeapon" src="{{weapon.img}}" style="opacity: 0.3;"/>
                     </a>                    
                     {{/if}} 
 
                     <vbox class="_weaponText">
-                        <label class="titleWeapon">{{weapon.name}}</label>
-                        <label class="damageWeapon">{{weapon.system.damage}} <span class="_small">{{getDamageMod weapon}}</span></label>
+                                                    
+                        {{#if (evalActionWeapon ../actions weapon) }}
+                        <a class="playWeapon" data-itemid="{{weapon._id}}" >
+                            <hbox>
+                            <label class="titleWeapon">{{weapon.name}}</label>
+                            </hbox>
+                        </a>
+                        {{else}}
+                        <a class="showRejectInfo" data-weaponid="{{weapon._id}}">
+                            <hbox>
+                            <label class="titleWeapon">{{weapon.name}}</label>
+                            </hbox>
+                        </a>                    
+                        {{/if}}
+
+
+                        <label class="damageWeapon">{{weapon.system.damage}} 
+                            {{#if (isDamageMod weapon)}}
+                                <span class="_small">{{getDamageMod weapon}}</span>
+                            {{/if}}
+                        </label>
                     </vbox>
                     <hbox style="width: 230px;">
                                             
@@ -112,9 +169,13 @@
                         {{/if}}
                         </hbox>
 
-                        <label class="_skillValue">
-                            {{getWeaponSkill weapon}}
-                        </label>
+                        <a class="_whyThisPercent" data-weaponid="{{weapon._id}}">
+                            <hbox>
+                            <label class="_skillValue">
+                                {{getWeaponSkill weapon}}
+                            </label>
+                            </hbox>
+                        </a>
 
                         <a class="_cardInfo" data-itemid="{{weapon._id}}">
                                 <i class="fas fa-info"></i></a>
@@ -132,8 +193,9 @@
 
             </li>
 
-        {{/if}}
-        {{/each}}
+            {{/if}}
+            {{/each}}
+
         </ul>
         </div>
 
@@ -173,7 +235,7 @@
 
                         <hbox class="lineAction">
                             <a class="_showMyItem" data-itemid="{{action._id}}">
-                                <img class="imgAction" src="{{action.img}}"/>
+                                <img class="imgAction" title="{{localize 'common.showInfo'}}" src="{{action.img}}"/>
                             </a>
                             <a class="_doAction" data-itemid="{{action._id}}" >
                                 <label class="titleAction">{{action.name}}</label>

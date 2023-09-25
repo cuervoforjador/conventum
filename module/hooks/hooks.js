@@ -17,6 +17,8 @@ import { helperControls } from "../helpers/helperControls.js";
 import { helperSprites } from "../helpers/helperSprites.js";
 import { helperSheetArmor } from "../sheets/helpers/helperSheetArmor.js";
 import { helperSheetHuman } from "../sheets/helpers/helperSheetHuman.js";
+import { aqCombatBar } from "../actions/aqCombatBar.js";
+import { aqActions } from "../actions/aqActions.js";
 
 
 export class mainHooks {
@@ -59,19 +61,21 @@ export class mainHooks {
         Hooks.on("createChatMessage", (message, options, sId) => this._createChatMessage(message, options, sId));
         Hooks.on("sightRefresh", async (layer) => this._sightRefresh(layer));
         Hooks.on("targetToken", (user, token, option) => this._targetToken(user, token, option));  
+        Hooks.on("updateItem", (item, stats, options, sId) => this._updateItem(item, stats, options, sId));
     }
 
     static _setup() {
-        mainConfig.translateConfig();
-        HookEvents.initialEvents(); 
+        //HookEvents.initialEvents();
+        mainConfig.translateConfig(); 
         helperSocket.onReceived();    
     }
 
     static _ready() {
+        HookEvents.initialEvents();
         HookTours.registerTours();   
         mainMacros.registerMacros();
-        
         helperCusto.custoCSS();
+        //game.aqCombatBar = new aqCombatBar();
     }
 
     static _getSceneControlButtons(mScenes) {
@@ -159,6 +163,10 @@ export class mainHooks {
     }
 
     static async _createItem(item, options, sId) {
+
+        //Images...
+        helperCusto.initialImages(item, options, sId);
+
         if (item.type === 'armor')
             await helperSheetArmor.addArmor(item);
         //if (item.type === 'trait')
@@ -293,6 +301,16 @@ export class mainHooks {
         if (!option) return;
         
         helperSprites.stylingToken(token);
+    }
+
+    static _updateItem(item, stats, options, sId) {
+        if (item.type === "actionPool") {
+            const encounter = aqActions.getCurrentEncounter();
+            if (!encounter) return;
+            if (encounter.id === item.id) {
+                //game.aqCombatBar.update();
+            }
+        }
     }
 
 }

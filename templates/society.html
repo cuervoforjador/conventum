@@ -5,18 +5,7 @@
     {{> itemFrame }}
     
     {{!-- HEADER --}}
-    <itemHeader>
-             
-        {{!-- Filigrees --}}
-        <inkDetail class="inkCorner"></inkDetail>
-        <inkDetail class="inkSubline"></inkDetail>
-
-        {{!-- Image --}}
-        <itemImage>
-            <img src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
-        </itemImage>
-
-        {{!-- Header Info --}}
+    <itemHeader class="_chrome">
         <itemHeaderInfo>
             <itemTitle>
                 <input type="text" name="name" value="{{item.name}}" placeholder=""/>
@@ -48,7 +37,21 @@
     
     {{!-- CONTENT --}}
     <itemContent>
-        {{> itemDescription }}
+        <div class="frameContent">
+            <section class="sheet-body">
+
+                {{!--- DESCRIPTION & IMAGE ---}}
+                <slidePanel class="_100">
+                    <panelContent>
+                        <itemImage>
+                            <img src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+                        </itemImage>                                    
+                        {{> itemDescription }}
+                    </panelContent>
+                </slidePanel>
+                
+            </section>        
+        </div>
     </itemContent>
     
 {{!-- Molding ---}}

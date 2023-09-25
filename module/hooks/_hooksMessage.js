@@ -51,7 +51,7 @@ export class HookMessage {
                 //(game.user.isGM)) {
 
                 message.update({
-                    content: helperMessages.extendContent(actor, sContent, '140px', '')
+                    content: helperMessages.extendContent(actor, sContent, '154px', '')
                 });
 
             } else {

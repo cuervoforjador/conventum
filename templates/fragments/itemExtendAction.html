@@ -2,7 +2,9 @@
 <div class="tab type" data-group="primary" data-tab="type">
 <slidePanel class="_100">
     <panelContent>
-
+        <p class="_actionInfo">
+            {{localize "info.actionType"}}
+        </p>
         <hbox class="_50">
             <label class="_150px">{{localize "common.attack" }}</label>
             <label class="switch" style="margin-right: 10px">
@@ -102,7 +104,16 @@
                         {{checked systemData.item.weapon.range}} />
                 <span class="sliderSwitch"></span>
             </label>            
-        </hbox>        
+        </hbox>    
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.throw" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.item.weapon.throw" 
+                        {{checked systemData.item.weapon.throw}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>            
         <hbox class="_50">
             <label class="_150px">{{localize "common.shield" }}</label>
             <label class="switch" style="margin-right: 10px">
@@ -110,7 +121,9 @@
                         name="system.item.weapon.shield" 
                         {{checked systemData.item.weapon.shield}} />
                 <span class="sliderSwitch"></span>
-            </label>            
+            </label>  
+        </hbox>
+        <hbox class="_50">                      
         </hbox>
 
         <h3 class="_100">{{localize "common.type"}}</h3>
@@ -219,6 +232,15 @@
                 <span class="sliderSwitch"></span>
             </label>            
         </hbox>                    
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.forceSelection" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.target.forceSelection" 
+                        {{checked systemData.target.forceSelection}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox> 
 
     </panelContent>
 </slidePanel>
@@ -245,7 +267,7 @@
                    data-dtype="Number"
                    type="text" />           
         </hbox> 
-        <hbox class="_100">
+        <hbox class="_50">
             <label class="_150px">{{localize "common.modCombat2Skill" }}</label>
             <input class="_100px" 
                    name="system.skill.mod.combatSkill2"
@@ -337,7 +359,16 @@
                         {{checked systemData.skill.doubleAttack}} />
                 <span class="sliderSwitch"></span>
             </label>            
-        </hbox>           
+        </hbox>     
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.autoSuccess" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.skill.autoSuccess" 
+                        {{checked systemData.skill.autoSuccess}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>               
     </panelContent>
 </slidePanel>
 </div>
@@ -367,7 +398,15 @@
                    value="{{systemData.damage.mod.multDamage}}" 
                    data-dtype="Number"
                    type="text" />            
-        </hbox>        
+        </hbox>   
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.formula" }}</label>
+            <input class="_200px" 
+                   style="width: 250px;"
+                   name="system.damage.formula"
+                   value="{{systemData.damage.formula}}" 
+                   type="text" />            
+        </hbox>             
         <hbox class="_50">
             <label class="_150px">{{localize "common.stack" }}</label>
             <label class="switch" style="margin-right: 10px">
@@ -403,7 +442,16 @@
                         {{checked systemData.damage.mod.modDamage2}} />
                 <span class="sliderSwitch"></span>
             </label>            
-        </hbox>                
+        </hbox>        
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.noDamage" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.damage.noDamage" 
+                        {{checked systemData.damage.noDamage}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>                 
         <hbox class="_50">
             <label class="_150px">{{localize "common.damageToMount" }}</label>
             <label class="switch" style="margin-right: 10px">
@@ -414,14 +462,14 @@
             </label>            
         </hbox>   
         <hbox class="_50">
-            <label class="_150px">{{localize "common.noDamage" }}</label>
+            <label class="_150px">{{localize "common.damageToShield" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
-                        name="system.damage.noDamage" 
-                        {{checked systemData.damage.noDamage}} />
+                        name="system.damage.target.shield" 
+                        {{checked systemData.damage.target.shield}} />
                 <span class="sliderSwitch"></span>
             </label>            
-        </hbox>         
+        </hbox>        
         <hbox class="_50">
             <label class="_150px">{{localize "common.damageXendurance" }}</label>
             <label class="switch" style="margin-right: 10px">
@@ -467,7 +515,7 @@
                    value="{{systemData.armor.mod.targetProtection}}" 
                    type="text" />            
         </hbox>
-        <hbox class="_100">
+        <hbox class="_50">
             <label class="_150px">{{localize "common.stack" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
@@ -605,7 +653,156 @@
                         {{checked systemData.rolls.leveled}} />
                 <span class="sliderSwitch"></span>
             </label>            
+        </hbox>    
+        <hbox class="_50">            
+        </hbox>    
+        <hbox class="_100">
+            <h2 class="_100">{{localize "common.rollOpposed" }}</h2>
         </hbox>        
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.rollOpposed" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.rolls.opposedRoll" 
+                        {{checked systemData.rolls.opposedRoll}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>    
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.rollReplace" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.rolls.replaceRoll" 
+                        {{checked systemData.rolls.replaceRoll}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>   
+
+        {{!-- ACTOR --}}
+        <hbox class="_100">
+            <h3 class="_100">{{localize "common.actor" }}</h3>
+        </hbox>
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.primaryChar" }}</label>
+            <select class="_120px" name="system.rolls.actor.primaryChar">
+                {{selectOptions backend.characteristics 
+                                selected=systemData.rolls.actor.primaryChar
+                                localize=false
+                                nameAttr="id"
+                                labelAttr="name" }}
+            </select>
+        </hbox>
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.secondaryChar" }}</label>
+            <select class="_120px" name="system.rolls.actor.secondaryChar">
+                {{selectOptions backend.secondaries 
+                                selected=systemData.rolls.actor.secondaryChar
+                                localize=false
+                                nameAttr="id"
+                                labelAttr="name" }}
+            </select>
+        </hbox>        
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.skill" }}</label>
+            <select class="_120px" name="system.rolls.actor.skill" class="_100">
+                {{selectOptions backend.skills 
+                                selected=systemData.rolls.actor.skill
+                                localize=false
+                                nameAttr="id"
+                                labelAttr="name" }}
+            </select>   
+        </hbox>
+        <hbox class="_50">                                      
+        </hbox>
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.modificator" }}</label>
+            <input class="_100px" 
+                   name="system.rolls.actor.mod"
+                   value="{{systemData.rolls.actor.mod}}" 
+                   data-dtype="Number"
+                   type="text" />            
+        </hbox>
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.multiplicator" }}</label>
+            <input class="_100px" 
+                   name="system.rolls.actor.mult"
+                   value="{{systemData.rolls.actor.mult}}" 
+                   type="text" />            
+        </hbox>        
+        <hbox class="_50">
+        </hbox>
+        <hbox class="_50">            
+            <label class="_150px">{{localize "common.multiplicatorByWeapon" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.rolls.actor.byWeapon" 
+                        {{checked systemData.rolls.actor.byWeapon}} />
+                <span class="sliderSwitch"></span>
+            </label>           
+        </hbox>                 
+
+        {{!-- ENEMY --}}
+        <hbox class="_100">
+            <h3 class="_100">{{localize "common.opponent" }}</h3>
+        </hbox>
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.primaryChar" }}</label>
+            <select class="_120px" name="system.rolls.opponent.primaryChar">
+                {{selectOptions backend.characteristics 
+                                selected=systemData.rolls.opponent.primaryChar
+                                localize=false
+                                nameAttr="id"
+                                labelAttr="name" }}
+            </select>
+        </hbox>
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.secondaryChar" }}</label>
+            <select class="_120px" name="system.rolls.opponent.secondaryChar">
+                {{selectOptions backend.secondaries 
+                                selected=systemData.rolls.opponent.secondaryChar
+                                localize=false
+                                nameAttr="id"
+                                labelAttr="name" }}
+            </select>
+        </hbox>        
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.skill" }}</label>
+            <select class="_120px" name="system.rolls.opponent.skill" class="_100">
+                {{selectOptions backend.skills 
+                                selected=systemData.rolls.opponent.skill
+                                localize=false
+                                nameAttr="id"
+                                labelAttr="name" }}
+            </select>   
+        </hbox>
+        <hbox class="_50">                                      
+        </hbox>
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.modificator" }}</label>
+            <input class="_100px" 
+                   name="system.rolls.opponent.mod"
+                   value="{{systemData.rolls.opponent.mod}}" 
+                   data-dtype="Number"
+                   type="text" />            
+        </hbox>
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.multiplicator" }}</label>
+            <input class="_100px" 
+                   name="system.rolls.opponent.mult"
+                   value="{{systemData.rolls.opponent.mult}}" 
+                   type="text" />            
+        </hbox>
+        <hbox class="_50">
+        </hbox>
+        <hbox class="_50">            
+            <label class="_150px">{{localize "common.multiplicatorByWeapon" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.rolls.opponent.byWeapon" 
+                        {{checked systemData.rolls.opponent.byWeapon}} />
+                <span class="sliderSwitch"></span>
+            </label>           
+        </hbox>         
 
     </panelContent>
 </slidePanel>
@@ -660,9 +857,31 @@
                         {{checkedExtend 'systemData.modes' mode._id 'targetIn'}} />
                     <span class="sliderSwitch"></span>
                 </label>
-            </hbox>                  
+            </hbox>     
+            <hbox class="_50">
+                <label class="_150px">{{localize "common.modeCriticalIn" }}</label>
+                <label class="switch" style="margin-right: 10px">
+                    <input type="checkbox" 
+                        name="system.modes.{{mode._id}}.targetCriticalIn" 
+                        {{checkedExtend 'systemData.modes' mode._id 'targetCriticalIn'}} />
+                    <span class="sliderSwitch"></span>
+                </label>
+            </hbox>                          
             <lineDiv></lineDiv>
         {{/each}}                     
     </panelContent>
 </slidePanel>
 </div>
+
+{{!--- DESCRIPTION & IMAGE ---}}
+<div class="tab description" data-group="primary" data-tab="description">
+<slidePanel class="_100">
+    <panelContent>
+        <itemImage>
+            <img src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+        </itemImage>                                    
+        {{> itemDescription }}
+    </panelContent>
+</slidePanel>
+</div>  
+

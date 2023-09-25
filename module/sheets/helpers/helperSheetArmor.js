@@ -120,7 +120,7 @@ export class helperSheetArmor {
                                 '<div class="_messageImg"><img src="'+actor.img+'"/></div>'+
                                 '<div class="_vertical" style="margin-top: -50px;">'+
                                     '<div class="_title">'+actor.name+'</div>'+
-                                    '<div class="_boxItems" style="top: 30px; left: 70px; width: calc(100% - 58px);">'+                                    
+                                    '<div class="_boxItems">'+                                    
                                         '<div class="_subItem">'+
                                             '<a class="_showItem" data-itemid="'+armor.id+'" data-actorid="'+actor.id+'">'+
                                                 '<img src="'+armor.img+'" />'+
@@ -138,7 +138,7 @@ export class helperSheetArmor {
                                     actor, 
                                     false,
                                     actor.system.control.frame, 
-                                    '140px');        
+                                    '154px');        
 
         }
 

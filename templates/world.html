@@ -5,220 +5,239 @@
     {{> itemFrame }}
     
     {{!-- HEADER --}}
-    <itemHeader>
-             
-        {{!-- Filigrees --}}
-        <inkDetail class="inkCorner"></inkDetail>
-        <inkDetail class="inkSubline"></inkDetail>
-
-        {{!-- Image --}}
-        <itemImage>
-            <img src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
-        </itemImage>
-
-        {{!-- Header Info --}}
+    <itemHeader class="_chrome">
         <itemHeaderInfo>
             <itemTitle>
                 <input type="text" name="name" value="{{item.name}}" placeholder=""/>
             </itemTitle>
-            <itemSubHeader>
-                <hbox class="_100">
-                    <nav class="sheet-tabs itemTabsHeader" data-group="configTabs">
-                        <a data-tab="main">{{ localize "common.description" }}</a>
-                        <a data-tab="rolls">{{ localize "common.rolls" }}</a>
-                        <a data-tab="actions">{{ localize "common.actions" }}</a>
-                        <a data-tab="custo">{{ localize "common.custo" }}</a>
-                    </nav>
-                </hbox>                  
-            </itemSubHeader>
         </itemHeaderInfo>
     </itemHeader> 
     
     {{!-- CONTENT --}}
     <itemContent>
-
+        <hbox class="_100">
+            <nav class="sheet-tabs itemTabsHeader" data-group="configTabs">
+                <a data-tab="main">{{ localize "common.description" }}</a>
+                <a data-tab="rolls">{{ localize "common.rolls" }}</a>
+                <a data-tab="actions">{{ localize "common.actions" }}</a>
+                <a data-tab="custo">{{ localize "common.custo" }}</a>
+            </nav>
+        </hbox>  
         <div class="frameContent">
             <section class="sheet-body">
 
-                {{!- Description -}}
+                {{!--- DESCRIPTION & IMAGE ---}}
                 <div class="tab main" data-group="configTabs" data-tab="main">
-                    {{> itemDescription }}
-                </div>
+                <slidePanel class="_100">
+                    <panelContent>
+                        <itemImage>
+                            <img src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+                        </itemImage>                                    
+                        {{> itemDescription }}
+                    </panelContent>
+                </slidePanel>
+                </div> 
 
-                {{!-- Rolls --}}
+                {{!--- ROLLS ---}}
                 <div class="tab rolls" data-group="configTabs" data-tab="rolls">
+                <slidePanel class="_100">
+                    <panelContent>
 
-                    {{!-- Criticals success & failures --}}
-                    <h1 class="_modTitle">{{localize "common.rollSuccFail" }}</h1>
-                    <hbox class="_mod">
-                        <label>{{localize "common.rollSkillRange" }}</label>
-                        <input type="text" 
-                               style="width: 60px;"
-                               name="system.config.rolls.skillRange"
-                               value="{{systemData.config.rolls.skillRange}}" />                        
-                    </hbox>
-                    <hbox class="_mod">
-                        <label>{{localize "common.rollFailureRange" }}</label>
-                        <input type="text" 
-                               style="width: 60px;"
-                               name="system.config.rolls.failureRange"
-                               value="{{systemData.config.rolls.failureRange}}" />                        
-                    </hbox>
-                    <hbox class="_mod">
-                        <label>{{localize "common.rollFailureMin" }}</label>
-                        <input type="text" 
-                               style="width: 60px;"
-                               name="system.config.rolls.failureMin"
-                               value="{{systemData.config.rolls.failureMin}}" />                        
-                    </hbox>
-                    <hbox class="_mod">
-                        <label>{{localize "common.rollCriticalSucStep" }}</label>
-                        <input type="text" 
-                               style="width: 60px;"
-                               name="system.config.rolls.criticalSuccessStep"
-                               value="{{systemData.config.rolls.criticalSuccessStep}}" />                        
-                    </hbox>   
-                    <hbox class="_mod">
-                        <label>{{localize "common.rollCriticalFaiStep" }}</label>
-                        <input type="text" 
-                               style="width: 60px;"
-                               name="system.config.rolls.criticalFailureStep"
-                               value="{{systemData.config.rolls.criticalFailureStep}}" />                        
-                    </hbox>                                                                           
+                        <h3 class="_100">{{localize "common.rollSuccFail"}}</h3>
+                        <hbox class="_50">  
+                            <label class="_150px">{{localize "common.rollSkillRange" }}</label>                      
+                            <input type="text" 
+                                    style="width: 60px;"
+                                    name="system.config.rolls.skillRange"
+                                    value="{{systemData.config.rolls.skillRange}}" />                                           
+                        </hbox>                        
+                        <hbox class="_50">  
+                            <label class="_150px">{{localize "common.rollFailureRange" }}</label>                      
+                            <input type="text" 
+                                    style="width: 60px;"
+                                    name="system.config.rolls.failureRange"
+                                    value="{{systemData.config.rolls.failureRange}}" />                                            
+                        </hbox>                        
+                        <hbox class="_50">  
+                            <label class="_150px">{{localize "common.rollFailureMin" }}</label>                      
+                            <input type="text" 
+                                    style="width: 60px;"
+                                    name="system.config.rolls.failureMin"
+                                    value="{{systemData.config.rolls.failureMin}}" />                                            
+                        </hbox>                       
+                        <hbox class="_50">  
+                            <label class="_150px">{{localize "common.rollCriticalSucStep" }}</label>                      
+                            <input type="text" 
+                                    style="width: 60px;"
+                                    name="system.config.rolls.criticalSuccessStep"
+                                    value="{{systemData.config.rolls.criticalSuccessStep}}" />                                           
+                        </hbox>
+                        <hbox class="_50">  
+                            <label class="_150px">{{localize "common.rollCriticalFaiStep" }}</label>                      
+                            <input type="text" 
+                                    style="width: 60px;"
+                                    name="system.config.rolls.criticalFailureStep"
+                                    value="{{systemData.config.rolls.criticalFailureStep}}" />                                            
+                        </hbox>
+                        <hbox class="_50"> 
+                        </hbox>
 
-                    {{!-- Roll levels --}}
-                    <h1 class="_modTitle">{{localize "common.rollLevel" }}</h1>
+                        <h3 class="_100">{{localize "common.rollLevel"}}</h3>
+                        <hbox class="_50">  
+                            <label class="_150px">{{localize "common.charAndLevels" }}</label>                      
+                            <label class="switch" style="margin-right: -16px;">
+                                <input type="checkbox" 
+                                    name="system.config.rolls.charAndLevels" 
+                                    {{checked 'systemData.config.rolls.charAndLevels'}} />
+                                <span class="sliderSwitch"></span>
+                            </label>                                         
+                        </hbox>
+                        <hbox class="_50">
+                        </hbox>
 
-                    <hbox class="_mod">
-                        <label style="width: calc(100% - 100px)">{{localize "common.charAndLevels" }}</label>
-                        <label class="switch" style="margin-right: -16px;">
-                            <input type="checkbox" 
-                                name="system.config.rolls.charAndLevels" 
-                                {{checked 'systemData.config.rolls.charAndLevels'}} />
-                            <span class="sliderSwitch"></span>
-                        </label>                        
-                    </hbox>
+                        {{#each mRollDice as |sRoll key|}}
+                        <hbox class="_mod">
+                            <label>{{localizeExtend "common." sRoll "" }}</label>
+                            <input type="text" 
+                                   style="width: 200px;"
+                                   name="system.config.rolllevel.{{sRoll}}.text"
+                                   value="{{itemPropertyExtend 'systemData.config.rolllevel' sRoll 'text'}}" />
+                            <input type="text"
+                                   style="width: 60px;"
+                                   name="system.config.rolllevel.{{sRoll}}.bono"
+                                   value="{{itemPropertyExtend 'systemData.config.rolllevel' sRoll 'bono'}}" />
+                            <input type="text" 
+                                   style="width: 130px;"
+                                   name="system.config.rolllevel.{{sRoll}}.color"
+                                   value="{{itemPropertyExtend 'systemData.config.rolllevel' sRoll 'color'}}" />
+                            <label class="switch" style="margin-right: -16px;">
+                                <input type="checkbox" 
+                                    name="system.config.rolllevel.{{sRoll}}.apply" 
+                                    {{checkedExtend 'systemData.config.rolllevel' sRoll 'apply'}} />
+                                <span class="sliderSwitch"></span>
+                            </label>                            
+                        </hbox>
+                        {{/each}}
 
-                    {{#each mRollDice as |sRoll key|}}
-                    <hbox class="_mod">
-                        <label>{{localizeExtend "common." sRoll "" }}</label>
-                        <input type="text" 
-                               style="width: 200px;"
-                               name="system.config.rolllevel.{{sRoll}}.text"
-                               value="{{itemPropertyExtend 'systemData.config.rolllevel' sRoll 'text'}}" />
-                        <input type="text"
-                               style="width: 60px;"
-                               name="system.config.rolllevel.{{sRoll}}.bono"
-                               value="{{itemPropertyExtend 'systemData.config.rolllevel' sRoll 'bono'}}" />
-                        <input type="text" 
-                               style="width: 130px;"
-                               name="system.config.rolllevel.{{sRoll}}.color"
-                               value="{{itemPropertyExtend 'systemData.config.rolllevel' sRoll 'color'}}" />
-                        <label class="switch" style="margin-right: -16px;">
-                            <input type="checkbox" 
-                                name="system.config.rolllevel.{{sRoll}}.apply" 
-                                {{checkedExtend 'systemData.config.rolllevel' sRoll 'apply'}} />
-                            <span class="sliderSwitch"></span>
-                        </label>                            
-                    </hbox>
-                    {{/each}}
 
+                    </panelContent>
+                </slidePanel>
                 </div>
 
-                {{!-- Actions --}}
+                {{!--- ACTIONS ---}}
                 <div class="tab actions" data-group="configTabs" data-tab="actions">
-                    
-                    {{!-- Actions turns --}}
-                    <h1 class="_modTitle">{{localize "common.actions" }}</h1>
-                    <hbox class="_mod">
-                        <label style="width: 100px;">{{localize "config.fixedNumber" }}</label>
-                        <label class="switch">
-                            <input type="checkbox" 
-                                name="system.config.actions.fixedNumber" 
-                                {{checked systemData.config.actions.fixedNumber}} />
-                            <span class="sliderSwitch"></span>
-                        </label>       
-                        <input type="text" 
-                               style="width: 40px; text-align: center"
-                               name="system.config.actions.actionNumber"
-                               value="{{systemData.config.actions.actionNumber}}" 
-                               data-dtype="Number" />                                          
-                    </hbox>
-                    <label class="_infoText">{{localize "info.fixedNumber"}}</label>
+                <slidePanel class="_100">
+                    <panelContent>
 
-                    <hbox class="_mod">
-                        <label style="width: 100px;">{{localize "config.initiativePercent" }}</label>
-                        <input type="text" 
-                               style="width: 40px; text-align: center"
-                               name="system.config.actions.initiativePercent"
-                               value="{{systemData.config.actions.initiativePercent}}" 
-                               data-dtype="Number" />
-                    </hbox>
-                    <label class="_infoText">{{localize "info.initiativePercent"}}</label>
+                        <h3 class="_100">{{localize "common.actions"}}</h3>
+                        <hbox class="_50">  
+                            <label class="_150px">{{localize "config.fixedNumber" }}</label>                      
+                            <label class="switch">
+                                <input type="checkbox" 
+                                    name="system.config.actions.fixedNumber" 
+                                    {{checked systemData.config.actions.fixedNumber}} />
+                                <span class="sliderSwitch"></span>
+                            </label>                                        
+                        </hbox>
+                        <hbox class="_50">
+                            <input type="text" 
+                                    style="width: 40px; text-align: center"
+                                    name="system.config.actions.actionNumber"
+                                    value="{{systemData.config.actions.actionNumber}}" 
+                                    data-dtype="Number" />                             
+                        </hbox>
+                        <hbox class="_large">
+                            <label class="_infoText">{{localize "info.fixedNumber"}}</label>
+                        </hbox>
 
-                    <hbox class="_mod">
-                        <label style="width: 100px;">{{localize "config.penalFrom" }}</label>
-                        <input type="text" 
-                               style="width: 40px; text-align: center"
-                               name="system.config.actions.penalFrom"
-                               value="{{systemData.config.actions.penalFrom}}" 
-                               data-dtype="Number" />
-                        <label style="width: 100px;">{{localize "config.penaltyPorc" }}</label>
-                        <input type="text" 
-                                style="width: 40px; text-align: center"
-                                name="system.config.actions.penaltyPorc"
-                                value="{{systemData.config.actions.penaltyPorc}}" />                               
-                    </hbox>
-                    <label class="_infoText">{{localize "info.penalAction"}}</label>
+                        <hbox class="_50">  
+                            <label class="_150px">{{localize "config.initiativePercent" }}</label>                      
+                            <input type="text" 
+                                    style="width: 40px; text-align: center"
+                                    name="system.config.actions.initiativePercent"
+                                    value="{{systemData.config.actions.initiativePercent}}" 
+                                    data-dtype="Number" />                                         
+                        </hbox> 
+                        <hbox class="_50">
+                            <label></label>
+                        </hbox>    
+                        <hbox class="_large">
+                            <label class="_infoText">{{localize "info.initiativePercent"}}</label>
+                        </hbox>                                           
 
+                        <hbox class="_50">  
+                            <label class="_150px">{{localize "config.penalFrom" }}</label>                      
+                            <input type="text" 
+                                    style="width: 40px; text-align: center"
+                                    name="system.config.actions.penalFrom"
+                                    value="{{systemData.config.actions.penalFrom}}" 
+                                    data-dtype="Number" />                                      
+                        </hbox>    
+                        <hbox class="_50">  
+                            <label class="_150px">{{localize "config.penaltyPorc" }}</label>                      
+                            <input type="text" 
+                                    style="width: 40px; text-align: center"
+                                    name="system.config.actions.penaltyPorc"
+                                    value="{{systemData.config.actions.penaltyPorc}}" />                                      
+                        </hbox>  
+                        <hbox class="_large">
+                            <label class="_infoText">{{localize "info.penalAction"}}</label>
+                        </hbox>                                                                   
+
+                    </panelContent>
+                </slidePanel>
                 </div>
 
-                {{!-- Custo --}}
+                {{!--- CUSTO ---}}
                 <div class="tab custo" data-group="configTabs" data-tab="custo">
-                    
-                    <hbox class="_mod">
-                        <label style="width: 100px;">Font Family 1</label>      
-                        <input type="text"
-                               style="width: calc(100% - 130px);"
-                               name="system.config.custo.fontFamily"
-                               value="{{systemData.config.custo.fontFamily}}" />
-                    </hbox>
-                    <hbox class="_mod">
-                        <label style="width: 100px;">Font Family 2</label>      
-                        <input type="text"
-                               style="width: calc(100% - 130px);"
-                               name="system.config.custo.fontFamily2"
-                               value="{{systemData.config.custo.fontFamily2}}" />                                          
-                    </hbox>
-                    <hbox class="_mod">
-                        <label style="width: 100px;">Font Family 3</label>      
-                        <input type="text"
-                               style="width: calc(100% - 130px);"
-                               name="system.config.custo.fontFamily3"
-                               value="{{systemData.config.custo.fontFamily3}}" />                                          
-                    </hbox>                                        
-                    <hbox class="_mod">
-                        <label style="width: 100px;">Paper</label>      
-                        <input type="text"
-                               style="width: calc(100% - 130px);"
-                               name="system.config.custo.paper"
-                               value="{{systemData.config.custo.paper}}" />                                          
-                    </hbox>
-                    <hbox class="_mod">
-                        <label style="width: 100px;">Tile</label>      
-                        <input type="text"
-                               style="width: calc(100% - 130px);"
-                               name="system.config.custo.tile1"
-                               value="{{systemData.config.custo.tile1}}" />                                          
-                    </hbox>
-                    <hbox class="_mod">
-                        <label style="width: 100px;">Tile</label>      
-                        <input type="text"
-                               style="width: calc(100% - 130px);"
-                               name="system.config.custo.tile2"
-                               value="{{systemData.config.custo.tile2}}" />                                          
-                    </hbox>                                                            
+                <slidePanel class="_100">
+                    <panelContent>
 
+                        <hbox class="_mod">
+                            <label style="width: 100px;">Font Family 1</label>      
+                            <input type="text"
+                                   style="width: calc(100% - 130px);"
+                                   name="system.config.custo.fontFamily"
+                                   value="{{systemData.config.custo.fontFamily}}" />
+                        </hbox>
+                        <hbox class="_mod">
+                            <label style="width: 100px;">Font Family 2</label>      
+                            <input type="text"
+                                   style="width: calc(100% - 130px);"
+                                   name="system.config.custo.fontFamily2"
+                                   value="{{systemData.config.custo.fontFamily2}}" />                                          
+                        </hbox>
+                        <hbox class="_mod">
+                            <label style="width: 100px;">Font Family 3</label>      
+                            <input type="text"
+                                   style="width: calc(100% - 130px);"
+                                   name="system.config.custo.fontFamily3"
+                                   value="{{systemData.config.custo.fontFamily3}}" />                                          
+                        </hbox>                                        
+                        <hbox class="_mod">
+                            <label style="width: 100px;">Paper</label>      
+                            <input type="text"
+                                   style="width: calc(100% - 130px);"
+                                   name="system.config.custo.paper"
+                                   value="{{systemData.config.custo.paper}}" />                                          
+                        </hbox>
+                        <hbox class="_mod">
+                            <label style="width: 100px;">Tile</label>      
+                            <input type="text"
+                                   style="width: calc(100% - 130px);"
+                                   name="system.config.custo.tile1"
+                                   value="{{systemData.config.custo.tile1}}" />                                          
+                        </hbox>
+                        <hbox class="_mod">
+                            <label style="width: 100px;">Tile</label>      
+                            <input type="text"
+                                   style="width: calc(100% - 130px);"
+                                   name="system.config.custo.tile2"
+                                   value="{{systemData.config.custo.tile2}}" />                                          
+                        </hbox> 
+
+                    </panelContent>
+                </slidePanel>
                 </div>
 
             </section>
