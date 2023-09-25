@@ -6,13 +6,6 @@
     
     {{!-- HEADER --}}
     <itemHeader class="_chrome">
-             
-        {{!-- Image --}}
-        <itemImage>
-            <img src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
-        </itemImage>
-
-        {{!-- Header Info --}}
         <itemHeaderInfo>
             <itemTitle>
                 <input type="text" name="name" value="{{item.name}}" placeholder=""/>
@@ -27,35 +20,43 @@
                                         nameAttr="id"
                                         labelAttr="name" }}
                     </select>
-                </hbox>
-                <hbox class="_100">
-                    <nav class="sheet-tabs itemTabsHeader" data-group="primary">
-                        <a data-tab="main">{{ localize "common.armor" }}</a>
-                        <a data-tab="location">{{ localize "common.location" }}</a>
-                        <a data-tab="penal">{{ localize "common.penal" }}</a>
-                        <a data-tab="description">{{ localize "common.description" }}</a>
-                    </nav>
-                </hbox>              
+                </hbox>            
             </itemSubHeader>
-
-            {{!-- CONTENT --}}
-            <itemContent>
-        
-                <div class="frameContent">
-                    <section class="sheet-body">
-                        {{> itemExtendArmor }}
-
-                        <div class="tab description" data-group="primary" data-tab="description">
-                            {{> itemDescription }}
-                        </div>                
-                    </section>
-                </div>
-        
-            </itemContent>            
-
         </itemHeaderInfo>
-
     </itemHeader> 
+
+    {{!-- CONTENT --}}
+    <itemContent>
+
+        <hbox class="_100">
+            <nav class="sheet-tabs itemTabsHeader" data-group="primary">
+                <a data-tab="main">{{ localize "common.armor" }}</a>
+                <a data-tab="location">{{ localize "common.location" }}</a>
+                <a data-tab="penal">{{ localize "common.penal" }}</a>
+                <a data-tab="description">{{ localize "common.description" }}</a>
+            </nav>
+        </hbox>  
+
+        <div class="frameContent">
+            <section class="sheet-body">
+                {{> itemExtendArmor }}
+
+                {{!--- DESCRIPTION & IMAGE ---}}
+                <div class="tab description" data-group="primary" data-tab="description">
+                <slidePanel class="_100">
+                    <panelContent>
+                        <itemImage>
+                            <img src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+                        </itemImage>                                    
+                        {{> itemDescription }}
+                    </panelContent>
+                </slidePanel>
+                </div> 
+
+            </section>
+        </div>
+
+    </itemContent>     
 
 {{!-- Molding ---}}
 <input name="system.control.mold"

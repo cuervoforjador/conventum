@@ -35,13 +35,14 @@ itemHeader {
 itemHeader._chrome {
     display: flex;
     flex-direction: initial;
-    height: 100%;
+    justify-content: flex-end;
+    padding-right: 6px;
+    margin-bottom: 10px; 
 }
 itemImage {
     padding: 0px!important;
     width: 150px;
-    height: 150px;
-    transform: rotate(1.3deg);
+    height: auto;
 }
 ._chrome itemimage {
     width: 218px;
@@ -49,17 +50,15 @@ itemImage {
     border-right: 0px solid #333;
 }
 itemImage img {
-    margin-left: -1px;
-    margin-top: -1px;
-    border: 0px;
-    width: 150px;
-    height: 155px;
-    border: 3px solid #181817;
+    border: 1px solid #1818175e;
 }
 ._chrome itemImage img {
-    width: 218px;
-    height: 340px;
+    width: 90px;
+    height: 90px;
     border: 4px solid #894b4bde;
+    position: absolute;
+    top: 61px;
+    left: 30px;
 }
 itemHeaderInfo {
     width: calc(100% - 155px);
@@ -92,27 +91,29 @@ itemTitle {
     padding: 10px;
     padding-left: 24px;
     padding-top: 14px;
-    height: 65px;
 }
 itemTitle input[type="text"] {
     font-family: var(--font-aq);
     border: 0px;
     background: transparent;
-    font-size: 28px;
-    line-height: 34px;
-    transform: rotate(-1deg);
+    font-size: 20px;
+    line-height: 25px;
+    font-weight: 900;
 }
 ._chrome itemheaderinfo itemtitle {
-    padding-left: 14px;
-    padding-top: 20px;
+    padding-left: 10px;
+    padding-top: 16px;
     border-bottom: 3px solid #954a4aa3;
     padding-bottom: 3px;
 }
 
 itemSubHeader {
     width: 100%;
-    height: 95px;
-    padding: 10px;
+    padding: 0px;
+    padding-bottom: 4px;
+    background: #9d6c6c26;
+    border: 1px solid #33333329;
+    border-bottom-left-radius: 13px;
 }
 ._subHeaderNew {
     padding: 5px;
@@ -121,14 +122,15 @@ itemSubHeader {
 }
 ._subHeaderHBox {
     width: 100%;
+    padding-top: 4px;
 }
 ._subHeaderHBox label {
     width: 80px;
     text-align: end;
-    padding-right: 2px;
+    padding-right: 5px;
     font-family: var(--font-aq);
-    font-size: 17px;
-    line-height: 20px;
+    font-size: 15px;
+    line-height: 16px;
 }
 ._subHeaderHBox input {
     font-family: var(--font-aq);
@@ -144,7 +146,7 @@ itemSubHeader {
     font-family: var(--font-aq);
     font-size: 17px;
     line-height: 18px;
-    width: calc(100% - 80px);
+    min-width: 150px;
     text-align: initial;
     background: #af888852;
     border: 0px;
@@ -157,7 +159,19 @@ itemSubHeader {
 .tab h3 {
     font-family: 'Almendra'!important;
     padding-left: 10px;
+    padding-top: 10px;
     font-weight: 900;
+}
+._noMax {
+    max-width: auto!important;
+    min-width: auto!important;
+}
+hbox._apply {
+    display: flex;
+    justify-content: flex-start;
+    background: #ffeb0021;
+    border: 1px solid #33333326;
+    margin-bottom: 10px;
 }
 
 /* TEXT-EDITOR */
@@ -328,7 +342,6 @@ infotext {
 slidepanel {
     display: flex;
     flex-direction: column;
-    margin-top: 8px;
     overflow-y: auto;
 }
 slidepanel paneltitle {
@@ -355,11 +368,10 @@ slidepanel panelcontent {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     align-content: center;
     background: #c366661c;
-    margin-top: -6px;
-    padding-top: 5px;
+    padding-top: 15px;
     padding-bottom: 20px;
 }
 panelcontent hbox {
@@ -627,4 +639,18 @@ a img {
 }
 .labeled label {
     padding-left: 5px;
+}
+
+._2columns {
+    display: flex;
+    flex-wrap: wrap;
+}
+._2columns img {
+    width: 80px;
+    height: 80px;
+    border: 0px;
+    margin-right: 5px;
+}
+._2columns ._text {
+    width: calc(100% - 90px)!important;
 }

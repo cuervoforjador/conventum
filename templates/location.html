@@ -5,18 +5,12 @@
     {{> itemFrame }}
     
     {{!-- HEADER --}}
-    <itemHeader>
-             
-        {{!-- Filigrees --}}
-        <inkDetail class="inkCorner"></inkDetail>
-        <inkDetail class="inkSubline"></inkDetail>
+    <itemHeader class="_chrome">
 
-        {{!-- Image --}}
         <itemImage>
             <img src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
         </itemImage>
 
-        {{!-- Header Info --}}
         <itemHeaderInfo>
             <itemTitle>
                 <input type="text" name="name" value="{{item.name}}" placeholder=""/>

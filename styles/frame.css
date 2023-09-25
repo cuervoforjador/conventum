@@ -1,7 +1,7 @@
 /* Window... */
 .window-app .window-header .window-title {
     font-size: 11px!important;
-    font-family: 'Uncial Antiqua', cursive;
+    font-family: var(--font2-aq);
 }
 .window-app .window-header .window-title::first-letter {
     background: rgb(177, 34, 34)!important;
@@ -16,7 +16,7 @@
     border-bottom-right-radius: 4px;
 }
 .window-app .window-header a {
-    font-family: 'MedievalSharp', cursive;
+    font-family: var(--font4-aq);
     font-size: 12px!important;    
 }
 section.window-content {
@@ -30,7 +30,7 @@ section.window-content {
 /* Forms... */
 form .form-group label {
     font-size: 12px!important;
-    font-family: 'Uncial Antiqua', cursive;
+    font-family: var(--font2-aq);
 }
 form .form-group label::first-letter {
     color: rgb(177, 34, 34)!important;

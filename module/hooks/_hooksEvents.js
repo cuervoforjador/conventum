@@ -16,39 +16,88 @@ export class HookEvents {
     /**
      * First events...
      */    
-    static initialEvents() {
+    static initialEvents() {     
 
         //Combat Track
         $(document).on('change', 'input.cbInitiativeMod', function (event) {
+            event.preventDefault();
             HookCombat.changeInitiativeMod($(this).data('actorid'), $(this).val());
         });
         $(document).on('click', 'a.combat-button[data-control="resetAll"]', function (event) {
+            event.preventDefault();
             HookCombat.resetAllInitiativeMod();
         });             
 
         //WizardCombat click
         $(document).on('click', 'hbox._showMore', function (event) {
+            event.preventDefault();
             $(event.target).parent().parent().find('._wInfo').slideToggle();
         });
         $(document).on('click', '.combatWizardActionsButton', function (event) {
+            event.preventDefault();
             helperControls.playActions();
         });        
         $(document).on('click', '.combatWizardEncounterButton', function (event) {
+            event.preventDefault();
             helperControls.playEncounter();
         });        
 
         //Show Info for skills (Chat Messages)
         $(document).on('click', 'a._infoSkill', function (event) {
+            event.preventDefault();
             HookEvents._showSkill($(this).data('itemid'));
         });   
         
         //Show Info for items (Chat Messages)
         $(document).on('click', 'a._showItem', function (event) {
+            event.preventDefault();
             HookEvents._showItem($(this).data('itemid'), $(this).data('actorid'));
         });         
 
+        //Link to action task
+        $(document).on('click', 'a._linkToAction', function (event) {
+            event.preventDefault();
+            const actorId = $(this).data('actorid');
+            const tokenId = $(this).data('tokenid');
+            const messageId = $(event.target).parents('li.chat-message').data('messageId');
+
+            const actor = ((tokenId === '') || (!tokenId)) ?
+                game.actors.get(actorId) :
+                game.scenes.active.tokens.get(tokenId).getActor();
+                
+                
+            actor.sheet._tabs[0].active = 'combat';
+            actor.sheet._tabs[2].active = 'combatWeapons';
+            actor.sheet.render(true);                
+        });
+        $(document).on('click', 'a._showTargetLinks', function (event) {
+            event.preventDefault();
+            
+            const messageId = $(event.target).parents('li.chat-message').data('messageId');
+            let message = game.messages.get(messageId);
+
+            let button = $(event.target);
+            let linkBox = button.parent().parent().find('._targetLinks');
+            
+            let context = Object.assign(new aqContext(), message.flags);
+            context.init();
+            const content = context.getLinks();
+            linkBox.html(content);
+
+            linkBox.toggle();
+            if (button.parent().hasClass('_hideTargetLinks')) {
+                button.parent().removeClass('_hideTargetLinks');
+                linkBox.removeClass('_displayed');
+            } else {
+                button.parent().addClass('_hideTargetLinks');
+                linkBox.addClass('_displayed');
+            }
+            
+        });
+
         //Roll Damage (Chat Messages)
         $(document).on('click', 'a._rollDamage', function (event) {
+            event.preventDefault();
             const messageId = $(event.target).parents('li.chat-message').data('messageId');
             let message = game.messages.get(messageId);
 
@@ -68,10 +117,41 @@ export class HookEvents {
                                    $(this).data('critsuccess'),
                                    $(this).data('critfailure'));
             */
-        });        
+        });      
+        
+        //Roll Opposites (Chat Messages)
+        $(document).on('click', 'a._rollOppo', function (event) {
+            event.preventDefault();
+
+            const actorId = $(this).data('actorid');
+            const tokenId = ($(this).data('tokenid') === 'undefined') ? null :
+                             $(this).data('tokenid');
+            const actor = (tokenId) ?
+                game.scenes.active.tokens.get(tokenId).actor :
+                game.actors.get(actorId);
+
+            if (actor.ownership[game.userId] !== 3) {
+                new Dialog({
+                    title: '',
+                    content: game.i18n.localize("info.noPermissions"),
+                    buttons: {}
+                    }).render(true);                
+                return;
+            }
+
+            const messageId = $(event.target).parents('li.chat-message').data('messageId');
+            let message = game.messages.get(messageId);
+
+            let context = Object.assign(new aqContext(), message.flags);
+            context.init();
+            aqCombat.rollOppo(context, message, actorId);
+
+        });
         
         //ActionCards
         $(document).on('change', '#actApplyLocation', function (event) {
+            event.preventDefault();
+
             $(event.target).parents('._askingForLocation')
                            .find('[name="actTargetType"]').prop( "disabled", !event.target.checked );
             $(event.target).parents('._askingForLocation')
@@ -86,6 +166,8 @@ export class HookEvents {
             }
         });    
         $(document).on('change', '._actTargetType', function (event) {
+            event.preventDefault();
+
             $('._actTargetLocation option').each(function(i,e) {
                 $(e).remove();
             }.bind(this));
@@ -99,12 +181,15 @@ export class HookEvents {
        //Drag & Drop over actor     
         $(document).on('drag', 'li.directory-item.document.actor', function (event) {
             event.preventDefault();
+
+            event.preventDefault();
             this._dragActor = event.target;
             event.originalEvent.dataTransfer.setData("text", $(event.currentTarget).data('documentId'));            
         }.bind(this));
         
         $(document).on('drop', 'li.directory-item.document.actor', function (event) {
             event.preventDefault();
+            
             const suuId = JSON.parse(event.originalEvent.dataTransfer.getData("text")).uuid;
             const sDragId = suuId.split('.')[suuId.split('.').length - 1];
             if (!sDragId) return;

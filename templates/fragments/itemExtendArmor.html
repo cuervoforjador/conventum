@@ -2,22 +2,19 @@
 
 <div class="tab main" data-group="primary" data-tab="main">
 <slidePanel class="_100" >
-    <panelTitle>
-        <h3>{{localize "common.armor" }}</h3>
-    </panelTitle>
-    <panelContent>
 
-        <hbox class="_mod _100">
-            <label class="_80px">{{localize "common.actorType" }}</label>
+    <panelContent>
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.actorType" }}</label>
             <select name="system.actorType">
                 {{selectOptions backend.actorTypes 
                                 selected=systemData.actorType
                                 localize=false
                                 nameAttr="id"
                                 labelAttr="name" }}
-            </select>            
+            </select>         
         </hbox>        
-        <hbox class="_mod _100">
+        <hbox class="_50">
             <label class="_80px">{{localize "common.armorType" }}</label>
             <select name="system.armorType">
                 {{selectOptions backend.armorTypes 
@@ -27,30 +24,35 @@
                                 labelAttr="name" }}
             </select>            
         </hbox>
-        <hbox class="_mod _30">
-            <label class="_80px">{{localize "common.armorProtection" }}</label>
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.armorProtection" }}</label>
             <input class="_40px" 
                    name="system.protection"
                    value="{{systemData.protection}}" 
                    type="text" 
                    data-dtype="Number"/>                          
         </hbox> 
-        <hbox class="_mod _50">
-            <label class="_80px">{{localize "common.armorEndurance" }}</label>
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.armorEndurance" }}</label>
             <input class="_40px" 
                    name="system.endurance"
                    value="{{systemData.endurance}}" 
                    type="text" 
                    data-dtype="Number"/>                          
         </hbox>
-        <hbox class="_mod _100">
-            <label class="_80px">{{localize "common.armorRequirement" }}</label>
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.armorRequirement" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.requeriment.apply" 
                         {{checked systemData.requeriment.apply}} />
                 <span class="sliderSwitch"></span>
-            </label>             
+            </label>   
+        </hbox>
+        <hbox class="_50">      
+        </hbox>
+        <hbox class="_50">                       
+            <label class="_150px">{{localize "common.characteristic" }}</label>      
             <select class="_120px" name="system.requeriment.characteristic">
                 {{selectOptions backend.characteristics 
                                 selected=systemData.requeriment.characteristic
@@ -58,6 +60,9 @@
                                 nameAttr="id"
                                 labelAttr="name" }}
             </select>
+        </hbox>
+        <hbox class="_50">            
+            <label class="_150px">{{localize "common.minValue" }}</label>
             <input class="_40px _marginLeft" 
                    name="system.requeriment.minValue"
                    value="{{systemData.requeriment.minValue}}" 
@@ -80,9 +85,6 @@
 
 <div class="tab location" data-group="primary" data-tab="location">
 <slidePanel class="_100" >
-    <panelTitle>
-        <h3>{{localize "common.location" }}</h3>        
-    </panelTitle>
     <panelContent>
         {{#each backend.locations as |localization id|}}
         <hbox class="_mod _50">
@@ -101,9 +103,6 @@
 
 <div class="tab penal" data-group="primary" data-tab="penal">
 <slidePanel class="_100">
-    <panelTitle>
-        <h3>{{localize "common.penal" }}</h3>        
-    </panelTitle>
     <panelContent>
         <hbox class="_100" style="margin-bottom: 10px; 
                                   padding-bottom: 4px;

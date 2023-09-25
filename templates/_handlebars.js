@@ -1,6 +1,8 @@
 import { helperSheetMagic } from "../module/sheets/helpers/helperSheetMagic.js";
 import { helperSheetHuman } from "../module/sheets/helpers/helperSheetHuman.js";
 import { helperSheetCombat } from "../module/sheets/helpers/helperSheetCombat.js";
+import { aqCombat } from "../module/actions/aqCombat.js";
+import { aqContext } from "../module/actions/aqContext.js";
 
 export class mainHandlebars {
 
@@ -158,6 +160,27 @@ export class mainHandlebars {
       Handlebars.registerHelper("getWeaponSkill", function(weapon, options) {
          const systemData = options.data.root.data.system;
          const weaponData = weapon.system;
+         const action = (options.data.root.actions.action) ? 
+                           options.data.root.actions.action.system : null;
+         if (action) {
+            let auxContext = new aqContext({actorId: options.data.root.data._id, 
+                                            tokenId: '',
+                                            weaponId: weapon._id,
+                                            simulate: true});
+
+            auxContext.prepareContext(true);
+            return auxContext._percent;
+
+            /**
+            if (action.skill.skillAsCombat) {
+               if ( (action.item.weapon.type[weaponData.weaponType]) &&
+                    (action.item.weapon.size[
+                        CONFIG.ExtendConfig.weaponSizes.find(e => e.id === weaponData.size).property]) )
+
+                  return systemData.skills[action.skill.skill].value;
+            }  
+            */ 
+         }
 
          if (weaponData.combatSkill != '') {
             if (systemData.skills[weaponData.combatSkill])
@@ -174,54 +197,16 @@ export class mainHandlebars {
        * evalActionWeapon
        */
       Handlebars.registerHelper("evalActionWeapon", function(actionGroup, weapon, options) {
-         const systemData = options.data.root.data.system;
-         const weaponData = weapon.system;
 
          if (!actionGroup.showPoster) return false;
-         if (!actionGroup.action) return false;
-         const actionItem = actionGroup.action.system.item.weapon;
+         if (!actionGroup.action) return false;      
+         if (options.data.root.data.system.control.criature) return true;   
 
-         if (systemData.control.criature) return true;
+         const action = actionGroup.action;
+         const actor = options.data.root.data;
 
-         const firstEval = actionItem.type[weapon.system.weaponType];
+         return aqCombat.checkActionWeapon(action, weapon, actor).check;
 
-         const sSize = CONFIG.ExtendConfig.weaponSizes.find(e => e.id === weapon.system.size).property;
-         const secondEval = actionItem.size[sSize];
-         const thirdEval = ((weapon.system.inHands.inLeftHand) || 
-                            (weapon.system.inHands.inRightHand) || 
-                            (weapon.system.inHands.inBothHands));
-
-         //Double attack!
-         let doubleAttackEval = true;
-         if (actionGroup.action.system.skill.doubleAttack) {
-
-            //2 weapons in Hands...
-            const mHandWeapons = options.data.root.data.items.filter(e => 
-                                    (e.type === 'weapon') 
-                                    && ((e.system.inHands.inLeftHand) || (e.system.inHands.inRightHand)) );
-            if (mHandWeapons.length != 2) doubleAttackEval = false;
-
-            //Min 1 small weapon...
-            const smallWeapon = mHandWeapons.find(e => e.system.size === '01');
-            if (!smallWeapon) doubleAttackEval = false;
-
-            //Worst Skill value...
-            if (mHandWeapons.length == 2) {
-               let skill1 = eval( systemData.skills[mHandWeapons[0].system.combatSkill].value.toString() + '+' +
-                                  helperSheetCombat.penalValue(systemData.skills[mHandWeapons[0].system.combatSkill].penal) + 
-                                  helperSheetHuman.getHandPenal(options.data.root.data, mHandWeapons[0]) );
-               let skill2 = eval( systemData.skills[mHandWeapons[1].system.combatSkill].value.toString() + '+' +
-                                  helperSheetCombat.penalValue(systemData.skills[mHandWeapons[1].system.combatSkill].penal) + 
-                                  helperSheetHuman.getHandPenal(options.data.root.data, mHandWeapons[1]) );
-
-               if (skill1 >= skill2) 
-                  doubleAttackEval = (weapon._id === mHandWeapons[0]._id);
-               else
-                  doubleAttackEval = (weapon._id === mHandWeapons[1]._id);
-            }
-         }
-
-         return (firstEval && secondEval && thirdEval && doubleAttackEval);
        });       
 
       /**
@@ -232,6 +217,15 @@ export class mainHandlebars {
          const sMod = helperSheetHuman.calcDamageMod(actor, weapon);
          if (sMod !== '') return '(' + sMod + ')';
          else return '';
+       });
+
+      /**
+       * isDamageMod
+       */
+      Handlebars.registerHelper("isDamageMod", function(weapon, options) {
+         const actor = options.data.root.data;
+         const sMod = helperSheetHuman.calcDamageMod(actor, weapon);
+         return (sMod !== '');
        });
 
       /**

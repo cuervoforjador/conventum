@@ -35,7 +35,7 @@ export class extendSheetMode extends ItemSheet {
     const context = super.getData();
     context.systemData = this.item.getRollData();
     context.systemData = await helperSheetItem.checkSystemData(context.systemData);
-    context.backend = await mainBackend.getBackendForMode();
+    context.backend = await mainBackend.getBackendForMode(context.systemData);
 
     //Molding...
     helperSheetItem.molding(context);

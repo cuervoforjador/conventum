@@ -17,7 +17,7 @@ export class extendSheetComponent extends ItemSheet {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: [game.system.id, "sheet", "item"],
       template: CONFIG._root+"/templates/component.html",
-      width: 520,
+      width: 700,
       height: 480,
       tabs: [
         {navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "main"}

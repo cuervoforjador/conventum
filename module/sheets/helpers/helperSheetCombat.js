@@ -133,7 +133,7 @@ export class helperSheetCombat {
                             '<div class="_messageImg"><img src="'+actor.img+'"/></div>'+
                             '<div class="_vertical" style="margin-top: -50px;">'+
                                 '<div class="_title">'+actor.name+'</div>'+
-                                '<div class="_boxItems" style="top: 30px; left: 70px; width: calc(100% - 58px);">'+                                    
+                                '<div class="_boxItems">'+                                    
                                     '<div class="_subItem">'+
                                         '<a class="_showItem" data-itemid="'+itemId+'" data-actorid="'+actor.id+'">'+
                                             '<img src="'+oWeapon.img+'" />'+
@@ -153,7 +153,7 @@ export class helperSheetCombat {
                                    actor, 
                                    false,
                                    actor.system.control.frame, 
-                                   '140px');
+                                   '154px');
 
     }
 
@@ -165,11 +165,13 @@ export class helperSheetCombat {
      */
     static getActorCombats(actor) {
         let mCombats = [];
+        const activeScene = game.scenes.find(e => e.active);
         if (actor.isToken) {
-            Array.from(game.combats).filter( e => Array.from(e.combatants)
-                        .find(d => ( (d.actorId === actor._id) &&
-                                     (d.tokenId === actor.token._id) )) )
-                        .forEach( combat => {
+            Array.from(game.combats).filter( e => 
+                (e.scene.id === activeScene.id) &&
+                Array.from(e.combatants).find(d => ( (d.actorId === actor._id) &&
+                                                     (d.tokenId === actor.token._id) )) )
+                .forEach( combat => {
 
                 const encounter = game.items.filter(e => e.type === 'actionPool')
                 .find( e => e.system.combat === combat._id );
@@ -180,9 +182,9 @@ export class helperSheetCombat {
                 });
             });
         } else {
-            Array.from(game.combats).filter( e => Array.from(e.combatants)
-                        .find(d => (d.actorId === actor._id)) )
-                        .forEach( combat => {
+            Array.from(game.combats).filter( e => 
+                (e.scene.id === activeScene.id) &&
+                Array.from(e.combatants).find(d => (d.actorId === actor._id)) ).forEach( combat => {
 
                 const encounter = game.items.filter(e => e.type === 'actionPool')
                 .find( e => e.system.combat === combat._id );
@@ -201,12 +203,15 @@ export class helperSheetCombat {
      * @param {*} context 
      * @param {*} actor 
      */
-    static getActorCombatBackend(context, actor) {
+    static getActorCombatBackend(actor) {
         let oBackend = {};
-        let mCombats = context.combats;
+        let mCombats = this.getActorCombats(actor);
 
-        oBackend.activeCombat = mCombats ? mCombats.find(e => e.combat.active) : null;
+        oBackend.activeCombat = mCombats.find(e => e.combat.active);
+        if (oBackend.activeCombat === undefined) oBackend.activeCombat = null;
+
         oBackend.inActiveCombat = ( oBackend.activeCombat !== null );
+        oBackend.inCombats = (mCombats.length > 0);
 
         return oBackend;
     }
@@ -402,7 +407,7 @@ export class helperSheetCombat {
                             game.i18n.localize("common.playingAction")+
                         '</div>'+
                     '</div>';        
-        helperMessages.chatMessage(sContent, actor, false, '', '140px');
+        helperMessages.chatMessage(sContent, actor, false, '', '154px');
     }
 
     /**

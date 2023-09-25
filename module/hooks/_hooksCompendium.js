@@ -67,6 +67,7 @@ export class HookCompendium {
             });
         } else {
             // Version 10...
+            /**
             tab._element.find('li.compendium-type').each(function(i0,e0) {
                 $(e0).find('li.compendium-pack').each(function(i,e) {
                     $(e).addClass('_custoLiCompendium');
@@ -79,6 +80,7 @@ export class HookCompendium {
                     }.bind(this));
                 });
             });
+             */
         }
     }
 
@@ -87,12 +89,13 @@ export class HookCompendium {
      * @param {object} compendium
      */    
     static async  _stylingCompendium(compendium) {        
-        
+
         // Version 11...
         const sHeaderDiv = '.directory-header';
         if ( Math.floor(Number(game.version)) === 11 ) {
             compendium._element.find('.header-banner').addClass('_custoHeaderCompendium');
         } else {
+            /**
             compendium._element.find('section.window-content').addClass('_v10');
             compendium._element.find(sHeaderDiv).addClass('_custoHeaderCompendium');
             compendium._element.find(sHeaderDiv).addClass('_v10');
@@ -116,6 +119,7 @@ export class HookCompendium {
             }.bind(this));
 
             compendium._element.find('.header-banner').addClass('_v10');
+             */
         }
 
         const mWorlds = await game.packs.get("conventum.worlds").getDocuments();
@@ -127,6 +131,9 @@ export class HookCompendium {
 
         //Adding World info, dependencies && dice ranges...
         compendium._element.find('.compendium ol.directory-list li.directory-item').each(function(i,e) {
+            
+            if ($(e).data('folderId')) return;
+            
             const sId = $(e).data('documentId');
             const oItemDoc = mDocs.find(e => e.id === sId);
             const oWorldDoc = mWorlds.find(e => e.id === oItemDoc.system.control.world);
@@ -151,9 +158,11 @@ export class HookCompendium {
 
         }.bind(this));        
 
+        /**
         $(".compendium[data-pack='"+sPack+"'] ol.directory-list li.directory-item")
             .sort((a,b) => $(a).data("order") - $(b).data("order"))
             .appendTo(".compendium[data-pack='"+sPack+"'] ol.directory-list");
+         */
 
     }
 

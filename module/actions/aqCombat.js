@@ -14,6 +14,7 @@ export class aqCombat {
 
         await game.packs.get('conventum.worlds').getDocuments();
         await game.packs.get('conventum.locations').getDocuments();
+        await game.packs.get('conventum.modes').getDocuments();
 
         let myEncounter = aqActions.getMyCurrentEncounter(actorId, tokenId);
 
@@ -33,10 +34,10 @@ export class aqCombat {
             return;
         }
 
-        const actionLocation = aqActions.getActionLocation(action);
+        let actionLocation = aqActions.getActionLocation(action);
         const actionInfo = aqActions.getActionsInfo(actorId, tokenId);
-        const actionCost = aqActions.getActionCost(action);
-        const nTotal = actionInfo.numActions + actionCost;
+        const actionCost = aqActions.getActionCost(actor, action);
+        const nTotal = actionInfo.sumActions + actionCost;
         const bAvailable = (nTotal <= actionInfo.maxActions);
         
         // Target type (Human, Horse, ...)
@@ -195,11 +196,14 @@ export class aqCombat {
         const actorId = actor.id;        
         if (!actor) return;
 
-        const weapon = actor.items.get(weaponId);
-        if (!weapon) return;
-
         const action = aqActions.getCurrentAction(actorId, tokenId);
         if (!action) return;
+
+        const bCombatSkill = ( (action.system.skill.useSkill) && 
+                               (!action.system.skill.skillAsCombat) );
+
+        const weapon = (!bCombatSkill) ? actor.items.get(weaponId) : null;
+        if ((!weapon) && (!bCombatSkill)) return;        
 
         const combat = aqActions.getCurrentCombat();
         if (!combat) return;
@@ -208,15 +212,28 @@ export class aqCombat {
 
         //Combatants
         if (action.system.target.combatants)
-            mActors = mActors.concat(combat.turns.filter(e => 
-                                         !((e.actorId === actorId) &&
-                                           (e.tokenId === tokenId)) ));
+            if (tokenId)
+                mActors = mActors.concat(combat.turns.filter(e => 
+                                            !((e.actorId === actorId) &&
+                                            (e.tokenId === tokenId)) ));
+            else
+                mActors = mActors.concat(combat.turns.filter(e => 
+                                            !(e.actorId === actorId) ));            
 
         //MySelf
+        const mySelf = (tokenId) ?
+                            combat.turns.filter(
+                                e => ((e.actorId === actorId) &&
+                                      (e.tokenId === tokenId)) ) :
+                            combat.turns.filter(
+                                e => (e.actorId === actorId) );
+        const myToken = mySelf[0].token;
+
         if (action.system.target.myself)
-            mActors = mActors.concat(combat.turns.filter(
-                                    e => ((e.actorId === actorId) &&
-                                          (e.tokenId === tokenId)) ));
+            if (tokenId)
+                mActors = mActors.concat(mySelf);
+            else
+                mActors = mActors.concat(mySelf);            
 
         //Last Played, Attacker, Defender
         if ( (action.system.target.lastPlayed) ||
@@ -228,12 +245,22 @@ export class aqCombat {
             if (lastStep && lastStep.consumed) {
                 let lastActor = (lastStep.isToken) ? game.scenes.active.tokens.get(lastStep.tokenId).getActor() : 
                                                      game.actors.get(lastStep.actor);
+                
+                let combatant = combat.turns.find(e => 
+                                    (lastStep.tokenId !== '') ? ((e.actorId === lastStep.actor) && 
+                                                                 (e.tokenId === lastStep.tokenId)) :
+                                                                (e.actorId === lastStep.actor) );
+
+                mActors = mActors.concat([combatant]); 
+
+                /**
                 mActors = mActors.concat([{
                             actorId: lastStep.actor,
                             tokenId: lastStep.tokenId,
                             name: lastActor.name,
                             img: lastActor.img
                         }]);                
+                 */
             }
         }
  
@@ -272,7 +299,12 @@ export class aqCombat {
                     buttons: [] }).render(true);                      
             } else {
                 await context.setTargets(mTargets);
-                await aqCombat.playWeapon(context);                
+
+                if (!bCombatSkill)
+                    await aqCombat.playWeapon(context);     
+                else 
+                    await aqCombat.playCombatSkill(uniqeId);
+
             }  
             return;            
         }
@@ -280,27 +312,38 @@ export class aqCombat {
         //Targets Dialog
         let oButtons = {};
         mActors.map(e => {
-            const uniqeId = (e.actor.isToken) ? e.tokenId : e.actorId;
+            const eActor = (e.actor) ? e.actor : (e._actor) ? e._actor : null;
+            const eToken = (e.token) ? e.token : (eActor) ? eActor.token : null;
+            const uniqeId = (eActor.isToken) ? e.tokenId : e.actorId;
+            const distance = this.getDistance(myToken, eToken);
+
             oButtons[uniqeId] = {
-                label: e.actor.name,
+                label: eActor.name,
+                distance: distance,
                 uniqeId: uniqeId,
                 actorId: e.actorId,
-                tokenId: (e.actor.isToken) ? e.tokenId : null,
-                isToken: (e.actor.isToken),
-                img: e.actor.img,
+                tokenId: (eActor.isToken) ? e.tokenId : null,
+                isToken: (eActor.isToken),
+                img: eActor.img,
                 combatTarget: true,
                 callback: async () => {
                     await context.setTargets([uniqeId]);
-                    await aqCombat.playWeapon(context);
+                    if (!bCombatSkill)
+                        await aqCombat.playWeapon(context);     
+                    else 
+                        await aqCombat.playCombatSkill(uniqeId, context);                    
                 }
             }
         });
+        let content = "";
+        if (mActors.length === 0) content = game.i18n.localize("info.noTargets");
+
         let dialog = new Dialog({
             title: game.i18n.localize("common.targets"),
-            content: "",
+            content: content,
             buttons: oButtons });        
 
-        dialog.options.classes = ['dialog', '_targetDialogs'];
+        dialog.options.classes = ['dialog', '_targetDialogsExpress']; //_targetDialogs
         dialog.render(true);       
     }
 
@@ -312,9 +355,18 @@ export class aqCombat {
     static dialogTargetsExpress(uniqeId, weaponId) {
 
         const tokenId = (game.scenes.active.tokens.get(uniqeId)) ? uniqeId : null;
-        const actor = (tokenId) ? game.scenes.active.tokens.get(uniqeId).getActor() : game.actors.get(uniqeId);
+        const actor = (tokenId) ? game.scenes.active.tokens.get(uniqeId).getActor() : 
+                                  game.actors.get(uniqeId);
         const actorId = actor.id;        
         if (!actor) return;
+
+        let myToken = null;
+        if (actor.getActiveTokens().length > 0) {
+            actor.getActiveTokens().map(e => {
+                if (game.scenes.active.tokens.get(e.id) !== undefined)
+                    myToken = game.scenes.active.tokens.get(e.id);
+            });
+        }
 
         const weapon = actor.items.get(weaponId);
         if (!weapon) return;
@@ -330,15 +382,25 @@ export class aqCombat {
             (  (e.id !== actorId)
             && (e.system.control.visible) ) );
         let oButtons = {};
-        mActors.map(e => {
-            const uniqeId = (e.isToken) ? e.tokenId : e.actorId;
-            oButtons[e.id] = {
-                label: e.name,
+        mActors.map(target => {
+            const uniqeId = (target.isToken) ? target.tokenId : target.id;
+            let targetToken = null;
+            if (target.getActiveTokens().length > 0) {
+                target.getActiveTokens().map(e => {
+                    if (game.scenes.active.tokens.get(e.id) !== undefined)
+                        targetToken = game.scenes.active.tokens.get(e.id);
+                });
+            }
+            const distance = this.getDistance(myToken, targetToken);
+
+            oButtons[target.id] = {
+                label: target.name,
                 uniqeId: uniqeId,
-                actorId: e.actorId,
-                tokenId: (e.isToken) ? e.tokenId : null,
-                isToken: (e.isToken),
-                img: e.img,
+                actorId: target.actorId,
+                tokenId: (target.isToken) ? target.tokenId : null,
+                isToken: (target.isToken),
+                img: target.img,
+                distance: distance,
                 combatTarget: true,
                 callback: async () => {
                     context.setExpress(true);
@@ -354,6 +416,184 @@ export class aqCombat {
 
         dialog.options.classes = ['dialog', '_targetDialogsExpress'];
         dialog.render(true);       
+    }
+
+    /**
+     *getDistance
+     * @param {*} token1 
+     * @param {*} token2 
+     * @returns 
+     */
+    static getDistance(token1, token2) {
+        if ((!token1) || (!token2)) return ' - ';
+        let ruler = new Ruler();
+        ruler._addWaypoint({x: token1.x,
+                            y: token1.y});
+        ruler.measure({x: token2.x,
+                       y: token2.y});
+        let sDistance = ruler.totalDistance;
+        ruler.measure({});
+        ruler.destroy();        
+        return sDistance;
+    }
+
+    /**
+     * checkActionWeapon
+     * @param {*} action 
+     * @param {*} weapon 
+     * @param {*} systemData 
+     */
+    static checkActionWeapon(action, weapon, oActor) {
+
+        const actor = game.actors.get(oActor._id);
+        const actorId = actor.id;
+        const tokenId = null;
+
+        const combat = aqActions.getMyCurrentCombat(actorId, tokenId);
+        if (!combat) return {
+            check: false,
+            descr: game.i18n.localize("info.noCombats")
+        };  
+
+        const encounter = aqActions.getMyCurrentEncounter(actorId, tokenId);
+        if (!encounter) return {
+            check: false,
+            descr: game.i18n.localize("info.noEncounter")
+        };         
+
+        const mActions = aqActions.getActions(actorId, tokenId);
+        if (mActions.length === 0) return {
+            check: false,
+            descr: game.i18n.localize("info.noActions")
+        };         
+
+        const currentAction = aqActions.getCurrentAction(actorId, tokenId);
+        if (!currentAction) return {
+            check: false,
+            descr: game.i18n.localize("info.noCurrentAction")
+        };         
+
+        const actionItem = action.system.item.weapon;
+
+        //# No in the action mode
+        let mModes = [];
+        for (var s in action.system.modes) {
+            if (action.system.modes[s].allowed)
+                mModes.push(s);
+        }
+        if (mModes.length > 0) {
+            let mNoModes = [];
+            mModes.map(sMode => {
+                if ( !(actor.system.modes.find(s => s === sMode)) )
+                    mNoModes.push(sMode);
+            });
+            if (mNoModes.length > 0) {
+                const sMode = game.packs.get("conventum.modes").get(mNoModes[0]);
+                if (sMode === undefined) sMode = {name: ''};
+                return {
+                    check: false,
+                    descr: game.i18n.localize("info.noModeWeapon").replaceAll('#1', sMode.name)
+                };             
+            }
+        }
+
+        //# Weapon type
+        if (!actionItem.type[weapon.system.weaponType]) 
+            return {
+                check: false,
+                descr: game.i18n.localize("info.noWeaponType")
+            }
+
+        //# Weapon Size
+        const sSize = CONFIG.ExtendConfig.weaponSizes.find(e => 
+                        e.id === weapon.system.size).property;
+        if (!actionItem.size[sSize])
+            return {
+                check: false,
+                descr: game.i18n.localize("info.noWeaponSize")
+            };
+
+        //# Weapon in hands
+        if ( !((weapon.system.inHands.inLeftHand) || 
+               (weapon.system.inHands.inRightHand) || 
+               (weapon.system.inHands.inBothHands)) )
+            return {
+                check: false,
+                descr: game.i18n.localize("info.noWeaponHands")
+            };
+
+        //# Double attack!
+        let doubleAttackEval = true;
+        if (action.system.skill.doubleAttack) {
+
+           //2 weapons in Hands...
+           const mHandWeapons = actor.items.filter(e => 
+                                   (e.type === 'weapon') 
+                                && ((e.system.inHands.inLeftHand) || (e.system.inHands.inRightHand)) );
+           if (mHandWeapons.length != 2) 
+                return {
+                    check: false,
+                    descr: game.i18n.localize("info.no2WeaponHands")
+                };
+
+           //Min 1 small weapon...
+           const smallWeapon = mHandWeapons.find(e => e.system.size === '01');
+           if (!smallWeapon)
+                return {
+                    check: false,
+                    descr: game.i18n.localize("info.noSmallWeapon")
+                };           
+
+           //Worst Skill value...
+           if (mHandWeapons.length == 2) {
+              let skill1 = eval( actor.system.skills[mHandWeapons[0].system.combatSkill].value.toString() + '+' +
+                                 helperSheetCombat.penalValue(actor.system.skills[mHandWeapons[0].system.combatSkill].penal) + 
+                                 helperSheetHuman.getHandPenal(actor, mHandWeapons[0]) );
+              let skill2 = eval( actor.system.skills[mHandWeapons[1].system.combatSkill].value.toString() + '+' +
+                                 helperSheetCombat.penalValue(actor.system.skills[mHandWeapons[1].system.combatSkill].penal) + 
+                                 helperSheetHuman.getHandPenal(actor, mHandWeapons[1]) );
+
+              if (skill1 <= skill2) 
+                 if (weapon._id !== mHandWeapons[0]._id)
+                    return {
+                        check: false,
+                        descr: game.i18n.localize("info.noWorstWeapon")
+                    };                    
+              else
+                 if (weapon._id !== mHandWeapons[1]._id)
+                    return {
+                        check: false,
+                        descr: game.i18n.localize("info.noWorstWeapon")
+                    };                  
+           }
+        }        
+
+        return {
+            check: true,
+            descr: ""
+        };          
+    }
+
+    /**
+     * playCombatSkill
+     * @param {*} uniqeId 
+     * @returns 
+     */
+    static async playCombatSkill(uniqeId, context) {
+
+        const tokenId = (game.scenes.active.tokens.get(uniqeId)) ? uniqeId : null;
+        const actor = (tokenId) ? game.scenes.active.tokens.get(uniqeId).getActor() : game.actors.get(uniqeId);
+        const actorId = actor.id;       
+
+        if (!context)
+            context = new aqContext({actorId: actorId, 
+                                     tokenId: tokenId,
+                                     weaponId: null,
+                                     isSkill: true});
+        
+        context.isSkill = true;
+        await context.prepareContext();
+        this.rollAction(context);
     }
 
     /**
@@ -400,6 +640,17 @@ export class aqCombat {
         await context.rollDamage();
     }
 
+    static async rollOppo(context, message, actorId) {
+        await context.rollOppo(message, actorId);
+    }
+
+    static getShield(actor) {
+        return Array.from(actor.items).find(e => 
+            ((e.type === 'weapon') && 
+             (e.system.type.shield) && 
+             (e.system.inUse)) );
+    }
+
     /**
      * _dialogLevel
      * @param {*} context 
@@ -439,9 +690,9 @@ export class aqCombat {
     static async _postRollAction(context) {
 
         context.setRollFormula('1d100');
-        await context.roll();
+        if (!context.getNoRoll())
+            await context.roll();
         context.message();
-
     }
 
     /**

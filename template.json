@@ -678,7 +678,50 @@
       "stun": false,
       "byMaster": true,
       "active": false,
-      "effect": ""
+      "effect": "",
+      "permanent": false,
+      "config": {
+        "item": {
+          "apply": false,
+          "weapon": {
+            "type": {
+              "bow": false,
+              "crossbow": false,
+              "knife": false,
+              "sword": false,
+              "longsword": false,
+              "axe": false,
+              "sling": false,
+              "spear": false,
+              "mace": false,
+              "stick": false,
+              "fight": false
+            },
+            "size": {
+              "light": false,
+              "middle": false,
+              "heavy": false
+            }
+          }
+        },    
+        "combatSkill": {
+          "apply": false,
+          "mod": "",
+          "mult": 1
+        },
+        "damage": {
+          "apply": false,
+          "mod": "",
+          "mult": 1
+        },
+        "location": {
+          "focusLocation": {},
+          "actorType": "human",
+          "shield": false
+        },        
+        "actionPoints": 0,
+        "noActionPoints": false       
+      }
     },
     "armor": {
       "templates": ["base"],
@@ -832,6 +875,7 @@
         "weapon": {
           "contact": false,
           "range": false,
+          "throw": false,
           "shield": false,
           "type": {
             "bow": false,
@@ -859,7 +903,8 @@
         "lastPlayed": false,
         "lastAttacker": false,
         "lastDefender": false,
-        "multiple": false
+        "multiple": false,
+        "forceSelection": false
       },
       "skill": {
         "mod": {
@@ -876,9 +921,11 @@
         "skill": "",
         "skillAsCombat": false,
         "applyRangePenal": true,
-        "doubleAttack": false  
+        "doubleAttack": false,
+        "autoSuccess": false
       },
       "damage": {
+        "formula": "",
         "mod": {
           "damage": "",
           "targetDamage": "",
@@ -889,7 +936,8 @@
           "modDamage2": false
         },
         "target": {
-          "mount": false
+          "mount": false,
+          "shield": false
         },
         "noDamage": false,
         "damageXendurance": false
@@ -918,12 +966,32 @@
         "destroyAllTargetActions": false
       },
       "rolls": {
-        "leveled": true
+        "leveled": true,
+        "opposedRoll": false,
+        "replaceRoll": false,
+        "actor": {
+          "primaryChar": "",
+          "secondaryChar": "",
+          "skill": "",
+          "mult": "1",
+          "byWeapon": false,
+          "mod": "0"
+        },
+        "opponent": {
+          "primaryChar": "",
+          "secondaryChar": "",
+          "skill": "",
+          "mult": "1",
+          "byWeapon": false,
+          "mod": "0"
+        }        
       },
       "modes": {}
     },
     "actionPool": {
       "steps": [],
+      "history": [],
+      "assaultId": 1,
       "combat": ""
     }
   }

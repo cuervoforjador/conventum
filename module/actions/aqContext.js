@@ -18,6 +18,7 @@ export class aqContext {
 
     _locationId         =''
 
+    _isSkill            =false
     _skill              =null
     _charAsSkill        =false
     _percentBase        =0
@@ -27,12 +28,36 @@ export class aqContext {
     
     _rollFormula        ='1d100'
     _rollBono           =''
-    _rollLevel          =null
+    _rollLevel          = {
+        text:           '',
+        class:          'noLevel'
+    }
     _rollPercent        =0
     _rollSuccess        =false
     _rollCritSuccess    =false
     _rollCritFailure    =false
     _roll               =null
+    _noRoll             =false
+    _actionConsumed     =false
+
+    _oppoRolls          = {
+        actor: {
+            percent:    0,
+            result:     0,
+            success:    false,
+            win:        false,
+            rolled:     false,
+            total:      0
+        },
+        enemy: {
+            percent:    0,
+            result:     0,
+            success:    false,
+            win:        false,
+            rolled:     false,
+            total:      0
+        }
+    }
 
     _damageBase         =''
     _damageBon          =''
@@ -44,7 +69,6 @@ export class aqContext {
     _damage2Mod         =''
     _damage2Mult        =1
     _damage2            =''
-
     _damagePoints       =0
 
     _messageId          =''
@@ -65,7 +89,9 @@ export class aqContext {
     _targetsToken       =[]
 
     _express            =false
+    _simulate           =false
     _noCombat           =false
+    _noWeapon           =false
     _noAction           =false
     _defensive          =false
     _shielded           =false
@@ -132,19 +158,42 @@ export class aqContext {
                 this._noAction = true;
             }
 
+            this._isSkill = (options.isSkill === true); 
+            if (this._isSkill) this._noCombat = true;
+
+            if (options.express) {
+                this._noAction = true;
+            }
+
+            this._action = aqActions.getCurrentAction(this._actor.id);
+            this._action = (this._action !== undefined) ? this._action : null;
+            if ((!this._action) && (!this._noCombat) && (!this._noAction)) {
+                this.msgError("Error with Action!");
+                return;
+            } 
+
+            //Skill combat as action...
+            if ((!this._isSkill) && (!this._noAction)) {
+                this._isSkill = ((this._action.system.skill.useSkill) &&
+                                 (!this._action.system.skill.skillAsCombat));
+            }
+
             this._weapon = this._actor.items.get(options.weaponId);
             this._weapon = (this._weapon !== undefined) ? this._weapon : null;
-            if ((!this._weapon) && (!this._noCombat)) {
+            if ( ((!this._weapon) && (!this._noCombat)) &&
+                 ((!this.weapon) && (!this._isSkill)) ) {
                 this.msgError("There is no weapon for this Id!");
                 return;              
             }
             if (this._weapon)
                 this.msgHistory("common.weapon", this._weapon.name);
+            else
+                this._noWeapon =  ((this._action.system.skill.useSkill) &&
+                                   (!this._action.system.skill.skillAsCombat));
 
-            if (options.express) {
-                this._noAction = true;
-                return;
-            }
+            if (options.simulate) this._simulate = options.simulate;
+
+            if (this._noAction) return;
 
             this._combat = aqActions.getCurrentCombat();
             this._combat = (this._combat !== undefined) ? this._combat : null;
@@ -158,14 +207,7 @@ export class aqContext {
             if ((!this._encounter) && (!this._noCombat)) {
                 this.msgError("There is no active encounter!");
                 return;              
-            }
-
-            this._action = aqActions.getCurrentAction(this._actor.id);
-            this._action = (this._action !== undefined) ? this._action : null;
-            if ((!this._action) && (!this._noCombat)) {
-                this.msgError("Error with Action!");
-                return;
-            }        
+            }      
 
             //Defensive action
             if ((this._action) && (this._action.system.type.defense)) {
@@ -230,6 +272,7 @@ export class aqContext {
             locationId:         this._locationId,
             location:           this._location,
         
+            isSkill:            this._isSkill,
             skillId:            (this._skill) ? this._skill._id : '',
             percentBase:        this._percentBase,
             percentMod:         this._percentMod,
@@ -244,6 +287,9 @@ export class aqContext {
             rollCritSuccess:    this._rollCritSuccess,
             rollCritFailure:    this._rollCritFailure,
             roll:               this._roll,
+            noRoll:             this._noRoll,
+            noWeapon:           this._noWeapon,
+            actionConsumed:     this._actionConsumed,
         
             damageBase:         this._damageBase,
             damageBon:          this._damageBon,
@@ -256,6 +302,8 @@ export class aqContext {
             damage2Mult:        this._damage2Mult,
             damage2:            this._damage2,
         
+            oppoRolls:          this._oppoRolls,
+
             luckMode:           this._luckMode,
         
             combatId:           (this._combat) ? this._combat.id : '',
@@ -282,7 +330,8 @@ export class aqContext {
         }
         this.setWorld(this._actor.system.control.world);
 
-        this._skill = null
+        this._isSkill = (oContext.isSkill) ? oContext.isSkill : this._isSkill;
+        this._skill = null;
         if (oContext.skillId) {
             this._skill = this._actor.items.get(oContext.skillId);
             if (!this._skill) {
@@ -362,6 +411,10 @@ export class aqContext {
         this._rollCritSuccess = (oContext.rollCritSuccess) ? oContext.rollCritSuccess : this._rollCritSuccess;
         this._rollCritFailure = (oContext.rollCritFailure) ? oContext.rollCritFailure : this._rollCritFailure;
         this._roll = (oContext.roll) ? oContext.roll : this._roll;
+        this._noRoll = (oContext.noRoll) ? oContext.noRoll : this._noRoll;
+        this._noWeapon = (oContext.noWeapon) ? oContext.noWeapon : this._noWeapon; 
+        this._actionConsumed = (oContext.actionConsumed) ? oContext.actionConsumed : this._actionConsumed;
+        this._oppoRolls = (oContext.oppoRolls) ? oContext.oppoRolls : this._oppoRolls;
 
         this._damageBase = (oContext.damageBase) ? oContext.damageBase : this._damageBase;
         this._damageBon = (oContext.damageBon) ? oContext.damageBon : this._damageBon;
@@ -547,7 +600,9 @@ export class aqContext {
      * prepareContext
      */
     async prepareContext() {
-        await this._preparePacks();
+
+        if (!this._simulate)
+            await this._preparePacks();
 
         if (this._express) {
             this._prepareExpress();
@@ -559,11 +614,14 @@ export class aqContext {
 
         this._getPercentBase();
         this._getActionMulty();
+        this._getModesMulty();
 
         this._getPercentPenal();
+        this._getPercentModesPenal();
         this._getMagicMods();
         this._getHandPenal();
         this._getWeaponPenal();
+        this._getRangePenal();
         this._getWeaponRequirementPenal();
         this._getActionPenal();
         this._getByTargetPenalMulty();
@@ -572,11 +630,19 @@ export class aqContext {
         this._getDamageBase();
         this._getSpellDamageBase();
         this._getActionDamageMulty();
+        this._getModeDamageMulty();
 
         this._getDamageBon();
+        this._getDamageAction();
         this._getWeaponRequirmDamagePenal();
         this._getDamageByTargetPenal();
         this._getDamageFinal();
+        this._evalNoRoll();
+        this._getOpposedStats();
+
+        if (!this._simulate) {
+            this._removeModes();
+        }
     }
 
     /**
@@ -586,16 +652,20 @@ export class aqContext {
 
         this._getActionSkill();
         this._getPercentBase();
+        this._getModesMulty();
         this._getPercentPenal();
+        this._getPercentModesPenal();
         this._getHandPenal();
         this._getWeaponPenal();
         this._getWeaponRequirementPenal();  
         this._getPercentFinal();
 
         this._getDamageBase();
+        this._getModeDamageMulty();
         this._getDamageBon();
         this._getWeaponRequirmDamagePenal();
-        this._getDamageFinal();              
+        this._getDamageFinal();    
+        this._removeModes();          
     }
 
     /**
@@ -603,8 +673,12 @@ export class aqContext {
      */
     getAskForLevels() {
         if (this._express) return true;
-        if (this._noCombat) return true;
-        return this._action.system.rolls.leveled;
+        if ((this._action) && (this._action !== undefined)) {
+            return this._action.system.rolls.leveled;
+        } else {
+            if (this._noCombat) return true;
+            return false;
+        }
     }
 
     /**
@@ -614,7 +688,8 @@ export class aqContext {
     async roll(roll) {
         this._roll = new Roll(this._rollFormula, {});
         this._roll.evaluate({async: false});
-        if (game.dice3d)
+        if ( (game.dice3d) &&
+                ((!this._noAction) && (!this._action.system.skill.autoSuccess)) )
           await game.dice3d.showForRoll(this._roll, game.user, true);  
 
         await this._evalRoll();
@@ -649,16 +724,23 @@ export class aqContext {
      * message
      */
     async message() {
+
+        await this._consumeAction();
+
         let message = await helperMessages.chatMessage(
-            this._getMessageContent(), this._actor, false, '', '200px');
+            this._getMessageContent(), this._actor, false, '', '280px', true);
         this._messageId = message.id;
         this._consolidate();
-        await helperSocket.update(message, {flags: this});
 
-        if (this._weapon2) {
+        await helperSocket.update(message, {flags: Object.assign({}, this)});
+
+        if (this._weapon2) {           
             let message2 = await helperMessages.chatMessage(
-                this._getMessageContent(true), this._actor, false, '', '200px');
-            await helperSocket.update(message2, {context: this});
+                this._getMessageContent(true), this._actor, false, '', '280px', true);
+            
+            this._messageId = message2.id;
+            this._consolidate();                 
+            await helperSocket.update(message2, {flags: Object.assign({}, this)});
         }
     }
 
@@ -673,12 +755,96 @@ export class aqContext {
     }
 
     /**
+     * rollOppo
+     * @param {*} message
+     * @param {*} actorId 
+     */
+    async rollOppo(message, actorId) {
+        const enemy = this._getEnemy();
+        const isActor = (actorId === this._actor.id);
+        const isEnemy = (actorId === enemy.id); 
+
+        let roll = new Roll('1d100', {});
+        roll.evaluate({async: false});
+        if (game.dice3d)
+            await game.dice3d.showForRoll(roll);        
+
+        let myRoll = {};
+        let otRoll = {};
+        if (isActor) {
+            myRoll = this._oppoRolls.actor;
+            otRoll = this._oppoRolls.enemy;
+        }
+        if (isEnemy) {
+            myRoll = this._oppoRolls.enemy;
+            otRoll = this._oppoRolls.actor;
+        }
+
+        myRoll.result = roll.total;
+        myRoll.success = (myRoll.percent >= roll.total);
+        myRoll.rolled = true;
+
+        if ((myRoll.rolled) && (otRoll.rolled)) {
+
+            if ((myRoll.success) && (otRoll.success)) {
+                myRoll.win = (myRoll.result >= otRoll.result);
+                otRoll.win = (otRoll.result > myRoll.result);
+            }
+            if ((myRoll.success) && (!otRoll.success))
+                myRoll.win = true;
+            if ((!myRoll.success) && (otRoll.success))
+                otRoll.win = true;
+            if ((!myRoll.success) && (!otRoll.success)) {
+                myRoll.win = false;
+                otRoll.win = false;
+            }
+            
+            const bSuccess = ((isActor) && (myRoll.win))
+
+            //Modes..
+            if ( (this._action.system.rolls.opposedRoll) && 
+                 (this._action.system.rolls.replaceRoll) ) {
+                    
+                    this._rollSuccess = ( ((isActor) && (myRoll.win)) ||
+                                          ((isEnemy) && (otRoll.win))  );
+                    this._evalModes();
+            }
+        }
+
+        let newContent = this._updateOpposedMessage(isActor);
+
+        await helperSocket.update(message, {flags: Object.assign({}, this),
+                                            content: newContent});
+
+    }
+
+    /**
      * rollDamage
      */
     async rollDamage() {
 
         this._damagePoints = 0;
         this._history = [];
+
+        //Checking targets.
+        let itsOk = true;
+        this._targets.map(targetId => {
+            let target =this.acquireActor(targetId);
+
+            //Shield target...
+            if ((this._action) && (this._action.system.damage.target.shield)) {
+                let shield = aqCombat.getShield(target);
+                if (!shield) {
+                    itsOk = false;
+                    new Dialog({
+                        title: "",
+                        content: game.i18n.localize("info.noShield"),
+                        buttons: {} }).render(true);                
+                }
+            }              
+        });
+        if (!itsOk) return;
+
 
         if (this._rollCritSuccess) {
 
@@ -713,6 +879,14 @@ export class aqContext {
     async _evalRoll() {
         this._rollPercent = Number(eval(this._percent.toString() + this._rollBono));
         this._rollSuccess = Number(this._roll.result) <= this._rollPercent;
+
+        if ((!this._noAction) && (this._action.system.skill.autoSuccess)) {
+            this._rollPercent = 0;
+            this._rollSuccess = true;
+            this._rollCritSuccess = false;
+            this._rollCritSuccess = false;
+            return;
+        }
 
         this._evalCritical();
         await this._evalLuck();
@@ -794,9 +968,19 @@ export class aqContext {
     async _postRoll() {
         await this._evalShields();
         await this._evalModes();
-        await this._removeDamageMessage();
+        await this._removeDamageMessage();  
+        await this._consumeAction();    
+    }
+
+    /**
+     * _consumeAction
+     */
+    async _consumeAction() {
+
+        if (this._actionConsumed) return;
 
         //Consuming action in Encounter
+        this._actionConsumed = true;
         if (!this._express) {   
             let encounter = aqActions.getCurrentEncounter();
             await helperSocket.update(encounter, {
@@ -806,30 +990,48 @@ export class aqContext {
                 }
             });
             helperSocket.refreshSheets();
-        }        
+        }  
     }
 
     /**
      * _evalShields
      */
     async _evalShields() {
+
+        if (!this._weapon) return;
         if ((!this._defensive) || (!this._weapon.system.type.shield)) return;
         
         this._shielded = true;
-
-        //Updating last action message
         let mActionMessages = Array.from(game.messages).filter(e => ((e.flags) && (e.flags.safeBox)));
         if (mActionMessages.length === 0) return;
 
-        let message = mActionMessages[mActionMessages.length - 1];
-        if (!message) {
-            this.msgError("No message found!");
-            return;              
-        } 
+        //Updating messages...
+        for (var i=0; i<this._targets.length; i++ ) {
+            let sTarget = this._targets[i];
 
-        await helperSocket.update(message, {flags: {
-                                                _shieldedTarget: this._rollSuccess,
-                                                _damageToShield: true } });
+            let nMessage = mActionMessages.filter(e => 
+                ( $(e.content).find('._messageFrame').data('actorid') === sTarget )); 
+            let message = nMessage[nMessage.length - 1]; 
+            if (!message) {
+                this.msgError("No message found!");
+                return;              
+            } 
+
+            let content = message.content;
+            let sToFind = $(content).find("._messageDamage").html();
+            sToFind = sToFind.replace('.png">', '.png" />');
+            sToFind = sToFind.replaceAll('=""', '');           
+            let sShield = sToFind+'<div class="_shield">'+
+                '<img src="/systems/conventum/image/texture/shield.png" '+
+                    'title="'+game.i18n.localize("info.damageToShield")+'"/>'+
+            '</div>';
+            let newContent = content.replace(sToFind, sShield);
+
+            await helperSocket.update(message, {content: newContent,
+                                                flags: {
+                                                    _shieldedTarget: this._rollSuccess,
+                                                    _damageToShield: true } });
+        }
     }
 
     /**
@@ -852,7 +1054,8 @@ export class aqContext {
                 helperActions.removeMode(this._actor, mode);
             //if (systemMode.allowed)
             //if (systemMode.target)
-            if (systemMode.targetIn) {
+            if ( (systemMode.targetIn) ||
+                 ((this._rollCritSuccess) && (systemMode.targetCriticalIn)) ) {
                 for (const sTarget of this._targets) {
                     const target = game.actors.get(sTarget);
                     helperActions.playMode(target, mode, true);
@@ -877,6 +1080,12 @@ export class aqContext {
     _getActionSkill() {
         this._skill = null;
 
+        //Direct Skill
+        if (this._isSkill) {
+            this._skill = game.packs.get('conventum.skills').get(this._action.system.skill.skill);
+            this.msgHistory("common.skill", this._skill.name);
+            return;
+        }
 
         //No Combat
         if (this._noCombat) {
@@ -897,17 +1106,38 @@ export class aqContext {
             return;
         }
 
-        //Usual...
+        //Skill from Weapon
         if ((this._weapon.system.combatSkill) && 
             (this._weapon.system.combatSkill !== ''))
         this._skill = game.packs.get('conventum.skills').get(this._weapon.system.combatSkill);
 
+        //Skill from Action
         if ((this._action) &&
             (this._action.system.skill.skillAsCombat) &&
             (this._action.system.skill.skill !== ''))
-        this._skill = game.packs.get('conventum.skills').get(actionItem.system.skill.skill);
+        this._skill = game.packs.get('conventum.skills').get(this._action.system.skill.skill);
 
-        this.msgHistory("common.skill", this._skill.name); 
+        //From Opposed roll !!!
+        if ((this._action) &&
+            (this._action.system.rolls.replaceRoll)) {
+
+            //Skills
+            if (this._action.system.rolls.actor.skill !== '')
+            this._skill = game.packs.get('conventum.skills').get(this._action.system.rolls.actor.skill);
+
+            //Characterists
+            if (this._action.system.rolls.actor.primaryChar !== '') {
+                this._charAsSkill = true;
+                this._skill = this._action.system.rolls.actor.primaryChar;
+            }
+            if (this._action.system.rolls.actor.secondaryChar !== '') {
+                this._charAsSkill = true;
+                this._skill = this._action.system.rolls.actor.secondaryChar;
+            }            
+        }     
+        
+        if (this._skill)
+            this.msgHistory("common.skill", this._skill.name); 
     }
 
     /**
@@ -932,9 +1162,14 @@ export class aqContext {
      * _getPercentBase
      */
     _getPercentBase() {
-        this._percentBase = (!this._charAsSkill) ?
-                this._actor.system.skills[this._skill.id].value :
-                this._actor.system.characteristics.secondary[this._skill].value;
+        if (!this._charAsSkill)
+            this._percentBase = this._actor.system.skills[this._skill.id].value;
+        else {
+            if (this._actor.system.characteristics.primary[this._skill] !== undefined)
+                this._percentBase = this._actor.system.characteristics.primary[this._skill].value;
+            if (this._actor.system.characteristics.secondary[this._skill] !== undefined)
+                this._percentBase = this._actor.system.characteristics.secondary[this._skill].value;            
+        }
         if (!this._percentBase)
             this._percentBase = 0;
         this.msgHistory("common.basePercent", this._percentBase.toString()+'%');
@@ -948,7 +1183,38 @@ export class aqContext {
                 this.clearPenalty(this._actor.system.skills[this._skill.id].penal) : '0';
         if (Number(penal) !== 0) {
             this._percentMod = this.addPenalties(this._percentMod, penal);
-            this.msgHistory("common.penalSkill", this._percentMod.toString()+'%');
+            this.msgHistory("common.penalSkill", penal.toString()+'%');
+        }
+    }
+
+    /**
+     * _getPercentModesPenal
+     */
+    _getPercentModesPenal() {
+        this._actor.system.modes.map(sMode => {
+            const mode = game.packs.get("conventum.modes").get(sMode);
+            if ((mode.system.config.combatSkill.apply) &&
+                (mode.system.config.combatSkill.mod) &&
+                (mode.system.config.combatSkill.mod !== '')) {
+
+                let penal = this.clearPenalty(mode.system.config.combatSkill.mod);
+                if (Number(penal) !== 0) {
+                    this._percentMod = this.addPenalties(this._percentMod, penal);
+                    this.msgHistory("common.penalModesSkill", penal.toString()+'%');
+                }                
+            }
+        });
+    }
+
+    /**
+     * _getRangePenal
+     */
+    _getRangePenal() {
+        if (this._simulate) return;
+        let penal = this.clearPenalty(this._getTargetRangePenal());
+        if (Number(penal) !== 0) {
+            this._percentMod = this.addPenalties(this._percentMod, penal);
+            this.msgHistory("common.modRange", this._percentMod.toString()+'%');
         }
     }
 
@@ -977,7 +1243,7 @@ export class aqContext {
      * _getHandPenal
      */
     _getHandPenal() {
-        if (this._noCombat) return;
+        if ((this._noCombat) || (this._noWeapon)) return;
 
         let penal = this.clearPenalty(helperSheetHuman.getHandPenal(this._actor, this._weapon));
         if (Number(penal) !== 0) {
@@ -990,7 +1256,7 @@ export class aqContext {
      * _getWeaponPenal
      */
     _getWeaponPenal() {
-        if (this._noCombat) return;
+        if ((this._noCombat) || (this._noWeapon)) return;
         if (!this._weapon.system.penalty.skills[this._skill.id]) return;
 
         let penal = this.clearPenalty(this._weapon.system.penalty.skills[this._skill.id]);
@@ -1004,7 +1270,7 @@ export class aqContext {
      * _getWeaponRequirementPenal
      */
     _getWeaponRequirementPenal() {
-        if (this._noCombat) return;
+        if ((this._noCombat) || (this._noWeapon)) return;
 
         let penal = '+0';
         if (this._weapon.system.requeriment.primary.apply) {
@@ -1048,8 +1314,29 @@ export class aqContext {
         let mod = this.clearMult(this._action.system.skill.mod.multSkill);
         if (mod !== 1) {
             this._percentMult = this.multPenalties(this._percentMult, mod);
-            this.msgHistory("common.penalAction", penal+'%');
+            this.msgHistory("common.modAction", mod);
         }
+    }
+
+    /**
+     * _getModesMulty
+     */
+    _getModesMulty() {
+        this._actor.system.modes.map(sMode => {
+            const mode = game.packs.get("conventum.modes").get(sMode);
+            if ((mode.system.config.combatSkill.apply) &&
+                (mode.system.config.combatSkill.mult) &&
+                (mode.system.config.combatSkill.mult !== 1) &&
+                (mode.system.config.combatSkill.mult !== 0)) {
+
+                let mod = this.clearMult(mode.system.config.combatSkill.mult);
+
+                if (Number(mod) !== 0) {
+                    this._percentMult = this.multPenalties(this._percentMult, mod);
+                    this.msgHistory("common.multSkillMode", mod);
+                }                
+            }
+        });
     }
 
     /**
@@ -1097,8 +1384,9 @@ export class aqContext {
      * _getPercentFinal
      */
     _getPercentFinal() {
-        this._percent = Number(eval(
-                (Number(this._percentBase) * Number(this._percentMult)).toString() + this._percentMod) );
+        this._percent = Math.round(Number(eval(
+                (Number(this._percentBase) * Number(this._percentMult)).toString() + this._percentMod) ));
+        if (this._percent < 0) this._percent = 0;
         this.msgHistory("common.finalPercent", this._percent+'%');
     }
 
@@ -1108,13 +1396,31 @@ export class aqContext {
     _getDamageBase() {
         if ((this._noCombat) || (this._defensive)) return;
 
-        this._damageBase = this._weapon.system.damage;
+        this._damageBase = (!this._noWeapon) ? this._weapon.system.damage : '';
+        if ((!this._noAction) && (this._action.system.damage.formula !== ''))
+                this._damageBase = this._action.system.damage.formula;
+
         this.msgHistory("common.baseDamage", this._damageBase.toString());
         if (this._weapon2) {
             this._damage2Base = this._weapon2.system.damage;
             this.msgHistory("common.baseDamage", this._damage2Base.toString(), true);
         }
     }
+
+    /**
+     * _getDamageAction
+     */
+    _getDamageAction() {
+        if ((this._noCombat) || (this._defensive)) return;
+
+        let penal = this._action.system.damage.mod.damage;
+        
+        if ((!penal) || (penal === '') || (penal === '0') || (penal === '+0')) return;
+
+        this._damageMod = this.addPenalties(this._damageMod, penal);          
+        this.msgHistory("common.actionDamage", penal);
+
+    }          
 
     /**
      * _getSpellDamageBase
@@ -1138,10 +1444,35 @@ export class aqContext {
             this.msgHistory("common.multDamage", this._damageMult);
             if (this._weapon2) {
                 this._damage2Mult = this.multPenalties(this._damage2Mult, mod);
-                this.msgHistory("common.multDamage", this._damage2Mult, true);                
+                this.msgHistory("common.multDamage", mod, true);                
             }
         }
     }
+
+    /**
+     * _getModeDamageMulty
+     */
+    _getModeDamageMulty() {
+        if ((this._noCombat) || (this._defensive)) return;
+
+        this._actor.system.modes.map(sMode => {
+            const mode = game.packs.get("conventum.modes").get(sMode);
+            if ((mode.system.config.damage.apply) &&
+                (mode.system.config.damage.mult) &&
+                (mode.system.config.damage.mult !== '')) {
+
+                let mod = this.clearMult(mode.system.config.damage.mult);
+                if (mod !== 1) {
+                    this._damageMult = this.multPenalties(this._damageMult, mod);
+                    this.msgHistory("common.multDamageMode", mod);
+                    if (this._weapon2) {
+                        this._damage2Mult = this.multPenalties(this._damage2Mult, mod);
+                        this.msgHistory("common.multDamageMode", mod, true);                
+                    }
+                }              
+            }
+        });
+    }    
 
     /**
      * _getDamageBon
@@ -1154,13 +1485,13 @@ export class aqContext {
                         helperSheetHuman.calcDamageMod(this._actor, this._weapon2, this._action) : '';
         if ((this._action) &&
             (this._action.system.damage.mod.modDamage1)) {
-            this.msgHistory("common.modDamage1", "");
-            this.msgHistory("common.modDamage1", "", true);
+            this.msgHistory("common.modDamage1", '');
+            this.msgHistory("common.modDamage1", '', true);
         }
         if ((this._action) &&
             (this._action.system.damage.mod.modDamage2)) {
-            this.msgHistory("common.modDamage2", "");
-            this.msgHistory("common.modDamage2", "", true);
+            this.msgHistory("common.modDamage2", '');
+            this.msgHistory("common.modDamage2", '', true);                
         }    
 
         if ((this._action) &&
@@ -1170,6 +1501,22 @@ export class aqContext {
             this.msgHistory("common.noDamageBon", "", true);            
         }
 
+        //Modes
+        this._actor.system.modes.map(sMode => {
+            const mode = game.packs.get("conventum.modes").get(sMode);
+            if ((mode.system.config.damage.apply) &&
+                (mode.system.config.damage.mod) &&
+                (mode.system.config.damage.mod !== '')) {
+
+                let modePenal = this.clearPenalty(mode.system.config.damage.mod);
+                if (Number(modePenal) !== 0) {
+                    penal = this.addPenalties(penal, modePenal);
+                    this.msgHistory("common.modDamageMode", modePenal.toString());
+                }                
+            }
+        });
+
+        //Final
         this._damageBon = penal;    
         this.msgHistory("common.modDamage", penal);
 
@@ -1272,6 +1619,33 @@ export class aqContext {
     }
 
     /**
+     * _evalNoRoll
+     */
+    _evalNoRoll() {
+        this._noRoll = this._action.system.rolls.replaceRoll;
+
+    }
+
+    /**
+     * getNoRoll
+     */
+    getNoRoll() {
+        return this._noRoll;
+    }
+
+    /**
+     * _removeModes
+     */
+    async _removeModes() {
+        this._actor.system.modes.map(sMode => {
+            const mode = game.packs.get("conventum.modes").get(sMode);
+            if (!mode.system.permanent) {
+                helperActions.removeMode(this._actor, mode);              
+            }
+        });
+    }
+
+    /**
      * _removeDamageMessage
      */
     async _removeDamageMessage() {
@@ -1287,90 +1661,189 @@ export class aqContext {
      */
     _getMessageContent(b2weapon) {
         b2weapon = (!b2weapon) ? false : b2weapon;
+        if ((!this._noAction) && 
+            (this._action.system.skill.autoSuccess)) this._noRoll = true;
 
-        return '<div class="_messageFrame">'+
-                    
-                    '<div class="_messageImg">'+
-                        '<img src="'+this._actor.img+'"/>'+
-                    '</div>'+
+        let sMod = '';
+        const nFinalRoll = this._rollPercent - Number(this._rollBono);
+        if (nFinalRoll < this._percentBase) 
+            sMod = '-' + (this._percentBase - nFinalRoll).toString();
+        if (nFinalRoll > this._percentBase) 
+            sMod = '+' + (nFinalRoll - this._percentBase).toString();
 
-                    '<div class="_vertical">'+
-                        '<div class="_title">'+this._actor.name+'</div>'+
-                        ( (this._spell) ?
-                            '<a class="_infoSkill" data-itemId="'+this._spell.id+'">'+
-                                '<div class="_Img"><img src="'+this._spell.img+'"/></div>'+
-                            '</a>'+
-                            '<div class="_skill"></div>' :              
+        // ----- SECOND WEAPON!!! -----
+        if (b2weapon) return '<div class="_messageFrame" data-actorid="'+this._actor.id+'">'+
 
-                            '<a class="_infoSkill" data-itemId="'+this._skill.id+'">'+
-                                '<div class="_Img"><img src="'+this._skill.img+'"/></div>'+
-                            '</a>'+
-                            '<div class="_skill">'+this._skill.name+'</div>'
-                        ) +
-                    '</div>'+
+            //--- Header ---
+            '<div class="_messageImg">'+
+                '<img src="'+this._actor.img+'"/>'+
+            '</div>'+
+            '<div class="_vertical">'+
+                '<div class="_title">'+this._actor.name+'</div>'+
+                    '<a class="_infoSkill" data-itemId=""><div class="_Img"></div></a>' +
+                    '<div class="_skill"></div>' +
+            '</div>'+     
 
-                    '<div class="_result">'+this._roll.total+'</div>'+
-                    '<div class="_resultOver">'+this._rollPercent.toString()+'</div>'+
+            '<div class="_automatic">'+
+                game.i18n.localize("common.automatic")+
+            '</div>'+
 
-                    ( (this._spell) ? 
-                     '<div class="_messageSpell">'+
-                        '<a class="_showItem" data-itemid="'+this._spell.id+'" data-actorid="'+this._actor.id+'">'+
-                            '<div class="_name">'+this._spell.name+'</div>'+ 
-                        '</a>'+        
-                     '</div>' : '' ) +
+            ( (this._rollSuccess) ?
+                (this._rollCritSuccess) ?
+                '<div class="_successCrit">'+game.i18n.localize("common.rollCriticalSuccess")+'</div>' :
+                '<div class="_success">'+game.i18n.localize("common.success")+'</div>' 
+            :   (this._rollCritFailure) ?
+                '<div class="_failedCrit">'+game.i18n.localize("common.rollCriticalFailure")+'</div>' :
+                '<div class="_failed">'+game.i18n.localize("common.failed")+'</div>'
+            ) + 
 
-                    '<div class="_bonif '+this._rollLevel.class+'">'+
-                        '<span class="_bonifText">'+this._rollLevel.text+'</span>'+
-                        ((this._rollBono !== '') ? this._rollBono : '+0') +
-                    '</div>'+
-
-                    ( (this._rollSuccess) ?
-                     '<div class="_success">'+game.i18n.localize("common.success")+'</div>' :
-                     '<div class="_failed">'+game.i18n.localize("common.failed")+'</div>'                    
-                    ) +
-
-                    ( (this._rollCritSuccess) ?
-                     '<div class="_critSuccess">'+game.i18n.localize("common.rollCriticalSuccess")+'</div>' :
-                     '' ) +
-
-                    ( (this._rollCritFailure) ?
-                     '<div class="_critFailure">'+game.i18n.localize("common.rollCriticalFailure")+'</div>' :
-                     '' ) +                    
-
-                    ( (this._action) ? 
-                    '<div class="_messageAction">'+
-                        '<a class="_showItem"'+
-                            ' data-itemid="'+( (this._spell) ? this._spell.id : this._action.id )+'"'+
-                            ' data-actorid="'+this._actor.id+'">'+
-                                '<img src="'+( (this._spell) ? this._spell.img : this._action.img )+'"/>'+
-                        '</a>'+
-                        '<div class="_name">'+
-                            ( (this._spell) ? this._spell.name : this._action.name )+
-                        '</div>'+   
+            //--- Actions ---
+            '<div class="_actionTitle">' + 
+                ( (this._action.system.item.weapon.range) ? 
+                    '<div>' + this._action.name + '</div>' +
+                    '<div class="_targetDistance">' + 
+                        this._getTargetRange() +  ' - ' +
+                        this._getTargetDistance(false) + 
                     '</div>' :
-                    ''
-                    ) +
+                    this._action.name ) + 
+            '</div>'+           
+            '<div class="_actionImage">'+
+                '<a class="_showItem"'+
+                    ' data-itemid="' + this._action.id + '"'+
+                    ' data-actorid="' + this._actor.id + '">'+
+                        '<img src="' + this._action.img + '"/>'+
+                '</a>'+
+            '</div>' + 
 
-                    ( (this._express) ? 
-                    '<div class="_messageAction">'+
-                        '<img src="/systems/conventum/image/content/weapons/Dices.png"/>'+  
+            //--- Weapon ---
+            '<div class="_messageWeapon">'+
+                '<a class="_showItem" data-itemid="'+this._weapon2.id+'" data-actorid="'+this._actor.id+'">'+
+                    '<div class="_name">'+this._weapon2.name +' ('+this._weapon2.system.damage+')'+ '</div>'+ 
+                '</a>'+        
+            '</div>' +
+
+            //--- Damage ---
+            this._getMessageLinkToDamage(b2weapon)+
+
+            //--- Help ---
+            this._getMessageHelpTab()+
+
+            //--- Targets ---
+            this._getMessageTargets()+                    
+
+        '</div>';
+
+
+
+    // ----- FIRST WEAPON!!! -----
+
+        let sSkillName = this._skill.name;
+        if (sSkillName === undefined) {
+            if (this._actor.system.characteristics.primary[this._skill] !== undefined)
+                sSkillName = game.i18n.localize("characteristic."+this._skill);
+            if (this._actor.system.characteristics.secondary[this._skill] !== undefined)
+                sSkillName = game.i18n.localize("characteristic."+this._skill);
+        }
+
+        return '<div class="_messageFrame" data-actorid="'+this._actor.id+'">'+
+
+        //--- Header ---
+            '<div class="_messageImg">'+
+                '<img src="'+this._actor.img+'"/>'+
+            '</div>'+
+
+            '<div class="_vertical">'+
+                '<div class="_title">'+this._actor.name+'</div>'+
+                    '<a class="_infoSkill" data-itemId="'+this._skill.id+'">'+
+                        '<div class="_Img">'+
+                            '<img src="'+((this._skill.img !== undefined) ? 
+                                            this._skill.img : this._weapon.img )+'"/>'+
+                        '</div>'+
+                    '</a>'+
+                    '<div class="_skill">'+(sSkillName)+
+                        ( ((!this._noAction) && 
+                           (this._action.system.skill.autoSuccess)) ?  '' :
+                            ' ('+this._percentBase+'%)' )+ 
+                    '</div>' +
+            '</div>'+         
+
+        //--- Rolls --- 
+        
+            '<div class="_result">'+
+                ((this._noRoll) ?  '&nbsp;': this._roll.total)+
+            '</div>'+
+            '<div class="_resultOver">'+
+                ((this._noRoll) ?  
+                    ((this._action.system.rolls.opposedRoll) ?
+                        this._oppoRolls.actor.percent : '&nbsp;') : 
+                    this._rollPercent.toString())+
+            '</div>'+
+
+            '<div class="_bonif '+this._rollLevel.class+'">'+
+                ((this._noRoll) ? '&nbsp;' :
+                    '<span class="_bonifText">'+this._rollLevel.text+'</span>'+
+                    ((this._rollBono !== '') ? this._rollBono+'%' : '+0') ) +
+            '</div>'+
+
+            ( ((sMod !== '') && (!this._noRoll)) ? 
+                '<div class="_percentMod">'+sMod+'%</div>'+
+                '<div class="_percentLit">'+game.i18n.localize("common.modif")+'</div>' :
+                '' ) +
+
+            ( (this._noRoll) ? 
+                '<div class="_waitSuccess">&nbsp;</div>' :
+
+                ( (this._rollSuccess) ?
+                    (this._rollCritSuccess) ?
+                    '<div class="_successCrit">'+game.i18n.localize("common.rollCriticalSuccess")+'</div>' :
+                    '<div class="_success">'+game.i18n.localize("common.success")+'</div>' 
+                :   (this._rollCritFailure) ?
+                    '<div class="_failedCrit">'+game.i18n.localize("common.rollCriticalFailure")+'</div>' :
+                    '<div class="_failed">'+game.i18n.localize("common.failed")+'</div>'
+                ) 
+            ) +   
+
+        //--- Actions ---
+        ((!this._noAction) ?
+            '<div class="_actionTitle">' + 
+                ( (this._action.system.item.weapon.range) ? 
+                    '<div>' + this._action.name + '</div>' +
+                    '<div class="_targetDistance">' + 
+                        this._getTargetRange() +  ' - ' +
+                        this._getTargetDistance(false) + 
                     '</div>' :
-                    ''
-                    )+
+                    this._action.name ) + 
+            '</div>'+            
+            '<div class="_actionImage">'+
+                '<a class="_showItem"'+
+                    ' data-itemid="' + this._action.id + '"'+
+                    ' data-actorid="' + this._actor.id + '">'+
+                        '<img src="' + this._action.img + '"/>'+
+                '</a>'+
+            '</div>' :
 
-                    ( (this._weapon) ?
-                    '<div class="_messageWeapon">'+
-                        '<a class="_showItem" data-itemid="'+this._weapon.id+'" data-actorid="'+this._actor.id+'">'+
-                            '<div class="_name">'+this._weapon.name+'</div>'+ 
-                        '</a>'+        
-                    '</div>' :
-                    ''              
-                    ) +
+            '<div class="_actionTitle"></div>'+
+            '<div class="_actionImage"></div>' )+
 
-                    this._getMessageLinkToDamage(b2weapon)+
-                    this._getMessageHelpTab()+
-                    this._getMessageTargets()+
-                '</div>';
+        //--- Weapon ---
+        this._getWeaponBox()+
+
+        //--- Targets link ---
+        this._getLinksBox()+
+
+        //--- Opposited rolls ---
+        this._getMessageOppoRolls()+
+
+        //--- Damage ---
+        this._getMessageLinkToDamage(b2weapon)+
+
+        //--- Help ---
+        this._getMessageHelpTab()+
+
+        //--- Targets ---
+        this._getMessageTargets()+        
+
+        '</div>';
     }
 
     /**
@@ -1380,20 +1853,29 @@ export class aqContext {
      */
     _getDamageMessageContent(targetId) {
         const targetData = this._targetsDamage[targetId];
+        const bToShield = ( ((this._action) && (this._action.system.damage.target.shield)) ||
+                            (this._damageToShield)); 
+
         let mainInfo = '<li>'+targetData.armor.name+'</li>'+
                        '<li>'+game.i18n.localize("common.finalProtection")+': '+
                                 targetData.armor.finalProtection.toString()+'</li>';
+
+        if (bToShield) mainInfo = '<li>'+this._action.name+'</li>';
 
         //Damage x Resistance (Stuning...)
         if ((!this._noAction) && (this._action.system.damage.damageXendurance))
             mainInfo = this._getStunnedText(targetId);
 
-        return '<div class="_msgDamLocation">'+targetData.location.name+'</div>'+
-                '<ul class="_msgDamInfo">'+mainInfo+'</ul>'+
-                this._getMessageHelpTab()+
-                ( ((!this._noAction) && (this._action.system.damage.noDamage)) ? '' :
-                  '<div class="_msgDamTotal">'+targetData.finalHitDamage.toString()+'</div>'+
-                  '<div class="_hitPoints">'+game.i18n.localize("common.hp")+'</div>' );
+        return      '<div class="_msgDamLocation">'+
+                        ((!bToShield) ? targetData.location.name : 
+                            game.i18n.localize("common.shield"))+
+                    '</div>'+
+                    '<ul class="_msgDamInfo">'+mainInfo+'</ul>'+
+                    this._getMessageHelpTab()+
+                    ( (  ((!this._noAction) && (this._action.system.damage.noDamage)) 
+                      || (bToShield) ) ? '' :
+                    '<div class="_msgDamTotal">'+targetData.finalHitDamage.toString()+'</div>'+
+                    '<div class="_hitPoints">'+game.i18n.localize("common.hp")+'</div>' );
     }
 
     /**
@@ -1425,36 +1907,395 @@ export class aqContext {
     }
 
     /**
+     * _getTargetDistance
+     * @param {*} bOnlyNumber 
+     * @returns 
+     */
+    _getTargetDistance(bOnlyNumber) {
+        if (this._targetsToken.length == 0) return null;
+
+        const targetToken = game.scenes.active.tokens.get(this._targetsToken[0]);
+        const myToken = (this.safeBox.tokenId) ?
+                            game.scenes.active.tokens.get(options.tokenId) :
+                            Array.from(game.scenes.active.tokens).find(
+                                            e => e.actorId === this.safeBox.actorId);
+
+        let ruler = new Ruler();
+        ruler._addWaypoint({x: myToken.x,
+                            y: myToken.y});
+        ruler.measure({x: targetToken.x,
+                        y: targetToken.y});
+        const distance = ruler.totalDistance;
+        ruler.measure({});
+        ruler.destroy();   
+        
+        if (bOnlyNumber) return distance;
+                    else return distance + ' ' + ( (game.scenes.active.grid.units) ?
+                                                        game.scenes.active.grid.units :
+                                                        game.i18n.localize("common.distanceUnit"));
+    }
+
+    /**
+     * _getTargetRange
+     */
+    _getTargetRange() {
+        const distance = this._getTargetDistance(true);
+        const nStr = this._actor.system.characteristics.primary.str.value;
+        let sReturn = '';
+
+        if (this._action.system.item.weapon.throw) {
+
+            if (distance <= 2) 
+                sReturn = game.i18n.localize("common.targetPointBlack");
+            if (distance > 2)
+                sReturn = game.i18n.localize("common.weaponLowRange");
+            if (distance > Number(nStr/2))
+                sReturn = game.i18n.localize("common.weaponMediumRange");
+            if (distance > Number(nStr))
+                sReturn = game.i18n.localize("common.weaponLargeRange");
+            if (distance > Number(nStr*2))  
+                sReturn = game.i18n.localize("common.outOfRange");
+
+        } else {
+
+            if (distance <= 2) 
+                sReturn = game.i18n.localize("common.targetPointBlack");
+            if (distance > 2)
+                sReturn = game.i18n.localize("common.weaponLowRange");
+            if (distance > Number(this._weapon.system.range.lowRange))
+                sReturn = game.i18n.localize("common.weaponMediumRange");
+            if (distance > Number(this._weapon.system.range.mediumRange))
+                sReturn = game.i18n.localize("common.weaponLargeRange"); 
+            if (distance > Number(this._weapon.system.range.largeRange))  
+                sReturn = game.i18n.localize("common.outOfRange"); 
+
+        }
+
+        return sReturn;
+    }
+
+    /**
+     * _getTargetRangePenal
+     */
+    _getTargetRangePenal() {
+        const distance = this._getTargetDistance(true);
+        const nStr = this._actor.system.characteristics.primary.str.value;
+        let sReturn = '';
+
+        if ( (!this._action.system.item.weapon.range) &&
+             (!this._action.system.item.weapon.throw) )
+                return sReturn;
+
+        if (this._action.system.item.weapon.throw) {
+
+            if (distance <= 2) 
+                sReturn = '-50';
+            if (distance > 2)
+                sReturn = '+20';
+            if (distance > Number(nStr/2))
+                sReturn = '';
+            if (distance > Number(nStr))
+                sReturn = '-20';
+            if (distance > Number(nStr*2))  
+                sReturn = '-200'; 
+
+        } else {
+
+            if (distance <= 2) 
+                sReturn = '-50';
+            if (distance > 2)
+                sReturn = '+20';
+            if (distance > Number(this._weapon.system.range.lowRange))
+                sReturn = '';
+            if (distance > Number(this._weapon.system.range.mediumRange))
+                sReturn = '-20';
+            if (distance > Number(this._weapon.system.range.largeRange))  
+                sReturn = '-200'; 
+        }
+        
+        return sReturn;
+    }
+
+    /**
+     * _getMultiplerFromWeaponSize
+     */
+    _getMultiplerFromWeaponSize(bActor) {
+        
+        let weapon = null;
+        if (bActor) {
+            weapon = this._weapon;
+            this.msgHistory("", this._actor.name);
+        }
+        else {
+            const enemy = this._getEnemy();
+            this.msgHistory("", enemy.name);
+            const mWeapons = Array.from(enemy.items).filter(e => e.type === 'weapon');
+            if (mWeapons.length === 0) return 0;
+            weapon = mWeapons.find(e => ( (e.system.inUse) 
+                                       && (!e.system.type.shield)) );
+            if (!weapon) return 0;
+        }
+
+        const size = CONFIG.ExtendConfig.weaponSizes.find(
+                                e => e.id === weapon.system.size);
+                                 
+        this.msgHistory("common.weapon", weapon.name); 
+        this.msgHistory("common.multiplicatorByWeapon", 'x'+size.multipler); 
+
+        return size.multipler;
+    }
+
+    /**
+     * _getEnemy
+     */
+    _getEnemy() {
+        const targetToken = game.scenes.active.tokens.get(this._targetsToken[0]);  
+        if (targetToken === undefined) return null;    
+        return targetToken.actor;
+    }
+
+    /**
+     * _getOpposedStats
+     * @returns 
+     */    
+    _getOpposedStats() {
+        if (!this._action.system.rolls.opposedRoll) return ;
+
+        const enemy = this._getEnemy();
+        
+        let playerRoll = '';
+        if (this._action.system.rolls.actor.skill !== '') {
+            playerRoll = (this._actor.system.skills[this._action.system.rolls.actor.skill].acquired) ?
+                Number(this._actor.system.skills[this._action.system.rolls.actor.skill].value) :
+                Number(this._actor.system.skills[this._action.system.rolls.actor.skill].initial);
+        }
+
+        if (this._action.system.rolls.actor.primaryChar !== '')
+            playerRoll = this._actor.system.characteristics.primary[
+                    this._action.system.rolls.actor.primaryChar].value;  
+
+        if (this._action.system.rolls.actor.secondaryChar !== '')
+            playerRoll = this._actor.system.characteristics.secondary[
+                    this._action.system.rolls.actor.secondaryChar].value; 
+
+        const mult1 = (!this._action.system.rolls.actor.byWeapon) ?
+                            this._action.system.rolls.actor.mult :
+                            this._getMultiplerFromWeaponSize(true);
+
+        playerRoll = Math.round(
+            Number(this.multPenalties(playerRoll, mult1)));
+        playerRoll = Math.round(
+            Number(this.addPenalties(playerRoll, this._action.system.rolls.actor.mod)));
+
+        let enemyRoll = '';
+        if (this._action.system.rolls.opponent.skill !== '') {
+            enemyRoll = (enemy.system.skills[
+                this._action.system.rolls.opponent.skill].acquired) ?
+                Number(enemy.system.skills[this._action.system.rolls.opponent.skill].value) :
+                Number(enemy.system.skills[this._action.system.rolls.opponent.skill].initial);            
+        }
+
+        if (this._action.system.rolls.opponent.primaryChar !== '')
+            enemyRoll = enemy.system.characteristics.primary[
+                    this._action.system.rolls.opponent.primaryChar].value;  
+
+        if (this._action.system.rolls.opponent.secondaryChar !== '')
+            enemyRoll = enemy.system.characteristics.secondary[
+                    this._action.system.rolls.opponent.secondaryChar].value; 
+
+        const mult2 = (!this._action.system.rolls.opponent.byWeapon) ?
+                            this._action.system.rolls.opponent.mult :
+                            this._getMultiplerFromWeaponSize(false);  
+
+        enemyRoll = Math.round(
+            Number(this.multPenalties(enemyRoll, mult2)));
+        enemyRoll = Math.round(
+            Number(this.addPenalties(enemyRoll, this._action.system.rolls.opponent.mod)));
+
+        this._oppoRolls.actor.percent = playerRoll;
+        this._oppoRolls.enemy.percent = enemyRoll;        
+    }
+
+    /**
+     * _getWeaponBox
+     */
+    _getWeaponBox() {
+        if (this._isSkill)
+        return '<div class="_messageWeapon">'+
+                  ((this._action.system.type.movement) ?        
+                    '<div class="_name">'+ game.i18n.localize("common.movement")+ '</div>' :
+                    '<div class="_name">'+ game.i18n.localize("common.skillRoll")+ '</div>') + 
+               '</div>';
+
+        return '<div class="_messageWeapon">'+
+                    '<a class="_showItem" data-itemid="'+this._weapon.id+'" data-actorid="'+this._actor.id+'">'+
+                        '<div class="_name">'+this._weapon.name +' ('+this._weapon.system.damage+')'+ '</div>'+ 
+                    '</a>'+        
+                '</div>';        
+    }
+
+    /**
+     * _getLinksBox
+     */
+    _getLinksBox() {
+        if (this._targets.length === 0) return '';
+        if (this._noAction) return '';
+        if (!this._action.system.type.attack) return '';
+
+        let sLink = '<a class="_showTargetLinks">'+
+            '<i class="fa-solid fa-arrow-up-from-bracket" title="'+
+                game.i18n.localize("info.showLinks")+'"></i>'+
+        '</a>'+
+        '<ul class="_targetLinks" style="display:none;">';
+
+        sLink += this.getLinks();
+        sLink +='</ul>';
+
+        //return (mLinks.length > 0) ? sLink : '';
+        return sLink;
+    }
+
+    /**
+     * getLinks
+     */
+    getLinks() {
+
+        let sLink = '';
+        const firstStep = this._encounter.system.steps.filter(e => (!e.consumed))[0];
+
+        let mLinks = [];
+        this._targets.map(targetId => {
+            const mSteps = this._encounter.system.steps.filter(e => 
+                                                 ((e.actor === targetId) &&
+                                                  (!e.consumed)) );
+            mSteps.map(step => {
+                const actor = (step.isToken) ?
+                    game.scenes.active.tokens.get(step.tokenId).getActor() :
+                    game.actors.get(step.actor);
+                const action = actor.items.get(step.action);
+                if (action.system.type.defense)
+                    mLinks.push({
+                        actor: actor,
+                        action: action,
+                        step: step,
+                        active: ((firstStep.action === step.action) &&
+                                 (firstStep.uniqeId === step.uniqeId))
+                    });
+            });
+        });
+
+        mLinks.map(link => {
+            sLink += '<a class="_linkToAction" '+
+                        'data-actorid="'+link.step.actor+'" '+
+                        'data-tokenid="'+link.step.tokenId+'" >'+
+                        '<li>'+
+                            '<img class="_linkImg" src="'+link.actor.img+'" />'+
+                            '<i class="fa-solid fa-arrow-right-from-bracket '+
+                                ((link.active) ? '_active' : '_noActive' )+'">'+
+                            '</i>'+
+                            '<label class="_linkAction '+
+                                ((link.active) ? '_active' : '_noActive' )+'">'+
+                            link.action.name+'</label>'+
+                        '</li>'+
+                     '</a>';
+        });
+        return sLink;
+    }
+
+    /**
+     * _getMessageOppoRolls
+     */
+    _getMessageOppoRolls() {
+
+        if (this._noAction) return '';
+        if (!this._action.system.rolls.opposedRoll) return '';
+        if ((!this._action.system.rolls.replaceRoll) && (!this._rollSuccess)) return '';
+
+        const enemy = this._getEnemy();
+
+        const playerMe = 
+            '<div class="_player _actor">'+
+                '<div class="_title">'+
+                    this._actor.name+
+                '</div>'+
+                '<div class="_roll">'+
+                    '<a class="_rollOppo"'+
+                                ' data-actorid="'+this._actor.id+'" '+
+                                ' data-tokenid="'+this._actor.tokenId+'" '+
+                                ' data-percent="'+this._oppoRolls.actor.percent+'">'+
+                        '<img src="/systems/conventum/image/texture/dice.png">'+
+                        '<div class="_name">'+this._oppoRolls.actor.percent+'</div>'+
+                    '</a>'+ 
+                '</div>'+                
+            '</div>';
+
+        const playerOppo = 
+            '<div class="_player _enemy">'+
+                '<div class="_title">'+
+                    enemy.name+
+                '</div>'+  
+                '<div class="_roll">'+
+                    '<a class="_rollOppo"'+
+                                ' data-actorid="'+enemy.id+'" '+
+                                ' data-tokenid="'+enemy.tokenId+'" '+
+                                ' data-percent="'+this._oppoRolls.enemy.percent+'">'+
+                        '<img src="/systems/conventum/image/texture/dice.png">'+
+                        '<div class="_name">'+this._oppoRolls.enemy.percent+'</div>'+
+                    '</a>'+                     
+                '</div>'+                            
+            '</div>';            
+
+        return '<div class="_messageOppoRolls">'+
+            playerMe +
+            playerOppo +
+        '</div>'+
+        '<div class="_messageDamageOppoRolls">'+
+        '</div>';
+    }
+
+    /**
      * _getMessageLinkToDamage
      * @param {*} b2weapon 
      */
-    _getMessageLinkToDamage(b2weapon) {
+    _getMessageLinkToDamage(b2weapon, bPostRoll) {
         b2weapon = (!b2weapon) ? false : b2weapon;
+        bPostRoll = (!bPostRoll) ? false : bPostRoll;
+
+        if ((!this._noAction) && 
+            (this._action.system.rolls.opposedRoll) && 
+            (!bPostRoll)) return '';
 
         let sTargets = '';
         this._targets.map(e => {
-            if (sTargets === '') sTargets = e.id;
-                            else sTargets += '.'+e.id;
+            if (e.id === undefined) {
+                let actorTarget = game.actors.get(e);
+                if (sTargets === '') sTargets = actorTarget.id;
+                                else sTargets += '.'+actorTarget.id;                
+            } else {
+                if (sTargets === '') sTargets = e.id;
+                                else sTargets += '.'+e.id;
+            }
         });
 
         if ((this._damage === '') && (this._damage2 === '')
-         || (!this._rollSuccess))
+         || ((!this._rollSuccess) && (!bPostRoll))
+         || ((!this._noAction) && (this._action.system.damage.noDamage)) )
             return '<div class="_messageDamage"></div>';
 
         return  '<div class="_messageDamage">'+
                     '<a class="_rollDamage" data-weaponid="'+
-                                                ((this._weapon2) ? 
-                                                    this._weapon2.id : (this._weapon)? this._weapon.id : '')+'" '+
+                                                ((b2weapon) ? 
+                                                    this._weapon2.id : (this._weapon) ? this._weapon.id : '')+'" '+
                                         ' data-spellid="'+((this._spell)? this._spell.id : '')+'" '+
                                         ' data-actorid="'+this._actor.id+'" '+
                                         ' data-targets="'+sTargets+'" '+
                                         ' data-critsuccess="'+this._critSuccess+'" '+
                                         ' data-critfailure="'+this._critFailure+'" '+
                                         ' data-locationid="'+this._locationId+'" '+
-                                        ' data-actionid="'+ ((this._action) ?this._action.id : '')+'" '+
-                                        ' data-damage="'+((this._weapon2) ? this._damage2 : this._damage)+'">'+
+                                        ' data-actionid="'+ ((this._action) ? this._action.id : '')+'" '+
+                                        ' data-damage="'+((b2weapon) ? this._damage2 : this._damage)+'">'+
                     '<img src="/systems/conventum/image/texture/dice.png">'+
-                    '<div class="_name">'+((this._weapon2) ? this._damage2 : this._damage)+'</div>'+
+                    '<div class="_name">'+((b2weapon) ? this._damage2 : this._damage)+'</div>'+
                     '</a>'+         
                 '</div>';        
     }
@@ -1480,12 +2321,93 @@ export class aqContext {
     _getMessageTargets() {
         let sContent = '';
         this._targets.forEach(targetId => {
-          const target = this.acquireActor(targetId);
+          
+          let target = null;
+          target = this.acquireActor(targetId);
+
+          if ((!this._noAction) && 
+              (this._action.system.damage.target.mount)) {
+            target = game.actors.get(target.system.equipment.mount);
+          }
           sContent += '<li style="background-image: url('+"'"+target.img+"'"+')">'+
                           '<label class="_targetName">'+target.name+'</label>'+
                       '</li>';
         });
         return '<ul class="_messageTargets">'+sContent+'</ul>';      
+    }
+
+    /**
+     * _updateOpposedMessage
+     */    
+    _updateOpposedMessage(bActor) {
+
+        let message = game.messages.get(this._messageId);
+        if (!message) {
+            this.msgError("There is no message for this Id!");
+            return;              
+        } 
+
+        const sLiteral = (bActor) ? '_actor' : '_enemy';
+
+        let myRoll = {};
+        let otRoll = {};
+        if (bActor) {
+            myRoll = this._oppoRolls.actor;
+            otRoll = this._oppoRolls.enemy;
+        } else {
+            myRoll = this._oppoRolls.enemy;
+            otRoll = this._oppoRolls.actor;
+        }
+
+        let sToFind = $(message.content).find('._messageOppoRolls ._player.'+sLiteral+' ._roll').html();
+        const sToReplace = '<div class="_finalResult">'+
+                                myRoll.result+' / '+myRoll.percent+
+                           '</div>';
+        let newContent = message.content.replace(sToFind, sToReplace);
+
+        sToFind = sToFind.replace('.png">', '.png" />');
+        sToFind = sToFind.replaceAll('=""', '');
+        newContent = message.content.replace(sToFind, sToReplace);
+        
+        if (bActor) {
+            newContent = newContent.replace(/\u00a0/, myRoll.result);
+        }
+
+        if ((myRoll.rolled) && (otRoll.rolled)) {
+            
+            if (this._oppoRolls.actor.win) {
+                newContent = newContent.replace('"_player _actor"', '"_player _actor _green"');
+                newContent = newContent.replace('"_player _enemy"', '"_player _enemy _red"');
+            }
+            else if (this._oppoRolls.enemy.win) {
+                newContent = newContent.replace('"_player _actor"', '"_player _actor _red"');
+                newContent = newContent.replace('"_player _enemy"', '"_player _enemy _green"');                
+            }
+            else {
+                newContent = newContent.replace('"_player _actor"', '"_player _actor _red"');
+                newContent = newContent.replace('"_player _enemy"', '"_player _enemy _red"');                  
+            }
+
+            //Damage
+            if ((this._damage !== '') && (!this._action.system.damage.noDamage)) {
+                let sDamage = this._getMessageLinkToDamage(false, true);
+
+                // sToFind = $(newContent).find("._messageOppoRolls ._enemy ._roll").html();
+                sToFind = $(newContent).find("._actionTitle").html();
+                sToFind = sToFind.replace('.png">', '.png" />');
+                sToFind = sToFind.replaceAll('=""', '');           
+                const sEmpty = '<div class="_actionTitle"></div>';
+                newContent = newContent.replace(sToFind, sEmpty);
+
+                sToFind = $(newContent).find("._messageDamageOppoRolls").html();
+                sToFind = sToFind.replace('.png">', '.png" />');
+                sToFind = sToFind.replaceAll('=""', '');           
+                sDamage = sDamage.replace('"_messageDamage"', '"_messageDamage _messageOppoDamage"');
+                newContent = newContent.replace(sToFind, sDamage);
+            }            
+        }
+
+        return newContent;
     }
 
     /**
@@ -1499,14 +2421,31 @@ export class aqContext {
             return;              
         } 
 
-        let sToFind = $(message.content).find('._rollDamage ._name').parent().parent().html();
+        let content = message.content;
+        let sToFind = $(content).find('._messageDamage ._shield').html();
+        if (sToFind !== undefined) {
+            sToFind = sToFind.replaceAll('.png">', '.png" />');
+            sToFind = sToFind.replaceAll('=""', '');
+            sToFind = sToFind.replaceAll('">', '" />');
+            sToFind = '<div class="_shield">'+sToFind+'</div>';
+            content = content.replace(sToFind, '');
+        }
+
+        sToFind = $(content).find('._rollDamage ._name').parent().parent().html();
+        sToFind = sToFind.replaceAll('.png">', '.png" />');
+        sToFind = sToFind.replaceAll('=""', '');
+
         const sToReplace = '<div class="_name _finalDamage">'+this._damagePoints.toString()+'</div>'+
                            '<div class="_damagePoints">'+game.i18n.localize("common.damagePoints")+'</div>';
-        let newContent = message.content.replace(sToFind, sToReplace);
+        let newContent = content.replace(sToFind, sToReplace);
+        newContent = newContent.replace(sToFind, sToReplace);
 
-        sToFind = sToFind.replace('.png">', '.png" />');
-        sToFind = sToFind.replaceAll('=""', '');
-        newContent = message.content.replace(sToFind, sToReplace);
+        let subContent = $(newContent);
+        subContent.find('a._showTargetLinks').remove();
+        subContent.find('ul._targetLinks').remove();
+        newContent = '<div class="_chatBox" style="height:280px">'+
+                        subContent.html()+
+                     '</div>';        
 
         this._consolidate();
         await helperSocket.update(message, {content: newContent });
@@ -1519,22 +2458,39 @@ export class aqContext {
     async _clearDamageMessage() {
 
         let mActionMessages = Array.from(game.messages).filter(e => ((e.flags) && (e.flags.safeBox)));
-        let message = mActionMessages[mActionMessages.length - 1];
-        if (!message) {
-            this.msgError("No message found!");
-            return;              
-        } 
+        
+        for (var i=0; i<this._targets.length; i++ ) {
+            let sTarget = this._targets[i];
 
-        let sToFind = $(message.content).find('._rollDamage ._name').parent().parent().html();
-        const sToReplace = '';
-        let newContent = message.content.replace(sToFind, sToReplace);
+            let nMessage = mActionMessages.filter(e => 
+                ( $(e.content).find('._messageFrame').data('actorid') === sTarget )); 
+            let message = nMessage[nMessage.length - 1];      
+            if (!message) {
+                this.msgError("No message found!");
+                return;              
+            } 
 
-        sToFind = sToFind.replace('.png">', '.png" />');
-        sToFind = sToFind.replaceAll('=""', '');
-        newContent = message.content.replace(sToFind, sToReplace);
+            let sToFind = $(message.content).find('._rollDamage ._name').parent().parent().html();
+            if (sToFind !== undefined) {
+                const sToReplace = '';
+                let newContent = message.content.replace(sToFind, sToReplace);                
+                sToFind = sToFind.replace('.png">', '.png" />');
+                sToFind = sToFind.replaceAll('=""', '');
+                newContent = message.content.replace(sToFind, sToReplace);
+            }
 
-        this._consolidate();
-        await helperSocket.update(message, {content: newContent });
+            if ((newContent) && (newContent !== undefined)) {
+                let subContent = $(newContent);
+                subContent.find('a._showTargetLinks').remove();
+                subContent.find('ul._targetLinks').remove();
+                newContent = '<div class="_chatBox" style="height:280px">'+
+                                subContent.html()+
+                            '</div>';              
+            }
+
+            this._consolidate();
+            await helperSocket.update(message, {content: newContent });
+        }
 
     }    
 
@@ -1554,7 +2510,7 @@ export class aqContext {
      */
     async _applyDamage(targetId) {
         this._preparePacks();
-
+       
         this._targetsDamage[targetId] = {
             target: null,
             location: null,
@@ -1584,41 +2540,61 @@ export class aqContext {
         //Target
         targetData.target = await this._getDamageTarget(targetId);
         if (!targetData.target) return;       
-        let target = targetData.target;      
+        let target = targetData.target;     
+
+        //Shields...
+        let shield = null;
+        let bToShield = ((this._action) && (this._action.system.damage.target.shield)); 
+        if (bToShield) this._damageToShield = true;
+
+            //From Modes
+            this._actor.system.modes.map(sMode => {
+                const mode = game.packs.get("conventum.modes").get(sMode);
+                if (mode.system.config.location.shield) {
+                    bToShield = true;      
+                    this._damageToShield = true;         
+                }
+            });     
+
+            if (this._damageToShield) {
+                shield = aqCombat.getShield(target);
+                if (!shield) {
+                    this._damageToShield = false;
+                    bToShield = false;
+                }
+            }
 
         //Location...
         targetData.location = await this._getDamageLocation(targetId);
         if (!targetData.location) return;
         let location = targetData.location;
+        let modeLocation = aqActions.getModeLocation(target);
+        if (modeLocation !== '') location = modeLocation;
 
         //No Damage...
         let noDamage = (this._noAction) ? false : (this._action.system.damage.noDamage);
-        if (noDamage)
+        if ((noDamage) || (bToShield))
             this.msgHistory("common.noDamage", this._action.name);
 
         //Armor
         let armor = ((target.system.armor[location.id]) &&
                      (target.system.armor[location.id].itemID) )? target.system.armor[location.id] : null;
-        if (armor) {
-            targetData.name = armor.name;
-            targetData.armor.protection = armor.protection;
-            targetData.armor.endurance = armor.resistance;
-            targetData.armor.modProtection = this._getArmorModProtection(targetId);
-            targetData.armor.modEndurance = this._getArmorModEndurance(targetId);
-            this.msgHistory("common.armor", armor.name);
-        } else
-            this.msgHistory("common.noArmor", '');
-
-        //Shields...
-        let shield = null;
-        if (this._damageToShield) {
-            let mItems = Array.from(target.items).filter(e => ((e.type === 'weapon') 
-                                                            && (e.system.type.shield) && (e.system.inUse)));
-            shield = (mItems.length > 0) ? mItems[0] : null;
+        if (!bToShield) {
+            if (armor) {
+                targetData.name = armor.name;
+                targetData.armor.protection = armor.protection;
+                targetData.armor.endurance = armor.resistance;
+                targetData.armor.modProtection = this._getArmorModProtection(targetId);
+                targetData.armor.modEndurance = this._getArmorModEndurance(targetId);
+                this.msgHistory("common.armor", armor.name);
+            } else
+                this.msgHistory("common.noArmor", '');
         }
 
         //Calculating...
         let bShieldAbs = false;     //Shield absorbs damage...
+        if ((this._action) && (this._action.system.damage.target.shield)) bShieldAbs = true;
+
         if ((this._shieldedTarget) && (shield)) {
             targetData.armor.finalProtection = eval(shield.system.protection + targetData.armor.protection + targetData.armor.modProtection);
             bShieldAbs = (shield.system.protection >= this._damagePoints);
@@ -1641,24 +2617,30 @@ export class aqContext {
         
         this.msgHistory("common.finalDamage", targetData.finalDamagePoints);
 
-        targetData.finalHitDamage = Math.round(targetData.finalDamagePoints *
-            Number(targetData.location.system.modDamage)); 
+        //Final Hit Damage
+        if (!bToShield) {
+            targetData.finalHitDamage = Math.round(targetData.finalDamagePoints *
+                Number(targetData.location.system.modDamage)); 
 
-        this.msgHistory("common.locationMod", targetData.location.system.modDamage);
-        this.msgHistory("common.finalHitDamage", targetData.finalHitDamage);            
+            this.msgHistory("common.locationMod", targetData.location.system.modDamage);
+            this.msgHistory("common.finalHitDamage", targetData.finalHitDamage);            
+        }
             
         //Hiting...
-        targetData.hitPoints = target.system.characteristics.secondary.hp.value;
-        targetData.finalHitPoints = targetData.hitPoints - targetData.finalHitDamage;
-            if (noDamage) targetData.finalHitPoints = targetData.hitPoints;
-        let characteristicsUpdate = { secondary: { hp: { value: targetData.finalHitPoints }}};
+        let characteristicsUpdate = {};
+        if (!bToShield) {
+            targetData.hitPoints = target.system.characteristics.secondary.hp.value;
+            targetData.finalHitPoints = targetData.hitPoints - targetData.finalHitDamage;
+                if (noDamage) targetData.finalHitPoints = targetData.hitPoints;
+            characteristicsUpdate = { secondary: { hp: { value: targetData.finalHitPoints }}};
 
-        this.msgHistory("common.hitPoints", targetData.hitPoints);
-        this.msgHistory("common.finalHitPoints", targetData.finalHitPoints);
+            this.msgHistory("common.hitPoints", targetData.hitPoints);
+            this.msgHistory("common.finalHitPoints", targetData.finalHitPoints);
+        }
 
         //Armor damage
         let armorDataUpdate = {};
-        if ((armor) && (!noDamage) && (!bShieldAbs)) {
+        if ((armor) && (!noDamage) && (!bShieldAbs) && (!bToShield)) {
             targetData.armor.armorDamage = eval(targetData.endurance + targetData.armor.modEndurance);
             targetData.armor.finalEndurance = Number(targetData.armor.endurance) - targetData.armor.armorDamage;
                 if (targetData.armor.finalEndurance < 0) targetData.armor.finalEndurance = 0;
@@ -1687,7 +2669,7 @@ export class aqContext {
         }
 
         //Shield Damage
-        if (this._shieldedTarget) {
+        if ((this._shieldedTarget) || (bToShield)) {
             let nShieldEndurance = Number(shield.system.endurance) - this._damagePoints;
             if (nShieldEndurance < 0) nShieldEndurance = 0;
 
@@ -1708,7 +2690,7 @@ export class aqContext {
 
         //Concentration penalization
         let magicUpdate = {};
-        if (!noDamage) {
+        if ((!noDamage) && (!bToShield)) {
             targetData.concentration = Number(target.system.magic.penal.concentration);
             targetData.concentrationPenal =  targetData.finalHitDamage*10;
             targetData.finalConcentration = targetData.concentration - targetData.finalHitDamage*10;
@@ -1722,25 +2704,28 @@ export class aqContext {
         }
 
         //Damage x Endurance
-        if ((!this._noAction) && (this._action.system.damage.damageXendurance)) {
+        if ((!this._noAction) && (this._action.system.damage.damageXendurance) && (!bToShield)) {
             if (targetData.finalHitDamage >= target.system.characteristics.primary.end.value) {
                 const stunMode = Array.from(await game.packs.get('conventum.modes'))
                                       .filter(e => e.system.stun)[0];
-                if (!this._modes.find(stunMode.id)) {
+                if ( (this._modes.length === 0) ||
+                      !(this._modes.find(s => s === stunMode.id)) ) {
                     this._modes.push(stunMode.id);
                 }
             }
         }
 
         //Updating...
-        await helperSocket.update(target, {
-            system: {
-                characteristics: characteristicsUpdate,
-                armor: armorDataUpdate,
-                magic: magicUpdate,
-                modes: this._modes
-            }
-        });
+        if (!bToShield) {
+            await helperSocket.update(target, {
+                system: {
+                    characteristics: characteristicsUpdate,
+                    armor: armorDataUpdate,
+                    magic: magicUpdate,
+                    modes: this._modes
+                }
+            });
+        }
 
         //Hit Message
         let message = await helperMessages.chatMessage(
@@ -1796,7 +2781,7 @@ export class aqContext {
         //Mounted target...
         if ((this._action) && (this._action.system.damage.target.mount)) {
             target = this._getMount(targetId);
-        }
+        }     
 
         return target;
     }
@@ -1808,6 +2793,7 @@ export class aqContext {
     async _getDamageLocation(targetId) {
 
         let target = this._targetsDamage[targetId].target;
+        let bToShield = ((this._action) && (this._action.system.damage.target.shield));
 
         //Locations map
         const mapLocations = await this._getMapLocations(target.type);
@@ -1818,7 +2804,7 @@ export class aqContext {
             const sDice = '1d10';
             let lRoll = new Roll(sDice, {});
             lRoll.evaluate({async: false});
-            if (game.dice3d)
+            if ((game.dice3d) && (!bToShield))
                 await game.dice3d.showForRoll(lRoll);
 
             this._targetsDamage[targetId].location =            

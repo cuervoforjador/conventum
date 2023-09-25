@@ -7,6 +7,9 @@ import { helperSheetItem } from "../helpers/helperSheetItem.js";
 import { helperSheetCombat } from "../helpers/helperSheetCombat.js";
 import { helperActions } from "../helpers/helperActions.js";
 import { helperSocket } from "../../helpers/helperSocket.js";
+import { aqActions } from "../../actions/aqActions.js";
+import { aqCombat } from "../../actions/aqCombat.js";
+import { aqContext } from "../../actions/aqContext.js";
 
 export class extendSheetActionPool extends ItemSheet {
 
@@ -21,7 +24,7 @@ export class extendSheetActionPool extends ItemSheet {
       classes: [game.system.id, "sheet", "item"],
       template: CONFIG._root+"/templates/actionPool.html",
       width: 400,
-      height: 500,
+      height: 650,
       tabs: [
         {navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "main"}
       ],       
@@ -66,6 +69,8 @@ export class extendSheetActionPool extends ItemSheet {
 
     html.find("li._combatant").click(this._showActor.bind(this));
     html.find("a._verb").click(this._verb.bind(this));  
+    html.find("a._verb").click(this._verb.bind(this));  
+    html.find("a._menuButton").click(this._menuVerb.bind(this));  
 
     $('ul._steps').sortable({
       item: 'li.step',
@@ -89,6 +94,46 @@ export class extendSheetActionPool extends ItemSheet {
     oActor.sheet.render(true, {
       editable: game.user.isGM
     });    
+  }
+
+  // _menuVerb
+  async _menuVerb(event) {
+    event.preventDefault();
+    const sVerb = event.currentTarget?.dataset.verb;
+    let mSteps = this.item.system.steps;
+    let mHistory = this.item.system.history;
+    let nAssaultId = this.item.system.assaultId;
+    let combat = aqActions.getCurrentCombat();
+
+    if (sVerb === 'reset') {
+        await this.item.update({
+          system: { steps: [] }
+        });  
+        helperSocket.refreshSheets();      
+    }   
+
+    if (sVerb === 'next') {
+        if (mSteps.length === 0) return;
+        mSteps.map(step => {
+          mHistory.push({...step,
+             ...{
+              assaultId: nAssaultId
+             }
+          });
+        });
+        await this.item.update({
+          system: { steps: [],
+                    history: mHistory,
+                    assaultId: nAssaultId+1 }
+        });       
+        helperSocket.refreshSheets();   
+        await combat.resetAll();
+    }
+
+    if (sVerb === 'reRoll') {
+      await combat.rollAll();
+    }
+
   }
 
   // _verb

@@ -5,18 +5,7 @@
     {{> itemFrame }}
     
     {{!-- HEADER --}}
-    <itemHeader>
-             
-        {{!-- Filigrees --}}
-        <inkDetail class="inkCorner"></inkDetail>
-        <inkDetail class="inkSubline"></inkDetail>
-
-        {{!-- Image --}}
-        <itemImage>
-            <img src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
-        </itemImage>
-
-        {{!-- Header Info --}}
+    <itemHeader class="_chrome">
         <itemHeaderInfo>
             <itemTitle>
                 <input type="text" name="name" value="{{item.name}}" placeholder=""/>
@@ -31,13 +20,7 @@
                                         nameAttr="id"
                                         labelAttr="name" }}
                     </select>
-                </hbox>  
-                <hbox class="_100">
-                    <nav class="sheet-tabs itemTabsHeader" data-group="primary">
-                        <a data-tab="main">{{ localize "common.mode" }}</a>
-                        <a data-tab="description">{{ localize "common.description" }}</a>
-                    </nav>
-                </hbox>                                                                        
+                </hbox>                                                                         
             </itemSubHeader>
         </itemHeaderInfo>
     </itemHeader> 
@@ -45,21 +28,34 @@
     {{!-- CONTENT --}}
     <itemContent>
 
+        <hbox class="_100">
+            <nav class="sheet-tabs itemTabsHeader" data-group="primary">
+                <a data-tab="main">{{ localize "common.mode" }}</a>
+                <a data-tab="description">{{ localize "common.description" }}</a>
+            </nav>
+        </hbox> 
+
         <div class="frameContent">
             <section class="sheet-body" style="padding-right: 15px">
-                <div class="tab main" data-group="primary" data-tab="main">
 
-                    <hbox class="_mod _100">  
+            <div class="tab main" data-group="primary" data-tab="main">
+                <slidePanel class="_100">
+                    <panelContent>
+                    <div class="_100" style="display: flex; flex-wrap: wrap;">
+
+                    <hbox class="_50">  
                         <label class="_80px">{{localize "common.nature" }}</label>
-                        <select name="system.utility" style="margin-right: 10px;">
+                        <select name="system.utility" style="margin-left: 10px;">
                             {{selectOptions backend.componentUtility 
                                             selected=systemData.utility
                                             localize=false
                                             nameAttr="id"
                                             labelAttr="name" }}
-                        </select>    
+                        </select>   
+                    </hbox>
+                    <hbox class="_50">   
                         <label class="_80px">{{localize "common.location" }}</label>
-                        <select name="system.location">
+                        <select name="system.location" style="margin-left: 10px;">
                             {{selectOptions backend.componentLocation
                                             selected=systemData.location
                                             localize=false
@@ -67,17 +63,19 @@
                                             labelAttr="name" }}
                         </select>                              
                     </hbox>
-                    <hbox class="_mod _100">  
+                    <hbox class="_50">  
                         <label class="_80px">{{localize "common.potential" }}</label>
-                        <select name="system.potential" style="margin-right: 10px;">
+                        <select name="system.potential" style="margin-left: 10px;">
                             {{selectOptions backend.componentPotential 
                                             selected=systemData.potential
                                             localize=false
                                             nameAttr="id"
                                             labelAttr="name" }}
-                        </select>    
+                        </select> 
+                    </hbox>
+                    <hbox class="_50">                             
                         <label class="_80px">{{localize "common.place" }}</label>
-                        <select name="system.place">
+                        <select name="system.place" style="margin-left: 10px;">
                             {{selectOptions backend.componentPlace
                                             selected=systemData.place
                                             localize=false
@@ -85,25 +83,29 @@
                                             labelAttr="name" }}
                         </select>                              
                     </hbox>
-                    <hbox class="_mod _100">
+                    <hbox class="_50">  
                         <label class="_80px">{{localize "common.penal" }} (Manual)</label>
                         <input class="_80px" 
                                 name="system.mod0"
                                 value="{{systemData.mod0}}" 
                                 type="text" /> 
+                    </hbox>
+                    <hbox class="_50">                                  
                         <label class="_80px">{{localize "common.modWitchcraft"}} (Manual)</label>
                         <input class="_80px" 
                                 name="system.witchcraft0"
                                 value="{{systemData.witchcraft0}}" 
                                 type="text" />                                                         
                     </hbox>
-                    <hbox class="_mod _100">
+                    <hbox class="_50">  
                         <label class="_80px">{{localize "common.penal" }}</label>
                         <input class="_80px" 
                                 disabled
                                 name="system.mod"
                                 value="{{systemData.mod}}" 
                                 type="text" /> 
+                    </hbox>
+                    <hbox class="_50">                                  
                         <label class="_80px">{{localize "common.modWitchcraft" }}</label>
                         <input class="_80px" 
                                 disabled
@@ -112,10 +114,23 @@
                                 type="text" />                                                         
                     </hbox>                    
 
-                </div>
-                <div class="tab description" data-group="primary" data-tab="description">
+                    </div>
+                    </panelContent>
+                </slidePanel>
+            </div>
+
+            {{!--- DESCRIPTION & IMAGE ---}}
+            <div class="tab description" data-group="primary" data-tab="description">
+            <slidePanel class="_100">
+                <panelContent>
+                    <itemImage>
+                        <img src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+                    </itemImage>                                    
                     {{> itemDescription }}
-                </div>                
+                </panelContent>
+            </slidePanel>
+            </div> 
+
             </section>
         </div>
 

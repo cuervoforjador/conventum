@@ -186,10 +186,18 @@ export class mainBackend {
     /**
      * Compendium Backend For Modes Items...
      */
-    static async getBackendForMode() {
+    static async getBackendForMode(systemData) {
         return {
             worlds: await game.packs.get("conventum.worlds").getDocuments(),
             actorTypes: this._getActorTypes(),
+            weaponTypes: this._getWeaponTypes(),
+            weaponSizes: this._getWeaponSizes(),
+            skills: await this._getSkills(systemData.control.world, true),
+            characteristics: this._getCharacteristics('primary', true),
+            secondaries: this._getCharacteristics('secondary', true),
+            combatSkills: await this._getCombatSkills(systemData.control.world, true),
+            modes: await this._getModes(systemData.control.world),
+            locations: await this._getLocations(systemData.control.world, systemData.config.location.actorType),
             activeEffects: this._getActiveEffects()
         };
     }    
@@ -290,6 +298,7 @@ export class mainBackend {
         return {
             worlds: await game.packs.get("conventum.worlds").getDocuments(),
             characteristics: this._getCharacteristics('primary', true),
+            secondaries: this._getCharacteristics('secondary', true),
             actorTypes: this._getActorTypes(),
             weaponTypes: this._getWeaponTypes(),
             weaponSizes: this._getWeaponSizes(),

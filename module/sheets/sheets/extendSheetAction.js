@@ -17,7 +17,7 @@ export class extendSheetAction extends ItemSheet {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: [game.system.id, "sheet", "item"],
       template: CONFIG._root+"/templates/action.html",
-      width: 900,
+      width: 700,
       height: 640,
       tabs: [
         {navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "type"}
@@ -39,8 +39,15 @@ export class extendSheetAction extends ItemSheet {
 
     //Mechanics...
     let systemData = context.systemData;
-    if ( (!systemData.type.attack) && (!systemData.type.defense) )
+    if ( (!systemData.type.attack) && (!systemData.type.defense) &&
+         (!systemData.type.movement) && (!systemData.type.spell) )
       systemData.type.attack = true;
+
+    if (systemData.type.movement) {
+      systemData.type.attack = false;
+      systemData.type.defense = false;
+      systemData.type.spell = false;
+    }
 
     if ( (!systemData.type.step1) && (!systemData.type.step2) )
       systemData.type.step1 = true;

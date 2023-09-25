@@ -14,9 +14,10 @@ export class helperMessages {
      * @param {string} sFrame 
      * @param {string} sHeight 
      */
-    static chatMessage(sContent, actor, bSimpleText, sFrame, sHeight) {
+    static chatMessage(sContent, actor, bSimpleText, sFrame, sHeight, big) {
         sFrame = (sFrame) ? sFrame : actor.system.control.frame.toString();
-        sHeight = (sHeight) ? sHeight : '140px';
+        sHeight = (sHeight) ? sHeight : '154px';
+        const chatFrame = big ? 'chatFrame2' : 'chatFrame';
 
         if (bSimpleText) 
             sContent = '<div class="_messageFrame">'+
@@ -33,7 +34,7 @@ export class helperMessages {
                             '<div class="_chatShadow"></div>'+
                             '<div class="_chatFrame"'+
                                 ' style="background: url(/systems/conventum/image/frame/'+
-                                    sFrame + '/chatFrame.png)"></div>'+
+                                    sFrame + '/'+chatFrame+'.png)"></div>'+
                             '<div class="_chatContent">'+sContent+'</div>'+                        
                         '</div>' });
         

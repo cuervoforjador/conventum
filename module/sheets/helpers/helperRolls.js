@@ -64,8 +64,12 @@ export class helperRolls {
       if (actor.system.characteristics.primary[charId])
           rollData = eval( actor.system.characteristics.primary[charId].value.toString() 
                                                                               + sMod.replace('x', '*'));
-      if (actor.system.characteristics.secondary[charId])
-          rollData = eval( actor.system.characteristics.secondary[charId].value.toString());                                                                            
+      if (actor.system.characteristics.secondary[charId]) {
+          if (charId === 'luck') {
+            rollData = eval( actor.system.characteristics.secondary[charId].initial.toString());
+          } else 
+            rollData = eval( actor.system.characteristics.secondary[charId].value.toString());
+      }
       
       if (oWorld.system.config.rolls.charAndLevels)
         helperRolls._dialogLevel(actor, sPath, rollData, '1d100', null, sMod);
@@ -266,7 +270,7 @@ export class helperRolls {
 
       //Chat Message
       const sContent = helperRolls._getMessageRoll(actor, sPath, roll, result, sValueMod, oLevel, sMod2);
-      helperMessages.chatMessage(sContent, actor, false, '', '140px');
+      helperMessages.chatMessage(sContent, actor, false, '', '154px');
 
       //Consuming action
       if (action) {
@@ -697,10 +701,10 @@ export class helperRolls {
                         '<div class="_success">'+game.i18n.localize("common.success")+'</div>' :
                         '<div class="_failed">'+game.i18n.localize("common.failed")+'</div>' ;
 
-      sReturn += (result.critSuccess) ?
-                        '<div class="_critSuccess">'+game.i18n.localize("common.rollCriticalSuccess")+'</div>' : '';
-      sReturn += (result.critFailure) ?
-                        '<div class="_critFailure">'+game.i18n.localize("common.rollCriticalFailure")+'</div>' : '';
+      if (result._successCrit)
+        return '<div class="_successCrit">'+game.i18n.localize("common.rollCriticalSuccess")+'</div>' ;                        
+      if (result.critFailure)
+        return '<div class="_failedCrit">'+game.i18n.localize("common.rollCriticalFailure")+'</div>' ;
 
       return sReturn;
     }    

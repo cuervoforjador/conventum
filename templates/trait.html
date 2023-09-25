@@ -5,18 +5,7 @@
     {{> itemFrame }}
     
     {{!-- HEADER --}}
-    <itemHeader>
-             
-        {{!-- Filigrees --}}
-        <inkDetail class="inkCorner"></inkDetail>
-        <inkDetail class="inkSubline"></inkDetail>
-
-        {{!-- Image --}}
-        <itemImage>
-            <img src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
-        </itemImage>
-
-        {{!-- Header Info --}}
+    <itemHeader class="_chrome">
         <itemHeaderInfo>
             <itemTitle>
                 <input type="text" name="name" value="{{item.name}}" placeholder=""/>
@@ -33,7 +22,7 @@
                     </select>
                 </hbox>
                 <hbox class="_subHeaderHBox">
-                    <label class="_50">{{localize "common.range" }}</label>
+                    <label>{{localize "common.range" }}</label>
                     <hbox>
                         <input class="_30px" type="text" 
                             style="margin-right: 5px; text-align: center;"
@@ -47,85 +36,104 @@
                             value="{{systemData.range.high}}"
                             data-dtype="Number" />
                     </hbox>
-                </hbox>                
-                <hbox class="_100">
-                    <nav class="sheet-tabs itemTabsHeader" data-group="traitTabs">
-                        <a data-tab="main">{{ localize "common.description" }}</a>
-                        <a data-tab="mod">{{ localize "common.mod" }}</a>
-                    </nav>
-                </hbox>              
+                </hbox>                             
             </itemSubHeader>
         </itemHeaderInfo>
     </itemHeader> 
     
     {{!-- CONTENT --}}
     <itemContent>
-
+        <hbox class="_100">
+            <nav class="sheet-tabs itemTabsHeader" data-group="primary">
+                <a data-tab="description">{{ localize "common.description" }}</a>
+                <a data-tab="mod">{{ localize "common.mod" }}</a>
+            </nav>
+        </hbox> 
         <div class="frameContent">
             <section class="sheet-body">
-                {{!- Description -}}
-                <div class="tab main" data-group="traitTabs" data-tab="main">
-                    {{> itemDescription }}
-                </div>
 
-                {{!- Mods -}}
-                <div class="tab mod" data-group="traitTabs" data-tab="mod">
-                    
-                    <hbox class="_mod">
-                        <label>{{localize "common.skill" }}</label>
-                        <select name="system.mod.skill.id"  style="margin-right: 10px;">
-                            {{selectOptions backend.skills 
-                                            selected=systemData.mod.skill.id
-                                            localize=false
-                                            nameAttr="id"
-                                            labelAttr="name" }}
-                        </select>
-                        <input type="text" 
-                               name="system.mod.skill.bono"
-                               value="{{systemData.mod.skill.bono}}" />
-                        <label class="switch" style="margin-right: -16px;">
-                            <input type="checkbox" 
-                                name="system.mod.skill.apply" 
-                                {{checked systemData.mod.skill.apply}} />
-                            <span class="sliderSwitch"></span>
-                        </label>                                                  
-                    </hbox>
+                {{!--- DESCRIPTION & IMAGE ---}}
+                <div class="tab description" data-group="primary" data-tab="description">
+                <slidePanel class="_100">
+                    <panelContent>
+                        <itemImage>
+                            <img src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+                        </itemImage>                                    
+                        {{> itemDescription }}
+                    </panelContent>
+                </slidePanel>
+                </div> 
 
-                    <hbox class="_mod">
-                        <label>{{localize "common.combatSkill" }}</label>
-                        <div class="_mute"></div>
-                        <input type="text" 
-                               name="system.mod.combatSkill.bono"
-                               value="{{systemData.mod.combatSkill.bono}}" />
-                        <label class="switch" style="margin-right: -16px;">
-                            <input type="checkbox" 
-                                name="system.mod.combatSkill.apply" 
-                                {{checked systemData.mod.combatSkill.apply}} />
-                            <span class="sliderSwitch"></span>
-                        </label>                                                  
-                    </hbox>                    
+                {{!--- MOD ---}}
+                <div class="tab mod" data-group="primary" data-tab="mod">
+                <slidePanel class="_100">
+                    <panelContent>
 
-                    <hbox class="_mod">
-                        <label>{{localize "common.characteristic" }}</label>
-                        <select name="system.mod.characteristic.id" style="margin-right: 10px;">
-                            {{selectOptions backend.characteristics 
-                                            selected=systemData.mod.characteristic.id
-                                            localize=false
-                                            nameAttr="id"
-                                            labelAttr="name" }}
-                        </select>
-                        <input type="text" 
-                               name="system.mod.characteristic.bono"
-                               value="{{systemData.mod.characteristic.bono}}" />        
-                        <label class="switch" style="margin-right: -16px;">
-                            <input type="checkbox" 
-                                name="system.mod.characteristic.apply" 
-                                {{checked systemData.mod.characteristic.apply}} />
-                            <span class="sliderSwitch"></span>
-                        </label>                                                 
-                    </hbox>                    
+                        <h3 class="_100">{{localize "common.skill"}}</h3>
+                        <hbox class="_50">  
+                            <label class="_150px">{{localize "common.apply" }}</label>                      
+                            <label class="switch" style="margin-right: -16px;">
+                                <input type="checkbox" 
+                                    name="system.mod.skill.apply" 
+                                    {{checked systemData.mod.skill.apply}} />
+                                <span class="sliderSwitch"></span>
+                            </label>                                         
+                        </hbox>                        
+                        <hbox class="_50">
+                        </hbox> 
 
-                </div>                           
+                        <hbox class="_50">                            
+                            <label class="_150px">{{localize "common.skill" }}</label>
+                            <select name="system.mod.skill.id"  style="margin-right: 10px;">
+                                {{selectOptions backend.skills 
+                                                selected=systemData.mod.skill.id
+                                                localize=false
+                                                nameAttr="id"
+                                                labelAttr="name" }}
+                            </select>
+                        </hbox>
+                        <hbox class="_50">
+                            <label class="_150px">{{localize "common.mod" }}</label>
+                            <input type="text" 
+                                    class="_100px"
+                                    name="system.mod.skill.bono"
+                                    value="{{systemData.mod.skill.bono}}" />
+                        </hbox>
+       
+                        <h3 class="_100">{{localize "common.characteristic"}}</h3>
+                        <hbox class="_50">  
+                            <label class="_150px">{{localize "common.apply" }}</label>                                       
+                            <label class="switch" style="margin-right: -16px;">
+                                <input type="checkbox" 
+                                    name="system.mod.characteristic.apply" 
+                                    {{checked systemData.mod.characteristic.apply}} />
+                                <span class="sliderSwitch"></span>
+                            </label> 
+                        </hbox>
+                        <hbox class="_50">                                                                             
+                        </hbox>                        
+                        <hbox class="_50">
+                            <label class="_150px">{{localize "common.characteristic" }}</label>
+                            <select name="system.mod.characteristic.id" style="margin-right: 10px;">
+                                {{selectOptions backend.characteristics 
+                                                selected=systemData.mod.characteristic.id
+                                                localize=false
+                                                nameAttr="id"
+                                                labelAttr="name" }}
+                            </select>
+                        </hbox>
+                        <hbox class="_50">   
+                            <label class="_150px">{{localize "common.mod" }}</label>                         
+                            <input type="text" 
+                                   class="_100px"
+                                   name="system.mod.characteristic.bono"
+                                   value="{{systemData.mod.characteristic.bono}}" />  
+                        </hbox>
+ 
+                    </panelContent>
+                </slidePanel>
+                </div>    
+
             </section>
         </div>
 

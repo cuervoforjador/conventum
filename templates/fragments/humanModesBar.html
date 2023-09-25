@@ -1,21 +1,33 @@
-<div class="_modesBar">
-    
+{{#if imMaster}}
+<div class="_showBarModes">
+     <a class="_showBarModes">
+          <hbox><label>
+               {{localize 'common.showBarModes'}}
+          </label></hbox>
+     </a>
+</div>
+<div class="_modesBar" style="display: none;">
+     <div class="_headerBar">
+          <a class="_closeModesBar">
+               <div class="_button">X</div>
+          </a>
+     </div>
      <ul class="_wrapModesBar">
      {{#each modes as |mode id|}}
-          <li>
-               {{#if ../imMaster}}
+          <li class="{{modeClassActive mode}}">
                <a class="_mode" data-modeid="{{mode._id}}">
-               {{/if}}
                     {{#if (modeVisible mode)}}
                     <img class="_quickButton {{modeClassActive mode}}" 
                          title="{{mode.name}}"
                          src="{{mode.img}}" />
                     {{/if}}
-               {{#if ../imMaster}}
                </a>
+               {{#if (modeVisible mode)}}
+               <label class="_modeBarLabel">{{mode.name}}</label>
                {{/if}}
           </li>
      {{/each}}
      </ul>
 
 </div>
+{{/if}}

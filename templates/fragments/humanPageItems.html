@@ -166,6 +166,17 @@
             <div class="actorItems">
                 {{!-- ACTIONS --}}
                 <h1 class="_sectionTitle" style="padding-left: 14px">{{localize "common.actions"}}</h1>
+
+                {{#if imMaster}}
+                <ul class="_poolMenu">
+                   <a class="_menuButton synchActions" >
+                   <li class="_button">   
+                        <label>{{localize "common.synchActions"}}</label>
+                   </li>               
+                   </a>                  
+                </ul>
+                {{/if}}
+
                 <ol class="itemList">
                     {{#each items as |item id|}}
                     {{#if (itemType item 'action') }}

@@ -1,52 +1,264 @@
-{{!-- Modes --}}
-
+{{!-- MAIN --}}
+<div class="tab main" data-group="primary" data-tab="main">
 <slidePanel class="_100">
+    <panelContent>
 
-    <hbox class="_mod">
-        <label class="_120px">{{localize "common.actorType" }}</label>
-        <select name="system.actorType">
-            {{selectOptions backend.actorTypes 
-                            selected=systemData.actorType
-                            localize=false
-                            nameAttr="id"
-                            labelAttr="name" }}
-        </select>
-    </hbox>
-    <hbox class="_mod _50">
-        <label class="_120px">{{localize "common.luck"}}</label>
-        <label class="switch">
-            <input type="checkbox" 
-                name="system.luck"
-                {{checked systemData.luck}} />
-            <span class="sliderSwitch"></span>
-        </label>
-    </hbox>
-    <hbox class="_mod _50">
-        <label class="_120px">{{localize "common.stun"}}</label>
-        <label class="switch">
-            <input type="checkbox" 
-                name="system.stun"
-                {{checked systemData.stun}} />
-            <span class="sliderSwitch"></span>
-        </label>
-    </hbox>    
-    <hbox class="_mod">
-        <label class="_120px">{{localize "common.byMaster"}}</label>
-        <label class="switch">
-            <input type="checkbox" 
-                name="system.byMaster"
-                {{checked systemData.byMaster}} />
-            <span class="sliderSwitch"></span>
-        </label>
-    </hbox>        
-    <hbox class="_mod">
-        <label class="_120px">{{localize "common.activeEffect"}}</label>
-        <select name="system.effect">
-            {{selectOptions backend.activeEffects 
-                            selected=systemData.effect
-                            localize=false
-                            nameAttr="id"
-                            labelAttr="name" }}
-        </select>
-    </hbox> 
+        <hbox class="_mod">
+            <label class="_120px">{{localize "common.actorType" }}</label>
+            <select name="system.actorType">
+                {{selectOptions backend.actorTypes 
+                                selected=systemData.actorType
+                                localize=false
+                                nameAttr="id"
+                                labelAttr="name" }}
+            </select>
+        </hbox>  
+        <hbox class="_mod">
+            <label class="_120px">{{localize "common.byMaster"}}</label>
+            <label class="switch">
+                <input type="checkbox" 
+                    name="system.byMaster"
+                    {{checked systemData.byMaster}} />
+                <span class="sliderSwitch"></span>
+            </label>
+        </hbox>        
+        <hbox class="_mod">
+            <label class="_120px">{{localize "common.activeEffect"}}</label>
+            <select name="system.effect">
+                {{selectOptions backend.activeEffects 
+                                selected=systemData.effect
+                                localize=false
+                                nameAttr="id"
+                                labelAttr="name" }}
+            </select>
+        </hbox> 
+
+        <h3 class="_100">{{localize "common.specials"}}</h3>
+        <hbox class="_mod _50">
+            <label class="_120px">{{localize "common.luck"}}</label>
+            <label class="switch">
+                <input type="checkbox" 
+                    name="system.luck"
+                    {{checked systemData.luck}} />
+                <span class="sliderSwitch"></span>
+            </label>
+        </hbox>
+        <hbox class="_mod _50">
+            <label class="_120px">{{localize "common.stun"}}</label>
+            <label class="switch">
+                <input type="checkbox" 
+                    name="system.stun"
+                    {{checked systemData.stun}} />
+                <span class="sliderSwitch"></span>
+            </label>
+        </hbox>  
+        <hbox class="_mod _50">            
+            <label class="_150px">{{localize "common.permanent"}}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                    name="system.permanent" 
+                    {{checked systemData.permanent}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>                  
+    </panelContent>
+</slidePanel>    
+</div>
+
+{{!-- ITEM --}}
+<div class="tab item" data-group="primary" data-tab="item">
+<slidePanel class="_100">
+    <panelContent>
+
+        <hbox class="_100 _apply">
+            <label class="_150px _noMax">{{localize "common.applyConfig"}}</label>
+            <label class="switch _noMax" style="margin-right: 10px">
+                <input type="checkbox" 
+                    name="system.config.item.apply" 
+                    {{checked systemData.config.item.apply}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>
+
+        <h3 class="_100">{{localize "common.type"}}</h3>
+        {{#each backend.weaponTypes as |weaponType id|}}
+            <hbox class="_50">
+                <label class="_150px">{{weaponType.name}}</label>
+                <label class="switch" style="margin-right: 10px">
+                    <input type="checkbox" 
+                        name="system.config.item.weapon.type.{{weaponType.id}}" 
+                        {{checkedExtend 'systemData.config.item.weapon.type' weaponType.id ''}} />
+                    <span class="sliderSwitch"></span>
+                </label>     
+            </hbox>
+        {{/each}}
+
+
+        <h3 class="_100">{{localize "common.size"}}</h3>
+        <hbox class="_50">
+            <label class="_150px">{{localize "config.weaponSizeLight" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.config.item.weapon.size.light" 
+                        {{checked systemData.config.item.weapon.size.light}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>
+        <hbox class="_50">
+            <label class="_150px">{{localize "config.weaponSizeMiddle" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.config.item.weapon.size.middle" 
+                        {{checked systemData.config.item.weapon.size.middle}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>
+        <hbox class="_50">
+            <label class="_150px">{{localize "config.weaponSizeHeavy" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.config.item.weapon.size.heavy" 
+                        {{checked systemData.config.item.weapon.size.heavy}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>        
+
+    </panelContent>
 </slidePanel>
+</div>
+
+{{!-- COMBAT --}}
+<div class="tab combat" data-group="primary" data-tab="combat">
+<slidePanel class="_100">
+    <panelContent>
+
+        <h3 class="_100">{{localize "common.skill"}}</h3>
+
+        <hbox class="_100 _apply">
+            <label class="_150px _noMax">{{localize "common.applyConfig"}}</label>
+            <label class="switch _noMax" style="margin-right: 10px">
+                <input type="checkbox" 
+                    name="system.config.combatSkill.apply" 
+                    {{checked systemData.config.combatSkill.apply}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.modCombatSkill" }}</label>
+            <input class="_100px" 
+                   name="system.config.combatSkill.mod"
+                   value="{{systemData.config.combatSkill.mod}}" 
+                   data-dtype="Number"
+                   type="text" />            
+        </hbox>          
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.modSkillMult" }}</label>
+            <input class="_100px" 
+                   name="system.config.combatSkill.mult"
+                   value="{{systemData.config.combatSkill.mult}}" 
+                   data-dtype="Number"
+                   type="text" />            
+        </hbox>        
+
+
+        <h3 class="_100">{{localize "common.damage"}}</h3>
+        <hbox class="_100 _apply">
+            <label class="_150px _noMax">{{localize "common.applyConfig"}}</label>
+            <label class="switch _noMax" style="margin-right: 10px">
+                <input type="checkbox" 
+                    name="system.config.damage.apply" 
+                    {{checked systemData.config.damage.apply}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>             
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.modDamage" }}</label>
+            <input class="_100px" 
+                   name="system.config.damage.mod"
+                   value="{{systemData.config.damage.mod}}" 
+                   data-dtype="Number"
+                   type="text" />            
+        </hbox>  
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.multDamage" }}</label>
+            <input class="_100px" 
+                   name="system.config.damage.mult"
+                   value="{{systemData.config.damage.mult}}" 
+                   data-dtype="Number"
+                   type="text" />            
+        </hbox> 
+
+
+        <h3 class="_100">{{localize "common.action"}}</h3>
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.actionNoPoits"}}</label>
+            <label class="switch _noMax" style="margin-right: 10px">
+                <input type="checkbox" 
+                    name="system.config.noActionPoints" 
+                    {{checked systemData.config.noActionPoints}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>             
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.actionPoints" }}</label>
+            <input class="_100px" 
+                   name="system.config.actionPoints"
+                   value="{{systemData.config.actionPoints}}" 
+                   data-dtype="Number"
+                   type="text" />            
+        </hbox>  
+
+    </panelContent>
+</slidePanel>
+</div>
+
+{{!-- LOCATION --}}
+<div class="tab location" data-group="primary" data-tab="location">
+<slidePanel class="_100">
+    <panelContent>
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.actorType" }}</label>
+            <select name="system.config.location.actorType">
+                {{selectOptions backend.actorTypes 
+                                selected=systemData.config.location.actorType
+                                localize=false
+                                nameAttr="id"
+                                labelAttr="name" }}
+            </select>            
+        </hbox>         
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.shield" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.config.location.shield" 
+                        {{checked systemData.config.location.shield}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox> 
+        <lineDiv></lineDiv>
+        {{#each backend.locations as |localization id|}}           
+        <hbox class="_50">
+            <label class="_150px">{{locationValue localization._id 'name'}}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                    name="system.config.location.focusLocation.{{localization._id}}.apply" 
+                    {{checkedExtend 'systemData.config.location.focusLocation' localization._id 'apply'}} />
+                <span class="sliderSwitch"></span>
+            </label>
+        </hbox>
+        {{/each}}    
+    </panelContent>
+</slidePanel>
+</div>
+
+{{!--- DESCRIPTION & IMAGE ---}}
+<div class="tab description" data-group="primary" data-tab="description">
+<slidePanel class="_100">
+    <panelContent>
+        <itemImage>
+            <img src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+        </itemImage>                                    
+        {{> itemDescription }}
+    </panelContent>
+</slidePanel>
+</div> 

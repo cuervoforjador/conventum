@@ -6,13 +6,6 @@
     
     {{!-- HEADER --}}
     <itemHeader class="_chrome">
-             
-        {{!-- Image --}}
-        <itemImage>
-            <img src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
-        </itemImage>
-
-        {{!-- Header Info --}}
         <itemHeaderInfo>
             <itemTitle>
                 <input type="text" name="name" value="{{item.name}}" placeholder=""/>
@@ -27,39 +20,33 @@
                                         nameAttr="id"
                                         labelAttr="name" }}
                     </select>
-                </hbox>
-                <hbox class="_100">
-                    <nav class="sheet-tabs itemTabsHeader" data-group="primary">
-                        <a data-tab="main">{{ localize "common.weapon" }}</a>
-                        <a data-tab="requirement">{{ localize "common.weaponRequirements" }}</a>
-                        <a data-tab="damage">{{ localize "common.damage" }}</a>
-                        <a data-tab="range">{{ localize "common.weaponRange" }}</a>
-                        <a data-tab="shield">{{ localize "common.shield" }}</a>
-                        <a data-tab="rangeLocation">{{ localize "common.rangeLocation" }}</a>
-                        <a data-tab="penal">{{ localize "common.modificators" }}</a>
-                        <a data-tab="description">{{ localize "common.description" }}</a>
-                    </nav>
-                </hbox>              
+                </hbox>           
             </itemSubHeader>
-
-            {{!-- CONTENT --}}
-            <itemContent>
-        
-                <div class="frameContent">
-                    <section class="sheet-body">
-                        {{> itemExtendWeapon }}
-
-                        <div class="tab description" data-group="primary" data-tab="description">
-                            {{> itemDescription }}
-                        </div>                
-                    </section>
-                </div>
-        
-            </itemContent>            
-
-        </itemHeaderInfo>
-
+        </itemHeaderInfo> 
     </itemHeader> 
+
+    {{!-- CONTENT --}}
+    <itemContent>
+        <hbox class="_100">
+            <nav class="sheet-tabs itemTabsHeader" data-group="primary">
+                <a data-tab="main">{{ localize "common.weapon" }}</a>
+                <a data-tab="requirement">{{ localize "common.weaponRequirements" }}</a>
+                <a data-tab="damage">{{ localize "common.damage" }}</a>
+                <a data-tab="range">{{ localize "common.weaponRange" }}</a>
+                <a data-tab="shield">{{ localize "common.shield" }}</a>
+                <a data-tab="rangeLocation">{{ localize "common.rangeLocation" }}</a>
+                <a data-tab="penal">{{ localize "common.modificators" }}</a>
+                <a data-tab="description">{{ localize "common.description" }}</a>
+            </nav>
+        </hbox>           
+        <div class="frameContent">
+            <section class="sheet-body">
+                {{> itemExtendWeapon }}              
+            </section>
+        </div>
+
+    </itemContent>            
+
     
 {{!-- Molding ---}}
 <input name="system.control.mold"
