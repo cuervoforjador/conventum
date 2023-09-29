@@ -1,0 +1,222 @@
+{{!-- Combat Tab --}}
+<div class="tab actions" data-group="primary" data-tab="actions">
+    
+    <div class="_tabTitle">
+        <label>{{localize 'common.actions'}}</label>
+     </div>
+     
+    {{#if combatBackend.inCombats }}
+    <vbox class="_encountersBox" style="padding-bottom:10px;">
+        
+        {{#if combatBackend.inActiveCombat }}
+
+            {{#if actions.itsMyTurn }}
+            <label class="_captionCombat3" style="margin-left: 14px">
+                {{ localize "info.myTurn"}}:
+                <span class="_actionBold">{{actions.action.name}}</span>
+            </label>
+            {{else}}
+            <label class="_captionCombat32" style="margin-left: 14px">{{ localize "info.noMyTurn"}}</label>
+            {{/if}}            
+
+        {{else}}
+        <label class="_captionCombat32">{{ localize "info.inNoActiveCombat"}}</label>
+        {{/if}}
+        
+        {{!-- 
+        <ul class="_myCombats">
+            {{#each combats as |combat id|}}
+            <li class="_myCombat" >
+                <a class="_encounterInfo" data-itemId="{{combat.encounter._id}}">
+                    <img class="_encounter {{#unless combat.combat.active}} _alpha {{/unless}}" 
+                        src="{{combat.encounter.img}}" />
+                </a>
+            </li>
+            {{/each}}
+        </ul> 
+        --}}
+
+    </vbox>
+    {{else}}
+    <vbox class="_encountersBox">
+        <label class="_captionCombat4">{{ localize "info.inNoCombat"}}</label>
+    </vbox>
+    {{/if}}
+
+    {{!-- ACTIONS --}}
+    <div class="combatActions">
+
+        <div class="header-search searchAction">
+            <i class="fas fa-search"></i>
+            <input type="search" 
+                    class="searchAction"
+                    name="searchAction" 
+                    value="" 
+                    placeholder="{{localize 'common.search'}}" 
+                    autocomplete="off">
+        </div>
+
+        {{!-- MOVEMENT --}}   
+        <hbox class="actionBlock">
+            <h2>{{localize 'common.movement'}}</h2>
+            {{#if systemData.sheet.expandedA1}}
+                <a class="_sheetExpand" data-expand="expandedA1" data-visible="false">
+                    <i class="fas fa-angle-double-up"></i>
+                </a>
+            {{else}}
+                <a class="_sheetExpand" data-expand="expandedA1" data-visible="true">
+                    <i class="fas fa-angle-double-down"></i>
+                </a>
+            {{/if}}
+        </hbox>
+        {{#if systemData.sheet.expandedA1}}
+            <ul class="boxActions">
+            {{#each actionsItems as |action id|}}
+            {{#if action.system.type.movement}}
+                <li data-itemId="{{action._id}}"
+                    data-filter="{{action.name}}"
+                    class="boxAction">
+
+                    <hbox class="lineAction">
+                        <a class="_showMyItem" data-itemid="{{action._id}}">
+                            <img class="imgAction" title="{{localize 'common.showInfo'}}" src="{{action.img}}"/>
+                        </a>
+                        <a class="_doAction" data-itemid="{{action._id}}" >
+                            <label class="titleAction">{{action.name}}</label>
+                        </a>
+                    </hbox>
+                </li>
+            {{/if}}
+            {{/each}}
+            </ul>
+        {{/if}}            
+
+        {{!-- ATTACK --}}   
+        <hbox class="actionBlock">
+            <h2>{{localize 'common.actionAttack'}}</h2>
+            {{#if systemData.sheet.expandedA2}}
+                <a class="_sheetExpand" data-expand="expandedA2" data-visible="false">
+                    <i class="fas fa-angle-double-up"></i>
+                </a>
+            {{else}}
+                <a class="_sheetExpand" data-expand="expandedA2" data-visible="true">
+                    <i class="fas fa-angle-double-down"></i>
+                </a>
+            {{/if}}
+        </hbox>
+        {{#if systemData.sheet.expandedA2}}
+            <ul class="boxActions">
+            {{#each actionsItems as |action id|}}
+            {{#if action.system.type.attack}}
+                <li data-itemId="{{action._id}}"
+                    data-filter="{{action.name}}"
+                    class="boxAction">
+
+                    <hbox class="lineAction">
+                        <a class="_showMyItem" data-itemid="{{action._id}}">
+                            <img class="imgAction" src="{{action.img}}"/>
+                        </a>
+                        <a class="_doAction" data-itemid="{{action._id}}" >
+                            <label class="titleAction">{{action.name}}</label>
+                        </a>
+                    </hbox>
+                </li>
+            {{/if}}
+            {{/each}}
+            </ul>
+        {{/if}}
+
+        {{!-- DEFENSE --}}   
+        <hbox class="actionBlock">
+            <h2>{{localize 'common.actionDefense'}}</h2>
+            {{#if systemData.sheet.expandedA3}}
+                <a class="_sheetExpand" data-expand="expandedA3" data-visible="false">
+                    <i class="fas fa-angle-double-up"></i>
+                </a>
+            {{else}}
+                <a class="_sheetExpand" data-expand="expandedA3" data-visible="true">
+                    <i class="fas fa-angle-double-down"></i>
+                </a>
+            {{/if}}
+        </hbox>
+        {{#if systemData.sheet.expandedA3}}
+            <ul class="boxActions">
+            {{#each actionsItems as |action id|}}
+            {{#if action.system.type.defense}}
+                <li data-itemId="{{action._id}}"
+                    data-filter="{{action.name}}"
+                    class="boxAction">
+
+                    <hbox class="lineAction">
+                        <a class="_showMyItem" data-itemid="{{action._id}}">
+                            <img class="imgAction" src="{{action.img}}"/>
+                        </a>
+                        <a class="_doAction" data-itemid="{{action._id}}" >
+                            <label class="titleAction">{{action.name}}</label>
+                        </a>
+                    </hbox>
+                </li>
+            {{/if}}
+            {{/each}}
+            </ul>
+        {{/if}}
+        
+        {{!-- MAGIC --}}   
+        <hbox class="actionBlock">
+            <h2>{{localize 'common.actionSpells'}}</h2>
+            {{#if systemData.sheet.expandedA4}}
+                <a class="_sheetExpand" data-expand="expandedA4" data-visible="false">
+                    <i class="fas fa-angle-double-up"></i>
+                </a>
+            {{else}}
+                <a class="_sheetExpand" data-expand="expandedA4" data-visible="true">
+                    <i class="fas fa-angle-double-down"></i>
+                </a>
+            {{/if}}
+        </hbox>
+        {{#if systemData.sheet.expandedA4}}
+            <ul class="boxActions">
+            {{#each actionsItems as |action id|}}
+            {{#if action.system.type.spell}}
+                <li data-itemId="{{action._id}}"
+                    data-filter="{{action.name}}"
+                    class="boxAction">
+
+                    <hbox class="lineAction">
+                        <a class="_showMyItem" data-itemid="{{action._id}}">
+                            <img class="imgAction" src="{{action.img}}"/>
+                        </a>
+                        <a class="_doAction" data-itemid="{{action._id}}" >
+                            <label class="titleAction">{{action.name}}</label>
+                        </a>
+                    </hbox>
+                </li>
+            {{/if}}
+            {{/each}}
+            </ul>
+        {{/if}}            
+
+    <!--
+        <ul class="actorActions">
+        {{#each actionsItems as |action id|}}
+            
+            <li data-itemId="{{action._id}}"
+                data-filter="{{action.name}}"
+                class="boxAction">
+                <a class="_doAction" data-itemid="{{action._id}}" >
+                <vbox style="background: #FFF;">
+                    <img class="imgAction" src="{{action.img}}" />
+                    <label class="_actionTitle">{{action.name}}</label>
+                </vbox>
+                </a>
+                <a class="_showMyItem" data-itemId="{{action._id}}">
+                    <i class="fas fa-info"></i></a>                
+            </li>
+            
+        {{/each}}    
+        </ul>
+    -->
+
+    </div>
+
+</div>

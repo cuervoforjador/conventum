@@ -1,0 +1,652 @@
+.codice {
+    transition: opacity 0.4s 0.2s;
+  }
+  .codicePage {
+    width: 100px;
+    height: 100px;
+    background-color: #111111;
+    float: left;
+    margin-bottom: 0.5em;
+    background: left top no-repeat;
+    background-size: cover;
+  }
+  .codicePage:nth-child(even) {
+    clear: both;
+  }
+  .codice {
+    width: calc(200% - 43px);
+    height: calc(100% - 65px);
+    position: absolute;
+    z-index: 100000;
+    top: 44px;
+    left: calc( -100% + 29px );
+    background: url(../image/texture/codexBack.png);
+    background-size: 100% 100%;
+    padding-top: 8px;
+    padding-left: 8px;
+    rotate: 0.9deg;
+  }
+  .codice .codicePages {
+    width: calc(100% - 8px);
+    height: calc(100% - 8px);
+    position: relative;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    border-radius: 4px;
+    /*box-shadow: 0 0 0 1px #e3dfd8;*/
+  }
+  .codice .codicePage {
+    float: none;
+    clear: none;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    transform-origin: 0 0;
+    transition: transform 1.4s;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    cursor: pointer;
+    user-select: none;
+    /*background-color: #f0f0f0;*/
+    background: url(../image/texture/codexPageLeft.png);
+    background-size: 100% 100%;
+  }
+  .codice .codicePage:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0);
+    transition: background 0.7s;
+    z-index: 2;
+  }
+  .codice .codicePage:nth-child(odd) {
+    pointer-events: all;
+    transform: rotateY(0deg);
+    right: 0;
+    border-radius: 0 4px 4px 0;
+    background-image: linear-gradient(to right, rgba(0,0,0,.15) 0%, rgba(0,0,0,0) 10%);
+    box-shadow: 4px 0px 6px 0px #00000030;
+  }
+  .codice .codicePage:nth-child(even) {
+    pointer-events: all;
+    transform: rotateY(0deg);
+    right: 0;
+    border-radius: 0 4px 4px 0;
+    background-image: linear-gradient(to right, rgba(0,0,0,.15) 0%, rgba(0,0,0,0) 10%);
+    box-shadow: -4px 0px 6px 0px #00000030;
+  }  
+  .codice .codicePage:nth-child(odd) ._codexPaper {
+    width: 100%;
+    height: 100%;
+    background: url(../image/texture/codexPageRight.png);
+    background-size: 100% 100%;  
+    position: absolute;
+    top: 0px;
+    left: 0px;  
+    /* z-index: 10; */
+  }
+  .codice .codicePage:nth-child(odd) ._codexPaperShadow {
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(to right, rgba(0,0,0,.15) 0%, rgba(0,0,0,0) 10%);
+    background-size: 100% 100%;    
+    position: absolute;
+    top: 0px;
+    left: 0px;  
+    z-index: 100;  
+  }
+  .codice .codicePage:nth-child(even) ._codexPaper {
+    width: 100%;
+    height: 100%;
+    background: url(../image/texture/codexPageLeft.png);
+    background-size: 100% 100%;  
+    position: absolute;
+    top: 0px;
+    left: 0px;  
+    /* z-index: 10; */    
+  }
+  .codice .codicePage.flipped:nth-child(even) ._codexPaper {
+    background: url(../image/texture/codexPageLeft.png);
+    background-size: 100% 100%;  
+  }
+  .codice .codicePage.flipped:nth-child(even) ._codexPaperShadow {
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(to left, rgba(0,0,0,.25) 0%, rgba(0,0,0,0) 10%)!important;
+    background-size: 100% 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 100;
+  }  
+  .codice .codicePage:nth-child(even) ._codexPaperShadow {
+    z-index: 100;
+  }   
+  .codice .codicePage:nth-child(odd):hover {
+    transform: rotateY(-15deg);
+  }
+  .codice .codicePage:nth-child(odd):hover:before {
+    background: rgba(0, 0, 0, 0.03);
+  }
+  .codice .codicePage:nth-child(odd):before {
+    background: rgba(0, 0, 0, 0);
+  }
+  .codice .codicePage:nth-child(even) {
+    pointer-events: none;
+    transform: rotateY(180deg);
+    transform-origin: 100% 0;
+    left: 0;
+    border-radius: 4px 0 0 4px;
+    border-color: black;
+  }
+  .codice .codicePage:nth-child(even) ._codexPaperShadow {
+    background-image: linear-gradient(to left, rgba(0,0,0,.12) 0%, rgba(0,0,0,0) 10%);
+  }
+  .codice .codicePage:nth-child(even):before {
+    background: rgba(0, 0, 0, 0.2);
+  }
+  .codice .codicePage.grabbing {
+    transition: none;
+  }
+  .codice .codicePage.flipped:nth-child(odd) {
+    pointer-events: none;
+    transform: rotateY(-180deg);
+  }
+  .codice .codicePage.flipped:nth-child(odd):before {
+    background: rgba(0, 0, 0, 0.2);
+  }
+  .codice .codicePage.flipped:nth-child(even) {
+    pointer-events: all;
+    transform: rotateY(0deg);
+    width: 50%;
+    height: 100%;
+  }
+  .codice .codicePage.flipped:nth-child(even) ._codexPaper {
+    width: 100%;
+    height: 100%;
+    background: url(../image/texture/codexPageLeft.png);
+    background-size: 100% 100%;  
+  }
+  .codice .codicePage.flipped:nth-child(even):hover {
+    transform: rotateY(15deg);
+  }
+  .codice .codicePage.flipped:nth-child(even):hover:before {
+    background: rgba(0, 0, 0, 0.03);
+  }
+  .codice .codicePage.flipped:nth-child(even):before {
+    background: rgba(0, 0, 0, 0);
+  }
+  *,
+  * :before,
+  *:after {
+    box-sizing: border-box;
+  }
+  .codicePage:nth-child(odd){
+    background-position: right top;
+  }
+  
+  ._pageNumber {
+    position: absolute;
+    top: calc(100% - 34px);
+    left: calc(50% - 15px);
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+    line-height: 30px;
+    text-align: center;
+    z-index: 101;
+    font-family: var(--font-aq);
+    color: #1111119e;
+    font-weight: 900;
+}
+  
+
+._codiceMark._spellMark {
+  width: 40px;
+  width: 40px;
+  height: 90px;
+  padding: 5px;
+  background: url(/systems/conventum/image/texture/codiceBookMark01.png);
+  background-size: 100% 100%;
+  position: absolute;
+  left: calc(100% - 43px);
+  top: -37px;
+  rotate: 2deg;
+}
+._codiceMark._spellMark._post {
+  left: 6px;
+  height: 38px;
+  background-size: 100% 200%;
+}
+._codiceMark._ritualMark {
+  width: 40px;
+  height: 90px;
+  padding: 5px;
+  background: url(/systems/conventum/image/texture/codiceBookMark03.png);
+  background-size: 100% 100%;
+  position: absolute;
+  left: calc(100% - 77px);
+  top: -39px;
+  rotate: -2deg;
+}
+._codiceMark._ritualMark._post {
+  left: 39px;
+  height: 39px;
+  background-size: 100% 200%;
+}
+._codiceMark._salmosMark {
+  width: 40px;
+  height: 90px;
+  padding: 5px;
+  background: url(/systems/conventum/image/texture/codiceBookMark02.png);
+  background-size: 100% 100%;
+  position: absolute;
+  left: calc(100% - 114px);
+  top: -39px;
+  rotate: 1deg;
+}
+._codiceMark._salmosMark._post {
+  left: 74px;
+  height: 40px;
+  background-size: 100% 200%;
+}
+._codiceMark img {
+  width: 30px;
+  height: 30px;
+  border: 0px;
+}
+div#lockMarks {
+  /* background: #F00; */
+  height: 40px;
+  width: 122px;
+  position: absolute;
+  left: calc(100% - 128px);
+  top: -26px;
+  z-index: 1000;
+}
+div#lockMarksPost {
+  /* background: #F00; */
+  height: 40px;
+  width: 122px;
+  position: absolute;
+  left: 10px;
+  top: -30px;
+  z-index: 1000;
+}
+
+ul._magicItems {
+  margin: 0px;
+  padding: 0px;
+  position: absolute;
+  /* background: #F00; */
+  top: 13px;
+  left: 21px;
+  width: calc(100% - 40px);
+  height: calc(100% - 40px);
+  display: flex;
+  flex-wrap: wrap;
+}
+li._magicItem {
+  max-width: 50%;
+  width: 50%;
+  min-width: 50%;
+  max-height: 33%;
+  height: 33%;
+  min-height: 33%;  
+}
+._magicItem img._image {
+    width: 50px;
+    height: 50px;
+}
+._magicItem h3._title {
+  border: 0px;
+  width: calc(100% - 50px);
+  padding: 0px;
+  padding-left: 5px;
+  margin: 0px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.codicePage ._detail {
+  position: absolute;
+  top: 0px;
+  /* background: #F00; */
+  max-width: 100%;
+  width: 100%;
+  max-height: 100%;
+  /*height: calc(100% - 31px);*/
+  height: calc(100% - 80px);
+  overflow-y: auto;
+  padding: 20px;
+  font-family: var(--font-aq);
+  font-size: 14px;
+  line-height: 16px;
+  text-align: justify;
+}
+.codicePage ._detail ._title,
+.codicePage .actionIcon ._title {
+  line-height: 20px;
+  margin-bottom: 5px;
+  font-weight: 900;
+  width: calc(100% - 115px);
+  text-align: left!important;
+  /*
+  width: calc(100% - 115px);
+  min-width: calc(100% - 115px);
+  max-width: calc(100% - 115px);
+  */
+  border: none;  
+}
+.codicePage a.actionIcon {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 105;
+  width: calc(100% - 60px);
+}
+.codicePage:nth-child(even) a.actionIcon {
+  left: 145px;
+}
+.codicePage a.actionIcon ._title {
+  font-weight: 900;
+  width: calc(100% - 100px)!important;
+  text-align: left!important;
+}
+.codice .codicePage:nth-child(even) ._detail ._title {
+  width: calc(100%)!important;
+}
+
+
+.codicePage ._detail img._image {
+  width: 120px;
+  border: none;
+  margin: 0px;
+  border: 1px solid #33333396;
+  border-radius: 3px;
+}
+.codice .codicePage:nth-child(odd) ._detail img._image {
+  float: right;
+  margin-left: 5px;
+  margin-bottom: 5px;
+}
+.codice .codicePage:nth-child(even) ._detail img._image {
+  float: left;
+  margin-right: 5px;
+  margin-bottom: 5px;  
+}
+.codicePage ._detail label._detailed {
+  font-family: var(--font-aq);
+  font-size: 14px;
+  line-height: 16px;
+  text-align: left!important;
+  display: flex;
+}
+.codicePage ._detail h3._subTitle {
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+  font-size: 16px;
+  line-height: 18px;
+  margin-top: 5px;
+}
+
+.codicePage .boxActionSpell {
+  z-index: 101;
+  display: flex;
+  position: absolute;
+  top: calc(100% - 80px);
+  left: 5px;
+  height: 50px;
+  width: calc(100% - 10px);
+}
+.codicePage .boxActionSpell ._value img {
+  border: 0px;
+  width: 30px;
+}
+.codicePage .boxActionSpell ._value a.playSpell {
+  font-size: 40px;
+  font-weight: 900;
+  text-align: center;
+  display: flex;
+  position: absolute;
+  top: 0px;
+  left: calc(100% - 150px);
+  width: 100px;
+  height: 50px;
+  line-height: 50px;
+  z-index: 102;
+  justify-content: flex-end;
+}
+.codice .codicePage:nth-child(even) .boxActionSpell a.playSpell {
+  left: 60px;
+  display: flex;
+  justify-content: flex-start;
+  transition: 0.4s;
+}
+.codicePage .boxActionSpell ._value:hover a.playSpell {
+  text-shadow: 0px 0px 5px rgb(197, 33, 33), 0px 0px 5px rgb(169, 31, 31);
+}
+.codicePage .boxActionSpell ._value:hover img {
+  background: #7a474726;
+  border: 2px solid #cb1f1f63;
+  border-radius: 50%;
+}
+.codicePage .boxActionSpell ._value img {
+  border: 0px;
+  width: 40px;
+  position: absolute;
+  left: calc(100% - 0px);
+  top: 6px;
+}
+.codice .codicePage:nth-child(even) .boxActionSpell ._value img {
+  left: -44px;
+}
+.codicePage .boxActionSpell label._ptc {
+  font-size: 16px;
+  line-height: 20px;
+  display: flex;
+  position: absolute;
+  justify-content: flex-end;
+  align-items: center;
+  top: 24px;
+  left: calc(100% - 290px);
+  width: 150px;
+  font-family: var(--font-aq);
+}
+.codice .codicePage:nth-child(even) .boxActionSpell label._ptc {
+  left: 150px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.codicePage .boxActionSpell label._vis {
+  top: 8px;
+  left: 57px;
+  width: 75px;
+  height: 50px;
+  font-size: 16px;
+  line-height: 20px;
+  display: flex;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  font-family: var(--font-aq);
+  /* background: #ffffff30; */
+  /* border: 1px solid #33333357; */
+  border-top: 4px solid #33333326;
+  border-bottom: 4px solid #3333332e;
+  border-radius: 12px;
+}
+.codice .codicePage:nth-child(even) .boxActionSpell label._vis {
+  /* background: #F00; */
+  left: calc(100% - 132px);
+  top: 8px;
+}
+._vis span._visPoints {
+  font-size: 40px;
+  line-height: 40px;
+  display: flex;
+  font-weight: 900;
+  padding-left: 6px;
+}
+.codicePage .boxActionSpell label._penal {
+  background: #ffffff4d;
+  width: 50px;
+  line-height: 40px;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  font-size: 25px;
+  border: 1px solid #333;
+  border-radius: 20px;
+  position: absolute;
+  left: calc(100% - 110px);
+  top: 26px;
+}
+.codicePage ul._index {
+  display: flex;
+  z-index: 99;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: calc(100% - 0px);
+  overflow-y: auto;
+  padding: 48px;
+  padding-top: 141px;
+  margin: 0px;
+  flex-direction: column;
+  background: url(/systems/conventum/image/texture/indexFlg.png);
+  background-size: 100% 100%;
+}
+.codicePage ul._index li {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-aq);
+  margin-bottom: 2px;
+  font-size: 16px;
+}
+.codicePage ul._index label._title {
+  position: absolute;
+  top: 65px;
+  left: calc(50% - 80px);
+  font-size: 50px;
+  line-height: 50px;
+  font-family: var(--font-aq);
+}
+.codicePage ul._index label._title::first-letter {
+  font-size: 62px;
+  height: 80px;
+  padding-left: 20px;
+  padding-right: 20px;
+  background: #933535bd;
+  color: #fff;
+  border-radius: 2px;
+}
+.codicePage ._frontPage,
+.codicePage ._secondPage,
+.codicePage ._thirdPage {
+  position: absolute;
+  left: 0px;
+  height: 0px;
+  width: 100%;
+  height: 100%;
+  /* background: #F00; */
+  z-index: 90;
+}
+.codicePage ._frontPage {
+  background: url(/systems/conventum/image/texture/frontPage.png);
+  background-size: 100% 100%;  
+}
+.codicePage ._secondPage {
+  background: url(/systems/conventum/image/texture/secondPage.png);
+  background-size: 100% 100%;  
+}
+.codicePage ._thirdPage {
+  background: url(/systems/conventum/image/texture/thirdPage.png);
+  background-size: 100% 100%;  
+}
+.codice ._codicePenals {
+  z-index: 1;
+  position: absolute;
+  width: auto;
+  height: auto;
+  top: 38px;
+  left: 33px;
+  padding: 10px;
+  border: 2px solid #33333394;
+  border-radius: 3px;
+  background: #2e2a2ac4;
+  rotate: -2deg;
+}
+._codicePenals ._codicePenal {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  justify-content: flex-start;
+  height: 28px;
+}
+._codicePenals ._codicePenal label._title {
+  width: 100px;
+  font-size: 18px;
+  font-family: var(--font-aq);
+  text-align: right;
+  color: #ffffff94;
+}
+._codicePenals ._codicePenal label._title::first-letter {
+  font-size: 25px;
+}
+._codicePenals ._codicePenal input {
+  width: 60px;
+  height: 25px;
+  text-align: center;
+  border-radius: 2px!important;
+  border: 1px solid #333;
+  background: #ffffff45!important;
+  font-family: var(--font-aq);
+  font-size: 23px;
+  line-height: 22px;
+  padding-bottom: 4px;
+  font-weight: 900;  
+}
+.codicePage ._codicePenals {
+  z-index: 101;
+  position: absolute;
+  width: auto;
+  height: auto;
+  top: calc( 25% + 10px);
+  left: 25px;
+  padding: 10px;
+  border: 3px solid #333;
+  border-radius: 3px;
+  rotate: -1.8deg;
+  background: #e1b34438;
+}
+._codicePenals ._codicePenal label._title::first-letter {
+  color: #b73939;
+  font-weight: 900;
+}
+._codicePenal ._inputCoPenal img {
+  width: 25px;
+  height: 25px;
+  border: 0px;
+  margin-left: 4px;
+  margin-top: 2px;
+}
+._codicePenal ._inputCoPenal img:hover {
+  border: 2px solid #3333334d;
+  background: #ffffff87;
+  border-radius: 50%;
+}

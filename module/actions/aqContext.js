@@ -93,6 +93,7 @@ export class aqContext {
     _noCombat           =false
     _noWeapon           =false
     _noAction           =false
+    _useSpell           =false
     _defensive          =false
     _shielded           =false
     _shieldedTarget     =false
@@ -154,6 +155,7 @@ export class aqContext {
                     return;              
                 }
                 this.msgHistory("common.spell", this._spell.name);            
+                this._useSpell = true;
                 this._noCombat = true;
                 this._noAction = true;
             }
@@ -188,8 +190,9 @@ export class aqContext {
             if (this._weapon)
                 this.msgHistory("common.weapon", this._weapon.name);
             else
-                this._noWeapon =  ((this._action.system.skill.useSkill) &&
-                                   (!this._action.system.skill.skillAsCombat));
+                this._noWeapon =  ( (this._useSpell) || 
+                                    ((this._action.system.skill.useSkill) &&
+                                     (!this._action.system.skill.skillAsCombat)) );
 
             if (options.simulate) this._simulate = options.simulate;
 
@@ -289,6 +292,7 @@ export class aqContext {
             roll:               this._roll,
             noRoll:             this._noRoll,
             noWeapon:           this._noWeapon,
+            useSpell:           this._useSpell,
             actionConsumed:     this._actionConsumed,
         
             damageBase:         this._damageBase,
@@ -413,6 +417,8 @@ export class aqContext {
         this._roll = (oContext.roll) ? oContext.roll : this._roll;
         this._noRoll = (oContext.noRoll) ? oContext.noRoll : this._noRoll;
         this._noWeapon = (oContext.noWeapon) ? oContext.noWeapon : this._noWeapon; 
+        this._useSpell = (oContext.useSpell) ? oContext.useSpell : this._useSpell; 
+        
         this._actionConsumed = (oContext.actionConsumed) ? oContext.actionConsumed : this._actionConsumed;
         this._oppoRolls = (oContext.oppoRolls) ? oContext.oppoRolls : this._oppoRolls;
 
@@ -688,8 +694,11 @@ export class aqContext {
     async roll(roll) {
         this._roll = new Roll(this._rollFormula, {});
         this._roll.evaluate({async: false});
-        if ( (game.dice3d) &&
-                ((!this._noAction) && (!this._action.system.skill.autoSuccess)) )
+        if (    ( (game.dice3d) &&
+                    ((!this._noAction) && (!this._action.system.skill.autoSuccess)) ) ||
+                ( (game.dice3d) &&
+                    (this._useSpell) )
+           )
           await game.dice3d.showForRoll(this._roll, game.user, true);  
 
         await this._evalRoll();
@@ -742,6 +751,8 @@ export class aqContext {
             this._consolidate();                 
             await helperSocket.update(message2, {flags: Object.assign({}, this)});
         }
+
+        game.messages.directory.activate();
     }
 
     /**
@@ -1622,8 +1633,7 @@ export class aqContext {
      * _evalNoRoll
      */
     _evalNoRoll() {
-        this._noRoll = this._action.system.rolls.replaceRoll;
-
+        this._noRoll = (this._noAction) ? false : this._action.system.rolls.replaceRoll;
     }
 
     /**
@@ -1755,10 +1765,7 @@ export class aqContext {
             '<div class="_vertical">'+
                 '<div class="_title">'+this._actor.name+'</div>'+
                     '<a class="_infoSkill" data-itemId="'+this._skill.id+'">'+
-                        '<div class="_Img">'+
-                            '<img src="'+((this._skill.img !== undefined) ? 
-                                            this._skill.img : this._weapon.img )+'"/>'+
-                        '</div>'+
+                        this._getImageMessageContent()+
                     '</a>'+
                     '<div class="_skill">'+(sSkillName)+
                         ( ((!this._noAction) && 
@@ -1804,27 +1811,8 @@ export class aqContext {
             ) +   
 
         //--- Actions ---
-        ((!this._noAction) ?
-            '<div class="_actionTitle">' + 
-                ( (this._action.system.item.weapon.range) ? 
-                    '<div>' + this._action.name + '</div>' +
-                    '<div class="_targetDistance">' + 
-                        this._getTargetRange() +  ' - ' +
-                        this._getTargetDistance(false) + 
-                    '</div>' :
-                    this._action.name ) + 
-            '</div>'+            
-            '<div class="_actionImage">'+
-                '<a class="_showItem"'+
-                    ' data-itemid="' + this._action.id + '"'+
-                    ' data-actorid="' + this._actor.id + '">'+
-                        '<img src="' + this._action.img + '"/>'+
-                '</a>'+
-            '</div>' :
-
-            '<div class="_actionTitle"></div>'+
-            '<div class="_actionImage"></div>' )+
-
+        this._getActionBox()+
+        
         //--- Weapon ---
         this._getWeaponBox()+
 
@@ -1982,6 +1970,8 @@ export class aqContext {
         const nStr = this._actor.system.characteristics.primary.str.value;
         let sReturn = '';
 
+        if (this._useSpell) return '';
+
         if ( (!this._action.system.item.weapon.range) &&
              (!this._action.system.item.weapon.throw) )
                 return sReturn;
@@ -2059,7 +2049,7 @@ export class aqContext {
      * @returns 
      */    
     _getOpposedStats() {
-        if (!this._action.system.rolls.opposedRoll) return ;
+        if ((this._noAction) || (!this._action.system.rolls.opposedRoll)) return ;
 
         const enemy = this._getEnemy();
         
@@ -2117,6 +2107,68 @@ export class aqContext {
     }
 
     /**
+     * _getImageMessageContent
+     */
+    _getImageMessageContent() {
+
+        let img = '';
+        if (this._skill.img !== undefined) 
+            img = this._skill.img;
+        else if (this._weapon)
+            img = this._weapon.img;
+
+        if (this._useSpell) { 
+            img = "/systems/conventum/image/content/skills/magic.png";
+        }
+
+        return  '<div class="_Img">'+
+                    '<img src="'+img+'"/>'+
+                '</div>';
+    }
+
+    /**
+     * _getActionBox
+     */
+    _getActionBox() {
+
+        if (!this._noAction) {
+
+            return  '<div class="_actionTitle">' + 
+                        ( (this._action.system.item.weapon.range) ? 
+                            '<div>' + this._action.name + '</div>' +
+                            '<div class="_targetDistance">' + 
+                                this._getTargetRange() +  ' - ' +
+                                this._getTargetDistance(false) + 
+                            '</div>' :
+                            this._action.name ) + 
+                    '</div>'+            
+                    '<div class="_actionImage">'+
+                        '<a class="_showItem"'+
+                            ' data-itemid="' + this._action.id + '"'+
+                            ' data-actorid="' + this._actor.id + '">'+
+                                '<img src="' + this._action.img + '"/>'+
+                        '</a>'+
+                    '</div>';          
+        }
+        if (this._useSpell) {
+            
+            return  '<div class="_actionTitle">' + 
+                            this._spell.name + 
+                    '</div>'+            
+                    '<div class="_actionImage">'+
+                        '<a class="_showItem"'+
+                            ' data-itemid="' + this._spell.id + '"'+
+                            ' data-actorid="' + this._actor.id + '">'+
+                                '<img src="' + this._spell.img + '"/>'+
+                        '</a>'+
+                    '</div>';
+        }
+        return '<div class="_actionTitle"></div>'+
+               '<div class="_actionImage"></div>';
+
+    }
+
+    /**
      * _getWeaponBox
      */
     _getWeaponBox() {
@@ -2127,11 +2179,19 @@ export class aqContext {
                     '<div class="_name">'+ game.i18n.localize("common.skillRoll")+ '</div>') + 
                '</div>';
 
+        if (this._useSpell) {
+            return '<div class="_messageWeapon">'+   
+                        '<a class="_showItem" data-itemid="'+this._spell.id+'" data-actorid="'+this._actor.id+'">'+
+                            '<div class="_name">'+this._spell.name+'</div>'+ 
+                        '</a>'+  
+                    '</div>';
+        }
+
         return '<div class="_messageWeapon">'+
                     '<a class="_showItem" data-itemid="'+this._weapon.id+'" data-actorid="'+this._actor.id+'">'+
                         '<div class="_name">'+this._weapon.name +' ('+this._weapon.system.damage+')'+ '</div>'+ 
                     '</a>'+        
-                '</div>';        
+                '</div>';
     }
 
     /**
@@ -2470,10 +2530,11 @@ export class aqContext {
                 return;              
             } 
 
+            let newContent = undefined;
             let sToFind = $(message.content).find('._rollDamage ._name').parent().parent().html();
             if (sToFind !== undefined) {
                 const sToReplace = '';
-                let newContent = message.content.replace(sToFind, sToReplace);                
+                newContent = message.content.replace(sToFind, sToReplace);                
                 sToFind = sToFind.replace('.png">', '.png" />');
                 sToFind = sToFind.replaceAll('=""', '');
                 newContent = message.content.replace(sToFind, sToReplace);

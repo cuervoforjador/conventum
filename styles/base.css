@@ -588,48 +588,48 @@ a img {
 }
 ._30px {
     width: 30px;
-    min-width: 30px;
-    max-width: 30px;
+    min-width: 30px!important;
+    max-width: 30px!important;
 }
 ._40px {
     width: 40px;
-    min-width: 40px;
-    max-width: 40px;
+    min-width: 40px!important;
+    max-width: 40px!important;
 }
 ._50px {
     width: 50px;
-    min-width: 50px;
-    max-width: 50px;
+    min-width: 50px!important;
+    max-width: 50px!important;
 }
 ._60px {
     width: 60px;
-    min-width: 60px;
-    max-width: 60px;
+    min-width: 60px!important;
+    max-width: 60px!important;
 }
 ._70px {
     width: 70px;
-    min-width: 70px;
-    max-width: 70px;
+    min-width: 70px!important;
+    max-width: 70px!important;
 }
 ._80px {
     width: 80px;
-    min-width: 80px;
-    max-width: 80px;
+    min-width: 80px!important;
+    max-width: 80px!important;
 }
 ._90px {
     width: 90px;
-    min-width: 90px;
-    max-width: 90px;
+    min-width: 90px!important;
+    max-width: 90px!important;
 }
 ._100px {
     width: 100px;
-    min-width: 100px;
-    max-width: 100px;
+    min-width: 100px!important;
+    max-width: 100px!important;
 }
 ._120px {
     width: 120px;
-    min-width: 120px;
-    max-width: 120px;
+    min-width: 120px!important;
+    max-width: 120px!important;
 }
 
 ._normalText {

@@ -52,6 +52,12 @@ export class extendSheetActionPool extends ItemSheet {
     //Im Master..
     context.imMaster = game.user.isGM;
 
+    //Targets
+    context.systemData.steps.map(step => {
+      if (typeof step.targets == "string")
+        step.targets = step.targets.split(',');
+    });
+
     //Molding...
     helperSheetItem.molding(context);
 
@@ -233,7 +239,8 @@ export class extendSheetActionPool extends ItemSheet {
           uniqeId: $(e).data('uniqeid'),
           action: $(e).data('actionid'),
           consumed: ($(e).data('consumed') === true),
-          applyLocation: $(e).data('applyLocation')
+          applyLocation: $(e).data('applyLocation'),
+          targets: $(e).data('targets').split(',')
         });
       });
 

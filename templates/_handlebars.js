@@ -3,6 +3,7 @@ import { helperSheetHuman } from "../module/sheets/helpers/helperSheetHuman.js";
 import { helperSheetCombat } from "../module/sheets/helpers/helperSheetCombat.js";
 import { aqCombat } from "../module/actions/aqCombat.js";
 import { aqContext } from "../module/actions/aqContext.js";
+import { aqActions } from "../module/actions/aqActions.js";
 
 export class mainHandlebars {
 
@@ -75,6 +76,21 @@ export class mainHandlebars {
          return oItem[property] ? oItem[property][sProperty] : '';
        });    
        
+       /**
+        * configTxt
+        */
+       Handlebars.registerHelper("configTxt", function(sType, sId, options) {
+         let s18 = CONFIG.ExtendConfig[sType].find(e => e.id === sId);
+         return game.i18n.localize(s18.name);
+       }); 
+
+       /**
+        * isNotEmpty
+        */
+       Handlebars.registerHelper("isNotEmpty", function(string, options) {
+         return ((string !== '') && (string !== undefined));
+       }); 
+
        /**
         * itemType
         */
@@ -313,6 +329,36 @@ export class mainHandlebars {
          })
          return oProperty;
        });       
+
+      /**
+       * getActionType
+       */
+      Handlebars.registerHelper("getActionType", function(actorId, tokenId, itemId, options) {
+         let oActor = (tokenId) ? game.scenes.active.tokens.get(tokenId).getActor() :
+                                  game.actors.get(actorId);          
+         if (!oActor) return;
+
+         let oAction = oActor.items.get(itemId);
+         if (!oAction) return;
+         
+         if (oAction.system.type.attack) 
+            return game.i18n.localize("common.attack");
+         if (oAction.system.type.defense) 
+            return game.i18n.localize("common.defense");
+         if (oAction.system.type.movement) 
+            return game.i18n.localize("common.movement");   
+         if (oAction.system.type.spell) 
+            return game.i18n.localize("common.spell");   
+         return '';
+       }); 
+
+      /**
+       * getActionTarget
+       */
+      Handlebars.registerHelper("getActionTarget", function(uniqeId, sField, options) {
+         const actor = aqActions.actorFromUniqeId(uniqeId);
+         return actor[sField];
+      });
 
       /**
        * rightHanded...

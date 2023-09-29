@@ -20,6 +20,7 @@ export class HookCombat {
      * @description             Add AQ options to Combat Tab
      */
     static _changeCombatTabHtml(html, update) {
+        
         let component = (html[0]) ? html[0] : html;
 
         $(component).addClass("_myCombat");
@@ -128,6 +129,7 @@ export class HookCombat {
                 }
             });
         }
+        
         $(html).find("ol#combat-tracker")
             .find("li.actor")
             .sort((a,b) => 
@@ -224,6 +226,7 @@ export class HookCombat {
      */    
     static async onAQAction(event, noRender) {
 
+        if (!game.user.isGM) return;
         noRender = (!noRender) ? false : noRender;
 
         const activeCombat = aqActions.getCurrentCombat();
@@ -316,6 +319,7 @@ export class HookCombat {
      * @param {*} combatId 
      */
     static async deleteEncounter(combatId) {
+        if (!game.user.isGM) return;
         let poolAction = game.items.find(e => e.system.combat === combatId);
         if (poolAction) await poolAction.delete();
     }    

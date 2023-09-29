@@ -1,0 +1,201 @@
+{{!-- Magic Tab --}}
+<div class="tab magic" data-group="primary" data-tab="magic">
+
+    <div class="codice">
+        
+        {{!--
+        <div id="lockMarks"></div>
+        <div id="lockMarksPost"></div>
+        --}}
+
+        <div class="_codicePenals">
+            <div class="_codicePenal">
+                <label class="_title">{{localize "common.method"}}</label>
+                <input type="text"
+                    class="_coInput"
+                    {{{editable}}}
+                    name="system.magic.penal.method" 
+                    value="{{systemData.magic.penal.method}}" />
+            </div>
+            <div class="_codicePenal">
+                <label class="_title">{{localize "common.armor"}}</label>
+                <input type="text"
+                    class="_coInput"
+                    disabled
+                    name="system.magic.penal.armor" 
+                    value="{{systemData.magic.penal.armor}}" />                                               
+            </div>
+            <div class="_codicePenal">
+                <label class="_title">{{localize "common.concentration"}}</label>
+                <input type="text"
+                    class="_coInput"
+                    {{{editable}}}
+                    name="system.magic.penal.concentration" 
+                    value="{{systemData.magic.penal.concentration}}" />                                              
+            </div>  
+            <div class="_codicePenal">
+                <label class="_title">{{localize "common.others"}}</label>
+                <input type="text"
+                    class="_coInput"
+                    {{{editable}}}
+                    name="system.magic.penal.others" 
+                    value="{{systemData.magic.penal.others}}" />                                           
+            </div>
+            <div class="_codicePenal">
+                <label class="_title">{{localize "common.ceremony"}}</label>
+                <input type="text"
+                    class="_coInput"
+                    {{{editable}}}
+                    name="system.magic.penal.ceremony" 
+                    value="{{systemData.magic.penal.ceremony}}" />                                                                    
+            </div>
+            <div class="_codicePenal switchTabula">
+                <label class="_title">{{localize "common.table"}}</label>
+                <label class="switch">
+                    <input type="checkbox" 
+                        name="system.control.codice" 
+                        {{checked systemData.control.codice}} />
+                    <span class="sliderSwitch"></span>
+                </label>                                                                    
+            </div>                       
+        </div>  
+
+        <div id="codicePages" class="codicePages">
+            {{#each codex.pages as |page id|}}
+            <div class="codicePage" data-pagenumber="{{page.pageNumber}}">
+                <div class="_codexPaperShadow _clickable"></div>
+                <div class="_codexPaper" style="z-index: {{page.zIndex}}"></div>
+
+                {{#if page.isFrontPage}}
+                <div class="_frontPage"></div>
+                {{/if}}
+
+                {{#if page.isSecondPage}}
+                <div class="_secondPage">
+                </div>              
+                {{/if}}            
+                
+                {{#if page.isThirdPage}}
+                <div class="_thirdPage"></div>
+                {{/if}}                 
+
+                {{#if page.isIndex}}
+                <ul class="_index">
+                    <label class="_title">{{localize "common.index"}}</label>
+                    {{#each page.entries as |entry id|}}
+                    <li>
+                        <div class="_entry">
+                        {{entry.name}}
+                        </div>
+                        <div class="_pageNum">
+                        {{entry.pageNum}}
+                        </div>
+                    </li>
+                    {{/each}}
+                </ul>
+                {{/if}}
+
+                {{#if page.hasItem}}
+
+                    {{#if (itemType page.item 'spell') }}
+                    <div class="_detail" style="z-index: {{page.zIndex}}">
+                        <img class="_image" src="{{page.item.img}}" /> 
+                        <h2 class="_title">
+                            {{page.item.name}}
+                        </h2>
+                        <label class="_detailed">
+                            {{configTxt 'spellShapes' page.item.system.shape}}, 
+                            {{configTxt 'spellNature' page.item.system.nature}}, 
+                            {{configTxt 'spellSecondNature' page.item.system.secondNature}}
+                        </label>
+
+                        {{#if (isNotEmpty page.item.system.expiration)}}
+                        <h3 class="_subTitle">{{localize 'common.expiration'}}</h3>
+                        {{{page.item.system.expiration}}}
+                        {{/if}}
+
+                        {{#if (isNotEmpty page.item.system.duration)}}
+                        <h3 class="_subTitle">{{localize 'common.duration'}}</h3>
+                        {{{page.item.system.duration}}}
+                        {{/if}}
+
+                        {{#if (isNotEmpty page.item.system.components)}}
+                        <h3 class="_subTitle">{{localize 'common.components'}}</h3>                    
+                        {{{page.item.system.components}}}
+                        {{/if}}
+
+                        {{#if (isNotEmpty page.item.system.preparation)}}
+                        <h3 class="_subTitle">{{localize 'common.preparation'}}</h3>
+                        {{{page.item.system.preparation}}}
+                        {{/if}}
+
+                        {{#if (isNotEmpty page.item.system.effects)}}
+                        <h3 class="_subTitle">{{localize 'common.effects'}}</h3>
+                        {{{page.item.system.effects}}}
+                        {{/if}}
+
+                        {{#if (isNotEmpty common.description)}}
+                        <h3 class="_subTitle">{{localize 'common.description'}}</h3>
+                        {{{page.item.system.description}}}
+                        {{/if}}
+
+                    </div>
+
+                    <div class="boxActionSpell">
+                        <label class="_vis">
+                            {{localize "common.vis"}}: <span class="_visPoints">{{page.item.system.vis}}</span>
+                        </label>
+                        <label class="_ptc">
+                            {{localize "common.ptc"}}: {{page.item.system.ptc}}
+                        </label>  
+                        <label class="_value">
+                            <a class="playSpell" data-itemId="{{item._id}}" data-from="codice">
+                                {{spellValue page.item 'spell'}}
+                                <img src="/systems/conventum/image/texture/dice2.png" />
+                            </a>
+                        </label>
+                    </div>
+                    {{/if}}
+                    
+                    <a class="actionIcon" data-itemId="{{page.item._id}}" data-action="show">
+                        <h2 class="_title">
+                            {{page.item.name}}
+                        </h2>
+                    </a>
+
+                    {{!-- 
+                    <label class="_vis">{{page.item.system.vis}}</label>
+                    <label class="_ptc">{{page.item.system.ptc}}</label>
+                    <label class="_shape">{{page.item.system.shape}}</label>
+                    <label class="_penal">{{page.item.system.penal}}</label>
+                    <label class="_value">
+                        <a class="playSpell" data-itemId="{{item._id}}">
+                            {{spellValue page.item 'spell'}}
+                        </a>
+                    </label>                             
+                    --}}
+
+
+                    {{#if (itemType page.item 'ritual') }}
+                    <label class="_ordo">{{page.item.system.ordo}}</label>
+                    <label class="_ptf">{{page.item.system.ptf}}</label>
+                    <label class="_penal">{{page.item.system.penal}}</label>
+                    <label class="_value">
+                        <a class="playSpell" data-itemId="{{item._id}}">
+                            {{spellValue page.item 'ritual'}}
+                        </a>
+                    </label>                             
+                    {{/if}}
+        
+                {{/if}} 
+                                                    
+
+                <div class="_pageNumber">- {{page.pageNumber}} -</div>
+            </div>
+            {{/each}}
+            
+        </div>
+    </div>
+  
+
+</div>

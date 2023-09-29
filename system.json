@@ -33,7 +33,8 @@
     "styles/roll.css",
     "styles/messages.css",
     "styles/tours.css",
-    "styles/combat.css"
+    "styles/combat.css",
+    "styles/codex.css"
   ],
   "languages": [
     {

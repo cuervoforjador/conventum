@@ -33,7 +33,7 @@ export class extendSheetHuman extends ActorSheet {
       tabs: [
         {navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "main"},
         {navSelector: ".tabs_Bio", contentSelector: ".tabsContent_Bio", initial: "languages"},
-        {navSelector: ".tabs_Combat", contentSelector: ".tabsContent_Combat", initial: "combatWeapons"},
+        //{navSelector: ".tabs_Combat", contentSelector: ".tabsContent_Combat", initial: "combatWeapons"},
         {navSelector: ".tabs_Items", contentSelector: ".tabsContent_Items", initial: "items"}
       ],      
     });
@@ -111,7 +111,8 @@ export class extendSheetHuman extends ActorSheet {
     //Magic...
     context.magic = await helperSheetMagic.getMagic(this.actor, context.systemData);
     helperSheetMagic.getMagicPenals(this.actor, context.systemData);
-
+    context.codex = helperSheetMagic.codex(this.actor);
+    
     //Checking Items..
     helperSheetHuman.checkMyItems(this.actor);
     helperSheetHuman.itemsInUse(this.actor, context.systemData);
@@ -191,7 +192,10 @@ export class extendSheetHuman extends ActorSheet {
     $(".searchAction").on('input', this._searchAction.bind(this));
 
     /* Magic */
+    document.addEventListener('DOMContentLoaded', helperSheetMagic.initCodex(this));
     html.find("a.playSpell").click(this._playSpell.bind(this));  
+    html.find(".flipped ._clickable").click(helperSheetMagic.changePage.bind(this));      
+    html.find("input._coInput").change(this._changePenalInput.bind(this));  
 
     /* Armor */
     html.find("a.locationShield").click(helperSheetArmor.openArmorCloset.bind(this));
@@ -554,7 +558,8 @@ export class extendSheetHuman extends ActorSheet {
 
     if (!actorActions.showPoster) return;
     const uniqeId = (this.actor.isToken) ? this.actor.token.id : this.actor.id;
-    aqCombat.dialogTargets(uniqeId, weaponId);
+    aqCombat.prePlayWeapon(uniqeId, weaponId);
+    //aqCombat.dialogTargets(uniqeId, weaponId);
   }
 
   _playWeaponExpress(event) {
@@ -601,8 +606,17 @@ export class extendSheetHuman extends ActorSheet {
     event.preventDefault();
     const spellId = event.currentTarget?.dataset.itemid;
     if (!spellId) return;
+    const bFromCodice = (event.currentTarget?.dataset.from === 'codice');
 
+    const uniqeId = (this.actor.isToken) ? this.actor.token.id : this.actor.id;
     helperSheetMagic.playSpell(this.actor, spellId);
+    //if (bFromCodice)  
+    //  this.actor.sheet.close();
+  }
+
+  _changePenalInput(event) {
+    event.preventDefault();
+    this.updateMagic = true;
   }
 
   async _wearGarment(event) {

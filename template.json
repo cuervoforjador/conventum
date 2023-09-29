@@ -30,7 +30,8 @@
           "world": "",
           "listSkills": false,
           "askedForWizard": false,
-          "wizard": false
+          "wizard": false,
+          "codice": false
         },
         "wizard": {
           "01": true,

@@ -355,4 +355,30 @@ export class aqActions {
         return nCost;
     }
 
+    /**
+     * actorFromUniqeId
+     * @param {*} uniqeId 
+     * @returns 
+     */
+    static actorFromUniqeId(uniqeId) {
+        const tokenId = (game.scenes.active.tokens.get(uniqeId)) ? uniqeId : null;
+        const actor = (tokenId) ? game.scenes.active.tokens.get(uniqeId).getActor() : game.actors.get(uniqeId);
+        return actor;        
+    }
+
+    /**
+     * uniqeIdFromIDS
+     * @param {*} actorId 
+     * @param {*} tokenId 
+     * @returns 
+     */
+    static uniqeIdFromIDS(actorId, tokenId) {
+        if (!tokenId) return actorId;
+        if ((tokenId === '') || (tokenId === undefined)) return actorId;
+        
+        const actor = game.scenes.active.tokens.get(tokenId).getActor();
+        if (actor.isToken) return actor.token.id;
+                      else return actor.id;
+    }    
+
 }

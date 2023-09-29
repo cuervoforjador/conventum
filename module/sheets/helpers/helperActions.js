@@ -58,7 +58,8 @@ export class helperActions {
                 oActions.showMovement = (oActions.action.system.type.movement);
 
             //Show Skill value
-            oActions.showSkillValue = !(oActions.action.system.skill.autoSuccess);
+            if ((oActions.action) && (oActions.action !== '')) 
+                oActions.showSkillValue = !(oActions.action.system.skill.autoSuccess);
 
         }
 

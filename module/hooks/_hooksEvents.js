@@ -8,6 +8,7 @@ import { HookActor } from "./_hooksActor.js";
 import { helperControls } from "../helpers/helperControls.js";
 import { aqCombat } from "../actions/aqCombat.js";
 import { aqContext } from "../actions/aqContext.js";
+import { helperSheetMagic } from "../sheets/helpers/helperSheetMagic.js";
 
 export class HookEvents {
 
@@ -176,7 +177,38 @@ export class HookEvents {
             .forEach(oLocation => {
                 $('._actTargetLocation').append('<option value="'+oLocation.id+'">'+oLocation.name+'</option>');
             });            
-        });      
+        });   
+
+        $(document).on('click', 'li ._selActionTargetWrap', _selActionTarget);
+        function _selActionTarget(event) {
+            event.preventDefault();
+            let input = $(event.target).find('input');
+            if (input.length === 0) input = $(event.target).parent().find('input');
+            if (input.length === 0) input = $(event.target).parent().parent().find('input');
+
+            if (input[0].type === 'radio') {
+                if ( $(input.parent()).hasClass('_inactive') )
+                    $(input).prop("checked", false);
+                else
+                    $(input).prop("checked", true);
+            }
+            if (input[0].type === 'checkbox') {
+                if ( $(input.parent()).hasClass('_inactive') )
+                    $(input).prop("checked", false);
+                else
+                    $(input).prop("checked", !$(input).prop("checked"));
+            }
+
+            //Is checking?
+            let itsChecking = false;
+            let button = input.parents('.addingActions').find('button.dialog-button.button2');
+            input.parent().parent().find("li").each(function(index, reg) {
+                if ($(reg).find('input').prop("checked")) itsChecking = true;
+            });
+            button.prop( "disabled", !itsChecking );
+
+        }    
+
 
        //Drag & Drop over actor     
         $(document).on('drag', 'li.directory-item.document.actor', function (event) {

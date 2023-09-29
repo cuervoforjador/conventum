@@ -1134,17 +1134,18 @@ li._noPossible {
 ._bioLanguages {
     display: flex;
     flex-wrap: wrap;
-    padding-right: 16px;
+    padding-right: 6px;
     padding-left: 7px;
 }
 li.boxLanguages {
     display: flex;
     flex-direction: row;
-    padding-bottom: 4px;
-    padding-left: 3px;
+    padding: 3px;
     width: 50%;
     align-content: center;
     align-items: center;
+    border-bottom: 1px solid #3333333d;
+    border-right: 1px solid #3333333d;
 }
 .boxLanguages img._img {
     width: 30px;
@@ -1228,6 +1229,10 @@ li.armorGarment img {
 }
 ol._inGarment {
     display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: space-around;
+    align-items: center;
 }
 ._garmentLabel {
     background: #ffffffd9;
@@ -1361,7 +1366,6 @@ label._description::first-letter {
 
 .actorArmor {
     width: 100%;
-    max-width: 370px;
     display: flex;
     justify-content: flex-start;
 }
@@ -1374,23 +1378,53 @@ label._description::first-letter {
 .armorBox ._bodyImg {
     width: 160px;
     height: 500px;
+    margin-bottom: -775px;
     background-size: 160px!important;
     background-repeat: no-repeat no-repeat!important;
     margin-top: 0px;
     opacity: 0.8;
 }
+._bodyShield ._locTitle {
+    width: 70px;
+    height: 25px;
+    display: flex;
+    margin-right: -70px;
+    margin-bottom: -25px;
+    position: relative;
+    font-family: var(--font-aq);
+}
 .armorBox ._bodyShield {
     width: 76px;
     border-bottom-left-radius: 50%;
     border-bottom-right-radius: 50%;
+    margin-left: -76px;
+    margin-bottom: -90px;    
     display: flex;
     flex-wrap: wrap;
-    position: absolute;
+    position: relative;
     background: #f0e4d7b8;
     -webkit-box-shadow: 0px 0px 15px 0px rgb(0 0 0 / 30%);
     box-shadow: 0px 0px 15px 0px rgb(0 0 0 / 30%);
     background-size: 75px 95px;
     background-position: center;
+}
+._bodyShield ._locTitle {
+    width: 70px;
+    height: 25px;
+    line-height: 25px;
+    display: flex;
+    margin-right: -70px;
+    margin-bottom: -25px;
+    position: relative;
+    font-family: var(--font-aq);
+    text-align: right;
+    rotate: -90deg;
+    left: -44px;
+    top: 27px;
+    /* background: #FF0; */
+    justify-content: flex-end;
+    align-items: center;
+    align-content: center;
 }
 ._bodyShield label {
     margin: 0px!important;
@@ -1495,6 +1529,33 @@ label.armorLocation {
     line-height: 18px;
 }
 
+/* Tabs */
+._tabTitle {
+    text-align: center;
+    width: 100%;
+    font-size: 27px;
+    line-height: 38px;
+    padding-top: 7px;
+    height: 49px;
+    font-family: var(--font3-aq);
+    border-bottom: 5px solid #9f4436!important;
+    color: #333;
+    background: #d6a3861c!important;
+}
+._tabTitle label {
+    font-size: 21px;
+    line-height: 42px;
+    font-family: var(--font-aq);
+    font-weight: 900;
+    display: block;
+    text-align: left;
+    padding-left: 60px;    
+}
+._tabTitle label::first-letter {
+    font-size: 34px;
+    color: #a72222;
+}
+
 /* Combat & Weapons */
 nav.tabs_Combat._subTabs {
     padding-left: 14px;
@@ -1503,10 +1564,13 @@ nav.tabs_Combat._subTabs {
 }
 hbox._betsu {
     display: flex;
-    justify-content: space-between;
-    padding-right: 8px;
+    justify-content: flex-end;
+    padding: 5px;
     border-bottom: 1px solid #33333336;
     background: #9e545429;
+}
+.combatActions {
+    padding-bottom: 60px;
 }
 ul.combatMenu {
     width: 100%;
@@ -1856,15 +1920,30 @@ vbox._encountersBox {
     align-items: flex-start;
     border-bottom: 1px solid #33333336;
 }
-label._captionCombat {
+._captionCombat {
     font-size: 20px;
-    line-height: 24px;
-    margin-top: 4px;
+    line-height: 10px;
+    margin-top: 26px;
     width: 100%;
+    padding-left: 53px;
+    display: flex;
+    align-content: center;
+    align-items: center;
+}
+._captionCombat label {
+    font-size: 25px;
+    font-family: var(--font-aq);
+    font-weight: 900;
     padding-left: 10px;
 }
-label._captionCombat::first-letter {
-    font-size: 28px;
+._captionCombat label::first-letter {
+    background: #9e2b2b;
+    color: #FFF;
+    font-size: 45px;
+    padding-left: 10px;
+    padding-right: 6px;
+    margin-right: 3px;
+    border-radius: 3px;
 }
 label._captionCombat2 {
     width: 100%;
@@ -1878,8 +1957,8 @@ label._captionCombat2 {
 label._captionCombat3 {
     margin-top: 5px;
     margin-bottom: 0px;
-    background: #94c95352;
-    border: 1px solid #33681c52;
+    background: #7b3b3b2e;
+    border: 1px solid #85212152;
     width: 100%;
     padding: 5px;
     border-top-left-radius: 13px;
@@ -2132,10 +2211,11 @@ ul._magicChars {
     border-bottom: 3px solid #1111114d;
     margin-bottom: 5px;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: space-between;
     background: #322c2cc7;
     z-index: 1;
+    flex-wrap: wrap;
+    align-content: center;
 }
 ul._magicSkills {
     margin: 0px;
@@ -2143,6 +2223,7 @@ ul._magicSkills {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
+    width: calc(100% - 80px);
     z-index: 1;
 }
 li._magicSkill {
@@ -2198,6 +2279,39 @@ li._magicSkill {
     margin-right: 0;
     padding-right: 5px;
 }
+.switchCodice {
+    width: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+.switchCodice label {
+    width: 100%;
+    text-align: center;
+    font-size: 11px;
+}
+.switchCodice {
+    width: 66px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    border: 1px solid #33333300;
+    border-radius: 3px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background: #b974641c;
+}
+._codicePenal.switchTabula label.switch {
+    margin-left: 10px;
+}
+.switchTabula input:checked + .sliderSwitch {
+    background-color: #cbbfbec9!important;
+}
+
 
 ul.magicPenalizations {
     display: flex;
@@ -2240,6 +2354,9 @@ li._magic {
     display: flex;
     height: 30px;
     align-items: center;
+}
+li._magic:last-child {
+    margin-bottom: 60px;
 }
 ._magic label._title {
     width: calc(100% - 185px);
@@ -2300,7 +2417,7 @@ label._value:hover {
     top: 40px;
     z-index: 1;
     background-size: 100% 100%;
-    opacity: 0.2;
+    opacity: 0.08;
 }
 
 ._mod._text .editor {
@@ -2317,8 +2434,21 @@ label._value:hover {
 /* Equipment */
 nav.tabs_Items._subTabs {
     padding-left: 53px;
-    padding-right: 25px;
-    padding-top: 25px;
+    display: flex;
+    padding-right: 7px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    flex-wrap: wrap;
+    align-content: stretch;
+    align-items: center;
+    justify-content: flex-end;
+}
+nav.tabs_Items._subTabs label {
+    margin: 0px;
+    margin-right: 2px;
+    line-height: 27px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 .actorGoods {
     padding: 15px;
@@ -2327,7 +2457,6 @@ nav.tabs_Items._subTabs {
     margin-right: 10px!important
 }
 .actorGoods line {
-    margin-top: 6px!important;
     display: flex;
 }
 hbox._100._mountLine {
@@ -2388,10 +2517,13 @@ ol.itemList {
 li.itemEl {
     list-style-type: none;
     padding: 0px;
-    padding-left: 8px;
-    padding-right: 8px;
+    padding-top: 10px;
+    padding-left: 5px;
+    height: 32px;
+    /* padding-left: 8px; */
+    /* padding-right: 9px; */
     margin: 0px;
-    margin-bottom: 5px;
+    /* margin-bottom: 0px; */
     display: flex;
     flex-flow: row;
     justify-content: space-between;
@@ -2399,10 +2531,18 @@ li.itemEl {
     flex-wrap: wrap;
     align-content: center;
     align-items: center;
+    border-bottom: 1px solid #33333357;
+}
+li.itemEl:first-child {
+    border-top: 1px solid #3333333d;
+    padding-top: 5px;
+}
+li.itemEl:nth-child(even) {
+    background: #7856561a;
 }
 .itemEl .imgUsed {
     border: 0px;
-    width: 21px;
+    width: 14px;
     height: 21px;
     margin-left: 4px;
     margin-right: 4px;
@@ -2416,7 +2556,7 @@ li.itemEl {
 .itemEl h4.item-name {
     font-family: var(--font-aq);
     line-height: 25px;
-    font-size: 14px;
+    font-size: 15px;
     padding-left: 4px;
 }
 .itemEl ._actionsBox {
@@ -2940,10 +3080,11 @@ ol.itemList {
     padding-bottom: 10px;
     padding-left: 6px;
     padding-right: 0px;
-    padding-top: 20px;
     margin: 0px;
+    margin-top: -8px;
     display: flex;
     flex-wrap: wrap;
+    padding-bottom: 60px;
 }
 li.itemList {
     list-style-type: none;
@@ -3078,4 +3219,5 @@ li._profSkill input {
 }
 .actorItems ul._poolMenu {
     margin-top: -8px;
+    margin-bottom: 8px;
 }

@@ -71,8 +71,6 @@ export class extendSheetSpell extends ItemSheet {
       systemData.ptc = 10 + (( systemData.vis - 7)*5 );
       systemData.penal = '-' + (( systemData.vis - 4)*50 ).toString();
     }      
-
-
     
     //Molding...
     helperSheetItem.molding(context);

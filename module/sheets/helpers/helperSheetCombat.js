@@ -24,23 +24,33 @@ export class helperSheetCombat {
 
         let mCombatants = [];
         oCombat._source.combatants.forEach(e => {
-            mCombatants.push(oCombat.combatants.get(e._id));
+            let combatant = oCombat.combatants.get(e._id);
+            combatant.nInitiative = $(game.combats.directory._element)
+                                        .find('#combat-tracker')
+                                        .find('li[data-combatant-id="'+e._id+'"]')
+                                        .data('initotal');            
+            mCombatants.push(combatant);
         });
 
         let mActions = [];
         mCombatants.forEach(combatant => {
             ['firstAction', 'secondAction'].map(s => {
-                if (combatant.actor.system.action[s] !== '')
-                mActions.push({
-                    combatantId: combatant._id,
-                    actorId: combatant.actor._id,
-                    actionId: combatant.actor.system.action[s],
-                    actionItem: combatant.actor.items.get(
-                                    combatant.actor.system.action[s])
-                });
+                if (combatant.actor.system.action[s] !== '') {
+                    mActions.push({
+                        combatantId: combatant._id,
+                        actorId: combatant.actor._id,
+                        actionId: combatant.actor.system.action[s],
+                        actionItem: combatant.actor.items.get(
+                                        combatant.actor.system.action[s])
+                    });
+                }
             });
         });
-
+        mCombatants.sort((a, b) => {
+            if (a.nInitiative < b.nInitiative) return -1;
+            if (a.nInitiative > b.nInitiative) return 1;
+            return 0;
+        }); 
 
         return {
             combatId: sCombatID,
@@ -795,7 +805,8 @@ export class helperSheetCombat {
             actor: actor._id,
             action: action._id,
             consumed: false,
-            applyLocation: applyLocation
+            applyLocation: applyLocation,
+            targets: []
         };
         if (mSteps.find(e => e.actor === actor._id)) {
             let index = mSteps.findLastIndex(e => e.actor === actor._id);

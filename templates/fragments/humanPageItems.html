@@ -1,8 +1,13 @@
 {{!-- Items Tab --}}
 <div class="tab items" data-group="primary" data-tab="items">
 
+    <div class="_tabTitle">
+        <label>{{localize 'common.equipment'}}</label>
+     </div>
+
     <nav class="tabs_Items _subTabs" data-group="equipmentTabs">
         <a data-tab="items"><label>{{ localize "common.equipment" }}</label></a>
+        <a data-tab="armor0"><label>{{ localize "common.armor" }}</label></a>
         <a data-tab="weapons"><label>{{ localize "common.weapons" }}</label></a>    
         <a data-tab="armor"><label>{{ localize "common.armor" }}</label></a>    
         <a data-tab="spells"><label>{{ localize "common.spells" }}</label></a>    
@@ -11,6 +16,10 @@
     </nav>
 
     <section class="tabsContent_Items">
+
+        <div class="tab armor0" data-group="equipmentTabs" data-tab="armor0">
+            {{> humanPageArmor }}
+        </div>
 
         <div class="tab items" data-group="equipmentTabs" data-tab="items">
             <div class="actorItems">
@@ -44,7 +53,7 @@
         <div class="tab weapons" data-group="equipmentTabs" data-tab="weapons">
             <div class="actorItems">
                 {{!-- WEAPONS --}}
-                <h1 class="_sectionTitle" style="padding-left: 55px; padding-top: 10px;">{{localize "common.weapons"}}</h1>
+                <h1 class="_sectionTitle" style="padding-left: 14px">{{localize "common.weapons"}}</h1>
                 <ol class="itemList">
                     {{#each items as |item id|}}
                     {{#if (itemType item 'weapon') }}

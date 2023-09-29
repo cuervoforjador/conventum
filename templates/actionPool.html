@@ -10,6 +10,7 @@
                                        data-actorId="{{combatant.actorId}}" 
                                        data-tokenId="{{combatant.tokenId}}">
                      <img class="_actor" src="{{combatant.img}}">
+                     <div class="_initiative">{{combatant.nInitiative}}</div>
                      <h2 class="_combName">{{getActorProperty combatant.actorId combatant.tokenId 'name'}}</h2>
                   </li>
                {{/each}}
@@ -53,7 +54,8 @@
                      data-uniqeId="{{step.uniqeId}}"
                      data-actionId="{{step.action}}"
                      data-applyLocation="{{step.applyLocation}}"
-                     data-consumed="{{step.consumed}}">
+                     data-consumed="{{step.consumed}}"
+                     data-targets="{{step.targets}}">
                      <div class="_actor">
                         <img src="{{getActorProperty step.actor step.tokenId 'img'}}" />
                         <h3>{{getActorProperty step.actor step.tokenId 'name'}}</h3>
@@ -69,6 +71,14 @@
                            data-verb="show">                  
                            <img src="{{getActorItemProperty step.actor step.tokenId step.action 'img'}}" />
                         </a>
+                        <label class="_type">{{getActionType step.actor step.tokenId step.action}}</label>
+                        <div class="_actionTargets">
+                           <label>{{localize 'common.targets'}}</label>
+                           {{#each step.targets as |target id|}}
+                              <img src="{{getActionTarget target 'img'}}" 
+                                   title="{{getActionTarget target 'name'}}"/>
+                           {{/each}}
+                        </div>
                      </div>
                      <div class="_actionsBox">                 
                         {{#if ../imMaster}}
@@ -110,6 +120,12 @@
                            {{/if}}
                         {{/if}}
                   </div>
+                  {{!--
+                  {{#if (isLinkedAction step)}}
+                  <img class="_linkedActions"
+                       src="/systems/conventum/image/texture/thirdPage.png">
+                  {{/if}}
+                  --}}
                   </li>
             {{/each}}
             </ul>

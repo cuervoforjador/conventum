@@ -9,6 +9,7 @@ import { helperActions } from "./helperActions.js";
 import { helperRolls } from "./helperRolls.js";
 import { aqCombat } from "../../actions/aqCombat.js";
 import { aqContext } from "../../actions/aqContext.js";
+import { mainBackend } from "../backend/mainBackend.js";
 
 export class helperSheetMagic {
 
@@ -114,6 +115,150 @@ export class helperSheetMagic {
         if (Number(sPenal) === NaN) return '-0';
         if (Number(sPenal) >= 0) return '+'+Number(sPenal).toString();
                            else return Number(sPenal).toString();
+    }
+
+    /**
+     * codex
+     */
+    static codex(actor) {
+
+        let mSpells = Array.from(actor.items).filter(e => (e.type === 'spell'));
+        helperSheetMagic._sortByLevel(mSpells, 'spell');
+        let mRituals = Array.from(actor.items).filter(e => (e.type === 'ritual'));
+        helperSheetMagic._sortByLevel(mRituals, 'ritual');
+        let mItems = [...mSpells, ...mRituals];
+
+        const config = {
+            maxPages:   mItems.length + 8,
+            pageIndex: 3,
+            pageStart: 5,
+            spellPage: 100,
+            spellMark: false,
+            ritualPage: 100,
+            ritualMark: false,
+            salmosPage: 100,
+            salmosMark: false
+        };
+
+        let mPages = [];
+        for (var i=config.maxPages; i>0; i--) {
+
+            const pageNumber = config.maxPages - i + 1;
+            const oItem = (pageNumber >= config.pageStart) ? 
+                                mItems[pageNumber - config.pageStart] : null;
+            let bIsIndex = false;
+            let mEntries = [];
+
+            //FrontPage
+
+            //Index
+            if (pageNumber === config.pageIndex) {
+                bIsIndex = true;
+                let mapIndex = 0;
+                mItems.map(entry => {
+                    mEntries.push({
+                        name: entry.name,
+                        pageNum: config.pageStart + mapIndex
+                    });
+                    mapIndex++;
+                });
+                
+            }
+
+            mPages.push({
+                hasItem: (oItem) ? true : false,
+                isFrontPage: (pageNumber === 1),
+                isSecondPage: (pageNumber === 2),
+                isThirdPage: (pageNumber === 4),
+                isIndex: bIsIndex,
+                entries: mEntries,
+                item: oItem,
+                pageNumber: pageNumber,
+                zIndex: config.maxPages - pageNumber + 1,
+                spellMark: pageNumber === (config.spellPage),
+                spellMarkPost: pageNumber === (config.spellPage + 1),
+                ritualMark: pageNumber === (config.ritualPage),
+                ritualMarkPost: pageNumber === (config.ritualPage + 1),
+                salmosMark: pageNumber === (config.salmosPage),
+                salmosMarkPost: pageNumber === (config.salmosPage + 1)
+            });
+        }
+        return {
+            pages: mPages
+        };
+    }
+
+    /**
+     * initCodex
+     * @param {*} event 
+     */
+    static initCodex(event) {
+        var pages = document.getElementsByClassName('codicePage');
+        if (pages.length === 0) return;
+
+        for (var i = 0; i < pages.length; i++) {
+            var page = pages[i];
+            if (i % 2 === 0)
+                page.style.zIndex = (pages.length - i);
+            $(page).find('._clickable')[0].onclick = this.changePage.bind();
+            //let detail = $(page).find('._detail');
+            //if (detail.length > 0) detail[0].onclick = this.changePage.bind();
+        }
+    }
+
+    /**
+     * changePage
+     */
+    static changePage(event) {
+        let page = $(event.target).parent()[0];
+        const pageNumber = Number(page?.dataset.pagenumber);
+
+        if (pageNumber % 2 === 0) {
+            page.classList.remove('flipped');
+            page.previousElementSibling.classList.remove('flipped');
+        } else {
+            page.classList.add('flipped');
+            page.nextElementSibling.classList.add('flipped');
+        }
+        if (pageNumber != 2) 
+            $('._codicePenals').slideUp();
+        else
+            $('._codicePenals').slideDown();
+    }
+
+    /**
+     * goToPage
+     */
+    static goToPage(nPage) {
+        $( ".codicePage" ).each(function(index, oPage) {
+            $(oPage)[0].classList.remove('flipped');
+        });
+        for (var i=1; i<nPage; i++) {
+            let page = $('.codicePage[data-pagenumber="'+nPage+'"]')[0];
+            page.classList.add('flipped');
+        }
+    }
+
+    /**
+     * _sortByLevel
+     * @param {*} mArray 
+     */
+    static _sortByLevel(mArray, type) {
+        mArray.sort((a, b) => {
+            let propA = 0; 
+            let propB = 0; 
+            if (type === 'spell') {
+                propA = Number(a.system.vis);
+                propB = Number(b.system.vis);
+            }
+            if (type === 'ritual') {
+                propA = Number(a.system.ordo);
+                propB = Number(b.system.ordo);
+            }            
+            if (propA < propB) return -1;
+            if (propA > propB) return 1;
+            return 0;
+        }); 
     }
 
 }

@@ -16,6 +16,7 @@ export class aqCombat {
         await game.packs.get('conventum.locations').getDocuments();
         await game.packs.get('conventum.modes').getDocuments();
 
+        const combat = aqActions.getCurrentCombat();
         let myEncounter = aqActions.getMyCurrentEncounter(actorId, tokenId);
 
         const actor = (isToken) ? (await game.scenes.active.tokens.get(tokenId)).getActor() : 
@@ -62,11 +63,82 @@ export class aqCombat {
         });
         sTargetLocation += '</select>';       
 
+        //MySelf
+        const mySelf = (tokenId) ?
+                            combat.turns.filter(
+                                e => ((e.actorId === actorId) &&
+                                      (e.tokenId === tokenId)) ) :
+                            combat.turns.filter(
+                                e => (e.actorId === actorId) );
+        const myToken = mySelf[0].token;
+
+        // Targets
+        let mTargets0 = await this.getCombatTargets();
+        let mTargets = await this.getActionTargets(action, actorId, tokenId);
+
+        let sTargets = '<ul class="_targetsMatrix">';
+
+        if (action.system.target.multiple) {
+
+            mTargets0.map(tar => {
+
+                const eActor = (tar.actor) ? tar.actor : (tar._actor) ? tar._actor : null;
+                const eToken = (tar.token) ? tar.token : (eActor) ? eActor.token : null;
+                const uniqeId = (eActor.isToken) ? tar.tokenId : tar.actorId;
+                const distance = this.getDistance(myToken, eToken)+' '+this.getDistanceUnit();           
+
+                const bActive = (mTargets.find(e => 
+                                    ((e.actorId === tar.actorId) && (e.tokenId === tar.tokenId))) !== undefined);
+                sTargets += '<li class="_selActionTarget ' + ((bActive) ? '' : '_inactive') + '">'+   
+
+                                '<input type="checkbox" '+
+                                    'name="actSelectActionToken" '+
+                                    'data-actorid="'+tar.actorId+'"'+
+                                    'data-tokenid="'+tar.tokenId+'"'+
+                                    'value="{{'+tar.actorId+'}}" '+
+                                   ((!bActive) ? 'disabled' : '')+' />'+  
+                                '<div class="_selActionTargetWrap">'+
+                                    '<img src="'+tar._actor.img+'">'+
+                                    '<label>'+tar._actor.name+'</label>'+
+                                    '<div class="_distance">'+distance+'</div>'+
+                                '</div>'+
+                            '<li>';
+            });
+
+        } else {
+
+            mTargets0.map(tar => {
+
+                const eActor = (tar.actor) ? tar.actor : (tar._actor) ? tar._actor : null;
+                const eToken = (tar.token) ? tar.token : (eActor) ? eActor.token : null;
+                const uniqeId = (eActor.isToken) ? tar.tokenId : tar.actorId;
+                const distance = this.getDistance(myToken, eToken)+' '+this.getDistanceUnit();                   
+
+                const bActive = (mTargets.find(e => 
+                                    ((e.actorId === tar.actorId) && (e.tokenId === tar.tokenId))) !== undefined);
+                sTargets += '<li class="_selActionTarget ' + ((bActive) ? '' : '_inactive') + '">'+
+
+                                '<input type="radio" '+
+                                       'name="actSelectActionToken" '+
+                                       'data-actorid="'+tar.actorId+'"'+
+                                       'data-tokenid="'+tar.tokenId+'"'+
+                                       'value="{{'+tar.actorId+'}}" '+
+                                      ((!bActive) ? 'disabled' : '')+' />'+
+                                '<div class="_selActionTargetWrap">'+
+                                    '<img src="'+tar._actor.img+'">'+
+                                    '<label>'+tar._actor.name+'</label>'+
+                                    '<div class="_distance">'+distance+'</div>'+
+                                '</div>'+
+                            '<li>';
+            });
+        }
+        sTargets += '</ul>';
+
         // Content
         const content = ''+
         '<div class="_posterAction">'+
-            '<img src="'+action.img+'" />'+
-            '<div class="_whiteWrap"></div>'+
+            //'<img src="'+action.img+'" />'+
+            //'<div class="_whiteWrap"></div>'+
             '<label class="_text">'+
                 '<h1>'+action.name+'</h1>'+
                 action.system.description+
@@ -80,7 +152,7 @@ export class aqCombat {
                 '</label>'+
                 '<label class="_minimal2">'+game.i18n.localize('common.actionPoints')+'</label>'+
             '</div>'+
-            '<label class="_minimal3">'+game.i18n.localize('common.location')+'</label>'+
+            //'<label class="_minimal3">'+game.i18n.localize('common.location')+'</label>'+
             '<div class="_askingForLocation">'+
                 '<hbox class="_100">'+
                     '<input type="checkbox" '+
@@ -92,7 +164,8 @@ export class aqCombat {
                 '</hbox>'+
                 sTargetType+
                 sTargetLocation+
-            '</div>'
+            '</div>'+
+            sTargets+
         '</div>';        
 
         //Dialog
@@ -107,28 +180,51 @@ export class aqCombat {
         if (bAvailable) {
             buttons.button2 = {
                 label: game.i18n.localize('common.continue'),
-                enabled: bAvailable,
+                disabled: true,
                 callback: this._addAction.bind(this, actor, action),
                 icon: '<i class="fas fa-check"></i>'
             };
         }
-        new Dialog({
-            title: action.name,
-            content: content,
-            buttons: buttons,
-            default: "button1"
-        }).render(true, { width: '280px',
-                          height: '450px' });  
-
+        let dialog =  new Dialog({
+                            title: action.name,
+                            content: content,
+                            buttons: buttons,
+                            default: "button1"
+                      });
+        dialog.options.classes.push('addingActions');                      
+        dialog.render(true, {
+            width: 800,
+            height: 600,
+            minimizable: false
+        });
     }
-
+    
     /**
      * _addAction
      * @param {*} actor 
      * @param {*} action 
      */
     static async _addAction(actor, action, dialog, button) {
-            
+        
+        //Targets
+        let mTargets = [];
+        dialog.find('ul._targetsMatrix').find("li").each(function(index, reg) {
+            if ($(reg).find('input').prop("checked")) {
+                const sActorId = $(reg).find('input').data('actorid');
+                const sTokenId = $(reg).find('input').data('tokenid');
+                const uniqeId = aqActions.uniqeIdFromIDS(sActorId, sTokenId);
+                mTargets.push(uniqeId);
+            }
+        });        
+
+        if (mTargets.length === 0) {
+            new Dialog({
+                title: 'Info',
+                content: game.i18n.localize("info.noTargets2"),
+                buttons: [] }).render(true); 
+            return;
+        }
+
         //Apply Location...
         let applyLocation = dialog.find('#actApplyLocation')[0] ? 
             {
@@ -168,7 +264,8 @@ export class aqCombat {
             uniqeId: myUniqeId,
             action: action._id,
             consumed: false,
-            applyLocation: applyLocation
+            applyLocation: applyLocation,
+            targets: mTargets
         };
         
         if (mSteps.find(e => e.uniqeId === myUniqeId)) {
@@ -183,27 +280,34 @@ export class aqCombat {
         helperSocket.refreshSheets();
     }    
 
+
+    
+
     /**
-     * dialogTargets
-     * @param {*} uniqeId 
-     * @param {*} weaponId 
+     * getCombatTargets
      * @returns 
      */
-    static async dialogTargets(uniqeId, weaponId) {
+    static async getCombatTargets() {
+        const combat = aqActions.getCurrentCombat();
+        if (!combat) return;
+        let mActors = combat.turns;
+        mActors.map(e => {
+            e._actor = null;
+            e._actor = (game.scenes.active.tokens.get(e.tokenId)) ? 
+                                game.scenes.active.tokens.get(e.tokenId).getActor() :
+                                game.actors.get(e.actorId);
+        });
+        return mActors;
+    }
 
-        const tokenId = (game.scenes.active.tokens.get(uniqeId)) ? uniqeId : null;
-        const actor = (tokenId) ? game.scenes.active.tokens.get(uniqeId).getActor() : game.actors.get(uniqeId);
-        const actorId = actor.id;        
-        if (!actor) return;
-
-        const action = aqActions.getCurrentAction(actorId, tokenId);
-        if (!action) return;
-
-        const bCombatSkill = ( (action.system.skill.useSkill) && 
-                               (!action.system.skill.skillAsCombat) );
-
-        const weapon = (!bCombatSkill) ? actor.items.get(weaponId) : null;
-        if ((!weapon) && (!bCombatSkill)) return;        
+    /**
+     * getActionTargets
+     * @param {*} action 
+     * @param {*} actorId 
+     * @param {*} tokenId 
+     * @returns 
+     */
+    static async getActionTargets(action, actorId, tokenId) {
 
         const combat = aqActions.getCurrentCombat();
         if (!combat) return;
@@ -279,6 +383,73 @@ export class aqCombat {
                     e.actor.system.modes.find(s0 => s0 === s));
             }
         }
+
+        return mActors;
+    }
+
+    /**
+     * prePlayWeapon
+     * @param {*} uniqeId 
+     * @param {*} weaponId 
+     */
+    static async prePlayWeapon(uniqeId, weaponId) {
+
+        const tokenId = (game.scenes.active.tokens.get(uniqeId)) ? uniqeId : null;
+        const actor = (tokenId) ? game.scenes.active.tokens.get(uniqeId).getActor() : game.actors.get(uniqeId);
+        const actorId = actor.id;        
+        if (!actor) return;
+
+        const action = aqActions.getCurrentAction(actorId, tokenId);
+        if (!action) return;
+
+        const bCombatSkill = ( (action.system.skill.useSkill) && 
+                               (!action.system.skill.skillAsCombat) );
+
+        const weapon = (!bCombatSkill) ? actor.items.get(weaponId) : null;
+        if ((!weapon) && (!bCombatSkill)) return;        
+
+        const combat = aqActions.getCurrentCombat();
+        if (!combat) return;
+
+        const step = aqActions.getCurrentStep();
+
+        //Creating context...
+        let context = new aqContext({ actorId: actorId, 
+                                      tokenId: tokenId,
+                                      weaponId: weaponId });        
+        await context.setTargets(step.targets);
+
+        if (!bCombatSkill)  await aqCombat.playWeapon(context);     
+                      else  await aqCombat.playCombatSkill(uniqeId, context);         
+
+    }
+
+    /**
+     * dialogTargets
+     * @param {*} uniqeId 
+     * @param {*} weaponId 
+     * @returns 
+     */
+    static async dialogTargets(uniqeId, weaponId) {
+
+        const tokenId = (game.scenes.active.tokens.get(uniqeId)) ? uniqeId : null;
+        const actor = (tokenId) ? game.scenes.active.tokens.get(uniqeId).getActor() : game.actors.get(uniqeId);
+        const actorId = actor.id;        
+        if (!actor) return;
+
+        const action = aqActions.getCurrentAction(actorId, tokenId);
+        if (!action) return;
+
+        const bCombatSkill = ( (action.system.skill.useSkill) && 
+                               (!action.system.skill.skillAsCombat) );
+
+        const weapon = (!bCombatSkill) ? actor.items.get(weaponId) : null;
+        if ((!weapon) && (!bCombatSkill)) return;        
+
+        const combat = aqActions.getCurrentCombat();
+        if (!combat) return;
+
+        let mActors = await this.getActionTargets(action, actorId, tokenId);
 
         //Creating context...
         let context = new aqContext({actorId: actorId, 
@@ -435,6 +606,15 @@ export class aqCombat {
         ruler.measure({});
         ruler.destroy();        
         return sDistance;
+    }
+
+    /**
+     * getDistanceUnit
+     */
+    static getDistanceUnit() {
+        return ( (game.scenes.active.grid.units) ?
+                    game.scenes.active.grid.units :
+                    game.i18n.localize("common.distanceUnit"));
     }
 
     /**
