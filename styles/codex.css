@@ -605,8 +605,20 @@ li._magicItem {
   text-align: right;
   color: #ffffff94;
 }
+._codicePenals ._codicePenal.switchTabula label._title {
+  line-height: 17px;
+}
 ._codicePenals ._codicePenal label._title::first-letter {
   font-size: 25px;
+}
+._codicePenal.switchTabula {
+  margin-top: 20px;
+  padding-top: 10px;
+  height: 50px;
+  display: flex;
+  border-top: 1px solid #ffffff8f;
+  align-content: center;
+  align-items: center;
 }
 ._codicePenals ._codicePenal input {
   width: 60px;

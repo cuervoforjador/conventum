@@ -41,9 +41,14 @@
             <a data-tab="cultures">{{ localize "template.culture" }}</a>
             <a data-tab="societies">{{ localize "template.society" }}</a>
             <a data-tab="stratums">{{ localize "template.stratum" }}</a>
-            <a data-tab="status">{{ localize "template.status" }}</a>
+            {{!-- <a data-tab="status">{{ localize "template.status" }}</a> --}}
             <a data-tab="skills1">{{ localize "common.primary" }}</a>
+            <a data-tab="combat1">{{ localize "common.combatPrimary" }}</a>
             <a data-tab="skills2">{{ localize "common.secondary" }}</a>
+            <a data-tab="combat2">{{ localize "common.combatSecondary" }}</a> 
+            <a data-tab="languages">{{ localize "common.languages" }}</a>   
+            <a data-tab="income">{{ localize "common.income" }}</a>    
+            <a data-tab="others">{{ localize "common.others" }}</a>         
             <a data-tab="description">{{ localize "common.description" }}</a>
         </nav> 
         <div class="frameContent">
@@ -52,19 +57,41 @@
                 {{!--- REQUIREMENT ---}}
                 <div class="tab main" data-group="primary" data-tab="main">
 
-                    <ul class="profSkills">
+                    <slidePanel class="_100">
+                        <panelContent style="padding-bottom: 5px; padding-top: 5px;">
+                            <hbox class="_50">
+                                <label>{{localize "common.male"}}</label>
+                                <label class="switch">
+                                    <input type="checkbox" 
+                                            name="system.requirement.male" 
+                                            {{checked systemData.requirement.male}} />
+                                    <span class="sliderSwitch"></span>
+                                </label>                   
+                            </hbox>
+                            <hbox class="_50">
+                                <label>{{localize "common.female"}}</label>
+                                <label class="switch">
+                                    <input type="checkbox" 
+                                            name="system.requirement.female" 
+                                            {{checked systemData.requirement.female}} />
+                                    <span class="sliderSwitch"></span>
+                                </label>                   
+                            </hbox>                            
+                        </panelContent>
+                    </slidePanel>
+                    <ul class="profSkills" style="margin-top: -16px;">
                         {{#each backend.charPrimary as |char key|}}
                         <li class="_profSkill">
                             <label class="switch" style="margin-right: 10px; margin-left: 10px;">
                                 <input type="checkbox" 
                                     name="system.requirement.primary.{{char.id}}.apply"
-                                    {{checkedExtend 'system.requirement.primary' char.id 'apply'}} />
+                                    {{checkedExtend 'systemData.requirement.primary' char.id 'apply'}} />
                                 <span class="sliderSwitch"></span>
                             </label>                            
                             <label class="_120px">{{char.name}}</label>
                             <input class="_30px _center" 
                                 name="system.requirement.primary.{{char.id}}.mod"
-                                value="{{itemPropertyExtend 'system.requirement.primary' char.id 'mod'}}" 
+                                value="{{itemPropertyExtend 'systemData.requirement.primary' char.id 'mod'}}" 
                                 type="number" />                            
                         </li>
                         {{/each}}
@@ -73,13 +100,13 @@
                             <label class="switch" style="margin-right: 10px; margin-left: 10px;">
                                 <input type="checkbox" 
                                     name="system.requirement.secondary.{{char.id}}.apply"
-                                    {{checkedExtend 'system.requirement.secondary' char.id 'apply'}} />
+                                    {{checkedExtend 'systemData.requirement.secondary' char.id 'apply'}} />
                                 <span class="sliderSwitch"></span>
                             </label>                            
                             <label class="_120px">{{char.name}}</label>
                             <input class="_30px _center" 
                                 name="system.requirement.secondary.{{char.id}}.mod"
-                                value="{{itemPropertyExtend 'system.requirement.secondary' char.id 'mod'}}" 
+                                value="{{itemPropertyExtend 'systemData.requirement.secondary' char.id 'mod'}}" 
                                 type="number" />                            
                         </li>
                         {{/each}}                        
@@ -89,13 +116,27 @@
                 {{!--- KINGDOMS ---}}
                 <div class="tab kingdoms" data-group="primary" data-tab="kingdoms">
 
+                    <slidePanel class="_100">
+                        <panelContent style="padding-bottom: 5px; padding-top: 5px;">
+                            <hbox class="_50">
+                                <label>{{localize "common.xKingdom"}}</label>
+                                <label class="switch">
+                                    <input type="checkbox" 
+                                            name="system.requirement.xKingdom" 
+                                            {{checked systemData.requirement.xKingdom}} />
+                                    <span class="sliderSwitch"></span>
+                                </label>                   
+                            </hbox>                            
+                        </panelContent>
+                    </slidePanel>
+
                     <ul class="profSkills">
                         {{#each backend.kingdoms as |item key|}}
                         <li class="_profSkill">
                             <label class="switch" style="margin-right: 10px; margin-left: 10px;">
                                 <input type="checkbox" 
                                     name="system.requirement.kingdoms.{{item._id}}.apply"
-                                    {{checkedExtend 'system.requirement.kingdoms' item._id 'apply'}} />
+                                    {{checkedExtend 'systemData.requirement.kingdoms' item._id 'apply'}} />
                                 <span class="sliderSwitch"></span>
                             </label>                            
                             <label class="_120px">{{item.name}}</label>                          
@@ -107,13 +148,27 @@
                 {{!--- CULTURES ---}}
                 <div class="tab cultures" data-group="primary" data-tab="cultures">
 
+                    <slidePanel class="_100">
+                        <panelContent style="padding-bottom: 5px; padding-top: 5px;">
+                            <hbox class="_50">
+                                <label>{{localize "common.xCulture"}}</label>
+                                <label class="switch">
+                                    <input type="checkbox" 
+                                            name="system.requirement.xCulture" 
+                                            {{checked systemData.requirement.xCulture}} />
+                                    <span class="sliderSwitch"></span>
+                                </label>                   
+                            </hbox>                            
+                        </panelContent>
+                    </slidePanel>
+
                     <ul class="profSkills">
                         {{#each backend.cultures as |item key|}}
                         <li class="_profSkill">
                             <label class="switch" style="margin-right: 10px; margin-left: 10px;">
                                 <input type="checkbox" 
                                     name="system.requirement.cultures.{{item._id}}.apply"
-                                    {{checkedExtend 'system.requirement.cultures' item._id 'apply'}} />
+                                    {{checkedExtend 'systemData.requirement.cultures' item._id 'apply'}} />
                                 <span class="sliderSwitch"></span>
                             </label>                            
                             <label class="_120px">{{item.name}}</label>                         
@@ -131,7 +186,7 @@
                             <label class="switch" style="margin-right: 10px; margin-left: 10px;">
                                 <input type="checkbox" 
                                     name="system.requirement.societies.{{item._id}}.apply"
-                                    {{checkedExtend 'system.requirement.societies' item._id 'apply'}} />
+                                    {{checkedExtend 'systemData.requirement.societies' item._id 'apply'}} />
                                 <span class="sliderSwitch"></span>
                             </label>                            
                             <label class="_120px">{{item.name}}</label>                         
@@ -149,16 +204,25 @@
                             <label class="switch" style="margin-right: 10px; margin-left: 10px;">
                                 <input type="checkbox" 
                                     name="system.requirement.stratums.{{item._id}}.apply"
-                                    {{checkedExtend 'system.requirement.stratums' item._id 'apply'}} />
+                                    {{checkedExtend 'systemData.requirement.stratums' item._id 'apply'}} />
                                 <span class="sliderSwitch"></span>
                             </label>                            
-                            <label class="_120px">{{item.name}}</label>                       
+                            <label class="_120px">{{item.name}}</label>   
+                            <input class="_30px _center" 
+                                name="system.requirement.stratums.{{item._id}}.rollFrom"
+                                value="{{itemPropertyExtend 'systemData.requirement.stratums' item._id 'rollFrom'}}" 
+                                type="number" />        
+                            <input class="_30px _center" 
+                                name="system.requirement.stratums.{{item._id}}.rollTo"
+                                value="{{itemPropertyExtend 'systemData.requirement.stratums' item._id 'rollTo'}}" 
+                                type="number" />                                                                          
                         </li>
                         {{/each}}                     
                     </ul>
                 </div>                
 
                 {{!--- STATUS ---}}
+                {{!--
                 <div class="tab status" data-group="primary" data-tab="status">
 
                     <ul class="profSkills">
@@ -167,7 +231,7 @@
                             <label class="switch" style="margin-right: 10px; margin-left: 10px;">
                                 <input type="checkbox" 
                                     name="system.requirement.status.{{item._id}}.apply"
-                                    {{checkedExtend 'system.requirement.status' item._id 'apply'}} />
+                                    {{checkedExtend 'systemData.requirement.status' item._id 'apply'}} />
                                 <span class="sliderSwitch"></span>
                             </label>                            
                             <label class="_120px">{{item.name}}</label>                         
@@ -175,6 +239,7 @@
                         {{/each}}                     
                     </ul>
                 </div>
+                --}}
 
                 {{!--- SKILLS 1 ---}}
                 <div class="tab skills1" data-group="primary" data-tab="skills1">
@@ -185,13 +250,13 @@
                             <label class="switch" style="margin-right: 10px; margin-left: 10px;">
                                 <input type="checkbox" 
                                     name="system.skills.primary.{{skill._id}}.apply"
-                                    {{checkedExtend 'system.skills.primary' skill._id 'apply'}} />
+                                    {{checkedExtend 'systemData.skills.primary' skill._id 'apply'}} />
                                 <span class="sliderSwitch"></span>
                             </label>                            
                             <label class="_120px">{{skill.name}}</label>
                             <input class="_30px _center" 
                                 name="system.skills.primary.{{skill._id}}.mod"
-                                value="{{itemPropertyExtend 'system.skills.primary' skill._id 'mod'}}" 
+                                value="{{itemPropertyExtend 'systemData.skills.primary' skill._id 'mod'}}" 
                                 type="number" />
                         </li>
                         {{/each}}
@@ -207,18 +272,224 @@
                             <label class="switch" style="margin-right: 10px; margin-left: 10px;">
                                 <input type="checkbox" 
                                     name="system.skills.secondary.{{skill._id}}.apply"
-                                    {{checkedExtend 'system.skills.secondary' skill._id 'apply'}} />
+                                    {{checkedExtend 'systemData.skills.secondary' skill._id 'apply'}} />
                                 <span class="sliderSwitch"></span>
                             </label>                            
                             <label class="_120px">{{skill.name}}</label>
                             <input class="_30px _center" 
                                 name="system.skills.secondary.{{skill._id}}.mod"
-                                value="{{itemPropertyExtend 'system.skills.secondary' skill._id 'mod'}}" 
+                                value="{{itemPropertyExtend 'systemData.skills.secondary' skill._id 'mod'}}" 
                                 type="number" />
                         </li>
                         {{/each}}
                     </ul>               
                 </div>
+
+                {{!--- COMBAT 1 ---}}
+                <div class="tab combat1" data-group="primary" data-tab="combat1">
+                    
+                    <slidePanel class="_100">
+                        <panelContent style="padding-bottom: 5px; padding-top: 5px;">
+                            <hbox class="_50">
+                                <label>{{localize "common.maxCombatSkill"}}</label>
+                                <input class="_30px _center" 
+                                       name="system.skills.maxCombatPrimary"
+                                       value="{{systemData.skills.maxCombatPrimary}}"
+                                       type="number" />                    
+                            </hbox>
+                        </panelContent>
+                    </slidePanel>
+                    <ul class="profSkills" style="margin-top: -16px;">
+                        {{#each backend.socialGroups as |group id|}}
+                        <li class="_profSkill">
+                            <label class="_100px">{{group.name}}</label>
+                            <label class="switch" style="margin-right: 10px">
+                                <input type="checkbox" 
+                                    name="system.skills.combatPrimaryGroup.{{group.id}}.apply" 
+                                    {{checkedExtend 'systemData.skills.combatPrimaryGroup' group.id 'apply'}} />
+                                <span class="sliderSwitch"></span>
+                            </label>                    
+                        </li>
+                        {{/each}}
+                    </ul>                      
+                    <ul class="profSkills" style="margin-top: -16px;">
+                        {{#each backend.combatSkill as |skill id|}}
+                        <li class="_profSkill">
+                            <label class="_100px">{{skill.name}}</label>
+                            <label class="switch" style="margin-right: 10px">
+                                <input type="checkbox" 
+                                    name="system.skills.combatPrimary.{{skill._id}}.apply" 
+                                    {{checkedExtend 'systemData.skills.combatPrimary' skill._id 'apply'}} />
+                                <span class="sliderSwitch"></span>
+                            </label>                    
+                        </li>
+                        {{/each}}
+                    </ul>                     
+                    
+                </div> 
+
+                {{!--- COMBAT 2 ---}}
+                <div class="tab combat2" data-group="primary" data-tab="combat2">
+                    
+                    <slidePanel class="_100">
+                        <panelContent style="padding-bottom: 5px; padding-top: 5px;">
+                            <hbox class="_50">
+                                <label>{{localize "common.maxCombatSkill"}}</label>
+                                <input class="_30px _center" 
+                                       name="system.skills.maxCombatSecondary"
+                                       value="{{systemData.skills.maxCombatSecondary}}"
+                                       type="number" />                    
+                            </hbox>
+                        </panelContent>
+                    </slidePanel>
+                    <ul class="profSkills" style="margin-top: -16px;">
+                        {{#each backend.socialGroups as |group id|}}
+                        <li class="_profSkill">
+                            <label class="_100px">{{group.name}}</label>
+                            <label class="switch" style="margin-right: 10px">
+                                <input type="checkbox" 
+                                    name="system.skills.combatSecondaryGroup.{{group.id}}.apply" 
+                                    {{checkedExtend 'systemData.skills.combatSecondaryGroup' group.id 'apply'}} />
+                                <span class="sliderSwitch"></span>
+                            </label>                    
+                        </li>
+                        {{/each}}
+                    </ul> 
+                    <ul class="profSkills" style="margin-top: -16px;">
+                        {{#each backend.combatSkill as |skill id|}}
+                        <li class="_profSkill">
+                            <label class="_100px">{{skill.name}}</label>
+                            <label class="switch" style="margin-right: 10px">
+                                <input type="checkbox" 
+                                    name="system.skills.combatSecondary.{{skill._id}}.apply" 
+                                    {{checkedExtend 'systemData.skills.combatSecondary' skill._id 'apply'}} />
+                                <span class="sliderSwitch"></span>
+                            </label>                    
+                        </li>
+                        {{/each}}
+                    </ul>
+
+                </div>
+
+                {{!--- LANGUAGES ---}}
+                <div class="tab languages" data-group="primary" data-tab="languages">
+                    
+                    <ul class="profSkills" style="margin-top: -16px;">
+                        {{#each backend.languages as |language id|}}
+                        <li class="_profSkill">
+                            <label class="switch" style="margin-right: 10px; margin-left: 10px;">
+                                <input type="checkbox" 
+                                    name="system.skills.languages.{{language._id}}.apply"
+                                    {{checkedExtend 'systemData.skills.languages' language._id 'apply'}} />
+                                <span class="sliderSwitch"></span>
+                            </label>                            
+                            <label class="_120px">{{language.name}}</label>
+                            <input class="_30px _center" 
+                                name="system.skills.languages.{{language._id}}.mod"
+                                value="{{itemPropertyExtend 'systemData.skills.languages' language._id 'mod'}}" 
+                                type="number" />
+                        </li>
+                        {{/each}}
+                    </ul> 
+                </div>
+
+                {{!--- INCOME ---}}
+                <div class="tab income" data-group="primary" data-tab="income">
+                    
+                    <slidePanel class="_100">
+                        <panelContent style="padding-bottom: 5px; padding-top: 5px;">
+                            <hbox class="_50">
+                                <label>{{localize "common.bySkill"}}</label>
+                                <label class="switch">
+                                    <input type="checkbox" 
+                                            name="system.incomeExtend.bySkill" 
+                                            {{checked systemData.incomeExtend.bySkill}} />
+                                    <span class="sliderSwitch"></span>
+                                </label>                   
+                            </hbox>  
+                            <hbox class="_50">
+                                <label>{{localize "common.byCharacteristic"}}</label>
+                                <label class="switch">
+                                    <input type="checkbox" 
+                                            name="system.incomeExtend.byCharacteristic" 
+                                            {{checked systemData.incomeExtend.byCharacteristic}} />
+                                    <span class="sliderSwitch"></span>
+                                </label>                   
+                            </hbox>                              
+                        </panelContent>
+                    </slidePanel>
+
+                    {{#if systemData.incomeExtend.bySkill}}
+                    <ul class="profSkills" style="margin-top: -16px;">
+                        {{#each backend.skills as |skill key|}}
+                        <li class="_profSkill">
+                            <label class="switch" style="margin-right: 10px; margin-left: 10px;">
+                                <input type="checkbox" 
+                                    name="system.incomeExtend.skill.{{skill._id}}.apply"
+                                    {{checkedExtend 'systemData.incomeExtend.skill' skill._id 'apply'}} />
+                                <span class="sliderSwitch"></span>
+                            </label>                            
+                            <label class="_120px">{{skill.name}}</label>
+                            <input class="_30px _center" 
+                                name="system.incomeExtend.skill.{{skill._id}}.mod"
+                                value="{{itemPropertyExtend 'systemData.incomeExtend.skill' skill._id 'mod'}}" 
+                                type="number" />
+                        </li>
+                        {{/each}}
+                    </ul> 
+                    {{/if}}
+
+                    {{#if systemData.incomeExtend.byCharacteristic}}
+                    <ul class="profSkills">
+                        {{#each backend.charSecondary as |char key|}}
+                        <li class="_profSkill">
+                            <label class="switch" style="margin-right: 10px; margin-left: 10px;">
+                                <input type="checkbox" 
+                                    name="system.incomeExtend.characteristic.{{char.id}}.apply"
+                                    {{checkedExtend 'systemData.incomeExtend.characteristic' char.id 'apply'}} />
+                                <span class="sliderSwitch"></span>
+                            </label>                            
+                            <label class="_120px">{{char.name}}</label>
+                            <input class="_30px _center" 
+                                name="system.incomeExtend.characteristic.{{char.id}}.mod"
+                                value="{{itemPropertyExtend 'systemData.incomeExtend.characteristic' char.id 'mod'}}" 
+                                type="number" />                            
+                        </li>
+                        {{/each}}                        
+                    </ul>    
+                    {{/if}}                
+
+                </div>                
+
+                {{!--- OTHERS ---}}
+                <div class="tab others" data-group="primary" data-tab="others">
+
+                    <slidePanel class="_100">
+                        <panelContent style="padding-bottom: 5px; padding-top: 5px;">
+                            <hbox class="_50">
+                                <label>{{localize "common.bastard"}}</label>
+                                <label class="switch">
+                                    <input type="checkbox" 
+                                            name="system.others.bastard" 
+                                            {{checked systemData.others.bastard}} />
+                                    <span class="sliderSwitch"></span>
+                                </label>                   
+                            </hbox>      
+                            <hbox class="_50">
+                            </hbox>      
+                            <hbox class="_100">
+                                <label style="width: 25%; 
+                                              max-width: 25%; 
+                                              min-width: 25%;">{{localize "common.bastardName"}}</label>
+                                <input style="width: 250px; min-width: 250px; text-align: left;"
+                                       name="system.others.bastardName"
+                                       value="{{systemData.others.bastardName}}" />                   
+                            </hbox>                                              
+                        </panelContent>
+                    </slidePanel>
+
+                    
+                </div>       
 
                 {{!--- DESCRIPTION & IMAGE ---}}
                 <div class="tab description" data-group="primary" data-tab="description">

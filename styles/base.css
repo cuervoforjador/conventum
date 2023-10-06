@@ -631,6 +631,11 @@ a img {
     min-width: 120px!important;
     max-width: 120px!important;
 }
+._150px {
+    width: 150px;
+    min-width: 150px!important;
+    max-width: 150px!important;
+}
 
 ._normalText {
     font-size: 15px!important;

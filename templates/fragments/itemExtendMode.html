@@ -158,7 +158,25 @@
                    value="{{systemData.config.combatSkill.mult}}" 
                    data-dtype="Number"
                    type="text" />            
-        </hbox>        
+        </hbox>   
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.onlyAttack" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                    name="system.config.combatSkill.onlyAttack" 
+                    {{checked systemData.config.combatSkill.onlyAttack}} />
+                <span class="sliderSwitch"></span>
+            </label>           
+        </hbox>   
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.onlyDefense" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                    name="system.config.combatSkill.onlyDefense" 
+                    {{checked systemData.config.combatSkill.onlyDefense}} />
+                <span class="sliderSwitch"></span>
+            </label>           
+        </hbox>                   
 
 
         <h3 class="_100">{{localize "common.damage"}}</h3>
@@ -235,6 +253,13 @@
                 <span class="sliderSwitch"></span>
             </label>            
         </hbox> 
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.formula" }}</label>
+            <input class="_100px" 
+                   name="system.config.location.formula"
+                   value="{{systemData.config.location.formula}}" 
+                   type="text" />            
+        </hbox>         
         <lineDiv></lineDiv>
         {{#each backend.locations as |localization id|}}           
         <hbox class="_50">

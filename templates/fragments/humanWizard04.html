@@ -1,3 +1,6 @@
+{{#if imMaster}}
+<a class="_goingBack"><div class="_backButton"><<</div></a>
+{{/if}}
 <hbox class="_header">
     <vbox>
         <h1>{{localize 'wizard.title04'}}</h1>
@@ -12,17 +15,54 @@
     </div>    
 </hbox>
 
+<div class="_wzDetail" style="margin-bottom:10px;">
+    <hbox class="_100">
+        <label class="_120px">{{localize "common.kingdom"}}</label>
+        <a class="wizardOption"
+           data-field="kingdom"
+           data-value="{{systemData.bio.kingdom}}"
+           data-compendium="kingdoms">
+                {{bioInfo.kingdom.name}}
+        </a>
+    </hbox>    
+    <hbox class="_100">
+        <label class="_120px">{{localize "common.culture"}}</label>
+        <a class="wizardOption"
+           data-field="culture"
+           data-value="{{systemData.bio.culture}}"
+           data-compendium="cultures">
+                {{bioInfo.culture.name}}
+        </a>
+    </hbox>
+</div>
+
 <ul>
 {{#each backend.stratums as |stratum key|}}
-<a class="wizardOption"
-   data-field="stratum"
-   data-value="{{stratum.id}}"
-   data-compendium="stratums">
-    <li class="_wizardOption" data-filter="{{stratum.name}}">
-        <img src="{{stratum.img}}" />
-        <label class="_range">{{stratum.system.range.low}} - {{stratum.system.range.high}}</label>
-        <label>{{stratum.name}}</label>
-    </li>
-</a>
+    {{#if ../imMaster}}
+    <a class="wizardOption"
+        data-field="stratum"
+        data-value="{{stratum.id}}"
+        data-compendium="stratums">
+    {{else}}
+    <a class="wizardOption"
+        data-field="stratum"
+        data-value="{{stratum.id}}"
+        data-compendium="stratums"
+        style="width: 100%">
+    {{/if}}   
+        <li class="_wizardOption" 
+            data-filter="{{stratum.name}}"
+            data-field="stratum"
+            data-value="{{stratum.id}}"
+            data-compendium="stratums">
+            
+            <img src="{{stratum.img}}" />
+            <label class="_range">{{stratum.system.range.low}} - {{stratum.system.range.high}}</label>
+            <label class="_name">{{stratum.name}}</label>
+            {{#if ../imMaster}}
+            <a class="_wizardButton">{{localize 'common.select'}}</a>
+            {{/if}}          
+        </li>
+    </a>
 {{/each}}
 </ul>

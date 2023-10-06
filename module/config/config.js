@@ -25,6 +25,23 @@ export const extendConfig = {
         "islamicae",
         "iudae"
     ],
+    socialGroups: [
+        {
+            id: 'nobleman',
+            i18n: 'social.nobleman',
+            name: ''
+        },
+        {
+            id: 'soldier',
+            i18n: 'social.soldier',
+            name: ''
+        },
+        {
+            id: 'villain',
+            i18n: 'social.villain',
+            name: ''
+        }            
+    ],
     armorTypes: [
         {
             id: '01',

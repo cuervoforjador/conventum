@@ -3,7 +3,7 @@
     <panelContent>
         <h3 class="_100">{{localize "common.characteristics"}}</h3>
         <hbox class="_50">
-            <label class="_150px">{{localize "common.primary" }}</label>
+            <label class="_80px">{{localize "common.primary" }}</label>
             <select name="system.characteristic.primary">
                 {{selectOptions backend.characteristics 
                                 selected=systemData.characteristic.primary
@@ -13,7 +13,7 @@
             </select>              
         </hbox>  
         <hbox class="_50">
-            <label class="_150px">{{localize "common.secondary" }}</label>
+            <label class="_80px">{{localize "common.secondary" }}</label>
             <select name="system.characteristic.secondary">
                 {{selectOptions backend.characteristics 
                                 selected=systemData.characteristic.secondary
@@ -22,10 +22,22 @@
                                 labelAttr="name" }}
             </select>               
         </hbox> 
+        <h3 class="_100">{{localize "common.socialGroup"}}</h3>
+        {{#each backend.socialGroups as |group id|}}
+        <hbox class="_50">
+            <label class="_80px">{{group.name}}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                    name="system.group.{{group.id}}.apply" 
+                    {{checkedExtend 'systemData.group' group.id 'apply'}} />
+                <span class="sliderSwitch"></span>
+            </label>                    
+        </hbox>
+        {{/each}}      
 
         <h3 class="_100">{{localize "common.combat"}}</h3>
         <hbox class="_50">
-            <label class="_150px">{{localize "common.apply" }}</label>
+            <label class="_80px">{{localize "common.apply" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                     name="system.combat.combat" 
@@ -33,14 +45,7 @@
                 <span class="sliderSwitch"></span>
             </label>               
         </hbox>
-        <hbox class="_50">
-            <label class="_150px">{{localize "common.apply" }}</label>
-            <label class="switch" style="margin-right: 10px">
-                <input type="checkbox" 
-                    name="system.combat.combat" 
-                    {{checked systemData.combat.combat}} />
-                <span class="sliderSwitch"></span>
-            </label>               
+        <hbox class="_50">              
         </hbox>
         <hbox class="_50">
             <label class="_80px">{{localize "common.contact" }}</label>
@@ -72,11 +77,24 @@
      
         <h3 class="_100">{{localize "common.magic"}}</h3>
         <hbox class="_50">
-            <label class="_150px">{{localize "common.apply" }}</label>
+            <label class="_80px">{{localize "common.apply" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                     name="system.magic.magic" 
                     {{checked systemData.magic.magic}} />
+                <span class="sliderSwitch"></span>
+            </label>             
+        </hbox>
+        <hbox class="_50">       
+        </hbox>      
+        
+        <h3 class="_100">{{localize "common.languages"}}</h3>
+        <hbox class="_50">
+            <label class="_80px">{{localize "common.apply" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                    name="system.languages.apply" 
+                    {{checked systemData.languages.apply}} />
                 <span class="sliderSwitch"></span>
             </label>             
         </hbox>

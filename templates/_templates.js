@@ -39,6 +39,11 @@ export const preloadTemplates = async function() {
       humanWizard08: CONFIG._root+"/templates/fragments/humanWizard08.html",
       humanWizard09: CONFIG._root+"/templates/fragments/humanWizard09.html",
       humanWizard10: CONFIG._root+"/templates/fragments/humanWizard10.html",
+      humanWizard11: CONFIG._root+"/templates/fragments/humanWizard11.html",
+      humanWizard12: CONFIG._root+"/templates/fragments/humanWizard12.html",
+      humanWizard13: CONFIG._root+"/templates/fragments/humanWizard13.html",
+      humanWizard14: CONFIG._root+"/templates/fragments/humanWizard14.html",
+      humanWizard15: CONFIG._root+"/templates/fragments/humanWizard15.html",
 
       humanHeaderShrink: CONFIG._root+"/templates/fragments/humanHeaderShrink.html",
       humanMainShrink: CONFIG._root+"/templates/fragments/humanMainShrink.html",

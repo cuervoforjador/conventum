@@ -69,6 +69,9 @@ export class extendSheetHuman extends ActorSheet {
     //Traits...
     context.traits = this.actor.items.filter(e=>e.type === 'trait');
 
+    //Bio extend info...
+    context.bioInfo = await helperSheetHuman.getBioInfo(context.systemData, context.backend);
+
     //Modes...
     if (!context.systemData.modes.length) {
       context.systemData.modes = [];
@@ -79,7 +82,7 @@ export class extendSheetHuman extends ActorSheet {
     context.modes = await helperSheetHuman.getModes(this.actor, context);
 
     //Skills...
-    helperSheetHuman.getSkills(this.actor, context);
+    await helperSheetHuman.getSkills(this.actor, context);
     context.systemData.modes = this.actor.system.modes;
 
     //Languages...
@@ -114,7 +117,7 @@ export class extendSheetHuman extends ActorSheet {
     context.codex = helperSheetMagic.codex(this.actor);
     
     //Checking Items..
-    helperSheetHuman.checkMyItems(this.actor);
+    helperSheetHuman.checkMyItems(this.actor, context.systemData);
     helperSheetHuman.itemsInUse(this.actor, context.systemData);
 
     //Quick Bars...
@@ -144,6 +147,11 @@ export class extendSheetHuman extends ActorSheet {
     /* Wizard */
     html.find(".wizardOption").click(this._wizardOption.bind(this));
     html.find(".wizardDices").click(this._wizardDices.bind(this));
+    html.find("a._wizardButton").click(this._wizardSelect.bind(this));
+    html.find("a._goingBack").click(this._goingBack.bind(this));
+    html.find("a.wizardNextStep").click(this._wizardNextStep.bind(this));
+    html.find("a.wzGender").click(this._wzGender.bind(this));
+    html.find("input._changeWzLanguage").change(this._changeWzLanguage.bind(this));
 
     /* Misc */
     html.find("._showQuickBar").click(this._showQuickBar.bind(this));
@@ -248,6 +256,39 @@ export class extendSheetHuman extends ActorSheet {
     const sField = event.currentTarget?.dataset.field;   
     const sCompendium = event.currentTarget?.dataset.compendium;
     helperSheetHuman.wz_Dices(this.actor, sField, sCompendium);
+  }
+
+  _wizardSelect(event) {
+    event.preventDefault();
+    const target = $(event.currentTarget).parent()[0];
+    const sField = target?.dataset.field;
+    const sValue = target?.dataset.value;    
+    const sCompendium = target?.dataset.compendium;
+    helperSheetHuman.wz_Select(this.actor, sField, sValue, sCompendium);
+  }
+
+  _goingBack(event) {
+    event.preventDefault();
+    helperSheetHuman.wz_goingBack(this.actor);
+  }
+
+  _wizardNextStep(event) {
+    event.preventDefault();
+    const target = $(event.target).parent()[0];
+    helperSheetHuman.wz_nextStep(this.actor, target?.dataset.step, target?.dataset.field);    
+  }
+
+  _wzGender(event) {
+    event.preventDefault();
+    const sGender = event.currentTarget?.dataset.gender;    
+    helperSheetHuman.wz_setGender(this.actor, (sGender === "female"));        
+  }
+
+  _changeWzLanguage(event) {
+    event.preventDefault();
+    const sId = event.currentTarget?.dataset.id;
+    const sType = event.currentTarget?.dataset.type;
+    helperSheetHuman._changeWzLanguage(this.actor, sId, sType);
   }
 
   _setQuickBar(quickBar) {
@@ -409,7 +450,7 @@ export class extendSheetHuman extends ActorSheet {
     const skill = this.actor.system.skills[skillId];
     if (!skill) return;
     const sPath = 'skills.'+skillId;
-    helperRolls.rollDices(this.actor, sPath, true, sFormula, actionId);
+    helperRolls.rollDices(this.actor, sPath, true, sFormula, actionId, skill);
   }
 
   async _skillInfo(event) {
@@ -495,7 +536,8 @@ export class extendSheetHuman extends ActorSheet {
       if (actorActions.action.system.target.forceSelection) {
           aqCombat.dialogTargets(uniqeId, null);
       } else {
-          aqCombat.playCombatSkill(uniqeId);
+          aqCombat.prePlayWeapon(uniqeId, null);
+          //aqCombat.playCombatSkill(uniqeId);
       }
   }
 

@@ -1,0 +1,124 @@
+{{#if imMaster}}
+<a class="_goingBack"><div class="_backButton"><<</div></a>
+{{/if}}
+<hbox class="_header">
+    <vbox>
+        <h1>{{localize 'wizard.title13'}}</h1>
+        <p>{{localize 'wizard.text13'}}</p>
+    </vbox>    
+</hbox>
+
+<div class="_wzDetail" style="margin-bottom: 15px;">
+    <hbox class="_100">
+        <label>{{localize "common.profession"}}</label>
+        <a class="wizardOption"
+           data-field="profession"
+           data-value="{{systemData.bio.profession}}"
+           data-compendium="professions">
+                {{bioInfo.profession.name}}
+        </a>
+    </hbox>
+</div>
+
+<ul class="_wzSkills">
+    <li class="_header">
+        <label class="_name">{{localize 'common.skill'}}</label> 
+        <label class="_wzProfTypeHead">{{localize 'common.type'}}</label>
+        <label class="_wzInitialCharHead">{{localize 'common.base'}}</label>
+        <label class="_wzInitialCharHead">{{localize 'common.incr'}}</label>
+        <label class="_wzInitialCharHead">{{localize 'common.cost'}}</label>
+        <label class="_wzInitialCharHead">{{localize 'common.final'}}</label>
+    </li>
+{{#each backend.skills as |skill key|}}
+
+    <li>
+        <label class="_name">{{skill.name}}</label>   
+        
+        {{#if (itemPropertyExtend 'systemData.skills' skill._id 'profPrimary')}}
+        <label class="_wzChar _wzProfType">Prim.</label>
+        {{else}}
+            {{#if (itemPropertyExtend 'systemData.skills' skill._id 'profSecondary')}}
+            <label class="_wzChar _wzProfType">Sec.</label>
+            {{else}}
+                {{#if (itemPropertyExtend 'systemData.skills' skill._id 'profParent')}}
+                <label class="_wzChar _wzProfType">Pat.</label>
+                {{else}}
+                <label class="_wzChar _wzProfType"></label>
+                {{/if}}
+            {{/if}}
+        {{/if}}
+
+        <label class="_wzChar _wzInitialChar">
+            {{itemPropertyExtend 'systemData.skills' skill._id 'initial'}}
+        </label>
+        <input type="number"
+            class="_wzChar"
+            name="system.skills.{{skill._id}}.increase" 
+            value="{{itemPropertyExtend 'systemData.skills' skill._id 'increase'}}" />
+        <label class="_wzChar _wzInitialChar">
+            {{itemPropertyExtend 'systemData.skills' skill._id 'cost'}}
+        </label>       
+        <label class="_wzChar _wzInitialChar">
+            {{itemPropertyExtend 'systemData.skills' skill._id 'value'}}
+        </label>       
+            
+    </li>
+
+{{/each}}
+
+<li style="height: 30px;">
+    <h2>{{localize "common.languages"}}</h2>
+</li>
+
+{{#each backend.languages as |skill key|}}
+
+    <li>
+        <label class="_name">{{skill.name}}</label>   
+        
+        {{#if (itemPropertyExtend 'systemData.languages' skill._id 'profPrimary')}}
+        <label class="_wzChar _wzProfType">Prim.</label>
+        {{else}}
+            {{#if (itemPropertyExtend 'systemData.languages' skill._id 'profSecondary')}}
+            <label class="_wzChar _wzProfType">Sec.</label>
+            {{else}}
+            <label class="_wzChar _wzProfType"></label>
+            {{/if}}
+        {{/if}}
+
+        <label class="_wzChar _wzInitialChar">
+            {{itemPropertyExtend 'systemData.languages' skill._id 'initial'}}
+        </label>
+        <input type="number"
+            class="_wzChar"
+            name="system.languages.{{skill._id}}.increase" 
+            value="{{itemPropertyExtend 'systemData.languages' skill._id 'increase'}}" />
+        <label class="_wzChar _wzInitialChar">
+            {{itemPropertyExtend 'systemData.languages' skill._id 'cost'}}
+        </label>       
+        <label class="_wzChar _wzInitialChar">
+            {{itemPropertyExtend 'systemData.languages' skill._id 'value'}}
+        </label>       
+            
+    </li>
+
+{{/each}}
+
+<li class="_totalBar">
+    <label class="_name">{{localize 'common.total'}}</label> 
+    <label class="_wzProfTypeHead"></label>
+    <label class="_wzInitialCharHead"></label>
+    <label class="_wzInitialCharHead"></label>
+    <label class="_wzInitialCharHead _total">{{bioInfo.skillsCost}}</label>
+    <label class="_wzInitialCharHead"></label>
+</li>
+</ul>
+
+<hbox class="_wzButtonBar" style="margin-top: 20px;">
+    {{#if bioInfo.skillsCostOk}}
+    <a class="wizardNextStep"
+       data-field="secondary"
+       data-step="99">
+       <div class="_backButton">{{localize "common.nextStep"}}</div>
+    </a>   
+    {{/if}}
+</hbox>

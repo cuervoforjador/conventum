@@ -6,6 +6,7 @@ import { mainUtils } from "../../mainUtils.js";
 import { helperActions } from "./helperActions.js";
 import { helperMessages } from "./helperMessages.js";
 import { helperSheetCombat } from "./helperSheetCombat.js";
+import { helperSheetArmor } from "./helperSheetArmor.js";
 import { helperSocket } from "../../helpers/helperSocket.js";
 
 export class helperRolls {
@@ -85,18 +86,21 @@ export class helperRolls {
      * @param {*} sFormula - Formula to roll (1d100, ...)
      * @param {*} action - Playing action
      */
-    static rollDices(actor, sPath, bLeveled, sFormula, actionId) {
+    static rollDices(actor, sPath, bLeveled, sFormula, actionId, skill) {
       bLeveled = (bLeveled == true);
       sFormula = (sFormula) ? sFormula : '1d100';
 
       // Property to roll
       let rollData = actor.system;
       sPath.split('.').map(e => { rollData = rollData[e]} );
+      
       const penal = (rollData && rollData.penal) ? rollData.penal : '+0';
+      const armorPenal = (skill) ? helperSheetArmor.calcPenalByArmor(actor, skill) : null;
+
       rollData = (rollData && rollData.value) ? rollData.value : rollData;
       if (rollData.value == 0) rollData = 0;
 
-      rollData = eval(rollData.toString() + penal);
+      rollData = eval(rollData.toString() + penal + armorPenal);
 
       // Asking for level roll
       if (bLeveled) helperRolls._dialogLevel(actor, sPath, rollData, sFormula, actionId);

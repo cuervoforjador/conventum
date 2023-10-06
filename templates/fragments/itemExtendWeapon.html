@@ -161,8 +161,24 @@
                    data-dtype="Number"/>                                        
         </hbox>
 
-    </panelContent>
-</slidePanel>
+        </panelContent>
+    </slidePanel>
+
+    <slidePanel class="_100">
+        <panelContent>
+            {{#each backend.socialGroups as |group id|}}
+            <hbox class="_50">
+                <label class="_150px">{{group.name}}</label>
+                <label class="switch" style="margin-right: 10px">
+                    <input type="checkbox" 
+                        name="system.group.{{group.id}}.apply" 
+                        {{checkedExtend 'systemData.group' group.id 'apply'}} />
+                    <span class="sliderSwitch"></span>
+                </label>                    
+            </hbox>
+            {{/each}}
+        </panelContent>    
+    </slidePanel>
 </div>
 
 {{!-- DAMAGE --}}

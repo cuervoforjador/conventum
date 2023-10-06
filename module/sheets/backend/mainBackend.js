@@ -57,6 +57,10 @@ export class mainBackend {
         if (!mBackend.status.find(e => e.id === systemData.bio.status))
             systemData.bio.status = (mBackend.status.length > 0) ? mBackend.status[0].id : '';
         
+        //Professions
+        mBackend.professions = await this._getProfessions(systemData.control. world, 
+                                                          systemData.bio);
+
         //Mounts
         let mMounts = Array.from(game.actors).filter(e => e.system.control.mount);
         let mAvailable = [];
@@ -141,7 +145,8 @@ export class mainBackend {
     static async getBackendForSkill(systemData) {
         return {
             worlds: await game.packs.get("conventum.worlds").getDocuments(),
-            characteristics: this._getCharacteristics('primary', true)
+            characteristics: this._getCharacteristics('primary', true),
+            socialGroups: this._getSocialGroups()
         };
     }
 
@@ -153,7 +158,10 @@ export class mainBackend {
             worlds: await game.packs.get("conventum.worlds").getDocuments(),
             charPrimary: this._getCharacteristics('primary', false),
             charSecondary: this._getCharacteristics('secondary', false),
+            socialGroups: this._getSocialGroups(),
             skills: await this._getSkills(systemData.control.world, false),
+            combatSkill: await this._getCombatSkills(systemData.control.world, false),
+            languages: await this._getLanguages(systemData.control.world),
             kingdoms: await this._getKingdoms(systemData.control.world),
             societies: await this._getSocieties(systemData.control.world), 
             cultures: await this._getCultures(systemData.control.world), 
@@ -223,6 +231,7 @@ export class mainBackend {
         return {
             worlds: await game.packs.get("conventum.worlds").getDocuments(),
             characteristics: this._getCharacteristics('primary', true),
+            socialGroups: this._getSocialGroups(),
             actorTypes: this._getActorTypes(),
             weaponSizes: this._getWeaponSizes(),
             weaponTypes: this._getWeaponTypes(),
@@ -479,6 +488,59 @@ export class mainBackend {
     }      
 
     /**
+     * _getProfessions
+     * @param {*} sWorld
+     * @param {*} oBio
+     */
+    static async _getProfessions(sWorld, oBio) {
+        if (!oBio) return;
+
+        let mReturn = [];
+        let mDocuments = await this._getDocuments('professions', sWorld);
+        mDocuments.map(profession => {
+            let itsOk = true;
+            
+            //By Kingdom
+            if (profession.system.requirement.xKingdom) {
+                if (!profession.system.requirement.kingdoms[oBio.kingdom].apply) {
+                    itsOk = false;
+                }
+            }
+            //By Culture
+            if (profession.system.requirement.xCulture) {
+                if (!profession.system.requirement.cultures[oBio.culture].apply) {
+                    itsOk = false;
+                }
+            }
+            //By Society
+            if (!profession.system.requirement.societies[oBio.society].apply) {
+                itsOk = false;
+            }     
+            //By Stratum
+            if (!profession.system.requirement.stratums[oBio.stratum].apply) {
+                itsOk = false;
+            }
+
+            if (itsOk)
+                mReturn.push({
+                    id: profession.id,
+                    name: profession.name,
+                    img: profession.img,
+                    system: {
+                        range: {
+                            low: profession.system.requirement.stratums[oBio.stratum].rollFrom,
+                            high: profession.system.requirement.stratums[oBio.stratum].rollTo
+                        },
+                        description: profession.system.description
+                    }
+                });
+        });
+
+        this._sortByRange(mReturn);
+        return mReturn;
+    }      
+
+    /**
      * _getLocations
      * @param {*} sWorld 
      * @param {*} sActorType 
@@ -498,6 +560,24 @@ export class mainBackend {
     static async _getModes(sWorld) {
         let mModes = await this._getDocuments('modes', sWorld);
         return mModes;
+    }
+
+    /**
+     * _getSocialGroups
+     */
+    static _getSocialGroups(bAddEmpty) {
+        let mReturn = [];
+        if (bAddEmpty) {
+            mReturn.push({
+                'id': '',
+                'name': '',
+                'value': {}
+            });
+        }
+        for (var reg of CONFIG.ExtendConfig.socialGroups) {
+            mReturn.push(reg);
+        }        
+        return mReturn;
     }
 
     /**

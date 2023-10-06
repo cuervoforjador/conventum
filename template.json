@@ -31,7 +31,8 @@
           "listSkills": false,
           "askedForWizard": false,
           "wizard": false,
-          "codice": false
+          "codice": false,
+          "noImportActions": false
         },
         "wizard": {
           "01": true,
@@ -43,7 +44,22 @@
           "07": false,
           "08": false,
           "09": false,
-          "10": false
+          "10": false,
+          "11": false,
+          "12": false,
+          "13": false,
+          "14": false,
+          "15": false,
+          "showTableRoll01": false,
+          "showTableRoll02": false,
+          "showTableRoll03": false,
+          "showTableRoll04": false,
+          "showTableRoll05": false,
+          "showTableRoll06": false,
+          "showTableRoll07": false,
+          "showTableRoll08": false,
+          "showTableRoll09": false,
+          "showTableRoll10": false
         },
         "bio": {
           "female": false,
@@ -55,6 +71,11 @@
           "society": "",
           "stratum": "",
           "status": "",
+          "profession": "",
+          "parentProfession": "",
+          "familySituation": "",
+          "familyBrothers": "",
+          "spouse": "",
           "description": "",
           "background": ""
         },
@@ -151,7 +172,7 @@
             "temp": {
               "min": 0,
               "max": 100,
-              "value": 50,
+              "value": 0,
               "temp": 0,
               "penal": "+0",
               "initial": 50                          
@@ -485,6 +506,7 @@
           "primary": "",
           "secondary": ""
         },
+        "group": {},
         "mods": {
           "char": "",
           "modChar": 1,
@@ -499,6 +521,9 @@
         },
         "magic": {
           "magic": false
+        },
+        "languages": {
+          "apply": false
         }
       }
     },
@@ -630,19 +655,40 @@
     "profession": {
       "templates": ["base", "stats"],
       "requirement": {
+        "male": true,
+        "female": true,
         "primary": {},
         "secondary": {},
         "kingdoms": {},
+        "xKingdom": false,
         "societies": {},
         "cultures": {},
+        "xCulture": false,
         "stratums": {},
         "status": {}
       },
       "skills": {
         "primary": {},
-        "secondary": {}
+        "secondary": {},
+        "languages": {},
+        "combatPrimaryGroup": {},
+        "combatPrimary": {},
+        "combatSecondaryGroup": {},
+        "combatSecondary": {},
+        "maxCombatPrimary": 0,
+        "maxCombatSecondary": 0
       },
-      "income": 0
+      "income": 0,
+      "incomeExtend": {
+        "bySkill": false,
+        "skill": {},
+        "byCharacteristic": false,
+        "characteristic": {}
+      },
+      "others": {
+        "bastard": false,
+        "bastardName": ""
+      }
     },    
     "trait": {
       "templates": ["base", "stats"],
@@ -708,7 +754,9 @@
         "combatSkill": {
           "apply": false,
           "mod": "",
-          "mult": 1
+          "mult": 1,
+          "onlyAttack": false,
+          "onlyDefense": false
         },
         "damage": {
           "apply": false,
@@ -718,7 +766,8 @@
         "location": {
           "focusLocation": {},
           "actorType": "human",
-          "shield": false
+          "shield": false,
+          "formula": ""
         },        
         "actionPoints": 0,
         "noActionPoints": false       
@@ -762,6 +811,7 @@
         "fire": false,
         "shield": false
       },  
+      "group": {},
       "weaponType": "",     
       "size": "",
       "requirement": {
@@ -905,7 +955,8 @@
         "lastAttacker": false,
         "lastDefender": false,
         "multiple": false,
-        "forceSelection": false
+        "forceSelection": false,
+        "forceTargets": false
       },
       "skill": {
         "mod": {

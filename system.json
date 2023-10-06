@@ -251,7 +251,20 @@
         "ASSISTANT": "OWNER"
       },
       "flags": {}
-    }    
+    },
+    {
+      "label": "Alea Jacta",
+      "type": "RollTable",
+      "name": "rolls",
+      "path": "packs/rolls",
+      "banner": "systems/conventum/image/content/compendium/bannerRolls.png",
+      "system": "conventum",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
+    }        
   ],
   "url": "https://github.com/cuervoforjador/conventum",
   "manifest": "https://github.com/cuervoforjador/conventum/releases/download/v113/system.json",

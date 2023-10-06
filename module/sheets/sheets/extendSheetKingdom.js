@@ -17,8 +17,8 @@ export class extendSheetKingdom extends ItemSheet {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: [game.system.id, "sheet", "item"],
       template: CONFIG._root+"/templates/kingdom.html",
-      width: 520,
-      height: 480,
+      width: 650,
+      height: 600,
       tabs: [
         {navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "cultures"}
       ],       

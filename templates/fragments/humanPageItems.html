@@ -7,8 +7,8 @@
 
     <nav class="tabs_Items _subTabs" data-group="equipmentTabs">
         <a data-tab="items"><label>{{ localize "common.equipment" }}</label></a>
-        <a data-tab="armor0"><label>{{ localize "common.armor" }}</label></a>
-        <a data-tab="weapons"><label>{{ localize "common.weapons" }}</label></a>    
+        <a data-tab="weapons"><label>{{ localize "common.weapons" }}</label></a>
+        <a data-tab="armor0"><label>{{ localize "common.armor0" }}</label></a>    
         <a data-tab="armor"><label>{{ localize "common.armor" }}</label></a>    
         <a data-tab="spells"><label>{{ localize "common.spells" }}</label></a>    
         <a data-tab="actions"><label>{{ localize "common.actions" }}</label></a>  
@@ -182,7 +182,16 @@
                    <li class="_button">   
                         <label>{{localize "common.synchActions"}}</label>
                    </li>               
-                   </a>                  
+                   </a>       
+                    <li class="_button">   
+                         <label class="switch">
+                            <input type="checkbox" 
+                                name="system.control.noImportActions" 
+                                {{{editable}}}
+                                {{checked systemData.control.noImportActions}} />
+                            <span class="sliderSwitch"></span>
+                        </label>                         
+                    </li>                                        
                 </ul>
                 {{/if}}
 

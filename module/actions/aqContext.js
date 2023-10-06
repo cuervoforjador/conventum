@@ -734,8 +734,6 @@ export class aqContext {
      */
     async message() {
 
-        await this._consumeAction();
-
         let message = await helperMessages.chatMessage(
             this._getMessageContent(), this._actor, false, '', '280px', true);
         this._messageId = message.id;
@@ -936,8 +934,9 @@ export class aqContext {
             (this._action.system.damage.damageXendurance) &&
             (this._rollCritFailure)) {
 
-                this._action.system.damage.noDamage = false;
-                this._action.system.damage.damageXendurance = false;
+                //this._action.system.damage.noDamage = false;
+                //this._action.system.damage.damageXendurance = false;
+                this._noDamageXendurance = true;
                 this._rollSuccess = true;
         }
 
@@ -980,7 +979,15 @@ export class aqContext {
         await this._evalShields();
         await this._evalModes();
         await this._removeDamageMessage();  
-        await this._consumeAction();    
+        await this._consumeAction(); 
+    }
+
+    /**
+     * postNoRoll
+     */
+    async postNoRoll() {
+        await this._evalModes();
+        await this._consumeAction(); 
     }
 
     /**
@@ -1199,6 +1206,18 @@ export class aqContext {
     }
 
     /**
+     * _getArmorPenal
+     */
+    _getArmorPenal() {
+        
+        let penal = helperSheetArmor.calcPenalByArmor(this._actor, this._skill);
+        if (Number(penal) !== 0) {
+            this._percentMod = this.addPenalties(this._percentMod, penal);
+            this.msgHistory("common.penalArmorSkill", penal.toString()+'%');
+        }
+    }
+
+    /**
      * _getPercentModesPenal
      */
     _getPercentModesPenal() {
@@ -1255,6 +1274,7 @@ export class aqContext {
      */
     _getHandPenal() {
         if ((this._noCombat) || (this._noWeapon)) return;
+        if (this._weapon.system.type.shield) return;
 
         let penal = this.clearPenalty(helperSheetHuman.getHandPenal(this._actor, this._weapon));
         if (Number(penal) !== 0) {
@@ -1339,6 +1359,13 @@ export class aqContext {
                 (mode.system.config.combatSkill.mult) &&
                 (mode.system.config.combatSkill.mult !== 1) &&
                 (mode.system.config.combatSkill.mult !== 0)) {
+
+                //Only attack, defense actions
+                if ((mode.system.config.combatSkill.onlyAttack)
+                    && (!this._action.system.type.attack)) return;
+                if ((mode.system.config.combatSkill.onlyDefense)
+                    && (!this._action.system.type.defense)) return;
+                
 
                 let mod = this.clearMult(mode.system.config.combatSkill.mult);
 
@@ -1489,7 +1516,7 @@ export class aqContext {
      * _getDamageBon
      */
     _getDamageBon() {
-        if ((this._noCombat) || (this._defensive)) return;
+        if ((this._noCombat) || (this._defensive) || (this._noWeapon)) return;
 
         let penal = helperSheetHuman.calcDamageMod(this._actor, this._weapon, this._action);
         let penal2 = (this._weapon2) ? 
@@ -1541,7 +1568,7 @@ export class aqContext {
      * _getWeaponRequirmDamagePenal
      */
     _getWeaponRequirmDamagePenal() {
-        if ((this._noCombat) || (this._defensive)) return;
+        if ((this._noCombat) || (this._defensive) || (this._noWeapon)) return;
 
         let penal = '';
         if (this._weapon.system.requeriment.primary.apply) {
@@ -1674,163 +1701,31 @@ export class aqContext {
         if ((!this._noAction) && 
             (this._action.system.skill.autoSuccess)) this._noRoll = true;
 
-        let sMod = '';
-        const nFinalRoll = this._rollPercent - Number(this._rollBono);
-        if (nFinalRoll < this._percentBase) 
-            sMod = '-' + (this._percentBase - nFinalRoll).toString();
-        if (nFinalRoll > this._percentBase) 
-            sMod = '+' + (nFinalRoll - this._percentBase).toString();
-
         // ----- SECOND WEAPON!!! -----
-        if (b2weapon) return '<div class="_messageFrame" data-actorid="'+this._actor.id+'">'+
-
-            //--- Header ---
-            '<div class="_messageImg">'+
-                '<img src="'+this._actor.img+'"/>'+
-            '</div>'+
-            '<div class="_vertical">'+
-                '<div class="_title">'+this._actor.name+'</div>'+
-                    '<a class="_infoSkill" data-itemId=""><div class="_Img"></div></a>' +
-                    '<div class="_skill"></div>' +
-            '</div>'+     
-
-            '<div class="_automatic">'+
-                game.i18n.localize("common.automatic")+
-            '</div>'+
-
-            ( (this._rollSuccess) ?
-                (this._rollCritSuccess) ?
-                '<div class="_successCrit">'+game.i18n.localize("common.rollCriticalSuccess")+'</div>' :
-                '<div class="_success">'+game.i18n.localize("common.success")+'</div>' 
-            :   (this._rollCritFailure) ?
-                '<div class="_failedCrit">'+game.i18n.localize("common.rollCriticalFailure")+'</div>' :
-                '<div class="_failed">'+game.i18n.localize("common.failed")+'</div>'
-            ) + 
-
-            //--- Actions ---
-            '<div class="_actionTitle">' + 
-                ( (this._action.system.item.weapon.range) ? 
-                    '<div>' + this._action.name + '</div>' +
-                    '<div class="_targetDistance">' + 
-                        this._getTargetRange() +  ' - ' +
-                        this._getTargetDistance(false) + 
-                    '</div>' :
-                    this._action.name ) + 
-            '</div>'+           
-            '<div class="_actionImage">'+
-                '<a class="_showItem"'+
-                    ' data-itemid="' + this._action.id + '"'+
-                    ' data-actorid="' + this._actor.id + '">'+
-                        '<img src="' + this._action.img + '"/>'+
-                '</a>'+
-            '</div>' + 
-
-            //--- Weapon ---
-            '<div class="_messageWeapon">'+
-                '<a class="_showItem" data-itemid="'+this._weapon2.id+'" data-actorid="'+this._actor.id+'">'+
-                    '<div class="_name">'+this._weapon2.name +' ('+this._weapon2.system.damage+')'+ '</div>'+ 
-                '</a>'+        
-            '</div>' +
-
-            //--- Damage ---
-            this._getMessageLinkToDamage(b2weapon)+
-
-            //--- Help ---
-            this._getMessageHelpTab()+
-
-            //--- Targets ---
-            this._getMessageTargets()+                    
-
-        '</div>';
-
-
-
-    // ----- FIRST WEAPON!!! -----
-
-        let sSkillName = this._skill.name;
-        if (sSkillName === undefined) {
-            if (this._actor.system.characteristics.primary[this._skill] !== undefined)
-                sSkillName = game.i18n.localize("characteristic."+this._skill);
-            if (this._actor.system.characteristics.secondary[this._skill] !== undefined)
-                sSkillName = game.i18n.localize("characteristic."+this._skill);
+        if (b2weapon) {
+            return '<div class="_messageFrame" data-actorid="'+this._actor.id+'">'+
+                this._getHeaderBox(true)+
+                this._getRollBox(true)+
+                this._getActionBox()+
+                this._getWeaponBox(b2weapon)+
+                this._getLinksBox()+
+                this._getMessageLinkToDamage(b2weapon)+
+                this._getMessageHelpTab()+
+                this._getMessageTargets()+                    
+            '</div>';
         }
 
-        return '<div class="_messageFrame" data-actorid="'+this._actor.id+'">'+
-
-        //--- Header ---
-            '<div class="_messageImg">'+
-                '<img src="'+this._actor.img+'"/>'+
-            '</div>'+
-
-            '<div class="_vertical">'+
-                '<div class="_title">'+this._actor.name+'</div>'+
-                    '<a class="_infoSkill" data-itemId="'+this._skill.id+'">'+
-                        this._getImageMessageContent()+
-                    '</a>'+
-                    '<div class="_skill">'+(sSkillName)+
-                        ( ((!this._noAction) && 
-                           (this._action.system.skill.autoSuccess)) ?  '' :
-                            ' ('+this._percentBase+'%)' )+ 
-                    '</div>' +
-            '</div>'+         
-
-        //--- Rolls --- 
-        
-            '<div class="_result">'+
-                ((this._noRoll) ?  '&nbsp;': this._roll.total)+
-            '</div>'+
-            '<div class="_resultOver">'+
-                ((this._noRoll) ?  
-                    ((this._action.system.rolls.opposedRoll) ?
-                        this._oppoRolls.actor.percent : '&nbsp;') : 
-                    this._rollPercent.toString())+
-            '</div>'+
-
-            '<div class="_bonif '+this._rollLevel.class+'">'+
-                ((this._noRoll) ? '&nbsp;' :
-                    '<span class="_bonifText">'+this._rollLevel.text+'</span>'+
-                    ((this._rollBono !== '') ? this._rollBono+'%' : '+0') ) +
-            '</div>'+
-
-            ( ((sMod !== '') && (!this._noRoll)) ? 
-                '<div class="_percentMod">'+sMod+'%</div>'+
-                '<div class="_percentLit">'+game.i18n.localize("common.modif")+'</div>' :
-                '' ) +
-
-            ( (this._noRoll) ? 
-                '<div class="_waitSuccess">&nbsp;</div>' :
-
-                ( (this._rollSuccess) ?
-                    (this._rollCritSuccess) ?
-                    '<div class="_successCrit">'+game.i18n.localize("common.rollCriticalSuccess")+'</div>' :
-                    '<div class="_success">'+game.i18n.localize("common.success")+'</div>' 
-                :   (this._rollCritFailure) ?
-                    '<div class="_failedCrit">'+game.i18n.localize("common.rollCriticalFailure")+'</div>' :
-                    '<div class="_failed">'+game.i18n.localize("common.failed")+'</div>'
-                ) 
-            ) +   
-
-        //--- Actions ---
-        this._getActionBox()+
-        
-        //--- Weapon ---
-        this._getWeaponBox()+
-
-        //--- Targets link ---
-        this._getLinksBox()+
-
-        //--- Opposited rolls ---
-        this._getMessageOppoRolls()+
-
-        //--- Damage ---
-        this._getMessageLinkToDamage(b2weapon)+
-
-        //--- Help ---
-        this._getMessageHelpTab()+
-
-        //--- Targets ---
-        this._getMessageTargets()+        
-
+        // ----- FIRST WEAPON!!! -----
+        return '<div class="_messageFrame" data-actorid="'+this._actor.id+'">'+            
+            this._getHeaderBox()+
+            this._getRollBox()+
+            this._getActionBox()+
+            this._getWeaponBox()+
+            this._getLinksBox()+
+            this._getMessageOppoRolls()+
+            this._getMessageLinkToDamage(b2weapon)+
+            this._getMessageHelpTab()+
+            this._getMessageTargets()+        
         '</div>';
     }
 
@@ -1843,6 +1738,9 @@ export class aqContext {
         const targetData = this._targetsDamage[targetId];
         const bToShield = ( ((this._action) && (this._action.system.damage.target.shield)) ||
                             (this._damageToShield)); 
+        const bDamageXendurance = ((!this._noAction) && 
+                                   (this._action.system.damage.damageXendurance) &&
+                                   (!this._noDamageXendurance));
 
         let mainInfo = '<li>'+targetData.armor.name+'</li>'+
                        '<li>'+game.i18n.localize("common.finalProtection")+': '+
@@ -1851,9 +1749,9 @@ export class aqContext {
         if (bToShield) mainInfo = '<li>'+this._action.name+'</li>';
 
         //Damage x Resistance (Stuning...)
-        if ((!this._noAction) && (this._action.system.damage.damageXendurance))
+        if (bDamageXendurance) {
             mainInfo = this._getStunnedText(targetId);
-
+        }
         return      '<div class="_msgDamLocation">'+
                         ((!bToShield) ? targetData.location.name : 
                             game.i18n.localize("common.shield"))+
@@ -1861,7 +1759,7 @@ export class aqContext {
                     '<ul class="_msgDamInfo">'+mainInfo+'</ul>'+
                     this._getMessageHelpTab()+
                     ( (  ((!this._noAction) && (this._action.system.damage.noDamage)) 
-                      || (bToShield) ) ? '' :
+                      || (bToShield) || (bDamageXendurance) ) ? '' :
                     '<div class="_msgDamTotal">'+targetData.finalHitDamage.toString()+'</div>'+
                     '<div class="_hitPoints">'+game.i18n.localize("common.hp")+'</div>' );
     }
@@ -2049,6 +1947,7 @@ export class aqContext {
      * @returns 
      */    
     _getOpposedStats() {
+        if (this._simulate) return;
         if ((this._noAction) || (!this._action.system.rolls.opposedRoll)) return ;
 
         const enemy = this._getEnemy();
@@ -2067,6 +1966,10 @@ export class aqContext {
         if (this._action.system.rolls.actor.secondaryChar !== '')
             playerRoll = this._actor.system.characteristics.secondary[
                     this._action.system.rolls.actor.secondaryChar].value; 
+
+        if (this._action.system.rolls.actor.damage) {
+            playerRoll = this._damage;
+        }
 
         const mult1 = (!this._action.system.rolls.actor.byWeapon) ?
                             this._action.system.rolls.actor.mult :
@@ -2127,6 +2030,109 @@ export class aqContext {
     }
 
     /**
+     * _getHeaderBox
+     */
+    _getHeaderBox(bSimple) {
+
+        if (bSimple) {
+            return  '<div class="_messageImg">'+
+                        '<img src="'+this._actor.img+'"/>'+
+                    '</div>'+
+                    '<div class="_vertical">'+
+                        '<div class="_title">'+this._actor.name+'</div>'+
+                            '<a class="_infoSkill" data-itemId=""><div class="_Img"></div></a>' +
+                            '<div class="_skill"></div>' +
+                    '</div>'; 
+        }
+
+        let sSkillName = this._skill.name;
+        if (sSkillName === undefined) {
+            if (this._actor.system.characteristics.primary[this._skill] !== undefined)
+                sSkillName = game.i18n.localize("characteristic."+this._skill);
+            if (this._actor.system.characteristics.secondary[this._skill] !== undefined)
+                sSkillName = game.i18n.localize("characteristic."+this._skill);
+        }
+
+        return  '<div class="_messageImg">'+
+                    '<img src="'+this._actor.img+'"/>'+
+                '</div>'+
+
+                '<div class="_vertical">'+
+                    '<div class="_title">'+this._actor.name+'</div>'+
+                        '<a class="_infoSkill" data-itemId="'+this._skill.id+'">'+
+                            this._getImageMessageContent()+
+                        '</a>'+
+                        '<div class="_skill">'+(sSkillName)+
+                            ( ((!this._noAction) && 
+                            (this._action.system.skill.autoSuccess)) ?  '' :
+                                ' ('+this._percentBase+'%)' )+ 
+                        '</div>' +
+                '</div>';        
+    }
+
+    /**
+     * _getRollBox
+     * @returns 
+     */
+    _getRollBox(bAuto) {
+        
+        let sMod = '';
+        const nFinalRoll = this._rollPercent - Number(this._rollBono);
+        if (nFinalRoll < this._percentBase) 
+            sMod = '-' + (this._percentBase - nFinalRoll).toString();
+        if (nFinalRoll > this._percentBase) 
+            sMod = '+' + (nFinalRoll - this._percentBase).toString();
+
+        if (bAuto) {
+            return  '<div class="_automatic">'+
+                        game.i18n.localize("common.automatic")+
+                    '</div>'+
+                    ( (this._rollSuccess) ?
+                        (this._rollCritSuccess) ?
+                        '<div class="_successCrit">'+game.i18n.localize("common.rollCriticalSuccess")+'</div>' :
+                        '<div class="_success">'+game.i18n.localize("common.success")+'</div>' 
+                    :   (this._rollCritFailure) ?
+                        '<div class="_failedCrit">'+game.i18n.localize("common.rollCriticalFailure")+'</div>' :
+                        '<div class="_failed">'+game.i18n.localize("common.failed")+'</div>'
+                    );
+        }
+
+        return  '<div class="_result">'+
+                    ((this._noRoll) ?  '&nbsp;': this._roll.total)+
+                '</div>'+
+                '<div class="_resultOver">'+
+                    ((this._noRoll) ?  
+                        ((this._action.system.rolls.opposedRoll) ?
+                            this._oppoRolls.actor.percent : '&nbsp;') : 
+                        this._rollPercent.toString())+
+                '</div>'+
+
+                '<div class="_bonif '+this._rollLevel.class+'">'+
+                    ((this._noRoll) ? '&nbsp;' :
+                        '<span class="_bonifText">'+this._rollLevel.text+'</span>'+
+                        ((this._rollBono !== '') ? this._rollBono+'%' : '+0') ) +
+                '</div>'+
+
+                ( ((sMod !== '') && (!this._noRoll)) ? 
+                    '<div class="_percentMod">'+sMod+'%</div>'+
+                    '<div class="_percentLit">'+game.i18n.localize("common.modif")+'</div>' :
+                    '' ) +
+
+                ( (this._noRoll) ? 
+                    '<div class="_waitSuccess">&nbsp;</div>' :
+
+                    ( (this._rollSuccess) ?
+                        (this._rollCritSuccess) ?
+                        '<div class="_successCrit">'+game.i18n.localize("common.rollCriticalSuccess")+'</div>' :
+                        '<div class="_success">'+game.i18n.localize("common.success")+'</div>' 
+                    :   (this._rollCritFailure) ?
+                        '<div class="_failedCrit">'+game.i18n.localize("common.rollCriticalFailure")+'</div>' :
+                        '<div class="_failed">'+game.i18n.localize("common.failed")+'</div>'
+                    ) 
+                );
+    }
+
+    /**
      * _getActionBox
      */
     _getActionBox() {
@@ -2171,7 +2177,9 @@ export class aqContext {
     /**
      * _getWeaponBox
      */
-    _getWeaponBox() {
+    _getWeaponBox(b2weapon) {
+        b2weapon = (!b2weapon) ? false : b2weapon;
+
         if (this._isSkill)
         return '<div class="_messageWeapon">'+
                   ((this._action.system.type.movement) ?        
@@ -2187,9 +2195,10 @@ export class aqContext {
                     '</div>';
         }
 
+        let weapon = (!b2weapon) ? this._weapon : this._weapon2;
         return '<div class="_messageWeapon">'+
-                    '<a class="_showItem" data-itemid="'+this._weapon.id+'" data-actorid="'+this._actor.id+'">'+
-                        '<div class="_name">'+this._weapon.name +' ('+this._weapon.system.damage+')'+ '</div>'+ 
+                    '<a class="_showItem" data-itemid="'+weapon.id+'" data-actorid="'+this._actor.id+'">'+
+                        '<div class="_name">'+weapon.name +' ('+weapon.system.damage+')'+ '</div>'+ 
                     '</a>'+        
                 '</div>';
     }
@@ -2625,13 +2634,22 @@ export class aqContext {
                 }
             }
 
+        //Location formula from Modes
+        let damageFormula = '1d10';
+        this._actor.system.modes.map(sMode => {
+            const mode = game.packs.get("conventum.modes").get(sMode);
+            if (mode.system.config.location.formula !== '') {
+                damageFormula =  mode.system.config.location.formula;
+            }
+        });  
+
         //Location...
-        targetData.location = await this._getDamageLocation(targetId);
+        targetData.location = await this._getDamageLocation(targetId, damageFormula);
         if (!targetData.location) return;
         let location = targetData.location;
         let modeLocation = aqActions.getModeLocation(target);
         if (modeLocation !== '') location = modeLocation;
-
+        
         //No Damage...
         let noDamage = (this._noAction) ? false : (this._action.system.damage.noDamage);
         if ((noDamage) || (bToShield))
@@ -2765,14 +2783,18 @@ export class aqContext {
         }
 
         //Damage x Endurance
-        if ((!this._noAction) && (this._action.system.damage.damageXendurance) && (!bToShield)) {
+        let damageXendurance = false;
+        if ((!this._noAction) && (this._action.system.damage.damageXendurance) && 
+            (!bToShield) && (!this._noDamageXendurance)) {
+            const stunMode = Array.from(await game.packs.get('conventum.modes'))
+                                                        .filter(e => e.system.stun)[0];            
+            characteristicsUpdate.secondary.hp.value = 
+                                            target.system.characteristics.secondary.hp.value;
+
             if (targetData.finalHitDamage >= target.system.characteristics.primary.end.value) {
-                const stunMode = Array.from(await game.packs.get('conventum.modes'))
-                                      .filter(e => e.system.stun)[0];
-                if ( (this._modes.length === 0) ||
-                      !(this._modes.find(s => s === stunMode.id)) ) {
-                    this._modes.push(stunMode.id);
-                }
+                damageXendurance = true;
+            } else {
+                helperActions.removeMode(target, stunMode);
             }
         }
 
@@ -2851,7 +2873,10 @@ export class aqContext {
      * _getDamageLocation
      * @param {*} target 
      */
-    async _getDamageLocation(targetId) {
+    async _getDamageLocation(targetId, damageFormula) {
+
+        if ((!damageFormula) || (damageFormula === undefined) || (damageFormula === ''))
+            damageFormula = '1D10';
 
         let target = this._targetsDamage[targetId].target;
         let bToShield = ((this._action) && (this._action.system.damage.target.shield));
@@ -2862,7 +2887,7 @@ export class aqContext {
         //Rolling Location...
         if ((this._locationId === '') || (!this._locationId)) {
 
-            const sDice = '1d10';
+            const sDice = damageFormula;
             let lRoll = new Roll(sDice, {});
             lRoll.evaluate({async: false});
             if ((game.dice3d) && (!bToShield))
@@ -3022,7 +3047,7 @@ export class aqContext {
      * @param {*} s 
      */
     clearPenalty(s) {
-        if ((s === "NaN") || (s === NaN)) s = '+0';
+        if ((s === "NaN") || (s === NaN) || (s === undefined)) s = '+0';
         return (Number(s)>=0) ? '+'+Number(s).toString() : Number(s).toString();        
     }
 

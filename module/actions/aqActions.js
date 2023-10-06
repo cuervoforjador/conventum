@@ -316,7 +316,8 @@ export class aqActions {
         let sumActions = 0;
         mMyactions.map(action => {
             const oAction = actor.items.find(e => e.id === action.action);
-            sumActions += this.getActionCost(actor, oAction);
+            if (oAction !== undefined)
+                sumActions += this.getActionCost(actor, oAction);
         });
 
         return {
@@ -380,5 +381,5 @@ export class aqActions {
         if (actor.isToken) return actor.token.id;
                       else return actor.id;
     }    
-
+    
 }

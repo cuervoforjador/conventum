@@ -2,6 +2,7 @@
 import { aqActions } from "./aqActions.js";
 import { aqContext } from "./aqContext.js";
 import { helperSocket } from "../helpers/helperSocket.js";
+import { helperSheetHuman } from "../sheets/helpers/helperSheetHuman.js";
 
 export class aqCombat {
 
@@ -727,24 +728,28 @@ export class aqCombat {
            //Worst Skill value...
            if (mHandWeapons.length == 2) {
               let skill1 = eval( actor.system.skills[mHandWeapons[0].system.combatSkill].value.toString() + '+' +
-                                 helperSheetCombat.penalValue(actor.system.skills[mHandWeapons[0].system.combatSkill].penal) + 
+                                 this.penalValue(actor.system.skills[mHandWeapons[0].system.combatSkill].penal) + 
                                  helperSheetHuman.getHandPenal(actor, mHandWeapons[0]) );
               let skill2 = eval( actor.system.skills[mHandWeapons[1].system.combatSkill].value.toString() + '+' +
-                                 helperSheetCombat.penalValue(actor.system.skills[mHandWeapons[1].system.combatSkill].penal) + 
+                                 this.penalValue(actor.system.skills[mHandWeapons[1].system.combatSkill].penal) + 
                                  helperSheetHuman.getHandPenal(actor, mHandWeapons[1]) );
+              
+              if (skill1 < 0) skill1 = 0;
+              if (skill2 < 0) skill2 = 0;
 
-              if (skill1 <= skill2) 
+              if (skill1 <= skill2) {
                  if (weapon._id !== mHandWeapons[0]._id)
                     return {
                         check: false,
                         descr: game.i18n.localize("info.noWorstWeapon")
                     };                    
-              else
+              } else {
                  if (weapon._id !== mHandWeapons[1]._id)
                     return {
                         check: false,
                         descr: game.i18n.localize("info.noWorstWeapon")
-                    };                  
+                    };
+              }                  
            }
         }        
 
@@ -872,6 +877,8 @@ export class aqCombat {
         context.setRollFormula('1d100');
         if (!context.getNoRoll())
             await context.roll();
+        else 
+            await aqContext.postNoRoll();
         context.message();
     }
 
@@ -885,5 +892,17 @@ export class aqCombat {
         await context.roll();
         context.message();
     }    
+
+    /**
+     * _penalValue
+     * @param {*} sPenal 
+     */
+    static penalValue(sPenal) {
+        if (!sPenal) return '-0';
+        if (Number(sPenal) === NaN) return '-0';
+        if (sPenal === '-0') return '-0';
+        if (Number(sPenal) >= 0) return '+'+Number(sPenal).toString();
+                            else return Number(sPenal).toString();
+    }       
 
 }

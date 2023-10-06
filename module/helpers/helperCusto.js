@@ -29,6 +29,18 @@ export class helperCusto {
 
     /**
      * initialImages
+     * @param {*} actor 
+     * @param {*} options 
+     * @param {*} sId 
+     */
+    static initialActorImage(actor, options, sId) {
+        actor.img = '/systems/conventum/image/content/portraits/base.png';  
+        actor._source.img = '/systems/conventum/image/content/portraits/base.png';  
+        actor.prototypeToken.texture.src = '/systems/conventum/image/content/portraits/base.png';
+    }
+
+    /**
+     * initialImages
      * @param {*} item 
      * @param {*} options 
      * @param {*} sId 

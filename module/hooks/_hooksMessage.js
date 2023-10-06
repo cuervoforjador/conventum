@@ -46,6 +46,7 @@ export class HookMessage {
             const actor = game.actors.get(message.speaker.actor);
             const sContent = '<div class="_bigContent">'+message.content+'</div>';
 
+            if (!actor) return;
             if ((actor.ownership.default === 3) ||
                 (actor.ownership[game.user.id] === 3)) {
                 //(game.user.isGM)) {

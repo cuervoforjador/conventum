@@ -126,6 +126,7 @@ ul._poolMenu li._button {
     border: 1px solid #ffffff87;
     border-radius: 2px;
     margin-left: 5px;
+    line-height: 20px;
 }
 ul._poolMenu li._button:hover {
     background: #584747;
@@ -137,6 +138,11 @@ ul._poolMenu label {
     padding-left: 5px;
     padding-right: 5px;
     cursor: pointer;
+}
+._button label.switch {
+    margin-top: 0px;
+    margin-right: 0px;
+    display: flex;
 }
 ._actionPool ul._combatants li._combatant {
     width: 60px;
@@ -283,7 +289,18 @@ li._historyStep ._assaultId {
 ._posterAction h1 {
     padding-bottom: 5px;
     line-height: 23px;
-    font-size: 21px;
+    font-size: 27px;
+    text-transform: uppercase;
+}
+._posterAction h1::first-letter {
+    background: #b13434;
+    color: #FFF;
+    font-size: 40px;
+    line-height: 40px;
+    padding-left: 3px;
+    padding-right: 3px;
+    margin-right: 2px;
+    border-radius: 3px;
     font-weight: 900;
 }
 ._posterAction ._whiteWrap {
@@ -304,7 +321,7 @@ li._historyStep ._assaultId {
     width: calc(100% - 12px);
     top: 471px;
     left: 6px;
-    padding: 10px;
+    padding: 30px;
     text-align: justify;
     border-bottom: 1px solid #3333336b;
 }

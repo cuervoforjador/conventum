@@ -1,0 +1,84 @@
+{{#if imMaster}}
+<a class="_goingBack"><div class="_backButton"><<</div></a>
+{{/if}}
+<hbox class="_header">
+    <vbox>
+        <h1>{{localize 'wizard.title11'}}</h1>
+        <p>{{localize 'wizard.text11'}}</p>
+    </vbox>    
+</hbox>
+
+<div class="_wzDetail" style="margin-bottom: 15px;">
+    <hbox class="_100">
+        <label>{{localize "common.profession"}}</label>
+        <a class="wizardOption"
+           data-field="profession"
+           data-value="{{systemData.bio.profession}}"
+           data-compendium="professions">
+                {{bioInfo.profession.name}}
+        </a>
+    </hbox>
+</div>
+
+<h3>{{localize 'common.ownLanguages'}}</h3>
+<ul class="_wzSkills">
+    {{#each bioInfo.acquiredLanguages as |lang key|}}
+    <li>
+        <label class="_name">{{lang.name}}
+                ( {{itemPropertyExtend 'systemData.languages' lang._id 'value'}} )
+        </label>
+    </li>
+    {{/each}}
+</ul>
+
+{{#if bioInfo.languagesPrimary}}
+<h3 style="margin-top: 20px;">{{localize 'info.chooseLanguage1'}}</h3>
+<ul class="_wzSkills">
+    {{#each bioInfo.noAcquiredLanguages as |lang key|}}
+    <li>
+        <input type="checkbox" 
+               class="_changeWzLanguage"
+               data-id="{{lang._id}}"
+               data-type="primary"
+               name="system.languages.{{lang._id}}.asPrimary"
+               {{{checkedExtend 'systemData.languages' lang._id 'asPrimary'}}} />
+
+        <input type="hidden" 
+               name="system.languages.{{lang._id}}.induced1"
+               value="X" />               
+
+        <label class="_name">{{lang.name}}</label>
+    </li>
+    {{/each}}
+</ul>
+{{/if}}
+
+{{#if bioInfo.languagesSecondary}}
+<h3 style="margin-top: 20px;">{{localize 'info.chooseLanguage2'}}</h3>
+<ul class="_wzSkills">
+    {{#each bioInfo.noAcquiredLanguages as |lang key|}}
+    <li>
+        <input type="checkbox" 
+               class="_changeWzLanguage"
+               data-id="{{lang._id}}"
+               data-type="secondary"
+               name="system.languages.{{lang._id}}.asSecondary"
+               {{{checkedExtend 'systemData.languages' lang._id 'asSecondary'}}} />
+
+        <input type="hidden" 
+               name="system.languages.{{lang._id}}.induced2"
+               value="X" />
+
+        <label class="_name">{{lang.name}}</label>
+    </li>
+    {{/each}}
+</ul>
+{{/if}}
+
+<hbox class="_wzButtonBar" style="margin-top: 20px;">
+    <a class="wizardNextStep"
+       data-field="languages"
+       data-step="12">
+       <div class="_backButton">{{localize "common.nextStep"}}</div>
+    </a>   
+</hbox>

@@ -49,12 +49,101 @@ export class helperSheetHuman {
   }
 
   /**
+   * getBioInfo
+   * @param {*} systemData 
+   * @param {*} backend 
+   */
+  static async getBioInfo(systemData, backend) {
+
+    if (!systemData.control.wizard) return;
+
+    let charTotal = 0;
+    for (var s in systemData.characteristics.primary) {
+      if (s === 'app') continue;
+      charTotal += systemData.characteristics.primary[s].value;
+    }
+
+    const oKingdom = (systemData.bio.kingdom !== "") ?
+                            await game.packs.get("conventum.kingdoms")
+                                            .getDocument(systemData.bio.kingdom) : null;
+
+    const oCulture = (systemData.bio.culture !== "") ?
+                            await game.packs.get("conventum.cultures")
+                                            .getDocument(systemData.bio.culture) : null;                                            
+
+    const oStratum = (systemData.bio.stratum !== "") ?
+                            await game.packs.get("conventum.stratums")
+                                            .getDocument(systemData.bio.stratum) : null;  
+
+    const oStatus = (systemData.bio.status !== "") ?
+                            await game.packs.get("conventum.status")
+                                            .getDocument(systemData.bio.status) : null;  
+
+    const oProfession = (systemData.bio.profession !== "") ?
+                            await game.packs.get("conventum.professions")
+                                            .getDocument(systemData.bio.profession) : null;
+
+    const oParentProfession = (systemData.bio.parentProfession !== "") ?
+                            await game.packs.get("conventum.professions")
+                                            .getDocument(systemData.bio.parentProfession) : null;
+
+    const skillLanguage = backend.skills.find(e => e.system.languages.apply);
+
+    let skillsPrimaryCombat = [],
+        maxCombatPrimary = 0,
+        skillsSecondaryCombat = [],
+        maxCombatSecondary = 0,
+        languagesPrimary = false,
+        languagesSecondary = false,
+        noAcquiredLanguages = [],
+        acquiredLanguages = [];
+
+    if (oProfession) {
+      for (var sId in oProfession.system.skills.combatPrimary) {
+        if (oProfession.system.skills.combatPrimary[sId].apply)
+          skillsPrimaryCombat.push(backend.skills.find(e => e._id === sId));
+      }
+      for (var sId in oProfession.system.skills.combatSecondary) {
+        if (oProfession.system.skills.combatSecondary[sId].apply)
+          skillsSecondaryCombat.push(backend.skills.find(e => e._id === sId));
+      }      
+      languagesPrimary = (oProfession.system.skills.primary[skillLanguage.id].apply);
+      languagesSecondary = (oProfession.system.skills.secondary[skillLanguage.id].apply);
+      
+      maxCombatPrimary = oProfession.system.skills.maxCombatPrimary;
+      maxCombatSecondary = oProfession.system.skills.maxCombatSecondary;
+    }
+
+    return {
+      charTotal: charTotal,
+      charTotalOk: (charTotal <= 100), 
+      kingdom: oKingdom,
+      culture: oCulture,
+      stratum: oStratum,
+      status: oStatus,
+      profession: oProfession,
+      parentProfession: oParentProfession,
+      skillsCost: 0,
+      skillsCostOk: false,
+      skillsPrimaryCombat: skillsPrimaryCombat,
+      skillsSecondaryCombat: skillsSecondaryCombat,
+      combatSkillsOk: false,
+      languagesPrimary: languagesPrimary,
+      languagesSecondary: languagesSecondary,
+      maxCombatPrimary: maxCombatPrimary,
+      maxCombatSecondary: maxCombatSecondary,
+      noAcquiredLanguages: noAcquiredLanguages,
+      acquiredLanguages: acquiredLanguages
+    };
+  }
+
+  /**
    * checkSystemData
    * @param {*} systemData 
    */
   static async checkSystemData(actor, systemData, backend) {
 
-    this._checkCharacteristics(actor, systemData);
+    await this._checkCharacteristics(actor, systemData);
     this._calcCharacteristics(systemData);
     this._calcHPStatus(systemData);
     this._calcAPPStatus(systemData);
@@ -108,7 +197,8 @@ export class helperSheetHuman {
             newActionItems.push(oAction);
           }
       }
-      if (newActionItems.length > 0) {      
+      if (newActionItems.length > 0) {    
+        if (!systemData.control.noImportActions)  
           await Item.createDocuments(newActionItems, {parent: actor});
       }
 
@@ -185,7 +275,15 @@ export class helperSheetHuman {
    * getSkills
    * @param {*} context 
    */
-  static getSkills(actor, context) {
+  static async getSkills(actor, context) {
+
+    const profession = (context.systemData.bio.profession !== "") ?
+              await game.packs.get("conventum.professions")
+                              .getDocument(context.systemData.bio.profession) : null;
+
+    const parentProfession = (context.systemData.bio.parentProfession !== "") ?
+              await game.packs.get("conventum.professions")
+                              .getDocument(context.systemData.bio.parentProfession) : null;
 
     context.backend.skills.forEach( skill => {
       if (!context.systemData.skills[skill.id]) {
@@ -196,7 +294,10 @@ export class helperSheetHuman {
           acquired: false,
           experienced: false,
           profPrimary: false,
-          profSecondary: false
+          profSecondary: false,
+          profParent: false,
+          increase: 0,
+          cost: 0
         };
       }
       let actorSkill = context.systemData.skills[skill.id];
@@ -218,9 +319,10 @@ export class helperSheetHuman {
       });
 
       //Values
+      actorSkill.base = context.systemData.characteristics.primary[skill.system.characteristic.primary].value;
       if (!actor.system.control.criature) {
         actorSkill.initial = 
-            context.systemData.characteristics.primary[skill.system.characteristic.primary].value + 
+            actorSkill.base + 
             Number(context.systemData.characteristics.primary[skill.system.characteristic.primary].penal);
 
         if (!actorSkill.acquired) actorSkill.value = actorSkill.initial;
@@ -240,12 +342,117 @@ export class helperSheetHuman {
         }
     }
 
-    //No acquired? initial values...
-    context.backend.skills.forEach( skill => {
-      if (!skill.acquired) 
-        skill.value = Number(skill.initial);
-    });
+    //Profession Skills...
+    if ((profession) && (parentProfession)) {
+      context.backend.skills.forEach( oSkill => {
+        const skillId = oSkill.id;
+        let skill = context.systemData.skills[skillId];
 
+          //Primaries...
+          if (profession.system.skills.primary[skillId].apply) {
+            const mult = profession.system.skills.primary[skillId].mod;
+            if (!skill.acquired) {
+              skill.acquired = true;
+              skill.profPrimary = true;
+              skill.experienced = false;
+              skill.initial = Number(skill.value) * Number(mult);
+              return;
+            }
+          }
+
+          //Secondaries...
+          if (profession.system.skills.secondary[skillId].apply) {
+            const mult = profession.system.skills.secondary[skillId].mod;
+            if (!skill.acquired) {
+              skill.acquired = true;
+              skill.profSecondary = true;
+              skill.experienced = false;
+              skill.initial = Number(skill.value) * Number(mult);
+              return;
+            }
+          }        
+
+          //Parent skills...
+          if (parentProfession.system.skills.primary[skillId].apply) {
+            const mult = parentProfession.system.skills.primary[skillId].mod;
+            if (!skill.acquired) {
+              skill.acquired = true;
+              skill.profParent = true;
+              skill.experienced = false;
+              skill.initial = Number(skill.value) * Number(mult);
+              return;
+            }
+          }        
+      });
+    }
+
+    //Wizard Combat Skills...
+    if ((context.bioInfo !== undefined) &&
+        (context.systemData.control.wizard)) {
+
+      let nCombatPrimary = 0,
+          nCombatSecondary = 0;
+
+      for (var skillId in context.systemData.skills) {
+           let skill = context.systemData.skills[skillId];
+
+        if (skill.asCombatPrimary) nCombatPrimary++;
+        if (skill.asCombatSecondary) nCombatSecondary++;      
+      } 
+
+      //Checking Combat Skills...
+      if ((Number(context.bioInfo.maxCombatPrimary) === nCombatPrimary) && 
+          (Number(context.bioInfo.maxCombatSecondary) === nCombatSecondary)) 
+          context.bioInfo.combatSkillsOk = true;
+
+      //Combat Skills...
+      context.bioInfo.skillsPrimaryCombat.map(oSkill => {
+        if (context.systemData.skills[oSkill.id].asCombatPrimary) {
+          context.systemData.skills[oSkill.id].acquired = true;
+          context.systemData.skills[oSkill.id].initial = 
+            context.systemData.skills[oSkill.id].base*3;
+          context.systemData.skills[oSkill.id].profPrimary = true;
+        }
+      });
+
+      context.bioInfo.skillsSecondaryCombat.map(oSkill => {
+        if (context.systemData.skills[oSkill.id].asCombatSecondary) {
+          context.systemData.skills[oSkill.id].acquired = true;
+          context.systemData.skills[oSkill.id].initial = 
+            context.systemData.skills[oSkill.id].base*1;        
+          context.systemData.skills[oSkill.id].profSecondary = true; 
+        }   
+      });
+
+      //Wizard - Skills Final checks...
+      let skillsCost = 0;
+
+      for (var skillId in context.systemData.skills) {
+        let skill = context.systemData.skills[skillId];
+        if (!skill.acquired) 
+          skill.value = Number(skill.initial);   
+        if (skill.cost === undefined)
+          skill.cost = 0;
+        if (skill.increase === undefined)   
+          skill.increase = 0;
+
+        if (context.systemData.control.initial) {
+          if (skill.increase < 0) skill.increase = 0;
+          skill.value = skill.initial + skill.increase;
+          if ((skill.value > (skill.base*5)) && (skill.base > 0)) {
+              skill.value = (skill.base*5);
+              skill.increase = skill.value - skill.initial;
+          }
+
+          let multCost = ( skill.acquired ) ? 1 : 2;
+          skill.cost = multCost * skill.increase;
+          skillsCost += skill.cost;
+        }
+      }
+
+      context.bioInfo.skillsCost = skillsCost;
+      context.bioInfo.skillsCostOk = (skillsCost <= 100);
+    }
   }
 
   /**
@@ -257,32 +464,158 @@ export class helperSheetHuman {
     await game.packs.get('conventum.cultures').getDocuments();
     const myCulture = game.packs.get('conventum.cultures').get(context.systemData.bio.culture);
 
+    const oProfession = (context.systemData.bio.profession !== "") ?
+                            await game.packs.get("conventum.professions")
+                                            .getDocument(context.systemData.bio.profession) : null; 
+    const skillLanguage = context.backend.skills.find(e => e.system.languages.apply);
+
     context.backend.languages.forEach( lang => {
       if (!context.systemData.languages[lang.id]) {
         context.systemData.languages[lang.id] = {
           value: 0,
           penal: 0,
           initial: 0,
-          acquired: false
+          acquired: false,
+          profPrimary: false,
+          profSecondary: false,
+          profParent: false,
+          increase: 0,
+          cost: 0          
         };
       }
 
       let actorSkill = context.systemData.languages[lang.id];
       actorSkill.initial = 0;
-      let expr = myCulture.system.backend.languages[lang.id].toUpperCase();
-      
-      for (const s in context.systemData.characteristics.primary) {
-        expr = expr.replace(s.toUpperCase(), 
-                context.systemData.characteristics.primary[s].value);
-        expr = expr.replace('X', '*');
+      if (myCulture.system.backend.languages[lang.id]) {
+        let expr = myCulture.system.backend.languages[lang.id].toUpperCase();
+        if (expr !== '') {
+          for (const s in context.systemData.characteristics.primary) {
+            expr = expr.replace(s.toUpperCase(), 
+                    context.systemData.characteristics.primary[s].value);
+            expr = expr.replace('X', '*');
+          }
+          if (expr === '') expr = '0';
+          actorSkill.initial = Number(eval(expr));
+        }
       }
-      if (expr === '') expr = '0';
-      actorSkill.initial = Number(eval(expr));
 
-      if (context.systemData.control.initial) 
+      //Base Percent
+      let nBase = 0;
+      if (skillLanguage) {
+        nBase = context.systemData.characteristics.primary[
+                              skillLanguage.system.characteristic.primary].value;
+      }
+
+      //By Profession
+      if ((oProfession) && (oProfession.system.skills.languages[lang.id].apply)) {
+         actorSkill.acquired = true;
+         actorSkill.initial = nBase * Number(oProfession.system.skills.languages[lang.id].mod);
+      }
+
+      if (Number(actorSkill.initial) > 0) actorSkill.acquired = true;
+
+      if ( ((actorSkill.induced1 === 'X') ||
+            (actorSkill.induced2 === 'X'))
+        && (!actorSkill.asPrimary) && (!actorSkill.asSecondary))
+        actorSkill.acquired = false;
+
+      actorSkill.asSkill = false;
+      if (actorSkill.asPrimary) {
+        actorSkill.initial = nBase;
+        actorSkill.base = nBase;
+        actorSkill.acquired = true;
+        actorSkill.asSkill = true;
+        actorSkill.profPrimary = true;
+      }
+      if (actorSkill.asSecondary) {
+        actorSkill.initial = nBase;
+        actorSkill.base = nBase;
+        actorSkill.acquired = true;
+        actorSkill.asSkill = true;
+        actorSkill.profSecondary = true;
+      }
+
+      if (context.systemData.control.initial)
         actorSkill.value = actorSkill.initial;
 
+      if (context.bioInfo !== undefined) {
+        if ( ((!actorSkill.acquired) || (actorSkill.acquired === undefined)) || 
+            (actorSkill.asSkill)) {
+          context.bioInfo.noAcquiredLanguages.push(lang);
+        } else {
+          context.bioInfo.acquiredLanguages.push(lang);
+        }
+      }
     });
+
+    let skillsCost = 0;
+    if (context.systemData.control.initial) {
+
+      context.backend.languages.forEach( lang => {
+          let skill = context.systemData.languages[lang.id];
+          if (!skill.acquired) 
+            skill.value = Number(skill.initial);   
+          if (skill.cost === undefined)
+            skill.cost = 0;
+          if (skill.increase === undefined)   
+            skill.increase = 0;
+
+          if (skill.increase < 0) skill.increase = 0;
+            skill.value = skill.initial + skill.increase;
+          if ((skill.value > (skill.initial*5)) && (skill.initial > 0)) {
+              skill.value = (skill.initial*5);
+              skill.increase = skill.value - skill.initial;
+          }          
+
+          let multCost = ( skill.acquired ) ? 1 : 2;
+          skill.cost = multCost * skill.increase;
+          skillsCost += skill.cost;
+
+      });
+
+      if (context.bioInfo !== undefined) {
+        context.bioInfo.skillsCost += skillsCost;
+        context.bioInfo.skillsCostOk = (skillsCost <= 100);
+      }
+    }
+
+  }
+
+  /**
+   * _changeWzLanguage
+   * @param {*} sId 
+   * @param {*} sType 
+   */
+  static _changeWzLanguage(actor, sId, sType) {
+    let oData = {};
+    this._getNoAcquiredLanguages(actor).map(s => {
+      oData[s] = {};
+      if (sType === 'primary')
+        oData[s].asPrimary = false;
+      if (sType === 'secondary')
+        oData[s].asSecondary = false;      
+    });
+
+    oData[sId] = {};
+    if (sType === 'primary')
+      oData[sId].asPrimary = true;
+    if (sType === 'secondary')
+      oData[sId].asSecondary = true;    
+
+    actor.update({ system: { languages: oData } });
+  }
+
+  static _getNoAcquiredLanguages(actor) {
+    let mLanguages = [];
+    for (var sId in actor.system.languages) {
+      const language = actor.system.languages[sId];
+      if ( ((!language.acquired) || (language.acquired === undefined)) || 
+           (language.asSkill)) {
+
+        mLanguages.push(sId);
+      }
+    }
+    return mLanguages;    
   }
 
   /**
@@ -382,6 +715,22 @@ export class helperSheetHuman {
                           }});
   }  
 
+
+  /**
+   * wz_Select
+   * @param {*} this 
+   * @param {*} actor 
+   * @param {*} sField 
+   * @param {*} sValue 
+   * @param {*} sCompendium 
+   */
+  static async wz_Select(actor, sField, sValue, sPack) {
+    const backend = await mainBackend.getBackendForActor(actor, actor.system);
+    const mDocuments = backend[sPack];
+    let item = mDocuments.find(e => e.id === sValue );    
+    await actor.update(this._wz_dataUpdate(sField, item));
+  }
+
   /**
    * wz_Dices
    * @param {*} actor 
@@ -389,6 +738,7 @@ export class helperSheetHuman {
    * @param {*} sPack
    */
   static async wz_Dices(actor, sField, sPack) {
+    let directRoll = false;
     const backend = await mainBackend.getBackendForActor(actor, actor.system);
     let sFormula = '1d100';
 
@@ -411,35 +761,149 @@ export class helperSheetHuman {
     if (sField === 'status') {
       sFormula = '1d10';
     }
+    if (sField === 'profession') {
+      sFormula = '1d100';
+    }
+    if (sField === 'parentProfession') {
+      sFormula = '1d100';
+    }    
+    if (sField === 'appearance') {
+      sFormula = (actor.system.bio.female) ? '4D6+2' : '4D6';
+      directRoll = true;
+    }
+    if (sField === 'temperance') {
+      sFormula = '25 + 5D10';
+      directRoll = true;
+    }    
+
+    //Tables...
+    let bRollTable = false;
+    if (sField === 'familySituation') bRollTable = true;
+    if (sField === 'familyBrothers') bRollTable = true;
+    if (sField === 'spouse') bRollTable = true;
 
     //Rolling...
-    let roll = new Roll(sFormula, {});
-    roll.evaluate({async: false});
-    if (game.dice3d) {
-        await game.dice3d.showForRoll(roll, game.user, true);
-    }    
-    const result = Number(roll.result);
+    if ((!bRollTable) && (!directRoll)) {
+      let roll = new Roll(sFormula, {});
+      roll.evaluate({async: false});
+      if (game.dice3d) {
+          await game.dice3d.showForRoll(roll, game.user, true);
+      }    
+      const result = roll.total;
 
-    let item = mDocuments.find(e => 
-                  ((e.system.range.low <= result) &&
-                   (e.system.range.high >= result)) );
+      let item = mDocuments.find(e => 
+                    ((e.system.range.low <= result) &&
+                    (e.system.range.high >= result)) );
+
+      await actor.update(this._wz_dataUpdate(sField, item));
+
+      let dialog = new Dialog({
+        title: game.i18n.localize("common.wizard"),
+        content: '<div class="_content">'+
+                    '<img src="'+item.img+'" />'+
+                    '<h1>'+item.name+'</h1>'+
+                    '<desc>'+item.system.description+'</desc>'+
+                '</div>',
+        buttons: {},
+        world: actor.system.control.world });
+      dialog.options.classes.push('_wizardDialog _wizardResult');
+      dialog.options.width = 300;
+      dialog.options.height = 380;    
+      dialog.render(true);
+
+    } else {
+
+      if (directRoll) {
+
+          let roll = new Roll(sFormula, {});
+          roll.evaluate({async: false});
+          if (game.dice3d) {
+              await game.dice3d.showForRoll(roll, game.user, true);
+          }    
+          const result = roll.total;    
+          await actor.update(this._wz_dataUpdate(sField, result));    
+
+      } else {
+        const result = await this.rollTable(sField);    
+        await actor.update(this._wz_dataUpdate(sField, result));  
+      }
+    }
+
+  }
+
+  /**
+   * wz_goingBack
+   */
+  static async wz_goingBack(actor) {
+
+    let oWizard = {};
+    let sStep = '00';
+
+    for (var s in actor.system.wizard) {
+      if ((actor.system.wizard[s]) && (s !== 'NaN'))
+        sStep = s;
+    }
+        
+    let backStep = Number(sStep) - 1;
+    backStep = (backStep < 10) ? '0'+backStep : backStep;
+    if (Number(backStep) < 0) backStep = '00';
+
+    oWizard[sStep] = false;
+    oWizard[backStep] = true;
+
+    await actor.update({ system: {
+      wizard: oWizard
+    }});
+  }
+
+  /**
+   * wz_nextStep
+   * @param {*} actor 
+   * @param {*} sStep 
+   */
+  static async wz_nextStep(actor, sStep, sField) {
     
-    await actor.update(this._wz_dataUpdate(sField, item));
+    //Final
+    if (sStep === '99') {
+      await actor.update({ system: {
+        control: { wizard: false }
+      }});  
+      return;
+    }
 
-    let dialog = new Dialog({
-      title: game.i18n.localize("common.wizard"),
-      content: '<div class="_content">'+
-                  '<img src="'+item.img+'" />'+
-                  '<h1>'+item.name+'</h1>'+
-                  '<desc>'+item.system.description+'</desc>'+
-               '</div>',
-      buttons: {},
-      world: actor.system.control.world });
-    dialog.options.classes.push('_wizardDialog _wizardResult');
-    dialog.options.width = 300;
-    dialog.options.height = 380;    
-    dialog.render(true);
+    let backStep = Number(sStep) - 1;
+    backStep = (backStep < 10) ? '0'+backStep : backStep;
+    if (Number(backStep) < 0) backStep = '00';
 
+    let oWizard = {};
+    oWizard[backStep] = false;
+    oWizard[sStep] = true;
+    
+    if (sField === "primary") {
+      oWizard.showTableRoll01 = false
+      oWizard.showTableRoll02 = false
+      oWizard.showTableRoll03 = false
+      oWizard.showTableRoll04 = true
+      oWizard.showTableRoll05 = true   
+    }
+
+    await actor.update({ system: {
+      wizard: oWizard
+    }});   
+
+  }
+
+  /**
+   * wz_setGender
+   * @param {*} actor 
+   * @param {*} female 
+   */
+  static async wz_setGender(actor, bFemale) {
+    await actor.update({ system: {
+      bio: {
+        female: bFemale
+      }
+    }});
   }
 
   /**
@@ -476,16 +940,81 @@ export class helperSheetHuman {
               }              
              }};
     }    
-    if (sField === 'position') {
+    if (sField === 'status') {
       return {system: {
-              bio: { position: item.id },
+              bio: { status: item.id },
               wizard: {
                 "05": false,
                 "06": true
               }              
              }};
     }    
-
+    if (sField === 'profession') {
+      return {system: {
+              bio: { profession: item.id },
+              wizard: {
+                "06": false,
+                "07": true
+              }              
+             }};
+    }  
+    if (sField === 'parentProfession') {
+      return {system: {
+              bio: { parentProfession: item.id,
+                     familySituation: "",
+                     familyBrothers: "",
+                     spouse: ""},
+              wizard: {
+                "07": false,
+                "08": true,
+                "showTableRoll01": true,
+                "showTableRoll02": false,
+                "showTableRoll03": false
+              }              
+             }};
+    }      
+    if (sField === 'familySituation') {
+      return {system: {
+              bio: { familySituation: item.text },
+              wizard: {
+                "showTableRoll01": false,
+                "showTableRoll02": true
+              }       
+             }};
+    }     
+    if (sField === 'familyBrothers') {
+      return {system: {
+              bio: { familyBrothers: item.text },
+              wizard: {
+                "showTableRoll02": false,
+                "showTableRoll03": true
+              }       
+             }};
+    }     
+    if (sField === 'spouse') {
+      return {system: {
+              bio: { spouse: item.text },
+              wizard: {
+                "showTableRoll03": false
+              }       
+             }};
+    }    
+    if (sField === 'appearance') {
+      return {system: {
+          characteristics: { primary: { app: { value: item }}},
+          wizard: {
+            "showTableRoll04": false
+          }       
+       }};
+    }
+    if (sField === 'temperance') {
+      return {system: {
+          characteristics: { secondary: { temp: { value: item }}},
+          wizard: {
+            "showTableRoll05": false
+          }       
+       }};
+    }    
   }
 
   /**
@@ -598,6 +1127,7 @@ export class helperSheetHuman {
         data[s].experienced = false;
         data[s].profPrimary = false;
         data[s].profSecondary = false;
+        data[s].profParent = false;
       }
     }
 
@@ -641,6 +1171,20 @@ export class helperSheetHuman {
             system: { skills: data }});
 
   }
+
+  /**
+   * rollTable
+   * @param {*} sTable 
+   * @returns 
+   */
+  static async rollTable(sTable) {
+    let mRollTables = await (game.packs.get('conventum.rolls')).getDocuments();
+    const rollTable = mRollTables.filter(e => $(e.description).data('id') === sTable)[0];
+    if (!rollTable) return;
+    const rollResult = await rollTable.draw();
+    await game.dice3d.showForRoll(rollResult.roll);
+    return rollResult.results[0];
+  }
     
 
 /** ***********************************************************************************************
@@ -651,9 +1195,13 @@ export class helperSheetHuman {
    * _checkCharacteristics
    * @param {*} systemData 
    */
-  static _checkCharacteristics(actor, systemData) {
+  static async _checkCharacteristics(actor, systemData) {
     
     if (systemData.control.criature) return;
+
+    const oProfession = (systemData.bio.profession !== '') ?
+                  await game.packs.get("conventum.professions").getDocument(systemData.bio.profession) :
+                  null;
 
     //Primary Characteristics...
     ["primary", "secondary"].forEach(sGroup => {
@@ -661,6 +1209,11 @@ export class helperSheetHuman {
 
         let _root = systemData.characteristics[sGroup][s];
         _root.value =  Number(_root.value);   //Numeric values...
+
+        if ((oProfession) &&
+            (oProfession.system.requirement[sGroup][s].apply)) {
+            _root.min = oProfession.system.requirement[sGroup][s].mod;
+        }
 
         //Hit Points exception
         if (s === 'hp') {
@@ -720,7 +1273,7 @@ export class helperSheetHuman {
     //Temperance
     _root.secondary.temp.initial = 50;
     if (systemData.control.initial) {
-      _root.secondary.temp.value = _root.secondary.temp.initial;
+      //_root.secondary.temp.value = _root.secondary.temp.initial;
     }
 
     //Hit Points
@@ -737,6 +1290,10 @@ export class helperSheetHuman {
     _root.secondary.rr.last = Number(_root.secondary.rr.last);
     _root.secondary.irr.last = Number(_root.secondary.irr.last);
     if (!systemData.control.criature) {
+      if (systemData.control.initial) {
+        if (_root.secondary.irr.value < 25) _root.secondary.irr.value = 25;
+        if (_root.secondary.rr.value < 25) _root.secondary.rr.value = 25;
+      }
       if ( _root.secondary.irr.value != _root.secondary.irr.last )
               _root.secondary.rr.value = 100 - _root.secondary.irr.value;
           else _root.secondary.irr.value = 100 - _root.secondary.rr.value;
@@ -866,9 +1423,18 @@ export class helperSheetHuman {
    * @param {*} backend
    */  
   static async _checkBio(systemData, backend) {
-    //...
-
-    //const status = await game.packs.get("conventum.status").getDocument(systemData.bio.status);
+    const profession = (systemData.bio.profession !== "") ?
+              await game.packs.get("conventum.professions").getDocument(systemData.bio.profession) : null;
+    if (profession) {
+      if ((!profession.system.requirement.male) && (profession.system.requirement.female)) {
+          systemData.bio.female = true;
+          systemData.bio.blockGener = true;
+      }
+      if ((profession.system.requirement.male) && (!profession.system.requirement.female)) {
+          systemData.bio.female = false;   
+          systemData.bio.blockGener = true;     
+      }
+    }
 
   }
 

@@ -1,3 +1,6 @@
+{{#if imMaster}}
+<a class="_goingBack"><div class="_backButton"><<</div></a>
+{{/if}}
 <hbox class="_header">
     <vbox>
         <h1>{{localize 'wizard.title05'}}</h1>
@@ -12,17 +15,63 @@
     </div>    
 </hbox>
 
+<div class="_wzDetail" style="margin-bottom:10px;">
+    <hbox class="_100">
+        <label class="_120px">{{localize "common.kingdom"}}</label>
+        <a class="wizardOption"
+           data-field="kingdom"
+           data-value="{{systemData.bio.kingdom}}"
+           data-compendium="kingdoms">
+                {{bioInfo.kingdom.name}}
+        </a>
+    </hbox>    
+    <hbox class="_100">
+        <label class="_120px">{{localize "common.culture"}}</label>
+        <a class="wizardOption"
+           data-field="culture"
+           data-value="{{systemData.bio.culture}}"
+           data-compendium="cultures">
+                {{bioInfo.culture.name}}
+        </a>
+    </hbox>
+    <hbox class="_100">
+        <label class="_120px">{{localize "common.stratum"}}</label>
+        <a class="wizardOption"
+           data-field="stratum"
+           data-value="{{systemData.bio.stratum}}"
+           data-compendium="stratums">
+                {{bioInfo.stratum.name}}
+        </a>
+    </hbox>    
+</div>
+
 <ul>
 {{#each backend.status as |status key|}}
-<a class="wizardOption"
-   data-field="status"
-   data-value="{{status.id}}"
-   data-compendium="status">
-    <li class="_wizardOption" data-filter="{{status.name}}">
-        <img src="{{status.img}}" />
-        <label class="_range">{{status.system.range.low}} - {{status.system.range.high}}</label>
-        <label>{{status.name}}</label>
-    </li>
-</a>
+    {{#if ../imMaster}}
+    <a class="wizardOption"
+        data-field="status"
+        data-value="{{status.id}}"
+        data-compendium="status">
+    {{else}}
+    <a class="wizardOption"
+        data-field="status"
+        data-value="{{status.id}}"
+        data-compendium="status"
+        style="width: 100%">
+    {{/if}}     
+        <li class="_wizardOption" 
+            data-filter="{{status.name}}"
+            data-field="status"
+            data-value="{{status.id}}"
+            data-compendium="status">
+                    
+            <img src="{{status.img}}" />
+            <label class="_range">{{status.system.range.low}} - {{status.system.range.high}}</label>
+            <label class="_name">{{status.name}}</label>
+            {{#if ../imMaster}}
+            <a class="_wizardButton">{{localize 'common.select'}}</a>
+            {{/if}}           
+        </li>
+    </a>
 {{/each}}
 </ul>

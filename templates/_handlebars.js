@@ -99,11 +99,26 @@ export class mainHandlebars {
        }); 
 
        /**
+        * checkIsNot
+        */
+       Handlebars.registerHelper("checkIsNot", function(string1, string2, options) {
+         return (string1 !== string2);
+       }); 
+
+       /**
         * noEmpty
         */
        Handlebars.registerHelper("noEmpty", function(mArray, options) {
          return (mArray.length > 0);
        });        
+
+       /**
+        * isAcquired
+        */
+       Handlebars.registerHelper("isAcquired", function(skill, systemData, options) {
+         return (systemData.skills[skill._id]) ? 
+            systemData.skills[skill._id].acquired : false;
+       });
 
       /**
        * checkedExtend
@@ -119,14 +134,44 @@ export class mainHandlebars {
             return (oItem[property]) ? 'checked' : '';
          else
             return (oItem && oItem[property] && oItem[property][sProperty]) ? 'checked' : '';
-       });        
+       });    
+       
+      /**
+       * checkedExtend
+       */
+      Handlebars.registerHelper("selectedExtend", function(sRootPath, property, sProperty, options) {
+               
+         let oItem = (sRootPath.split('.')[0] === 'systemData') ? 
+                                                      options.data.root :
+                                                      options.data.root.data;
+         sRootPath.split('.').forEach( s => {
+            oItem = oItem[s]; });
+         if (sProperty === '')
+            return (oItem[property]) ? 'selected' : '';
+         else
+            return (oItem && oItem[property] && oItem[property][sProperty]) ? 'selected' : '';
+      });         
+
+      /**
+       * replaceTxt
+       */
+      Handlebars.registerHelper("replaceTxt", function(sI18n, sReplace, options) {
+         return game.i18n.localize(sI18n).replaceAll('#', sReplace);
+      }); 
+
+      /**
+       * isArray
+       */
+      Handlebars.registerHelper("isArray", function(mArray, options) {
+         return (mArray.length > 0);
+      }); 
 
       /**
        * localizeExtend
        */
       Handlebars.registerHelper("localizeExtend", function(sPrev, sField, sPost, options) {
          return game.i18n.localize(sPrev + sField + sPost);
-       });   
+      });   
 
       /**
        * shortDescription

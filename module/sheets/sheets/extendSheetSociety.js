@@ -17,8 +17,8 @@ export class extendSheetSociety extends ItemSheet {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: [game.system.id, "sheet", "item"],
       template: CONFIG._root+"/templates/society.html",
-      width: 520,
-      height: 480
+      width: 650,
+      height: 600
     });
   }
 

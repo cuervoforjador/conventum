@@ -183,6 +183,7 @@ export class mainHooks {
 
     static async _createActor(actor, options, sId) {
         HookActor.setPrototypeToken(actor);
+        helperCusto.initialActorImage(actor, options, sId);        
     }
 
     static async _updateActor(actor, stats, options, sId) {

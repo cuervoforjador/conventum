@@ -231,7 +231,17 @@
                         {{checked systemData.target.multiple}} />
                 <span class="sliderSwitch"></span>
             </label>            
-        </hbox>                    
+        </hbox>   
+        {{!--
+        <hbox class="_50">
+            <label class="_150px">{{localize "common.forceTargets" }}</label>
+            <label class="switch" style="margin-right: 10px">
+                <input type="checkbox" 
+                        name="system.target.forceTargets" 
+                        {{checked systemData.target.forceTargets}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>                        
         <hbox class="_50">
             <label class="_150px">{{localize "common.forceSelection" }}</label>
             <label class="switch" style="margin-right: 10px">
@@ -241,7 +251,7 @@
                 <span class="sliderSwitch"></span>
             </label>            
         </hbox> 
-
+        --}} 
     </panelContent>
 </slidePanel>
 </div>
@@ -712,8 +722,8 @@
                                 labelAttr="name" }}
             </select>   
         </hbox>
-        <hbox class="_50">                                      
-        </hbox>
+        <hbox class="_50">        
+        </hbox> 
         <hbox class="_50">
             <label class="_150px">{{localize "common.modificator" }}</label>
             <input class="_100px" 
@@ -775,7 +785,7 @@
                                 labelAttr="name" }}
             </select>   
         </hbox>
-        <hbox class="_50">                                      
+        <hbox class="_50">
         </hbox>
         <hbox class="_50">
             <label class="_150px">{{localize "common.modificator" }}</label>

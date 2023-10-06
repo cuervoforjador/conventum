@@ -1,14 +1,77 @@
-<h1>{{localize 'wizard.title07'}}</h1>
-<p>{{localize 'wizard.text07'}}</p>
+{{#if imMaster}}
+<a class="_goingBack"><div class="_backButton"><<</div></a>
+{{/if}}
+<hbox class="_header">
+    <vbox>
+        <h1>{{localize 'wizard.title07'}}</h1>
+        <p>{{localize 'wizard.text07'}}</p>
+    </vbox>
+    <div class="_dicesBox">
+        <a class="wizardDices"
+           data-field="parentProfession"
+           data-compendium="professions">
+            <img src="/systems/conventum/image/texture/dice.png">
+        </a>
+    </div>    
+</hbox>
+
+<div class="_wzDetail" style="margin-bottom:10px;">
+    <hbox class="_100">
+        <label class="_120px">{{localize "common.culture"}}</label>
+        <a class="wizardOption"
+           data-field="culture"
+           data-value="{{systemData.bio.culture}}"
+           data-compendium="cultures">
+                {{bioInfo.culture.name}}
+        </a>
+    </hbox>
+    <hbox class="_100">
+        <label class="_120px">{{localize "common.stratum"}}</label>
+        <a class="wizardOption"
+           data-field="stratum"
+           data-value="{{systemData.bio.stratum}}"
+           data-compendium="stratums">
+                {{bioInfo.stratum.name}}
+        </a>
+    </hbox>      
+    <hbox class="_100">
+        <label class="_120px">{{localize "common.profession"}}</label>
+        <a class="wizardOption"
+           data-field="profession"
+           data-value="{{systemData.bio.profession}}"
+           data-compendium="professions">
+                {{bioInfo.profession.name}}
+        </a>
+    </hbox>      
+</div>
+
 <ul>
-{{#each backend.worlds as |world key|}}
-<a class="wizardOption"
-   data-field="world"
-   data-value="{{world.id}}">
-    <li class="_wizardOption" data-filter="{{world.name}}">
-        <img src="{{world.img}}" />
-        <label>{{world.name}}</label>
-    </li>
-</a>
+{{#each backend.professions as |profession key|}}
+    {{#if ../imMaster}}
+    <a class="wizardOption"
+        data-field="parentProfession"
+        data-value="{{profession.id}}"
+        data-compendium="professions">
+    {{else}}
+    <a class="wizardOption"
+        data-field="parentProfession"
+        data-value="{{profession.id}}"
+        data-compendium="professions"
+        style="width: 100%">
+    {{/if}}    
+        <li class="_wizardOption" 
+            data-filter="{{profession.name}}"
+            data-field="parentProfession"
+            data-value="{{profession.id}}"
+            data-compendium="professions">
+                    
+            <img src="{{profession.img}}" />
+            <label class="_range">{{profession.system.range.low}} - {{profession.system.range.high}}</label>
+            <label class="_name">{{profession.name}}</label>
+            {{#if ../imMaster}}
+            <a class="_wizardButton">{{localize 'common.select'}}</a>
+            {{/if}}           
+        </li>
+    </a>
 {{/each}}
 </ul>

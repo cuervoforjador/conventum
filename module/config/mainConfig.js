@@ -20,6 +20,11 @@ export class mainConfig {
     static translateConfig() {
         let oConfig = CONFIG.ExtendConfig;
 
+        //Social Groups
+        oConfig.socialGroups.map(e => {
+            e.name = game.i18n.localize(e.i18n)
+        });
+
         //Armor Types
         oConfig.armorTypes.map(e => {
             e.name = game.i18n.localize(e.i18n)
