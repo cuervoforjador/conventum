@@ -20,7 +20,8 @@ export class HookCompendium {
         'conventum.armor',
         'conventum.weapons',
         'conventum.magic',
-        'conventum.actions'
+        'conventum.actions',
+        "conventum.professions"
     ];
 
     static _frequentCompendiums = [
@@ -265,6 +266,9 @@ export class HookCompendium {
             this._addDivExtraInfo("conventum.stratums", oElement,
                                     oItemDoc.system.backend.stratum);                                                                
         }   
+        if (sPack === 'conventum.professions') {          
+            this._addDivExtraInfoString(oElement, oItemDoc.system.index, '_index');                                                              
+        }         
         if (sPack === 'conventum.skills') {
             this._addDivExtraInfoString(oElement,
                 game.i18n.localize('characteristic.'+oItemDoc.system.characteristic.primary)); 

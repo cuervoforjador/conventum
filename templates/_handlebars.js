@@ -275,7 +275,7 @@ export class mainHandlebars {
        */
       Handlebars.registerHelper("getDamageMod", function(weapon, options) {
          const actor = options.data.root.data;
-         const sMod = helperSheetHuman.calcDamageMod(actor, weapon);
+         const sMod = helperSheetHuman.calcDamageMod(actor, weapon, null);
          if (sMod !== '') return '(' + sMod + ')';
          else return '';
        });
@@ -285,7 +285,7 @@ export class mainHandlebars {
        */
       Handlebars.registerHelper("isDamageMod", function(weapon, options) {
          const actor = options.data.root.data;
-         const sMod = helperSheetHuman.calcDamageMod(actor, weapon);
+         const sMod = helperSheetHuman.calcDamageMod(actor, weapon, null);
          return (sMod !== '');
        });
 

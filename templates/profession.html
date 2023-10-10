@@ -22,13 +22,12 @@
                     </select>
                 </hbox>    
                 <hbox class="_subHeaderHBox _marginTop">
-                    <label>{{localize "common.income" }}</label>
+                    <label>{{localize "common.index" }}</label>
                     <input class="_60px _center" 
-                           name="system.income"
-                           value="{{systemData.income}}" 
+                           name="system.index"
+                           value="{{systemData.index}}" 
                            type="number" />
-                    <label class="_marginLeft">maravedíes</label>
-                </hbox>
+                </hbox>                
             </vbox>
         </itemHeaderInfo>
     </itemHeader> 
@@ -396,6 +395,19 @@
                 {{!--- INCOME ---}}
                 <div class="tab income" data-group="primary" data-tab="income">
                     
+                    <slidePanel class="_100">
+                        <panelContent style="padding-bottom: 5px; padding-top: 5px;">
+                            <hbox class="_50">
+                                <label>{{localize "common.income" }}</label>
+                                <input class="_60px _center" 
+                                       name="system.income"
+                                       value="{{systemData.income}}" 
+                                       type="number" />
+                            </hbox>
+                            <hbox class="_50"></hbox>
+                        </panelContent>
+                    </slidePanel>
+
                     <slidePanel class="_100">
                         <panelContent style="padding-bottom: 5px; padding-top: 5px;">
                             <hbox class="_50">

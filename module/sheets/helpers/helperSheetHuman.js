@@ -100,12 +100,18 @@ export class helperSheetHuman {
 
     if (oProfession) {
       for (var sId in oProfession.system.skills.combatPrimary) {
-        if (oProfession.system.skills.combatPrimary[sId].apply)
-          skillsPrimaryCombat.push(backend.skills.find(e => e._id === sId));
+        if (oProfession.system.skills.combatPrimary[sId].apply) {
+          let oSkill = backend.skills.find(e => e._id === sId);
+          if ((!oSkill) || (oSkill === undefined)) continue;
+          skillsPrimaryCombat.push(oSkill);
+        }
       }
       for (var sId in oProfession.system.skills.combatSecondary) {
-        if (oProfession.system.skills.combatSecondary[sId].apply)
-          skillsSecondaryCombat.push(backend.skills.find(e => e._id === sId));
+        if (oProfession.system.skills.combatSecondary[sId].apply) {
+          let oSkill = backend.skills.find(e => e._id === sId);
+          if ((!oSkill) || (oSkill === undefined)) continue;
+          skillsSecondaryCombat.push(oSkill);
+        }        
       }      
       languagesPrimary = (oProfession.system.skills.primary[skillLanguage.id].apply);
       languagesSecondary = (oProfession.system.skills.secondary[skillLanguage.id].apply);
@@ -146,6 +152,7 @@ export class helperSheetHuman {
     await this._checkCharacteristics(actor, systemData);
     this._calcCharacteristics(systemData);
     this._calcHPStatus(systemData);
+    await this._applyModesbyHPStatus(actor, systemData);
     this._calcAPPStatus(systemData);
     this._calcWeight(systemData);
     this._calcHeight(systemData);
@@ -285,6 +292,14 @@ export class helperSheetHuman {
               await game.packs.get("conventum.professions")
                               .getDocument(context.systemData.bio.parentProfession) : null;
 
+    let mModes = [];
+    for (let i = 0; i <= actor.system.modes.length; i++) {
+      if (actor.system.modes[i] === undefined) continue;
+      const oMode = await game.packs.get('conventum.modes')
+                                    .getDocument(actor.system.modes[i]);
+      mModes.push(oMode);
+    }
+
     context.backend.skills.forEach( skill => {
       if (!context.systemData.skills[skill.id]) {
         context.systemData.skills[skill.id] = {
@@ -318,6 +333,18 @@ export class helperSheetHuman {
         actorSkill.penal = helperSheetMagic.penalValue(actorSkill.penal);
       });
 
+      //by Modes
+      mModes.map(oMode => {
+        if ((oMode.system.config.skill.apply) &&
+            (oMode.system.config.skill.mod !== '')) {
+              actorSkill.penal += oMode.system.config.skill.mod;
+        } 
+        if ((oMode.system.config.skill.apply) &&
+            (oMode.system.config.skill.mult !== 1)) {
+              actorSkill.penal += '*' + oMode.system.config.skill.mult;
+        }         
+      });
+
       //Values
       actorSkill.base = context.systemData.characteristics.primary[skill.system.characteristic.primary].value;
       if (!actor.system.control.criature) {
@@ -325,7 +352,11 @@ export class helperSheetHuman {
             actorSkill.base + 
             Number(context.systemData.characteristics.primary[skill.system.characteristic.primary].penal);
 
-        if (!actorSkill.acquired) actorSkill.value = actorSkill.initial;
+        if (!actorSkill.acquired) {
+          actorSkill.value = (actorSkill.increase !== undefined) ?
+                                actorSkill.initial + actorSkill.increase :
+                                actorSkill.initial;
+        }
       }
 
     });
@@ -394,7 +425,8 @@ export class helperSheetHuman {
           nCombatSecondary = 0;
 
       for (var skillId in context.systemData.skills) {
-           let skill = context.systemData.skills[skillId];
+        if (skillId === '') continue;
+        let skill = context.systemData.skills[skillId];
 
         if (skill.asCombatPrimary) nCombatPrimary++;
         if (skill.asCombatSecondary) nCombatSecondary++;      
@@ -407,6 +439,7 @@ export class helperSheetHuman {
 
       //Combat Skills...
       context.bioInfo.skillsPrimaryCombat.map(oSkill => {
+        if ((!oSkill) || (oSkill === undefined)) return;
         if (context.systemData.skills[oSkill.id].asCombatPrimary) {
           context.systemData.skills[oSkill.id].acquired = true;
           context.systemData.skills[oSkill.id].initial = 
@@ -416,6 +449,7 @@ export class helperSheetHuman {
       });
 
       context.bioInfo.skillsSecondaryCombat.map(oSkill => {
+        if ((!oSkill) || (oSkill === undefined)) return;
         if (context.systemData.skills[oSkill.id].asCombatSecondary) {
           context.systemData.skills[oSkill.id].acquired = true;
           context.systemData.skills[oSkill.id].initial = 
@@ -436,7 +470,7 @@ export class helperSheetHuman {
         if (skill.increase === undefined)   
           skill.increase = 0;
 
-        if (context.systemData.control.initial) {
+        if (context.systemData.control.wizard) {
           if (skill.increase < 0) skill.increase = 0;
           skill.value = skill.initial + skill.increase;
           if ((skill.value > (skill.base*5)) && (skill.base > 0)) {
@@ -536,7 +570,9 @@ export class helperSheetHuman {
       }
 
       if (context.systemData.control.initial)
-        actorSkill.value = actorSkill.initial;
+        actorSkill.value = (actorSkill.increase !== undefined) ?
+                                actorSkill.initial + actorSkill.increase :
+                                actorSkill.initial;
 
       if (context.bioInfo !== undefined) {
         if ( ((!actorSkill.acquired) || (actorSkill.acquired === undefined)) || 
@@ -549,7 +585,7 @@ export class helperSheetHuman {
     });
 
     let skillsCost = 0;
-    if (context.systemData.control.initial) {
+    if (context.systemData.control.wizard) {
 
       context.backend.languages.forEach( lang => {
           let skill = context.systemData.languages[lang.id];
@@ -866,7 +902,10 @@ export class helperSheetHuman {
     //Final
     if (sStep === '99') {
       await actor.update({ system: {
-        control: { wizard: false }
+        control: { 
+          initial: false,
+          wizard: false },
+        skills: actor.system.skills
       }});  
       return;
     }
@@ -1024,6 +1063,28 @@ export class helperSheetHuman {
    */
   static async addProfession(item, sId) {
     const actor = item.parent;
+    const mProfessions = await game.packs.get("conventum.professions").getDocuments();
+    const oProfession = mProfessions.find(e =>
+                                           ((e.system.control.world === actor.system.control.world) &&
+                                            (e.system.index === item.system.index)) );
+    if (!oProfession) return;
+
+    let oWizard = {};
+    for (var i=1; i<= 15; i++) {
+      if (i<10) oWizard['0'+i] = false;
+           else oWizard[i] = false; 
+    }
+    oWizard['11'] =  true;
+    await actor.update({
+      system: { control: {
+                  wizard: true
+                },
+                wizard: oWizard,
+                bio: {
+                  profession: oProfession.id
+                } }});
+
+/** 
 
     //Only initialized actors...
     if (!item.parent.system.control.initial) {
@@ -1169,7 +1230,7 @@ export class helperSheetHuman {
 
     await actor.update({
             system: { skills: data }});
-
+*/
   }
 
   /**
@@ -1341,6 +1402,39 @@ export class helperSheetHuman {
         status.unconscious = ( (nValue <= 0)
                             && (nValue > (-1) * nInitial) );
         status.dead = ( nValue <= (-1) * nInitial );  
+  }
+
+  /**
+   * _applyModesbyHPStatus
+   * @param {*} systemData 
+   */
+  static async _applyModesbyHPStatus(actor, systemData) {
+
+    let mModes = Array.from(await game.packs.get('conventum.modes'))
+                      .filter(e => e.system.control.world === systemData.control.world)
+                      .filter(e => 
+                        ((e.system.injured) || 
+                         (e.system.wounded) ||
+                         (e.system.unconscious) ||
+                         (e.system.dead))
+                      );
+    let status = {
+      injured: mModes.find(e => (e.system.injured)),
+      wounded: mModes.find(e => (e.system.wounded)),
+      unconscious: mModes.find(e => (e.system.unconscious)),
+      dead: mModes.find(e => (e.system.dead)),
+    };
+
+    for (var sMode in status) {
+      if (systemData.status.life[sMode]) {
+        if ((systemData.modes.length === 0) || (!systemData.modes.find(e => (e === status[sMode].id))))
+          await helperActions.playMode(actor, status[sMode], true);
+      } else {
+        if ((systemData.modes.length > 0) && (systemData.modes.find(e => (e === status[sMode].id))))
+            await helperActions.removeMode(actor, status[sMode])
+      }
+    }
+
   }
 
   /**
@@ -1537,7 +1631,6 @@ export class helperSheetHuman {
   static calcDamageMod(actor, weapon, action) {
       
       let sDamageMod = '-2D6';
-
       let nCharValue = 0;
       if (weapon.system.characteristics === '') return '';
       
@@ -1545,9 +1638,11 @@ export class helperSheetHuman {
                       actor.system.characteristics.primary[weapon.system.characteristics].value :
                       actor.system.characteristics.primary['str'].value;
 
+      //Next Damage Bon. Level from Action
       if ((action) && (action.system.damage.mod.modDamage1))  nCharValue += 5;
       if ((action) && (action.system.damage.mod.modDamage2))  nCharValue += 10;
 
+      //Damage Bon. Levels
       if (nCharValue >= 1) sDamageMod = '-1D6';
       if (nCharValue >= 5) sDamageMod = '-1D4';
       if (nCharValue >= 10) sDamageMod = '';
@@ -1559,11 +1654,24 @@ export class helperSheetHuman {
       if (nCharValue >= 40) sDamageMod = '+5D6';
       if (nCharValue >= 45) sDamageMod = '+6D6';
 
+      //Altered by Modes...
+      actor.system.modes.map(sMode => {
+        const mode = game.packs.get('conventum.modes').get(sMode);
+        if (!mode) return;
+        if ((mode.system.config.damage.apply) &&
+            (mode.system.config.damage.multDamageBon !== 1) &&
+            (sDamageMod !== '')) {
+            sDamageMod += '*' + mode.system.config.damage.multDamageBon;
+        }
+      });
+      
+
+
       return sDamageMod;
   }
 
   /**
-   * calcDamageMod
+   * calcDamageForceMod
    * @param {*} actor 
    * @param {*} weapon 
    * @param {*} history 

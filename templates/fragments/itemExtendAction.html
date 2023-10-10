@@ -6,7 +6,7 @@
             {{localize "info.actionType"}}
         </p>
         <hbox class="_50">
-            <label class="_150px">{{localize "common.attack" }}</label>
+            <label class="_100px">{{localize "common.attack" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.type.attack" 
@@ -15,7 +15,7 @@
             </label>            
         </hbox>
         <hbox class="_50">
-            <label class="_150px">{{localize "common.defense" }}</label>
+            <label class="_100px">{{localize "common.defense" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.type.defense" 
@@ -24,7 +24,7 @@
             </label>            
         </hbox>
         <hbox class="_50">
-            <label class="_150px">{{localize "common.movement" }}</label>
+            <label class="_100px">{{localize "common.movement" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.type.movement" 
@@ -33,7 +33,7 @@
             </label>            
         </hbox>
         <hbox class="_50">
-            <label class="_150px">{{localize "common.spell" }}</label>
+            <label class="_100px">{{localize "common.spell" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.type.spell" 
@@ -42,7 +42,7 @@
             </label>            
         </hbox>     
         <hbox class="_50">
-            <label class="_150px">{{localize "common.initial" }}</label>
+            <label class="_100px">{{localize "common.initial" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.type.initial" 
@@ -61,7 +61,7 @@
     <panelContent>
                
         <hbox class="_50">
-            <label class="_150px">{{localize "common.steps" }}</label>
+            <label class="_100px">{{localize "common.steps" }}</label>
             <input class="_100px" 
                    name="system.steps.actionSteps"
                    value="{{systemData.steps.actionSteps}}" 
@@ -69,7 +69,7 @@
                    data-dtype="Number" />          
         </hbox>
         <hbox class="_50">
-            <label class="_150px">{{localize "common.initiative" }}</label>
+            <label class="_100px">{{localize "common.initiative" }}</label>
             <input class="_100px" 
                    name="system.steps.initiative"
                    value="{{systemData.steps.initiative}}" 
@@ -88,7 +88,7 @@
         
         <h3 class="_100">{{localize "common.weapons"}}</h3>
         <hbox class="_50">
-            <label class="_150px">{{localize "common.contact" }}</label>
+            <label class="_100px">{{localize "common.contact" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.item.weapon.contact" 
@@ -97,7 +97,7 @@
             </label>            
         </hbox>
         <hbox class="_50">
-            <label class="_150px">{{localize "common.rangeWeapon" }}</label>
+            <label class="_100px">{{localize "common.rangeWeapon" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.item.weapon.range" 
@@ -106,7 +106,7 @@
             </label>            
         </hbox>    
         <hbox class="_50">
-            <label class="_150px">{{localize "common.throw" }}</label>
+            <label class="_100px">{{localize "common.throw" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.item.weapon.throw" 
@@ -115,7 +115,7 @@
             </label>            
         </hbox>            
         <hbox class="_50">
-            <label class="_150px">{{localize "common.shield" }}</label>
+            <label class="_100px">{{localize "common.shield" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.item.weapon.shield" 
@@ -129,7 +129,7 @@
         <h3 class="_100">{{localize "common.type"}}</h3>
         {{#each backend.weaponTypes as |weaponType id|}}
             <hbox class="_50">
-                <label class="_150px">{{weaponType.name}}</label>
+                <label class="_100px">{{weaponType.name}}</label>
                 <label class="switch" style="margin-right: 10px">
                     <input type="checkbox" 
                         name="system.item.weapon.type.{{weaponType.id}}" 
@@ -142,7 +142,7 @@
 
         <h3 class="_100">{{localize "common.size"}}</h3>
         <hbox class="_50">
-            <label class="_150px">{{localize "config.weaponSizeLight" }}</label>
+            <label class="_100px">{{localize "config.weaponSizeLight" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.item.weapon.size.light" 
@@ -151,7 +151,7 @@
             </label>            
         </hbox>
         <hbox class="_50">
-            <label class="_150px">{{localize "config.weaponSizeMiddle" }}</label>
+            <label class="_100px">{{localize "config.weaponSizeMiddle" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.item.weapon.size.middle" 
@@ -160,7 +160,7 @@
             </label>            
         </hbox>
         <hbox class="_50">
-            <label class="_150px">{{localize "config.weaponSizeHeavy" }}</label>
+            <label class="_100px">{{localize "config.weaponSizeHeavy" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.item.weapon.size.heavy" 
@@ -179,7 +179,7 @@
     <panelContent>
                
         <hbox class="_50">
-            <label class="_150px">{{localize "common.targetMySelf" }}</label>
+            <label class="_100px">{{localize "common.targetMySelf" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.target.myself" 
@@ -188,7 +188,7 @@
             </label>            
         </hbox> 
         <hbox class="_50">
-            <label class="_150px">{{localize "common.targetCombatants" }}</label>
+            <label class="_100px">{{localize "common.targetCombatants" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.target.combatants" 
@@ -197,7 +197,7 @@
             </label>            
         </hbox>     
         <hbox class="_50">
-            <label class="_150px">{{localize "common.targetLastPlayed" }}</label>
+            <label class="_100px">{{localize "common.targetLastPlayed" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.target.lastPlayed" 
@@ -206,7 +206,7 @@
             </label>            
         </hbox>             
         <hbox class="_50">
-            <label class="_150px">{{localize "common.targetLastAttacker" }}</label>
+            <label class="_100px">{{localize "common.targetLastAttacker" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.target.lastAttacker" 
@@ -215,7 +215,7 @@
             </label>            
         </hbox>    
         <hbox class="_50">
-            <label class="_150px">{{localize "common.targetLastDefender" }}</label>
+            <label class="_100px">{{localize "common.targetLastDefender" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.target.lastDefender" 
@@ -224,7 +224,7 @@
             </label>            
         </hbox>  
         <hbox class="_50">
-            <label class="_150px">{{localize "common.multipleTarget" }}</label>
+            <label class="_100px">{{localize "common.multipleTarget" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.target.multiple" 
@@ -234,7 +234,7 @@
         </hbox>   
         {{!--
         <hbox class="_50">
-            <label class="_150px">{{localize "common.forceTargets" }}</label>
+            <label class="_100px">{{localize "common.forceTargets" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.target.forceTargets" 
@@ -243,7 +243,7 @@
             </label>            
         </hbox>                        
         <hbox class="_50">
-            <label class="_150px">{{localize "common.forceSelection" }}</label>
+            <label class="_100px">{{localize "common.forceSelection" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.target.forceSelection" 
@@ -262,7 +262,7 @@
     <panelContent>
              
         <hbox class="_50">
-            <label class="_150px">{{localize "common.modCombatSkill" }}</label>
+            <label class="_100px">{{localize "common.modCombatSkill" }}</label>
             <input class="_100px" 
                    name="system.skill.mod.combatSkill"
                    value="{{systemData.skill.mod.combatSkill}}" 
@@ -270,7 +270,7 @@
                    type="text" />            
         </hbox>   
         <hbox class="_50">
-            <label class="_150px">{{localize "common.modTargetCombatSkill" }}</label>
+            <label class="_100px">{{localize "common.modTargetCombatSkill" }}</label>
             <input class="_100px" 
                    name="system.skill.mod.targetCombatSkill"
                    value="{{systemData.skill.mod.targetCombatSkill}}" 
@@ -278,7 +278,7 @@
                    type="text" />           
         </hbox> 
         <hbox class="_50">
-            <label class="_150px">{{localize "common.modCombat2Skill" }}</label>
+            <label class="_100px">{{localize "common.modCombat2Skill" }}</label>
             <input class="_100px" 
                    name="system.skill.mod.combatSkill2"
                    value="{{systemData.skill.mod.combatSkill2}}" 
@@ -286,21 +286,21 @@
                    type="text" />            
         </hbox>               
         <hbox class="_50">
-            <label class="_150px">{{localize "common.multSkill" }}</label>
+            <label class="_100px">{{localize "common.multSkill" }}</label>
             <input class="_100px" 
                    name="system.skill.mod.multSkill"
                    value="{{systemData.skill.mod.multSkill}}" 
                    type="text" />            
         </hbox>   
         <hbox class="_50">
-            <label class="_150px">{{localize "common.multSkillTarget" }}</label>
+            <label class="_100px">{{localize "common.multSkillTarget" }}</label>
             <input class="_100px" 
                    name="system.skill.mod.multSkillTarget"
                    value="{{systemData.skill.mod.multSkillTarget}}" 
                    type="text" />           
         </hbox>
         <hbox class="_50">
-            <label class="_150px">{{localize "common.modSecondarySkill" }}</label>
+            <label class="_100px">{{localize "common.modSecondarySkill" }}</label>
             <input class="_100px" 
                    name="system.skill.mod.secondarySkill"
                    value="{{systemData.skill.mod.secondarySkill}}" 
@@ -308,14 +308,14 @@
         </hbox>             
 
         <hbox class="_50">
-            <label class="_150px">{{localize "common.modTargetSecondSkill" }}</label>
+            <label class="_100px">{{localize "common.modTargetSecondSkill" }}</label>
             <input class="_100px" 
                    name="system.skill.mod.targetSecondarySkill"
                    value="{{systemData.skill.mod.targetSecondarySkill}}" 
                    type="text" />            
         </hbox>     
         <hbox class="_50">
-            <label class="_150px">{{localize "common.stack" }}</label>
+            <label class="_100px">{{localize "common.stack" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.skill.mod.stack" 
@@ -324,7 +324,7 @@
             </label>            
         </hbox>     
         <hbox class="_50">
-            <label class="_150px">{{localize "common.applyRangePenal" }}</label>
+            <label class="_100px">{{localize "common.applyRangePenal" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.skill.applyRangePenal" 
@@ -334,7 +334,7 @@
         </hbox> 
         <lineDiv></lineDiv>
         <hbox class="_50">
-            <label class="_150px">{{localize "common.useSkill" }}</label>
+            <label class="_100px">{{localize "common.useSkill" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.skill.useSkill" 
@@ -352,7 +352,7 @@
             </select>                             
         </hbox>
         <hbox class="_50">
-            <label class="_150px">{{localize "common.skillAsCombat" }}</label>
+            <label class="_100px">{{localize "common.skillAsCombat" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.skill.skillAsCombat" 
@@ -362,7 +362,7 @@
         </hbox>     
         <lineDiv></lineDiv>
         <hbox class="_50">
-            <label class="_150px">{{localize "common.doubleAttack" }}</label>
+            <label class="_100px">{{localize "common.doubleAttack" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.skill.doubleAttack" 
@@ -371,7 +371,7 @@
             </label>            
         </hbox>     
         <hbox class="_50">
-            <label class="_150px">{{localize "common.autoSuccess" }}</label>
+            <label class="_100px">{{localize "common.autoSuccess" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.skill.autoSuccess" 
@@ -388,21 +388,21 @@
 <slidePanel class="_100">
     <panelContent>
         <hbox class="_50">
-            <label class="_150px">{{localize "common.modDamage" }}</label>
+            <label class="_100px">{{localize "common.modDamage" }}</label>
             <input class="_100px" 
                    name="system.damage.mod.damage"
                    value="{{systemData.damage.mod.damage}}" 
                    type="text" />            
         </hbox>   
         <hbox class="_50">
-            <label class="_150px">{{localize "common.modTargetDamage" }}</label>
+            <label class="_100px">{{localize "common.modTargetDamage" }}</label>
             <input class="_100px" 
                    name="system.damage.mod.targetDamage"
                    value="{{systemData.damage.mod.targetDamage}}" 
                    type="text" />            
         </hbox>
         <hbox class="_50">
-            <label class="_150px">{{localize "common.multDamage" }}</label>
+            <label class="_100px">{{localize "common.multDamage" }}</label>
             <input class="_100px" 
                    name="system.damage.mod.multDamage"
                    value="{{systemData.damage.mod.multDamage}}" 
@@ -410,7 +410,7 @@
                    type="text" />            
         </hbox>   
         <hbox class="_50">
-            <label class="_150px">{{localize "common.formula" }}</label>
+            <label class="_100px">{{localize "common.formula" }}</label>
             <input class="_200px" 
                    style="width: 250px;"
                    name="system.damage.formula"
@@ -418,7 +418,7 @@
                    type="text" />            
         </hbox>             
         <hbox class="_50">
-            <label class="_150px">{{localize "common.stack" }}</label>
+            <label class="_100px">{{localize "common.stack" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.damage.mod.stack" 
@@ -427,7 +427,7 @@
             </label>            
         </hbox>    
         <hbox class="_50">
-            <label class="_150px">{{localize "common.noDamageBon" }}</label>
+            <label class="_100px">{{localize "common.noDamageBon" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.damage.mod.noDamageBon" 
@@ -436,7 +436,7 @@
             </label>            
         </hbox>    
         <hbox class="_50">
-            <label class="_150px">{{localize "common.modDamage1" }}</label>
+            <label class="_100px">{{localize "common.modDamage1" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.damage.mod.modDamage1" 
@@ -445,7 +445,7 @@
             </label>            
         </hbox>  
         <hbox class="_50">
-            <label class="_150px">{{localize "common.modDamage2" }}</label>
+            <label class="_100px">{{localize "common.modDamage2" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.damage.mod.modDamage2" 
@@ -454,7 +454,7 @@
             </label>            
         </hbox>        
         <hbox class="_50">
-            <label class="_150px">{{localize "common.noDamage" }}</label>
+            <label class="_100px">{{localize "common.noDamage" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.damage.noDamage" 
@@ -463,7 +463,7 @@
             </label>            
         </hbox>                 
         <hbox class="_50">
-            <label class="_150px">{{localize "common.damageToMount" }}</label>
+            <label class="_100px">{{localize "common.damageToMount" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.damage.target.mount" 
@@ -472,7 +472,7 @@
             </label>            
         </hbox>   
         <hbox class="_50">
-            <label class="_150px">{{localize "common.damageToShield" }}</label>
+            <label class="_100px">{{localize "common.damageToShield" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.damage.target.shield" 
@@ -481,7 +481,7 @@
             </label>            
         </hbox>        
         <hbox class="_50">
-            <label class="_150px">{{localize "common.damageXendurance" }}</label>
+            <label class="_100px">{{localize "common.damageXendurance" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.damage.damageXendurance" 
@@ -498,35 +498,35 @@
 <slidePanel class="_100">
     <panelContent>
         <hbox class="_50">
-            <label class="_150px">{{localize "common.modEndurance" }}</label>
+            <label class="_100px">{{localize "common.modEndurance" }}</label>
             <input class="_100px" 
                    name="system.armor.mod.endurance"
                    value="{{systemData.armor.mod.endurance}}" 
                    type="text" />            
         </hbox>        
         <hbox class="_50">
-            <label class="_150px">{{localize "common.modProtection" }}</label>
+            <label class="_100px">{{localize "common.modProtection" }}</label>
             <input class="_100px" 
                    name="system.armor.mod.protection"
                    value="{{systemData.armor.mod.protection}}" 
                    type="text" />            
         </hbox> 
         <hbox class="_50">
-            <label class="_150px">{{localize "common.modTargetEndurance" }}</label>
+            <label class="_100px">{{localize "common.modTargetEndurance" }}</label>
             <input class="_100px" 
                    name="system.armor.mod.targetEndurance"
                    value="{{systemData.armor.mod.targetEndurance}}" 
                    type="text" />            
         </hbox>        
         <hbox class="_50">
-            <label class="_150px">{{localize "common.modTargetProtection" }}</label>
+            <label class="_100px">{{localize "common.modTargetProtection" }}</label>
             <input class="_100px" 
                    name="system.armor.mod.targetProtection"
                    value="{{systemData.armor.mod.targetProtection}}" 
                    type="text" />            
         </hbox>
         <hbox class="_50">
-            <label class="_150px">{{localize "common.stack" }}</label>
+            <label class="_100px">{{localize "common.stack" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.armor.mod.stack" 
@@ -535,7 +535,7 @@
             </label>            
         </hbox>   
         <hbox class="_50">
-            <label class="_150px">{{localize "common.noEndurance" }}</label>
+            <label class="_100px">{{localize "common.noEndurance" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.armor.noEndurance" 
@@ -544,7 +544,7 @@
             </label>            
         </hbox>     
         <hbox class="_50">
-            <label class="_150px">{{localize "common.noProtection" }}</label>
+            <label class="_100px">{{localize "common.noProtection" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.armor.noProtection" 
@@ -553,7 +553,7 @@
             </label>            
         </hbox>  
         <hbox class="_50">
-            <label class="_150px">{{localize "common.noTargetEndurance" }}</label>
+            <label class="_100px">{{localize "common.noTargetEndurance" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.armor.targetNoEndurance" 
@@ -562,7 +562,7 @@
             </label>            
         </hbox>     
         <hbox class="_50">
-            <label class="_150px">{{localize "common.noTargetProtection" }}</label>
+            <label class="_100px">{{localize "common.noTargetProtection" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.armor.targetNoProtection" 
@@ -571,7 +571,7 @@
             </label>            
         </hbox> 
         <hbox class="_50">
-            <label class="_150px">{{localize "common.breakArmor" }}</label>
+            <label class="_100px">{{localize "common.breakArmor" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.armor.breakArmor" 
@@ -588,7 +588,7 @@
 <slidePanel class="_100">
     <panelContent>
         <hbox class="_50">
-            <label class="_150px">{{localize "common.actorType" }}</label>
+            <label class="_100px">{{localize "common.actorType" }}</label>
             <select name="system.location.actorType">
                 {{selectOptions backend.actorTypes 
                                 selected=systemData.location.actorType
@@ -598,7 +598,7 @@
             </select>            
         </hbox>         
         <hbox class="_50">
-            <label class="_150px">{{localize "common.askForLocation" }}</label>
+            <label class="_100px">{{localize "common.askForLocation" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.location.askForLocation" 
@@ -609,7 +609,7 @@
         <lineDiv></lineDiv>
         {{#each backend.locations as |localization id|}}           
         <hbox class="_50">
-            <label class="_150px">{{locationValue localization._id 'name'}}</label>
+            <label class="_100px">{{locationValue localization._id 'name'}}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                     name="system.location.focusLocation.{{localization._id}}.apply" 
@@ -628,7 +628,7 @@
     <panelContent>
         
         <hbox class="_50">
-            <label class="_150px">{{localize "common.dest1targetAction" }}</label>
+            <label class="_100px">{{localize "common.dest1targetAction" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.consume.destroy1targetAction" 
@@ -637,7 +637,7 @@
             </label>            
         </hbox>
         <hbox class="_50">
-            <label class="_150px">{{localize "common.destAllTargetActions" }}</label>
+            <label class="_100px">{{localize "common.destAllTargetActions" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.consume.destroyAllTargetActions" 
@@ -656,7 +656,7 @@
     <panelContent>
         
         <hbox class="_50">
-            <label class="_150px">{{localize "common.rollLevel" }}</label>
+            <label class="_100px">{{localize "common.rollLevel" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.rolls.leveled" 
@@ -670,7 +670,7 @@
             <h2 class="_100">{{localize "common.rollOpposed" }}</h2>
         </hbox>        
         <hbox class="_50">
-            <label class="_150px">{{localize "common.rollOpposed" }}</label>
+            <label class="_100px">{{localize "common.rollOpposed" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.rolls.opposedRoll" 
@@ -679,7 +679,7 @@
             </label>            
         </hbox>    
         <hbox class="_50">
-            <label class="_150px">{{localize "common.rollReplace" }}</label>
+            <label class="_100px">{{localize "common.rollReplace" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.rolls.replaceRoll" 
@@ -693,7 +693,7 @@
             <h3 class="_100">{{localize "common.actor" }}</h3>
         </hbox>
         <hbox class="_50">
-            <label class="_150px">{{localize "common.primaryChar" }}</label>
+            <label class="_100px">{{localize "common.primaryChar" }}</label>
             <select class="_120px" name="system.rolls.actor.primaryChar">
                 {{selectOptions backend.characteristics 
                                 selected=systemData.rolls.actor.primaryChar
@@ -703,7 +703,7 @@
             </select>
         </hbox>
         <hbox class="_50">
-            <label class="_150px">{{localize "common.secondaryChar" }}</label>
+            <label class="_100px">{{localize "common.secondaryChar" }}</label>
             <select class="_120px" name="system.rolls.actor.secondaryChar">
                 {{selectOptions backend.secondaries 
                                 selected=systemData.rolls.actor.secondaryChar
@@ -713,7 +713,7 @@
             </select>
         </hbox>        
         <hbox class="_50">
-            <label class="_150px">{{localize "common.skill" }}</label>
+            <label class="_100px">{{localize "common.skill" }}</label>
             <select class="_120px" name="system.rolls.actor.skill" class="_100">
                 {{selectOptions backend.skills 
                                 selected=systemData.rolls.actor.skill
@@ -725,7 +725,7 @@
         <hbox class="_50">        
         </hbox> 
         <hbox class="_50">
-            <label class="_150px">{{localize "common.modificator" }}</label>
+            <label class="_100px">{{localize "common.modificator" }}</label>
             <input class="_100px" 
                    name="system.rolls.actor.mod"
                    value="{{systemData.rolls.actor.mod}}" 
@@ -733,7 +733,7 @@
                    type="text" />            
         </hbox>
         <hbox class="_50">
-            <label class="_150px">{{localize "common.multiplicator" }}</label>
+            <label class="_100px">{{localize "common.multiplicator" }}</label>
             <input class="_100px" 
                    name="system.rolls.actor.mult"
                    value="{{systemData.rolls.actor.mult}}" 
@@ -742,7 +742,7 @@
         <hbox class="_50">
         </hbox>
         <hbox class="_50">            
-            <label class="_150px">{{localize "common.multiplicatorByWeapon" }}</label>
+            <label class="_100px">{{localize "common.multiplicatorByWeapon" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.rolls.actor.byWeapon" 
@@ -756,7 +756,7 @@
             <h3 class="_100">{{localize "common.opponent" }}</h3>
         </hbox>
         <hbox class="_50">
-            <label class="_150px">{{localize "common.primaryChar" }}</label>
+            <label class="_100px">{{localize "common.primaryChar" }}</label>
             <select class="_120px" name="system.rolls.opponent.primaryChar">
                 {{selectOptions backend.characteristics 
                                 selected=systemData.rolls.opponent.primaryChar
@@ -766,7 +766,7 @@
             </select>
         </hbox>
         <hbox class="_50">
-            <label class="_150px">{{localize "common.secondaryChar" }}</label>
+            <label class="_100px">{{localize "common.secondaryChar" }}</label>
             <select class="_120px" name="system.rolls.opponent.secondaryChar">
                 {{selectOptions backend.secondaries 
                                 selected=systemData.rolls.opponent.secondaryChar
@@ -776,7 +776,7 @@
             </select>
         </hbox>        
         <hbox class="_50">
-            <label class="_150px">{{localize "common.skill" }}</label>
+            <label class="_100px">{{localize "common.skill" }}</label>
             <select class="_120px" name="system.rolls.opponent.skill" class="_100">
                 {{selectOptions backend.skills 
                                 selected=systemData.rolls.opponent.skill
@@ -788,7 +788,7 @@
         <hbox class="_50">
         </hbox>
         <hbox class="_50">
-            <label class="_150px">{{localize "common.modificator" }}</label>
+            <label class="_100px">{{localize "common.modificator" }}</label>
             <input class="_100px" 
                    name="system.rolls.opponent.mod"
                    value="{{systemData.rolls.opponent.mod}}" 
@@ -796,7 +796,7 @@
                    type="text" />            
         </hbox>
         <hbox class="_50">
-            <label class="_150px">{{localize "common.multiplicator" }}</label>
+            <label class="_100px">{{localize "common.multiplicator" }}</label>
             <input class="_100px" 
                    name="system.rolls.opponent.mult"
                    value="{{systemData.rolls.opponent.mult}}" 
@@ -805,7 +805,7 @@
         <hbox class="_50">
         </hbox>
         <hbox class="_50">            
-            <label class="_150px">{{localize "common.multiplicatorByWeapon" }}</label>
+            <label class="_100px">{{localize "common.multiplicatorByWeapon" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.rolls.opponent.byWeapon" 
@@ -824,7 +824,7 @@
     <panelContent>
         {{#each backend.modes as |mode id|}}           
             <hbox class="_50">
-                <label class="_150px" style="font-size: 13px; font-weight: 900;">{{modeValue mode._id 'name'}}</label>
+                <label class="_100px" style="font-size: 13px; font-weight: 900;">{{modeValue mode._id 'name'}}</label>
                 <label class="switch" style="margin-right: 10px">
                     <input type="checkbox" 
                         name="system.modes.{{mode._id}}.active" 
@@ -833,7 +833,7 @@
                 </label>
             </hbox>
             <hbox class="_50">
-                <label class="_150px">{{localize "common.modeBreak" }}</label>
+                <label class="_100px">{{localize "common.modeBreak" }}</label>
                 <label class="switch" style="margin-right: 10px">
                     <input type="checkbox" 
                         name="system.modes.{{mode._id}}.break" 
@@ -842,7 +842,7 @@
                 </label>
             </hbox>    
             <hbox class="_50">
-                <label class="_150px">{{localize "common.modeAllowed" }}</label>
+                <label class="_100px">{{localize "common.modeAllowed" }}</label>
                 <label class="switch" style="margin-right: 10px">
                     <input type="checkbox" 
                         name="system.modes.{{mode._id}}.allowed" 
@@ -851,7 +851,7 @@
                 </label>
             </hbox>
             <hbox class="_50">
-                <label class="_150px">{{localize "common.modeTarget" }}</label>
+                <label class="_100px">{{localize "common.modeTarget" }}</label>
                 <label class="switch" style="margin-right: 10px">
                     <input type="checkbox" 
                         name="system.modes.{{mode._id}}.target" 
@@ -860,7 +860,7 @@
                 </label>
             </hbox>      
             <hbox class="_50">
-                <label class="_150px">{{localize "common.modeTargetIn" }}</label>
+                <label class="_100px">{{localize "common.modeTargetIn" }}</label>
                 <label class="switch" style="margin-right: 10px">
                     <input type="checkbox" 
                         name="system.modes.{{mode._id}}.targetIn" 
@@ -869,7 +869,7 @@
                 </label>
             </hbox>     
             <hbox class="_50">
-                <label class="_150px">{{localize "common.modeCriticalIn" }}</label>
+                <label class="_100px">{{localize "common.modeCriticalIn" }}</label>
                 <label class="switch" style="margin-right: 10px">
                     <input type="checkbox" 
                         name="system.modes.{{mode._id}}.targetCriticalIn" 

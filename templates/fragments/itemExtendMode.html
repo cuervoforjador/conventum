@@ -51,9 +51,45 @@
                     {{checked systemData.stun}} />
                 <span class="sliderSwitch"></span>
             </label>
-        </hbox>  
+        </hbox> 
+        <hbox class="_mod _50">
+            <label class="_120px">{{localize "status.injured"}}</label>
+            <label class="switch">
+                <input type="checkbox" 
+                    name="system.injured"
+                    {{checked systemData.injured}} />
+                <span class="sliderSwitch"></span>
+            </label>
+        </hbox> 
+        <hbox class="_mod _50">
+            <label class="_120px">{{localize "status.wounded"}}</label>
+            <label class="switch">
+                <input type="checkbox" 
+                    name="system.wounded"
+                    {{checked systemData.wounded}} />
+                <span class="sliderSwitch"></span>
+            </label>
+        </hbox> 
+        <hbox class="_mod _50">
+            <label class="_120px">{{localize "status.unconscious"}}</label>
+            <label class="switch">
+                <input type="checkbox" 
+                    name="system.unconscious"
+                    {{checked systemData.unconscious}} />
+                <span class="sliderSwitch"></span>
+            </label>
+        </hbox> 
+        <hbox class="_mod _50">
+            <label class="_120px">{{localize "status.dead"}}</label>
+            <label class="switch">
+                <input type="checkbox" 
+                    name="system.dead"
+                    {{checked systemData.dead}} />
+                <span class="sliderSwitch"></span>
+            </label>
+        </hbox>
         <hbox class="_mod _50">            
-            <label class="_150px">{{localize "common.permanent"}}</label>
+            <label class="_100px">{{localize "common.permanent"}}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                     name="system.permanent" 
@@ -71,7 +107,7 @@
     <panelContent>
 
         <hbox class="_100 _apply">
-            <label class="_150px _noMax">{{localize "common.applyConfig"}}</label>
+            <label class="_100px _noMax">{{localize "common.applyConfig"}}</label>
             <label class="switch _noMax" style="margin-right: 10px">
                 <input type="checkbox" 
                     name="system.config.item.apply" 
@@ -83,7 +119,7 @@
         <h3 class="_100">{{localize "common.type"}}</h3>
         {{#each backend.weaponTypes as |weaponType id|}}
             <hbox class="_50">
-                <label class="_150px">{{weaponType.name}}</label>
+                <label class="_100px">{{weaponType.name}}</label>
                 <label class="switch" style="margin-right: 10px">
                     <input type="checkbox" 
                         name="system.config.item.weapon.type.{{weaponType.id}}" 
@@ -96,7 +132,7 @@
 
         <h3 class="_100">{{localize "common.size"}}</h3>
         <hbox class="_50">
-            <label class="_150px">{{localize "config.weaponSizeLight" }}</label>
+            <label class="_100px">{{localize "config.weaponSizeLight" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.config.item.weapon.size.light" 
@@ -105,7 +141,7 @@
             </label>            
         </hbox>
         <hbox class="_50">
-            <label class="_150px">{{localize "config.weaponSizeMiddle" }}</label>
+            <label class="_100px">{{localize "config.weaponSizeMiddle" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.config.item.weapon.size.middle" 
@@ -114,7 +150,7 @@
             </label>            
         </hbox>
         <hbox class="_50">
-            <label class="_150px">{{localize "config.weaponSizeHeavy" }}</label>
+            <label class="_100px">{{localize "config.weaponSizeHeavy" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.config.item.weapon.size.heavy" 
@@ -127,15 +163,50 @@
 </slidePanel>
 </div>
 
+{{!-- SKILL --}}
+<div class="tab skill" data-group="primary" data-tab="skill">
+<slidePanel class="_100">
+    <panelContent>
+
+        <h3 class="_100">{{localize "common.skill"}}</h3>
+        <hbox class="_100 _apply">
+            <label class="_100px _noMax">{{localize "common.applyConfig"}}</label>
+            <label class="switch _noMax" style="margin-right: 10px">
+                <input type="checkbox" 
+                    name="system.config.skill.apply" 
+                    {{checked systemData.config.skill.apply}} />
+                <span class="sliderSwitch"></span>
+            </label>            
+        </hbox>
+        <hbox class="_50">
+            <label class="_100px">{{localize "common.modSkill" }}</label>
+            <input class="_100px" 
+                   name="system.config.skill.mod"
+                   value="{{systemData.config.skill.mod}}" 
+                   data-dtype="Number"
+                   type="text" />            
+        </hbox>          
+        <hbox class="_50">
+            <label class="_100px">{{localize "common.multSkill" }}</label>
+            <input class="_100px" 
+                   name="system.config.skill.mult"
+                   value="{{systemData.config.skill.mult}}" 
+                   data-dtype="Number"
+                   type="text" />            
+        </hbox>   
+        
+    </panelContent>
+</slidePanel>
+</div>
+
 {{!-- COMBAT --}}
 <div class="tab combat" data-group="primary" data-tab="combat">
 <slidePanel class="_100">
     <panelContent>
 
         <h3 class="_100">{{localize "common.skill"}}</h3>
-
         <hbox class="_100 _apply">
-            <label class="_150px _noMax">{{localize "common.applyConfig"}}</label>
+            <label class="_100px _noMax">{{localize "common.applyConfig"}}</label>
             <label class="switch _noMax" style="margin-right: 10px">
                 <input type="checkbox" 
                     name="system.config.combatSkill.apply" 
@@ -144,7 +215,7 @@
             </label>            
         </hbox>
         <hbox class="_50">
-            <label class="_150px">{{localize "common.modCombatSkill" }}</label>
+            <label class="_100px">{{localize "common.modCombatSkill" }}</label>
             <input class="_100px" 
                    name="system.config.combatSkill.mod"
                    value="{{systemData.config.combatSkill.mod}}" 
@@ -152,7 +223,7 @@
                    type="text" />            
         </hbox>          
         <hbox class="_50">
-            <label class="_150px">{{localize "common.modSkillMult" }}</label>
+            <label class="_100px">{{localize "common.modSkillMult" }}</label>
             <input class="_100px" 
                    name="system.config.combatSkill.mult"
                    value="{{systemData.config.combatSkill.mult}}" 
@@ -160,7 +231,7 @@
                    type="text" />            
         </hbox>   
         <hbox class="_50">
-            <label class="_150px">{{localize "common.onlyAttack" }}</label>
+            <label class="_100px">{{localize "common.onlyAttack" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                     name="system.config.combatSkill.onlyAttack" 
@@ -169,7 +240,7 @@
             </label>           
         </hbox>   
         <hbox class="_50">
-            <label class="_150px">{{localize "common.onlyDefense" }}</label>
+            <label class="_100px">{{localize "common.onlyDefense" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                     name="system.config.combatSkill.onlyDefense" 
@@ -181,7 +252,7 @@
 
         <h3 class="_100">{{localize "common.damage"}}</h3>
         <hbox class="_100 _apply">
-            <label class="_150px _noMax">{{localize "common.applyConfig"}}</label>
+            <label class="_100px _noMax">{{localize "common.applyConfig"}}</label>
             <label class="switch _noMax" style="margin-right: 10px">
                 <input type="checkbox" 
                     name="system.config.damage.apply" 
@@ -190,7 +261,7 @@
             </label>            
         </hbox>             
         <hbox class="_50">
-            <label class="_150px">{{localize "common.modDamage" }}</label>
+            <label class="_100px">{{localize "common.modDamage" }}</label>
             <input class="_100px" 
                    name="system.config.damage.mod"
                    value="{{systemData.config.damage.mod}}" 
@@ -198,18 +269,26 @@
                    type="text" />            
         </hbox>  
         <hbox class="_50">
-            <label class="_150px">{{localize "common.multDamage" }}</label>
+            <label class="_100px">{{localize "common.multDamage" }}</label>
             <input class="_100px" 
                    name="system.config.damage.mult"
                    value="{{systemData.config.damage.mult}}" 
                    data-dtype="Number"
                    type="text" />            
         </hbox> 
+        <hbox class="_50">
+            <label class="_100px">{{localize "common.multDamageBon" }}</label>
+            <input class="_100px" 
+                   name="system.config.damage.multDamageBon"
+                   value="{{systemData.config.damage.multDamageBon}}" 
+                   data-dtype="Number"
+                   type="text" />            
+        </hbox>
 
 
         <h3 class="_100">{{localize "common.action"}}</h3>
         <hbox class="_50">
-            <label class="_150px">{{localize "common.actionNoPoits"}}</label>
+            <label class="_100px">{{localize "common.actionNoPoits"}}</label>
             <label class="switch _noMax" style="margin-right: 10px">
                 <input type="checkbox" 
                     name="system.config.noActionPoints" 
@@ -218,7 +297,7 @@
             </label>            
         </hbox>             
         <hbox class="_50">
-            <label class="_150px">{{localize "common.actionPoints" }}</label>
+            <label class="_100px">{{localize "common.actionPoints" }}</label>
             <input class="_100px" 
                    name="system.config.actionPoints"
                    value="{{systemData.config.actionPoints}}" 
@@ -235,7 +314,7 @@
 <slidePanel class="_100">
     <panelContent>
         <hbox class="_50">
-            <label class="_150px">{{localize "common.actorType" }}</label>
+            <label class="_100px">{{localize "common.actorType" }}</label>
             <select name="system.config.location.actorType">
                 {{selectOptions backend.actorTypes 
                                 selected=systemData.config.location.actorType
@@ -245,7 +324,7 @@
             </select>            
         </hbox>         
         <hbox class="_50">
-            <label class="_150px">{{localize "common.shield" }}</label>
+            <label class="_100px">{{localize "common.shield" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.config.location.shield" 
@@ -254,7 +333,7 @@
             </label>            
         </hbox> 
         <hbox class="_50">
-            <label class="_150px">{{localize "common.formula" }}</label>
+            <label class="_100px">{{localize "common.formula" }}</label>
             <input class="_100px" 
                    name="system.config.location.formula"
                    value="{{systemData.config.location.formula}}" 
@@ -263,7 +342,7 @@
         <lineDiv></lineDiv>
         {{#each backend.locations as |localization id|}}           
         <hbox class="_50">
-            <label class="_150px">{{locationValue localization._id 'name'}}</label>
+            <label class="_100px">{{locationValue localization._id 'name'}}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                     name="system.config.location.focusLocation.{{localization._id}}.apply" 

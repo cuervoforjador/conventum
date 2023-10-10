@@ -100,7 +100,7 @@ export class helperRolls {
       rollData = (rollData && rollData.value) ? rollData.value : rollData;
       if (rollData.value == 0) rollData = 0;
 
-      rollData = eval(rollData.toString() + penal + armorPenal);
+      rollData = eval(rollData.toString() + penal + (armorPenal ? armorPenal : '') );
 
       // Asking for level roll
       if (bLeveled) helperRolls._dialogLevel(actor, sPath, rollData, sFormula, actionId);

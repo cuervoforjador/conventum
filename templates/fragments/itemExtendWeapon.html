@@ -5,7 +5,7 @@
 <slidePanel class="_100" >
     <panelContent>        
         <hbox class="_50">
-            <label class="_150px">{{localize "common.type" }}</label>
+            <label class="_100px">{{localize "common.type" }}</label>
             <select name="system.weaponType">
                 {{selectOptions backend.weaponTypes 
                                 selected=systemData.weaponType
@@ -15,7 +15,7 @@
             </select>   
         </hbox>
         <hbox class="_50">            
-            <label class="_150px">{{localize "common.characteristic" }}</label>
+            <label class="_100px">{{localize "common.characteristic" }}</label>
             <select name="system.characteristics">
                 {{selectOptions backend.characteristics 
                                 selected=systemData.characteristics
@@ -25,7 +25,7 @@
             </select>                      
         </hbox>
         <hbox class="_50">
-            <label class="_150px">{{localize "common.skill" }}</label>
+            <label class="_100px">{{localize "common.skill" }}</label>
             <select name="system.combatSkill">
                 {{selectOptions backend.combatSkills 
                                 selected=systemData.combatSkill
@@ -35,7 +35,7 @@
             </select>   
         </hbox>
         <hbox class="_50">
-            <label class="_150px">{{localize "common.skill2" }}</label>                     
+            <label class="_100px">{{localize "common.skill2" }}</label>                     
             <select name="system.secondSkill">
                 {{selectOptions backend.skills 
                                 selected=systemData.secondSkill
@@ -46,7 +46,7 @@
         </hbox>
 
         <hbox class="_50">
-            <label class="_150px">{{localize "common.shield" }}</label>
+            <label class="_100px">{{localize "common.shield" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.type.shield" 
@@ -55,7 +55,7 @@
             </label>   
         </hbox>
         <hbox class="_50">                      
-            <label class="_150px">{{localize "common.size" }}</label>
+            <label class="_100px">{{localize "common.size" }}</label>
             <select name="system.size" class="_80px">
                 {{selectOptions backend.weaponSizes 
                                 selected=systemData.size
@@ -67,7 +67,7 @@
 
 
         <hbox class="_50">
-            <label class="_150px">{{localize "common.weaponTypeContact" }}</label>
+            <label class="_100px">{{localize "common.weaponTypeContact" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.type.contact" 
@@ -76,7 +76,7 @@
             </label>    
         </hbox>
         <hbox class="_50">             
-            <label class="_150px">{{localize "common.weaponType2Hands" }}</label>
+            <label class="_100px">{{localize "common.weaponType2Hands" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.type.2hands" 
@@ -86,7 +86,7 @@
         </hbox>   
 
         <hbox class="_50">
-            <label class="_150px">{{localize "common.weaponTypeRange" }}</label>
+            <label class="_100px">{{localize "common.weaponTypeRange" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.type.range" 
@@ -95,7 +95,7 @@
             </label>  
         </hbox>
         <hbox class="_50">            
-            <label class="_150px">{{localize "common.weaponTypeFire" }}</label>
+            <label class="_100px">{{localize "common.weaponTypeFire" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.type.fire" 
@@ -114,7 +114,7 @@
         <panelContent>
 
         <hbox class="_50">
-            <label class="_150px">{{localize "common.weaponRequirement1" }}</label>
+            <label class="_100px">{{localize "common.weaponRequirement1" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.requeriment.primary.apply" 
@@ -138,7 +138,7 @@
         </hbox> 
 
         <hbox class="_50">
-            <label class="_150px">{{localize "common.weaponRequirement2" }}</label>
+            <label class="_100px">{{localize "common.weaponRequirement2" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.requeriment.secondary.apply" 
@@ -168,7 +168,7 @@
         <panelContent>
             {{#each backend.socialGroups as |group id|}}
             <hbox class="_50">
-                <label class="_150px">{{group.name}}</label>
+                <label class="_100px">{{group.name}}</label>
                 <label class="switch" style="margin-right: 10px">
                     <input type="checkbox" 
                         name="system.group.{{group.id}}.apply" 
@@ -188,7 +188,7 @@
 
         <hbox class="_50">
             <label class="_80px">{{localize "common.damage" }}</label>
-            <input class="_150px" 
+            <input class="_100px" 
                    name="system.damage"
                    value="{{systemData.damage}}" 
                    type="text" /> 
@@ -204,7 +204,7 @@
                             {{checked systemData.poison.apply}} />
                     <span class="sliderSwitch"></span>
                 </label>                                  
-                <input class="_150px" 
+                <input class="_100px" 
                     name="system.poison.damage"
                     value="{{systemData.poison.damage}}" 
                     type="text" />
@@ -220,7 +220,7 @@
         <panelContent>
 
         <hbox class="_50">
-            <label class="_150px">{{localize "common.weaponRangeByChar" }}</label>
+            <label class="_100px">{{localize "common.weaponRangeByChar" }}</label>
             <hbox>
                 <label class="switch _50px">
                     <input type="checkbox" 

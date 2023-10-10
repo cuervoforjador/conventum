@@ -5,7 +5,7 @@
 
     <panelContent>
         <hbox class="_50">
-            <label class="_150px">{{localize "common.actorType" }}</label>
+            <label class="_100px">{{localize "common.actorType" }}</label>
             <select name="system.actorType">
                 {{selectOptions backend.actorTypes 
                                 selected=systemData.actorType
@@ -25,7 +25,7 @@
             </select>            
         </hbox>
         <hbox class="_50">
-            <label class="_150px">{{localize "common.armorProtection" }}</label>
+            <label class="_100px">{{localize "common.armorProtection" }}</label>
             <input class="_40px" 
                    name="system.protection"
                    value="{{systemData.protection}}" 
@@ -33,7 +33,7 @@
                    data-dtype="Number"/>                          
         </hbox> 
         <hbox class="_50">
-            <label class="_150px">{{localize "common.armorEndurance" }}</label>
+            <label class="_100px">{{localize "common.armorEndurance" }}</label>
             <input class="_40px" 
                    name="system.endurance"
                    value="{{systemData.endurance}}" 
@@ -41,7 +41,7 @@
                    data-dtype="Number"/>                          
         </hbox>
         <hbox class="_50">
-            <label class="_150px">{{localize "common.armorRequirement" }}</label>
+            <label class="_100px">{{localize "common.armorRequirement" }}</label>
             <label class="switch" style="margin-right: 10px">
                 <input type="checkbox" 
                         name="system.requeriment.apply" 
@@ -52,7 +52,7 @@
         <hbox class="_50">      
         </hbox>
         <hbox class="_50">                       
-            <label class="_150px">{{localize "common.characteristic" }}</label>      
+            <label class="_100px">{{localize "common.characteristic" }}</label>      
             <select class="_120px" name="system.requeriment.characteristic">
                 {{selectOptions backend.characteristics 
                                 selected=systemData.requeriment.characteristic
@@ -62,7 +62,7 @@
             </select>
         </hbox>
         <hbox class="_50">            
-            <label class="_150px">{{localize "common.minValue" }}</label>
+            <label class="_100px">{{localize "common.minValue" }}</label>
             <input class="_40px _marginLeft" 
                    name="system.requeriment.minValue"
                    value="{{systemData.requeriment.minValue}}" 

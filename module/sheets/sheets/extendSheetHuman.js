@@ -424,6 +424,7 @@ export class extendSheetHuman extends ActorSheet {
     if (!langItem) return;
     const sPath = 'languages.'+langId;
     helperRolls.rollDices(this.actor, sPath, true, '', null);
+
   }
 
   async _showMode(event) {

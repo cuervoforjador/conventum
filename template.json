@@ -678,6 +678,7 @@
         "maxCombatPrimary": 0,
         "maxCombatSecondary": 0
       },
+      "index": 0,
       "income": 0,
       "incomeExtend": {
         "bySkill": false,
@@ -723,6 +724,10 @@
       "actorType": "human",
       "luck": false,
       "stun": false,
+      "injured": false,
+      "wounded": false,
+      "unconscious": false,
+      "dead": false,
       "byMaster": true,
       "active": false,
       "effect": "",
@@ -751,6 +756,11 @@
             }
           }
         },    
+        "skill": {
+          "apply": false,
+          "mod": "",
+          "mult": 1
+        },
         "combatSkill": {
           "apply": false,
           "mod": "",
@@ -761,7 +771,8 @@
         "damage": {
           "apply": false,
           "mod": "",
-          "mult": 1
+          "mult": 1,
+          "multDamageBon": 1
         },
         "location": {
           "focusLocation": {},

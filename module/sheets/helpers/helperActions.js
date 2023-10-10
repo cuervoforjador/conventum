@@ -128,6 +128,7 @@ export class helperActions {
      * @param {*} bForce 
      */
     static async playMode(actor, mode, bForce) {
+        if (mode.id === undefined) return;
         const bActive = (actor.system.modes.find(e => e === mode.id)) ? true : false;
         bForce = (!bForce) ? false : bForce;
         if ((bForce) && (bActive)) return;

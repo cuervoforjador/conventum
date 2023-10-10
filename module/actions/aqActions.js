@@ -273,7 +273,7 @@ export class aqActions {
         let sLocation = '';
 
         actor.system.modes.map(sMode => {
-            const mode = game.packs.get("conventum.modes").get(sMode);
+            const mode = game.packs.get("conventum.modes").getDocument(sMode);
 
             for (const s in mode.system.config.location.focusLocation) {
                 if (mode.system.config.location.focusLocation[s].apply) {
