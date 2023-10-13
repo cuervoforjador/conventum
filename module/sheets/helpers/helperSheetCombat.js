@@ -376,7 +376,7 @@ export class helperSheetCombat {
     static async getMaxActionsNumber(actor) {
 
         const sWorld = actor.system.control.world;
-        const oWorld = await game.packs.get('conventum.worlds').get(sWorld);        
+        const oWorld = await game.packs.get('conventum.worlds').getDocument(sWorld);        
         if (oWorld.system.config.actions.fixedNumber )
             return oWorld.system.config.actions.actionNumber;
         
@@ -844,7 +844,7 @@ export class helperSheetCombat {
 
         if (!actor) return;
         const sWorld = actor.system.control.world;
-        const oWorld = await game.packs.get('conventum.worlds').get(sWorld);  
+        const oWorld = await game.packs.get('conventum.worlds').getDocument(sWorld);  
         
         let activeCombat = helperSheetCombat.myActiveCombat(actorFrom);
         let steps = activeCombat.encounter.system.steps

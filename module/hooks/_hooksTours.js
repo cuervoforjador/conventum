@@ -10,7 +10,7 @@ export class HookTours {
      */
     static async registerTours() {
         
-        await game.tours.register("conventum", "firstSteps", new aqFirstSteps());
+        await game.tours.register("conventum", "firstSteps2", new aqFirstSteps());
         
         this.initTours();
     }
@@ -20,7 +20,7 @@ export class HookTours {
      */
     static async initTours() {
         
-        const firstSteps = await game.tours.get('conventum.firstSteps');
+        const firstSteps = await game.tours.get('conventum.firstSteps2');
         if (firstSteps.status === 'unstarted') firstSteps.start();
     }
 

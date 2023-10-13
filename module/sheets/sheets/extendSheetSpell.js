@@ -41,35 +41,35 @@ export class extendSheetSpell extends ItemSheet {
     let systemData = context.systemData;
     if (systemData.vis ===1) {
         systemData.ptc = 1;
-        systemData.penal = '-0';
+        systemData.sPenal = '0';
     }
     if (systemData.vis ===2) {
       systemData.ptc = 1;
-      systemData.penal = '-15';
+      systemData.sPenal = '-15';
     }
     if (systemData.vis ===3) {
       systemData.ptc = 2;
-      systemData.penal = '-35';
+      systemData.sPenal = '-35';
     }      
     if (systemData.vis ===4) {
       systemData.ptc = 3;
-      systemData.penal = '-50';
+      systemData.sPenal = '-50';
     }      
     if (systemData.vis ===5) {
       systemData.ptc = 5;
-      systemData.penal = '-75';
+      systemData.sPenal = '-75';
     }      
     if (systemData.vis ===6) {
       systemData.ptc = 5;
-      systemData.penal = '-100';
+      systemData.sPenal = '-100';
     }      
     if (systemData.vis ===7) {
       systemData.ptc = 10;
-      systemData.penal = '-150';
+      systemData.sPenal = '-150';
     }      
     if (systemData.vis > 7) {
       systemData.ptc = 10 + (( systemData.vis - 7)*5 );
-      systemData.penal = '-' + (( systemData.vis - 4)*50 ).toString();
+      systemData.sPenal = '-' + (( systemData.vis - 4)*50 ).toString();
     }      
     
     //Molding...

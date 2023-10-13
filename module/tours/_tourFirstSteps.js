@@ -34,23 +34,10 @@ export class aqFirstSteps extends aqTours {
                     content: "tour.Content03",
                     selector: '[data-tab="compendium"]',
                     action: 'click'
-                },                            
-                {   
-                    id: "step04",
-                    title: "tour.Title04",
-                    content: "tour.Content04",
-                    selector: '[data-pack="conventum.worlds"]',
-                    action: 'click'
-                },                 
-                {   
-                    id: "step05",
-                    title: "tour.Title05",
-                    content: "tour.Content05",
-                    selector: 'li.directory-item'
-                },                                    
+                }                                 
             ]
         }, {
-            id: "firstSteps",
+            id: "firstSteps2",
             namespace: "conventum",
             stepIndex: -1
         }));

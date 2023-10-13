@@ -661,7 +661,7 @@ export class helperSheetHuman {
    */
   static async getModes(actor, context) {
     const sWorld = actor.system.control.world;
-    const oWorld = await game.packs.get('conventum.worlds').get(sWorld);
+    const oWorld = await game.packs.get('conventum.worlds').getDocument(sWorld);
 
     //Synchr DB...
     await game.packs.get("conventum.modes").getDocuments();

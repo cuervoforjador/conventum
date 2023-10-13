@@ -36,8 +36,6 @@ export class mainMacros {
         ownership: {default: 3}
       });
 
-
-
     await game.user.assignHotbarMacro(upActions, 1);
     await game.user.assignHotbarMacro(upWeapons, 2);
     await game.user.assignHotbarMacro(upEncounter, 10);

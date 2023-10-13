@@ -37,7 +37,7 @@ export class aqCombat {
         }
 
         let actionLocation = aqActions.getActionLocation(action);
-        const actionInfo = aqActions.getActionsInfo(actorId, tokenId);
+        const actionInfo = await aqActions.getActionsInfo(actorId, tokenId);
         const actionCost = aqActions.getActionCost(actor, action);
         const nTotal = actionInfo.sumActions + actionCost;
         const bAvailable = (nTotal <= actionInfo.maxActions);

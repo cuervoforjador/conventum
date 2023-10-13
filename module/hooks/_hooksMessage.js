@@ -11,7 +11,7 @@ export class HookMessage {
      */
     static async changeColorButton(htmlElement, sWorld) {
 
-        const oWorld = await game.packs.get('conventum.worlds').get(sWorld);
+        const oWorld = await game.packs.get('conventum.worlds').getDocument(sWorld);
         if (!oWorld) return;
         
         for (const s in oWorld.system.config.rolllevel) {

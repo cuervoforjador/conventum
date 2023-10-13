@@ -143,6 +143,7 @@ export class aqActions {
      */
     static getUpdatedSteps() {
         let encounter = this.getCurrentEncounter();
+        if ((!encounter) || (encounter === undefined)) return;
         let mSteps = encounter.system.steps;
         if (mSteps.filter(e => !e.consumed).length > 0) {
             let currentStep = mSteps.filter(e => !e.consumed)[0];
@@ -219,10 +220,9 @@ export class aqActions {
     static async getCurrentActionSkill(actorId, tokenId) {
         const action = this.getCurrentAction(actorId, tokenId);
         if (!action) return null;
-
-        await game.packs.get('conventum.skills').getDocuments();       
+      
         return (action.system.skill.useSkill) ?
-            game.packs.get('conventum.skills').get(action.system.skill.skill) :
+            await game.packs.get('conventum.skills').getDocument(action.system.skill.skill) :
             null;
     }
 
@@ -275,6 +275,7 @@ export class aqActions {
         actor.system.modes.map(sMode => {
             const mode = game.packs.get("conventum.modes").getDocument(sMode);
 
+            if (mode.system === undefined) return;
             for (const s in mode.system.config.location.focusLocation) {
                 if (mode.system.config.location.focusLocation[s].apply) {
                     mLocations.push(s);
@@ -290,13 +291,13 @@ export class aqActions {
      * getMaxActions
      * @param {*} actorId
      */
-    static getMaxActions(actorId, tokenId) {
+    static async getMaxActions(actorId, tokenId) {
         const actor = (tokenId) ? game.scenes.active.tokens.get(tokenId).getActor() :
                                   game.actors.get(actorId);        
         if (!actor) return;        
 
         const sWorld = actor.system.control.world;
-        const oWorld = game.packs.get('conventum.worlds').get(sWorld);        
+        const oWorld = game.packs.get('conventum.worlds').getDocument(sWorld);        
         if (oWorld.system.config.actions.fixedNumber )
             return oWorld.system.config.actions.actionNumber;
         
@@ -308,7 +309,7 @@ export class aqActions {
      * getActionsInfo
      * @param {*} actorId 
      */
-    static getActionsInfo(actorId, tokenId) {
+    static async getActionsInfo(actorId, tokenId) {
         const mMyactions = this.getActions(actorId, tokenId);
         const actor = (tokenId) ? game.scenes.active.tokens.get(tokenId).getActor() :
                                   game.actors.get(actorId);
@@ -323,7 +324,7 @@ export class aqActions {
         return {
             actActions: mMyactions,
             numActions: mMyactions.length,
-            maxActions: this.getMaxActions(actorId, tokenId),
+            maxActions: await this.getMaxActions(actorId, tokenId),
             sumActions: sumActions
         };
     }

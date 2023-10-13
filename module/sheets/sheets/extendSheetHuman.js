@@ -113,6 +113,7 @@ export class extendSheetHuman extends ActorSheet {
 
     //Magic...
     context.magic = await helperSheetMagic.getMagic(this.actor, context.systemData);
+    helperSheetMagic.completeSpellsItems(context.items);
     helperSheetMagic.getMagicPenals(this.actor, context.systemData);
     context.codex = helperSheetMagic.codex(this.actor);
     

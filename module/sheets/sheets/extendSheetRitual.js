@@ -41,31 +41,31 @@ export class extendSheetRitual extends ItemSheet {
     let systemData = context.systemData;
     if (systemData.ordo ===1) {
         systemData.ptf = 10;
-        systemData.penal = '-0';
+        systemData.sPenal = '0';
     }
     if (systemData.ordo ===2) {
       systemData.ptf = 13;
-      systemData.penal = '-20';
+      systemData.sPenal = '-20';
     }
     if (systemData.ordo ===3) {
       systemData.ptf = 15;
-      systemData.penal = '-40';
+      systemData.sPenal = '-40';
     }      
     if (systemData.ordo ===4) {
       systemData.ptf = 18;
-      systemData.penal = '-60';
+      systemData.sPenal = '-60';
     }      
     if (systemData.ordo ===5) {
       systemData.ptf = 20;
-      systemData.penal = '-80';
+      systemData.sPenal = '-80';
     }      
     if (systemData.ordo ===6) {
       systemData.ptf = 20;
-      systemData.penal = '-100';
+      systemData.sPenal = '-100';
     }           
     if (systemData.ordo > 6) {
       systemData.ptf = 20;
-      systemData.penal = '-' + (( systemData.ordo - 4)*50 ).toString();
+      systemData.sPenal = '-' + (( systemData.ordo - 4)*50 ).toString();
     }      
     
     //Molding...

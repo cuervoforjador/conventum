@@ -880,7 +880,7 @@
         "damage": "",
         "noArmor": false
       },      
-      "penal": "0",
+      "sPenal": "0",
       "shape": "invocatio",
       "nature": "white",
       "secondNature": "popular",
@@ -903,7 +903,7 @@
         "damage": "",
         "noArmor": false
       },
-      "penal": "0",
+      "sPenal": "0",
       "society": "",
       "ceremony": "",
       "duration": "",

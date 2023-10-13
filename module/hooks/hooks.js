@@ -73,7 +73,7 @@ export class mainHooks {
     static _ready() {
         HookEvents.initialEvents();
         HookTours.registerTours();   
-        mainMacros.registerMacros();
+        //mainMacros.registerMacros();
         helperCusto.custoCSS();
         //game.aqCombatBar = new aqCombatBar();
     }

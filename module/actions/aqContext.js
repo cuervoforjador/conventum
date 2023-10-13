@@ -504,7 +504,7 @@ export class aqContext {
      */
     async setWorld(sWorld) {
         await this._preparePacks();
-        const world = await game.packs.get('conventum.worlds').get(sWorld);
+        const world = await game.packs.get('conventum.worlds').getDocument(sWorld);
 
         this._worldId = world.id;
         this._worldConfig = world.system.config;        
@@ -630,6 +630,7 @@ export class aqContext {
         this._getRangePenal();
         this._getWeaponRequirementPenal();
         this._getActionPenal();
+        this._getSpellPenal();
         this._getByTargetPenalMulty();
         this._getPercentFinal();
 
@@ -1001,6 +1002,7 @@ export class aqContext {
         this._actionConsumed = true;
         if (!this._express) {   
             let encounter = aqActions.getCurrentEncounter();
+            if ((!encounter) || (encounter === undefined)) return;
             await helperSocket.update(encounter, {
                 system: { 
                     //context: this,
@@ -1334,6 +1336,20 @@ export class aqContext {
             this._percentMod = this.addPenalties(this._percentMod, penal);
             this.msgHistory("common.penalAction", penal+'%');
         }
+    }
+
+    /**
+     * _getSpellPenal
+     */
+    _getSpellPenal() {
+        if ((!this._useSpell) || (!this._spell)) return;
+
+        let penal = this.clearPenalty(this._spell.system.sPenal);
+        if (Number(penal) !== 0) {
+            this._percentMod = this.addPenalties(this._percentMod, penal);
+            this.msgHistory("common.penalSpell", penal+'%');
+        }        
+        
     }
 
     /**

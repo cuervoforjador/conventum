@@ -31,6 +31,17 @@ export class helperSheetMagic {
     }
 
     /**
+     * completeSpellsItems
+     * @param {*} mItems 
+     */
+    static completeSpellsItems(mItems) {
+        mItems.filter(e => ((e.type === 'spell') || (e.type === 'ritual'))).map( spell => {
+            //spell.system.sPenal = spell.system.penal;
+            
+        });
+    }
+
+    /**
      * getMagicPenals
      * @param {*} actor 
      * @param {*} systemData 

@@ -19,7 +19,7 @@ export class helperRolls {
     static async rollChararacteristic(actor, charId) {
 
       const sWorld = actor.system.control.world;
-      const oWorld = await game.packs.get('conventum.worlds').get(sWorld);    //Still no apply...
+      const oWorld = await game.packs.get('conventum.worlds').getDocument(sWorld);
 
       let oButtons = {};
       ['x1', 'x2', 'x3', 'x4', 'x5'].forEach(s => {
@@ -57,7 +57,7 @@ export class helperRolls {
     static async _rollsChar(actor, charId, sMod) {
 
       const sWorld = actor.system.control.world;
-      const oWorld = await game.packs.get('conventum.worlds').get(sWorld);    //Still no apply...
+      const oWorld = await game.packs.get('conventum.worlds').getDocument(sWorld);
 
       const sPath = 'characteristics.primary.'+charId;      
 
@@ -157,7 +157,7 @@ export class helperRolls {
 
       await game.packs.get('conventum.worlds').getDocuments();
       const sWorld = actor.system.control.world;
-      const oWorld = await game.packs.get('conventum.worlds').get(sWorld);
+      const oWorld = await game.packs.get('conventum.worlds').getDocument(sWorld);
 
       let oButtons = {};
       for (const s in oWorld.system.config.rolllevel) {
@@ -185,7 +185,7 @@ export class helperRolls {
 
       await game.packs.get('conventum.worlds').getDocuments();
       const sWorld = oRollAction.actor.system.control.world;
-      const oWorld = await game.packs.get('conventum.worlds').get(sWorld);
+      const oWorld = await game.packs.get('conventum.worlds').getDocument(sWorld);
 
       let oButtons = {};
       for (const s in oWorld.system.config.rolllevel) {
@@ -221,7 +221,7 @@ export class helperRolls {
       
       //Worlds
       const sWorld = actor.system.control.world,
-            oWorld = await game.packs.get('conventum.worlds').get(sWorld),
+            oWorld = await game.packs.get('conventum.worlds').getDocument(sWorld),
             worldConfig = oWorld.system.config;
 
       //Config Level
@@ -296,7 +296,7 @@ export class helperRolls {
 
       //Worlds
       const sWorld = oRollAction.actor.system.control.world,
-            oWorld = await game.packs.get('conventum.worlds').get(sWorld),
+            oWorld = await game.packs.get('conventum.worlds').getDocument(sWorld),
             worldConfig = oWorld.system.config;
 
       //Config Level
