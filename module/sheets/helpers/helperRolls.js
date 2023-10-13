@@ -255,8 +255,8 @@ export class helperRolls {
       if (luck > 0) success = true;
 
       //Criticals
-      const dec = Math.trunc(Number(sMinValue) / Number(worldConfig.rolls.skillRange), 0);
-      const rest = ( Number(sMinValue) % Number(worldConfig.rolls.skillRange) > 0) ? 1 : 0 ;
+      const dec = Math.trunc(Number(nPass) / Number(worldConfig.rolls.skillRange), 0);
+      const rest = ( Number(nPass) % Number(worldConfig.rolls.skillRange) > 0) ? 1 : 0 ;
       let cFailureLow = Number(worldConfig.rolls.failureRange) +
                  (dec + rest) * Number(worldConfig.rolls.criticalFailureStep);
         cFailureLow = (cFailureLow >= Number(worldConfig.rolls.failureMin) ) ? Number(worldConfig.rolls.failureMin) : cFailureLow;

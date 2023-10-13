@@ -268,20 +268,19 @@ export class aqActions {
      * getModeLocation
      * @param {*} actor
      */
-    static getModeLocation(actor) {
+    static async getModeLocation(actor) {
         let mLocations = [];
         let sLocation = '';
 
-        actor.system.modes.map(sMode => {
-            const mode = game.packs.get("conventum.modes").getDocument(sMode);
-
+        for (var i=0; i<=actor.system.modes; i++) {
+            const mode = await game.packs.get("conventum.modes")
+                                         .getDocument(actor.system.modes[i]);
             if (mode.system === undefined) return;
             for (const s in mode.system.config.location.focusLocation) {
-                if (mode.system.config.location.focusLocation[s].apply) {
+                if (mode.system.config.location.focusLocation[s].apply)
                     mLocations.push(s);
-                }
-            }
-        });
+            }                                         
+        }
 
         if (mLocations.length > 0) return mLocations[0];
         return '';
@@ -297,7 +296,7 @@ export class aqActions {
         if (!actor) return;        
 
         const sWorld = actor.system.control.world;
-        const oWorld = game.packs.get('conventum.worlds').getDocument(sWorld);        
+        const oWorld = await game.packs.get('conventum.worlds').getDocument(sWorld);        
         if (oWorld.system.config.actions.fixedNumber )
             return oWorld.system.config.actions.actionNumber;
         

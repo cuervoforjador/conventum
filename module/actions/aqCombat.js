@@ -450,6 +450,14 @@ export class aqCombat {
         const combat = aqActions.getCurrentCombat();
         if (!combat) return;
 
+        let myToken = null;
+        if (actor.getActiveTokens().length > 0) {
+            actor.getActiveTokens().map(e => {
+                if (game.scenes.active.tokens.get(e.id) !== undefined)
+                    myToken = game.scenes.active.tokens.get(e.id);
+            });
+        }
+
         let mActors = await this.getActionTargets(action, actorId, tokenId);
 
         //Creating context...

@@ -914,9 +914,10 @@ export class aqContext {
      * _evalCritical
      */
     _evalCritical() {
-
-        const dec = Math.trunc(Number(this._percent) / Number(this._worldConfig.rolls.skillRange), 0);
-        const rest = ( Number(this._percent) % Number(this._worldConfig.rolls.skillRange) > 0) ? 1 : 0 ;
+        
+        const percent = Number(eval(this._percent.toString() + this._rollBono));
+        const dec = Math.trunc(Number(percent) / Number(this._worldConfig.rolls.skillRange), 0);
+        const rest = ( Number(percent) % Number(this._worldConfig.rolls.skillRange) > 0) ? 1 : 0 ;
         let cFailureLow = Number(this._worldConfig.rolls.failureRange) +
                    (dec + rest) * Number(this._worldConfig.rolls.criticalFailureStep);
           cFailureLow = (cFailureLow >= Number(this._worldConfig.rolls.failureMin) ) ? 
@@ -2663,7 +2664,7 @@ export class aqContext {
         targetData.location = await this._getDamageLocation(targetId, damageFormula);
         if (!targetData.location) return;
         let location = targetData.location;
-        let modeLocation = aqActions.getModeLocation(target);
+        let modeLocation = await aqActions.getModeLocation(target);
         if (modeLocation !== '') location = modeLocation;
         
         //No Damage...

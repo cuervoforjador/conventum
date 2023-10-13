@@ -88,7 +88,7 @@ export class mainHooks {
 
     static _renderHotbar(element, html, options) {
         HookActor.setCustoConfig();
-        HookHotBar.custoHotBar(element, html, options);
+        //HookHotBar.custoHotBar(element, html, options);
     }
 
     static _canvasReady(canvas) {

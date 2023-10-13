@@ -206,7 +206,7 @@ export class helperControls {
             sTitle = '<h2>'+game.i18n.localize('title.conclusion')+'</h2>';
             if ( sTitle !== 'a' ) {
                 content += '<div> <hbox class="_showMore">'+sBad+sTitle+'</hbox>';
-                content += '<div class="_wInfo">'+game.i18n.localize("info.noInitiative")+'</div> </div>';
+                content += '<div class="_wInfo">'+game.i18n.localize("info.noEnd")+'</div> </div>';
             } else {
                 content += '<hbox class="_showNoMore">'+sGood+sTitle+'</hbox>';
             }
