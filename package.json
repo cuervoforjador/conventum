@@ -1,6 +1,6 @@
 {
   "name": "conventum",
-  "version": "1.0.0",
+  "version": "2.1.1",
   "description": "CSS compiler for the Aquelarre system",
   "scripts": {
     "css": "gulp css",
