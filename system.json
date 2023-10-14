@@ -1,8 +1,8 @@
 {
   "id": "conventum",
-  "title": "Aquelarre",
+  "title": "Aquelarre-Conventum",
   "description": "Demonic and medieval game",
-  "version": "2.0",
+  "version": "2.0.0",
   "compatibility": {
     "minimum": "10",
     "verified": "11",
@@ -54,7 +54,7 @@
       "name": "日本語",
       "path": "lang/ja.json",
       "flags": {}
-    }    
+    }
   ],
   "packs": [
     {
@@ -277,7 +277,7 @@
         "ASSISTANT": "OWNER"
       },
       "flags": {}
-    }            
+    }
   ],
   "url": "https://github.com/cuervoforjador/conventum",
   "manifest": "https://github.com/cuervoforjador/conventum/releases/download/v20/system.json",
