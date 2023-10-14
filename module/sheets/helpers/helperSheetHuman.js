@@ -49,6 +49,28 @@ export class helperSheetHuman {
   }
 
   /**
+   * getBioBackground
+   * @param {*} systemData 
+   * @param {*} backend 
+   */
+  static async getBioBackground(systemData, backend) {
+
+    const oProfession = (systemData.bio.profession !== "") ?
+                            await game.packs.get("conventum.professions")
+                                            .getDocument(systemData.bio.profession) : null;    
+
+    const oParentProfession = (systemData.bio.parentProfession !== "") ?
+                          await game.packs.get("conventum.professions")
+                                          .getDocument(systemData.bio.parentProfession) : null;
+
+    return {
+      profession: oProfession,
+      parentProfession: oParentProfession
+    };
+
+  }
+
+  /**
    * getBioInfo
    * @param {*} systemData 
    * @param {*} backend 

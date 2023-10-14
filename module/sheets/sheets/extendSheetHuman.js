@@ -71,6 +71,7 @@ export class extendSheetHuman extends ActorSheet {
 
     //Bio extend info...
     context.bioInfo = await helperSheetHuman.getBioInfo(context.systemData, context.backend);
+    context.bioBackground = await helperSheetHuman.getBioBackground(context.systemData, context.backend);
 
     //Modes...
     if (!context.systemData.modes.length) {

@@ -6,13 +6,6 @@
     
     {{!-- HEADER --}}
     <itemHeader class="_chrome">
-             
-        {{!-- Image --}}
-        <itemImage>
-            <img src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
-        </itemImage>
-
-        {{!-- Header Info --}}
         <itemHeaderInfo>
             <itemTitle>
                 <input type="text" name="name" value="{{item.name}}" placeholder=""/>
@@ -28,18 +21,29 @@
                                         labelAttr="name" }}
                     </select>
                 </hbox>              
-            </itemSubHeader>
-
-            {{!-- CONTENT --}}
-            <itemContent>
-        
-                {{> itemDescription }}
-        
-            </itemContent>            
-
+            </itemSubHeader>           
         </itemHeaderInfo>
-
     </itemHeader> 
+
+    {{!-- CONTENT --}}
+    <itemContent>
+        <div class="frameContent">
+            <section class="sheet-body">
+
+                    <slidePanel class="_100">
+                        <panelContent>
+                            <itemImage>
+                                <img src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+                            </itemImage>        
+                            {{> itemDescription }}
+
+                        </panelContent>
+                    </slidePanel>
+
+            </section>        
+        </div>
+
+    </itemContent>     
     
 {{!-- Molding ---}}
 <input name="system.control.mold"

@@ -706,6 +706,12 @@ label._penalCharact {
 ._bioInfo line hbox label {
     width: 50%;
 }
+hbox._bioFields {
+    padding-top: 5px;
+    padding-left: 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #33333340;
+}
 
 /* Tabs... */
 nav.tabs_Bio {
@@ -735,6 +741,9 @@ section._description .editor {
 section._description .editor-content {
     padding-left: 20px;
     padding-right: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #3333337d;
+    font-family: var(--font-aq);
 }
 section._description .editor p {
     font-family: var(--font-aq);

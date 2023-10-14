@@ -264,10 +264,23 @@
         "ASSISTANT": "OWNER"
       },
       "flags": {}
-    }        
+    },
+    {
+      "label": "Bestiarium",
+      "type": "Actor",
+      "name": "bestiarium",
+      "path": "packs/bestiarium",
+      "banner": "systems/conventum/image/content/compendium/bannerBestiarium.png",
+      "system": "conventum",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
+    }            
   ],
   "url": "https://github.com/cuervoforjador/conventum",
-  "manifest": "https://github.com/cuervoforjador/conventum/releases/download/v113/system.json",
-  "download": "https://github.com/cuervoforjador/conventum/releases/download/v113/system.zip",
+  "manifest": "https://github.com/cuervoforjador/conventum/releases/download/v20/system.json",
+  "download": "https://github.com/cuervoforjador/conventum/releases/download/v20/system.zip",
   "license": "LICENSE.txt"
 }

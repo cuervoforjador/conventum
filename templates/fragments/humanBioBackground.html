@@ -1,6 +1,16 @@
 {{!-- Background --}}
 
 <section class="_description">
+
+    <hbox class="_100 _bioFields">
+        <label class="_100px">{{localize 'common.profession'}}</label>
+        <label class="_field">{{bioBackground.profession.name}}</label>
+    </hbox>
+    <hbox class="_100 _bioFields">
+        <label class="_100px">{{localize 'common.parentProfession'}}</label>
+        <label class="_field">{{bioBackground.profession.name}}</label>
+    </hbox>    
+
     <infoText>{{localize 'info.background'}}</infoText>
      {{editor 
           systemData.bio.background
@@ -10,4 +20,36 @@
           owner=owner
           rollData=rollData
           editable=editable }}
+
+    <infoText>{{localize 'common.familySituation'}}</infoText>
+    {{editor 
+        systemData.bio.familySituation
+        target="system.bio.familySituation" 
+        button=true 
+        engine="prosemirror"
+        owner=owner
+        rollData=rollData
+        editable=editable }}
+     
+    <infoText>{{localize 'common.familyBrothers'}}</infoText>
+    {{editor 
+        systemData.bio.familyBrothers
+        target="system.bio.familyBrothers" 
+        button=true 
+        engine="prosemirror"
+        owner=owner
+        rollData=rollData
+        editable=editable }}
+        
+    <infoText>{{localize 'common.spouse'}}</infoText>
+    {{editor 
+        systemData.bio.spouse
+        target="system.bio.spouse" 
+        button=true 
+        engine="prosemirror"
+        owner=owner
+        rollData=rollData
+        editable=editable }}       
+
+
 </section>          
