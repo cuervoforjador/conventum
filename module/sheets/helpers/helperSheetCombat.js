@@ -136,7 +136,7 @@ export class helperSheetCombat {
         const sTxtVerb = game.i18n.localize("common.unsheath");
         const sTxtHand = game.i18n.localize("common."+sHand);
         const sBackImage = 
-                '<img class="_backHand" src="systems/conventum/image/texture/'+sHand+'.png" />';
+                '<img class="_backHand" src="systems/aquelarre/image/texture/'+sHand+'.png" />';
 
         const sContent = '<div class="_messageFrame">'+
                             sBackImage+
@@ -298,7 +298,7 @@ export class helperSheetCombat {
             sAskingLocation += '</select>';
 
             sAskingLocation += '<select name="actTargetLocation" class="_actTargetLocation" disabled>';
-            Array.from(game.packs.get("conventum.locations"))
+            Array.from(game.packs.get("aquelarre.locations"))
                            .filter(e => e.system.actorType === 'human')
                            .forEach(oLocation => {
                 if (!bFocusLocation)
@@ -376,7 +376,7 @@ export class helperSheetCombat {
     static async getMaxActionsNumber(actor) {
 
         const sWorld = actor.system.control.world;
-        const oWorld = await game.packs.get('conventum.worlds').getDocument(sWorld);        
+        const oWorld = await game.packs.get('aquelarre.worlds').getDocument(sWorld);        
         if (oWorld.system.config.actions.fixedNumber )
             return oWorld.system.config.actions.actionNumber;
         
@@ -574,7 +574,7 @@ export class helperSheetCombat {
         }
         const actionItem = (actorActions.action !== '') ? actorActions.action : null;
 
-        let combatSkill = game.packs.get('conventum.skills').get(weaponItem.system.combatSkill);
+        let combatSkill = game.packs.get('aquelarre.skills').get(weaponItem.system.combatSkill);
         if (!combatSkill) return;
 
         //Double attack
@@ -590,7 +590,7 @@ export class helperSheetCombat {
         if ((actionItem) && (actionItem.system.skill.skillAsCombat) &&
             (actionItem.system.skill.skill !== '')) {
             
-            combatSkill = game.packs.get('conventum.skills').get(actionItem.system.skill.skill);
+            combatSkill = game.packs.get('aquelarre.skills').get(actionItem.system.skill.skill);
         }
 
         const actorSkill = actor.system.skills[weaponItem.system.combatSkill];
@@ -833,8 +833,8 @@ export class helperSheetCombat {
      */
     static async applyDamage(actorId, nDamage, locationId, actorFrom, action, spell, history) {
 
-        await game.packs.get('conventum.locations').getDocuments();
-        await game.packs.get('conventum.worlds').getDocuments();
+        await game.packs.get('aquelarre.locations').getDocuments();
+        await game.packs.get('aquelarre.worlds').getDocuments();
 
         let actor = game.actors.get(actorId);
 
@@ -844,7 +844,7 @@ export class helperSheetCombat {
 
         if (!actor) return;
         const sWorld = actor.system.control.world;
-        const oWorld = await game.packs.get('conventum.worlds').getDocument(sWorld);  
+        const oWorld = await game.packs.get('aquelarre.worlds').getDocument(sWorld);  
         
         let activeCombat = helperSheetCombat.myActiveCombat(actorFrom);
         let steps = activeCombat.encounter.system.steps
@@ -855,7 +855,7 @@ export class helperSheetCombat {
         let armorDamage = 0;
 
         //Getting locations...
-        const pLocations = await game.packs.get('conventum.locations');
+        const pLocations = await game.packs.get('aquelarre.locations');
         const dLocations = await pLocations.getDocuments();
         const mLocations = dLocations.filter(e => (e.system.control.world === sWorld) 
                                                && (e.system.actorType === actor.type));

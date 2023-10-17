@@ -222,7 +222,7 @@ export class aqActions {
         if (!action) return null;
       
         return (action.system.skill.useSkill) ?
-            await game.packs.get('conventum.skills').getDocument(action.system.skill.skill) :
+            await game.packs.get('aquelarre.skills').getDocument(action.system.skill.skill) :
             null;
     }
 
@@ -273,9 +273,10 @@ export class aqActions {
         let sLocation = '';
 
         for (var i=0; i<=actor.system.modes; i++) {
-            const mode = await game.packs.get("conventum.modes")
+            const mode = await game.packs.get("aquelarre.modes")
                                          .getDocument(actor.system.modes[i]);
-            if (mode.system === undefined) return;
+            if ((!mode) || (mode === undefined) || (mode.system === undefined)) return;
+
             for (const s in mode.system.config.location.focusLocation) {
                 if (mode.system.config.location.focusLocation[s].apply)
                     mLocations.push(s);
@@ -296,7 +297,7 @@ export class aqActions {
         if (!actor) return;        
 
         const sWorld = actor.system.control.world;
-        const oWorld = await game.packs.get('conventum.worlds').getDocument(sWorld);        
+        const oWorld = await game.packs.get('aquelarre.worlds').getDocument(sWorld);        
         if (oWorld.system.config.actions.fixedNumber )
             return oWorld.system.config.actions.actionNumber;
         
@@ -341,7 +342,7 @@ export class aqActions {
         let nFromModes = 0;
         let noPoints = false;
         actor.system.modes.map(sMode => {
-            const mode = game.packs.get("conventum.modes").get(sMode);
+            const mode = game.packs.get("aquelarre.modes").get(sMode);
             if (mode.system.config.actionPoints === '')
                 mode.system.config.actionPoints = 0;
 

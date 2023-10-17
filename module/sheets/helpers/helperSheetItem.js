@@ -14,7 +14,7 @@ export class helperSheetItem {
 
     //Item without World... -> First World
     if (systemData.control.world === "") {
-      const mWorlds = await game.packs.get("conventum.worlds").getDocuments();
+      const mWorlds = await game.packs.get("aquelarre.worlds").getDocuments();
       systemData.control.world = mWorlds[0].id;
     }    
 

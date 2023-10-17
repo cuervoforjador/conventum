@@ -29,12 +29,12 @@
     align-items: center;
 }
 #combat li.combatant .roll {
-    background: url(/systems/conventum/image/texture/dice.png) no-repeat 50% 50%;
+    background: url(/systems/aquelarre/image/texture/dice.png) no-repeat 50% 50%;
     background-size: 32px;
     transition: 0.2s;
 }
 #combat li.combatant .roll:hover {
-    background-image: url(/systems/conventum/image/texture/dice.png);
+    background-image: url(/systems/aquelarre/image/texture/dice.png);
     background-size: 34px;
 }
 .token-initiative span {

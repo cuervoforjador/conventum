@@ -97,6 +97,8 @@
 
                 {{#if page.hasItem}}
 
+                {{!-- SPELL --}}
+
                     {{#if (itemType page.item 'spell') }}
                     <div class="_detail" style="z-index: {{page.zIndex}}">
                         <img class="_image" src="{{page.item.img}}" /> 
@@ -134,7 +136,7 @@
                         {{{page.item.system.effects}}}
                         {{/if}}
 
-                        {{#if (isNotEmpty common.description)}}
+                        {{#if (isNotEmpty page.item.system.description)}}
                         <h3 class="_subTitle">{{localize 'common.description'}}</h3>
                         {{{page.item.system.description}}}
                         {{/if}}
@@ -151,7 +153,54 @@
                         <label class="_value">
                             <a class="playSpell" data-itemId="{{item._id}}" data-from="codice">
                                 {{spellValue page.item 'spell'}}
-                                <img src="/systems/conventum/image/texture/dice2.png" />
+                                <img src="/systems/aquelarre/image/texture/dice2.png" />
+                            </a>
+                        </label>
+                    </div>
+                    {{/if}}
+
+                {{!-- RITUAL --}}
+
+                    {{#if (itemType page.item 'ritual') }}
+                    <div class="_detail" style="z-index: {{page.zIndex}}">
+                        <img class="_image" src="{{page.item.img}}" /> 
+                        <h2 class="_title">
+                            {{page.item.name}}
+                        </h2>
+
+                        {{#if (isNotEmpty page.item.system.duration)}}
+                        <h3 class="_subTitle">{{localize 'common.duration'}}</h3>
+                        {{{page.item.system.duration}}}
+                        {{/if}}
+
+                        {{#if (isNotEmpty page.item.system.ceremony)}}
+                        <h3 class="_subTitle">{{localize 'common.ceremony'}}</h3>
+                        {{{page.item.system.ceremony}}}
+                        {{/if}}
+
+                        {{#if (isNotEmpty page.item.system.effects)}}
+                        <h3 class="_subTitle">{{localize 'common.effects'}}</h3>
+                        {{{page.item.system.effects}}}
+                        {{/if}}
+
+                        {{#if (isNotEmpty page.item.system.description)}}
+                        <h3 class="_subTitle">{{localize 'common.description'}}</h3>
+                        {{{page.item.system.description}}}
+                        {{/if}}
+
+                    </div>
+
+                    <div class="boxActionSpell">
+                        <label class="_vis">
+                            {{localize "common.ordo"}}: <span class="_visPoints">{{page.item.system.ordo}}</span>
+                        </label>
+                        <label class="_ptc">
+                            {{localize "common.ptf"}}: {{page.item.system.ptf}}
+                        </label>  
+                        <label class="_value">
+                            <a class="playSpell" data-itemId="{{item._id}}" data-from="codice">
+                                {{spellValue page.item 'spell'}}
+                                <img src="/systems/aquelarre/image/texture/dice2.png" />
                             </a>
                         </label>
                     </div>
@@ -162,30 +211,6 @@
                             {{page.item.name}}
                         </h2>
                     </a>
-
-                    {{!-- 
-                    <label class="_vis">{{page.item.system.vis}}</label>
-                    <label class="_ptc">{{page.item.system.ptc}}</label>
-                    <label class="_shape">{{page.item.system.shape}}</label>
-                    <label class="_penal">{{page.item.system.sPenal}}</label>
-                    <label class="_value">
-                        <a class="playSpell" data-itemId="{{item._id}}">
-                            {{spellValue page.item 'spell'}}
-                        </a>
-                    </label>                             
-                    --}}
-
-
-                    {{#if (itemType page.item 'ritual') }}
-                    <label class="_ordo">{{page.item.system.ordo}}</label>
-                    <label class="_ptf">{{page.item.system.ptf}}</label>
-                    <label class="_penal">{{page.item.system.sPenal}}</label>
-                    <label class="_value">
-                        <a class="playSpell" data-itemId="{{item._id}}">
-                            {{spellValue page.item 'ritual'}}
-                        </a>
-                    </label>                             
-                    {{/if}}
         
                 {{/if}} 
                                                     

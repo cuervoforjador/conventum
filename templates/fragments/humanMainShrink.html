@@ -150,7 +150,7 @@
                         </hbox>
                         <hbox class="_100">
                             <a class="playSkill _shrink" data-itemId="{{actions.skill._id}}" data-actionId="{{actions.action._id}}">
-                                <img class="imgWeapon2 _shrink" src="systems/conventum/image/texture/dice2.png"/></a> 
+                                <img class="imgWeapon2 _shrink" src="systems/aquelarre/image/texture/dice2.png"/></a> 
                         </hbox>                     
                     </vbox>
                     
@@ -174,19 +174,19 @@
                                 {{#if (evalActionWeapon ../actions weapon) }}
                                 <a class="playWeapon" data-itemid="{{weapon._id}}" 
                                     title="{{localize 'help.action'}}">
-                                    <img class="imgWeapon2 _shrink" src="systems/conventum/image/texture/dice2.png"/>
+                                    <img class="imgWeapon2 _shrink" src="systems/aquelarre/image/texture/dice2.png"/>
                                 </a>
                                 {{else}}
                                 <a class="showInfo" data-i18n="info.noAction"
                                     title="{{localize 'help.action'}}">
-                                    <img class="imgWeapon2 _shrink" src="systems/conventum/image/texture/dice2.png" 
+                                    <img class="imgWeapon2 _shrink" src="systems/aquelarre/image/texture/dice2.png" 
                                         style="opacity: 0.3;"/>
                                 </a>                    
                                 {{/if}} 
                                 
                                 <a class="playWeaponExpress" data-itemid="{{weapon._id}}"
                                     title="{{localize 'help.express'}}">
-                                    <img class="imgWeapon2 _shrink" src="/systems/conventum/image/texture/express.png"/>
+                                    <img class="imgWeapon2 _shrink" src="/systems/aquelarre/image/texture/express.png"/>
                                 </a>  
 
                                 <hbox class="_weaponHands">
@@ -194,7 +194,7 @@
 
                                     {{!-- Both hands --}}
                                     <img class="weaponHand weapon2Hands {{#unless weapon.system.inHands.inBothHands}} _alpha {{/unless}}" 
-                                            src="systems/conventum/image/texture/inBothHands.png"
+                                            src="systems/aquelarre/image/texture/inBothHands.png"
                                             data-itemid="{{weapon._id}}" 
                                             data-hand="inBothHands"/>
 
@@ -202,13 +202,13 @@
 
                                     {{!-- Left hand --}}
                                     <img class="weaponHand weaponLeftHand {{#unless weapon.system.inHands.inLeftHand}} _alpha {{/unless}}" 
-                                        src="systems/conventum/image/texture/inLeftHand.png"
+                                        src="systems/aquelarre/image/texture/inLeftHand.png"
                                         data-itemid="{{weapon._id}}" 
                                         data-hand="inLeftHand"/>
 
                                     {{!-- Right hand --}}
                                     <img class="weaponHand weaponRightHand {{#unless weapon.system.inHands.inRightHand}} _alpha {{/unless}}" 
-                                        src="systems/conventum/image/texture/inRightHand.png"
+                                        src="systems/aquelarre/image/texture/inRightHand.png"
                                         data-itemid="{{weapon._id}}" 
                                         data-hand="inRightHand"/>
                                 
@@ -217,7 +217,7 @@
 
                                 {{#if ../imMaster}}                         
                                 <a class="actionIcon" data-itemId="{{weapon._id}}" data-action="delete">
-                                    <img class="imgAction _shrink" src="systems/conventum/image/texture/destroy.png" /></a>
+                                    <img class="imgAction _shrink" src="systems/aquelarre/image/texture/destroy.png" /></a>
                                 {{/if}}
                             </hbox>
                         </vbox>
@@ -241,7 +241,7 @@
 
                     {{#if ../imMaster}}                         
                     <a class="actionIcon" data-itemId="{{armor._id}}" data-action="delete">
-                        <img class="imgAction _shrink" src="systems/conventum/image/texture/destroy.png" /></a>
+                        <img class="imgAction _shrink" src="systems/aquelarre/image/texture/destroy.png" /></a>
                     {{/if}}
 
                     <a class="actionIcon" data-itemId="{{armor._id}}" data-action="show">
@@ -289,7 +289,7 @@
                 <div class="_actionsBox" style="z-index: 100;">                 
                     {{#if ../imMaster}}
                     <a class="actionIcon" data-itemId="{{item._id}}" data-action="delete">
-                        <img class="imgAction" src="systems/conventum/image/texture/destroy.png" /></a>
+                        <img class="imgAction" src="systems/aquelarre/image/texture/destroy.png" /></a>
                     {{/if}}
                 </div>                
                 <a class="actionIcon" data-itemId="{{item._id}}" data-action="show">
@@ -396,7 +396,7 @@
                 <div class="_actionsBox" style="z-index: 100;">                 
                     {{#if ../imMaster}}
                     <a class="actionIcon" data-itemId="{{item._id}}" data-action="delete">
-                        <img class="imgAction" src="systems/conventum/image/texture/destroy.png" /></a>
+                        <img class="imgAction" src="systems/aquelarre/image/texture/destroy.png" /></a>
                     {{/if}}
                 </div>                
                 <a class="_doAction" data-itemId="{{item._id}}" >
@@ -404,7 +404,7 @@
                 </a>
                 <a class="actionIcon" data-itemid="{{item._id}}" data-action="show">
                     <img class="imgAction _shrink" 
-                            src="systems/conventum/image/texture/edit.png" 
+                            src="systems/aquelarre/image/texture/edit.png" 
                             style="width: 15px; height: 15px;"/>
                 </a>
             </li>

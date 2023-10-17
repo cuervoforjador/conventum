@@ -47,7 +47,7 @@ export class helperSprites {
     static async blood(damage) {
 
         const view = await canvas.scene.view();
-        const texture = PIXI.Texture.from("/systems/conventum/image/sprites/blood.png");
+        const texture = PIXI.Texture.from("/systems/aquelarre/image/sprites/blood.png");
         const sprite = new PIXI.AnimatedSprite([texture]);
 
         sprite.position.set(view._viewPosition.x, 

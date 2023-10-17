@@ -1,8 +1,8 @@
 {
-  "id": "conventum",
-  "title": "Aquelarre-Conventum",
+  "id": "aquelarre",
+  "title": "Aquelarre",
   "description": "Demonic and medieval game",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "compatibility": {
     "minimum": "10",
     "verified": "11",
@@ -64,8 +64,8 @@
       "type": "Item",
       "name": "worlds",
       "path": "packs/worlds",
-      "banner": "systems/conventum/image/content/compendium/bannerOrbis.png",
-      "system": "conventum",
+      "banner": "systems/aquelarre/image/content/compendium/bannerOrbis.png",
+      "system": "aquelarre",
       "ownership": {
         "PLAYER": "OBSERVER",
         "ASSISTANT": "OWNER"
@@ -77,8 +77,8 @@
       "type": "Item",
       "name": "kingdoms",
       "path": "packs/kingdoms",
-      "banner": "systems/conventum/image/content/compendium/bannerRegna.png",
-      "system": "conventum",
+      "banner": "systems/aquelarre/image/content/compendium/bannerRegna.png",
+      "system": "aquelarre",
       "ownership": {
         "PLAYER": "OBSERVER",
         "ASSISTANT": "OWNER"
@@ -90,8 +90,8 @@
       "type": "Item",
       "name": "societies",
       "path": "packs/societies",
-      "banner": "systems/conventum/image/content/compendium/bannerSocietas.png",
-      "system": "conventum",
+      "banner": "systems/aquelarre/image/content/compendium/bannerSocietas.png",
+      "system": "aquelarre",
       "ownership": {
         "PLAYER": "OBSERVER",
         "ASSISTANT": "OWNER"
@@ -103,8 +103,8 @@
       "type": "Item",
       "name": "languages",
       "path": "packs/languages",
-      "banner": "systems/conventum/image/content/compendium/bannerLinguae.png",
-      "system": "conventum",
+      "banner": "systems/aquelarre/image/content/compendium/bannerLinguae.png",
+      "system": "aquelarre",
       "ownership": {
         "PLAYER": "OBSERVER",
         "ASSISTANT": "OWNER"
@@ -116,8 +116,8 @@
       "type": "Item",
       "name": "cultures",
       "path": "packs/cultures",
-      "banner": "systems/conventum/image/content/compendium/bannerGentes.png",
-      "system": "conventum",
+      "banner": "systems/aquelarre/image/content/compendium/bannerGentes.png",
+      "system": "aquelarre",
       "ownership": {
         "PLAYER": "OBSERVER",
         "ASSISTANT": "OWNER"
@@ -129,8 +129,8 @@
       "type": "Item",
       "name": "stratums",
       "path": "packs/stratums",
-      "banner": "systems/conventum/image/content/compendium/bannerStratum.png",
-      "system": "conventum",
+      "banner": "systems/aquelarre/image/content/compendium/bannerStratum.png",
+      "system": "aquelarre",
       "ownership": {
         "PLAYER": "OBSERVER",
         "ASSISTANT": "OWNER"
@@ -142,8 +142,8 @@
       "type": "Item",
       "name": "status",
       "path": "packs/status",
-      "banner": "systems/conventum/image/content/compendium/bannerStatus.png",
-      "system": "conventum",
+      "banner": "systems/aquelarre/image/content/compendium/bannerStatus.png",
+      "system": "aquelarre",
       "ownership": {
         "PLAYER": "OBSERVER",
         "ASSISTANT": "OWNER"
@@ -155,8 +155,8 @@
       "type": "Item",
       "name": "skills",
       "path": "packs/skills",
-      "banner": "systems/conventum/image/content/compendium/bannerCompetentiae.png",
-      "system": "conventum",
+      "banner": "systems/aquelarre/image/content/compendium/bannerCompetentiae.png",
+      "system": "aquelarre",
       "ownership": {
         "PLAYER": "OBSERVER",
         "ASSISTANT": "OWNER"
@@ -168,8 +168,8 @@
       "type": "Item",
       "name": "locations",
       "path": "packs/locations",
-      "banner": "systems/conventum/image/content/compendium/bannerLocis.png",
-      "system": "conventum",
+      "banner": "systems/aquelarre/image/content/compendium/bannerLocis.png",
+      "system": "aquelarre",
       "ownership": {
         "PLAYER": "OBSERVER",
         "ASSISTANT": "OWNER"
@@ -181,8 +181,8 @@
       "type": "Item",
       "name": "modes",
       "path": "packs/modes",
-      "banner": "systems/conventum/image/content/compendium/bannerModi.png",
-      "system": "conventum",
+      "banner": "systems/aquelarre/image/content/compendium/bannerModi.png",
+      "system": "aquelarre",
       "ownership": {
         "PLAYER": "OBSERVER",
         "ASSISTANT": "OWNER"
@@ -194,8 +194,8 @@
       "type": "Item",
       "name": "armor",
       "path": "packs/armor",
-      "banner": "systems/conventum/image/content/compendium/bannerArmis.png",
-      "system": "conventum",
+      "banner": "systems/aquelarre/image/content/compendium/bannerArmis.png",
+      "system": "aquelarre",
       "ownership": {
         "PLAYER": "OBSERVER",
         "ASSISTANT": "OWNER"
@@ -207,8 +207,8 @@
       "type": "Item",
       "name": "weapons",
       "path": "packs/weapons",
-      "banner": "systems/conventum/image/content/compendium/bannerArma.png",
-      "system": "conventum",
+      "banner": "systems/aquelarre/image/content/compendium/bannerArma.png",
+      "system": "aquelarre",
       "ownership": {
         "PLAYER": "OBSERVER",
         "ASSISTANT": "OWNER"
@@ -220,8 +220,8 @@
       "type": "Item",
       "name": "magic",
       "path": "packs/magic",
-      "banner": "systems/conventum/image/content/compendium/bannerArsMagica.png",
-      "system": "conventum",
+      "banner": "systems/aquelarre/image/content/compendium/bannerArsMagica.png",
+      "system": "aquelarre",
       "ownership": {
         "PLAYER": "OBSERVER",
         "ASSISTANT": "OWNER"
@@ -233,8 +233,8 @@
       "type": "Item",
       "name": "actions",
       "path": "packs/actions",
-      "banner": "systems/conventum/image/content/compendium/bannerActiones.png",
-      "system": "conventum",
+      "banner": "systems/aquelarre/image/content/compendium/bannerActiones.png",
+      "system": "aquelarre",
       "ownership": {
         "PLAYER": "OBSERVER",
         "ASSISTANT": "OWNER"
@@ -246,8 +246,8 @@
       "type": "Item",
       "name": "professions",
       "path": "packs/professions",
-      "banner": "systems/conventum/image/content/compendium/bannerOfficiorum.png",
-      "system": "conventum",
+      "banner": "systems/aquelarre/image/content/compendium/bannerOfficiorum.png",
+      "system": "aquelarre",
       "ownership": {
         "PLAYER": "OBSERVER",
         "ASSISTANT": "OWNER"
@@ -259,8 +259,8 @@
       "type": "RollTable",
       "name": "rolls",
       "path": "packs/rolls",
-      "banner": "systems/conventum/image/content/compendium/bannerRolls.png",
-      "system": "conventum",
+      "banner": "systems/aquelarre/image/content/compendium/bannerRolls.png",
+      "system": "aquelarre",
       "ownership": {
         "PLAYER": "OBSERVER",
         "ASSISTANT": "OWNER"
@@ -272,8 +272,8 @@
       "type": "Actor",
       "name": "bestiarium",
       "path": "packs/bestiarium",
-      "banner": "systems/conventum/image/content/compendium/bannerBestiarium.png",
-      "system": "conventum",
+      "banner": "systems/aquelarre/image/content/compendium/bannerBestiarium.png",
+      "system": "aquelarre",
       "ownership": {
         "PLAYER": "OBSERVER",
         "ASSISTANT": "OWNER"
@@ -282,7 +282,7 @@
     }
   ],
   "url": "https://github.com/cuervoforjador/conventum",
-  "manifest": "https://github.com/cuervoforjador/conventum/releases/download/v200/system.json",
-  "download": "https://github.com/cuervoforjador/conventum/releases/download/v200/system.zip",
+  "manifest": "https://github.com/cuervoforjador/conventum/releases/download/v201/system.json",
+  "download": "https://github.com/cuervoforjador/conventum/releases/download/v201/system.zip",
   "license": "LICENSE.txt"
 }

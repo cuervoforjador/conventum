@@ -16,8 +16,8 @@ export class HookActor {
         let myCustoConfig = {
             myFirstActorId: (myActors.length > 0) ? myActors[0].id : null,
             myFrame: ((myActors.length > 0) && (myActors[0].system.control.frame !== '')) ?
-                "/systems/conventum/image/frame/"+myActors[0].system.control.frame+"/macro.png" :
-                "/systems/conventum/image/frame/standard/macro.png"
+                "/systems/aquelarre/image/frame/"+myActors[0].system.control.frame+"/macro.png" :
+                "/systems/aquelarre/image/frame/standard/macro.png"
         };
         CONFIG.custo = myCustoConfig;
     }
@@ -55,7 +55,7 @@ export class HookActor {
      * @param {*} sheet 
      */
     static outFirePage(sheet) {
-        const sFrame = 'systems/conventum/image/frame/'+sheet.actor.system.control.frame+'/paper.png';
+        const sFrame = 'systems/aquelarre/image/frame/'+sheet.actor.system.control.frame+'/paper.png';
         $('#'+sheet.element[0].id+" .window-content ._imOnFire").remove();   
         $('#'+sheet.element[0].id+" form.codex").css({'background': 'url('+sFrame+')',
                                                       'z-index': 'initial'});            

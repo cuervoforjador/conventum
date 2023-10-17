@@ -5,11 +5,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Uncial+Antiqua&display=swap');
 @font-face {
   font-family: 'Augusta';
-  src: url(/systems/conventum/fonts/Augusta.ttf) format('truetype');
+  src: url(/systems/aquelarre/fonts/Augusta.ttf) format('truetype')!important;
 }
 @font-face {
   font-family: 'Augusta-Shadow';
-  src: url(/systems/conventum/fonts/Augusta-Shadow.ttf) format('truetype');
+  src: url(/systems/aquelarre/fonts/Augusta-Shadow.ttf) format('truetype')!important;
 }
 
   /*  font-family: 'MedievalSharp', cursive;  */
@@ -23,11 +23,12 @@
 /*  Root                                     */
 /* ----------------------------------------- */
 :root {
-  --font-aq: 'Almendra', sans-serif;
-  --font2-aq: 'Uncial Antiqua', cursive;
-  --font3-aq: 'Augusta';
-  --font4-aq: 'MedievalSharp', cursive;
-  --paper-aq: url(/systems/conventum/image/texture/paper.png);
-  --tile1-aq: url(/systems/conventum/image/texture/tile01.png);
-  --tile2-aq: url(/systems/conventum/image/texture/tile02.png);
+  --font-aq: 'Almendra', sans-serif!important;
+  --font2-aq: 'Uncial Antiqua', cursive!important;
+  --font3-aq: 'Almendra', sans-serif!important;
+  --font4-aq: 'MedievalSharp', cursive!important;
+  --paper-aq: url('/systems/aquelarre/image/texture/paper.png')!important;
+  --tile1-aq: url('/systems/aquelarre/image/texture/tile01.png')!important;
+  --tile2-aq: url('/systems/aquelarre/image/texture/tile02.png')!important;
+
 }

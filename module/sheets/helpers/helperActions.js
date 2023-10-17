@@ -50,7 +50,7 @@ export class helperActions {
 
             oActions.skillId = (oActions.action) ? oActions.action.system.skill.skill : '';
             oActions.skill = (oActions.showSkill) ? 
-                        game.packs.get('conventum.skills').get(oActions.action.system.skill.skill) :
+                        game.packs.get('aquelarre.skills').get(oActions.action.system.skill.skill) :
                         null;
 
             //Movements
@@ -105,7 +105,7 @@ export class helperActions {
      * @param {*} actor 
      */
     static async setLuck(actor) {
-        const modeLuck = Array.from(await game.packs.get('conventum.modes'))
+        const modeLuck = Array.from(await game.packs.get('aquelarre.modes'))
                                 .find(e => ( (e.system.control.world === actor.system.control.world)
                                           && (e.system.luck) ));
         if (!modeLuck) return;
@@ -163,7 +163,7 @@ export class helperActions {
      * @param {*} actor 
      */
     static async modesWithoutLuck(actor) {
-        const modeLuck = Array.from(await game.packs.get('conventum.modes'))
+        const modeLuck = Array.from(await game.packs.get('aquelarre.modes'))
                                 .find(e => ( (e.system.control.world === actor.system.control.world)
                                           && (e.system.luck) ));
         return actor.system.modes.filter(e => e !== modeLuck.id);        

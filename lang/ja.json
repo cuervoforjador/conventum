@@ -496,7 +496,7 @@
     "tour.Title":			"いらっしゃいませ",
     "tour.Description":			"コンベンタム プロジェクト (コブン)",
     "tour.Title01":			"アクエラーレ VTT へようこそ",
-    "tour.Content01":			"これは、FoundryVTT に適合した Aquelarre システムの非公式バージョンです。 </br><a href='https://github.com/cuervoforjador/conventum#aquelarre-conventum' target='_blank'>Aquelarre Forge</a> で詳細と詳細なドキュメントを参照できます。< /br></br>これは、独自のアクションとメカニズムを備えた<b>型破り</b>のシステムであるため、マニュアルとガイドを更新するプロジェクト ページを参照することを強くお勧めします。",
+    "tour.Content01":			"これは、FoundryVTT に適合した Aquelarre システムの非公式バージョンです。 </br><a href='https://github.com/cuervoforjador/aquelarre#aquelarre-aquelarre' target='_blank'>Aquelarre Forge</a> で詳細と詳細なドキュメントを参照できます。< /br></br>これは、独自のアクションとメカニズムを備えた<b>型破り</b>のシステムであるため、マニュアルとガイドを更新するプロジェクト ページを参照することを強くお勧めします。",
     "tour.Title02":			"重要！",
     "tour.Content02":			"このシステムは<b>最初のバージョン アルファ!</b> です。<br><br>プロジェクト ページでは、現在のステータスと保留中のポイント、進行状況、一連のリクエストと修正を確認できます。 。",
     "tour.Title03":			"概要",

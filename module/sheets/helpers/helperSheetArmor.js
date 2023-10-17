@@ -241,11 +241,11 @@ export class helperSheetArmor {
      */
     static async _buildHtmlInfoGarment(sLocation, item, actor, bBase) {
 
-        const oLocation = await game.packs.get('conventum.locations').get(sLocation);
+        const oLocation = await game.packs.get('aquelarre.locations').get(sLocation);
 
         const infoBox = $("ol.armorCloset li.infoGarment");
         $(infoBox.find("img")[0]).attr('src', (item) ? item.img 
-                                                     : "/systems/conventum/image/texture/paper.png");
+                                                     : "/systems/aquelarre/image/texture/paper.png");
         infoBox.find(".armorTitle").text(oLocation.name);
         infoBox.find(".armorName").text( (item) ? item.name : game.i18n.localize("common.noArmor") );
         infoBox.find(".armorWeight").text( (item) ? item.system.weight : "");
@@ -303,7 +303,7 @@ export class helperSheetArmor {
                                                             + item.system.penalty.movement + ', ';
             for (var s in item.system.penalty.skills) {
                 if (item.system.penalty.skills[s] !== '') {
-                    const oSkill = await game.packs.get('conventum.skills').get(s);
+                    const oSkill = await game.packs.get('aquelarre.skills').get(s);
                     sReturn += (oSkill) ? oSkill.name + ': ' 
                                               + item.system.penalty.skills[s] + ', ' : '';
                 }
@@ -325,7 +325,7 @@ export class helperSheetArmor {
         for (var e in item.system.location) {
             if (item.system.location[e] &&
                 item.system.location[e].apply) {
-                const oLocation = await game.packs.get('conventum.locations').get(e);
+                const oLocation = await game.packs.get('aquelarre.locations').get(e);
                 sReturn += oLocation.name + ', ';
             }
         }    

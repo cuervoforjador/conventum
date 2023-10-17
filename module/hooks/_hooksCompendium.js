@@ -7,30 +7,30 @@ import { mainUtils } from "../mainUtils.js";
 export class HookCompendium {
 
     static _compendiums = [
-        'conventum.worlds',
-        'conventum.kingdoms',
-        'conventum.societies',
-        'conventum.languages',
-        'conventum.cultures',
-        'conventum.stratums',
-        'conventum.status',
-        'conventum.skills',
-        'conventum.locations',
-        'conventum.modes',
-        'conventum.armor',
-        'conventum.weapons',
-        'conventum.magic',
-        'conventum.actions',
-        "conventum.professions"
+        'aquelarre.worlds',
+        'aquelarre.kingdoms',
+        'aquelarre.societies',
+        'aquelarre.languages',
+        'aquelarre.cultures',
+        'aquelarre.stratums',
+        'aquelarre.status',
+        'aquelarre.skills',
+        'aquelarre.locations',
+        'aquelarre.modes',
+        'aquelarre.armor',
+        'aquelarre.weapons',
+        'aquelarre.magic',
+        'aquelarre.actions',
+        "aquelarre.professions"
     ];
 
     static _frequentCompendiums = [
-        'conventum.worlds',
-        'conventum.languages',
-        'conventum.skills',
-        'conventum.locations',
-        'conventum.modes',
-        'conventum.actions'
+        'aquelarre.worlds',
+        'aquelarre.languages',
+        'aquelarre.skills',
+        'aquelarre.locations',
+        'aquelarre.modes',
+        'aquelarre.actions'
     ];
 
     /**
@@ -73,11 +73,11 @@ export class HookCompendium {
                 $(e0).find('li.compendium-pack').each(function(i,e) {
                     $(e).addClass('_custoLiCompendium');
                     $(e).addClass('_v10');
-                    const sUrl = '/systems/conventum/image/content/compendium/banner'+
+                    const sUrl = '/systems/aquelarre/image/content/compendium/banner'+
                                                         $(e).find('h4 a').text().trim()+'.png';
                     $(e).css({'background-image': 'url('+sUrl+')'});
                     mainUtils.ifNotExists(sUrl, function() {
-                        $(e).css({'background-image': 'url(/systems/conventum/image/content/compendium/bannerStandard.png'});
+                        $(e).css({'background-image': 'url(/systems/aquelarre/image/content/compendium/bannerStandard.png'});
                     }.bind(this));
                 });
             });
@@ -101,7 +101,7 @@ export class HookCompendium {
             compendium._element.find(sHeaderDiv).addClass('_custoHeaderCompendium');
             compendium._element.find(sHeaderDiv).addClass('_v10');
             
-            const sUrl = '/systems/conventum/image/content/compendium/banner'+
+            const sUrl = '/systems/aquelarre/image/content/compendium/banner'+
                             compendium._element.find('h4.window-title').text().split('[')[0].trim()+'.png';
 
             compendium._element.find(sHeaderDiv).prepend(
@@ -116,14 +116,14 @@ export class HookCompendium {
          
             mainUtils.ifNotExists(sUrl, function() {
                 compendium._element.find(sHeaderDiv+' .header-banner').css({'background-image': 
-                                'url(/systems/conventum/image/content/compendium/bannerStandard.png'});
+                                'url(/systems/aquelarre/image/content/compendium/bannerStandard.png'});
             }.bind(this));
 
             compendium._element.find('.header-banner').addClass('_v10');
              */
         }
 
-        const mWorlds = await game.packs.get("conventum.worlds").getDocuments();
+        const mWorlds = await game.packs.get("aquelarre.worlds").getDocuments();
         const sPack =  compendium._element.find('.compendium').data('pack');
         const mDocs = await game.packs.get(sPack).getDocuments();
 
@@ -175,29 +175,29 @@ export class HookCompendium {
      */
     static async _addFilters(sPack, compendium, sHeaderDiv) {
 
-        if ( (sPack === 'conventum.kingdoms') ||
-             (sPack === 'conventum.societies') ||
-             (sPack === 'conventum.languages') ||
-             (sPack === 'conventum.cultures') ||
-             (sPack === 'conventum.stratums') ||
-             (sPack === 'conventum.locations') ||
-             (sPack === 'conventum.skills') ||
-             (sPack === 'conventum.status') ||
-             (sPack === 'conventum.weapons') ||
-             (sPack === 'conventum.magic') ) {
+        if ( (sPack === 'aquelarre.kingdoms') ||
+             (sPack === 'aquelarre.societies') ||
+             (sPack === 'aquelarre.languages') ||
+             (sPack === 'aquelarre.cultures') ||
+             (sPack === 'aquelarre.stratums') ||
+             (sPack === 'aquelarre.locations') ||
+             (sPack === 'aquelarre.skills') ||
+             (sPack === 'aquelarre.status') ||
+             (sPack === 'aquelarre.weapons') ||
+             (sPack === 'aquelarre.magic') ) {
             const mDocs = await this._getDocuments('worlds', '');
             compendium._element.find(sHeaderDiv).append(this._createSelect("world", "common.world", mDocs));
         }   
-        if ( (sPack === 'conventum.cultures')  ||
-             (sPack === 'conventum.stratums') ) {
+        if ( (sPack === 'aquelarre.cultures')  ||
+             (sPack === 'aquelarre.stratums') ) {
             const mDocs = await this._getDocuments('societies', '');
             compendium._element.find(sHeaderDiv).append(this._createSelect("society", "common.society", mDocs));
         }             
-        if (sPack === 'conventum.status') {
+        if (sPack === 'aquelarre.status') {
             const mDocs = await this._getDocuments('stratums', '');
             compendium._element.find(sHeaderDiv).append(this._createSelect("stratum", "common.stratum", mDocs));
         }
-        if (sPack === 'conventum.locations') {
+        if (sPack === 'aquelarre.locations') {
             let mDocs = [];
             game.template.Actor.types.map(e => {
                 mDocs.push({
@@ -208,12 +208,12 @@ export class HookCompendium {
             });            
             compendium._element.find(sHeaderDiv).append(this._createSelect("type", "common.type", mDocs, '_infoType'));
         }           
-        if (sPack === 'conventum.weapons') {
+        if (sPack === 'aquelarre.weapons') {
             let mDocs = await this._getDocuments('skills', '');
             mDocs = mDocs.filter(e => e.system.combat.combat);
             compendium._element.find(sHeaderDiv).append(this._createSelect("combatSkill", "common.combatSkill", mDocs));
         }  
-        if (sPack === 'conventum.skills') {
+        if (sPack === 'aquelarre.skills') {
             let mDocs = [{
                 id: 'human',
                 name: game.i18n.localize("common.human"),
@@ -226,7 +226,7 @@ export class HookCompendium {
             compendium._element.find(sHeaderDiv).append(this._createSelect("type", "common.type", mDocs, '_infoCriature'));
         }
 
-        if (sPack === 'conventum.magic') {
+        if (sPack === 'aquelarre.magic') {
             let mDocs1 = [];
             CONFIG.ExtendConfig.spellShapes.map(e => {
                 mDocs1.push({
@@ -257,19 +257,19 @@ export class HookCompendium {
     * @param {object} oItemDoc
      */
     static _addExtraInfo(sPack, oElement, oItemDoc) {
-        if ( (sPack === 'conventum.cultures')  ||
-             (sPack === 'conventum.stratums') ) {
-            this._addDivExtraInfo("conventum.societies", oElement,
+        if ( (sPack === 'aquelarre.cultures')  ||
+             (sPack === 'aquelarre.stratums') ) {
+            this._addDivExtraInfo("aquelarre.societies", oElement,
                                   oItemDoc.system.backend.society);          
         }        
-        if (sPack === 'conventum.status') {          
-            this._addDivExtraInfo("conventum.stratums", oElement,
+        if (sPack === 'aquelarre.status') {          
+            this._addDivExtraInfo("aquelarre.stratums", oElement,
                                     oItemDoc.system.backend.stratum);                                                                
         }   
-        if (sPack === 'conventum.professions') {          
+        if (sPack === 'aquelarre.professions') {          
             this._addDivExtraInfoString(oElement, oItemDoc.system.index, '_index');                                                              
         }         
-        if (sPack === 'conventum.skills') {
+        if (sPack === 'aquelarre.skills') {
             this._addDivExtraInfoString(oElement,
                 game.i18n.localize('characteristic.'+oItemDoc.system.characteristic.primary)); 
             
@@ -280,18 +280,18 @@ export class HookCompendium {
             this._addDivExtraInfoString(oElement,
                 game.i18n.localize('common.type')+': '+sType, '_infoCriature', sValue);                
         }
-        if (sPack === 'conventum.locations') {  
+        if (sPack === 'aquelarre.locations') {  
             const sType = game.i18n.localize("template."+oItemDoc.system.actorType);
             this._addDivExtraInfoString(oElement,
                 game.i18n.localize('common.type')+': '+sType, '_infoType', oItemDoc.system.actorType);                                                                                               
         }         
-        if (sPack === 'conventum.weapons') {
-            this._addDivExtraInfo("conventum.skills", oElement,
+        if (sPack === 'aquelarre.weapons') {
+            this._addDivExtraInfo("aquelarre.skills", oElement,
                                     oItemDoc.system.combatSkill);    
             this._addDivExtraInfoString(oElement,
                 game.i18n.localize('common.damage')+': '+oItemDoc.system.damage, '_infoDamage');                                                                                                  
         }  
-        if (sPack === 'conventum.magic') {  
+        if (sPack === 'aquelarre.magic') {  
             const sType = game.i18n.localize("common."+oItemDoc.type);
             this._addDivExtraInfoString(oElement,
                 game.i18n.localize('common.type')+': '+sType, '_infoType', oItemDoc.type);                                         
@@ -349,8 +349,8 @@ export class HookCompendium {
      * @returns 
      */
     static async _getDocuments(sPack, sWorld) {
-        if (!game.packs.get("conventum."+sPack)) return [];
-        const mDocs = await game.packs.get("conventum."+sPack).getDocuments();
+        if (!game.packs.get("aquelarre."+sPack)) return [];
+        const mDocs = await game.packs.get("aquelarre."+sPack).getDocuments();
         if (!mDocs) return [];
 
         let mReturn = [];

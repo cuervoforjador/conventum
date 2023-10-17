@@ -609,9 +609,9 @@
           "fontFamily": "'Almendra', sans-serif",
           "fontFamily2": "'Uncial Antiqua', cursive",
           "fontFamily3": "'Augusta'",
-          "paper": "url(/systems/conventum/image/texture/paper.png)",
-          "tile1": "url(/systems/conventum/image/texture/tile01.png)",
-          "tile2": "url(/systems/conventum/image/texture/tile02.png)"
+          "paper": "url(/systems/aquelarre/image/texture/paper.png)",
+          "tile1": "url(/systems/aquelarre/image/texture/tile01.png)",
+          "tile2": "url(/systems/aquelarre/image/texture/tile02.png)"
         }
       }
     },

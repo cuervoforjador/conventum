@@ -20,7 +20,7 @@
     font-size: 12px!important;    
 }
 section.window-content {
-    background: url(/systems/conventum/image/texture/paper.png)!important;
+    background: url(/systems/aquelarre/image/texture/paper.png)!important;
     background-repeat: repeat!important;
     background-size: 250px!important;
     border: 6px solid #251d1d!important;
@@ -43,21 +43,21 @@ form .form-group label::first-letter {
 
 /* Menus... */
 li.gameIconRaven {
-    background: url(/systems/conventum/image/icons/raven.png)!important;
+    background: url(/systems/aquelarre/image/icons/raven.png)!important;
     background-size: 32px!important;
     background-repeat: no-repeat no-repeat!important;
     background-position-y: 2px!important;      
     background-position-x: 0px!important;      
 }
 li.gameIconCowled {
-    background: url(/systems/conventum/image/icons/cowled.png)!important;
+    background: url(/systems/aquelarre/image/icons/cowled.png)!important;
     background-size: 32px!important;
     background-repeat: no-repeat no-repeat!important;
     background-position-y: 2px!important;        
     background-position-x: 2px!important;    
 }
 li.gameIconD10 {
-    background: url(/systems/conventum/image/icons/d10.png)!important;
+    background: url(/systems/aquelarre/image/icons/d10.png)!important;
     background-size: 32px!important;
     background-repeat: no-repeat no-repeat!important;
     background-position-y: 2px!important;    
@@ -65,21 +65,21 @@ li.gameIconD10 {
 }
 li.gameIconActions, 
 .buttonAction .gameIconActions {
-    background: url(/systems/conventum/image/icons/action.png)!important;
+    background: url(/systems/aquelarre/image/icons/action.png)!important;
     background-size: 32px 32px!important;
     background-repeat: no-repeat no-repeat!important;
     background-position-y: 1px!important;    
     background-position-x: 2px!important;    
 }
 li.gameIconSpells {
-    background: url(/systems/conventum/image/icons/spell.png)!important;
+    background: url(/systems/aquelarre/image/icons/spell.png)!important;
     background-size: 28px 28px!important;
     background-repeat: no-repeat no-repeat!important;
     background-position-y: 3px!important;   
     background-position-x: 4px!important;    
 }
 li.gameIconCombat {
-    background: url(/systems/conventum/image/icons/combat.png)!important;
+    background: url(/systems/aquelarre/image/icons/combat.png)!important;
     background-size: 28px 28px!important;
     background-repeat: no-repeat no-repeat!important;
     background-position-y: 3px!important;   
@@ -87,7 +87,7 @@ li.gameIconCombat {
 }
 li.gameIconEncounter,
 .buttonAction .gameIconEncounter {
-    background: url(/systems/conventum/image/icons/tasks.png)!important;
+    background: url(/systems/aquelarre/image/icons/tasks.png)!important;
     background-size: 45px 42px!important;
     background-repeat: no-repeat no-repeat!important;
     background-position-y: -3px!important;
@@ -164,7 +164,7 @@ hbox._showMore:hover {
 ._good {
     width: 25px;
     height: 20px;
-    background: url(/systems/conventum/image/texture/ok.png);
+    background: url(/systems/aquelarre/image/texture/ok.png);
     background-size: 18px 17px;
     margin-bottom: -6px;
     margin-left: 3px;
@@ -173,7 +173,7 @@ hbox._showMore:hover {
 ._bad {
     width: 25px;
     height: 20px;
-    background: url(/systems/conventum/image/texture/noOk.png);
+    background: url(/systems/aquelarre/image/texture/noOk.png);
     background-size: 18px 17px;
     margin-bottom: -6px;
     margin-left: 3px;
@@ -264,7 +264,7 @@ frameContent {
     z-index: 10;
 }
 .frameShadow {
-    background: url(/systems/conventum/image/texture/shadow.png);
+    background: url(/systems/aquelarre/image/texture/shadow.png);
     background-size: 100% 100%;
     width: 100%;
     height: calc( 100% - 30px);
@@ -327,7 +327,7 @@ frameContent {
     height: 70px;     
 }
 .frameShadow0 {
-    background: url(/systems/conventum/image/texture/shadow.png);
+    background: url(/systems/aquelarre/image/texture/shadow.png);
     background-size: 100% 100%;
     width: 100%;
     height: 100%;
@@ -413,7 +413,7 @@ frameContent {
 }
 #hotbar nav#action-bar {
     /**
-    background: url(/systems/conventum/image/texture/smallpaper.png)!important;
+    background: url(/systems/aquelarre/image/texture/smallpaper.png)!important;
     background-size: 81px 74px!important;
     padding-top: 3px;
     height: 65px;
@@ -453,7 +453,7 @@ li.macro.active._aqMacro:hover {
     border: 1px solid #00000082;
 }
 #hotbar-page-controls {
-    /* background: url(/systems/conventum/image/texture/tile01.png)!important; */
+    /* background: url(/systems/aquelarre/image/texture/tile01.png)!important; */
     /* background-size: 115px 84px!important; */
     /* border: 1px solid #1111117d!important; */
     background: none!important;

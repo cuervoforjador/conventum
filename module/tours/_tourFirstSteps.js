@@ -38,7 +38,7 @@ export class aqFirstSteps extends aqTours {
             ]
         }, {
             id: "firstSteps2",
-            namespace: "conventum",
+            namespace: "aquelarre",
             stepIndex: -1
         }));
     }

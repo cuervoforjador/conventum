@@ -28,7 +28,7 @@
 }
 .crest ._flagRelieve {
     margin-bottom: -50px;
-    background: url(/systems/conventum/image/texture/flag.jpg);
+    background: url(/systems/aquelarre/image/texture/flag.jpg);
     background-size: 75px 50px;
     width: 75px;
     height: 50px;
@@ -37,7 +37,7 @@
     border: 1px solid #000000bf;
 }
 .crest ._flagShadow {
-    background: url(/systems/conventum/image/texture/shadow.png);
+    background: url(/systems/aquelarre/image/texture/shadow.png);
     background-size: 75px 50px;
     margin-top: -54px;
     margin-left: 0px;
@@ -48,7 +48,7 @@
 }
 inkDetail.inkCorner {
     box-sizing: initial;
-    background: url(/systems/conventum/image/texture/inkCorner.png);
+    background: url(/systems/aquelarre/image/texture/inkCorner.png);
     background-size: 183px 190px;
     width: 165px;
     height: 165px;
@@ -63,7 +63,7 @@ inkDetail.inkCorner {
 }
 inkDetail.inkSubline {
     box-sizing: initial;
-    background: url(/systems/conventum/image/texture/inkSubline.png);
+    background: url(/systems/aquelarre/image/texture/inkSubline.png);
     background-size: 126px 20px;
     width: 126px;
     height: 20px;
@@ -146,6 +146,7 @@ input._border {
     padding-top: 7px;
     height: 49px;
     font-family: var(--font3-aq);
+    text-transform: uppercase;
     border-bottom: 5px solid #9f4436!important;
     color: #333;
     background: #d6a3861c!important;
@@ -2418,7 +2419,7 @@ label._value:hover {
     font-size: 10px!important;
 }
 ._imOnFire {
-    background: url(/systems/conventum/image/texture/fire.gif);
+    background: url(/systems/aquelarre/image/texture/fire.gif);
     width: calc(100% - 25px);
     height: calc(100% - 48px);
     display: block;
@@ -2794,7 +2795,7 @@ img._quickButton:hover {
     left: 20px;
     width: calc(100% - 40px);
     height: calc(100% - 107px);
-    background: url(/systems/conventum/image/texture/paper.png)!important;
+    background: url(/systems/aquelarre/image/texture/paper.png)!important;
     border: 4px solid #333;
     flex-wrap: wrap;
     align-content: flex-start;

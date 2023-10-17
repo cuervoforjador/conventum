@@ -173,7 +173,7 @@ export class HookEvents {
                 $(e).remove();
             }.bind(this));
             const sType = $( "._actTargetType option:selected" ).val();
-            Array.from(game.packs.get("conventum.locations")).filter(e => e.system.actorType === sType)
+            Array.from(game.packs.get("aquelarre.locations")).filter(e => e.system.actorType === sType)
             .forEach(oLocation => {
                 $('._actTargetLocation').append('<option value="'+oLocation.id+'">'+oLocation.name+'</option>');
             });            
@@ -250,7 +250,7 @@ export class HookEvents {
                     if (HookActor.dragOverMount(sOverId, sDragId)) {
                         event.originalEvent.dataTransfer.dropEffect = 'HOLA';
                         const img = new Image(100, 100);
-                        img.src = "/systems/conventum/image/content/modes/enmontura.png";                    
+                        img.src = "/systems/aquelarre/image/content/modes/enmontura.png";                    
                         event.originalEvent.dataTransfer.setDragImage(img, 10, 10);
                     }
                 }
@@ -362,7 +362,7 @@ export class HookEvents {
      * @param {*} langId 
      */
     static async _showSkill(skillId) {
-        const oDoc = (await game.packs.get('conventum.skills').getDocuments())
+        const oDoc = (await game.packs.get('aquelarre.skills').getDocuments())
                                       .filter(e => e.id === skillId);
         if (!oDoc || (oDoc.length === 0)) return;
         oDoc[0].sheet.render(true, {

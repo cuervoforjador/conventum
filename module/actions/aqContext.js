@@ -504,7 +504,7 @@ export class aqContext {
      */
     async setWorld(sWorld) {
         await this._preparePacks();
-        const world = await game.packs.get('conventum.worlds').getDocument(sWorld);
+        const world = await game.packs.get('aquelarre.worlds').getDocument(sWorld);
 
         this._worldId = world.id;
         this._worldConfig = world.system.config;        
@@ -948,7 +948,7 @@ export class aqContext {
      * _evalLuck
      */
     async _evalLuck() {
-        const modeLuck = Array.from(await game.packs.get("conventum.modes"))
+        const modeLuck = Array.from(await game.packs.get("aquelarre.modes"))
                               .find(e => ( (e.system.control.world === this._actor.system.control.world)
                                         && (e.system.luck)) );
         if (!modeLuck) return;
@@ -1043,7 +1043,7 @@ export class aqContext {
             sToFind = sToFind.replace('.png">', '.png" />');
             sToFind = sToFind.replaceAll('=""', '');           
             let sShield = sToFind+'<div class="_shield">'+
-                '<img src="/systems/conventum/image/texture/shield.png" '+
+                '<img src="/systems/aquelarre/image/texture/shield.png" '+
                     'title="'+game.i18n.localize("info.damageToShield")+'"/>'+
             '</div>';
             let newContent = content.replace(sToFind, sShield);
@@ -1062,7 +1062,7 @@ export class aqContext {
         if (!this._rollSuccess) return;
         if (this._noAction) return;
 
-        const mModes = Array.from(await game.packs.get('conventum.modes'))
+        const mModes = Array.from(await game.packs.get('aquelarre.modes'))
                             .filter(e => (e.system.control.world === this._worldId));
         
         for (const s in this._action.system.modes) {
@@ -1089,10 +1089,10 @@ export class aqContext {
      * _preparePacks
      */
     async _preparePacks() {
-        await game.packs.get('conventum.worlds').getDocuments();
-        await game.packs.get('conventum.skills').getDocuments();
-        await game.packs.get('conventum.modes').getDocuments();
-        await game.packs.get('conventum.locations').getDocuments();
+        await game.packs.get('aquelarre.worlds').getDocuments();
+        await game.packs.get('aquelarre.skills').getDocuments();
+        await game.packs.get('aquelarre.modes').getDocuments();
+        await game.packs.get('aquelarre.locations').getDocuments();
     }
 
     /**
@@ -1103,7 +1103,7 @@ export class aqContext {
 
         //Direct Skill
         if (this._isSkill) {
-            this._skill = game.packs.get('conventum.skills').get(this._action.system.skill.skill);
+            this._skill = game.packs.get('aquelarre.skills').get(this._action.system.skill.skill);
             this.msgHistory("common.skill", this._skill.name);
             return;
         }
@@ -1119,7 +1119,7 @@ export class aqContext {
                     this._charAsSkill = true;
                     this.msgHistory("common.skill", game.i18n.localize('characteristic.'+this._spell.system.percent.secondary));                    
                 } else {
-                    this._skill = game.packs.get('conventum.skills').get(this._spell.system.percent.skill);
+                    this._skill = game.packs.get('aquelarre.skills').get(this._spell.system.percent.skill);
                     this.msgHistory("common.skill", this._skill.name);
                 }
             }
@@ -1130,13 +1130,13 @@ export class aqContext {
         //Skill from Weapon
         if ((this._weapon.system.combatSkill) && 
             (this._weapon.system.combatSkill !== ''))
-        this._skill = game.packs.get('conventum.skills').get(this._weapon.system.combatSkill);
+        this._skill = game.packs.get('aquelarre.skills').get(this._weapon.system.combatSkill);
 
         //Skill from Action
         if ((this._action) &&
             (this._action.system.skill.skillAsCombat) &&
             (this._action.system.skill.skill !== ''))
-        this._skill = game.packs.get('conventum.skills').get(this._action.system.skill.skill);
+        this._skill = game.packs.get('aquelarre.skills').get(this._action.system.skill.skill);
 
         //From Opposed roll !!!
         if ((this._action) &&
@@ -1144,7 +1144,7 @@ export class aqContext {
 
             //Skills
             if (this._action.system.rolls.actor.skill !== '')
-            this._skill = game.packs.get('conventum.skills').get(this._action.system.rolls.actor.skill);
+            this._skill = game.packs.get('aquelarre.skills').get(this._action.system.rolls.actor.skill);
 
             //Characterists
             if (this._action.system.rolls.actor.primaryChar !== '') {
@@ -1225,7 +1225,7 @@ export class aqContext {
      */
     _getPercentModesPenal() {
         this._actor.system.modes.map(sMode => {
-            const mode = game.packs.get("conventum.modes").get(sMode);
+            const mode = game.packs.get("aquelarre.modes").get(sMode);
             if ((mode.system.config.combatSkill.apply) &&
                 (mode.system.config.combatSkill.mod) &&
                 (mode.system.config.combatSkill.mod !== '')) {
@@ -1371,7 +1371,7 @@ export class aqContext {
      */
     _getModesMulty() {
         this._actor.system.modes.map(sMode => {
-            const mode = game.packs.get("conventum.modes").get(sMode);
+            const mode = game.packs.get("aquelarre.modes").get(sMode);
             if ((mode.system.config.combatSkill.apply) &&
                 (mode.system.config.combatSkill.mult) &&
                 (mode.system.config.combatSkill.mult !== 1) &&
@@ -1511,7 +1511,7 @@ export class aqContext {
         if ((this._noCombat) || (this._defensive)) return;
 
         this._actor.system.modes.map(sMode => {
-            const mode = game.packs.get("conventum.modes").get(sMode);
+            const mode = game.packs.get("aquelarre.modes").get(sMode);
             if ((mode.system.config.damage.apply) &&
                 (mode.system.config.damage.mult) &&
                 (mode.system.config.damage.mult !== '')) {
@@ -1558,7 +1558,7 @@ export class aqContext {
 
         //Modes
         this._actor.system.modes.map(sMode => {
-            const mode = game.packs.get("conventum.modes").get(sMode);
+            const mode = game.packs.get("aquelarre.modes").get(sMode);
             if ((mode.system.config.damage.apply) &&
                 (mode.system.config.damage.mod) &&
                 (mode.system.config.damage.mod !== '')) {
@@ -1692,7 +1692,7 @@ export class aqContext {
      */
     async _removeModes() {
         this._actor.system.modes.map(sMode => {
-            const mode = game.packs.get("conventum.modes").get(sMode);
+            const mode = game.packs.get("aquelarre.modes").get(sMode);
             if (!mode.system.permanent) {
                 helperActions.removeMode(this._actor, mode);              
             }
@@ -2038,7 +2038,7 @@ export class aqContext {
             img = this._weapon.img;
 
         if (this._useSpell) { 
-            img = "/systems/conventum/image/content/skills/magic.png";
+            img = "/systems/aquelarre/image/content/skills/magic.png";
         }
 
         return  '<div class="_Img">'+
@@ -2309,7 +2309,7 @@ export class aqContext {
                                 ' data-actorid="'+this._actor.id+'" '+
                                 ' data-tokenid="'+this._actor.tokenId+'" '+
                                 ' data-percent="'+this._oppoRolls.actor.percent+'">'+
-                        '<img src="/systems/conventum/image/texture/dice.png">'+
+                        '<img src="/systems/aquelarre/image/texture/dice.png">'+
                         '<div class="_name">'+this._oppoRolls.actor.percent+'</div>'+
                     '</a>'+ 
                 '</div>'+                
@@ -2325,7 +2325,7 @@ export class aqContext {
                                 ' data-actorid="'+enemy.id+'" '+
                                 ' data-tokenid="'+enemy.tokenId+'" '+
                                 ' data-percent="'+this._oppoRolls.enemy.percent+'">'+
-                        '<img src="/systems/conventum/image/texture/dice.png">'+
+                        '<img src="/systems/aquelarre/image/texture/dice.png">'+
                         '<div class="_name">'+this._oppoRolls.enemy.percent+'</div>'+
                     '</a>'+                     
                 '</div>'+                            
@@ -2380,7 +2380,7 @@ export class aqContext {
                                         ' data-locationid="'+this._locationId+'" '+
                                         ' data-actionid="'+ ((this._action) ? this._action.id : '')+'" '+
                                         ' data-damage="'+((b2weapon) ? this._damage2 : this._damage)+'">'+
-                    '<img src="/systems/conventum/image/texture/dice.png">'+
+                    '<img src="/systems/aquelarre/image/texture/dice.png">'+
                     '<div class="_name">'+((b2weapon) ? this._damage2 : this._damage)+'</div>'+
                     '</a>'+         
                 '</div>';        
@@ -2636,7 +2636,7 @@ export class aqContext {
 
             //From Modes
             this._actor.system.modes.map(sMode => {
-                const mode = game.packs.get("conventum.modes").get(sMode);
+                const mode = game.packs.get("aquelarre.modes").get(sMode);
                 if (mode.system.config.location.shield) {
                     bToShield = true;      
                     this._damageToShield = true;         
@@ -2654,7 +2654,7 @@ export class aqContext {
         //Location formula from Modes
         let damageFormula = '1d10';
         this._actor.system.modes.map(sMode => {
-            const mode = game.packs.get("conventum.modes").get(sMode);
+            const mode = game.packs.get("aquelarre.modes").get(sMode);
             if (mode.system.config.location.formula !== '') {
                 damageFormula =  mode.system.config.location.formula;
             }
@@ -2665,7 +2665,9 @@ export class aqContext {
         if (!targetData.location) return;
         let location = targetData.location;
         let modeLocation = await aqActions.getModeLocation(target);
-        if (modeLocation !== '') location = modeLocation;
+        if ((modeLocation) && (modeLocation !== undefined) && (modeLocation !== '')) 
+            location = modeLocation;
+
         
         //No Damage...
         let noDamage = (this._noAction) ? false : (this._action.system.damage.noDamage);
@@ -2803,7 +2805,7 @@ export class aqContext {
         let damageXendurance = false;
         if ((!this._noAction) && (this._action.system.damage.damageXendurance) && 
             (!bToShield) && (!this._noDamageXendurance)) {
-            const stunMode = Array.from(await game.packs.get('conventum.modes'))
+            const stunMode = Array.from(await game.packs.get('aquelarre.modes'))
                                                         .filter(e => e.system.stun)[0];            
             characteristicsUpdate.secondary.hp.value = 
                                             target.system.characteristics.secondary.hp.value;
@@ -2860,7 +2862,7 @@ export class aqContext {
      * @param {*} actorType 
      */
     async _getMapLocations(actorType) {
-        const packLocations = await game.packs.get('conventum.locations');
+        const packLocations = await game.packs.get('aquelarre.locations');
         const mapLocations = await packLocations.getDocuments();
         return mapLocations.filter(e => (e.system.control.world === this._worldId) 
                                      && (e.system.actorType === actorType));

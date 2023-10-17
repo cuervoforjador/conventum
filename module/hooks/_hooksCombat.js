@@ -243,7 +243,7 @@ export class HookCombat {
             const newItem = await Item.create([{
                                         name: game.i18n.localize("common.encounter"),
                                         type: 'actionPool',
-                                        img: 'systems/conventum/image/texture/encounter.png',
+                                        img: 'systems/aquelarre/image/texture/encounter.png',
                                         system: {
                                             combat: activeCombat._id
                                         },

@@ -20,7 +20,7 @@ export class helperSheetHuman {
 
     //Actor without World... -> First World
     if (systemData.control.world === "") {
-      const mWorlds = await game.packs.get("conventum.worlds").getDocuments();
+      const mWorlds = await game.packs.get("aquelarre.worlds").getDocuments();
       systemData.control.world = mWorlds[0].id;
     }
 
@@ -56,11 +56,11 @@ export class helperSheetHuman {
   static async getBioBackground(systemData, backend) {
 
     const oProfession = (systemData.bio.profession !== "") ?
-                            await game.packs.get("conventum.professions")
+                            await game.packs.get("aquelarre.professions")
                                             .getDocument(systemData.bio.profession) : null;    
 
     const oParentProfession = (systemData.bio.parentProfession !== "") ?
-                          await game.packs.get("conventum.professions")
+                          await game.packs.get("aquelarre.professions")
                                           .getDocument(systemData.bio.parentProfession) : null;
 
     return {
@@ -86,27 +86,27 @@ export class helperSheetHuman {
     }
 
     const oKingdom = (systemData.bio.kingdom !== "") ?
-                            await game.packs.get("conventum.kingdoms")
+                            await game.packs.get("aquelarre.kingdoms")
                                             .getDocument(systemData.bio.kingdom) : null;
 
     const oCulture = (systemData.bio.culture !== "") ?
-                            await game.packs.get("conventum.cultures")
+                            await game.packs.get("aquelarre.cultures")
                                             .getDocument(systemData.bio.culture) : null;                                            
 
     const oStratum = (systemData.bio.stratum !== "") ?
-                            await game.packs.get("conventum.stratums")
+                            await game.packs.get("aquelarre.stratums")
                                             .getDocument(systemData.bio.stratum) : null;  
 
     const oStatus = (systemData.bio.status !== "") ?
-                            await game.packs.get("conventum.status")
+                            await game.packs.get("aquelarre.status")
                                             .getDocument(systemData.bio.status) : null;  
 
     const oProfession = (systemData.bio.profession !== "") ?
-                            await game.packs.get("conventum.professions")
+                            await game.packs.get("aquelarre.professions")
                                             .getDocument(systemData.bio.profession) : null;
 
     const oParentProfession = (systemData.bio.parentProfession !== "") ?
-                            await game.packs.get("conventum.professions")
+                            await game.packs.get("aquelarre.professions")
                                             .getDocument(systemData.bio.parentProfession) : null;
 
     const skillLanguage = backend.skills.find(e => e.system.languages.apply);
@@ -201,7 +201,7 @@ export class helperSheetHuman {
 
     //Forbidden items...
     for (const s of CONFIG.ExtendConfig.noHumanItems) {
-      const pack = await game.packs.get('conventum.'+s);
+      const pack = await game.packs.get('aquelarre.'+s);
       if (!pack) continue;
       if (Array.from(pack).length < 1) continue;
       const sType = Array.from(pack)[0].type;
@@ -213,7 +213,7 @@ export class helperSheetHuman {
 
     //Initial actions...
     if (actor.type === 'human') {
-      const actionsPack = game.packs.get('conventum.actions');
+      const actionsPack = game.packs.get('aquelarre.actions');
       const mActorActions = Array.from(actor.items).filter(e => e.type === 'action');
 
       //Adding Action...
@@ -307,17 +307,17 @@ export class helperSheetHuman {
   static async getSkills(actor, context) {
 
     const profession = (context.systemData.bio.profession !== "") ?
-              await game.packs.get("conventum.professions")
+              await game.packs.get("aquelarre.professions")
                               .getDocument(context.systemData.bio.profession) : null;
 
     const parentProfession = (context.systemData.bio.parentProfession !== "") ?
-              await game.packs.get("conventum.professions")
+              await game.packs.get("aquelarre.professions")
                               .getDocument(context.systemData.bio.parentProfession) : null;
 
     let mModes = [];
     for (let i = 0; i <= actor.system.modes.length; i++) {
       if (actor.system.modes[i] === undefined) continue;
-      const oMode = await game.packs.get('conventum.modes')
+      const oMode = await game.packs.get('aquelarre.modes')
                                     .getDocument(actor.system.modes[i]);
       mModes.push(oMode);
     }
@@ -517,11 +517,11 @@ export class helperSheetHuman {
      */
   static async getLanguages(actor, context) {
 
-    await game.packs.get('conventum.cultures').getDocuments();
-    const myCulture = game.packs.get('conventum.cultures').get(context.systemData.bio.culture);
+    await game.packs.get('aquelarre.cultures').getDocuments();
+    const myCulture = game.packs.get('aquelarre.cultures').get(context.systemData.bio.culture);
 
     const oProfession = (context.systemData.bio.profession !== "") ?
-                            await game.packs.get("conventum.professions")
+                            await game.packs.get("aquelarre.professions")
                                             .getDocument(context.systemData.bio.profession) : null; 
     const skillLanguage = context.backend.skills.find(e => e.system.languages.apply);
 
@@ -683,12 +683,12 @@ export class helperSheetHuman {
    */
   static async getModes(actor, context) {
     const sWorld = actor.system.control.world;
-    const oWorld = await game.packs.get('conventum.worlds').getDocument(sWorld);
+    const oWorld = await game.packs.get('aquelarre.worlds').getDocument(sWorld);
 
     //Synchr DB...
-    await game.packs.get("conventum.modes").getDocuments();
+    await game.packs.get("aquelarre.modes").getDocuments();
 
-    let mModes = Array.from(await game.packs.get('conventum.modes'))
+    let mModes = Array.from(await game.packs.get('aquelarre.modes'))
                       .filter(e => e.system.control.world === sWorld);
     mainBackend._sortByName(mModes);
     return mModes;
@@ -802,7 +802,7 @@ export class helperSheetHuman {
 
     let mDocuments = null;
     if (sField === 'world')
-        mDocuments = (await (game.packs.get('conventum.'+sPack)).getDocuments()).filter(e => 
+        mDocuments = (await (game.packs.get('aquelarre.'+sPack)).getDocuments()).filter(e => 
                                                                     e.system.control.world === actor.system.control.world);
     else
         mDocuments = backend[sPack];
@@ -1085,7 +1085,7 @@ export class helperSheetHuman {
    */
   static async addProfession(item, sId) {
     const actor = item.parent;
-    const mProfessions = await game.packs.get("conventum.professions").getDocuments();
+    const mProfessions = await game.packs.get("aquelarre.professions").getDocuments();
     const oProfession = mProfessions.find(e =>
                                            ((e.system.control.world === actor.system.control.world) &&
                                             (e.system.index === item.system.index)) );
@@ -1132,7 +1132,7 @@ export class helperSheetHuman {
       }
 
       //Society
-      const culture = await (game.packs.get("conventum.cultures")).getDocument(actor.system.bio.culture);
+      const culture = await (game.packs.get("aquelarre.cultures")).getDocument(actor.system.bio.culture);
       actor.system.bio.society = culture.system.backend.society;
       if  ( !( (item.system.requirement.societies[actor.system.bio.society]) &&
                (item.system.requirement.societies[actor.system.bio.society].apply) )) {
@@ -1150,7 +1150,7 @@ export class helperSheetHuman {
       }      
     
       //Stratum
-      const stratum = await game.packs.get("conventum.stratums").getDocument(actor.system.bio.stratum);
+      const stratum = await game.packs.get("aquelarre.stratums").getDocument(actor.system.bio.stratum);
       if  ( !( (item.system.requirement.stratums[actor.system.bio.stratum]) &&
                (item.system.requirement.stratums[actor.system.bio.stratum].apply) )) {
         ui.notifications.warn(game.i18n.localize('info.profNoStratum'));
@@ -1159,8 +1159,8 @@ export class helperSheetHuman {
       }      
     
       //Status
-      const status = await game.packs.get("conventum.status").getDocument(actor.system.bio.status);
-      const mStatus = (await game.packs.get("conventum.status").getDocuments()).
+      const status = await game.packs.get("aquelarre.status").getDocument(actor.system.bio.status);
+      const mStatus = (await game.packs.get("aquelarre.status").getDocuments()).
                                               filter(e => e.system.backend.stratum === stratum.id);
       if (!mStatus.find(e => e._id === actor.system.bio.status)) {
         actor.system.bio.status = mStatus[0]._id;
@@ -1215,7 +1215,7 @@ export class helperSheetHuman {
     }
 
     //Adding skills...
-    const mSkills = await (game.packs.get("conventum.skills")).getDocuments();
+    const mSkills = await (game.packs.get("aquelarre.skills")).getDocuments();
 
     for (let s in item.system.skills.primary) {
       let value = 0;
@@ -1261,7 +1261,7 @@ export class helperSheetHuman {
    * @returns 
    */
   static async rollTable(sTable) {
-    let mRollTables = await (game.packs.get('conventum.rolls')).getDocuments();
+    let mRollTables = await (game.packs.get('aquelarre.rolls')).getDocuments();
     const rollTable = mRollTables.filter(e => $(e.description).data('id') === sTable)[0];
     if (!rollTable) return;
     const rollResult = await rollTable.draw();
@@ -1283,7 +1283,7 @@ export class helperSheetHuman {
     if (systemData.control.criature) return;
 
     const oProfession = (systemData.bio.profession !== '') ?
-                  await game.packs.get("conventum.professions").getDocument(systemData.bio.profession) :
+                  await game.packs.get("aquelarre.professions").getDocument(systemData.bio.profession) :
                   null;
 
     //Primary Characteristics...
@@ -1432,7 +1432,7 @@ export class helperSheetHuman {
    */
   static async _applyModesbyHPStatus(actor, systemData) {
 
-    let mModes = Array.from(await game.packs.get('conventum.modes'))
+    let mModes = Array.from(await game.packs.get('aquelarre.modes'))
                       .filter(e => e.system.control.world === systemData.control.world)
                       .filter(e => 
                         ((e.system.injured) || 
@@ -1540,7 +1540,7 @@ export class helperSheetHuman {
    */  
   static async _checkBio(systemData, backend) {
     const profession = (systemData.bio.profession !== "") ?
-              await game.packs.get("conventum.professions").getDocument(systemData.bio.profession) : null;
+              await game.packs.get("aquelarre.professions").getDocument(systemData.bio.profession) : null;
     if (profession) {
       if ((!profession.system.requirement.male) && (profession.system.requirement.female)) {
           systemData.bio.female = true;
@@ -1677,8 +1677,11 @@ export class helperSheetHuman {
       if (nCharValue >= 45) sDamageMod = '+6D6';
 
       //Altered by Modes...
+      if ((actor.system.modes === undefined) || (actor.system.modes.length === undefined) || (actor.system.modes.length === 0) )
+        return sDamageMod;
+
       actor.system.modes.map(sMode => {
-        const mode = game.packs.get('conventum.modes').get(sMode);
+        const mode = game.packs.get('aquelarre.modes').get(sMode);
         if (!mode) return;
         if ((mode.system.config.damage.apply) &&
             (mode.system.config.damage.multDamageBon !== 1) &&

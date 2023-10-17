@@ -89,7 +89,7 @@ export class aqCombatBar {
         this.canvas[0].appendChild(this.app.view);
 
         //Steel bar
-        let tx1 = PIXI.Texture.from("/systems/conventum/image/texture/steelbar.png");
+        let tx1 = PIXI.Texture.from("/systems/aquelarre/image/texture/steelbar.png");
         let sprBar = new PIXI.TilingSprite(tx1, (this.nNodes*60)+115, 40);
         sprBar.y = 40;
         this.app.stage.addChild(sprBar);          
@@ -98,7 +98,7 @@ export class aqCombatBar {
         for (let index=0; index<this.encounter.system.steps.length; index++) {
             const step = this.encounter.system.steps[index];
 
-            let tx2 = PIXI.Texture.from("/systems/conventum/image/texture/pendon0.png");
+            let tx2 = PIXI.Texture.from("/systems/aquelarre/image/texture/pendon0.png");
             const banner = new PIXI.SimplePlane(tx2, 2, 2);
             banner.x = 120 + (index*60);
             banner.y = 60;    

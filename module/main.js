@@ -31,6 +31,8 @@ Hooks.once("init", async function() {
     upWeapons: mainMacros.upWeapons,
     upActions: mainMacros.upActions,
     upEncounter: mainMacros.upEncounter,
+    fromConventum: mainMacros.fromConventum,
+    resetActions: mainMacros.resetActions,
     useEntity: foundry.utils.isNewerVersion("10", game.version ?? game.data.version)
   };
 

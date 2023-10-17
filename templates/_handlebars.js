@@ -354,7 +354,7 @@ export class mainHandlebars {
       Handlebars.registerHelper("getActorMountImage", function(options) {
          const systemData = options.data.root.systemData;
          const mount = game.actors.get(systemData.equipment.mount);
-         if (!mount) return "/systems/conventum/image/texture/locationHorse.png";
+         if (!mount) return "/systems/aquelarre/image/texture/locationHorse.png";
          return mount.img;
        });         
 
@@ -481,7 +481,7 @@ export class mainHandlebars {
          const systemData = options.data.root.systemData;
          if (!systemData.modes.length) return false;
 
-         const mModes = Array.from(game.packs.get("conventum.modes"))
+         const mModes = Array.from(game.packs.get("aquelarre.modes"))
                                  .filter(e => e.system.control.world === systemData.control.world );
          let bLucky = false;
          mModes.map(mode => {
@@ -498,7 +498,7 @@ export class mainHandlebars {
       Handlebars.registerHelper("luckImage", function(options) {
          const systemData = options.data.root.systemData;
          const luckyMode = 
-                  Array.from(game.packs.get("conventum.modes"))
+                  Array.from(game.packs.get("aquelarre.modes"))
                                  .find(e => ( (e.system.control.world === systemData.control.world)
                                              && (e.system.luck) ) );
          return luckyMode.img;

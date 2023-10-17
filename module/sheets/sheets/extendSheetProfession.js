@@ -38,7 +38,7 @@ export class extendSheetProfession extends ItemSheet {
     context.backend = await mainBackend.getBackendForProfession(context.systemData);
 
     //Society from Stratum...
-    const mStratums = await game.packs.get("conventum.stratums").getDocuments();
+    const mStratums = await game.packs.get("aquelarre.stratums").getDocuments();
     for (var sStratum in context.systemData.requirement.stratums) {
       if (context.systemData.requirement.stratums[sStratum].apply) {
         const oStratum = mStratums.find(e => e.id === sStratum);
@@ -81,7 +81,7 @@ export class extendSheetProfession extends ItemSheet {
     //Combat Skills by Social groups...
     for (var sGroup in context.systemData.skills.combatPrimaryGroup) {
       if (context.systemData.skills.combatPrimaryGroup[sGroup].apply) {
-        const mSkills = await game.packs.get("conventum.skills").getDocuments();
+        const mSkills = await game.packs.get("aquelarre.skills").getDocuments();
         mSkills.map(skill => {
           if ((skill.system.group[sGroup] !== undefined) && 
               (skill.system.group[sGroup].apply))
@@ -91,7 +91,7 @@ export class extendSheetProfession extends ItemSheet {
     }
     for (var sGroup in context.systemData.skills.combatSecondaryGroup) {
       if (context.systemData.skills.combatSecondaryGroup[sGroup].apply) {
-        const mSkills = await game.packs.get("conventum.skills").getDocuments();
+        const mSkills = await game.packs.get("aquelarre.skills").getDocuments();
         mSkills.map(skill => {
           if ((skill.system.group[sGroup] !== undefined) && 
               (skill.system.group[sGroup].apply))

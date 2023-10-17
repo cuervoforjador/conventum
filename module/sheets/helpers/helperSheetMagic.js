@@ -22,8 +22,8 @@ export class helperSheetMagic {
 
         let oMagic = {};
 
-        await game.packs.get('conventum.skills').getDocuments();
-        oMagic.skills = Array.from(game.packs.get('conventum.skills'))
+        await game.packs.get('aquelarre.skills').getDocuments();
+        oMagic.skills = Array.from(game.packs.get('aquelarre.skills'))
                                      .filter(e => ( (e.system.control.world === actor.system.control.world) 
                                                  && (e.system.magic.magic)));
         return oMagic;

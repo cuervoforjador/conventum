@@ -39,7 +39,7 @@ export class helperMessages {
                     '<div class="_chatPaper"></div>'+
                     '<div class="_chatShadow"></div>'+
                     '<div class="_chatFrame"'+
-                        ' style="background: url(/systems/conventum/image/frame/'+
+                        ' style="background: url(/systems/aquelarre/image/frame/'+
                                 actor.system.control.frame.toString() +
                                 '/chatFrame'+sFrame+'.png)"></div>'+
                     '<div class="_chatContent">'+sContent+'</div>'+                        

@@ -19,7 +19,7 @@ export class helperRolls {
     static async rollChararacteristic(actor, charId) {
 
       const sWorld = actor.system.control.world;
-      const oWorld = await game.packs.get('conventum.worlds').getDocument(sWorld);
+      const oWorld = await game.packs.get('aquelarre.worlds').getDocument(sWorld);
 
       let oButtons = {};
       ['x1', 'x2', 'x3', 'x4', 'x5'].forEach(s => {
@@ -57,7 +57,7 @@ export class helperRolls {
     static async _rollsChar(actor, charId, sMod) {
 
       const sWorld = actor.system.control.world;
-      const oWorld = await game.packs.get('conventum.worlds').getDocument(sWorld);
+      const oWorld = await game.packs.get('aquelarre.worlds').getDocument(sWorld);
 
       const sPath = 'characteristics.primary.'+charId;      
 
@@ -155,9 +155,9 @@ export class helperRolls {
     static async _dialogLevel(actor, sPath, rollData, sFormula, actionId, sMod2) {
       sMod2 = (!sMod2) ? '' : sMod2;
 
-      await game.packs.get('conventum.worlds').getDocuments();
+      await game.packs.get('aquelarre.worlds').getDocuments();
       const sWorld = actor.system.control.world;
-      const oWorld = await game.packs.get('conventum.worlds').getDocument(sWorld);
+      const oWorld = await game.packs.get('aquelarre.worlds').getDocument(sWorld);
 
       let oButtons = {};
       for (const s in oWorld.system.config.rolllevel) {
@@ -183,9 +183,9 @@ export class helperRolls {
      */
     static async _dialogLevelForAction(oRollAction) {
 
-      await game.packs.get('conventum.worlds').getDocuments();
+      await game.packs.get('aquelarre.worlds').getDocuments();
       const sWorld = oRollAction.actor.system.control.world;
-      const oWorld = await game.packs.get('conventum.worlds').getDocument(sWorld);
+      const oWorld = await game.packs.get('aquelarre.worlds').getDocument(sWorld);
 
       let oButtons = {};
       for (const s in oWorld.system.config.rolllevel) {
@@ -221,7 +221,7 @@ export class helperRolls {
       
       //Worlds
       const sWorld = actor.system.control.world,
-            oWorld = await game.packs.get('conventum.worlds').getDocument(sWorld),
+            oWorld = await game.packs.get('aquelarre.worlds').getDocument(sWorld),
             worldConfig = oWorld.system.config;
 
       //Config Level
@@ -292,11 +292,11 @@ export class helperRolls {
      */
     static async _rollsForAction(oRollAction, sValueMod, sLevel) {
 
-      await game.packs.get('conventum.worlds').getDocuments();
+      await game.packs.get('aquelarre.worlds').getDocuments();
 
       //Worlds
       const sWorld = oRollAction.actor.system.control.world,
-            oWorld = await game.packs.get('conventum.worlds').getDocument(sWorld),
+            oWorld = await game.packs.get('aquelarre.worlds').getDocument(sWorld),
             worldConfig = oWorld.system.config;
 
       //Config Level
@@ -417,7 +417,7 @@ export class helperRolls {
      * @param {*} nResult 
      */
     static async checkImLucky(actor, nPass, nResult, history) {
-      const modeLuck = Array.from(await game.packs.get("conventum.modes")).find(e =>
+      const modeLuck = Array.from(await game.packs.get("aquelarre.modes")).find(e =>
                         ((e.system.control.world === actor.system.control.world)
                           && (e.system.luck)) );
       if (!modeLuck) return 0;
@@ -576,7 +576,7 @@ export class helperRolls {
                                       ' data-locationid="'+sLocationID+'" '+
                                       ' data-actionid="'+ ((oRollAction.action) ? oRollAction.action.id : '')+'" '+
                                       ' data-damage="'+oRollAction.damage+'">'+
-                   '<img src="/systems/conventum/image/texture/dice.png">'+
+                   '<img src="/systems/aquelarre/image/texture/dice.png">'+
                    '<div class="_name">'+oRollAction.damage+'</div>'+
                 '</a>'+         
              '</div>';  
@@ -625,9 +625,9 @@ export class helperRolls {
         const skillId = sPath.split('.')[1];
 
         if (sPath.split('.')[0] === 'languages')
-          skill = game.packs.get('conventum.languages').get(skillId);
+          skill = game.packs.get('aquelarre.languages').get(skillId);
         else
-          skill = game.packs.get('conventum.skills').get(skillId);
+          skill = game.packs.get('aquelarre.skills').get(skillId);
       }
       if (sPath.includes('characteristic')) {
         const sChar = sPath.split('.')[2];
@@ -658,7 +658,7 @@ export class helperRolls {
       if (sPath !== '') {
         if ( !(sPath.split('.').length > 1) ) return '<div class="_skill"></div>';
         const skillId = sPath.split('.')[1];
-        oSkill = game.packs.get('conventum.skills').get(skillId);
+        oSkill = game.packs.get('aquelarre.skills').get(skillId);
       }
       if (skill.characteristic) {
         return '<div class="_skill _characteristic">'+skill.title+' '+skill.mod+'</div>';

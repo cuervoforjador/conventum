@@ -211,7 +211,7 @@
   width: 40px;
   height: 90px;
   padding: 5px;
-  background: url(/systems/conventum/image/texture/codiceBookMark01.png);
+  background: url(/systems/aquelarre/image/texture/codiceBookMark01.png);
   background-size: 100% 100%;
   position: absolute;
   left: calc(100% - 43px);
@@ -227,7 +227,7 @@
   width: 40px;
   height: 90px;
   padding: 5px;
-  background: url(/systems/conventum/image/texture/codiceBookMark03.png);
+  background: url(/systems/aquelarre/image/texture/codiceBookMark03.png);
   background-size: 100% 100%;
   position: absolute;
   left: calc(100% - 77px);
@@ -243,7 +243,7 @@
   width: 40px;
   height: 90px;
   padding: 5px;
-  background: url(/systems/conventum/image/texture/codiceBookMark02.png);
+  background: url(/systems/aquelarre/image/texture/codiceBookMark02.png);
   background-size: 100% 100%;
   position: absolute;
   left: calc(100% - 114px);
@@ -524,7 +524,7 @@ li._magicItem {
   padding-top: 141px;
   margin: 0px;
   flex-direction: column;
-  background: url(/systems/conventum/image/texture/indexFlg.png);
+  background: url(/systems/aquelarre/image/texture/indexFlg.png);
   background-size: 100% 100%;
 }
 .codicePage ul._index li {
@@ -566,15 +566,15 @@ li._magicItem {
   z-index: 90;
 }
 .codicePage ._frontPage {
-  background: url(/systems/conventum/image/texture/frontPage.png);
+  background: url(/systems/aquelarre/image/texture/frontPage.png);
   background-size: 100% 100%;  
 }
 .codicePage ._secondPage {
-  background: url(/systems/conventum/image/texture/secondPage.png);
+  background: url(/systems/aquelarre/image/texture/secondPage.png);
   background-size: 100% 100%;  
 }
 .codicePage ._thirdPage {
-  background: url(/systems/conventum/image/texture/thirdPage.png);
+  background: url(/systems/aquelarre/image/texture/thirdPage.png);
   background-size: 100% 100%;  
 }
 .codice ._codicePenals {

@@ -244,7 +244,7 @@ export class extendSheetHuman extends ActorSheet {
 
     if (sField === 'world') helperSheetHuman.wz_UpdateWorld(this.actor, sValue);
     else {
-      const item = await (game.packs.get('conventum.'+sCompendium)).getDocument(sValue);
+      const item = await (game.packs.get('aquelarre.'+sCompendium)).getDocument(sValue);
       item.sheet.render(true, {
         editable: false //game.user.isGM
       }); 
@@ -314,7 +314,7 @@ export class extendSheetHuman extends ActorSheet {
 
   _moveQuickBar(event) {
     event.preventDefault();
-    let hSheet = $('.app.window-app.conventum.sheet.actor');
+    let hSheet = $('.app.window-app.aquelarre.sheet.actor');
     let quickBar = $(event.target);
     let posX = hSheet.position().left + quickBar.position().left;
     let posY = hSheet.position().top + quickBar.position().top;
@@ -419,7 +419,7 @@ export class extendSheetHuman extends ActorSheet {
     const langId = event.currentTarget?.dataset.itemid;
 
     await HookCompendium.frequent();
-    const langItem = await game.packs.get('conventum.languages').get(langId);
+    const langItem = await game.packs.get('aquelarre.languages').get(langId);
     
     if (!langItem) return;
     const language = this.actor.system.languages[langId];
@@ -433,7 +433,7 @@ export class extendSheetHuman extends ActorSheet {
     event.preventDefault();
     await HookCompendium.frequent();
     const modeId = event.currentTarget?.dataset.itemid;
-    const item = await game.packs.get('conventum.modes').get(modeId);
+    const item = await game.packs.get('aquelarre.modes').get(modeId);
     item.sheet.render(true, {
       editable: false
     });
@@ -447,7 +447,7 @@ export class extendSheetHuman extends ActorSheet {
     const sFormula = event.currentTarget?.dataset.formula;
 
     await HookCompendium.frequent();
-    const skillItem = await game.packs.get('conventum.skills').get(skillId);
+    const skillItem = await game.packs.get('aquelarre.skills').get(skillId);
     
     if (!skillItem) return;
     const skill = this.actor.system.skills[skillId];
@@ -461,7 +461,7 @@ export class extendSheetHuman extends ActorSheet {
     const skillId = event.currentTarget?.dataset.itemid;
     await HookCompendium.frequent();
 
-    const item = await game.packs.get('conventum.skills').get(skillId);
+    const item = await game.packs.get('aquelarre.skills').get(skillId);
     item.sheet.render(true, {
       editable: game.user.isGM
     });
@@ -817,7 +817,7 @@ export class extendSheetHuman extends ActorSheet {
     const modeId = event.currentTarget?.dataset.modeid;
 
     await HookCompendium.frequent();
-    const mode = await game.packs.get('conventum.modes').get(modeId);
+    const mode = await game.packs.get('aquelarre.modes').get(modeId);
     helperActions.playMode(this.actor, mode);
   }
 

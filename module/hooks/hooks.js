@@ -73,7 +73,7 @@ export class mainHooks {
     static _ready() {
         HookEvents.initialEvents();
         HookTours.registerTours();   
-        //mainMacros.registerMacros();
+        mainMacros.registerMacros();
         helperCusto.custoCSS();
         //game.aqCombatBar = new aqCombatBar();
     }
@@ -194,7 +194,7 @@ export class mainHooks {
         
         //QuickBar
         if (systemData.systemData.quickBarPosition) {
-            let hSheet = $('.app.window-app.conventum.sheet.actor');
+            let hSheet = $('.app.window-app.aquelarre.sheet.actor');
             if (hSheet.length === 0) return;
             let posX = systemData.systemData.quickBarPosition.x - hSheet.position().left;
             let posY = systemData.systemData.quickBarPosition.y - hSheet.position().top;
@@ -211,7 +211,7 @@ export class mainHooks {
            else HookActor.outFirePage(sheet);
 
         //Lens...
-        if (game.settings.get('conventum', 'lens')) {
+        if (game.settings.get('aquelarre', 'lens')) {
             sheet.setPosition({scale: 1.4});
         }        
     }

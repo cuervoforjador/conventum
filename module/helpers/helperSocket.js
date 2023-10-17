@@ -9,7 +9,7 @@ import { helperSprites } from "./helperSprites.js";
 
 export class helperSocket {
 
-    static socketAlias = "system.conventum"
+    static socketAlias = "system.aquelarre"
 
     /**
      * onReceived

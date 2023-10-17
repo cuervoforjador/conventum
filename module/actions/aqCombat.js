@@ -13,9 +13,9 @@ export class aqCombat {
      */
     static async addAction(actorId, actionId, isToken, tokenId) {
 
-        await game.packs.get('conventum.worlds').getDocuments();
-        await game.packs.get('conventum.locations').getDocuments();
-        await game.packs.get('conventum.modes').getDocuments();
+        await game.packs.get('aquelarre.worlds').getDocuments();
+        await game.packs.get('aquelarre.locations').getDocuments();
+        await game.packs.get('aquelarre.modes').getDocuments();
 
         const combat = aqActions.getCurrentCombat();
         let myEncounter = aqActions.getMyCurrentEncounter(actorId, tokenId);
@@ -55,7 +55,7 @@ export class aqCombat {
         // Target Location
         let sTypeInitial = (action.system.location.actorType) ? action.system.location.actorType : 'human';
         let sTargetLocation = '<select name="actTargetLocation" class="_actTargetLocation" disabled>';
-        Array.from(game.packs.get("conventum.locations")).filter(e => e.system.actorType === sTypeInitial)
+        Array.from(game.packs.get("aquelarre.locations")).filter(e => e.system.actorType === sTypeInitial)
              .forEach(oLocation => {
             if (actionLocation === '')
                 sTargetLocation += '<option value="'+oLocation.id+'">'+oLocation.name+'</option>';
@@ -677,7 +677,7 @@ export class aqCombat {
                     mNoModes.push(sMode);
             });
             if (mNoModes.length > 0) {
-                const sMode = game.packs.get("conventum.modes").get(mNoModes[0]);
+                const sMode = game.packs.get("aquelarre.modes").get(mNoModes[0]);
                 if (sMode === undefined) sMode = {name: ''};
                 return {
                     check: false,
