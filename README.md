@@ -1,4 +1,5 @@
-![image](https://github.com/cuervoforjador/aquelarre/assets/77968758/d2bfbb87-0358-452b-a0a5-eca9e49377e5)<h1>Aquelarre for FoundryVTT</h1>
+![image](https://github.com/cuervoforjador/conventum/assets/77968758/eb5b68bd-c1ee-4264-9f5e-209900b7a03f)
+<h1>Aquelarre for FoundryVTT</h1>
 
 ## Important!
 This system is currently under development. Refrain from installing it until further notice.
