@@ -1477,7 +1477,8 @@ export class helperSheetHuman {
 
     for (var sMode in status) {
       if (systemData.status.life[sMode]) {
-        if ((systemData.modes.length === 0) || (!systemData.modes.find(e => (e === status[sMode].id))))
+        if ((Object.keys(systemData.modes).length === 0) ||
+            (systemData.modes.length === 0) || (!systemData.modes.find(e => (e === status[sMode].id))))
           await helperActions.playMode(actor, status[sMode], true);
       } else {
         if ((systemData.modes.length > 0) && (systemData.modes.find(e => (e === status[sMode].id))))

@@ -129,6 +129,8 @@ export class helperActions {
      */
     static async playMode(actor, mode, bForce) {
         if (mode.id === undefined) return;
+        if (Object.keys(actor.system.modes).length === 0) actor.system.modes = [];
+        
         const bActive = (actor.system.modes.find(e => e === mode.id)) ? true : false;
         bForce = (!bForce) ? false : bForce;
         if ((bForce) && (bActive)) return;
