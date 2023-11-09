@@ -396,45 +396,56 @@ export class helperSheetHuman {
     }
 
     //Profession Skills...
-    if ((profession) && (parentProfession)) {
+    if ((profession)) {
+      context.backend.skills.forEach( oSkill => {
+        const skillId = oSkill.id;
+        let skill = context.systemData.skills[skillId];
+        skill.profPrimary = false;
+        skill.profSecondary = false;
+        skill.profParent = false;
+      });
+
       context.backend.skills.forEach( oSkill => {
         const skillId = oSkill.id;
         let skill = context.systemData.skills[skillId];
 
+        if (skill.value === undefined)
+            skill.value = skill.initial;
+
           //Primaries...
           if (profession.system.skills.primary[skillId].apply) {
             const mult = profession.system.skills.primary[skillId].mod;
-            if (!skill.acquired) {
+            //if (!skill.acquired) {
               skill.acquired = true;
               skill.profPrimary = true;
               skill.experienced = false;
-              skill.initial = Number(skill.value) * Number(mult);
+              skill.initial = Number(skill.initial) * Number(mult);
               return;
-            }
+            //}
           }
 
           //Secondaries...
           if (profession.system.skills.secondary[skillId].apply) {
             const mult = profession.system.skills.secondary[skillId].mod;
-            if (!skill.acquired) {
+            //if (!skill.acquired) {
               skill.acquired = true;
               skill.profSecondary = true;
               skill.experienced = false;
-              skill.initial = Number(skill.value) * Number(mult);
+              skill.initial = Number(skill.initial) * Number(mult);
               return;
-            }
+            //}
           }        
 
           //Parent skills...
-          if (parentProfession.system.skills.primary[skillId].apply) {
-            const mult = parentProfession.system.skills.primary[skillId].mod;
-            if (!skill.acquired) {
+          if ((parentProfession) && (parentProfession.system.skills.primary[skillId].apply)) {
+            const mult = 2;
+            //if (!skill.acquired) {
               skill.acquired = true;
               skill.profParent = true;
               skill.experienced = false;
-              skill.initial = Number(skill.value) * Number(mult);
+              skill.initial = Number(skill.initial) * Number(mult);
               return;
-            }
+            //}
           }        
       });
     }
@@ -457,6 +468,10 @@ export class helperSheetHuman {
       //Checking Combat Skills...
       if ((Number(context.bioInfo.maxCombatPrimary) === nCombatPrimary) && 
           (Number(context.bioInfo.maxCombatSecondary) === nCombatSecondary)) 
+          context.bioInfo.combatSkillsOk = true;
+
+      if ((context.bioInfo.skillsPrimaryCombat.length === 0) &&
+          (context.bioInfo.skillsSecondaryCombat.length === 0))
           context.bioInfo.combatSkillsOk = true;
 
       //Combat Skills...
@@ -1097,14 +1112,27 @@ export class helperSheetHuman {
            else oWizard[i] = false; 
     }
     oWizard['11'] =  true;
+
+    //Skills
+    let oSkills = actor.system.skills;
+    for (var skillId in oSkills) {
+        let skill = oSkills[skillId];
+        if (skill.acquired) {
+          skill.increase = skill.value - skill.initial;
+        }
+    }  
+
+
     await actor.update({
       system: { control: {
                   wizard: true
+                  //initial: true
                 },
                 wizard: oWizard,
                 bio: {
                   profession: oProfession.id
-                } }});
+                },
+                skills: oSkills }});
 
 /** 
 

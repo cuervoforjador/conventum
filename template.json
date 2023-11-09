@@ -77,7 +77,15 @@
           "familyBrothers": "",
           "spouse": "",
           "description": "",
-          "background": ""
+          "background": "",
+          "decide": {
+            "kingdom": false,
+            "culture": false,
+            "stratum": false,
+            "status": false,
+            "profession": false,
+            "parentProfession": false
+          }
         },
         "equipment": {
           "mount": "",

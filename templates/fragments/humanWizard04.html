@@ -61,7 +61,11 @@
             <label class="_name">{{stratum.name}}</label>
             {{#if ../imMaster}}
             <a class="_wizardButton">{{localize 'common.select'}}</a>
-            {{/if}}          
+            {{else}}
+                {{#if ../systemData.bio.decide.stratum}}
+                <a class="_wizardButton">{{localize 'common.select'}}</a>
+                {{/if}}
+            {{/if}}         
         </li>
     </a>
 {{/each}}

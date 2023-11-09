@@ -22,6 +22,9 @@
 
 <ul class="_wzSkills">
     <li class="_header">
+        {{#if imMaster}}
+        <label class="_name" style="width: 30px;">Adq</label>  
+        {{/if}}        
         <label class="_name">{{localize 'common.skill'}}</label> 
         <label class="_wzProfTypeHead">{{localize 'common.type'}}</label>
         <label class="_wzInitialCharHead">{{localize 'common.base'}}</label>
@@ -32,6 +35,14 @@
 {{#each backend.skills as |skill key|}}
 
     <li>
+        {{#if ../imMaster}}
+        <input class="_rowAcquired"
+               type="checkbox" 
+               title="{{localize 'help.acquired'}}" 
+               name="system.skills.{{skill._id}}.acquired" 
+               {{checkedExtend 'systemData.skills' skill._id 'acquired'}} />   
+        {{/if}}
+
         <label class="_name">{{skill.name}}</label>   
         
         {{#if (itemPropertyExtend 'systemData.skills' skill._id 'profPrimary')}}
@@ -73,6 +84,14 @@
 {{#each backend.languages as |skill key|}}
 
     <li>
+        {{#if ../imMaster}}
+        <input class="_rowAcquired"
+               type="checkbox" 
+               title="{{localize 'help.acquired'}}" 
+               name="system.languages.{{skill._id}}.acquired" 
+               {{checkedExtend 'systemData.languages' skill._id 'acquired'}} />   
+        {{/if}}
+
         <label class="_name">{{skill.name}}</label>   
         
         {{#if (itemPropertyExtend 'systemData.languages' skill._id 'profPrimary')}}

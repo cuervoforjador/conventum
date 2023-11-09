@@ -41,6 +41,10 @@
             <label class="_name">{{kingdom.name}}</label>
             {{#if ../imMaster}}
             <a class="_wizardButton">{{localize 'common.select'}}</a>
+            {{else}}
+                {{#if ../systemData.bio.decide.kingdom}}
+                <a class="_wizardButton">{{localize 'common.select'}}</a>
+                {{/if}}
             {{/if}}
         </li>
     </a>

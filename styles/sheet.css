@@ -2919,6 +2919,15 @@ img._quickButton._active {
     border: 0px;
 }
 
+vbox._options {
+    border-top: 1px solid #333;
+    border-bottom: 1px solid #333;
+    background: #b67c7c24;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 10px;
+}
+
 /* WIZARD */
 ._wizard h3 {
     font-family: var(--font-aq);

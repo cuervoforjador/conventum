@@ -70,7 +70,11 @@
             <label class="_name">{{profession.name}}</label>
             {{#if ../imMaster}}
             <a class="_wizardButton">{{localize 'common.select'}}</a>
-            {{/if}}           
+            {{else}}
+                {{#if ../systemData.bio.decide.parentProfession}}
+                <a class="_wizardButton">{{localize 'common.select'}}</a>
+                {{/if}}
+            {{/if}}          
         </li>
     </a>
 {{/each}}

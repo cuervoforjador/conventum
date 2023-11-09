@@ -70,6 +70,10 @@
             <label class="_name">{{status.name}}</label>
             {{#if ../imMaster}}
             <a class="_wizardButton">{{localize 'common.select'}}</a>
+            {{else}}
+                {{#if ../systemData.bio.decide.status}}
+                <a class="_wizardButton">{{localize 'common.select'}}</a>
+                {{/if}}
             {{/if}}           
         </li>
     </a>

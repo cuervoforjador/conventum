@@ -13,3 +13,54 @@
     </a>
 {{/each}}
 </ul>
+
+<vbox class="_100 _options">
+    <hbox class="_100">
+        <input class="_rowAcquired"
+               type="checkbox" 
+               title="{{localize 'help.acquired'}}" 
+               name="system.bio.decide.kingdom" 
+               {{checked systemData.bio.decide.kingdom}} />   
+        <label class="_descr">{{localize 'common.decideKingdom'}}</label>
+    </hbox>
+    <hbox class="_100">
+        <input class="_rowAcquired"
+               type="checkbox" 
+               title="{{localize 'help.acquired'}}" 
+               name="system.bio.decide.culture" 
+               {{checked systemData.bio.decide.culture}} />   
+        <label class="_descr">{{localize 'common.decideCulture'}}</label>
+    </hbox>   
+    <hbox class="_100">
+        <input class="_rowAcquired"
+               type="checkbox" 
+               title="{{localize 'help.acquired'}}" 
+               name="system.bio.decide.stratum" 
+               {{checked systemData.bio.decide.stratum}} />   
+        <label class="_descr">{{localize 'common.decideStratum'}}</label>
+    </hbox>     
+    <hbox class="_100">
+        <input class="_rowAcquired"
+               type="checkbox" 
+               title="{{localize 'help.acquired'}}" 
+               name="system.bio.decide.status" 
+               {{checked systemData.bio.decide.status}} />   
+        <label class="_descr">{{localize 'common.decideStatus'}}</label>
+    </hbox>      
+    <hbox class="_100">
+        <input class="_rowAcquired"
+               type="checkbox" 
+               title="{{localize 'help.acquired'}}" 
+               name="system.bio.decide.profession" 
+               {{checked systemData.bio.decide.profession}} />   
+        <label class="_descr">{{localize 'common.decideProfession'}}</label>
+    </hbox>     
+    <hbox class="_100">
+        <input class="_rowAcquired"
+               type="checkbox" 
+               title="{{localize 'help.acquired'}}" 
+               name="system.bio.decide.parentProfession" 
+               {{checked systemData.bio.decide.parentProfession}} />   
+        <label class="_descr">{{localize 'common.decideParProfession'}}</label>
+    </hbox>         
+</vbox>
