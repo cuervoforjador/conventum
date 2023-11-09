@@ -621,7 +621,7 @@ export class helperSheetHuman {
       }
     });
 
-    let skillsCost = context.bioInfo.skillsCost;
+    let skillsCost = 0;   //skillsCost =  context.bioInfo.skillsCost;
     if (context.systemData.control.wizard) {
 
       context.backend.languages.forEach( lang => {
@@ -648,7 +648,7 @@ export class helperSheetHuman {
 
       if (context.bioInfo !== undefined) {
         context.bioInfo.skillsCost += skillsCost;
-        context.bioInfo.skillsCostOk = (skillsCost <= 100);
+        context.bioInfo.skillsCostOk = (context.bioInfo.skillsCost <= 100);
       }
     }
 
