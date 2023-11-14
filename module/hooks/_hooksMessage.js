@@ -1,6 +1,8 @@
 import { mainUtils } from "../mainUtils.js";
 import { mainBackend } from "../sheets/backend/mainBackend.js";
-import { helperMessages } from "../helpers/helperMessages.js"
+import { helperMessages } from "../helpers/helperMessages.js";
+import { aqActions } from "../actions/aqActions.js";
+import { aqCombat } from "../actions/aqCombat.js";
 
 export class HookMessage {
 
@@ -58,6 +60,22 @@ export class HookMessage {
             } else {
                 return;
             }            
+        }
+    }
+
+    /**
+     * renderChatMessage
+     * @param {*} chatMessage 
+     * @param {*} element 
+     * @param {*} options 
+     */
+    static renderChatMessage(chatMessage, element, options) {
+        if ((options.message.flags.core !== undefined) 
+         && (options.message.flags.core.initiativeRoll)) {
+            const encounter = aqActions.getCurrentEncounter();
+            if ((encounter) && (encounter.sheet) && (encounter.sheet.rendered)) {
+                encounter.sheet.render(true);
+            }
         }
     }
 

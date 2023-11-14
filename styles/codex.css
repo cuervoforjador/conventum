@@ -329,6 +329,9 @@ li._magicItem {
   line-height: 16px;
   text-align: justify;
 }
+.codicePage ._detail p {
+  line-break: anywhere;
+}
 .codicePage ._detail ._title,
 .codicePage .actionIcon ._title {
   line-height: 20px;

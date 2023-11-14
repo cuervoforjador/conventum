@@ -1293,7 +1293,8 @@ export class helperSheetHuman {
     const rollTable = mRollTables.filter(e => $(e.description).data('id') === sTable)[0];
     if (!rollTable) return;
     const rollResult = await rollTable.draw();
-    await game.dice3d.showForRoll(rollResult.roll);
+    if (game.dice3d)
+      await game.dice3d.showForRoll(rollResult.roll);
     return rollResult.results[0];
   }
     
@@ -1414,8 +1415,8 @@ export class helperSheetHuman {
     }
 
     //Faith && Concentration points
-    _root.secondary.fp.value = Math.round(_root.secondary.rr.value * 0.20);
-    _root.secondary.cp.value = Math.round(_root.secondary.irr.value * 0.20);
+    _root.secondary.fp.value = Math.round((_root.secondary.rr.value + 2) * 0.20);
+    _root.secondary.cp.value = Math.round((_root.secondary.irr.value + 2) * 0.20);
     if (systemData.control.initial) {
       _root.secondary.fp.initial = _root.secondary.fp.value;
       _root.secondary.cp.initial = _root.secondary.cp.value;
@@ -1684,10 +1685,15 @@ export class helperSheetHuman {
       let sDamageMod = '-2D6';
       let nCharValue = 0;
       if (weapon.system.characteristics === '') return '';
+      if (weapon.system.noDamageMod) return '';
       
+      /**
       nCharValue = (!weapon.system.type.range) ?
                       actor.system.characteristics.primary[weapon.system.characteristics].value :
                       actor.system.characteristics.primary['str'].value;
+      */
+
+      nCharValue = actor.system.characteristics.primary[weapon.system.characteristics].value;
 
       //Next Damage Bon. Level from Action
       if ((action) && (action.system.damage.mod.modDamage1))  nCharValue += 5;

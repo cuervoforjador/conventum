@@ -203,6 +203,7 @@ export class extendSheetHuman extends ActorSheet {
 
     /* Magic */
     document.addEventListener('DOMContentLoaded', helperSheetMagic.initCodex(this));
+    $(".codicePage").bind('mousewheel DOMMouseScroll', helperSheetMagic.codexScrollPage.bind(this));
     html.find("a.playSpell").click(this._playSpell.bind(this));  
     html.find(".flipped ._clickable").click(helperSheetMagic.changePage.bind(this));      
     html.find("input._coInput").change(this._changePenalInput.bind(this));  

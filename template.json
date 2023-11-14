@@ -846,6 +846,7 @@
         }
       },
       "damage": "",
+      "noDamageMod": false,
       "protection": 0,
       "endurance": 0,
       "enduranceCurrent": 0,

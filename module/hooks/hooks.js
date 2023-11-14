@@ -59,6 +59,7 @@ export class mainHooks {
         Hooks.on("preCreateItem", (oFrom, oTo, options, sId) => this._preCreateItem(oFrom, oTo, options, sId));
         Hooks.on("createToken", (document, options, sId) => this._createToken(document, options, sId));
         Hooks.on("createChatMessage", (message, options, sId) => this._createChatMessage(message, options, sId));
+        Hooks.on("renderChatMessage", (chatMessage, element, options) => this._renderChatMessage(chatMessage, element, options));
         Hooks.on("sightRefresh", async (layer) => this._sightRefresh(layer));
         Hooks.on("targetToken", (user, token, option) => this._targetToken(user, token, option));  
         Hooks.on("updateItem", (item, stats, options, sId) => this._updateItem(item, stats, options, sId));
@@ -292,6 +293,10 @@ export class mainHooks {
 
     static _createChatMessage(message, options, sId) {
         HookMessage.createChatMessage(message, options, sId);
+    }
+
+    static _renderChatMessage(chatMessage, element, options) {
+        HookMessage.renderChatMessage(chatMessage, element, options);
     }
 
     static _sightRefresh(layer) {

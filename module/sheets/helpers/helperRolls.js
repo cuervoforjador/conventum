@@ -61,10 +61,21 @@ export class helperRolls {
 
       const sPath = 'characteristics.primary.'+charId;      
 
+      let charValue = actor.system.characteristics.primary[charId].value.toString();
+
+      const mTraits = actor.items.filter(e => ( (e.type === 'trait') 
+                                             && (e.system.mod.characteristic.apply) 
+                                             && (e.system.mod.characteristic.id === charId)));
+      if (mTraits.length > 0) {
+        mTraits.map(trait => {
+          if (eval(charValue.toString() + trait.system.mod.characteristic.bono) !== NaN )
+            charValue = eval(charValue.toString() + trait.system.mod.characteristic.bono);
+        });
+      }
+
       let rollData = "";
       if (actor.system.characteristics.primary[charId])
-          rollData = eval( actor.system.characteristics.primary[charId].value.toString() 
-                                                                              + sMod.replace('x', '*'));
+          rollData = eval( charValue.toString() + sMod.replace('x', '*'));
       if (actor.system.characteristics.secondary[charId]) {
           if (charId === 'luck') {
             rollData = eval( actor.system.characteristics.secondary[charId].initial.toString());
@@ -262,8 +273,14 @@ export class helperRolls {
         cFailureLow = (cFailureLow >= Number(worldConfig.rolls.failureMin) ) ? Number(worldConfig.rolls.failureMin) : cFailureLow;
       let cSuccessHigh = (dec + rest) * Number(worldConfig.rolls.criticalSuccessStep);
       
-      const bCritSuccess = ( Number(roll.result) <= Number(cSuccessHigh) ),
-            bCritFailure = ( Number(roll.result) >= Number(cFailureLow) );
+      let bCritSuccess = ( Number(roll.result) <= Number(cSuccessHigh) ),
+          bCritFailure = ( Number(roll.result) >= Number(cFailureLow) );
+
+      //fixed!! always and so until the end... 
+      bCritSuccess = !bCritSuccess ? (roll._total === 1) : bCritSuccess;
+      bCritFailure = !bCritFailure ? ((roll._total === 100) || (roll._total === 0)) : bCritFailure;
+      success = !success ? (roll._total <= 5) : success;
+      success = success ? (roll._total <= 95) : success;
 
       const result = {  
                         success: success,
@@ -705,7 +722,7 @@ export class helperRolls {
                         '<div class="_success">'+game.i18n.localize("common.success")+'</div>' :
                         '<div class="_failed">'+game.i18n.localize("common.failed")+'</div>' ;
 
-      if (result._successCrit)
+      if (result.critSuccess)
         return '<div class="_successCrit">'+game.i18n.localize("common.rollCriticalSuccess")+'</div>' ;                        
       if (result.critFailure)
         return '<div class="_failedCrit">'+game.i18n.localize("common.rollCriticalFailure")+'</div>' ;

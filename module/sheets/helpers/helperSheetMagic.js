@@ -250,6 +250,26 @@ export class helperSheetMagic {
         }
     }
 
+    static codexScrollPage(event) {
+        let detail = $(event.currentTarget).find('._detail');
+        let title = $(event.currentTarget).find('._title');
+  
+        let newPosition = detail.scrollTop();
+        const step = 10;
+        if (event.originalEvent.deltaY < 0) { //To up...
+          newPosition -= step;
+          if (newPosition < 0) newPosition = 0;
+        } else { //To down...
+          newPosition += step;
+        }
+  
+        detail.scrollTop(newPosition);
+  
+        if (newPosition === 0) title.show();
+                          else title.hide();
+  
+    }
+
     /**
      * _sortByLevel
      * @param {*} mArray 
