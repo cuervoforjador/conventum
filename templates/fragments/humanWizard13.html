@@ -73,6 +73,10 @@
             {{itemPropertyExtend 'systemData.skills' skill._id 'value'}}
         </label>       
             
+        <input type="hidden"
+            name="system.skills.{{skill._id}}.value" 
+            value="{{itemPropertyExtend 'systemData.skills' skill._id 'value'}}" /> 
+
     </li>
 
 {{/each}}
@@ -118,6 +122,10 @@
             {{itemPropertyExtend 'systemData.languages' skill._id 'value'}}
         </label>       
             
+        <input type="hidden"
+            name="system.languages.{{skill._id}}.value" 
+            value="{{itemPropertyExtend 'systemData.languages' skill._id 'value'}}" />
+
     </li>
 
 {{/each}}
