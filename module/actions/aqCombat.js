@@ -3,6 +3,7 @@ import { aqActions } from "./aqActions.js";
 import { aqContext } from "./aqContext.js";
 import { helperSocket } from "../helpers/helperSocket.js";
 import { helperSheetHuman } from "../sheets/helpers/helperSheetHuman.js";
+import { helperCusto } from "../helpers/helperCusto.js";
 
 export class aqCombat {
 
@@ -13,16 +14,16 @@ export class aqCombat {
      */
     static async addAction(actorId, actionId, isToken, tokenId) {
 
-        await game.packs.get('aquelarre.worlds').getDocuments();
-        await game.packs.get('aquelarre.locations').getDocuments();
-        await game.packs.get('aquelarre.modes').getDocuments();
-
-        const combat = aqActions.getCurrentCombat();
-        let myEncounter = aqActions.getMyCurrentEncounter(actorId, tokenId);
-
         const actor = (isToken) ? (await game.scenes.active.tokens.get(tokenId)).getActor() : 
                                   game.actors.get(actorId);
         if (!actor) return;
+
+        const sWorldId = actor.system.control.world;
+        await helperCusto.getDocumentsByWorld('locations', sWorldId);
+        await helperCusto.getDocumentsByWorld('modes', sWorldId);
+
+        const combat = aqActions.getCurrentCombat();
+        let myEncounter = aqActions.getMyCurrentEncounter(actorId, tokenId);
 
         const action = actor.items.get(actionId);
         if (!action) return;

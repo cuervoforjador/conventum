@@ -578,7 +578,9 @@ export class helperSheetHuman {
       }
 
       //By Profession
-      if ((oProfession) && (oProfession.system.skills.languages[lang.id].apply)) {
+      if ((oProfession) && 
+          (oProfession.system.skills.languages[lang.id] !== undefined) &&
+          (oProfession.system.skills.languages[lang.id].apply)) {
          actorSkill.acquired = true;
          actorSkill.initial = nBase * Number(oProfession.system.skills.languages[lang.id].mod);
       }

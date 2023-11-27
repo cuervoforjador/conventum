@@ -59,9 +59,17 @@ export class helperRolls {
       const sWorld = actor.system.control.world;
       const oWorld = await game.packs.get('aquelarre.worlds').getDocument(sWorld);
 
-      const sPath = 'characteristics.primary.'+charId;      
+      const sPath = (actor.system.characteristics.primary[charId] !== undefined) ?
+                                                          'characteristics.primary.'+charId :
+                  (actor.system.characteristics.secondary[charId] !== undefined) ?    
+                                                          'characteristics.secondary.'+charId : null;
+      if (!sPath) return;
 
-      let charValue = actor.system.characteristics.primary[charId].value.toString();
+      let charValue = (actor.system.characteristics.primary[charId] !== undefined) ?
+                          actor.system.characteristics.primary[charId].value.toString() :
+                      (actor.system.characteristics.secondary[charId] !== undefined) ?    
+                          actor.system.characteristics.secondary[charId].value.toString() : null;
+      if (!charValue) return;
 
       const mTraits = actor.items.filter(e => ( (e.type === 'trait') 
                                              && (e.system.mod.characteristic.apply) 

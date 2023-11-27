@@ -84,4 +84,40 @@ export class helperCusto {
 
     }
 
+    /**
+     * readCompendium
+     */
+    static async readCompendium() {
+
+    }
+
+    /**
+     * getDocument
+     * @param {*} sCompendium 
+     * @param {*} sDocumentId 
+     */
+    static async getDocument(sCompendium, sDocumentId) {
+
+        return await game.packs.get('aquelarre.'+sCompendium)
+                               .getDocument(sDocumentId);
+    }
+
+    /**
+     * getDocumentsByWorld
+     * @param {*} sCompendium 
+     * @param {*} sWorldId 
+     * @returns 
+     */
+    static async getDocumentsByWorld(sCompendium, sWorldId) {
+        return (await game.packs.get('aquelarre.'+sCompendium).getDocuments())
+                                .filter(e => e.system.control.world === sWorldId);
+    }
+
+    /**
+     * getWorld
+     */
+    static async getWorld(sDocumentId) {
+        return await this.getDocument('worlds', sDocumentId);
+    }
+
 }
