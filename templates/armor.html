@@ -1,66 +1,90 @@
-<form class="codex" 
-      autocomplete="off">
+<form class="_armor _golden" 
+      autocomplete="off"
+      style="z-index:1">
 
-    {{!-- FRAME --}}
-    {{> itemFrame }}
-    
-    {{!-- HEADER --}}
-    <itemHeader class="_chrome">
-        <itemHeaderInfo>
-            <itemTitle>
-                <input type="text" name="name" value="{{item.name}}" placeholder=""/>
-            </itemTitle>
-            <itemSubHeader>
-                <hbox class="_subHeaderHBox">
-                    <label>{{localize "common.world" }}</label>
-                    <select name="system.control.world">
-                        {{selectOptions backend.worlds 
-                                        selected=systemData.control.world
-                                        localize=false
-                                        nameAttr="id"
-                                        labelAttr="name" }}
-                    </select>
-                </hbox>            
-            </itemSubHeader>
-        </itemHeaderInfo>
-    </itemHeader> 
+      {{!-- HEADER --}}
+      <div class="_itemHeader _100">
+            <img src="{{item.img}}" 
+                  data-edit="img" 
+                  title="{{item.name}}"/>
 
-    {{!-- CONTENT --}}
-    <itemContent>
+            <div class="_itemSubHeader">
+                  <input class="_title"
+                        type="text" 
+                        name="name" 
+                        value="{{item.name}}" 
+                        placeholder=""/>
 
-        <hbox class="_100">
-            <nav class="sheet-tabs itemTabsHeader" data-group="primary">
-                <a data-tab="main">{{ localize "common.armor" }}</a>
-                <a data-tab="location">{{ localize "common.location" }}</a>
-                <a data-tab="penal">{{ localize "common.penal" }}</a>
-                <a data-tab="description">{{ localize "common.description" }}</a>
-            </nav>
-        </hbox>  
+                  <div class="_itemSubHeaderBox">
+                  {{#if isGM}}
+                        <formField class="_100">
+                              <label class="_15">{{localize "common.type"}}</label>
+                              <select class="_35"
+                                  name="system.type">
+                                  {{selectOptions backend.armors.armorTypes 
+                                                  selected=systemData.type
+                                                  localize=false
+                                                  nameAttr="key"
+                                                  labelAttr="label" }}
+                              </select>  
+                              <label class="_15" style="padding-left: 5px">{{localize "common.actorType"}}</label>
+                              <select class="_35"
+                                  name="system.actorType">
+                                  {{selectOptions backend.actorTypes 
+                                                  selected=systemData.actorType
+                                                  localize=false
+                                                  nameAttr="key"
+                                                  labelAttr="label" }}
+                              </select>                                                           
+                        </formField>
+                        <formField class="_100">
+                              <label>{{localize "common.protection"}}</label>
+                              <input name="system.protection" 
+                                     class="_smallNumber"
+                                     type="number" 
+                                     value="{{systemData.protection}}" /> / 
+                              <input name="system.proInitial" 
+                                     class="_smallNumber"
+                                     type="number" 
+                                     value="{{systemData.proInitial}}" />
 
-        <div class="frameContent">
-            <section class="sheet-body">
-                {{> itemExtendArmor }}
+                              <label>{{localize "common.endurance"}}</label>
+                              <input name="system.endurance" 
+                                     class="_smallNumber"
+                                     type="number" 
+                                     value="{{systemData.endurance}}" /> / 
+                              <input name="system.endInitial" 
+                                     class="_smallNumber"
+                                     type="number" 
+                                     value="{{systemData.endInitial}}" />                              
+                        </formField>
+                  {{/if}}
+                  </div>
+            </div>
+      </div>
 
-                {{!--- DESCRIPTION & IMAGE ---}}
-                <div class="tab description" data-group="primary" data-tab="description">
-                <slidePanel class="_100">
-                    <panelContent>
-                        <itemImage>
-                            <img src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
-                        </itemImage>                                    
-                        {{> itemDescription }}
-                    </panelContent>
-                </slidePanel>
-                </div> 
+      {{!-- TAB HEADER --}}
+      <nav class="itemTabsBar" data-group="primary-tabs">
+            {{#if isGM}}
+            <a data-tab="main" data-group="primary-tabs">
+                  <label class="_tabButton">{{localize 'common.main'}}</label></a>                   
+            {{/if}}
+            <a data-tab="description" data-group="primary-tabs">
+                  <label class="_tabButton">{{localize 'common.description'}}</label></a>                                                                    
+      </nav>
 
+      {{!-- SECTIONS --}}
+      <div class="itemTabsContent">
+
+            {{!-- MAIN --}}
+            <section class="tab" data-group="primary-tabs" data-tab="main">
+                  {{>armorMain}}
             </section>
-        </div>
 
-    </itemContent>     
+            {{!-- DESCRIPTION --}}
+            <section class="tab" data-group="primary-tabs" data-tab="description">
+                  {{>armorDescription}}
+            </section>            
 
-{{!-- Molding ---}}
-<input name="system.control.mold"
-        value="{{systemData.control.mold}}" 
-        type="hidden" />   
-
+      </div>
 </form>

@@ -1,56 +1,104 @@
-<form class="codex" 
-      autocomplete="off">
+<form class="_weapon _golden" 
+      autocomplete="off"
+      style="z-index:1">
 
-    {{!-- FRAME --}}
-    {{> itemFrame }}
-    
-    {{!-- HEADER --}}
-    <itemHeader class="_chrome">
-        <itemHeaderInfo>
-            <itemTitle>
-                <input type="text" name="name" value="{{item.name}}" placeholder=""/>
-            </itemTitle>
-            <itemSubHeader>
-                <hbox class="_subHeaderHBox">
-                    <label>{{localize "common.world" }}</label>
-                    <select name="system.control.world">
-                        {{selectOptions backend.worlds 
-                                        selected=systemData.control.world
-                                        localize=false
-                                        nameAttr="id"
-                                        labelAttr="name" }}
-                    </select>
-                </hbox>           
-            </itemSubHeader>
-        </itemHeaderInfo> 
-    </itemHeader> 
+      {{!-- HEADER --}}
+      <div class="_itemHeader _100">
+            <img src="{{item.img}}" 
+                  data-edit="img" 
+                  title="{{item.name}}"/>
 
-    {{!-- CONTENT --}}
-    <itemContent>
-        <hbox class="_100">
-            <nav class="sheet-tabs itemTabsHeader" data-group="primary">
-                <a data-tab="main">{{ localize "common.weapon" }}</a>
-                <a data-tab="requirement">{{ localize "common.weaponRequirements" }}</a>
-                <a data-tab="damage">{{ localize "common.damage" }}</a>
-                <a data-tab="range">{{ localize "common.weaponRange" }}</a>
-                <a data-tab="shield">{{ localize "common.shield" }}</a>
-                <a data-tab="rangeLocation">{{ localize "common.rangeLocation" }}</a>
-                <a data-tab="penal">{{ localize "common.modificators" }}</a>
-                <a data-tab="description">{{ localize "common.description" }}</a>
-            </nav>
-        </hbox>           
-        <div class="frameContent">
-            <section class="sheet-body">
-                {{> itemExtendWeapon }}              
+            <div class="_itemSubHeader">
+                  <input class="_title"
+                        type="text" 
+                        name="name" 
+                        value="{{item.name}}" 
+                        placeholder=""/>
+
+                  <div class="_itemSubHeaderBox">
+                  {{#if isGM}}
+                        <formField class="_100">
+                              <input name="system.contact" 
+                                     type="checkbox"
+                                     id="chContact" 
+                                     {{checked systemData.contact}} />                                    
+                              <label for="chContact">{{localize "common.wContact"}}</label>
+                              <input name="system.rangearm" 
+                                     type="checkbox"
+                                     id="chRangearm" 
+                                     {{checked systemData.rangearm}} />                                    
+                              <label for="chRangearm">{{localize "common.wRangearm"}}</label>
+                              <input name="system.firearm" 
+                                     type="checkbox"
+                                     id="chFirearm" 
+                                     {{checked systemData.firearm}} />                                    
+                              <label for="chFirearm">{{localize "common.wFirearm"}}</label>
+                        </formField>
+                        <formField class="_100">
+                            <input name="system.throwarm" 
+                                    type="checkbox"
+                                    id="chThrowarm" 
+                                    {{checked systemData.throwarm}} />                                    
+                            <label for="chThrowarm">{{localize "common.wThrowarm"}}</label>
+                            <input name="system.shield" 
+                                    type="checkbox"
+                                    id="chShield" 
+                                    {{checked systemData.shield}} />                                    
+                            <label for="chShield">{{localize "common.shield"}}</label>                           
+                            <input name="system.twoHands" 
+                                    type="checkbox"
+                                    id="chTwoHands" 
+                                    {{checked systemData.twoHands}} />                                    
+                            <label for="chTwoHands">{{localize "common.twoHands"}}</label>                            
+                        </formField>
+                        <formField class="_100">
+                            <input name="system.secondary" 
+                                    type="checkbox"
+                                    id="chSecondary" 
+                                    {{checked systemData.secondary}} />                                    
+                            <label for="chSecondary">{{localize "common.wSecondary"}}</label> 
+                        </formField>
+                  {{/if}}
+                  </div>
+            </div>
+      </div>
+
+      {{!-- TAB HEADER --}}
+      <nav class="itemTabsBar" data-group="primary-tabs">
+            {{#if isGM}}
+            <a data-tab="main" data-group="primary-tabs">
+                  <label class="_tabButton">{{localize 'common.main'}}</label></a>              
+            <a data-tab="context" data-group="primary-tabs">
+                  <label class="_tabButton">{{localize 'common.context'}}</label></a>     
+            <a data-tab="shield" data-group="primary-tabs">
+                  <label class="_tabButton">{{localize 'common.shield'}}</label></a>
+            {{/if}}                                                  
+            <a data-tab="description" data-group="primary-tabs">
+                  <label class="_tabButton">{{localize 'common.description'}}</label></a>
+      </nav>
+
+      {{!-- SECTIONS --}}
+      <div class="itemTabsContent">
+
+            {{!-- MAIN --}}
+            <section class="tab" data-group="primary-tabs" data-tab="main">
+                  {{>weaponMain}}
             </section>
-        </div>
 
-    </itemContent>            
+            {{!-- CONTEXT --}}
+            <section class="tab" data-group="primary-tabs" data-tab="context">
+                  {{>weaponContext}}
+            </section>            
 
-    
-{{!-- Molding ---}}
-<input name="system.control.mold"
-        value="{{systemData.control.mold}}" 
-        type="hidden" />   
+            {{!-- SHIELD --}}
+            <section class="tab" data-group="primary-tabs" data-tab="shield">
+                  {{>weaponShields}}
+            </section>  
 
+            {{!-- DESCRIPTION --}}
+            <section class="tab" data-group="primary-tabs" data-tab="description">
+                  {{>weaponDescription}}
+            </section>            
+
+      </div>
 </form>

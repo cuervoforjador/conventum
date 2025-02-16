@@ -1,0 +1,27 @@
+
+<div class="_actorCharacteristics">
+{{#each systemData.characteristics as |char sId|}}
+    <div class="_line _statRow">
+        <label>{{localizeBy 'characteristics.' sId}}</label>
+        <div class="_combo">
+            <input class="_attributeValue _value"
+                {{locked}}
+                style="/*color: {{evalCharColor sId}}*/"
+                type="number" 
+                data-char="{{sId}}"
+                value="{{extendValue 'systemData.characteristics' sId 'value'}}"
+                min="{{extendValue 'systemData.characteristics' sId 'min'}}"
+                max="{{extendValue 'systemData.characteristics' sId 'max'}}"/>
+            <input class="_attributeValue _mod"
+                {{locked}}
+                type="text"
+                data-char="{{sId}}"
+                value="{{extendValue 'systemData.characteristics' sId 'mod'}}" />
+        </div>
+    </div>
+    <div class="_line _statProgress">
+        <div class="_back"></div>
+        <div class="_front" style="width: {{charProgress sId}}"></div>
+    </div>
+{{/each}}
+</div>

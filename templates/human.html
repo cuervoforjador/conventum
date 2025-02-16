@@ -1,82 +1,47 @@
-<form class="codex"
-      style="background: url({{frameUrl}}/paper.png)"
+<form class="_human {{#if systemData.control.view.short}}_short{{/if}}"
       autocomplete="off">
-    
-    {{#if systemData.control.wizard}}
-      {{> humanWizard }}
 
-    {{else}}
+      {{>actorMainPortrait}}   
+      {{>actorMainHitPoints}}      
+      {{>actorMainCharacteristics}}
+      {{>actorMainName}}
+      {{>actorMenu}}
 
-        {{#if systemData.control.expand}}
-          {{> humanFrame }}
-          {{> humanCrest }}
-        {{/if}}
-        
-        <div class="frameContent">
-          <section class="sheet-body">
-            {{#if systemData.control.expand}}
+      <section class="tabs_ActorContent">
 
-              {{> humanPageMain }}
-              {{> humanPageBio }}
-              {{> humanPageSkills }}
-              {{> humanPageCombat }}
-              {{> humanPageActions }}
-              {{> humanPageMagic }}
-              {{> humanPageItems }}
+            <sheetContent class="tab _empty" data-group="groupActorMenu" data-tab="main">
+            </sheetContent>            
+            <sheetContent class="tab" data-group="groupActorMenu" data-tab="actor"
+                          style="background-image: url({{backLore.custo.paper}});">
+                  {{>actorSheetActor}}
+            </sheetContent>
+            <sheetContent class="tab" data-group="groupActorMenu" data-tab="skills"
+                          style="background-image: url({{backLore.custo.paper}});">
+                  {{>actorSheetSkills}}            
+            </sheetContent>
+            <sheetContent class="tab" data-group="groupActorMenu" data-tab="equipment"
+                          style="background-image: url({{backLore.custo.paper}});">
+                  {{>actorSheetEquipment}}
+            </sheetContent>
+            <sheetContent class="tab" data-group="groupActorMenu" data-tab="magic"
+                          style="background-image: url({{backLore.custo.paper}});">
+                  {{>actorSheetMagic}}
+            </sheetContent>
+            <sheetContent class="tab" data-group="groupActorMenu" data-tab="combat"
+                          style="background-image: url({{backLore.custo.paper}});">
+                  {{>actorSheetCombat}}
+            </sheetContent>                                                
 
-            {{else}}
-
-              {{> humanHeaderShrink }}
-              {{> humanMainShrink }}    
+      </section>
             
-            {{/if}}
-          </section>
-        </div>
+      {{!-- CONTROL --}}
+      <input name="system.control.view.expanded" 
+             class="_hideControl"
+             type="checkbox" 
+             {{checked systemData.control.view.expanded}} />        
 
-        {{#if actions.showPoster }}
-          {{> humanPosterActions }}
-        {{/if}}
-
-        {{!-- 
-        {{#if targets.showTargets }}
-          {{> humanPosterTargets }}
-        {{/if}}
-        --}}
-
-        {{!-- QUICK BARS --}}
-        {{#if systemData.quickBar }}
-          {{> humanQuickBar }}
-        {{/if}}
-        
-        {{!-- MODES STICKERS --}}
-        <div class="modeStickers">
-        {{#each modes as |mode id|}}
-          {{#if (modeStickers mode)}}
-          <div class="_imLucky">
-            <a class="_showMode" data-itemid="{{mode._id}}">
-              <img src="{{mode.img}}" title="{{mode.name}}"/>
-            </a>
-          </div>
-          {{/if}}
-        {{/each}}
-        </div>
-
-        {{!-- Hiddens ---}}
-        <input name="system.quickBar"
-              value="{{systemData.quickBar}}" 
-              type="hidden" /> 
-        <input name="system.quickBarPosition.x"
-              value="{{systemData.quickBarPosition.x}}" 
-              type="hidden" />   
-        <input name="system.quickBarPosition.y"
-              value="{{systemData.quickBarPosition.y}}" 
-              type="hidden" />                    
-        <input name="system.quickBarPosition.sheetX"
-              value="{{systemData.quickBarPosition.sheetX}}" 
-              type="hidden" />  
-        <input name="system.quickBarPosition.sheetY"
-              value="{{systemData.quickBarPosition.sheetY}}"
-              type="hidden" />   
-           
-    {{/if}}
+      <input name="system.control.view.short" 
+             class="_hideControl"
+             type="checkbox" 
+             {{checked systemData.control.view.short}} />                 
 </form>

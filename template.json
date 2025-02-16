@@ -1,1070 +1,693 @@
 {
   "Actor": {
     "types": [
-                "human",
-                "horse",
-                "humanoid",
-                "quadruped",
-                "birds",
-                "arachnid",
-                "snakes",
-                "arboreal",
-                "wingedHumanoid",
-                "wingedQuadruped",
-                "blemys",
-                "bafometo",
-                "sciopodo",
-                "snakeHumanoid",
-                "basilisk"
-             ],
+        "human"
+    ],
     "templates": {
       "base": {
-        "control": {
-          "initial": true,
-          "locked": false,
-          "expand": true,
-          "criature": false,
-          "mount": false,
-          "visible": false,
-          "frame": "catholicae",
-          "world": "",
-          "listSkills": false,
-          "askedForWizard": false,
-          "wizard": false,
-          "codice": false,
-          "noImportActions": false
+        "characteristics": {
+          "str": {
+            "value": 10,
+            "max": 20,
+            "min": 0,
+            "mod": "+0"           
+          },
+          "agi": {
+            "value": 10,
+            "max": 20,
+            "min": 0,
+            "mod": "+0"           
+          },
+          "hab": {
+            "value": 10,
+            "max": 20,
+            "min": 0,
+            "mod": "+0"           
+          },
+          "end": {
+            "value": 10,
+            "max": 20,
+            "min": 0,
+            "mod": "+0"           
+          },
+          "per": {
+            "value": 10,
+            "max": 20,
+            "min": 0,
+            "mod": "+0"            
+          },
+          "tem": {
+            "value": 10,
+            "max": 20,
+            "min": 0,
+            "mod": "+0"           
+          },
+          "com": {
+            "value": 10,
+            "max": 20,
+            "min": 0,
+            "mod": "+0"           
+          },
+          "cul": {
+            "value": 10,
+            "max": 20,
+            "min": 0,
+            "mod": "+0"           
+          },
+          "asp": {
+            "value": 10,
+            "max": 20,
+            "min": 0,
+            "mod": "+0"           
+          }          
         },
-        "wizard": {
-          "01": true,
-          "02": false,
-          "03": false,
-          "04": false,
-          "05": false,
-          "06": false,
-          "07": false,
-          "08": false,
-          "09": false,
-          "10": false,
-          "11": false,
-          "12": false,
-          "13": false,
-          "14": false,
-          "15": false,
-          "showTableRoll01": false,
-          "showTableRoll02": false,
-          "showTableRoll03": false,
-          "showTableRoll04": false,
-          "showTableRoll05": false,
-          "showTableRoll06": false,
-          "showTableRoll07": false,
-          "showTableRoll08": false,
-          "showTableRoll09": false,
-          "showTableRoll10": false
+        "secondaries": {
+          "rr": {
+            "value": 50,
+            "max": 100,
+            "min": 0,
+            "mod": "+0"
+          },
+          "irr": {
+            "value": 50,
+            "max": 100,
+            "min": 0,
+            "mod": "+0"  
+          },
+          "luck": {
+            "value": 0,
+            "max": 0,
+            "min": 0,
+            "mod": "+0"        
+          },
+          "faith": {
+            "value": 0,
+            "max": 0,
+            "min": 0,
+            "mod": "+0"       
+          },
+          "conc": {
+            "value": 0,
+            "max": 0,
+            "min": 0,
+            "mod": "+0"        
+          },       
+          "exper": {
+            "value": 0,
+            "max": 0,
+            "min": 0,
+            "mod": "+0"       
+          },
+          "temp": {
+            "value": 0,
+            "max": 100,
+            "min": 0,
+            "mod": "+0"        
+          },           
+          "apar": {
+            "value": 0,
+            "max": 4,
+            "min": -4,
+            "mod": "+0"        
+          },
+          "hits": {
+            "value": 0,
+            "max": 0,
+            "min": 0,
+            "serious": 0,
+            "mod": "+0"
+          }                                        
         },
-        "bio": {
+        "lifeStatus": {
+          "s0": {
+            "acquired": true,
+            "i18n": "life.healthy",
+            "max": 0,
+            "coef": 1
+          },
+          "s1": {
+            "acquired": false,
+            "i18n": "life.injured",
+            "max": 0,
+            "coef": 0.50
+          },
+          "s2": {
+            "acquired": false,
+            "i18n": "life.badly",
+            "max": 0,
+            "coef": 0.25
+          },
+          "s3": {
+            "acquired": false,
+            "i18n": "life.unconscious",
+            "max": 0,
+            "coef": 0
+          },
+          "s4": {
+            "acquired": false,
+            "i18n": "life.dead",
+            "max": 0,
+            "coef": -1
+          }
+        },
+        "attributes": {
+          "damage": {
+            "value": "",
+            "mod": "+0",
+            "mult": 1
+          },
+          "app": {
+            "value": 0,
+            "max": 3,
+            "min": -2,
+            "mod": "+0",
+            "level": "+0"
+          },
+          "social": {
+            "appearance": "+0",
+            "renown": "+0",
+            "nature": "+0",
+            "attitude": "+0"
+          },
           "female": false,
-          "age": 22,
-          "height": 10,
-          "weight": 10,
-          "kingdom": "",
-          "culture": "",
-          "society": "",
-          "stratum": "",
-          "status": "",
-          "profession": "",
-          "parentProfession": "",
-          "familySituation": "",
-          "familyBrothers": "",
-          "spouse": "",
-          "description": "",
-          "background": "",
-          "decide": {
-            "kingdom": false,
-            "culture": false,
-            "stratum": false,
-            "status": false,
-            "profession": false,
-            "parentProfession": false
-          }
+          "height": 1.64,
+          "weight": 125,
+          "age": 22
         },
-        "equipment": {
-          "mount": "",
-          "income": "",
-          "cash": "",
-          "goods": ""
-        },
-        "characteristics": {
-          "primary": {
-            "str": {
-              "min": 5,
-              "max": 20,
-              "value": 10,
-              "temp": 0,
-              "penal": "+0",
-              "initial": 10,
-              "passive": false
-            },
-            "agi": {
-              "min": 5,
-              "max": 20,
-              "value": 10,
-              "temp": 0,
-              "penal": "+0",
-              "initial": 10,
-              "passive": false              
-            },
-            "abi": {
-              "min": 5,
-              "max": 20,
-              "value": 10,
-              "temp": 0,
-              "penal": "+0",
-              "initial": 10,
-              "passive": false              
-            },
-            "end": {
-              "min": 10,
-              "max": 20,
-              "value": 10,
-              "temp": 0,
-              "penal": "+0",
-              "initial": 10,
-              "passive": false              
-            },
-            "per": {
-              "min": 5,
-              "max": 20,
-              "value": 10,
-              "temp": 0,
-              "penal": "+0",
-              "initial": 10,
-              "passive": false              
-            },
-            "com": {
-              "min": 5,
-              "max": 20,
-              "value": 10,
-              "temp": 0,
-              "penal": "+0",
-              "initial": 10,
-              "passive": false              
-            },
-            "cul": {
-              "min": 5,
-              "max": 20,
-              "value": 10,
-              "temp": 0,
-              "penal": "+0",
-              "initial": 10,
-              "passive": false              
-            },
-            "app": {
-              "min": 0,
-              "max": 20,
-              "value": 12,
-              "temp": 0,
-              "penal": "+0",
-              "initial": 12,
-              "passive": true                          
-            }
-          },
-          "secondary": {
-            "luck": {
-              "min": 0,
-              "max": 100,
-              "value": 10,
-              "temp": 0,
-              "penal": "+0",
-              "initial": 10                     
-            },
-            "temp": {
-              "min": 0,
-              "max": 100,
-              "value": 0,
-              "temp": 0,
-              "penal": "+0",
-              "initial": 50                          
-            },
-            "rr": {
-              "min": 0,
-              "max": 100,
-              "value": 50,
-              "current": 50,
-              "temp": 0,
-              "penal": "+0",
-              "initial": 50,
-              "last": 50                   
-            },
-            "irr": {
-              "min": 0,
-              "max": 100,
-              "value": 50,
-              "current": 50,
-              "temp": 0,
-              "penal": "+0",
-              "initial": 50,
-              "last": 50
-            },
-            "hp": {
-              "min": 0,
-              "max": 20,
-              "value": 10,
-              "current": 10,
-              "temp": 0,
-              "penal": "+0",
-              "initial": 10                      
-            },
-            "cp": {
-              "min": 0,
-              "max": 20,
-              "value": 10,
-              "current": 10,
-              "temp": 0,
-              "penal": "+0",
-              "initial": 10                     
-            },
-            "fp": {
-              "min": 0,
-              "max": 20,
-              "value": 10,
-              "current": 10,
-              "temp": 0,
-              "penal": "+0",
-              "initial": 10                          
-            }
-          }
-        },
-        "initiative": {
-          "value": 0,
-          "base": 0,
-          "mod": ""
-        },
-        "status": {
-          "life": {
-            "healthy": true,
-            "injured": false,
-            "wounded": false,
-            "unconscious": false,
-            "dead": false
-          },
-          "rightHanded": true,
-          "appearance": ""
-        },
+        "skills": {}, 
         "modes": [],
-        "skills": {},
-        "languages": {},
-        "armor": {},
+        "weaponLevels": {},
         "magic": {
-          "penal": {
-            "method": "-0",
-            "armor": "-0",
-            "ceremony": "-0",
-            "concentration": "-0",
-            "others": "-0"
+          "system": 1,
+          "vis": 0,
+          "ordo": 0,
+          "ordos": {
+            "o1": false,
+            "o2": false,
+            "o3": false,
+            "o4": false,
+            "o5": false,
+            "o6": false
+          },
+          "study": {
+            "learning": false,
+            "spellId": "",
+            "ordoId": "",
+            "months": 0, 
+            "unit": "common.months",               
+            "read": false,
+            "channeled": false,
+            "learned": false,
+            "learnedDays": 0,
+            "learnedMonths": 0,
+            "learnedPercent": 0,        
+            "teached": false,
+            "teachPercent": 0,
+            "memorized": false
+          },
+          "template": {
+            "potion1": {},
+            "potion2": {},
+            "potion3": {},
+            "unguent1": {},
+            "unguent2": {},
+            "unguent3": {},
+            "talisman": {},
+            "spell": {},
+            "selected": "",
+            "spellId": ""
           }
         },
-        "action": {
-          "action": ""
-        }
-      },
-      "criatures": {
-        "characteristics": {
-          "primary": {
-            "str": {
-              "min": 0,
-              "max": 200
+        "control": {
+          "rules": "aq3",
+          "view": {
+            "expanded": true,
+            "short": false
+          },
+          "skills": {
+            "lastSkill": "",
+            "search": "",
+            "sortByName": false,
+            "sortByValue": false,
+            "onlyFavorites": false,
+            "onlyLearned": false,
+            "onlyByProfession": false,
+            "initialExperience": true
+          },
+          "main": {
+            "octagon": false
+          },
+          "combat": {
+            "currentPhase": "combat",
+            "phases": {
+              "roll": false,
+              "oppoRoll": false,
+              "damage": false
             },
-            "agi": {
-              "min": 0,
-              "max": 200        
+            "weapon": {
+              "main": "",
+              "second": ""
             },
-            "abi": {
-              "min": 0,
-              "max": 200         
-            },
-            "end": {
-              "min": 0,
-              "max": 200      
-            },
-            "per": {
-              "min": 0,
-              "max": 200  
-            },
-            "com": {
-              "min": 0,
-              "max": 200    
-            },
-            "cul": {
-              "min": 0,
-              "max": 200     
-            },
-            "app": {
-              "min": 0,
-              "max": 200                   
+            "spell": {
+              "custoMod": "+0",
+              "custoRitMod": "+0"
             }
           },
-          "secondary": {
-            "hp": {
-              "min": 0,
-              "max": 200                 
-            },
-            "cp": {
-              "min": 0,
-              "max": 200              
-            },
-            "fp": {
-              "min": 0,
-              "max": 200                  
-            }
-          }
-        }        
-      }      
+          "selection": {
+            "combatant": "",
+            "action": "",
+            "location": ""
+          }          
+        },
+        "money": {
+          "cash": 0,
+          "income": 0,
+          "expense": 0
+        }
+      }
     },
     "human": {
-      "templates": ["base"],
-      "quickBar": false,
-      "quickBarPosition": {
-        "x": 0,
-        "y": 0,
-        "sheetX": 0,
-        "sheetY": 0
-      },
-      "sheet": {
-        "expandedA1": true,
-        "expandedA2": true,
-        "expandedA3": true,
-        "expandedA4": true        
-      }
-    },
-    "horse": {
-      "templates": ["base", "criatures"],
-      "control": {
-        "initial": false,
-        "criature": true,
-        "mount": true,
-        "expand": false,
-        "world": ""
-      }
-    },
-    "humanoid": {
-      "templates": ["base"],
-      "control": {
-        "initial": false,
-        "criature": true,
-        "expand": false,
-        "world": ""
-      }
-    },
-    "quadruped": {
-      "templates": ["base"],
-      "control": {
-        "initial": false,
-        "criature": true,
-        "expand": false,
-        "world": ""
-      }
-    },
-    "birds": {
-      "templates": ["base"],
-      "control": {
-        "initial": false,
-        "criature": true,
-        "expand": false,
-        "world": ""
-      }
-    },
-    "arachnid": {
-      "templates": ["base"],
-      "control": {
-        "initial": false,
-        "criature": true,
-        "expand": false,
-        "world": ""
-      }
-    },
-    "snakes": {
-      "templates": ["base"],
-      "control": {
-        "initial": false,
-        "criature": true,
-        "expand": false,
-        "world": ""
-      }
-    },
-    "arboreal": {
-      "templates": ["base"],
-      "control": {
-        "initial": false,
-        "criature": true,
-        "expand": false,
-        "world": ""
-      }
-    },
-    "wingedHumanoid": {
-      "templates": ["base"],
-      "control": {
-        "initial": false,
-        "criature": true,
-        "expand": false,
-        "world": ""
-      }
-    },
-    "wingedQuadruped": {
-      "templates": ["base"],
-      "control": {
-        "initial": false,
-        "criature": true,
-        "expand": false,
-        "world": ""
-      }
-    },
-    "blemys": {
-      "templates": ["base"],
-      "control": {
-        "initial": false,
-        "criature": true,
-        "expand": false,
-        "world": ""
-      }
-    },
-    "bafometo": {
-      "templates": ["base"],
-      "control": {
-        "initial": false,
-        "criature": true,
-        "expand": false,
-        "world": ""
-      }
-    },
-    "sciopodo": {
-      "templates": ["base"],
-      "control": {
-        "initial": false,
-        "criature": true,
-        "expand": false,
-        "world": ""
-      }
-    },
-    "snakeHumanoid": {
-      "templates": ["base"],
-      "control": {
-        "initial": false,
-        "criature": true,
-        "expand": false,
-        "world": ""
-      }
-    },
-    "basilisk": {
-      "templates": ["base"],
-      "control": {
-        "initial": false,
-        "criature": true,
-        "expand": false,
-        "world": ""
-      }
+      "templates": [
+        "base"
+      ]
     }
   },
   "Item": {
     "types": [
         "item",
-        "world",
-        "society",
-        "kingdom",
-        "culture",
-        "language",
-        "stratum",
-        "status",
+        "encounter",
         "skill",
-        "profession",
-        "trait",
-        "location",
-        "mode",
-        "armor",
-        "weapon",
-        "spell",
-        "ritual",
-        "component",        
         "action",
-        "actionPool"
+        "weapon",
+        "armor",
+        "trait",
+        "spell",
+        "book",
+        "loreSociety",
+        "loreKingdom",
+        "loreNation",
+        "loreStratum",
+        "lorePosition",
+        "loreProfession"
     ],
     "templates": {
       "base": {
         "control": {
-          "initial": true,
-          "locked": false,
-          "world": "",
-          "mold": ""
-        },
-        "range": {
-          "low": 0,
-          "high": 0
-        },
+          "key": "",
+          "repeated": "",
+          "tags": "",
+          "rules": "aq3"
+        },        
         "description": ""
       },
-      "stats": {
-        "stats": {
-          "min": 0,
-          "max": 0,
-          "value": 0
-        }
+      "baseItem": {
+        "cost": 0,
+        "weight": 0        
       },
-      "skill": {
-        "criature": false,
-        "characteristic": {
-          "primary": "",
-          "secondary": ""
+      "statValue": {
+        "value": 0,
+        "modBase": "",
+        "mod": "",
+        "mult": "",
+        "checked": false    
+      },
+      "lore": {
+        "roll": {
+          "from": 0,
+          "to": 0
         },
-        "group": {},
-        "mods": {
-          "char": "",
-          "modChar": 1,
-          "modCharBase": 1,
-          "modExpCost": 2
-        },
-        "combat": {
-          "combat": false,
-          "contact": false,
-          "distance": false,
-          "fire": false
-        },
-        "magic": {
-          "magic": false
-        },
-        "languages": {
-          "apply": false
-        }
+        "custo": {
+          "background": "",
+          "frameH": "/systems/aquelarre/assets/codex/border01H.png",
+          "frameV": "/systems/aquelarre/assets/codex/border01V.png",
+          "frameQ": "/systems/aquelarre/assets/codex/border01Q.png",
+          "paper": "/systems/aquelarre/assets/codex/papel01.png"
+        }        
       }
     },
     "item": {
       "templates": ["base"]
     },
-    "world": {
+    "encounter": {
       "templates": ["base"],
-      "config": {
-        "kingdomsDice": "1d10",
-        "rolllevel": {
-          "level1": {
-            "apply": true,
-            "text": "Certa",
-            "bono": "+75",
-            "color": "#8b936a70"
-          },
-          "level2": {
-            "apply": true,
-            "text": "Facillima",
-            "bono": "+50",
-            "color": "#c8d78b8a"
-          },
-          "level3": {
-            "apply": true,
-            "text": "Facilis",
-            "bono": "+25",
-            "color": "#d1cf958a"
-          },
-          "level4": {
-            "apply": true,
-            "text": "Modica",
-            "bono": "",
-            "color": "#ebcfb78a"
-          },
-          "level5": {
-            "apply": true,
-            "text": "Difficilis",
-            "bono": "-25",
-            "color": "#df95568a"
-          },
-          "level6": {
-            "apply": true,
-            "text": "Difficillima",
-            "bono": "-50",
-            "color": "#e9692c8a"
-          },
-          "level7": {
-            "apply": true,
-            "text": "Impossibilis",
-            "bono": "-75",
-            "color": "#e9582c96"
-          },
-          "level8": {
-            "apply": false,
-            "text": "",
-            "bono": "",
-            "color": ""
-          },
-          "level9": {
-            "apply": false,
-            "text": "",
-            "bono": "",
-            "color": ""
-          }                            
-        },
-        "rolls": {
-          "skillRange": "10",
-          "failureRange": "90",
-          "failureMin": "100",
-          "criticalSuccessStep": "01",
-          "criticalFailureStep": "01",
-          "charAndLevels": true            
-        },
-        "actions": {
-          "fixedNumber": true,
-          "actionNumber": 2,
-          "initiativePercent": 0,
-          "penalFrom": 0,
-          "penaltyPorc": ""
-        },
-        "custo": {
-          "fontFamily": "'Almendra', sans-serif",
-          "fontFamily2": "'Uncial Antiqua', cursive",
-          "fontFamily3": "'Augusta'",
-          "paper": "url(/systems/aquelarre/image/texture/paper.png)",
-          "tile1": "url(/systems/aquelarre/image/texture/tile01.png)",
-          "tile2": "url(/systems/aquelarre/image/texture/tile02.png)"
-        }
-      }
-    },
-    "society": {
-      "templates": ["base"],
-      "backend": {
-        "frame": "standard"
-      }
-    },
-    "kingdom": {
-      "templates": ["base"],
-      "backend": {
-        "cultures": {}
-      }
-    },
-    "culture": {
-      "templates": ["base"],
-      "backend": {
-        "society": "",
-        "languages": {}
-      }
-    },
-    "stratum": {
-      "templates": ["base"],
-      "backend": {
-        "society": ""
-      }
+      "combat": "",
+      "combatants": [],
+      "steps": []
     },    
-    "status": {
-      "templates": ["base"],
-      "backend": {
-        "stratum": ""
-      }      
-    },
-    "language": {
-      "templates": ["base", "stats"]
-    },
     "skill": {
-      "templates": ["base", "stats", "skill"]
-    },
-    "profession": {
-      "templates": ["base", "stats"],
-      "requirement": {
-        "male": true,
-        "female": true,
-        "primary": {},
-        "secondary": {},
-        "kingdoms": {},
-        "xKingdom": false,
-        "societies": {},
-        "cultures": {},
-        "xCulture": false,
-        "stratums": {},
-        "status": {}
-      },
-      "skills": {
-        "primary": {},
-        "secondary": {},
-        "languages": {},
-        "combatPrimaryGroup": {},
-        "combatPrimary": {},
-        "combatSecondaryGroup": {},
-        "combatSecondary": {},
-        "maxCombatPrimary": 0,
-        "maxCombatSecondary": 0
-      },
-      "index": 0,
-      "income": 0,
-      "incomeExtend": {
-        "bySkill": false,
-        "skill": {},
-        "byCharacteristic": false,
-        "characteristic": {}
-      },
-      "others": {
-        "bastard": false,
-        "bastardName": ""
-      }
-    },    
-    "trait": {
-      "templates": ["base", "stats"],
-      "mod": {
-        "skill": {
-          "id": "",
-          "bono": "",
-          "apply": false
-        },
-        "combatSkill": {
-          "bono": "",
-          "apply": false
-        },
-        "characteristic": {
-          "id": "",
-          "bono": "",
-          "apply": false      
-        }
-      }
-    },
-    "location": {
-      "templates": ["base"],
-      "actorType": "human",
-      "modDamage": "1",
-      "topLeft": {
-        "top": "0px",
-        "left": "0px"
-      }
-    },
-    "mode": {
-      "templates": ["base"],
-      "actorType": "human",
-      "luck": false,
-      "stun": false,
-      "injured": false,
-      "wounded": false,
-      "unconscious": false,
-      "dead": false,
-      "byMaster": true,
-      "active": false,
-      "effect": "",
-      "permanent": false,
-      "config": {
-        "item": {
-          "apply": false,
-          "weapon": {
-            "type": {
-              "bow": false,
-              "crossbow": false,
-              "knife": false,
-              "sword": false,
-              "longsword": false,
-              "axe": false,
-              "sling": false,
-              "spear": false,
-              "mace": false,
-              "stick": false,
-              "fight": false
-            },
-            "size": {
-              "light": false,
-              "middle": false,
-              "heavy": false
-            }
-          }
-        },    
-        "skill": {
-          "apply": false,
-          "mod": "",
-          "mult": 1
-        },
-        "combatSkill": {
-          "apply": false,
-          "mod": "",
-          "mult": 1,
-          "onlyAttack": false,
-          "onlyDefense": false
-        },
-        "damage": {
-          "apply": false,
-          "mod": "",
-          "mult": 1,
-          "multDamageBon": 1
-        },
-        "location": {
-          "focusLocation": {},
-          "actorType": "human",
-          "shield": false,
-          "formula": ""
-        },        
-        "actionPoints": 0,
-        "noActionPoints": false       
-      }
-    },
-    "armor": {
-      "templates": ["base"],
-      "armorType": "02",
-      "protection": 0,
-      "endurance": 0,
-      "total": 0,
-      "inUse": false,
-      "requeriment": {
-        "apply": false,
+      "templates": ["base", "statValue"],
+      "extend": {
         "characteristic": "",
-        "minValue": "0"
+        "parent": "",
+        "combat": false,
+        "language": false,
+        "onlyGroup": false,
+        "modHistory": [] 
       },
-      "penalty": {
-        "skills": {},
-        "initiative": "",
-        "movement": ""
-      },
-      "actorType": "human",
-      "location": {},
-      "armor": {},
-      "weight": "",
-      "cost": ""   
-    },
-    "weapon": {
-      "templates": ["base"],
-      "weight": "",
-      "cost": "",
-      "inUse": false,
-      "combatSkill": "",
-      "secondSkill": "",
-      "characteristic": "",
-      "type": {
-        "contact": true,
-        "2hands": false,
-        "range": false,
-        "fire": false,
-        "shield": false
-      },  
-      "group": {},
-      "weaponType": "",     
-      "size": "",
-      "requirement": {
-        "primary": {
-          "apply": false,
-          "characteristic": "",
-          "minValue": 0
-        },
-        "secondary": {
-          "apply": false,
-          "characteristic": "",
-          "minValue": 0
-        }
-      },
-      "damage": "",
-      "noDamageMod": false,
-      "protection": 0,
-      "endurance": 0,
-      "enduranceCurrent": 0,
-      "actorType": "human",
-      "rangeLocation": {},
-      "penalty": {
-        "skills": {},
-        "initiative": "",
-        "movement": ""
-      },      
-      "poison": {
-        "apply": false,
-        "damage": ""
-      },
-      "range": {
-          "byCharacteristic": false,
-          "characteristic": "",
-          "lowRange": "",
-          "mediumRange": "",
-          "largeRange": ""
-      },
-      "recharge": 0,
-      "inHands": {
-        "inLeftHand": false,
-        "inRightHand": false,
-        "inBothHands": false
+      "basic": {},
+      "custo": {
+        "fogColor": "#555555",
+        "fogSpeed": 0.5
       }
     },
-    "spell": {
-      "templates": ["base"],
-      "vis": 1,
-      "ptc": 1,
-      "percent": {
-        "primary": "",
-        "secondary": "irr",
-        "skill": ""
-      },      
-      "damage": {
-        "apply": false,
-        "damage": "",
-        "noArmor": false
-      },      
-      "sPenal": "0",
-      "shape": "invocatio",
-      "nature": "white",
-      "secondNature": "popular",
-      "expiration": "",
-      "duration": "",
-      "components": "",
-      "preparation": "",
-      "effects": ""
-    },
-    "ritual": {
-      "templates": ["base"],
-      "ordo": 1,
-      "ptf": 1,
-      "percent": {
-        "secondary": "rr",
-        "skill": ""
-      },      
-      "damage": {
-        "apply": false,
-        "damage": "",
-        "noArmor": false
-      },
-      "sPenal": "0",
-      "society": "",
-      "ceremony": "",
-      "duration": "",
-      "effects": ""
-    },    
-    "component": {
-      "templates": ["base"],
-      "utility": "daily",
-      "location": "nearby",
-      "potential": "nomagic",
-      "place": "smalltown",
-      "mod0": "+0",
-      "witchcraft0": "*1",
-      "mod": "",
-      "witchcraft": ""
-    },    
     "action": {
       "templates": ["base"],
       "type": {
-        "attack": false,
+        "attack": true,
         "defense": false,
         "movement": false,
-        "spell": false,
-        "initial": true
+        "fencing": false
       },
-      "steps": {
-        "actionSteps": 1,
-        "initiative": "+0"
-      },      
-      "item": {
-        "weapon": {
-          "contact": false,
-          "range": false,
-          "throw": false,
-          "shield": false,
-          "type": {
-            "bow": false,
-            "crossbow": false,
-            "knife": false,
-            "sword": false,
-            "longsword": false,
-            "axe": false,
-            "sling": false,
-            "spear": false,
-            "mace": false,
-            "stick": false,
-            "fight": false
-          },
-          "size": {
-            "light": false,
-            "middle": false,
-            "heavy": false
-          }
-        }
+      "flow": {
+        "extend": false,
+        "steps": 1,
+        "useWeapon": true,
+        "useTarget": true,
+        "useRoll": true,
+        "useOppoRoll": false,
+        "useDamage": true
       },
-      "target": {
-        "myself": false,
-        "combatants": true,
-        "lastPlayed": false,
-        "lastAttacker": false,
-        "lastDefender": false,
-        "multiple": false,
-        "forceSelection": false,
-        "forceTargets": false
+      "modes": {
+        "attacker": "",
+        "target": "",
+        "reqAttacker": "",
+        "reqTarget": "",
+        "exitAttacker": "",
+        "exitTarget": ""
+      },
+      "initiative": "+0",
+      "noInitiativePenals": false,
+      "basic": false,
+      "movement": {
+        "distance": ""
+      },
+      "fencing": {
+        "requirements": {
+          "fencing": 0,
+          "dodge": 0,
+          "fight": 0,
+          "dagger": 0,
+          "shield": 0
+        },
+        "experience": 0
+      },
+      "defense": {
+        "penalization": {
+          "apply": false,
+          "mod": "+0",
+          "mult": "1"
+        },        
+        "criticalAttack": {
+          "apply": false,
+          "mod": "+0",
+          "mult": "1"
+        },
+        "inactiveAttacks": {
+          "sameAttacker": false,
+          "allAttacks": false
+        },
+        "comparingWeapons": false,
+        "diffWeapons": 2
+      },
+      "roll": {
+        "autoSuccess": false,
+        "useWeapon": false,        
+        "useSkill": false,
+        "usePercentFormula": false,
+        "useHelps": true,
+        "restrictWeapons": false,
+        "rollFormula": "1d100",
+        "twoHands": {
+          "useLower": false,
+          "usePenalLower": false,
+          "usePrimary": true,
+          "useSecondary": false,
+          "useShield": false
+        },
+        "rollTitle": ""
+      },
+      "opposedRoll": {
+        "useOppRoll": false,
+        "anticipate": false,
+        "attacker": "",
+        "defender": ""
+      },
+      "weapon": {
+        "types": [],
+        "bySize1": false,
+        "sizes1": {},
+        "bySize2": false,
+        "sizes2": {},  
+        "bothWeapons": false,   
+        "priorShields": false,   
+        "noWeapons": false,
+        "onlyRangeWeapons": false,
+        "damage": {
+          "noDamage": false,
+          "bothWeapons": false,
+          "toShield": false,
+          "criticalBrokeShield": false,
+          "location": "",
+          "locationFormula": "1D10",
+          "damageBon": true,
+          "noArmor": false,
+          "own": false,
+          "base": "",
+          "mod": "+0",
+          "mult": "1",
+          "dbLevel": "+0",
+          "applyPostRoll": false
+        },
+        "requirements": "",
+        "abstract": ""
+      },  
+      "combatMods": {},
+      "combatModsApply": {
+        "attacker": {},
+        "target": {}
       },
       "skill": {
-        "mod": {
-          "combatSkill": "",
-          "combatSkill2": "",
-          "secondarySkill": "",
-          "targetCombatSkill": "",
-          "targetSecondarySkill": "",
-          "multSkill": 1,
-          "multSkillTarget": 1,
-          "stack": false
-        },
-        "useSkill": false,
-        "skill": "",
-        "skillAsCombat": false,
-        "applyRangePenal": true,
-        "doubleAttack": false,
-        "autoSuccess": false
+        "skillKey": ""
       },
-      "damage": {
-        "formula": "",
-        "mod": {
-          "damage": "",
-          "targetDamage": "",
-          "multDamage": 1,
-          "stack": false,
-          "noDamageBon": false,
-          "modDamage1": false,
-          "modDamage2": false
-        },
-        "target": {
-          "mount": false,
-          "shield": false
-        },
-        "noDamage": false,
-        "damageXendurance": false
-      },
-      "armor": {
-        "mod": {
-          "endurance": "",
-          "protection": "",
-          "targetEndurance": "",
-          "targetProtection": "",
-          "stack": false
-        },
-        "noEndurance": false,
-        "noProtection": false,
-        "targetNoEndurance": false,
-        "targetNoProtection": false,
-        "breakArmor": false
-      },
-      "location": {
-        "focusLocation": {},
-        "actorType": "human",
-        "askForLocation": false
-      },
-      "consume": {
-        "destroy1targetAction": false,
-        "destroyAllTargetActions": false
-      },
-      "rolls": {
-        "leveled": true,
-        "opposedRoll": false,
-        "replaceRoll": false,
-        "actor": {
-          "primaryChar": "",
-          "secondaryChar": "",
-          "skill": "",
-          "mult": "1",
-          "byWeapon": false,
-          "mod": "0"
-        },
-        "opponent": {
-          "primaryChar": "",
-          "secondaryChar": "",
-          "skill": "",
-          "mult": "1",
-          "byWeapon": false,
-          "mod": "0"
-        }        
-      },
-      "modes": {}
+      "percent": {
+        "formula": ""
+      }      
     },
-    "actionPool": {
-      "steps": [],
-      "history": [],
-      "assaultId": 1,
-      "combat": ""
-    }
+    "weapon": {
+      "templates": ["base", 
+                    "statValue"],
+      "contact": true,
+      "rangearm": false,    
+      "firearm": false,      
+      "throwarm": false,
+      "shield": false,
+      "twoHands": false,
+      "secondary": false,
+      "skillkey": "",
+      "skillMod": "+0",
+      "skillModDefense": "+0",
+      "armorMult": {},
+      "strMin": "0",
+      "weaponLevels": {},
+      "damage": {
+        "base": "",
+        "bono": false,
+        "impale": false,
+        "noArmor": false
+      },      
+      "size": "",
+      "recharge": "",
+      "range": {
+        "short": "",
+        "middle": "",
+        "large":""
+      },
+      "lock": "",      
+      "initiative": {
+        "first": "",
+        "after": ""
+      },
+      "endurance": 0,
+      "endInitial": 0,
+      "maxAbsorption": 0,
+      "penalization": {
+        "skillsChar": {},
+        "skills": {
+          "swim": "+0"
+        }      
+      },
+      "melee": false,
+      "location": {}
+    },
+    "armor": {
+      "templates": ["base", 
+                    "statValue"],      
+      "type": "soft",
+      "actorType": "human",
+      "location": {},
+      "protection": 0,
+      "proInitial": 0,
+      "endurance": 0,
+      "endInitial": 0,                
+      "requirements": {
+        "str": 0
+      },
+      "penalization": {          
+        "skillsChar": {},
+        "skills": {
+          "swim": "+0"
+        },
+        "initiative": "+0"
+      },
+      "control": {
+        "inUse": false
+      }
+    },        
+    "trait": {
+      "templates": ["base", 
+                    "statValue"],
+      "female": "",
+      "manual": false,
+      "range": {
+        "from": 0,
+        "to": 0
+      },
+      "extend": {
+        "pride": false,
+        "shame": false,
+        "sequel": false,
+        "points": 0
+      },
+      "location": "",
+      "strMods": "[]",
+      "record": ""
+    },
+    "spell": {
+      "templates": ["base"],
+      "type": {
+        "system": "1",
+        "vis": true,
+        "ordo": false
+      },
+      "level": 1,
+      "inStudy": false,
+      "learned": false,
+      "properties": {
+        "nature": "",
+        "origin": "",
+        "shape": "invocation",
+        "grace": false,
+        "rrRoll": false
+      },
+      "info": {
+        "latina": "",
+        "expiration": "",
+        "duration": "",
+        "components": "",
+        "preparation": "",
+        "requirements": "",
+        "ceremony": "",
+        "effects": ""
+      },
+      "stats": {
+        "exper": "",
+        "mod": "+0",
+        "conc": 0,
+        "faith": 0       
+      },
+      "study": {
+        "skillMin": 60,
+        "assiMod": "+0",
+        "months": 0,    
+        "fromBook": false,
+        "book": "",            
+        "read": false,
+        "learned": false,
+        "learnedDays": 0,
+        "learnedPercent": 0,        
+        "teached": false,
+        "teachPercent": 0,
+        "memorized": false
+      }
+    },
+    "book": {
+      "templates": ["base"],
+      "author": "",
+      "language": "",
+      "teach": 0,
+      "spells": []
+    },
+    "loreSociety": {
+      "templates": ["base", "lore"]
+    },
+    "loreKingdom": {
+      "templates": ["base", "lore"],
+      "nations": []
+    },
+    "loreNation": {
+      "templates": ["base", "lore"],
+      "society": "",
+      "restrictions": {
+        "stratum": [],
+        "position": [],
+        "profession": []
+      },
+      "languages": [],
+      "bloodCleansing": 0,
+      "mods": {
+        "social": {
+          "appearance": "+0",
+          "renown": "+0",
+          "nature": "+0",
+          "attitude": "+0"
+        }        
+      }
+    },
+    "loreStratum": {
+      "templates": ["base", "lore"],
+      "society": ""
+    },
+    "lorePosition": {
+      "templates": ["base", "lore"],
+      "society": "",
+      "stratum": ""
+    },
+    "loreProfession": {
+      "templates": ["base", "lore"],
+      "extend": {
+        "female": false,
+        "male": false
+      },
+      "stratums": [],
+      "minChars": [],
+      "primarySkills": [],
+      "secondarySkills": [],
+      "income": {
+        "amount": 0,
+        "expression": ""
+      },
+      "addExtraLanguage": {
+        "primary": false,
+        "secondary": false
+      },
+      "magic": {
+        "rituals": {
+          "apply": false
+        },
+        "charms": {
+          "apply": false
+        },        
+        "spells": {
+          "apply": false
+        }                      
+      },
+      "weaponLevels": {},
+      "letDrag": false,
+      "patern": false,
+      "initial": true,
+      "config": {
+        "skills": {}
+      }
+    }      
   }
 }

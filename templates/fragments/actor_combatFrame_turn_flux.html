@@ -1,0 +1,29 @@
+<div class="_fluxWrap">
+    {{#each backCombat._turn.flux as |step index|}}
+
+    <div class="_step {{#unless step.visible}}_inactive{{/unless}} {{#if step.current}}_current{{/if}}">
+        <div class="_img"
+             style="background-image: url({{step.actor.img}})"></div>
+        <div class="_info">
+            <label>                
+                {{#if step.damageRoll}}
+                    {{../backCombat._fluxStep.actor.name}} > {{step.actor.name}}
+                {{else}}
+                    {{step.actor.name}}
+                {{/if}}
+            </label>
+            {{#unless step.oppoRoll}}
+            {{#unless step.damageRoll}}
+                <label>{{step.action.name}}</label>
+            {{/unless}}
+            {{/unless}}
+            <label>{{step.title.roll}}</label>
+        </div>
+    </div>
+
+    {{#unless step.last}}
+    <div class="_arrow"></div>
+    {{/unless}}
+
+    {{/each}}
+</div>

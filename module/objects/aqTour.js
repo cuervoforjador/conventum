@@ -1,0 +1,1 @@
+export class aqTour extends Tour{async start(){await super.start()}async _renderStep(){await super._renderStep();let t=(window.innerWidth-$(this.targetElement).outerWidth())/2,e=(window.innerHeight-$(this.targetElement).outerHeight())/2;[this.targetElement,this.fadeElement,this.overlayElement].map(a=>{$(a).addClass("_aqTour"),$(a).css({position:"absolute",left:t,top:e})})}}

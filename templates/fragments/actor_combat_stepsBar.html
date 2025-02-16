@@ -1,0 +1,82 @@
+
+<div class="_stepsBarWrap">
+    {{#if backCombat.control.noSteps }}
+
+        {{!-- .. --}}
+
+    {{else}}
+
+        {{#each backCombat._steps as |step index|}}
+        <div class="_step {{#if step.active}} _active {{else }} _inactive {{/if}}
+                          {{#if step.currentDisplay}} _current {{/if}}
+                          {{#if step.isDefender}} _defending {{/if}}"
+             {{#unless (stepNoVisible step)}} style="display: none;" {{/unless}}
+             data-id="{{step.id}}"
+             data-initiative="{{step.initiative}}"
+             data-action="setTurn">
+            <div class="_combatantImg"
+                  style="background-image: url({{step.combatant.actor.img}})">
+            </div>   
+            <div class="_content">
+                <label class="_combatantName">{{step.combatant.name}}</label>
+                <label class="_actionName">{{step.action.name}}</label>
+            </div>
+
+            {{#if step.isAttacker}}
+            <div class="_sign _attacker"></div>
+            {{/if}}
+            {{#if step.isDefender}}
+            <div class="_sign _defender"></div>
+            {{/if}}            
+
+            {{#if ../isGM}}
+            <div class="_options">
+                <a class="_frameButton" 
+                   data-id="{{step.id}}"
+                   data-action="deleteTurn">
+                   <button data-img="icons/delete.svg"
+                           data-big="true"
+                           data-icon="true"
+                           data-tooltip="{{localize 'common.deleteTurn'}}"></button>
+                </a>
+                
+                {{#if step.active}}
+                    <a class="_frameButton" 
+                       data-id="{{step.id}}"
+                       data-action="inactiveTurn">
+                       <button data-img="icons/deactivate.svg"
+                               data-icon="true"
+                               data-tooltip="{{localize 'common.consumeTurn'}}"></button>                
+                    </a> 
+                {{/if}}
+                {{!-- 
+                    <a class="_frameButton" 
+                       data-id="{{step.id}}"
+                       data-action="activeTurn">
+                       <button data-img="icons/activate.svg"
+                               data-icon="true"
+                               data-tooltip="{{localize 'common.activateTurn'}}"></button>
+                    </a>  
+                --}}
+                
+                {{#if step.target}}
+                    <div class="_target">[{{step.target.name}}]</div>
+                {{/if}}
+            </div>
+            {{/if}}
+
+            <div class="_initiative _whiteBorderHard" 
+                 {{#if step.showTxt}}data-tooltip="{{step.mod0Txt}}"{{/if}}>{{step.initiative}}</div>
+
+            {{#if step.showResult}}
+            <div class="_result">
+                {{#if step.success}}<div class="_success">{{localize 'common.success'}}</div>{{/if}}
+                {{#if step.failed}}<div class="_failed">{{localize 'common.failed'}}</div>{{/if}}
+            </div>
+            {{/if}}
+
+        </div>
+        {{/each}}
+
+    {{/if}}
+</div>

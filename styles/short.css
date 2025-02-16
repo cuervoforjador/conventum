@@ -1,0 +1,50 @@
+form._short sheetcontent.tab.active {
+    border-right: 10px solid #75584d !important;
+}
+
+/* ACTOR */
+/*
+form._short ._boxLuck {
+    width: calc(96% - 2px);
+    padding-right: 0;
+}
+form._short ._progressRR ._pBBackEnd {
+    width: 10%;
+    left: 93%;
+}
+form._short ._progressIRR ._pBBackEnd {
+    width: 10%;
+    left: 94%;
+}
+form._short ._boxLuck a._frameButton[data-action="roll"] {
+    width: 105%;
+}
+form._short ._rrValue {
+    margin-right: 5% !important;
+}
+form._short sheetcontent[data-tab="actor"] ._actorPortraitFrame {
+    width: calc(var(--vSize)* 0.25);
+    height: calc(var(--vSize)* 0.30);
+}
+form._short sheetcontent[data-tab="actor"] ._leftSide ._actorPortrait {
+    width: calc(var(--vSize)* 0.25);
+    height: calc(var(--vSize)* 0.30);
+}
+form._short sheetcontent[data-tab="actor"] ._leftSide ._octagon {
+    top: calc(56% - var(--hexIncr));
+    height: calc(43% + var(--hexIncr));
+}
+form._short ._rightSide ._actorContext {
+    width: calc(92% + 2px);
+}
+form._short ._rightSide ._healthBox {
+    left: 87%;
+    top: 6.5%;
+}
+form._short ._line._rules:before {
+    top: 27%;
+}
+form._short ._line._rules:after {
+    top: calc(28% - 4px);
+}
+*/

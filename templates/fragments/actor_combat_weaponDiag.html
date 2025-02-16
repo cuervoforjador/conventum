@@ -1,0 +1,91 @@
+<div class="_weaponDiagramWrap">
+
+    
+    {{#if backCombat._weaponsInUse.empty}}
+    
+        {{!-- DISARMED!! --}}
+        <a class="_frameButton" 
+           data-action="dialogSelectWeapon"
+           data-tooltip="{{localize 'info.selectWeapon'}}">
+           <div class="_noWeapons _whiteBorderHard">{{localize 'common.disarmed'}}</div>
+        </a>
+
+    {{else}}
+
+        {{#unless backCombat._weaponsInUse.diffHands}}
+
+            {{!-- ONLY MAIN WEAPON IN USE --}}
+            <a class="_frameButton _contextButton" 
+               data-action="dialogSelectWeapon"
+               data-contextTarget="{{backCombat._myCombatant.id}}"
+               data-contextId="{{backCombat._weaponsInUse.main.id}}"               
+               data-tooltip="{{localize 'info.selectWeapon'}}">
+                <div class="_mainWeapon _whiteBorderHard">
+                    <div class="_backImg" style="background-image: url({{backCombat._weaponsInUse.main.img}})"></div>
+                    <div class="_title">{{backCombat._weaponsInUse.main.name}}</div>
+                    <div class="_damage">{{backCombat._weaponsInUse.main.system.damage.base}}</div>
+                    <div class="_damage">{{labelWSkill null backCombat._weaponsInUse.main.system.skillkey}} {{skillValueByKey backCombat._weaponsInUse.main.system.skillkey null}} %</div>
+                    {{>actorCombatWeaponInfo1}}
+
+                </div>
+            </a>
+
+        {{else}}
+
+            {{!-- TWO WEAPONS IN USE --}}
+            <a class="_frameButton" 
+               data-action="dialogSelectWeapon"
+               data-tooltip="{{localize 'info.selectWeapon'}}">
+            <div class="_2weapons">
+                <div class="_division"></div>
+                <div class="_1Half">
+
+                    {{#if backCombat._weaponsInUse.mainHand}}
+                        <div class="_mainWeapon _contextButton _whiteBorderHard" 
+                            data-action="dialogSelectWeapon"
+                            data-contextTarget="{{backCombat._myCombatant.id}}"
+                            data-contextId="{{backCombat._weaponsInUse.main.id}}">
+                            <div class="_backImg" 
+                                 style="background-image: url({{backCombat._weaponsInUse.main.img}})"></div>
+                            <div class="_title">{{backCombat._weaponsInUse.main.name}}</div>
+                            <div class="_damage">{{backCombat._weaponsInUse.main.system.damage.base}}</div>
+                            <div class="_damage">{{labelWSkill null backCombat._weaponsInUse.main.system.skillkey}} {{skillValueByKey backCombat._weaponsInUse.main.system.skillkey null}} %</div>
+                            {{>actorCombatWeaponInfo1}}
+
+                        </div>
+                        
+                    {{else}}
+                        <div class="_noWeapons _whiteBorderHard">{{localize 'common.disarmed'}}</div>
+                    {{/if}}
+                </div>                
+                <div class="_2Half">
+                    
+                    {{#if backCombat._weaponsInUse.secondHand}}
+                        <div class="_secondWeapon _contextButton _whiteBorderHard" 
+                            data-action="dialogSelectWeapon"
+                            data-contextTarget="{{backCombat._myCombatant.id}}"
+                            data-contextId="{{backCombat._weaponsInUse.second.id}}">
+                            <div class="_backImg" 
+                                 style="background-image: url({{backCombat._weaponsInUse.second.img}})"></div>
+                            <div class="_title">{{backCombat._weaponsInUse.second.name}}</div>
+                            <div class="_damage">{{backCombat._weaponsInUse.second.system.damage.base}}</div>
+                            {{#if backCombat._weaponsInUse.second.system.shield}}
+                                <div class="_damage">{{labelWSkill null backCombat._weaponsInUse.second.system.skillkey}} {{skillValueByKey backCombat._weaponsInUse.second.system.skillkey null}} %</div>
+                            {{else}}
+                                <div class="_damage">{{labelWSkill null backCombat._weaponsInUse.second.system.skillkey}} {{skillValueByKey backCombat._weaponsInUse.second.system.skillkey '-25'}} %</div>
+                            {{/if}}
+                            {{>actorCombatWeaponInfo2}}                         
+
+                        </div>
+                    {{else}}
+                        <div class="_noWeapons _whiteBorderHard">{{localize 'common.disarmed'}}</div>
+                    {{/if}}
+                </div>                
+            </div>
+            </a>
+
+        {{/unless}}
+
+    {{/if}}
+
+</div>

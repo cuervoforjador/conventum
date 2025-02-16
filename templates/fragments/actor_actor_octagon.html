@@ -1,0 +1,52 @@
+<div class="_wrapOctagon">
+    <div class="_frameOctagon">
+        <svg height="100%" width="100%" xmlns="http://www.w3.org/2000/svg"
+             viewBox="0 0 100 100" preserveAspectRatio="none">
+
+             <defs>
+                <pattern id="octagonFill" height="100%" width="100%" patternContentUnits="objectBoundingBox">
+                    <image height="1" width="1" preserveAspectRatio="none" 
+                           xlink:href="/systems/{{systemId}}/assets/texture/octagone.png" />
+                </pattern>
+            </defs>
+
+            {{!-- LINES --}}
+            
+                {{#each backActor.charOctagon.points as |point sI|}}
+                    
+                    <line x1="{{../backActor.charOctagon.center.x}}" 
+                        y1="{{../backActor.charOctagon.center.y}}" 
+                        x2="{{point.x}}" 
+                        y2="{{point.y}}" 
+                        style="stroke:rgb(0 0 0 / 50%); stroke-width:0.35"
+                        stroke-dasharray="1 1"></line>
+                {{/each}}
+
+            {{!-- POLYGON --}}
+
+                <polygon points="{{backActor.charOctagon.polygon}}"                          
+                         style="/* fill:url(#octagonFill); */
+                                fill:rgb(47 41 41 / 30%); 
+                                stroke:rgb(0 0 0 / 50%); 
+                                stroke-width:0.35"
+                         stroke-dasharray="1 1">
+                </polygon>
+
+        </svg>
+    </div>
+    <div class="_handlerOctagon">
+    {{#each backActor.charOctagon.chars as |char sId|}}
+        <div class="_charBox"
+             id="octoPathBox{{char.index}}"
+             style="top: {{char.y}}; left: {{char.x}};">
+            
+            <input class="_value" 
+                   type="number" 
+                   {{locked}}
+                   value="{{char.total}}" 
+                   data-char="{{char.id}}"/>
+            <label class="_label">{{char.title}}</label>
+        </div>
+    {{/each}}
+    </div>
+</div>

@@ -2,74 +2,29 @@
 <h1>Aquelarre for FoundryVTT</h1>
 
 ## Important!
-This system is currently under development. Refrain from installing it until further notice.
+This system is currently under development in beta phase.
+This system is completely UNOFFICIAL.
+
+## Aquelarre en español
+Este sistema se encuentra actualmente en desarrollo y en fase beta. Encontrarás tutoriales y guías y podrás seguir el estado de desarrollo y novedades a través del blog: <a href="https://aquelarrevtt.blogspot.com">aquelarrevtt.blogspot.com</a>
+
+Esta implementación y el código de este repositorio se encuentra bajo licencia pública GNU v3.0.
+
+Este no es un sistema oficial. El contenido de los repositorios ha sido tomado de los <a href="https://www.nosolorol.com/">Manuales básicos de Aquelarre y Villa y Corte - Ediciones NoSoloRol</a> del juego creado por Ricard Ibañez y Antonio Polo.
+Esta implementación se define como un apoyo adicional y su finalidad es ayudar a aumentar el alcance del juego.
+
+Si quieres contribuir a nuestra comunidad, no dudes en pasarte por el canal de Aquelarre en el Discord de <a href="https://discord.com/invite/xEmWuWE">Foundry VTT Español.</a>
 
 ## FoundryVTT Integration
-
 Install in Foundry VTT from the Game Systems tab, using the following manifest:
 `https://github.com/cuervoforjador/aquelarre/releases/latest/download/system.json`
 
 or search for it directly as a package like "Aquelarre".
 
-## Game aids
-<a href="https://github.com/cuervoforjador/aquelarre/wiki/Gu%C3%ADa-r%C3%A1pida-de-Combate">Combate (En español)</a>
-
 ## Fortuna Maledicta
-Aquelarre VTT team is made up of: 
-
-<table>
-<tr>
-  <td>
-  <a href="https://github.com//cuervoforjador">
-      <img class="avatar avatar-user" data-hovercard-type="user" data-hovercard-url="/users/cuervoforjador/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" src="https://avatars.githubusercontent.com/u/77968758?v=4" width="150" alt="@cuervoforjador">
-  </a>
-  </td>
-  <td>
-  <a href="https://github.com//Luvero-1">
-      <img class="avatar avatar-user" data-hovercard-type="user" data-hovercard-url="/users/Luvero-1/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" src="https://avatars.githubusercontent.com/u/77019799?v=4" width="150" alt="@Luvero-1">
-  </a>
-  </td>
-  <td>
-  <a href="https://github.com/mk1lolo">
-      <img class="avatar avatar-user" data-hovercard-type="user" data-hovercard-url="/users/mk1lolo/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" src="https://avatars.githubusercontent.com/u/44495368?v=4" width="150" alt="@mk1lolo">
-  </a>
-  </td>  
-  <td>
-  <a href="">
-      <img class="avatar avatar-user" data-hovercard-type="user" data-hovercard-url="" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" src="https://cdn.discordapp.com/avatars/1114214929453559839/d774a9dba14f3ccca925f28b86a0e4f1.webp" width="150" alt="@LingInSpain3919">
-  </a>
-  </td>  
-  <td>
-  <a href="https://github.com/tanynys">
-      <img class="avatar avatar-user" data-hovercard-type="user" data-hovercard-url="/users/tanynys/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" src="https://cdn.discordapp.com/avatars/281447229334618113/319e8d3887aea4bc7f701974442a89ef.webp" width="150" alt="@Tanys">
-  </a>
-  </td>   
-</tr>
-<tr>
-  <td>
-   <a href="https://github.com/cuervoforjador"><strong>Cuervo Forjador</strong></a>
-  </td>
-  <td>
-   <a href="https://github.com//Luvero-1"><strong>Luvero</strong></a>
-  </td>
-  <td>
-   <a href="https://github.com//mk1lolo"><strong>Mk1lolo</strong></a>  
-  </td> 
-  <td>
-   <a href=""><strong>LingInSpain</strong></a>  
-  </td>   
-  <td>
-   <a href=""><strong>Tanys</strong></a>  
-  </td>   
-</tr>
-</table>
-
-This system is made possible thanks to all of its contributors!
+Aquelarre VTT team is made up of: Luvero!, Mklolo, Tanys, Bakali, Viriato y Cuervo Forjador.
 
 ## Licenses
-
 This implementation and rest of the code in this repository is licensed under the [GNU General Public License v3.0](https://github.com/cuervoforjador/aquelarre/blob/main/LICENSE.txt).
-
-All images shown in compendiums are their own and in no case have they been extracted from any book or official material.
 
 This system is completely UNOFFICIAL.

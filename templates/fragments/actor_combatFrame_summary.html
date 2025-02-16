@@ -1,0 +1,91 @@
+{{!-- ************ ENCOUNTER ************ --}}
+<div class="_encounter">
+    
+        <div class="_header">
+            {{#if backCombat.control.noCombat }}
+                <label>{{localize 'common.noCombat'}}</label>
+            {{else}}
+                <label>{{backCombat._encounter.name}}</label>
+            {{/if}}
+        </div> 
+
+    <div class="_content">
+       
+       {{#if backCombat.control.noCombat }}
+
+            {{!-- ************ NO COMBAT ************ --}}
+            <div style="width: 100%">
+                <info>{{localize 'info.noCombat'}}</info>
+                {{#if isGM}}
+                <div class="_buttonBar">
+                    <a class="_frameButton" data-action="createCombat">
+                        <button data-img="icons/add.svg" 
+                                data-label="common.createCombat"></button>
+                    </a>
+                </div>
+                {{/if}}
+            </div> 
+
+       {{else}}
+
+            <div class="_boxRounds">
+            {{#each backCombat._summary as |round index|}}
+
+                <div class="_round">
+                    <div class="_row _roundHeader">
+                        <label class="_title">{{localize 'common.round'}}: {{round.round}} | {{localize 'common.turn'}}: {{round.turn}}</label>
+                    </div>
+                
+                    {{#each round.flux as |step index|}}
+                    <div class="_stepFlux">
+
+                        <div class="_img" style="background-image: url({{step.actor.img}})"></div>
+
+                        <div class="_row _step _header">                            
+                            <div class="_column">
+                                <label class="_title">{{step.actor.name}} - {{step.title}}</label>
+                                <label class="_subTitle">{{step.subTitle}}</label>
+                            </div>
+                        </div>
+
+                        <div class="_row _step _result">
+                            <label>
+                                {{#if step.oppo}}
+                                    <span class="_big">{{step.result}}</span> / {{step.total}}% {{step.resultText}}
+                                {{else}}
+                                    {{#if step.damage}}
+                                        <span class="_big" style="margin-left: 6px; margin-right: 6px;">- {{step.result}}</span> {{localize "common.hitPoints"}} ({{step.total}})
+                                    {{else}}
+                                        <span class="_big" style="margin-left: 6px; margin-right: 6px;">{{step.result}}</span> / {{step.total}}% - ({{step.resultText}})
+                                    {{/if}}                                    
+                                {{/if}}
+                            </label>
+                        </div>
+                        
+                        {{#if step.showRollLevel}}              
+                        <div class="_row _step">
+                            <label>{{step.rollLevel}}</label>
+                        </div>                              
+                        {{/if}}  
+
+                        {{#if step.applyLuck}}              
+                        <div class="_row _step _result">
+                            <label class="_subTitle">{{localize 'common.appliedLuck'}}</label>
+                        </div>                              
+                        {{/if}}
+
+                    </div>
+                    {{/each}}
+
+                    <div class="_row _roundText">
+                        <label class="_text">{{round.text}}</label>
+                    </div>
+
+                </div>
+            {{/each}}
+            </div>
+
+       {{/if}}
+
+    </div>    
+</div>

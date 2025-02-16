@@ -1,0 +1,15 @@
+.app._grimoire header.window-header,
+.app._grimoire .window-content .dialog-buttons {
+    display: none;
+}
+.app._grimoire .window-content {
+    overflow: hidden;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;    
+}
+
+#grimBook .page {
+    background: #FFF;
+}

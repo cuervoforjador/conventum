@@ -1,0 +1,226 @@
+@import url('https://fonts.googleapis.com/css2?family=Almendra+Display&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Almendra+SC&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+Great+Primer+SC&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap');
+
+/* 'IM Fell Great Primer SC', serif */
+/* 'Almendra', serif; */
+/* 'Almendra SC', serif; */
+/* 'Almendra Display', serif; */
+/* 'MedievalSharp', cursive */
+
+/* ----------------------------------------- */
+/*  Root                                     */
+/* ----------------------------------------- */
+:root {
+    --color-shadow-primary: #ffb500;
+    --color-antiPrimary: #000000d1;
+    --color-underline-header: #ff2400c9;
+    --custo-headerBackground: #000000bd;
+    --custo-inputBackground: #000000e0;
+    --custo-background: #2f0303bf;
+    --custo-shadowColor: #943c1a33;
+    --custo-border: #00000059;
+    --custo-borderDialog: #f5c10585;    
+    --custo-buttonColor: #f8da9d;
+    --custo-buttonBackground: #77353530;
+    --custo-buttonBorder: #0000002b;
+    --custo-buttonDialogBack: #ffdd0085;
+    --custo-buttonDialogBorder: #ffdd006e;
+    --custo-buttonDialogColor: #000;
+    --custo-fontColor: #0000009e;
+    --custo-fontColor0: #ffffffd9;
+    --custo-fontColor1: #cfb0b0f7;
+    --custo-fontColor2: #ffb500;
+    --custo-fontColor3: #ffffffe2;
+    --custo-fontDialog: #FFFFFF;
+    --custo-fontFirstL: #9f3838;
+    --custo-fontFirstW: #a28181;
+    --custo-fontSizeL: 20pt;
+    --custo-fontSizeM: 12pt;
+    --custo-fontSizeS: 9pt;
+    --custo-font0: 'Almendra', serif;
+    --custo-font1: 'Almendra SC', serif;
+    --custo-fontL: "UnifrakturMaguntia", cursive;
+    --custo-fontMono: 'Space Mono', monospace;
+    --custo-inputDialog: #ffe94305;
+    --custo-inputDialogBack: #ffeb0054;
+  }
+
+
+._charIndex_str {
+    --charIndex: 0;
+}
+._charIndex_agi {
+    --charIndex: 1;
+}
+._charIndex_hab {
+    --charIndex: 2;
+}
+._charIndex_end {
+    --charIndex: 3;
+}
+._charIndex_per {
+    --charIndex: 4;
+}
+._charIndex_tem {
+    --charIndex: 5;
+}
+._charIndex_asp {
+    --charIndex: 5;
+}
+._charIndex_com {
+    --charIndex: 6;
+}
+._charIndex_cul {
+    --charIndex: 7;
+}
+
+i.game-icon.iconMenuAQ,
+i.game-icon.iconMenuCheckLore {
+    opacity: 0.8;
+    width: 36px;
+    height: 32px;
+    border-radius: 6px;
+    background-repeat: no-repeat!important;
+}
+i.game-icon.iconMenuAQ {
+    background: url(../assets/icons/controlRaven.svg);
+}
+i.game-icon.iconMenuCheckLore {
+    background: url(../assets/icons/controlCheckLore.svg);
+}
+
+
+
+
+
+
+
+
+
+
+@keyframes blinker {    
+    50% {
+      opacity: 0;
+    }
+  }
+
+
+
+@-webkit-keyframes fadeInFromNone {
+    0% {
+        display: none;
+        opacity: 0;
+    }
+
+    1% {
+        display: block;
+        opacity: 0;
+    }
+
+    100% {
+        display: block;
+        opacity: 1;
+    }
+}
+
+@-moz-keyframes fadeInFromNone {
+    0% {
+        display: none;
+        opacity: 0;
+    }
+
+    1% {
+        display: block;
+        opacity: 0;
+    }
+
+    100% {
+        display: block;
+        opacity: 1;
+    }
+}
+
+@-o-keyframes fadeInFromNone {
+    0% {
+        display: none;
+        opacity: 0;
+    }
+
+    1% {
+        display: block;
+        opacity: 0;
+    }
+
+    100% {
+        display: block;
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInFromNone {
+    0% {
+        display: none;
+        opacity: 0;
+    }
+
+    1% {
+        display: block;
+        opacity: 0;
+    }
+
+    100% {
+        display: block;
+        opacity: 1;
+    }
+}
+
+@keyframes glitch {
+    0% {
+      clip-path: var(--slice-1);
+      transform: translate(-20px, -10px);
+    }
+    10% {
+      clip-path: var(--slice-3);
+      transform: translate(10px, 10px);
+    }
+    20% {
+      clip-path: var(--slice-1);
+      transform: translate(-10px, 10px);
+    }
+    30% {
+      clip-path: var(--slice-3);
+      transform: translate(0px, 5px);
+    }
+    40% {
+      clip-path: var(--slice-2);
+      transform: translate(-5px, 0px);
+    }
+    50% {
+      clip-path: var(--slice-3);
+      transform: translate(5px, 0px);
+    }
+    60% {
+      clip-path: var(--slice-4);
+      transform: translate(5px, 10px);
+    }
+    70% {
+      clip-path: var(--slice-2);
+      transform: translate(-10px, 10px);
+    }
+    80% {
+      clip-path: var(--slice-5);
+      transform: translate(20px, -10px);
+    }
+    90% {
+      clip-path: var(--slice-1);
+      transform: translate(-10px, 0px);
+    }
+    100% {
+      clip-path: var(--slice-1);
+      transform: translate(0);
+    }
+  }

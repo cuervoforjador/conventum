@@ -1,148 +1,309 @@
-<form class="codex" 
-      autocomplete="off">
+<form class="_trait _golden" 
+      autocomplete="off"
+      style="z-index:1">
 
-    {{!-- FRAME --}}
-    {{> itemFrame }}
-    
-    {{!-- HEADER --}}
-    <itemHeader class="_chrome">
-        <itemHeaderInfo>
-            <itemTitle>
-                <input type="text" name="name" value="{{item.name}}" placeholder=""/>
-            </itemTitle>
-            <itemSubHeader>
-                <hbox class="_subHeaderHBox">
-                    <label>{{localize "common.world" }}</label>
-                    <select name="system.control.world">
-                        {{selectOptions backend.worlds 
-                                        selected=systemData.control.world
-                                        localize=false
-                                        nameAttr="id"
-                                        labelAttr="name" }}
-                    </select>
-                </hbox>
-                <hbox class="_subHeaderHBox">
-                    <label>{{localize "common.range" }}</label>
-                    <hbox>
-                        <input class="_30px" type="text" 
-                            style="margin-right: 5px; text-align: center;"
-                            name="system.range.low"
-                            value="{{systemData.range.low}}"
-                            data-dtype="Number" />
-                        -
-                        <input class="_30px" type="text" 
-                            style="margin-left: 5px; text-align: center;"
-                            name="system.range.high"
-                            value="{{systemData.range.high}}"
-                            data-dtype="Number" />
-                    </hbox>
-                </hbox>                             
-            </itemSubHeader>
-        </itemHeaderInfo>
-    </itemHeader> 
-    
-    {{!-- CONTENT --}}
-    <itemContent>
-        <hbox class="_100">
-            <nav class="sheet-tabs itemTabsHeader" data-group="primary">
-                <a data-tab="description">{{ localize "common.description" }}</a>
-                <a data-tab="mod">{{ localize "common.mod" }}</a>
-            </nav>
-        </hbox> 
-        <div class="frameContent">
-            <section class="sheet-body">
+      {{!-- HEADER --}}
+      <div class="_itemHeader _100">
+            <img src="{{item.img}}" 
+                  data-edit="img" 
+                  title="{{item.name}}"/>                  
+            <div class="_itemSubHeader">
+                  <input class="_title"
+                        type="text" 
+                        name="name" 
+                        {{locked}}
+                        value="{{item.name}}" 
+                        placeholder=""/>
+                  <div class="_itemSubHeaderBox">
+                  {{#if isGM}}
+                        {{#unless fromActor}}
+                        <formField class="_100">
+                              <label>{{localize "common.female"}}</label>
+                              <input name="system.female" 
+                                     style="width: 200px"
+                                     type="text" 
+                                     value="{{systemData.female}}" />                               
+                        </formField>
+                        <formField class="_100">
+                              <label>{{localize "common.from"}}</label>
+                              <input name="system.range.from" 
+                                     id="cFrom"
+                                     style="width: 80px; text-align: center;"
+                                     type="number" 
+                                     value="{{systemData.range.from}}" />                                    
 
-                {{!--- DESCRIPTION & IMAGE ---}}
-                <div class="tab description" data-group="primary" data-tab="description">
-                <slidePanel class="_100">
-                    <panelContent>
-                        <itemImage>
-                            <img src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
-                        </itemImage>                                    
-                        {{> itemDescription }}
-                    </panelContent>
-                </slidePanel>
-                </div> 
+                              <label>{{localize "common.to"}}</label>
+                              <input name="system.range.to" 
+                                     id="cTo"
+                                     style="width: 80px; text-align: center;"
+                                     type="number" 
+                                     value="{{systemData.range.to}}" />
 
-                {{!--- MOD ---}}
-                <div class="tab mod" data-group="primary" data-tab="mod">
-                <slidePanel class="_100">
-                    <panelContent>
+                              <input name="system.manual" 
+                                     id="cManual"
+                                     type="checkbox" 
+                                     {{checked systemData.manual}} />                                    
+                              <label for="cManual" style="margin: 0 10px">{{localize "common.manual"}}</label>
+                        </formField> 
+                        {{/unless}}
+                  {{/if}}
+                        {{#if fromActor}}
+                        <formField class="_100" style="justify-content: flex-end;">
+                              <a class="_frameButton _deleteItem">
+                                 <button>
+                                    <img src="{{assets}}icons/delete.svg">
+                                    <label>{{localize 'common.delete'}}</label>
+                                 </button>
+                              </a>
+                        </formField>
+                        {{/if}}
+                  {{#if isGM}}
+                        <formField class="_100">
+                              <input name="system.extend.pride" 
+                                     id="cPride"
+                                     type="checkbox" 
+                                     {{checked systemData.extend.pride}} /> 
+                              <label for="cPride" style="margin: 0 10px">{{localize "common.pride"}}</label>
+                              
+                              <input name="system.extend.shame" 
+                                     id="cShame"
+                                     type="checkbox" 
+                                     {{checked systemData.extend.shame}} />
+                              <label for="cShame" style="margin: 0 10px">{{localize "common.shame"}}</label>
+                              
+                              <input name="system.extend.sequel" 
+                                     id="cSequel"
+                                     type="checkbox" 
+                                     {{checked systemData.extend.sequel}} />
+                              <label for="cSequel" style="margin: 0 10px">{{localize "common.sequel"}}</label>
+                              
+                              <label style="margin: 0 10px">{{localize "common.points"}}</label>
+                              <input name="system.extend.points" 
+                                     style="width: 50px; text-align: center;"
+                                     type="number" 
+                                     value="{{systemData.extend.points}}" />                              
+                        </formField>
 
-                        <h3 class="_100">{{localize "common.skill"}}</h3>
-                        <hbox class="_50">  
-                            <label class="_100px">{{localize "common.apply" }}</label>                      
-                            <label class="switch" style="margin-right: -16px;">
-                                <input type="checkbox" 
-                                    name="system.mod.skill.apply" 
-                                    {{checked systemData.mod.skill.apply}} />
-                                <span class="sliderSwitch"></span>
-                            </label>                                         
-                        </hbox>                        
-                        <hbox class="_50">
-                        </hbox> 
+                        {{#if isGM}}    
 
-                        <hbox class="_50">                            
-                            <label class="_100px">{{localize "common.skill" }}</label>
-                            <select name="system.mod.skill.id"  style="margin-right: 10px;">
-                                {{selectOptions backend.skills 
-                                                selected=systemData.mod.skill.id
-                                                localize=false
-                                                nameAttr="id"
-                                                labelAttr="name" }}
-                            </select>
-                        </hbox>
-                        <hbox class="_50">
-                            <label class="_100px">{{localize "common.mod" }}</label>
-                            <input type="text" 
-                                    class="_100px"
-                                    name="system.mod.skill.bono"
-                                    value="{{systemData.mod.skill.bono}}" />
-                        </hbox>
-       
-                        <h3 class="_100">{{localize "common.characteristic"}}</h3>
-                        <hbox class="_50">  
-                            <label class="_100px">{{localize "common.apply" }}</label>                                       
-                            <label class="switch" style="margin-right: -16px;">
-                                <input type="checkbox" 
-                                    name="system.mod.characteristic.apply" 
-                                    {{checked systemData.mod.characteristic.apply}} />
-                                <span class="sliderSwitch"></span>
-                            </label> 
-                        </hbox>
-                        <hbox class="_50">                                                                             
-                        </hbox>                        
-                        <hbox class="_50">
-                            <label class="_100px">{{localize "common.characteristic" }}</label>
-                            <select name="system.mod.characteristic.id" style="margin-right: 10px;">
-                                {{selectOptions backend.characteristics 
-                                                selected=systemData.mod.characteristic.id
-                                                localize=false
-                                                nameAttr="id"
-                                                labelAttr="name" }}
-                            </select>
-                        </hbox>
-                        <hbox class="_50">   
-                            <label class="_100px">{{localize "common.mod" }}</label>                         
-                            <input type="text" 
-                                   class="_100px"
-                                   name="system.mod.characteristic.bono"
-                                   value="{{systemData.mod.characteristic.bono}}" />  
-                        </hbox>
- 
-                    </panelContent>
-                </slidePanel>
-                </div>    
+                              {{#if systemData.extend.sequel}}
+                              <formField class="_100">
+                                    <label>{{localize "common.location"}}</label>
+                                    <select name="system.location">
+                                          {{selectOptions backend.locations 
+                                                      selected=systemData.location
+                                                      localize=false
+                                                      nameAttr="key"
+                                                      labelAttr="label" }}
+                                    </select> 
+                              </formField>  
+                              {{/if}}                       
 
+                              {{#unless fromActor}}                  
+                              <formField class="_100">
+                                    <label>{{localize "common.rules"}}</label>
+                                    <select name="system.control.rules">
+                                          {{selectOptions backend.rules 
+                                                      selected=systemData.control.rules
+                                                      localize=false
+                                                      nameAttr="key"
+                                                      labelAttr="name" }}
+                                    </select> 
+                              </formField>                                              
+                              <formField class="_100">
+                                    <label>{{localize "common.key"}}</label>
+                                    <input class="_key"
+                                          type="text" 
+                                          name="system.control.key" 
+                                          value="{{systemData.control.key}}" 
+                                          placeholder=""
+                                          style="max-width: 190px"/> 
+                                    {{#if systemData.control.repeated}}
+                                    <warning>{{localize 'info.keyRepeated'}}</warning>                                    
+                                    {{/if}}
+                              </formField>                                                
+                              {{/unless}}
+                        {{/if}}
+                  {{/if}}
+                  </div>
+            </div>
+      </div>
+
+      {{!-- TAB HEADER --}}
+      <nav class="itemTabsBar" data-group="primary-tabs">
+            <a data-tab="description" data-group="primary-tabs">
+                  <label class="_tabButton">{{localize 'common.description'}}</label></a>   
+            {{#unless fromActor}}              
+            <a data-tab="mods" data-group="primary-tabs">
+                  <label class="_tabButton">{{localize 'common.mods'}}</label></a>                                        
+            {{/unless}}
+            {{#if fromActor}}
+            <a data-tab="record" data-group="primary-tabs">
+                  <label class="_tabButton">{{localize 'common.record'}}</label></a> 
+            {{/if}}
+      </nav>
+
+      {{!-- SECTIONS --}}
+      <div class="itemTabsContent">
+
+            {{!-- DESCRIPTION --}}
+            <section class="tab" data-group="primary-tabs" data-tab="description">
+                  {{editor 
+                        systemData.description
+                        target="system.description" 
+                        button=true 
+                        engine="prosemirror"
+                        owner=owner
+                        rollData=rollData
+                        editable=isGM}}
             </section>
-        </div>
 
-        
-    </itemContent>
-    
-{{!-- Molding ---}}
-<input name="system.control.mold"
-        value="{{systemData.control.mold}}" 
-        type="hidden" />   
+            {{!-- MODS --}}
+            <section class="tab" data-group="primary-tabs" data-tab="mods">
+                  <div class="_header">                               
+                        <formField class="_100">
+                              <label>{{localize 'common.characteristic'}}</label>
+                              <select id="strCharacteristic">
+                                    {{selectOptions backend.characteristics 
+                                          localize=false
+                                          nameAttr="id"
+                                          labelAttr="name" }}                   
+                              </select>
+                              <input type="text" value="+0" class="_mod"/>
+                              <a class="_frameButton _add" 
+                                 data-id="strCharacteristic"
+                                 data-path="characteristics.">
+                                 <button><img src="{{assets}}icons/add.svg"></button>
+                              </a>                               
+
+                              <label style="margin-left: 30px">{{localize 'common.secondary'}}</label>
+                              <select id="strSecondaries">
+                                    {{selectOptions backend.secondaries 
+                                          localize=false
+                                          nameAttr="id"
+                                          labelAttr="name" }}                   
+                              </select>
+                              <input type="text" value="+0" class="_mod"/>
+                              <a class="_frameButton _add" 
+                                 data-id="strSecondaries"
+                                 data-path="secondaries.">
+                                    <button><img src="{{assets}}icons/add.svg"></button>
+                              </a>                              
+                        </formField>     
+                        <formField class="_100">
+                              <label>{{localize 'common.skills'}}</label>
+                              <select id="strSkills">
+                                    {{selectOptions backend.skills 
+                                          localize=false
+                                          nameAttr="id"
+                                          labelAttr="name2" }}                   
+                              </select>
+                              <input type="text" value="+0" class="_mod"/>
+                              <a class="_frameButton _add" 
+                                 data-id="strSkills"
+                                 data-path="skills.">
+                                 <button><img src="{{assets}}icons/add.svg"></button>
+                              </a>                              
+                        </formField>     
+                        <formField class="_100">
+                              <label>{{localize 'common.combatSkills'}}</label>
+                              <select id="strCombatskills">
+                                    {{selectOptions backend.combatSkills 
+                                          localize=false
+                                          nameAttr="id"
+                                          labelAttr="name2" }}                   
+                              </select>
+                              <input type="text" value="+0" class="_mod"/>
+                              <a class="_frameButton _add" 
+                                 data-id="strCombatskills"
+                                 data-path="skills.">
+                                 <button><img src="{{assets}}icons/add.svg"></button>
+                              </a>  
+                              <a class="_frameButton _add"
+                                 data-all="true" 
+                                 data-id="strCombatskills"
+                                 data-path="skills.">
+                                 <button><img src="{{assets}}icons/next.svg"></button>
+                              </a>                                                          
+                        </formField>  
+                        <formField class="_100">
+                              <label>{{localize 'common.socialMods'}}</label>
+                              <select id="strSocialMods">
+                                    {{selectOptions backend.socialMods 
+                                          localize=false
+                                          nameAttr="id"
+                                          labelAttr="name" }}                   
+                              </select>
+                              <input type="text" value="+0" class="_mod"/>
+                              <a class="_frameButton _add" 
+                                 data-id="strSocialMods"
+                                 data-path="attributes.social.">
+                                 <button><img src="{{assets}}icons/add.svg"></button>
+                              </a>                              
+
+                              <label style="margin-left: 30px">{{localize 'common.money'}}</label>
+                              <select id="strMoney">
+                                    {{selectOptions backend.money 
+                                          localize=false
+                                          nameAttr="id"
+                                          labelAttr="name" }}                   
+                              </select>
+                              <input type="text" value="+0" class="_mod" style="width: 80px"/>
+                              <a class="_frameButton _add" 
+                                 data-id="strMoney"
+                                 data-path="money.">
+                                 <button><img src="{{assets}}icons/add.svg"></button>
+                              </a>                              
+                        </formField>                                                                             
+                  </div>
+                  {{editor 
+                        systemData.strMods
+                        target="system.strMods" 
+                        button=true 
+                        engine="prosemirror"
+                        owner=owner
+                        rollData=rollData
+                        editable=editable }}
+                  <formField class="_100">
+                        <label style="font-style: italic;font-size: 16px;margin-bottom: 12px;">* {{localize 'info.traitMod'}}</label>
+                  </formField>                         
+            </section>
+
+            {{!-- RECORD --}}
+            <section class="tab" data-group="primary-tabs" data-tab="record">
+
+                  <input type="hidden" name="system.record" value="{{systemData.record}}" />
+                  {{#each record as |entry index|}}
+                  <formField class="_100 _entry"
+                        style="{{#if entry.error}}background: #F0000050;{{/if}}">
+                        <div class="_vCombo">
+                              <label class="_100"
+                                     style="font-size: var(--custo-fontSizeL);
+                                            line-height: calc(var(--custo-fontSizeL)* 1.3);
+                                            font-weight: 900;">{{entry.title}}</label>
+                              <div class="_hCombo">
+                                    <label class="_small _light">{{localize 'common.path'}}:</label>
+                                    <label class="_small">{{entry.path}}</label>
+                                    <label class="_small _light">{{localize 'common.operator'}}:</label>
+                                    <label class="_small">{{entry.operator}}</label>                                    
+                              </div>
+                              <div class="_hCombo">
+                                    <label class="_small _light">{{localize 'common.expression0'}}:</label>
+                                    <label class="_small">{{entry.expr0}}</label>                                    
+                                    <label class="_small _light">{{localize 'common.expression1'}}:</label>
+                                    <label class="_small">{{entry.expr}}</label>                                    
+                              </div> 
+                              <div class="_hCombo">
+                                    <label class="_small _light">{{localize 'common.value0'}}:</label>
+                                    <label class="_small">{{entry.value0}}</label>                                    
+                                    <label class="_small _light">{{localize 'common.value1'}}:</label>
+                                    <label class="_small">{{entry.value}}</label>                                    
+                              </div>                                                                                
+                        </div>
+                  </formField>
+                  {{/each}}
+            </section>            
+
+      </div>
 
 </form>

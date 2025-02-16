@@ -1,12 +1,12 @@
 {
   "id": "aquelarre",
-  "title": "Aquelarre",
-  "description": "Demonic and medieval game",
-  "version": "2.0.2",
+  "title": "Aquelarre Extendido",
+  "description": "An implementation of Aquelarre (Dean of Spanish role-playing games, a Demonic and medieval game) includes Villa y Corte",
+  "version": "1.0",
   "compatibility": {
-    "minimum": "10",
-    "verified": "11",
-    "maximum": "11"
+    "minimum": "10", 
+    "verified": "12",
+    "maximum": "12"
   },
   "authors": [
     {
@@ -15,7 +15,7 @@
       "email": "cuervoForjador@gmail.com",
       "discord": "Cuervito#4806",
       "flags": {}
-    }
+    }  
   ],
   "esmodules": [
     "module/main.js"
@@ -24,19 +24,21 @@
   "gridDistance": 5,
   "gridUnits": "varas",  
   "scripts": [
-    "https://code.jquery.com/ui/1.13.2/jquery-ui.js"
+    "libs/pixi3d.js",
+    "libs/turn/turn.min.js",
+    "https://code.jquery.com/ui/1.13.2/jquery-ui.js",
+    "https://cdn.jsdelivr.net/npm/pixi-filters@latest/dist/browser/pixi-filters.min.js",
+    "https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"
   ],
   "styles": [
+    "styles/custo.css",
+    "styles/dialog.css",
     "styles/main.css",
-    "styles/base.css",
-    "styles/frame.css",
-    "styles/sheet.css",
-    "styles/compendium.css",
-    "styles/roll.css",
+    "styles/sheets.css",
     "styles/messages.css",
-    "styles/tours.css",
-    "styles/combat.css",
-    "styles/codex.css"
+    "styles/frame.css",
+    "styles/short.css",
+    "styles/grimoire.css"
   ],
   "languages": [
     {
@@ -52,234 +54,125 @@
       "flags": {}
     },
     {
-      "lang": "ja",
-      "name": "日本語",
-      "path": "lang/ja.json",
+      "lang": "jp",
+      "name": "Japanese",
+      "path": "lang/jp.json",
       "flags": {}
-    }
+    }    
   ],
   "packs": [
-    {
-      "label": "Orbis",
-      "type": "Item",
-      "name": "worlds",
-      "path": "packs/worlds",
-      "banner": "systems/aquelarre/image/content/compendium/bannerOrbis.png",
-      "system": "aquelarre",
-      "ownership": {
-        "PLAYER": "OBSERVER",
-        "ASSISTANT": "OWNER"
+      {
+        "system": "aquelarre",
+        "type": "Item",
+        "name": "skills",
+        "path": "packs/skills",
+        "systemCore": true,
+        "label": "Skills",
+        "banner": "systems/aquelarre/assets/compendium/skills.png",
+        "ownership": {
+          "PLAYER": "OBSERVER",
+          "ASSISTANT": "OWNER"
+        },
+        "flags": {}
       },
-      "flags": {}
-    },
-    {
-      "label": "Regna",
-      "type": "Item",
-      "name": "kingdoms",
-      "path": "packs/kingdoms",
-      "banner": "systems/aquelarre/image/content/compendium/bannerRegna.png",
-      "system": "aquelarre",
-      "ownership": {
-        "PLAYER": "OBSERVER",
-        "ASSISTANT": "OWNER"
+      {
+        "system": "aquelarre",
+        "type": "Item",
+        "name": "actions",
+        "path": "packs/actions",
+        "systemCore": true,
+        "label": "Actions",
+        "banner": "systems/aquelarre/assets/compendium/actions.png",        
+        "ownership": {
+          "PLAYER": "OBSERVER",
+          "ASSISTANT": "OWNER"
+        },
+        "flags": {}
+      }, 
+      {
+        "system": "aquelarre",
+        "type": "Item",
+        "name": "feints",
+        "path": "packs/feints",
+        "systemCore": true,
+        "label": "Tretas de Esgrima",
+        "banner": "systems/aquelarre/assets/compendium/feints.png",
+        "ownership": {
+          "PLAYER": "OBSERVER",
+          "ASSISTANT": "OWNER"
+        },
+        "flags": {}
       },
-      "flags": {}
-    },
-    {
-      "label": "Societas",
-      "type": "Item",
-      "name": "societies",
-      "path": "packs/societies",
-      "banner": "systems/aquelarre/image/content/compendium/bannerSocietas.png",
-      "system": "aquelarre",
-      "ownership": {
-        "PLAYER": "OBSERVER",
-        "ASSISTANT": "OWNER"
+      {
+        "system": "aquelarre",
+        "type": "Item",
+        "name": "weapons",
+        "path": "packs/weapons",
+        "systemCore": true,
+        "label": "Armas",
+        "banner": "systems/aquelarre/assets/compendium/weapons.png",
+        "ownership": {
+          "PLAYER": "OBSERVER",
+          "ASSISTANT": "OWNER"
+        },
+        "flags": {}
       },
-      "flags": {}
-    },
-    {
-      "label": "Linguae",
-      "type": "Item",
-      "name": "languages",
-      "path": "packs/languages",
-      "banner": "systems/aquelarre/image/content/compendium/bannerLinguae.png",
-      "system": "aquelarre",
-      "ownership": {
-        "PLAYER": "OBSERVER",
-        "ASSISTANT": "OWNER"
+      {
+        "system": "aquelarre",
+        "type": "Item",
+        "name": "armors",
+        "path": "packs/armors",
+        "systemCore": true,
+        "label": "Protecciones",
+        "banner": "systems/aquelarre/assets/compendium/armor.png",
+        "ownership": {
+          "PLAYER": "OBSERVER",
+          "ASSISTANT": "OWNER"
+        },
+        "flags": {}
+      },      
+      {
+        "system": "aquelarre",
+        "type": "Item",
+        "name": "context",
+        "path": "packs/context",
+        "systemCore": true,
+        "label": "Contexto",
+        "banner": "systems/aquelarre/assets/compendium/context.png",
+        "ownership": {
+          "PLAYER": "OBSERVER",
+          "ASSISTANT": "OWNER"
+        },
+        "flags": {}
       },
-      "flags": {}
-    },
-    {
-      "label": "Gentes",
-      "type": "Item",
-      "name": "cultures",
-      "path": "packs/cultures",
-      "banner": "systems/aquelarre/image/content/compendium/bannerGentes.png",
-      "system": "aquelarre",
-      "ownership": {
-        "PLAYER": "OBSERVER",
-        "ASSISTANT": "OWNER"
+      {
+        "system": "aquelarre",
+        "type": "Actor",
+        "name": "actors",
+        "path": "packs/actors",
+        "systemCore": true,
+        "label": "Contexto",
+        "banner": "systems/aquelarre/assets/compendium/actors.png",
+        "ownership": {
+          "PLAYER": "OBSERVER",
+          "ASSISTANT": "OWNER"
+        },
+        "flags": {}
       },
-      "flags": {}
-    },
-    {
-      "label": "Stratum",
-      "type": "Item",
-      "name": "stratums",
-      "path": "packs/stratums",
-      "banner": "systems/aquelarre/image/content/compendium/bannerStratum.png",
-      "system": "aquelarre",
-      "ownership": {
-        "PLAYER": "OBSERVER",
-        "ASSISTANT": "OWNER"
-      },
-      "flags": {}
-    },
-    {
-      "label": "Status",
-      "type": "Item",
-      "name": "status",
-      "path": "packs/status",
-      "banner": "systems/aquelarre/image/content/compendium/bannerStatus.png",
-      "system": "aquelarre",
-      "ownership": {
-        "PLAYER": "OBSERVER",
-        "ASSISTANT": "OWNER"
-      },
-      "flags": {}
-    },
-    {
-      "label": "Competentiae",
-      "type": "Item",
-      "name": "skills",
-      "path": "packs/skills",
-      "banner": "systems/aquelarre/image/content/compendium/bannerCompetentiae.png",
-      "system": "aquelarre",
-      "ownership": {
-        "PLAYER": "OBSERVER",
-        "ASSISTANT": "OWNER"
-      },
-      "flags": {}
-    },
-    {
-      "label": "Locis",
-      "type": "Item",
-      "name": "locations",
-      "path": "packs/locations",
-      "banner": "systems/aquelarre/image/content/compendium/bannerLocis.png",
-      "system": "aquelarre",
-      "ownership": {
-        "PLAYER": "OBSERVER",
-        "ASSISTANT": "OWNER"
-      },
-      "flags": {}
-    },
-    {
-      "label": "Modi",
-      "type": "Item",
-      "name": "modes",
-      "path": "packs/modes",
-      "banner": "systems/aquelarre/image/content/compendium/bannerModi.png",
-      "system": "aquelarre",
-      "ownership": {
-        "PLAYER": "OBSERVER",
-        "ASSISTANT": "OWNER"
-      },
-      "flags": {}
-    },
-    {
-      "label": "Armis",
-      "type": "Item",
-      "name": "armor",
-      "path": "packs/armor",
-      "banner": "systems/aquelarre/image/content/compendium/bannerArmis.png",
-      "system": "aquelarre",
-      "ownership": {
-        "PLAYER": "OBSERVER",
-        "ASSISTANT": "OWNER"
-      },
-      "flags": {}
-    },
-    {
-      "label": "Arma",
-      "type": "Item",
-      "name": "weapons",
-      "path": "packs/weapons",
-      "banner": "systems/aquelarre/image/content/compendium/bannerArma.png",
-      "system": "aquelarre",
-      "ownership": {
-        "PLAYER": "OBSERVER",
-        "ASSISTANT": "OWNER"
-      },
-      "flags": {}
-    },
-    {
-      "label": "ArsMagica",
-      "type": "Item",
-      "name": "magic",
-      "path": "packs/magic",
-      "banner": "systems/aquelarre/image/content/compendium/bannerArsMagica.png",
-      "system": "aquelarre",
-      "ownership": {
-        "PLAYER": "OBSERVER",
-        "ASSISTANT": "OWNER"
-      },
-      "flags": {}
-    },
-    {
-      "label": "Actiones",
-      "type": "Item",
-      "name": "actions",
-      "path": "packs/actions",
-      "banner": "systems/aquelarre/image/content/compendium/bannerActiones.png",
-      "system": "aquelarre",
-      "ownership": {
-        "PLAYER": "OBSERVER",
-        "ASSISTANT": "OWNER"
-      },
-      "flags": {}
-    },
-    {
-      "label": "Officiorum",
-      "type": "Item",
-      "name": "professions",
-      "path": "packs/professions",
-      "banner": "systems/aquelarre/image/content/compendium/bannerOfficiorum.png",
-      "system": "aquelarre",
-      "ownership": {
-        "PLAYER": "OBSERVER",
-        "ASSISTANT": "OWNER"
-      },
-      "flags": {}
-    },
-    {
-      "label": "Alea Jacta",
-      "type": "RollTable",
-      "name": "rolls",
-      "path": "packs/rolls",
-      "banner": "systems/aquelarre/image/content/compendium/bannerRolls.png",
-      "system": "aquelarre",
-      "ownership": {
-        "PLAYER": "OBSERVER",
-        "ASSISTANT": "OWNER"
-      },
-      "flags": {}
-    },
-    {
-      "label": "Bestiarium",
-      "type": "Actor",
-      "name": "bestiarium",
-      "path": "packs/bestiarium",
-      "banner": "systems/aquelarre/image/content/compendium/bannerBestiarium.png",
-      "system": "aquelarre",
-      "ownership": {
-        "PLAYER": "OBSERVER",
-        "ASSISTANT": "OWNER"
-      },
-      "flags": {}
-    }
+      {
+        "system": "aquelarre",
+        "type": "Item",
+        "name": "spells",
+        "path": "packs/spells",
+        "systemCore": true,
+        "label": "Magia",
+        "banner": "systems/aquelarre/assets/compendium/spells.png",
+        "ownership": {
+          "PLAYER": "OBSERVER",
+          "ASSISTANT": "OWNER"
+        },
+        "flags": {}
+      }         
   ],
   "url": "https://github.com/cuervoforjador/conventum",
   "manifest": "https://github.com/cuervoforjador/conventum/releases/download/last/system.json",

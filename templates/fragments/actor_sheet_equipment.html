@@ -1,0 +1,63 @@
+{{>frame}}
+
+{{!-- FRAME --}}
+<div class="_mainFrame">
+    
+    {{!-- LEFT PAGE --}}
+    <div class="_leftSide">
+
+        {{!-- MENU --}}
+        <div class="_menuFrame">
+            <div class="_equipmentMainMenu">
+                <nav class="tabs_EquipmentMenu" data-group="equipmentMenu">
+                    <a class="_menuOption" data-tab="equipment" data-group="equipmentMenu">
+                        <label>{{localize 'common.menuEquipment'}}</label>
+                    </a>
+                    <a class="_menuOption" data-tab="weapons" data-group="equipmentMenu">
+                        <label>{{localize 'common.menuWeapons'}}</label>
+                    </a>
+                    <a class="_menuOption" data-tab="armor" data-group="equipmentMenu">
+                        <label>{{localize 'common.menuArmor'}}</label>
+                    </a>
+                </nav>
+            </div>
+        </div>
+
+        {{!-- ITEMS LIST --}}
+        <div class="_frameItemList"></div>
+
+
+    </div>
+
+    {{!-- RIGHT PAGE --}}
+    <div class="_rightSide">
+        <div class="_frameWrap tabs_EquipmentContent">
+            {{!-- EQUIPMENT --}}
+            <section class="tab" data-group="equipmentMenu" data-tab="equipment">
+                {{>actorEquipmentEquipment}}
+            </section>            
+
+            {{!-- WEAPONS --}}
+            <section class="tab" data-group="equipmentMenu" data-tab="weapons">
+                {{>actorEquipmentWeapons}}
+            </section>            
+            
+            {{!-- ARMOR --}}
+            <section class="tab" data-group="equipmentMenu" data-tab="armor">
+                {{>actorEquipmentArmor}}
+            </section>
+        </div>
+    </div>
+</div>
+
+
+{{>actorModes}}
+<a class="_closeSheet">
+    <div class="_closeSheetButton"
+         data-tooltip="{{localize 'common.close'}}"></div>
+</a>
+<a class="_shortSheet">
+    <div class="_shortSheetButton"
+         data-tooltip="{{localize 'common.shorting'}}"></div>
+</a>
+

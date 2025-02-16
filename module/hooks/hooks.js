@@ -1,26 +1,23 @@
+
+import { HookEvents } from "./hooksEvents.js";
+import { helperControls } from "../helpers/helperControls.js";
+import { helperCombat } from "../helpers/helperCombat.js";
+import { helperSheets } from "../helpers/helperSheets.js";
+import { helperSocket } from "../helpers/helperSocket.js";
+import { helperWeapon } from "../helpers/helperWeapon.js";
+import { helperArmor } from "../helpers/helperArmor.js";
+import { helperMagic } from "../helpers/helperMagic.js";
+import { helperBackend } from "../helpers/helperBackend.js";
+import { helperFolders } from "../helpers/helperFolders.js";
+import { helperMessages } from "../helpers/helperMessages.js";
+import { helperUtils } from "../helpers/helperUtils.js";
+import { helperTour } from "../helpers/helperTour.js";
+import { helperTokens } from "../helpers/helperTokens.js";
+
+
 /**
  * Hooks...
  */
-
-import { mainConfig } from "../config/mainConfig.js";
-import { HookCompendium } from "./_hooksCompendium.js";
-import { HookActor } from "./_hooksActor.js";
-import { HookEvents } from "./_hooksEvents.js";
-import { HookHotBar } from "./_hooksHotBar.js";
-import { HookMessage } from "./_hooksMessage.js";
-import { HookCombat } from "./_hooksCombat.js";
-import { HookTours } from "./_hooksTours.js";
-import { mainMacros } from "../macros/mainMacros.js"
-import { helperSocket } from "../helpers/helperSocket.js";
-import { helperCusto } from "../helpers/helperCusto.js";
-import { helperControls } from "../helpers/helperControls.js";
-import { helperSprites } from "../helpers/helperSprites.js";
-import { helperSheetArmor } from "../sheets/helpers/helperSheetArmor.js";
-import { helperSheetHuman } from "../sheets/helpers/helperSheetHuman.js";
-import { aqCombatBar } from "../actions/aqCombatBar.js";
-import { aqActions } from "../actions/aqActions.js";
-
-
 export class mainHooks {
 
     /**
@@ -29,294 +26,269 @@ export class mainHooks {
      */
     static init(Hooks) {
 
+        /* INITIAL */
         Hooks.on("setup", () => this._setup());
         Hooks.on("ready", async () => this._ready());
-        Hooks.on("getSceneControlButtons", (mScenes) => this._getSceneControlButtons(mScenes));
-        Hooks.on("renderSceneControls", (controls, html, options) => this._renderSceneControls(controls, html, options));
-        Hooks.on("renderHotbar", (element, html, options) => this._renderHotbar(element, html, options));
-        Hooks.on("canvasReady", (canvas) => this._canvasReady(canvas));
-        Hooks.on("renderCompendiumDirectory", (tab, element, info) => this._renderCompendiumDirectory(tab, element, info));        
-        Hooks.on("renderCompendium", (compendium, element, collection) => this._renderCompendium(compendium, element, collection));
-        Hooks.on("renderextendSheetHuman", (sheet, html, options) => this._renderextendSheetHuman(sheet, html, options));
-        Hooks.on("changeSidebarTab", (tab) => this._changeSidebarTab(tab));
-        Hooks.on("renderItemSheet", (sheet, element, systemData) => this._renderItemSheet(sheet, element, systemData));
-        Hooks.on("dropActorSheetData", (actor, sheet, item) => this._dropActorSheetData(actor, sheet, item));
-        Hooks.on("createItem", (item, options, sId) => this._createItem(item, options, sId));
-        Hooks.on("createActor", (actor, options, sId) => this._createActor(actor, options, sId));
-        Hooks.on("updateActor", (actor, stats, options, sId) => this._updateActor(actor, stats, options, sId));
-        Hooks.on("renderActorSheet", (sheet, html, systemData) => this._renderActorSheet(sheet, html, systemData));
-        Hooks.on("renderDialog", (dialog, element, content) => this._renderDialog(dialog, element, content));
-        Hooks.on("renderApplication", (app, element, options) => this._renderApplication(app, element, options));
-        Hooks.on("renderActorDirectory", (directory, element, options) => this._renderActorDirectory(directory, element, options));
-        Hooks.on("getUserContextOptions", (element, content) => this._getUserContextOptions(element, content));
-        Hooks.on("getCombatTrackerEntryContext", (html, options) => this._getCombatTrackerEntryContext(html, options));
-        Hooks.on("createCombatant", (combatant, options, id) => this._createCombatant(combatant, options, id));
-        Hooks.on("renderCombatTracker", (tracker, html, options) => this._renderCombatTracker(tracker, html, options));
-        Hooks.on("createCombat", (combat, options, sId) => this._createCombat(combat, options, sId));
-        Hooks.on("updateCombat", (combat, combatants, options, sId) => this._updateCombat(combat, combatants, options, sId));
-        Hooks.on("updateCombatant", (combatant, initiative, options, sId) => this._updateCombatant(combatant, initiative, options, sId));
-        Hooks.on("deleteCombat", (combat, render, sId) => this._deleteCombat(combat, render, sId));
-        Hooks.on("preCreateItem", (oFrom, oTo, options, sId) => this._preCreateItem(oFrom, oTo, options, sId));
-        Hooks.on("createToken", (document, options, sId) => this._createToken(document, options, sId));
-        Hooks.on("createChatMessage", (message, options, sId) => this._createChatMessage(message, options, sId));
-        Hooks.on("renderChatMessage", (chatMessage, element, options) => this._renderChatMessage(chatMessage, element, options));
-        Hooks.on("sightRefresh", async (layer) => this._sightRefresh(layer));
-        Hooks.on("targetToken", (user, token, option) => this._targetToken(user, token, option));  
-        Hooks.on("updateItem", (item, stats, options, sId) => this._updateItem(item, stats, options, sId));
+        Hooks.on("getSceneControlButtons", this._getSceneControlButtons);
+        Hooks.on("renderSceneControls", this._renderSceneControls);
+
+        /** SHEETS */
+        Hooks.on("renderActorSheet", this._renderActorSheet);
+
+        /** ACTORS */
+        Hooks.on("preCreateActor", this._preCreateActor);
+        Hooks.on("createActor", this._createActor);         
+
+        /* ITEMS */
+        Hooks.on("createItem", this._createItem);
+        Hooks.on("deleteItem", this._deleteItem);
+        Hooks.on("renderDocumentDirectory", this._renderDocumentDirectory);
+        
+        /* COMBAT */
+        Hooks.on("createCombat", this._createCombat);
+        Hooks.on("deleteCombat", this._deleteCombat);
+        Hooks.on("createCombatant", this._createCombatant);
+        Hooks.on("deleteCombatant", this._deleteCombatant);
+        
+        /* DIALOGS */
+        Hooks.on("renderDialog", this._renderDialog);
+        Hooks.on("renderApplication", this._renderApplication);
+
+        /* MESSAGES */
+        Hooks.on("preCreateChatMessage", this._preCreateChatMessage);
+
+        /* COMPENDIUM, DIRECTORIES, ... */
+        Hooks.on("renderDirectoryApplication", this._renderDirectoryApplication);
+        
+        /* TOKENS */
+        Hooks.on("refreshToken", this._refreshToken);
+
     }
 
+    /**
+     * _setup
+     */
     static _setup() {
-        //HookEvents.initialEvents();
-        mainConfig.translateConfig(); 
-        helperSocket.onReceived();    
+        helperSocket.onReceived();
     }
 
+    /**
+     * _ready
+     */
     static _ready() {
-        HookEvents.initialEvents();
-        HookTours.registerTours();   
-        mainMacros.registerMacros();
-        helperCusto.custoCSS();
-        //game.aqCombatBar = new aqCombatBar();
+        HookEvents.initialEvents();        
+        $('body').addClass('_'+helperUtils.getRules());
+        helperTour.initTours();
+
     }
 
+    /**
+     * _getSceneControlButtons
+     * @param {*} mScenes 
+     */
     static _getSceneControlButtons(mScenes) {
         helperControls.getSceneControlButtons(mScenes);
     }
 
+    /**
+     * _renderSceneControls
+     * @param {*} controls 
+     * @param {*} html 
+     * @param {*} options 
+     */
     static _renderSceneControls(controls, html, options) {
         helperControls.renderSceneControls(controls, html, options);
     }
 
-    static _renderHotbar(element, html, options) {
-        HookActor.setCustoConfig();
-        //HookHotBar.custoHotBar(element, html, options);
+    /**
+     * _renderActorSheet
+     */
+    static _renderActorSheet(options, element, context) {
+        $(element).addClass('rules_'+game.settings.get(game.system.id,'rules'));
     }
 
-    static _canvasReady(canvas) {
-        HookActor.setCustoConfig();
+    /**
+     * _preCreateActor
+     * @param {*} actor 
+     * @param {*} options 
+     * @param {*} type 
+     * @param {*} id 
+     */
+    static _preCreateActor(actor, options, type, id) {
+
     }
 
-    static _renderCompendiumDirectory(tab, element, info) {
-        HookCompendium._stylingLiCompendium(tab);
+    /**
+     * _createActor
+     * @param {*} actor 
+     * @param {*} options 
+     * @param {*} id 
+     */
+    static _createActor(actor, options, id) {
+
+        //Actor Link
+        actor.prototypeToken.update({"actorLink": true}, {render: false});
     }
 
-    static _renderCompendium(compendium, element, collection) {
-        HookCompendium._stylingCompendium(compendium);
-        HookEvents.compendiumEvent();
+
+    /**
+     * _createItem
+     * @param {*} item 
+     * @param {*} options 
+     * @param {*} id 
+     */
+    static _createItem(item, options, id) {
+
+        //Adding new Professions... 
+        if (item.type === "loreProfession" && item.parent?.type == "human")
+            helperSheets.addingProfession(item);
+
+        //Adding traits...
+        if (item.type === "trait" && item.parent?.type == "human")
+            helperSheets.addingTrait(item);        
+
+        //Adding books...
+        if (item.type === "book" && item.parent?.type == "human")
+            helperSheets.addingBook(item);                
     }
 
-    static _renderextendSheetHuman(sheet, html, options) {
-        const bExpand = sheet.object.system.control.expand;
-        if (!bExpand) {
-            sheet.setPosition({width: 400, height: 650});
-            sheet.element.find('.window-resizable-handle').hide();
-            sheet.element.find('.window-content').addClass('_shrink');
-        } else {
-            if (sheet.position.width < 400)
-                sheet.setPosition({width: 400});
-            if (sheet.position.height < 600)
-                sheet.setPosition({height: 600});
-            
-            sheet.element.find('.window-content').removeClass('_shrink');
-            sheet.element.find('.window-resizable-handle').show();
-        }
+    /**
+     * _deleteItem
+     * @param {*} item 
+     * @param {*} options 
+     * @param {*} id 
+     */
+    static _deleteItem(item, options, id) {
+        if (item.type === 'encounter')
+                helperCombat.postDeleteEncounter(item);
     }
 
-    static _changeSidebarTab(tab) {
-        if ( tab.entryType === 'Compendium' ) {
-            HookCompendium._stylingLiCompendium(tab);
-            HookEvents.compendiumEvent();
-        }
-        if ( tab.tabName === 'combat' ) {
-            HookCombat.changeCombatTabHtml(tab._element);
-        }
-    }
-
-    static _renderItemSheet(sheet, element, systemData) {
-        HookEvents.sheetInfoEvent();
-        HookEvents.sheetPanelEvent();
-    }
-
-    static async _dropActorSheetData(actor, sheet, item) {
-        if (item.type === 'Item') {
-            const mO = item.uuid.split('.');
-            const sType = (mO[0] === 'Compendium') ?
-                                mO[mO.length-3] :
-                                mO[mO.length-2];
-            
-            //No Human Items...
-            if (CONFIG.ExtendConfig.noHumanItems.find(e => e === sType)) {
-
-                //Exceptions: Skills in Shrink mode
-                if ((!actor.system.control.expand) && (sType === 'skills')) return;
-
-                new Dialog({
-                    title: game.i18n.localize("common.config"),
-                    content: game.i18n.localize("info.noHumanAction"),
-                    buttons: {}
-                  }).render(true);                
-                return;
-            }
-
-            if (sType === 'trait')
-                await HookActor.checkAddTrait(oItem, actor, sheet);
-        }
-    }
-
-    static async _createItem(item, options, sId) {
-
-        //Images...
-        helperCusto.initialImages(item, options, sId);
-
-        if (item.type === 'armor')
-            await helperSheetArmor.addArmor(item);
-        //if (item.type === 'trait')
-            //...
-        if ( (item.type === 'profession') &&
-             ((item.parent) && (item.parent.type === 'human')) ) {
-            
-            await item.parent.sheet.close();
-            await helperSheetHuman.addProfession(item, sId);      
-            await item.parent.sheet.render(true);        
-        }
-            
-    }
-
-    static async _createActor(actor, options, sId) {
-        HookActor.setPrototypeToken(actor);
-        helperCusto.initialActorImage(actor, options, sId);        
-    }
-
-    static async _updateActor(actor, stats, options, sId) {
+    /**
+     * _renderDocumentDirectory
+     * @param {*} directory 
+     * @param {*} element 
+     * @param {*} options 
+     */
+    static _renderDocumentDirectory(directory, element, options) {
         //...
     }
 
-    static _renderActorSheet(sheet, html, systemData) {
-        
-        //QuickBar
-        if (systemData.systemData.quickBarPosition) {
-            let hSheet = $('.app.window-app.aquelarre.sheet.actor');
-            if (hSheet.length === 0) return;
-            let posX = systemData.systemData.quickBarPosition.x - hSheet.position().left;
-            let posY = systemData.systemData.quickBarPosition.y - hSheet.position().top;
-            $('._quickBar').css({
-            left: posX,
-            top: posY
-            });
-        }
-
-        //ImOnFire...
-        const sBook = '';
-        if ($(html).find('.tab.magic.active').length === 1) 
-                HookActor.onFirePage(sheet);
-           else HookActor.outFirePage(sheet);
-
-        //Lens...
-        if (game.settings.get('aquelarre', 'lens')) {
-            sheet.setPosition({scale: 1.4});
-        }        
+    /**
+     * _createCombat
+     * @param {*} combat 
+     * @param {*} options 
+     * @param {*} id 
+     */
+    static _createCombat(combat, options, id) {
+        helperCombat.dialogCreateCombat(combat);
     }
 
-    static async _renderDialog(dialog, element, content) {
-
-        //Creating
-        if ( $(element).find('section form#document-create select[name="type"]').length > 0 )
-            HookMessage.translateTypes(element);    
-
-        //Rolling Message
-            HookMessage.changeColorButton(element, dialog.data.world);
-
-        //Targets Dialog
-        if (element.hasClass('_targetDialogs'))
-            HookCombat.targetDialogs(dialog, element, content);
-        if (element.hasClass('_targetDialogsExpress'))
-            HookCombat.targetDialogsExpress(dialog, element, content);      
-        if (element.hasClass('_actionsDialogsExpress'))
-            helperControls.targetActionsExpress(dialog, element, content);               
+    /**
+     * _deleteCombat
+     * @param {*} combat 
+     * @param {*} options 
+     * @param {*} id 
+     */
+    static _deleteCombat(combat, options, id) {
+        helperCombat.postDeleteCombat(combat);
     }
 
-    static async _renderApplication(app, element, options) {
-        
+    /**
+     * _createCombatant
+     * @param {*} combatant 
+     * @param {*} options 
+     * @param {*} id 
+     */
+    static _createCombatant(combatant, options, id) {
+        helperCombat.postCreateCombatant(combatant);
     }
 
-    static _renderActorDirectory(directory, element, options) {
-        HookActor.renderActorDirectory(element);
+    /**
+     * _deleteCombatant
+     * @param {*} combatant 
+     * @param {*} options 
+     * @param {*} id 
+     */
+    static _deleteCombatant(combatant, options, id) {
+        helperCombat.postDeleteCombatant(combatant);
     }
 
-    static async _getUserContextOptions(element, content) {
-        HookCompendium.initCompendiums();
-    }    
-
-    static _getCombatTrackerEntryContext(html, options) {
-        HookCombat.changeCombatTabHtml(html);
-    }    
-
-    static _renderCombatTracker(tracker, html, options) {
-        HookCombat.changeCombatTabHtml(html);
+    /**
+     * _renderDialog
+     * @param {*} dialog 
+     * @param {*} element 
+     * @param {*} options 
+     */
+    static _renderDialog(dialog, element, options) {
+        if ( element.hasClass('dialogWeapon') ) helperWeapon.handler(dialog, element, options);
+        if ( element.hasClass('dialogArmor') ) helperArmor.handler(dialog, element, options);
+        if ( element.hasClass('dialogSpells') ) helperMagic.handler(dialog, element, options);
     }
 
-    static _createCombat(combat, options, sId) {
-        HookCombat.createEncounter();
-    }
+    /**
+     * _renderApplication
+     * @param {*} appDocument 
+     * @param {*} element 
+     * @param {*} options 
+     */
+    static _renderApplication(appDocument, element, options) {
 
-    static async _updateCombat(combat, combatants, options, sId) {
-        HookCombat.createEncounter();
-        await HookCombat.updateCombat(combat);
-    }
+        //Dialogs...
+        if (element.hasClass('dialog')) {
 
-    static async _createCombatant(combatant, options, id) {
-        //await HookCombat.createEncounter();
-    }
+            //New elements...
+            if ($(options.content).attr('id') === 'document-create') {
 
-    static async _updateCombatant(combatant, initiative, options, sId) {
-        if (!initiative.initiative)
-            await HookCombat.resetInitiativeMod(combatant.actorId);
-    }    
+                let options = element.find('select[name="type"] option');
 
-    static _deleteCombat(combat, render, sId) {
-        HookCombat.deleteEncounter(combat.id);
-    }
+                //Changing names...
+                options.each(function(i, e) {
+                    $(e).text(game.i18n.localize("entity."+$(e).val()))
+                }.bind(this));
 
-    static async _preCreateItem(oFrom, oTo, options, sId) {
-        //...
-    }
-
-    static _createToken(document, options, sId) {
-        if (document._source.actorId) {
-            if (game.actors.get(document._source.actorId).system.control.criature) {
-                document._source.actorLink = false;
-            } else {
-                document._source.actorLink = true;
+                //Sorting...
+                options.detach().sort(function(a, b) {
+                    let at = $(a).text();
+                    let bt = $(b).text();
+                    return (at > bt) ? 1 : ((at < bt) ? -1 : 0);
+                });
+                options.appendTo('select[name="type"]');            
             }
+
         }
+
     }
 
-    static _createChatMessage(message, options, sId) {
-        HookMessage.createChatMessage(message, options, sId);
-    }
-
-    static _renderChatMessage(chatMessage, element, options) {
-        HookMessage.renderChatMessage(chatMessage, element, options);
-    }
-
-    static _sightRefresh(layer) {
-        helperSprites.sightRefresh(layer);
-    }
-
-    static _targetToken(user, token, option) {
-        if (!option) return;
+    /**
+     * _renderDirectoryApplication
+     * @param {*} directory 
+     * @param {*} html 
+     * @param {*} options 
+     */
+    static async _renderDirectoryApplication(directory, html, options) {
         
-        helperSprites.stylingToken(token);
+        await helperFolders.checkTraits(directory, html, options);
     }
 
-    static _updateItem(item, stats, options, sId) {
-        if (item.type === "actionPool") {
-            const encounter = aqActions.getCurrentEncounter();
-            if (!encounter) return;
-            if (encounter.id === item.id) {
-                //game.aqCombatBar.update();
-            }
-        }
+    /**
+     * _preCreateChatMessage
+     * @param {*} chatMessage 
+     * @param {*} options 
+     * @param {*} id 
+     */
+    static _preCreateChatMessage(chatMessage, content, options, id) {
+        content.content = helperMessages.addFrame(content.content);
+        chatMessage.content = content.content;
+        chatMessage.updateSource({content: content.content});
+    }
+
+    /**
+     * _refreshToken
+     * @param {*} token 
+     * @param {*} options 
+     */
+    static _refreshToken(token, options) {
+        helperTokens.styleToken(token);
     }
 
 }

@@ -1,0 +1,44 @@
+<div class="_characteristics">
+{{#each systemData.characteristics as |char sId|}}
+
+    <div class="_characteristic _charIndex_{{sId}}">   
+
+        <input class="_charValue _whiteBorder"
+               style="color: {{evalCharColor sId}}"
+               {{locked}}
+               name="system.characteristics.{{sId}}.value" 
+               type="number" 
+               value="{{extendValue 'systemData.characteristics' sId 'value'}}"
+               min="{{extendValue 'systemData.characteristics' sId 'min'}}"
+               max="{{extendValue 'systemData.characteristics' sId 'max'}}" />
+        <input class="_charMod _whiteBorder"
+               style="{{visibleMod 'system.characteristics' sId 'mod'}}"
+               {{locked}}
+               name="system.characteristics.{{sId}}.mod" 
+               value="{{extendValue 'systemData.characteristics' sId 'mod'}}" />
+        <input type="hidden"
+               name="system.characteristics.{{sId}}.min"
+               value="{{extendValue 'systemData.characteristics' sId 'min'}}" />
+        <input type="hidden"
+               name="system.characteristics.{{sId}}.max"
+               value="{{extendValue 'systemData.characteristics' sId 'max'}}" />
+
+
+        <div class="_charLabel _whiteBorder _hoverToggle">
+            <showed>
+                <div class="_textContent">{{localizeBy 'characteristics.' sId}}</div>
+            </showed>
+            <hided>
+                <a class="_roll" 
+                   data-target="char"
+                   data-id="{{sId}}">
+                   <div class="_textRoll _marginLeft _marginRight">
+                        <i class="fas fa-dice _marginRight"></i> 
+                        {{localize 'common.roll'}}</div>
+                </a>
+            </hided>
+        </div>
+    </div> 
+
+{{/each}}
+</div>

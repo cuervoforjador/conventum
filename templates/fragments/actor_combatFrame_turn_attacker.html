@@ -1,0 +1,198 @@
+<div class="_hexCombatant">
+     <div class="_img" style="background-image: url({{backCombat._turn.combatant.actor.img}})">
+        <!-- <label class="_whiteBorderHard">{{backCombat._turn.combatant.name}}</label> -->
+     </div>
+    
+</div>
+<div class="_hexAction">
+    <div class="_backImg" style="background-image: url({{backCombat._turn.action.img}})"></div>
+    {{#if (isMe backCombat._turnActor)}}
+        <label class="_whiteBorderHard _contextButton"
+            data-action="selectAction"
+            data-contextTarget="{{backCombat._turn.combatant.id}}"
+            data-contextId="{{backCombat._turn.action.id}}">{{backCombat._turn.action.name}}</label>
+    {{else}}
+        <label class="_whiteBorderHard">{{backCombat._turn.action.name}}</label>
+    {{/if}}
+    <label class="_whiteBorderHard">{{backCombat._turn.combatant.name}}</label>
+    <a class="_frameButton"
+        data-action="summary"
+        data-itemid="{{backCombat._turn.action.id}}"
+        data-combatantId="{{backCombat._turn.combatant.id}}">
+        <label class="_link">{{localize 'common.seeAction'}}</label>
+    </a>
+</div>
+<div class="_hexRoll">
+    <div class="_contentRoll">
+
+        <div class="_rollStats">
+
+            {{#if backCombat._turnRoll.autoSuccess}}
+            <div class="_backImg" style="background-image: url({{backCombat._turn.action.img}})"></div>
+            {{/if}}
+
+            {{#unless backCombat._turnRoll.autoSuccess}}
+            <div class="_statRow" style="padding-left: 20%;">
+                <label>{{backCombat._turnRoll.title}}</label>
+                <label class="_stat">{{backCombat._turnRoll.stats.base}} %</label>
+            </div>
+            <div class="_statRow" style="padding-left: 13%;">
+                <label>{{localize "common.modBase"}}</label>
+                <a class="_frameButton"
+                   data-action="showMods"
+                   data-anti="false"
+                   data-modInitiative="{{backCombat._turnRoll.stats.mods.initiative}}"
+                   data-modWeapon="{{backCombat._turnRoll.stats.mods.weapon}}"
+                   data-modArmor="{{backCombat._turnRoll.stats.mods.armor}}"
+                   data-modattackcritical="{{backCombat._turnRoll.stats.mods.attackCritical}}"
+                   data-modattackpenal="{{backCombat._turnRoll.stats.mods.attackPenal}}"
+                   data-modCombat="{{backCombat._turnRoll.stats.modList}}"
+                   data-stepId="{{backCombat._turn.step.id}}"
+                   data-actionId="{{backCombat._turnAction.id}}"
+                   data-combatantId="{{backCombat._turn.combatant.id}}"
+                   data-tooltip="{{localize 'common.rollMods'}}">
+                   <label class="_stat">{{backCombat._turnRoll.stats.totalMod}} %</label>
+                </a>
+            </div>
+            <div class="_statRow" style="padding-left: 5%;">
+                <label>{{localize "common.modCusto"}}</label>
+                <div class="_combo">
+                    {{#if isGM}}
+                        <input id="combatCustoMod" 
+                                data-stepid="{{backCombat._turn.step.id}}"
+                                data-tooltip="{{localize 'info.combatMod'}}"
+                                type="text" 
+                                value="{{backCombat._turnRoll.stats.custoMod}}"/>
+                        <label class="_stat"> %</label>
+                    {{else}}
+                        <label class="_stat">{{backCombat._turnRoll.stats.custoMod}} %</label>
+                    {{/if}}
+                </div>
+            </div>
+            {{/unless}}
+
+            {{#unless backCombat.control.movement}}
+            <div class="_statRow">
+                <label>{{localize "common.location"}}</label>                
+                    {{#if (isMe backCombat._turnActor)}}
+                        <select class="_locationSelect"
+                                {{#if backCombat._damageRoll.location.applyLocation}} disabled {{/if}}
+                                data-stepid="{{backCombat._turn.step.id}}"
+                                id="combatCustoLocation">
+                                {{selectOptions backCombat._damageRoll.locations 
+                                                selected=backCombat._damageRoll.location.key
+                                                localize=false
+                                                nameAttr="key"
+                                                labelAttr="label" }}
+                        </select>
+                    {{else}}
+                        {{locationTxt backCombat._damageRoll.location.key}}
+                    {{/if}}
+            </div>
+            {{/unless}}          
+            
+            <div class="_statRow _finalRow {{#if backCombat._turnRoll.autoSuccess}} _autoRoll {{/if}}">
+
+                {{#if (isMe backCombat._turnActor)}}
+                    {{#unless backCombat.control.noMode}}
+                    {{#unless backCombat.control.attacker.noWeapon}}
+                    <a class="_frameButton {{#if backCombat.control.attacker.error}}_error{{/if}}" 
+                        {{#unless backCombat.control.attacker.waiting}}                        
+                            data-action="roll"
+                        {{/unless}}
+                        data-target="combat"
+                        data-fluxid="{{backCombat._fluxStep.id}}"
+                        data-combatantid="{{backCombat._turn.combatant.id}}"
+                        data-skillid="{{backCombat._turnRoll.skill.id}}"
+                        data-actionid="{{backCombat._turnAction.id}}"
+                        data-weaponid="{{backCombat._turnWeapon.id}}"
+                        data-stepid="{{backCombat._turn.step.id}}"
+                        data-rollauto="{{backCombat._turnRoll.autoSuccess}}"
+                        data-rolltitle="{{backCombat._turnRoll.title}}"
+                        data-rollanti="{{backCombat._turnRoll.anti}}"
+                        data-rollbase="{{backCombat._turnRoll.stats.base}}"
+                        data-rollmod="{{backCombat._turnRoll.stats.totalMod}}"
+                        data-rollcustomod="{{backCombat._turnRoll.stats.custoMod}}"
+                        data-rollbonus="{{backCombat._turnRoll.stats.bonus}}"
+                        data-rollpenal="{{backCombat._turnRoll.stats.penal}}"
+                        data-rollvalue="{{backCombat._turnRoll.stats.final}}"
+                        data-rollluck="{{backCombat._turnRoll.avalLuck}}",
+                        data-rolllevels="{{backCombat._turnRoll.diffLevels}}">
+                        {{#unless backCombat._turnRoll.autoSuccess}}
+                            <button data-img="icons/roll.svg" 
+                                    data-label="common.roll" 
+                                    class="_whiteBorderHard"></button>
+                        {{else}}
+                            <button data-img="icons/next.svg" 
+                                    data-label="common.continue" 
+                                    class="_whiteBorderHard"></button>
+                        {{/unless}}
+                    </a>
+                    {{else}}
+                    <label>{{localize "common.noWeapon"}}</label>
+                    {{/unless}}
+                    {{else}}
+                        <label class="_noMode">{{backCombat.control.noModeTxt}}</label>                    
+                    {{/unless}}
+
+                {{else}}
+                    <label>{{localize "common.roll"}}</label>
+                {{/if}}
+                
+                {{#unless backCombat._turnRoll.autoSuccess}}
+                {{#unless backCombat.control.noMode}}
+                <label class="_total _whiteBorderHard"
+                        data-tooltip="{{localize 'info.combatTotal'}}">
+                            {{backCombat._turnRoll.stats.final}} %
+                </label>
+                {{/unless}}
+                {{/unless}}
+
+            </div>                      
+        </div>
+
+    </div>
+</div>
+<div class="_hexMods">
+
+    {{#if isGM}}
+    <a class="_frameButton _mod" 
+        data-action="addModifiers"
+        data-stepid="{{backCombat._turn.step.id}}">
+        <button data-img="icons/add.svg" data-label="common.addModifiers"></button>
+    </a> 
+    {{/if}}
+
+    {{#each backCombat._turn.combatMods as |mod index|}}
+
+        <div class="_mod">
+            <div class="_title">
+                <label>{{mod.label}}</label>
+                {{#if ../isGM}}
+                <a class="_frameButton" 
+                    data-action="deleteCombatMod"
+                    data-stepid="{{../backCombat._turn.step.id}}"
+                    data-index="{{mod.index}}">
+                        <button data-img="icons/delete.svg" 
+                                data-icon="true"></button>
+                </a>
+                {{/if}}
+            </div>
+            <div class="_comboAtDef">
+                {{#if mod.isAttack}}<label>{{localize 'common.attack'}}: {{mod.attack}}</label>{{/if}}
+                {{#if mod.isDefense}}<label>{{localize 'common.defense'}}: {{mod.defense}}</label>{{/if}}
+            </div>
+            <div class="_descr">{{mod.descr}}</div>
+        </div>
+
+    {{/each}}
+</div>
+<div class="_hexExtra">
+
+    {{#if backCombat.control.attacker.showWeaponBox}}
+    <div class="_row _100">
+        {{>actorCombatFrameTurnAttackerWeapon}}
+    </div>
+    {{/if}}
+
+</div>

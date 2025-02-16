@@ -1,0 +1,28 @@
+<div class="_wrapTraits">
+    <div class="_hcombo _100">
+        <label class="_title">{{localize 'common.traits'}}</label>
+        <div class="_traitStats">
+            <label class="_pride">{{backTraitsStats.pride}}</label>
+            <label class="_shame">{{backTraitsStats.shame}}</label>
+        </div>
+        {{#unless backLore.position.noItem}}
+            <a class="_frameButton" 
+                data-action="addItemLore"
+                data-target="trait">
+                <button data-img="icons/add.svg" 
+                        data-icon="true"
+                        data-tooltip="{{localize 'common.addTrait'}}"></button>
+            </a>
+        {{/unless}}
+    </div>
+    <div class="_list">
+        {{#each backTraits as |entry index|}}
+            <div class="_trait _clickItem"
+                 data-id="{{entry.item._id}}">
+                <img src="{{entry.item.img}}" />
+                <label class="_name"
+                       style="background: linear-gradient(230deg, transparent, {{entry.color}}, transparent);">{{entry.name}}</label>
+            </div>
+        {{/each}}
+    </div>    
+</div>

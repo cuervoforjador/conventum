@@ -1,0 +1,38 @@
+    <div class="_upperMenu _menuFrame">
+        <nav class="tabs_MyCombatMenu" data-group="myCombatMenu">
+            <a class="_menuOption" data-tab="weapons" data-group="myCombatMenu">
+                <label>{{localize 'common.myWeapons'}}</label>
+            </a>    
+            <a class="_menuOption" data-tab="armor" data-group="myCombatMenu">
+                <label>{{localize 'common.myArmor'}}</label>
+            </a>            
+            <a class="_menuOption" data-tab="actions" data-group="myCombatMenu">
+                <label>{{localize 'common.myActions'}}</label>
+            </a>                     
+        </nav>
+    </div>
+
+    <div class="_frameMyCombat tabs_MyCombatContent">
+
+        {{!-- MY WEAPONS --}}
+        <section class="tab" data-group="myCombatMenu" data-tab="weapons">
+            <div class="_tabWrap">
+                {{>actorCombatFrameMyWeapons}}
+            </div>
+        </section>
+
+        {{!-- MY ARMOR --}}
+        <section class="tab" data-group="myCombatMenu" data-tab="armor">
+            <div class="_tabWrap">
+                {{>actorCombatFrameMyArmor}}
+            </div>
+        </section>        
+
+        {{!-- MY ACTIONS --}}
+        <section class="tab" data-group="myCombatMenu" data-tab="actions">
+            <div class="_tabWrap">
+                {{>actorCombatFrameMyActions}}
+            </div>
+        </section>
+
+    </div>

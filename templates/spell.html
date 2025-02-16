@@ -1,66 +1,337 @@
-<form class="codex" 
-      autocomplete="off">
+<form class="_spell _golden" 
+      autocomplete="off"
+      style="z-index:1">
 
-    {{!-- FRAME --}}
-    {{> itemFrame }}
-    
-    {{!-- HEADER --}}
-    <itemHeader class="_chrome">
-        <itemHeaderInfo>
-            <itemTitle>
-                <input type="text" name="name" value="{{item.name}}" placeholder=""/>
-            </itemTitle>
-            <itemSubHeader>
-                <hbox class="_subHeaderHBox">
-                    <label>{{localize "common.world" }}</label>
-                    <select name="system.control.world">
-                        {{selectOptions backend.worlds 
-                                        selected=systemData.control.world
-                                        localize=false
-                                        nameAttr="id"
-                                        labelAttr="name" }}
-                    </select>
-                </hbox>             
-            </itemSubHeader>
-        </itemHeaderInfo>
-    </itemHeader> 
-    
-    {{!-- CONTENT --}}
-    <itemContent>
+      {{!-- HEADER --}}
+      <div class="_itemHeader _100">
+            <img src="{{item.img}}" 
+                  data-edit="img" 
+                  title="{{item.name}}"/>                  
+            <div class="_itemSubHeader">
+                  <input class="_title"
+                        type="text" 
+                        name="name" 
+                        {{locked}}
+                        value="{{item.name}}" 
+                        placeholder=""/>
+                  <div class="_itemSubHeaderBox">
 
-        <hbox class="_100">
-            <nav class="sheet-tabs itemTabsHeader" data-group="primary">
-                <a data-tab="main">{{ localize "common.spell" }}</a>
-                <a data-tab="components">{{ localize "common.components" }}</a>
-                <a data-tab="preparation">{{ localize "common.preparation" }}</a>
-                <a data-tab="effects">{{ localize "common.effects" }}</a>
-                <a data-tab="damage">{{ localize "common.damage" }}</a>
-                <a data-tab="description">{{ localize "common.description" }}</a>
-            </nav>
-        </hbox>         
+                        <formField class="_100">
+                              <input name="system.info.latina" 
+                                    class="_large _italic"
+                                    type="text" 
+                                    value="{{systemData.info.latina}}" />                                    
+                        </formField>
+                        <formField class="_100">
+                              <label>{{localize "common.system"}}</label>
+                              <select name="system.type.system"
+                                    style="margin-right: 10px;">
+                                    {{selectOptions backend.magic.systems 
+                                                selected=systemData.type.system
+                                                localize=false
+                                                nameAttr="key0"
+                                                labelAttr="label" }}
+                              </select> 
+                              <input name="system.type.vis" 
+                                     id="chVIS"
+                                     type="checkbox" 
+                                     {{checked systemData.type.vis}} />                                    
+                              <label for="chVIS">
+                                    {{#if (isS1)}}{{localize "common.spell"}}{{/if}}
+                                    {{#if (isS2)}}{{localize "common.spell"}}{{/if}}
+                              </label>
+                              <input name="system.type.ordo" 
+                                     id="chORDO"
+                                     type="checkbox" 
+                                     {{checked systemData.type.ordo}} />                                    
+                              <label for="chORDO">
+                                    {{#if (isS1)}}{{localize "common.ritual"}}{{/if}}
+                                    {{#if (isS2)}}{{localize "common.prayer"}}{{/if}}
+                              </label>                                                          
+                        </formField>
+                        <formField class="_100">
+                              <label>{{localize 'common.level'}}</label>
+                              <input name="system.level" 
+                                     class="_levelBox"
+                                     type="number" 
+                                     min="1"
+                                     max="{{maxSpellLevel}}"
+                                     value="{{systemData.level}}" />  
+                              <label class="_italic">{{spellLevelText}}</label>
+                        </formField>
+                        {{#if isGM}}
+                        {{#if fromActor}}
+                        <formField class="_100">
+                              <input name="system.learned" 
+                                     id="chLearned"
+                                     type="checkbox" 
+                                     {{checked systemData.learned}} />                                
+                              <label for="chLearned">{{localize 'common.learnedM'}}</label>
+                        </formField>
+                        {{/if}}
+                        {{/if}}
+                  </div>
+            </div>
+      </div>
 
-        <div class="frameContent">
-            <section class="sheet-body">
-                {{> itemExtendSpell }}
+      {{!-- TAB HEADER --}}
+      <nav class="itemTabsBar" data-group="primary-tabs">
+            <a data-tab="properties" data-group="primary-tabs">
+                  <label class="_tabButton">{{localize 'common.properties'}}</label></a>   
+            {{#if systemData.type.vis}}
+            <a data-tab="components" data-group="primary-tabs">
+                  <label class="_tabButton">{{localize 'common.components'}}</label></a> 
+            <a data-tab="preparation" data-group="primary-tabs">
+                  <label class="_tabButton">{{localize 'common.preparation'}}</label></a>            
+            {{/if}}
+            {{#if systemData.type.ordo}}        
+            <a data-tab="requirements" data-group="primary-tabs">
+                  <label class="_tabButton">{{localize 'common.requirements'}}</label></a> 
+            <a data-tab="ceremony" data-group="primary-tabs">
+                  <label class="_tabButton">{{localize 'common.ceremony'}}</label></a>                                     
+            {{/if}}
+            <a data-tab="description" data-group="primary-tabs">
+                  <label class="_tabButton">
+                        {{#if systemData.type.ordo}}{{localize 'common.effects'}}{{/if}}
+                        {{#if systemData.type.vis}}{{localize 'common.description'}}{{/if}}
+                  </label></a>   
+      </nav>
 
-                {{!--- DESCRIPTION & IMAGE ---}}
-                <div class="tab description" data-group="primary" data-tab="description">
-                <slidePanel class="_100">
-                    <panelContent>
-                        <itemImage>
-                            <img src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
-                        </itemImage>                                    
-                        {{> itemDescription }}
-                    </panelContent>
-                </slidePanel>
-                </div>                
+      {{!-- SECTIONS --}}
+      <div class="itemTabsContent">
+
+            {{!-- DESCRIPTION / EFFECTS --}}
+            <section class="tab" data-group="primary-tabs" data-tab="description">
+                  {{#if systemData.type.ordo}}
+                        {{editor 
+                              systemData.info.effects
+                              target="system.info.effects" 
+                              button=true 
+                              engine="prosemirror"
+                              owner=owner
+                              rollData=rollData
+                              editable=isGM}}
+                  {{else}}
+                        {{editor 
+                              systemData.description
+                              target="system.description" 
+                              button=true 
+                              engine="prosemirror"
+                              owner=owner
+                              rollData=rollData
+                              editable=isGM}}                  
+                  {{/if}}
             </section>
-        </div>
-    </itemContent>      
 
-{{!-- Molding ---}}
-<input name="system.control.mold"
-        value="{{systemData.control.mold}}" 
-        type="hidden" />   
+            {{!-- REQUIREMENTS --}}
+            <section class="tab" data-group="primary-tabs" data-tab="requirements">                  
+                  {{editor 
+                        systemData.info.requirements
+                        target="system.info.requirements" 
+                        button=true 
+                        engine="prosemirror"
+                        owner=owner
+                        rollData=rollData
+                        editable=isGM}}
+            </section>
+
+            {{!-- CEREMONY --}}
+            <section class="tab" data-group="primary-tabs" data-tab="ceremony">
+                  {{editor 
+                        systemData.info.ceremony
+                        target="system.info.ceremony" 
+                        button=true 
+                        engine="prosemirror"
+                        owner=owner
+                        rollData=rollData
+                        editable=isGM}}
+            </section>       
+            
+            {{!-- COMPONENTS --}}
+            <section class="tab" data-group="primary-tabs" data-tab="components">
+                  {{editor 
+                        systemData.info.components
+                        target="system.info.components" 
+                        button=true 
+                        engine="prosemirror"
+                        owner=owner
+                        rollData=rollData
+                        editable=isGM}}
+            </section> 
+
+            {{!-- PREPARATION --}}
+            <section class="tab" data-group="primary-tabs" data-tab="preparation">
+                  {{editor 
+                        systemData.info.preparation
+                        target="system.info.preparation" 
+                        button=true 
+                        engine="prosemirror"
+                        owner=owner
+                        rollData=rollData
+                        editable=isGM}}
+            </section>             
+
+            {{!-- PROPERTIES --}}
+            <section class="tab" data-group="primary-tabs" data-tab="properties">
+            <formSection class="_100">
+                  <formColumn class="_50">
+                        
+                        {{#if systemData.type.vis}}
+                        <formBlock class="_kirei">
+                              <formField class="_100">
+                                    <label class="_clear">{{localize "common.shape"}}</label>
+                                    <select name="system.properties.shape">
+                                          {{selectOptions backend.magic.shape 
+                                                      selected=systemData.properties.shape
+                                                      localize=false
+                                                      nameAttr="key"
+                                                      labelAttr="label" }}
+                                    </select> 
+                              </formField>
+                              <formField class="_100">
+                                    <label class="_clear">{{localize "common.nature"}}</label>
+                                    <select name="system.properties.nature">
+                                          {{selectOptions backend.magic.nature 
+                                                      selected=systemData.properties.nature
+                                                      localize=false
+                                                      nameAttr="key"
+                                                      labelAttr="label" }}
+                                    </select> 
+                              </formField>              
+                              <formField class="_100">
+                                    <label class="_clear">{{localize "common.origin"}}</label>
+                                    <select name="system.properties.origin">
+                                          {{selectOptions backend.magic.origin 
+                                                      selected=systemData.properties.origin
+                                                      localize=false
+                                                      nameAttr="key"
+                                                      labelAttr="label" }}
+                                    </select> 
+                              </formField> 
+                        </formBlock>                                               
+                        {{/if}}
+
+                        <formBlock class="_kirei">
+                              {{#if systemData.type.ordo}}
+                              <formField class="_100">
+                                    <label class="_clear">{{localize 'common.theoMin'}}:</label>
+                                    <input name="system.study.skillMin" 
+                                                class="_number _rightText"
+                                                type="number" 
+                                                disabled
+                                                value="{{systemData.study.skillMin}}" />
+                                    <label>%</label>
+                              </formField>
+                              {{/if}}
+                              <formField class="_100">
+                                    <label class="_clear">{{localize 'common.experience'}}:</label>
+                                    <input name="system.stats.exper" 
+                                                class="_number _rightText"
+                                                type="number" 
+                                                disabled
+                                                value="{{systemData.stats.exper}}" />
+                                    <label>Pt.</label>
+                              </formField>
+                              <formField class="_100">
+                                    <label class="_clear">{{localize 'common.assiMod'}}:</label>
+                                    <input name="system.study.assiMod" 
+                                                class="_number _rightText"
+                                                type="text" 
+                                                disabled
+                                                value="{{systemData.study.assiMod}}" />
+                                    <label>%</label>
+                              </formField>                                                      
+                              <formField class="_100">
+                                    <label class="_clear">{{localize 'common.study'}}:</label>
+                                    <input name="system.study.months" 
+                                                class="_number _rightText"
+                                                type="number" 
+                                                disabled
+                                                value="{{systemData.study.months}}" />
+                                    {{#if systemData.type.ordo}}
+                                    <label>{{localize 'common.months'}}</label>
+                                    {{/if}}
+                                    {{#if systemData.type.vis}}
+                                    <label>{{localize 'common.weeks'}}</label>
+                                    {{/if}}                                    
+                              </formField>
+                              
+                        </formBlock>
+                        
+                  </formColumn>
+                  <formColumn class="_50">             
+                        {{#if systemData.type.vis}}
+                        <formBlock class="_kirei">
+                              <formField class="_100" style="justify-content: space-between;">
+                                    <label class="_clear">{{localize 'common.expiration'}}:</label>
+                                    <input name="system.info.expiration" 
+                                          class="_large"
+                                          type="text" 
+                                          value="{{systemData.info.expiration}}" />                                    
+                              </formField>
+                              <formField class="_100" style="justify-content: space-between;">
+                                    <label class="_clear">{{localize 'common.duration'}}:</label>
+                                    <input name="system.info.duration" 
+                                          class="_large"
+                                          type="text" 
+                                          value="{{systemData.info.duration}}" />                                    
+                              </formField>                              
+                        </formBlock>
+                        {{/if}}
+
+                        <formBlock class="_kirei">
+                              {{#if systemData.type.vis}}
+                              <formField class="_100">
+                                    <input name="system.properties.rrRoll" 
+                                          id="chRrRoll"
+                                          type="checkbox" 
+                                          {{checked systemData.properties.rrRoll}} />                                    
+                                    <label class="_clear" for="chRrRoll">{{localize 'common.rrRoll'}}</label>
+                              </formField>
+                              {{/if}}
+                              {{#if systemData.type.ordo}}
+                              <formField class="_100">
+                                    <input name="system.properties.grace" 
+                                          id="chGrace"
+                                          type="checkbox" 
+                                          {{checked systemData.properties.grace}} />                                    
+                                    <label class="_clear" for="chGrace">{{localize 'common.grace'}}</label>
+                              </formField>                               
+                              <formField class="_100">
+                                    <label class="_clear">{{localize 'common.min'}}:</label>
+                                    <input name="system.stats.faith" 
+                                                class="_number _rightText"
+                                                type="number" 
+                                                disabled
+                                                value="{{systemData.stats.faith}}" />
+                                    <label>{{localize 'common.faithPt'}}</label>
+                              </formField>                                                           
+                              {{/if}}
+                              {{#if systemData.type.vis}}
+                              <formField class="_100">
+                                    <label class="_clear">{{localize 'common.cost'}}:</label>
+                                    <input name="system.stats.conc" 
+                                                class="_number _rightText"
+                                                type="number" 
+                                                disabled
+                                                value="{{systemData.stats.conc}}" />
+                                    <label>{{localize 'common.concPt'}}</label>
+                              </formField> 
+                              {{/if}}
+                              <formField class="_100">
+                                    <label class="_clear">{{localize 'common.penal'}}:</label>
+                                    <input name="system.stats.mod" 
+                                                class="_number _rightText"
+                                                type="text"
+                                                disabled
+                                                value="{{systemData.stats.mod}}" />
+                                    <label>%</label>                                    
+                              </formField>
+                        </formBlock>
+                  </formColumn>
+            </formSection>
+            </section>
+
+      </div>
 
 </form>

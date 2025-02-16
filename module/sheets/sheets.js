@@ -1,26 +1,21 @@
 import { extendActor } from "./extendActor.js";
 import { extendItem } from "./extendItem.js";
-import { extendSheetHuman } from "./sheets/extendSheetHuman.js";
-import { extendSheetWorld } from "./sheets/extendSheetWorld.js";
-import { extendSheetSociety } from "./sheets/extendSheetSociety.js";
-import { extendSheetKingdom } from "./sheets/extendSheetKingdom.js";
-import { extendSheetLanguage } from "./sheets/extendSheetLanguage.js";
-import { extendSheetCulture } from "./sheets/extendSheetCulture.js";
-import { extendSheetStratum } from "./sheets/extendSheetStratum.js";
-import { extendSheetStatus } from "./sheets/extendSheetStatus.js";
-import { extendSheetSkill } from "./sheets/extendSheetSkill.js";
-import { extendSheetProfession } from "./sheets/extendSheetProfession.js";
-import { extendSheetTrait } from "./sheets/extendSheetTrait.js";
-import { extendSheetLocation } from "./sheets/extendSheetLocation.js";
-import { extendSheetMode } from "./sheets/extendSheetMode.js";
-import { extendSheetArmor } from "./sheets/extendSheetArmor.js";
-import { extendSheetWeapon } from "./sheets/extendSheetWeapon.js";
-import { extendSheetSpell } from "./sheets/extendSheetSpell.js";
-import { extendSheetRitual } from "./sheets/extendSheetRitual.js";
-import { extendSheetComponent } from "./sheets/extendSheetComponent.js";
-import { extendSheetAction } from "./sheets/extendSheetAction.js";
-import { extendSheetActionPool } from "./sheets/extendSheetActionPool.js";
-import { extendSheetItem } from "./sheets/extendSheetItem.js";
+import { extendSheetHuman } from "./extendSheetHuman.js";
+import { extendSheetItem } from "./extendSheetItem.js";
+import { extendSheetSkill } from "./extendSheetSkill.js";
+import { extendSheetTrait } from "./extendSheetTrait.js";
+import { extendSheetAction } from "./extendSheetAction.js";
+import { extendSheetWeapon } from "./extendSheetWeapon.js";
+import { extendSheetArmor } from "./extendSheetArmor.js";
+import { extendSheetSpell } from "./extendSheetSpell.js";
+import { extendSheetBook } from "./extendSheetBook.js";
+import { extendLoreKingdom } from "./extendLoreKingdom.js";
+import { extendLoreNation } from "./extendLoreNation.js";
+import { extendLorePosition } from "./extendLorePosition.js";
+import { extendLoreProfession } from "./extendLoreProfession.js";
+import { extendLoreSociety } from "./extendLoreSociety.js";
+import { extendLoreStratum } from "./extendLoreStratum.js";
+
 export class mainGameSheets {
 
     /**
@@ -35,68 +30,40 @@ export class mainGameSheets {
         //Actors
         CONFIG.Actor.documentClass = extendActor;
         Actors.unregisterSheet("core", ActorSheet);
-        Actors.registerSheet(_system, extendSheetHuman, { types: [
-                                                                "human",
-                                                                "horse",
-                                                                "humanoid",
-                                                                "quadruped",
-                                                                "birds",
-                                                                "arachnid",
-                                                                "snakes",
-                                                                "arboreal",
-                                                                "wingedHumanoid",
-                                                                "wingedQuadruped",
-                                                                "blemys",
-                                                                "bafometo",
-                                                                "sciopodo",
-                                                                "snakeHumanoid",
-                                                                "basilisk"
-                                                            ], 
-                                                            makeDefault: true });
-
+        Actors.registerSheet(_system, extendSheetHuman, { types: ['human'], 
+                                                          makeDefault: true });
 
         //Items
         CONFIG.Item.documentClass = extendItem;
         Items.unregisterSheet("core", ItemSheet);
-        Items.registerSheet(_system, extendSheetWorld, { types: ['world'],
-                                                         makeDefault: true });
-        Items.registerSheet(_system, extendSheetSociety, { types: ['society'],
-                                                         makeDefault: true });
-        Items.registerSheet(_system, extendSheetKingdom, { types: ['kingdom'],
-                                                         makeDefault: true });
-        Items.registerSheet(_system, extendSheetLanguage, { types: ['language'],
-                                                         makeDefault: true });
-        Items.registerSheet(_system, extendSheetCulture, { types: ['culture'],
-                                                         makeDefault: true });       
-        Items.registerSheet(_system, extendSheetStratum, { types: ['stratum'],
-                                                         makeDefault: true });                                                                                                       
-        Items.registerSheet(_system, extendSheetStatus, { types: ['status'],
-                                                         makeDefault: true });        
         Items.registerSheet(_system, extendSheetSkill, { types: ['skill'],
-                                                         makeDefault: true });
-        Items.registerSheet(_system, extendSheetProfession, { types: ['profession'],
-                                                         makeDefault: true });                                                         
+                                                        makeDefault: true });
         Items.registerSheet(_system, extendSheetTrait, { types: ['trait'],
-                                                         makeDefault: true });
-        Items.registerSheet(_system, extendSheetLocation, { types: ['location'],
-                                                         makeDefault: true });
-        Items.registerSheet(_system, extendSheetMode, { types: ['mode'],
-                                                         makeDefault: true });                                                             
-        Items.registerSheet(_system, extendSheetArmor, { types: ['armor'],
-                                                         makeDefault: true });
-        Items.registerSheet(_system, extendSheetWeapon, { types: ['weapon'],
-                                                         makeDefault: true });
-        Items.registerSheet(_system, extendSheetSpell, { types: ['spell'],
-                                                         makeDefault: true });   
-        Items.registerSheet(_system, extendSheetRitual, { types: ['ritual'],
-                                                         makeDefault: true });                                                           
-        Items.registerSheet(_system, extendSheetComponent, { types: ['component'],
-                                                         makeDefault: true });                                                                                                                  
+                                                        makeDefault: true });                                                        
         Items.registerSheet(_system, extendSheetAction, { types: ['action'],
-                                                         makeDefault: true });       
-        Items.registerSheet(_system, extendSheetActionPool, { types: ['actionPool'],
-                                                         makeDefault: true });    
+                                                        makeDefault: true });    
+        Items.registerSheet(_system, extendSheetWeapon, { types: ['weapon'],
+                                                        makeDefault: true });   
+        Items.registerSheet(_system, extendSheetArmor, { types: ['armor'],
+                                                        makeDefault: true });     
+        Items.registerSheet(_system, extendSheetSpell, { types: ['spell'],
+                                                        makeDefault: true });  
+        Items.registerSheet(_system, extendSheetBook, { types: ['book'],
+                                                        makeDefault: true });                                                                                                                                                                                                                                                                                     
         Items.registerSheet(_system, extendSheetItem, { types: ['item'],
-                                                         makeDefault: true });                                                                                                                                                                     
+                                                        makeDefault: true });
+        Items.registerSheet(_system, extendLoreKingdom, { types: ['loreKingdom'],
+                                                        makeDefault: true }); 
+        Items.registerSheet(_system, extendLoreNation, { types: ['loreNation'],
+                                                        makeDefault: true });                                                                                                                    
+        Items.registerSheet(_system, extendLorePosition, { types: ['lorePosition'],
+                                                        makeDefault: true }); 
+        Items.registerSheet(_system, extendLoreProfession, { types: ['loreProfession'],
+                                                        makeDefault: true });                                                                                                                    
+        Items.registerSheet(_system, extendLoreSociety, { types: ['loreSociety'],
+                                                        makeDefault: true }); 
+        Items.registerSheet(_system, extendLoreStratum, { types: ['loreStratum'],
+                                                        makeDefault: true });                                                                                                                    
+
     }
 }
