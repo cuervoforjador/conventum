@@ -1,0 +1,64 @@
+{{#if backCombat.control.noCombat }}
+
+    {{!-- ************ NO COMBAT ************ --}}
+    <div class="_encounter">
+        <div class="_header"></div>
+        <div class="_content">            
+            <div style="width: 100%">
+                <info>{{localize 'info.noCombat'}}</info>
+                {{#if isGM}}
+                <div class="_buttonBar">
+                    <a class="_frameButton" data-action="createCombat">
+                        <button data-img="icons/add.svg" 
+                                data-label="common.createCombat"></button>
+                    </a>
+                </div>
+                {{/if}}
+            </div>
+        </div>
+    </div> 
+
+{{else}}
+
+    {{!-- COMBATANT: ATTACKER && DEFENDER --}}
+    <div class="_flux">
+        {{>actorCombatFrameTurnFlux}}
+    </div>
+
+    <div class="{{#if backCombat.control.attacker}} _attacker {{else}} _target{{/if}}
+                {{#if backCombat.control.phase.oppoRoll}} _oppoRoll {{/if}}">
+        <div class="_content">
+
+            {{#if backCombat.control.noSteps}}
+                <info>{{localize 'info.noSteps'}}</info>
+            {{else}}
+
+                    {{#if backCombat.control.phase.attacker}}
+                        {{>actorCombatFrameTurnAttacker}}
+                    {{/if}}
+                    {{#if backCombat.control.phase.defender}}
+                        {{>actorCombatFrameTurnTarget}}
+                    {{/if}}
+                    {{#if backCombat.control.phase.oppoRoll}}
+                        {{>actorCombatFrameTurnOppoRoll}}
+                    {{/if}}
+                    {{#if backCombat.control.phase.damage}}
+                        {{>actorCombatFrameTurnDamage}}
+                    {{/if}}    
+
+                {{#if backCombat.control.attacker.noMode}}
+                    <info>{{localize 'info.noModeAttacker'}} {{backCombat.control.attacker.modeTxt}}</info>
+                {{else}}
+                {{#if backCombat.control.defender.noMode}}
+                    <info>{{localize 'info.noModeTarget'}} {{backCombat.control.defender.modeTxt}}</info>
+                {{else}}  
+
+                {{/if}}
+                {{/if}}
+
+            {{/if}}
+        
+        </div>
+    </div>
+
+{{/if}}

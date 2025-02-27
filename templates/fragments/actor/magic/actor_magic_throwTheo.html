@@ -1,0 +1,48 @@
+<div class="_magicThrow">
+    <div class="_hexRoll">
+        <div class="_contentRoll">
+            <div class="_rollStats">
+
+                <div class="_statRow">
+                    <label>{{localize "characteristics.faith"}}</label>
+                    <div class="_combo">
+                        <div class="_magicBar">
+                            <div class="_back"></div>
+                            <div class="_front" style="width: {{backMagic.properties.faithPer}}%; background: #446de169;"></div>
+                        </div>
+                        <label class="_stat">{{backMagic.properties.faith}} / {{backMagic.properties.faithMax}}</label>
+                    </div>
+                </div>
+
+                <div class="_statRow">
+                    <label>{{localize "characteristics.rr"}}</label>
+                    <label class="_stat">{{backMagic.spell.roll.baseRit}} %</label>
+                </div>
+                <div class="_statRow">
+                    <label>{{localize "common.modByArmor"}}
+                        {{#if backMagic.spell.roll.armorApply}}
+                            ({{backMagic.spell.roll.armorName}})
+                        {{/if}}
+                    </label>
+                    <label class="_stat">{{backMagic.spell.roll.armorMod}} %</label>
+                </div>
+                <div class="_statRow">
+                    <label>{{localize "common.modCusto"}}</label>
+                    <div class="_combo">
+                        {{#if isGM}}
+                            <input name="system.control.combat.spell.custoRitMod"
+                                   data-tooltip="{{localize 'info.combatMod'}}"
+                                   type="text" 
+                                   class="_spellCustoMod"
+                                   value="{{systemData.control.combat.spell.custoRitMod}}"/>
+                            <label class="_stat"> %</label>
+                        {{else}}
+                            <label class="_stat">{{systemData.control.combat.spell.custoRitMod}} %</label>
+                        {{/if}}
+                    </div>                    
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

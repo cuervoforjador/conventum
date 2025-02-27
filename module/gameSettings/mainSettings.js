@@ -23,7 +23,7 @@ export class mainSettings {
             },
             onChange: value => {
                 //See event onChangeRules!
-                mainSettings.setConfigValues();
+                //mainSettings.setConfigValues();
             },                      
         }); 
 
@@ -34,6 +34,46 @@ export class mainSettings {
             type: String,
             default: '0'
         }); 
+
+        game.settings.register(game.system.id, "fontSize", {
+            name: game.i18n.localize('common.fontSize'),
+            hint: game.i18n.localize('info.fontSize'),
+            scope: 'world',
+            config: true,
+            requiresReload: true,
+            type: String,
+            default: '1.25em'
+        });
+
+        game.settings.register(game.system.id, "lightMode", {
+            name: game.i18n.localize('common.lightMode'),
+            hint: game.i18n.localize('info.lightMode'),
+            scope: 'world',
+            config: true,
+            requiresReload: true,
+            type: new foundry.data.fields.BooleanField(),
+            default: true
+        });
+
+        game.settings.register(game.system.id, "applyCoefRatio", {
+            name: game.i18n.localize('common.applyCoefRatio'),
+            hint: game.i18n.localize('info.applyCoefRatio'),
+            scope: 'world',
+            config: true,
+            requiresReload: true,
+            type: new foundry.data.fields.BooleanField(),
+            default: false
+        });        
+
+        game.settings.register(game.system.id, "coefRatio", {
+            name: game.i18n.localize('common.coefRatio'),
+            hint: game.i18n.localize('info.coefRatio'),
+            scope: 'world',
+            config: true,
+            requiresReload: true,
+            type: Number,
+            default: 1.8285
+        });        
 
         game.settings.register(game.system.id, "sheetsLocked", {
             name: game.i18n.localize('common.sheetsLocked'),
@@ -185,15 +225,18 @@ export class mainSettings {
         return {
             maxSteps: {
                 range: $('#client-settings range-picker[name="'+game.system.id+'.rulesMaxSteps"] input[type="range"]'),
-                number: $('#client-settings range-picker[name="'+game.system.id+'.rulesMaxSteps"] input[type="number"]')
+                number: $('#client-settings range-picker[name="'+game.system.id+'.rulesMaxSteps"] input[type="number"]'),
+                base: $('#client-settings range-picker[name="'+game.system.id+'.rulesMaxSteps"]')
             },            
             penInit: {
                 range: $('#client-settings range-picker[name="'+game.system.id+'.rulesPenInit"] input[type="range"]'),
-                number: $('#client-settings range-picker[name="'+game.system.id+'.rulesPenInit"] input[type="number"]')
+                number: $('#client-settings range-picker[name="'+game.system.id+'.rulesPenInit"] input[type="number"]'),
+                base: $('#client-settings range-picker[name="'+game.system.id+'.rulesPenInit"]')
             },
             penSkill: {
                 range: $('#client-settings range-picker[name="'+game.system.id+'.rulesPenSkill"] input[type="range"]'),
-                number: $('#client-settings range-picker[name="'+game.system.id+'.rulesPenSkill"] input[type="number"]')
+                number: $('#client-settings range-picker[name="'+game.system.id+'.rulesPenSkill"] input[type="number"]'),
+                base: $('#client-settings range-picker[name="'+game.system.id+'.rulesPenSkill"]')
             },
             newActionsPrev: $('#client-settings input[name="'+game.system.id+'.rulesNewActionsPrev"]'),
             loreKingdomRoll: $('#client-settings input[name="'+game.system.id+'.loreKingdomRoll"]'),
@@ -219,11 +262,14 @@ export class mainSettings {
         if (!rules) return;
 
         mainSettings.uiConfigControls().maxSteps.range.val(rules.maxSteps);
-        mainSettings.uiConfigControls().maxSteps.number.val(rules.maxSteps);        
+        mainSettings.uiConfigControls().maxSteps.number.val(rules.maxSteps);    
+        mainSettings.uiConfigControls().maxSteps.base.val(rules.maxSteps);
         mainSettings.uiConfigControls().penInit.range.val(rules.penInit);
         mainSettings.uiConfigControls().penInit.number.val(rules.penInit);
+        mainSettings.uiConfigControls().penInit.base.val(rules.penInit);
         mainSettings.uiConfigControls().penSkill.range.val(rules.penSkill);
         mainSettings.uiConfigControls().penSkill.number.val(rules.penSkill);
+        mainSettings.uiConfigControls().penSkill.base.val(rules.penSkill);
         mainSettings.uiConfigControls().newActionsPrev.prop("checked", rules.newActionsPrev);
         mainSettings.uiConfigControls().loreKingdomRoll.val(rules.loreKingdomRoll);
         mainSettings.uiConfigControls().loreNationRoll.val(rules.loreNationRoll);
@@ -237,9 +283,28 @@ export class mainSettings {
     }
 
     /**
+     * setRules
+     * @param {*} value 
+     */
+    static setRules(value) {
+
+        const rules = CONFIG.ExtendConfig.rules[value];
+        if (!rules) return;
+
+        [
+         'rulesMaxSteps', 'rulesPenInit', 'rulesPenSkill', 'rulesNewActionsPrev', 'loreKingdomRoll', 
+         'loreNationRoll', 'loreStratumRoll','lorePositionRoll', 'loreProfessionRoll', 'traitRoll', 
+         'loreHUnit', 'loreWUnit', 'loreCoin'
+        ].map(s => {
+            game.settings.set(game.system.id, s, rules[s]);    
+        });
+    }
+
+    /**
      * setConfigValues
      */
-    static setConfigValues() {
+    static setConfigValues() {  
+        /*
         game.settings.set(game.system.id, "rulesMaxSteps", Number(mainSettings.uiConfigControls().maxSteps.number.val()));
         game.settings.set(game.system.id, "rulesPenInit", Number(mainSettings.uiConfigControls().penInit.number.val()));
         game.settings.set(game.system.id, "rulesPenSkill", Number(mainSettings.uiConfigControls().penSkill.number.val()));
@@ -253,6 +318,7 @@ export class mainSettings {
         game.settings.set(game.system.id, "loreHUnit", mainSettings.uiConfigControls().loreHUnit.val());
         game.settings.set(game.system.id, "loreWUnit", mainSettings.uiConfigControls().loreWUnit.val());
         game.settings.set(game.system.id, "loreCoin", mainSettings.uiConfigControls().loreCoin.val());
+        */
     }
 
 }

@@ -1,9 +1,21 @@
+{{#if systemData.control.view.window}}
+<form class="_human _window"
+      autocomplete="off">
+      {{>actorWmain}}
+</form>
+
+{{else}}
 <form class="_human {{#if systemData.control.view.short}}_short{{/if}}"
       autocomplete="off">
 
+      {{>actorMainComplex}}
       {{>actorMainPortrait}}   
-      {{>actorMainHitPoints}}      
-      {{>actorMainCharacteristics}}
+      
+      {{#if (complexMenu 'chars')}}
+            {{>actorMainHitPoints}}      
+            {{>actorMainCharacteristics}}
+      {{/if}}
+
       {{>actorMainName}}
       {{>actorMenu}}
 
@@ -45,3 +57,4 @@
              type="checkbox" 
              {{checked systemData.control.view.short}} />                 
 </form>
+{{/if}}

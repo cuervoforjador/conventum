@@ -1,0 +1,23 @@
+<div class="_hitPoints">
+    <arcBar class="_arcHitPointsBack">
+    </arcBar>
+    <arcBar class="_arcHitPointsHigh">
+    </arcBar>
+    <arcBar class="_arcHitPointsLow">
+    </arcBar>
+    <div class="_hitPointsWrap">
+        <input class="_hitPointsValue _whiteBorder"
+            {{locked}}
+            name="system.secondaries.hits.value" 
+            type="number" 
+            value="{{systemData.secondaries.hits.value}}" /> 
+        <div class="_hitPointsMax _whiteBorderHard">/ {{systemData.secondaries.hits.max}}</div>
+        <div class="_lifeStatus _whiteBorderHard">
+            {{localize 'common.serious'}}: ({{systemData.secondaries.hits.serious}})
+            <span class="_serious">{{lifeStatus systemData}}</span>
+        </div>
+        <input type="hidden"
+               name="system.secondaries.hits.max"
+               value="{{systemData.secondaries.hits.max}}" />
+    </div>
+</div>

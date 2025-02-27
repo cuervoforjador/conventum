@@ -1,0 +1,153 @@
+<div class="_infoMagicPage">
+    <img class="_backImg" style="background-image: url({{backMagic.spell.spell.img}})"/>  
+    <a class="_frameButton _title" 
+       data-action="showItem"
+       data-itemid="{{backMagic.spell.spell._id}}">
+       <label class="_whiteBorderHard">{{backMagic.spell.spell.name}}</label>
+    </a>
+    <div class="_spellBar">
+        {{#if backMagic.spell.spell.system.type.vis}}
+        <a class="_frameButton" 
+            data-action="deactivateSpell"
+            data-cell="{{backMagic.spell.cell}}"
+            data-itemid="{{backMagic.spell.spell._id}}"
+            data-tooltip="{{{localize 'info.spellDeactivate'}}}">
+            <button data-img="icons/cancel.svg" 
+                    data-label="common.deactivate" 
+                    class="_whiteBorderHard"></button>
+        </a>   
+        {{/if}}
+        {{#if backMagic.spell.info.preparationComp}}
+            {{#if backMagic.spell.roll.able}}
+                <a class="_frameButton" 
+                    data-action="roll"
+                    data-target="spell"
+                    data-actorid="{{actor.id}}"
+                    data-tokenid="{{tokenId actor}}"
+                    data-spellid="{{backMagic.spell.spell._id}}"
+                    {{#if backMagic.spell.spell.system.type.vis}}
+                        data-rollbase="{{backMagic.spell.roll.base}}"
+                    {{else}}
+                        data-rollbase="{{backMagic.spell.roll.baseRit}}"
+                    {{/if}}
+                    data-rollvalue="{{backMagic.spell.roll.value}}"
+                    data-rollbonus="{{backMagic.spell.roll.bonus}}"
+                    data-rollpenal="{{backMagic.spell.roll.totalMod}}"
+                    data-rollmod="{{backMagic.spell.roll.totalMod}}"
+                    data-rollcustomod="{{backMagic.spell.roll.custoMod}}"
+                    data-rolltitle="{{backMagic.spell.roll.title}}"
+                    data-nohelps="false">
+                    <button class="_whiteBorderHard _spellRoll">
+                        <img src="{{assets}}icons/roll.svg">
+                        {{#if backMagic.spell.spell.system.type.vis}}
+                            {{localize 'common.throwSpell'}} 
+                        {{else}}
+                            {{localize 'common.throwRitual'}} 
+                        {{/if}}
+                        ({{backMagic.spell.roll.value}} %)
+                    </button>
+                </a>
+            {{else}}
+                <label class="_pseudoButton">{{localize 'common.noFaith'}}</label>
+            {{/if}}
+        {{else}}
+            <label class="_pseudoButton">{{localize 'common.noComplete'}}</label>       
+        {{/if}}     
+    </div>
+    <div class="_row _topper">
+        <label>{{localize 'common.level'}}:</label>
+        <label class="_bold">{{backMagic.spell.info.level}} ({{backMagic.spell.info.levelTxt}})</label>
+    </div>
+    {{#if backMagic.spell.info.vis}}
+    {{!-- SPELLS ---}}
+
+        {{#if backMagic.spell.info.needPreparation}}
+        <div class="_row _topper">
+            <label>{{localize 'common.preparation'}}:</label>
+            <label class="_bold">
+                {{backMagic.spell.info.preparationValue}} / {{backMagic.spell.info.preparationTotal}} {{backMagic.spell.info.preparationUnit}}
+                {{#if backMagic.spell.info.preparationComp}}
+                ( {{localize 'common.complete'}} )
+                {{/if}}
+            </label>
+        </div>
+        {{/if}}
+
+        <div class="_row _topper">
+            <label>{{localize 'common.shape'}}:</label>
+            <label class="_bold">{{backMagic.spell.info.shape}}</label>
+        </div>
+        <div class="_row">
+            <label>{{localize 'common.nature'}}:</label>
+            <label class="_bold">{{backMagic.spell.info.nature}}</label>
+            <label>/ {{localize 'common.origin'}}:</label>
+            <label class="_bold">{{backMagic.spell.info.origin}}</label>        
+        </div>    
+        <div class="_row _topper">
+            <label>{{localize 'common.cost'}}:</label>
+            <label class="_bold">{{backMagic.spell.info.cost}} {{backMagic.spell.info.costUnit}}</label>
+            <label>{{localize 'common.penal'}}:</label>       
+            <label class="_bold">{{backMagic.spell.info.penal}}%</label> 
+        </div>
+        <div class="_row">
+            <label>{{localize 'common.rrRoll'}}:</label>
+            <label class="_bold">{{#if backMagic.spell.info.rrRoll}}
+                                    {{localize 'common.yes'}}
+                                {{else}}
+                                    {{localize 'common.no'}}
+                                {{/if}}</label>
+        </div>
+        {{#if backMagic.spell.info.preparationComp}}
+        {{#if backMagic.spell.preparation.showDose}}
+        <div class="_row _topper">
+            <label>{{localize 'common.dose'}}:</label>
+            <input type="range" 
+                name="system.magic.template.{{backMagic.spell.cell}}.dose"
+                min="0" 
+                max="{{backMagic.spell.preparation.dose}}" 
+                value="{{extendValue 'systemData.magic.template' backMagic.spell.cell 'dose'}}" 
+                class="slider _doseRange">
+            <label>{{extendValue 'systemData.magic.template' backMagic.spell.cell 'dose'}} / {{backMagic.spell.preparation.dose}}</label>
+        </div>
+        {{/if}}
+        {{/if}}
+        <div class="_row _topper">
+            <label>{{localize 'common.expiration'}}:</label>
+            <label class="_bold">{{backMagic.spell.spell.system.info.expiration}}</label>
+        </div>
+        <div class="_row _topper">
+            <label>{{localize 'common.duration'}}:</label>
+            <label class="_bold">{{backMagic.spell.spell.system.info.duration}}</label>
+        </div> 
+        <label class="_subTitle _topper">{{localize 'common.components'}}</label>
+        <div class="_subText">{{{backMagic.spell.spell.system.info.components}}}</div>
+        <label class="_subTitle _topper">{{localize 'common.preparation'}}</label>
+        <div class="_subText">{{{backMagic.spell.spell.system.info.preparation}}}</div>
+        <label class="_subTitle _topper">{{localize 'common.description'}}</label>
+        <div class="_subText">{{{backMagic.spell.spell.system.description}}}</div>     
+    
+    {{else}}
+    {{!-- RITUALS ---}}
+
+        <div class="_row _topper">
+            <label>{{localize 'characteristics.faith'}}:</label>
+            <label class="_bold">{{backMagic.spell.info.cost}}</label>
+            <label>{{localize 'common.penal'}}:</label>       
+            <label class="_bold">{{backMagic.spell.info.penal}}%</label> 
+        </div>
+        <div class="_row">
+            <label>{{localize 'common.grace'}}:</label>
+            <label class="_bold">{{#if backMagic.spell.spell.system.properties.grace}}
+                                    {{localize 'common.yes'}}
+                                {{else}}
+                                    {{localize 'common.no'}}
+                                {{/if}}</label>
+        </div>
+        <label class="_subTitle _topper">{{localize 'common.requirements'}}</label>
+        <div class="_subText">{{{backMagic.spell.spell.system.info.requirements}}}</div>        
+        <label class="_subTitle _topper">{{localize 'common.ceremony'}}</label>
+        <div class="_subText">{{{backMagic.spell.spell.system.info.ceremony}}}</div>   
+        <label class="_subTitle _topper">{{localize 'common.effects'}}</label>
+        <div class="_subText">{{{backMagic.spell.spell.system.info.effects}}}</div>           
+    {{/if}}
+</div>

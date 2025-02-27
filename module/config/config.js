@@ -841,57 +841,100 @@ export const extendConfig = {
             img: 'melee.png',
             removable: true,
             locationRoll: '',
-            combatSkill: ''
+            combatSkill: '',
+            attackMod: '+40',
+            defenseMod: '',
+            targetAttackMod: '',
+            targetDefenseMod: ''
         },
         s1: {
             label: 'life.injured',
             img: 'injured.png',  
             removable: false,
             locationRoll: '',
-            combatSkill: ''
+            combatSkill: '',
+            attackMod: '',
+            defenseMod: '',
+            targetAttackMod: '',
+            targetDefenseMod: ''            
         },
         s2: {
             label: 'life.badly',
             img: 'badly.png',      
             removable: false,
             locationRoll: '',
-            combatSkill: ''
+            combatSkill: '',
+            attackMod: '',
+            defenseMod: '',
+            targetAttackMod: '',
+            targetDefenseMod: ''            
         },
         s3: {
             label: 'life.unconscious',
             img: 'unconscious.png',    
             removable: false,
             locationRoll: '',
-            combatSkill: ''
+            combatSkill: '',
+            attackMod: '',
+            defenseMod: '',
+            targetAttackMod: '',
+            targetDefenseMod: ''
         },
         s4: {
             label: 'life.dead',
             img: 'dead.png',
             removable: false,
             locationRoll: '',
-            combatSkill: ''
+            combatSkill: '',
+            attackMod: '',
+            defenseMod: '',
+            targetAttackMod: '',
+            targetDefenseMod: ''            
         },
         mounted: {
             label: 'common.mounted',
             img: 'mounted.png',
             removable: true,
             locationRoll: '1D5',
-            combatSkill: 'ride'
+            combatSkill: 'ride',
+            attackMod: '',
+            defenseMod: '',
+            targetAttackMod: '',
+            targetDefenseMod: ''            
         },
         onground: {
             label: 'common.onground',
             img: 'onground.png',
             removable: true,
             locationRoll: '',
-            combatSkill: ''
+            combatSkill: '',
+            attackMod: '',
+            defenseMod: '',
+            targetAttackMod: '',
+            targetDefenseMod: ''            
         },
         stunned: {
             label: 'common.stunned',
             img: 'stunned.png',
             removable: true,
             locationRoll: '',
-            combatSkill: ''            
-        }    
+            combatSkill: '',
+            attackMod: '',
+            defenseMod: '',
+            targetAttackMod: '',
+            targetDefenseMod: ''                     
+        },
+        tiedup: {
+            label: 'common.tiedup',
+            img: 'tiedup.png',
+            removable: true,
+            locationRoll: '',
+            combatSkill: '',
+            attackMod: '',
+            defenseMod: '',
+            targetAttackMod: '',
+            targetDefenseMod: ''            
+        }
     },
 
 /** --- COMBAT MODS --- */  

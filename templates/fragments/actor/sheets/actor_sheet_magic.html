@@ -1,0 +1,99 @@
+{{>frame}}
+
+{{!-- FRAME --}}
+<div class="_mainFrame">
+    
+    {{!-- LEFT PAGE --}}
+    <div class="_leftSide">
+        
+        <div class="_upperMenu _menuFrame">
+            <nav class="tabs_MagicMenu" data-group="magicMenu">
+                <a class="_menuOption" data-tab="vis" data-group="magicMenu">                    
+                    {{#if backMagic.system.s1}}<label>{{localize 'common.spells'}}</label>{{/if}}
+                    {{#if backMagic.system.s2}}<label>{{localize 'common.spells'}}</label>{{/if}}
+                </a>    
+                <a class="_menuOption" data-tab="ordo" data-group="magicMenu">
+                    {{#if backMagic.system.s1}}<label>{{localize 'common.rituals'}}</label>{{/if}}
+                    {{#if backMagic.system.s2}}<label>{{localize 'common.charms'}}</label>{{/if}}
+                </a>   
+                <a class="_menuOption" data-tab="list" data-group="magicMenu">
+                    <label>{{localize 'common.grimoires'}}</label>
+                </a>                                         
+            </nav>
+        </div>
+
+        <div class="_frameMyCombat tabs_MagicContent magicPage">
+
+            {{!-- SPELLS --}}
+            <section class="tab" data-group="magicMenu" data-tab="vis">
+                <div class="_tabWrap">
+                    {{>actorMagicCells}}
+                    {{>actorMagicStudy}}
+                    {{>actorMagicThrow}}
+                </div>
+            </section>
+    
+            {{!-- RITUALS / CHARMS --}}
+            <section class="tab" data-group="magicMenu" data-tab="ordo">
+                <div class="_tabWrap">
+                    {{>actorMagicTheo}}
+                    {{>actorMagicStudyTheo}}
+                    {{>actorMagicThrowTheo}}
+                </div>
+            </section> 
+
+            {{!-- LIST --}}
+            <section class="tab" data-group="magicMenu" data-tab="list">
+                <div class="_tabWrap">
+                    {{>actorListMagic}}
+                </div>
+            </section>
+
+        </div>
+
+    </div>    
+
+    {{!-- RIGHT PAGE --}}
+    <div class="_rightSide">
+
+        {{#if backMagic.spell.selected}}
+            {{>actorMagicInfo}}
+        {{else}}
+            <info>{{localize 'info.noSelectedSpell'}}</info>
+        {{/if}}
+
+    </div>
+
+    {{!-- 
+    <a class="_frameButton" 
+       data-action="grimoire">
+       <button>{{localize 'common.grimoire'}}</button>
+    </a>  
+    --}}      
+</div>
+
+{{!-- HIDDEN --}}
+<input type="hidden" name="system.magic.template.spellId" value="{{systemData.magic.template.spellId}}" />
+<input type="hidden" name="system.magic.template.ordoId" value="{{systemData.magic.template.ordoId}}" />
+<input type="hidden" name="system.magic.template.selected" value="{{systemData.magic.template.selected}}" />
+<input type="hidden" name="system.magic.study.spellId" value="{{systemData.magic.study.spellId}}" />
+<input type="hidden" name="system.magic.study.ordoId" value="{{systemData.magic.study.ordoId}}" />
+<input type="checkbox" name="system.magic.study.learning" {{checked systemData.magic.study.learning}} class="hidden"/>
+<input type="checkbox" name="system.magic.study.read" {{checked systemData.magic.study.read}} class="hidden"/>
+<input type="checkbox" name="system.magic.study.channeled" {{checked systemData.magic.study.channeled}} class="hidden"/>
+<input type="checkbox" name="system.magic.study.learned" {{checked systemData.magic.study.learned}} class="hidden"/>
+<input type="checkbox" name="system.magic.study.teached" {{checked systemData.magic.study.teached}} class="hidden"/>
+<input type="checkbox" name="system.magic.study.memorized" {{checked systemData.magic.study.memorized}} class="hidden"/>
+
+
+{{>actorModes}}
+<a class="_closeSheet">
+    <div class="_closeSheetButton"
+         data-tooltip="{{localize 'common.close'}}"></div>
+</a>
+{{!-- 
+<a class="_shortSheet">
+    <div class="_shortSheetButton"
+         data-tooltip="{{localize 'common.shorting'}}"></div>
+</a>
+--}}

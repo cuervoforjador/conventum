@@ -1,0 +1,38 @@
+<div class="_armor">
+    <div class="_background"
+         style="background-image: url({{path}}/assets/texture/{{backArmor.imgBackground}})">
+    </div>
+
+    {{!-- HUMAN --}}
+
+    {{#each backArmor.locations as |location index|}}
+    <div class="_armorSection"
+         data-action="dialogSelectArmor"
+         data-location="{{location.key}}"
+         style="top: {{location.position.top}}; left: {{location.position.left}}">
+        
+        {{#if location.armored}}
+            <div class="_armor"
+                style="background-image: url({{location.armor.img}})">
+                <label class="_title">{{location.armor.name}}</label>
+                <label class="_stat _protection">{{location.armor.system.protection}} Pt.</label>
+                <div class="_armorStatus">
+                    <div class="_backBar"></div>
+                    <div class="_frontBar" style="width: {{location.armorStatus.value}}%;
+                                                  background: {{location.armorStatus.color}}"></div>
+                </div>
+            </div>
+        {{else}}
+
+        {{/if}}        
+
+        <label class="_title">{{location.label}}</label>
+
+
+        {{!-- <label class="_mult">{{location.mult}}</label> --}}
+        {{!-- <label class="_range">{{location.range.low}} - {{location.range.high}}</label> --}}
+    </div>
+    {{/each}}
+                    
+
+</div>

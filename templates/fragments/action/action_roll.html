@@ -1,0 +1,135 @@
+<formSection class="_100">
+
+    <formColumn class="_50">
+
+        <formBlock>
+            <formField class="_100">
+                <input name="system.roll.autoSuccess" 
+                    id="chRollAutoSuccess"
+                    class="_rollOption"
+                    type="checkbox" 
+                    {{checked systemData.roll.autoSuccess}} />                                    
+                <label for="chRollAutoSuccess">{{localize "common.autoSuccess"}}</label>   
+            </formField>                  
+        </formBlock>         
+
+        <formBlock>
+            <formField class="_100">
+                <input name="system.roll.useWeapon" 
+                    id="chRollUseWeapon"
+                    class="_rollOption"
+                    type="checkbox" 
+                    {{checked systemData.roll.useWeapon}} />                                    
+                <label for="chRollUseWeapon">{{localize "common.useWeaponRoll"}}</label>   
+            </formField>          
+        </formBlock>
+
+        <formBlock>
+            <formField class="_100">
+                <input name="system.roll.useSkill" 
+                    id="chRollUseSkill"
+                    class="_rollOption"
+                    type="checkbox" 
+                    {{checked systemData.roll.useSkill}} />                                    
+                <label for="chRollUseSkill">{{localize "common.useSkillRoll"}}</label>   
+            </formField>
+            <formField class="_100">
+                <select class="_100" 
+                    {{#unless systemData.roll.useSkill}}disabled{{/unless}}
+                    name="system.skill.skillKey">
+                    {{selectOptions backend.skills 
+                                    selected=systemData.skill.skillKey
+                                    localize=false
+                                    nameAttr="id"
+                                    labelAttr="name" }}
+                </select>
+            </formField>
+            <formField class="_100">
+                <input name="system.roll.restrictWeapons" 
+                    {{#unless systemData.roll.useSkill}}disabled{{/unless}}
+                    id="chRollResWeapons"
+                    type="checkbox" 
+                    {{checked systemData.roll.restrictWeapons}} />                                    
+                <label for="chRollResWeapons">{{localize "common.restrictWeapons"}}</label>   
+            </formField>            
+        </formBlock>    
+        
+        <formBlock>
+            <formField class="_100">
+                <input name="system.roll.usePercentFormula" 
+                    id="chRollUseFormula"
+                    class="_rollOption"
+                    type="checkbox" 
+                    {{checked systemData.roll.usePercentFormula}} />                                    
+                <label for="chRollUseFormula">{{localize "common.usePercentFormula"}}</label>   
+            </formField>
+            <formField class="_100">
+                <input name="system.percent.formula"  
+                    {{#unless systemData.roll.usePercentFormula}}disabled{{/unless}}
+                    type="text" 
+                    value="{{systemData.percent.formula}}" />
+            </formField>           
+        </formBlock>   
+         
+    </formColumn>
+
+    <formColumn class="_50">        
+        <formBlock>
+            <formField class="_100" data-tooltip="{{localize 'common.rollTitle'}}">
+                <label>{{localize "common.title"}}</label>
+                <input name="system.roll.rollTitle"  
+                    type="text" 
+                    value="{{systemData.roll.rollTitle}}" />
+            </formField>           
+            <formField class="_100">
+                <input name="system.roll.useHelps" 
+                    id="chUseHelps"
+                    type="checkbox" 
+                    {{checked systemData.roll.useHelps}} />                                    
+                <label for="chUseHelps">{{localize "common.useHelps"}}</label>   
+            </formField>              
+            <formField class="_100" data-tooltip="{{localize 'common.rollFormula'}}">
+                <label class="_40">{{localize "common.formula"}}</label>
+                <input class="_60" name="system.roll.rollFormula"  
+                    type="text" 
+                    value="{{systemData.roll.rollFormula}}" />
+            </formField>                    
+        </formBlock>         
+        <formBlock>
+            <formTitle class="_100">{{localize 'common.oppoRolls'}}</formTitle>
+            <formField class="_100">
+                <input name="system.opposedRoll.useOppRoll" 
+                    disabled
+                    id="chRollUseOppoRoll"
+                    type="checkbox" 
+                    {{checked systemData.flow.useOppoRoll}} />                                    
+                <label for="chRollUseOppoRoll">{{localize "common.useOppoRoll"}}</label>   
+            </formField>    
+            <formField class="_100">
+                <input name="system.opposedRoll.anticipate" 
+                    id="chRollAnticipate"
+                    type="checkbox" 
+                    {{#unless systemData.flow.useOppoRoll}}disabled{{/unless}}
+                    {{checked systemData.opposedRoll.anticipate}} />                                    
+                <label for="chRollAnticipate">{{localize "common.anticipateOppoRoll"}}</label>   
+            </formField>
+            <formField class="_100">
+                <label class="_50">{{localize "common.attackerFormula"}}</label>
+                <input name="system.opposedRoll.attacker"  
+                    {{#unless systemData.flow.useOppoRoll}}disabled{{/unless}}
+                    class="_50"
+                    type="text" 
+                    value="{{systemData.opposedRoll.attacker}}" />
+            </formField>
+            <formField class="_100">
+                <label class="_50">{{localize "common.defenderFormula"}}</label>
+                <input name="system.opposedRoll.defender" 
+                    {{#unless systemData.flow.useOppoRoll}}disabled{{/unless}} 
+                    class="_50"
+                    type="text" 
+                    value="{{systemData.opposedRoll.defender}}" />
+            </formField>                                                            
+        </formBlock>         
+    </formColumn>    
+
+</formSection>

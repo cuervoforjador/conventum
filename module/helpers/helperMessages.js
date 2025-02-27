@@ -1,4 +1,4 @@
-export class helperMessages{static async chatMessage(e){let t=await ChatMessage.create({content:e});return t.id}static async rollMessage(e,t,s){let a=`<div class="_roll"> 
+export class helperMessages{static async chatMessage(e){let t=await ChatMessage.create({content:e});return t.id}static async rollMessage(e,t,s,a=""){let i=`<div class="_roll"> 
                         <div class="_hexCombatant">
                             <div class="_img" style="background-image: url(${e.img})">
                             </div>
@@ -16,7 +16,8 @@ export class helperMessages{static async chatMessage(e){let t=await ChatMessage.
                                 </div>
                             </div>
                         </div>
-                    </div>`;return helperMessages.chatMessage(a)}static addFrame(e){return e=`<div class="_frame">
+                        ${a}
+                    </div>`;return helperMessages.chatMessage(i)}static addFrame(e){return e=`<div class="_frame">
                                 <div class="_leftFrame"></div>
                                 <div class="_rightFrame"></div>        
                                 <div class="_topFrame"></div>

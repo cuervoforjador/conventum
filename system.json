@@ -38,7 +38,8 @@
     "styles/messages.css",
     "styles/frame.css",
     "styles/short.css",
-    "styles/grimoire.css"
+    "styles/grimoire.css",
+    "styles/windowMode.css"
   ],
   "languages": [
     {

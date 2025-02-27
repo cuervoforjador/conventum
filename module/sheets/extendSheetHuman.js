@@ -1,4 +1,5 @@
 import { helperSheets } from "../helpers/helperSheets.js";
+import { helperWindowSheets } from "../helpers/helperWindowSheets.js";
 import { helperCombat } from "../helpers/helperCombat.js";
 import { helperAction } from "../helpers/helperAction.js";
 import { helperWeapon } from "../helpers/helperWeapon.js";
@@ -35,6 +36,7 @@ export class extendSheetHuman extends ActorSheet {
         {navSelector: ".tabs_EquipmentMenu", contentSelector: ".tabs_EquipmentContent", initial: "equipment"},
         {navSelector: ".tabs_MagicMenu", contentSelector: ".tabs_MagicContent", initial: "vis"},
         {navSelector: ".tabs_ListMagicMenu", contentSelector: ".tabs_ListMagicContent", initial: "list"},
+        {navSelector: ".tabs_WindowMenu", contentSelector: ".tabs_WindowContent", initial: "actor"}
       ],
     });
   }
@@ -46,22 +48,28 @@ export class extendSheetHuman extends ActorSheet {
    */
   async getData() {    
 
-    //RollData...
-    const context = await super.getData();
-    context.systemData = this.actor.getRollData();
-    context.isGM = game.user.isGM;
-    context.path = '/systems/'+game.system.id;
+    try {
 
-    //Directs 
-    helperSheets.checkData(context);
+      //RollData...
+      const context = await super.getData();
+      context.systemData = this.actor.getRollData();
+      context.isGM = game.user.isGM;
+      context.path = '/systems/'+game.system.id;
 
-    //Back 
-    const oBackSheet = new backSheet(this.actor, context, this);
-    await oBackSheet.init();
-    const oBackMagic = new backMagic(this.actor, context, this);
-    await oBackMagic.init();
-    
-    return context;
+      //Directs 
+      helperSheets.checkData(context);
+
+      //Back 
+      const oBackSheet = new backSheet(this.actor, context, this);
+      await oBackSheet.init();
+      const oBackMagic = new backMagic(this.actor, context, this);
+      await oBackMagic.init();
+      
+      return context;
+
+    } catch(error) {
+      ui.notifications.error(error);
+    }    
   }
 
   /**
@@ -72,84 +80,87 @@ export class extendSheetHuman extends ActorSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
-    this._windowApp = $(this.actor.sheet.form).parents('.window-app');
-    this._form = $(this.actor.sheet.form);
+    try {
 
-    this._afterRender();
-    this._uiHandlers();
+      this._windowApp = $(this.actor.sheet.form).parents('.window-app');
+      this._form = $(this.actor.sheet.form);
 
-    /** General... */
-    html.find("._option i").click(this._clickOption.bind(this));
-    html.find("._option").change(this._changeOption.bind(this));
-    html.find("a._frameButton").click(this._frameButton.bind(this));
-    html.find("._ordo._frameButton").click(this._frameButton.bind(this));
-    html.find("a._actionButton").click(this._frameButton.bind(this));
-    html.find("a._frameButton i").before().click(this._frameButton.bind(this));
-    html.find("._contextButton").contextmenu(this._frameRightButton.bind(this));
-
-    html.parents('.window-app.sheet.actor').click(this._focusMe.bind(this));
-    html.find("a._closeSheet").click(helperSheets.onCloseSheetContent.bind(this));
-    html.find("a._shortSheet").click(helperSheets.onShortSheetContent.bind(this));
-        
-    /** Actor... */
-    html.find('._mainPortrait').click(this._changePortrait.bind(this));
-    html.find('input[name="system.secondaries.rr.value"]').change(this._changeRationality.bind(this));
-    html.find('input[name="system.secondaries.irr.value"]').change(this._changeRationality.bind(this));
-    html.find("input#pseudoHits").change(this._changePseudoHits.bind(this));
-    html.find('#selectLoreRules').change(this._changeLoreRules.bind(this));
-    html.find('._octagonIcon').click(this._clickOctagonSwitch.bind(this));
-    html.find('._handlerOctagon input._value').change(this._changeCharOctoValue.bind(this));
-    html.find('._actorCharacteristics input._value').change(this._changeCharValue.bind(this));
-    html.find('._actorCharacteristics input._mod').change(this._changeCharMod.bind(this));
-    html.find('input._updater').change(this._changeUpdaterInput.bind(this));
-    html.find('._clickItem').click(this._clickItem.bind(this));    
-    html.find('._addMode').click(this._addMode.bind(this));    
-
-    /** Skills... */
-    html.find('#skillSearch').change(this._changeSkillSearch.bind(this));
-    html.find("a._learned").click(this._learned.bind(this));
-    html.find("a._favorite").click(this._favorite.bind(this));
-    html.find("a._primary").click(this._primary.bind(this));
-    html.find("a._secondary").click(this._secondary.bind(this));
-    html.find("a._patern").click(this._patern.bind(this));
-
-    /** Combat... */
-    html.find("._combat ._header input._title").change(this._changeEncounterName.bind(this));
-    html.find("._combatTable ._field input._mod").change(this._changeInitiativeMod.bind(this));
-    if (($('._stepsBarWrap').length > 0) && (game.user.isGM)) {
-      $('._stepsBarWrap').sortable({
-        item: '._stepsBarWrap ._step',
-        cursor: 'pointer',
-        axis: 'y',
-        stop: helperCombat.dropTurn.bind(this)
-      });
-    } else {
-      $('._stepsBarWrap ._step').css({'cursor': 'default'})      
-      $('._stepsBarWrap ._step label').css({'cursor': 'default'})      
-    }
-    html.find("._stepsBarWrap ._step").click(this._frameButton.bind(this));
-    html.find("._actionDiagram ._action").click(this._navTo.bind(this));
-    html.find("a._navTo").click(this._navTo.bind(this));
-    html.find("#combatCustoMod").change(this._changeCombatCustoMod.bind(this));
-    html.find("#combatCustoModOppo1").change(this._changeCombatCustoModOppo.bind(this));
-    html.find("#combatCustoModOppo2").change(this._changeCombatCustoModOppo.bind(this));
-    html.find("#combatCustoModAnti").change(this._changeCombatCustoMod.bind(this));
-    html.find("#combatCustoLocation").change(this._changeCombatLocation.bind(this));
-
-    /** Armor... */
-    html.find("._armorSection").click(this._frameButton.bind(this));
-
-    /** ENTER Key */
-    /*
-    $(document).on('keypress',function(event) {
-      if(event.which == 13) {
-        event.preventDefault();
-        event.stopPropagation();
+      if (this.actor.system.control.view.window) {
+        this._afterWindowRender();
+        this._uiWindowHandlers();
+      } else {
+        this._afterRender();
+        this._uiHandlers();
       }
-    });
-    */
 
-    if ( !this.isEditable ) return;
+      /** General... */
+      html.find("._option i").click(this._clickOption.bind(this));
+      html.find("._option").change(this._changeOption.bind(this));
+      html.find("a._frameButton").click(this._frameButton.bind(this));
+      html.find("a._roll").click(this._roll.bind(this));
+      html.find("._ordo._frameButton").click(this._frameButton.bind(this));
+      html.find("a._actionButton").click(this._frameButton.bind(this));
+      html.find("a._frameButton i").before().click(this._frameButton.bind(this));
+      html.find("._contextButton").contextmenu(this._frameRightButton.bind(this));
+
+      html.parents('.window-app.sheet.actor').click(this._focusMe.bind(this));
+      html.find("a._closeSheet").click(helperSheets.onCloseSheet.bind(this));
+      html.find("a._shortSheet").click(helperSheets.onShortSheet.bind(this));
+          
+      /** Actor... */
+      html.find('._mainPortrait').click(this._changePortrait.bind(this));
+      html.find('._changeReduced').click(helperWindowSheets.clickReduced.bind(this));
+      html.find('input[name="system.secondaries.rr.value"]').change(this._changeRationality.bind(this));
+      html.find('input[name="system.secondaries.irr.value"]').change(this._changeRationality.bind(this));
+      html.find("input#pseudoHits").change(this._changePseudoHits.bind(this));
+      html.find('#selectLoreRules').change(this._changeLoreRules.bind(this));
+      html.find('._octagonIcon').click(this._clickOctagonSwitch.bind(this));
+      html.find('._handlerOctagon input._value').change(this._changeCharOctoValue.bind(this));
+      html.find('sheetcontent ._characteristics input._value').change(this._changeCharValue.bind(this));
+      html.find('sheetcontent ._characteristics input._mod').change(this._changeCharMod.bind(this));
+      html.find('input._updater').change(this._changeUpdaterInput.bind(this));
+      html.find('._clickItem').click(this._clickItem.bind(this));    
+      html.find('._addMode').click(this._addMode.bind(this));    
+
+      /** Skills... */
+      html.find('#skillSearch').change(this._changeSkillSearch.bind(this));
+      html.find("a._learned").click(this._learned.bind(this));
+      html.find("a._favorite").click(this._favorite.bind(this));
+      html.find("a._primary").click(this._primary.bind(this));
+      html.find("a._secondary").click(this._secondary.bind(this));
+      html.find("a._patern").click(this._patern.bind(this));
+
+      /** Combat... */
+      html.find("._combat ._header input._title").change(this._changeEncounterName.bind(this));
+      html.find("._combatTable ._field input._mod").change(this._changeInitiativeMod.bind(this));
+      if (($('._stepsBarWrap').length > 0) && (game.user.isGM)) {
+        $('._stepsBarWrap').sortable({
+          item: '._stepsBarWrap ._step',
+          cursor: 'pointer',
+          axis: 'y',
+          stop: helperCombat.dropTurn.bind(this)
+        });
+      } else {
+        $('._stepsBarWrap ._step').css({'cursor': 'default'})      
+        $('._stepsBarWrap ._step label').css({'cursor': 'default'})      
+      }
+      html.find("._stepsBarWrap ._step").click(this._frameButton.bind(this));
+      html.find("._actionDiagram ._action").click(this._navTo.bind(this));
+      html.find("a._navTo").click(this._navTo.bind(this));
+      html.find("#combatCustoMod").change(this._changeCombatCustoMod.bind(this));
+      html.find("#combatCustoModOppo1").change(this._changeCombatCustoModOppo.bind(this));
+      html.find("#combatCustoModOppo2").change(this._changeCombatCustoModOppo.bind(this));
+      html.find("#combatCustoModAnti").change(this._changeCombatCustoMod.bind(this));
+      html.find("#combatCustoLocation").change(this._changeCombatLocation.bind(this));
+
+      /** Armor... */
+      html.find("._armorSection").click(this._frameButton.bind(this));
+
+      if ( !this.isEditable ) return;
+
+    } catch(error) {
+      ui.notifications.error(error);
+    } 
 
   }
 
@@ -207,18 +218,23 @@ export class extendSheetHuman extends ActorSheet {
         this.actor.items.find(e => e.id === sItemId)?.sheet.render(true);
       break;
       case 'deleteItem':    //Delete actor item
+        if (event.originalEvent.pointerType === '') return;
         Item.deleteDocuments([sItemId], {parent: this.actor});
       break;   
       case 'deleteAll':     //Delete all items
+        if (event.originalEvent.pointerType === '') return;
         helperSheets.deleteAllItems(this.actor, target?.dataset.type);
       break;
       case 'addItemLore':   //Add lore items
+        if (event.originalEvent.pointerType === '') return;
         helperSheets.createLoreItem(this.actor, target?.dataset.target);
       break;
       case 'deleteLoreItem':    //Delete lore item
+        if (event.originalEvent.pointerType === '') return;
         helperSheets.deleteLoreItem(this.actor, this.actor.items.get(sItemId));
       break;      
       case 'deleteMode': //Delete Mode
+        if (event.originalEvent.pointerType === '') return;
         helperSheets.deleteMode(this.actor, target?.dataset.index);
       break;
       case 'createCombat':  //Create new combat
@@ -294,8 +310,12 @@ export class extendSheetHuman extends ActorSheet {
         helperSheets.dialogShowModifiers(target?.dataset, true);
       break;       
       case 'applydamage': 
-        helperSheets.applyDamage(target?.dataset.damagetarget, target?.dataset.damage,
-                                 target?.dataset.stepid, target?.dataset.fluxid, 
+        helperSheets.applyDamage(target?.dataset.damagetarget, 
+                                 target?.dataset.damage,
+                                 target?.dataset.stepid, 
+                                 target?.dataset.fluxid, 
+                                 target?.dataset.location,
+                                 target?.dataset.subtarget === 'close',
                                  target?.dataset.subtarget === 'shield',
                                  target?.dataset.breakshield === 'true');
       break;
@@ -304,7 +324,7 @@ export class extendSheetHuman extends ActorSheet {
       break;          
       case 'roll': //Roll
           //Avoiding propagation from the enter key...
-          if (event.originalEvent.pointerType === '') return;
+        if (event.originalEvent.pointerType === '') return;
         helperSheets.roll(target?.dataset);
       break;     
       case 'compendium':  //Show compendiums
@@ -357,6 +377,21 @@ export class extendSheetHuman extends ActorSheet {
         helperMagic.channelOrdo(this.actor, target?.dataset.level);
       break;
     }    
+  }
+
+  /**
+   * _roll
+   * @param {*} event 
+   */
+  _roll(event) {
+    event.preventDefault();    
+    if (event.originalEvent.pointerType === '') return;
+    let data = event.currentTarget?.dataset;
+    if (!data.actorid) {
+      data.actorid = this.actor.id;
+      data.tokenid = this.actor.token?.id;
+    }
+    helperSheets.roll(data);
   }
 
   /**
@@ -678,6 +713,17 @@ export class extendSheetHuman extends ActorSheet {
    *  UI CONTROLS...
    ---------------------------------------------------------------------------------------------------------------- */
 
+  _uiWindowHandlers() {
+
+  }
+
+  /**
+   * _afterWindowRender 
+   */
+  _afterWindowRender() {
+    helperWindowSheets.afterWindowRender(this.actor.sheet);
+  }
+
   _uiHandlers() {
 
     //Window resize
@@ -761,15 +807,44 @@ export class extendSheetHuman extends ActorSheet {
   }
 
   _onResizeMouseMove(event) {
+    //super._onResizeMouseMove(event);
     event.preventDefault();
     $(this.actor.sheet.form).find('._hitPoints').hide();
+    if (game.settings.get(game.system.id, "lightMode")) {
+      helperSheets.setSheetEmptyContent(this.actor);
+    }
+    helperSheets.setSheetContentVars(this.actor);
+    helperSheets._sheetComplexMenu(this.actor.sheet);
+    if (game.settings.get(game.system.id, "applyCoefRatio")) {
+      
+      /*
+      this.actor.sheet.setPosition({
+          height: this.actor.sheet.position.width / Number(game.settings.get(game.system.id, "coefRatio"))
+      });
+      */
+      
+      this.actor.sheet.position.height = this.actor.sheet.position.width 
+                                    / Number(game.settings.get(game.system.id, "coefRatio"));
+      
+    }    
   }
 
   _onResizeMouseUp(event) {
     event.preventDefault();
     $(this.actor.sheet.form).find('._hitPoints').show();
     this._resizableButton.removeEventListener(...this._extendHandlers.resizeMove);
-    this._resizableButton.removeEventListener(...this._extendHandlers.resizeUp);    
+    this._resizableButton.removeEventListener(...this._extendHandlers.resizeUp);  
+    if (helperSheets.isPortraitMode($(this.actor.sheet.form))) {
+        this.actor.update({
+            "system.control.view.position.portrait": this.actor.sheet.position
+        }, {render: false});        
+
+    } else {
+        this.actor.update({
+          "system.control.view.position.sheet": this.actor.sheet.position
+        }, {render: false});
+    }
+    this.actor.sheet.render(true);  
   }  
 
   _onActorMenuMouseMove(event) {
@@ -794,6 +869,7 @@ export class extendSheetHuman extends ActorSheet {
     section.find('sheetContent.active').removeClass('active');
     section.find('sheetcontent[data-tab="'+sTab+'"]').addClass('active');
     helperSheets._sheetContent(this.actor.sheet);
+    helperSheets.onOpenSheet(this.actor);
   }
 
   _onSkillClick(event) {
@@ -835,7 +911,12 @@ export class extendSheetHuman extends ActorSheet {
   /**
    * _afterRender
    */
-  _afterRender(event) {
+  _afterRender(event) { 
+    if (this.actor.system.control.view.window) {
+      this._afterWindowRender.bind(this);
+      return;
+    };
+
     if (this.activeTab) helperSheets.activeTab(this, this.activeTab);
     helperSheets.postRender(this.actor);
   }

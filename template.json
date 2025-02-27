@@ -222,7 +222,13 @@
           "rules": "aq3",
           "view": {
             "expanded": true,
-            "short": false
+            "short": true,
+            "window": false,
+            "position": {
+              "portrait": {},
+              "sheet": {}
+            },
+            "portrait": "chars"
           },
           "skills": {
             "lastSkill": "",

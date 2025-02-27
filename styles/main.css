@@ -84,24 +84,22 @@ button[disabled] {
     display: flex;
 }
 ._menu ._option {
-    background: #43030326;
-    margin-left: 3px;
-    margin-right: 3px;
-    font-size: calc(var(--vFont)* 0.6);
-    line-height: calc(var(--vFont)* 0.7);
+    margin-left: calc(var(--frFont)* 0.2);
+    padding: 0;
+    font-size: calc(var(--frFont)* 0.7);
+    line-height: calc(var(--frFont)* 0.7);
     color: var(--custo-fontColor);
     display: flex;
     align-content: center;
     align-items: center;
-    border: 1px solid #3333334d;
-    border-radius: 5%;
 }
 ._menu ._option i {
-    margin-right: 6px;
     cursor: pointer;
+    margin: 0 calc(var(--frFont)* 0.2) 0 0;
 }
 ._menu ._option input[type="checkbox"] {
     cursor: pointer;
+    margin: 0 calc(var(--frFont)* 0.2) 0 0;
 }
 ._menu ._option:hover,
 ._menu ._option:hover i {
@@ -292,13 +290,13 @@ showed {
     display: block;
     height: auto;
     opacity: 1;
-    transition: 1s;
+    transition: opacity 0.3s;
 }
 hided {
     height: 0;
     opacity: 0;
     overflow: hidden;
-    transition: 1s;
+    transition: opacity 0.3s;
     z-index: 1;
 }
 hidden {
@@ -366,6 +364,12 @@ progressbar {
     left: 1.5%;
     top: 27%;
 }
+._vertical progressbar {
+    width: 45%;
+    height: 96.4%;
+    left: 30%;
+    top: 2.2%;
+}
 progressHBar {
     position: absolute;
     overflow: hidden;
@@ -374,14 +378,27 @@ progressHBar {
     left: 21%;
     top: 1.80%;    
 }
+._vertical progressHBar {
+    width: 96.4%;
+    height: 56;
+    left: 1.80%;
+    top: 21%; 
+}
 ._pBBack {
     position: absolute;
-    width: 96.8%;
-    height: 50%;
-    left: 1.95%;
-    top: 27%;
+    width: 97.5%;
+    height: 75%;
+    left: 1.5%;
+    top: 14%;
     border-radius: 50px;
     background: #412a23e8;
+    border: 1px solid #ffdd0087;
+}
+._vertical ._pBBack {
+    width: 75%;
+    height: 97.5%;
+    left: 14%;
+    top: 1.5%;
 }
 ._pHBBack {
     position: absolute;
@@ -389,15 +406,28 @@ progressHBar {
     height: 96.4%;
     left: 21%;
     top: 1.80%;
-    background: #412a23e8;
     overflow: hidden;
+}
+._vertical ._pHBBack {
+    position: absolute;
+    width: 96.4%;
+    height: 56%;
+    left: 1.80%;
+    top: 21%;
 }
 ._pBar {
     height: 100%;
+    top: 0.5px;
+    left: 3px;    
     background: #ffdd007a;
     border-radius: 50px;
     position: absolute;
     overflow: hidden;
+}
+._vertical ._pBar {
+    width: 100%;
+    top: 0px;
+    left: 0px;
 }
 ._pBar ._gloss {
     content: '';
@@ -412,9 +442,19 @@ progressHBar {
     background: -moz-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 50%, rgba(128, 186, 232, 0) 99%, rgba(125, 185, 232, 0) 100%);
     background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%,rgba(255,255,255,0.8) 50%,rgba(128,186,232,0) 99%,rgba(125,185,232,0) 100%);
 }
+._vertical ._pBar ._gloss {
+    transform: translateY(100%);
+    left: 0;
+    animation: slideVPB 3.3s infinite;
+    background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 50%, rgba(128, 186, 232, 0) 99%, rgba(125, 185, 232, 0) 100%);
+}
 @keyframes slidePB {
 	0% {transform:translateX(-100%);}
 	100% {transform:translateX(100%);}
+}
+@keyframes slideVPB {
+	0% {transform:translateY(-100%);}
+	100% {transform:translateY(100%);}
 }
 ._pHBar1 {
     width: 100%;
@@ -473,6 +513,7 @@ progressHBar {
     overflow: hidden;
     opacity: 0.65;
 }
+/*
 ._pBBackMiddle {
     background-size: auto 100%;
     background-repeat: repeat-x;
@@ -505,12 +546,10 @@ progressHBar {
 ._pHBBackInit {
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    /* background-image: url(../assets/texture/progressHLeft.png); */
     background-image: url(../assets/texture/progressHMiddle.png);
     width: 100.5%;
     height: 5%;
     position: absolute;
-    /* top: 0; */
     top: 1.7%;
     left: 0;
 }
@@ -533,19 +572,19 @@ progressHBar {
     position: absolute;
     top: 95%;
 }
-
+*/
 ._pbMark {
     width: 100%;
     height: 1px;
-    border-bottom: 1px solid #ffffff85;
-    box-shadow: 0 0 4px 2px #000000a6;
+    border-bottom: 1px solid #00000085;
     position: absolute;
 }
 ._pbLabelMark {
     position: absolute;
     width: 150%;
-    left: -80%;
+    left: -76%;
     margin-top: 6%;
+    padding-right: 10%;
     height: auto;
     color: #FFF;
     display: flex;
@@ -553,9 +592,10 @@ progressHBar {
     text-align: right;
     font-size: calc(var(--vFont)* 0.65);
     line-height: calc(var(--vFont)* 0.55);
-    color: #FFF;
-    text-shadow: 0 0 4px #000000;
+    color: #000000cf;
+    background: linear-gradient(270deg, #ffffff6e, transparent);
     white-space: nowrap;
+    border-bottom: 1px solid #ffffff85;
 }
 ._pbLabelMark:last-child {
     margin-top: -50%;
@@ -563,11 +603,11 @@ progressHBar {
 
 /* COMPENDIUM */
 li.directory-item._packTrait {
-    margin-bottom: 25px;
+    padding-bottom: 24px !important;
 }
 li.directory-item._packTrait img {
-    margin-top: 12px;
-    margin-bottom: -12px;
+    margin-top: 12px!important;
+    margin-bottom: -12px!important;
 }
 .entry-name ._small,
 .entry-name ._sticker,
@@ -577,23 +617,23 @@ li.directory-item._packTrait img {
     display: flex;
     overflow: hidden;
     position: absolute;
-    top: 2px;
-    left: calc(100% - 72px);
+    top: 4px;
+    left: calc(100% - 74px);
     justify-content: flex-end;
 }
 .entry-name ._sticker {
-    top: calc(100% + 2px);
+    top: calc(100% - 32px);
     left: 54px;
     text-align: left;
     justify-content: start;
     width: calc(100% - 60px);
 }
 .entry-name ._points {
-    top: calc(100% + 2px);
-    left: calc(100% - 72px);
+    top: calc(100% - 32px);
+    left: calc(100% - 74px);
 }
 .entry-name ._points label {
-    background: #aaa166!important;
+    background: #aaa166b0 !important;
     color: #000;
     font-weight: 900;
 }
@@ -620,8 +660,8 @@ li.directory-item._packTrait img {
     line-height: 18px;
     height: 20px;
     background: #0000004f;
-    border: 1px solid #000000c9;
-    border-radius: 5px;
+    border: 1px solid #00000052;
+    border-radius: 2px;
     padding: 0 4px;
 }
 .directory-header input[type="search"] {

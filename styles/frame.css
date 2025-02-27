@@ -15,15 +15,14 @@
     background-size: 50% 100%;   
 }
 ._codexFrame {
-    width: calc(49.5% - var(--vSize)* 0.02);
-    height: calc(100% - var(--vSize)* 0.02);
-    top: calc(var(--vSize)* 0.012);
-    left: calc(var(--vSize)* 0.012);
+    width: calc(var(--hSize)* 0.5);
+    height: calc(var(--vSize)* 1);
     transform: rotate(0.5deg);
     position: absolute;
+    transform: rotate(0.5deg);
 }
 ._codexFrame._frame2 {
-    left: 50.5%;
+    left:  calc(var(--hSize)* 0.5);
     transform: rotate(-0.5deg);
 }
 ._codexFrame ._borderTop,
@@ -35,35 +34,34 @@
 
 ._codexFrame ._borderLeft,
 ._codexFrame ._borderRight {
-    width: calc(var(--vSize)* 0.025);
-    height: calc(100% - var(--vSize)* 0.09);
+    width: calc(var(--frSize));
+    height: calc(var(--frHeight));
     background-repeat: repeat-y;
-    background-size: 100% auto;  
+    background-size: 100% auto;
 }
 ._codexFrame ._borderTop,
 ._codexFrame ._borderBottom {
-    height: calc(var(--vSize)* 0.025);
-    width: calc(100% - var(--vSize)* 0.088);
+    width: calc(var(--frWidth));
+    height: calc(var(--frSize));
     background-repeat: repeat-x;
     background-size: auto 100%;
 }
-
 ._codexFrame ._borderLeft {
-    left: calc(var(--vSize)* 0.02);
-    top: calc(var(--vSize)* 0.043);
+    left: calc(var(--frMargin));
+    top: calc(var(--frMargin) + var(--frSize));
 }
 ._codexFrame ._borderRight {
-    left: calc(100% - var(--vSize)* 0.045);
-    top: calc(var(--vSize)* 0.043);
+    left: calc(var(--frMargin) + var(--frSize) + var(--frWidth));
+    top: calc(var(--frMargin) + var(--frSize));
     transform: rotate(180deg);
 }
 ._codexFrame ._borderTop {
-    left: calc(var(--vSize)* 0.045);
-    top: calc(var(--vSize)* 0.02);
+    left: calc(var(--frMargin) + var(--frSize));
+    top: calc(var(--frMargin));
 }
 ._codexFrame ._borderBottom {
-    left: calc(var(--vSize)* 0.045);
-    top: calc(100% - var(--vSize)* 0.050);
+    left: calc(var(--frMargin) + var(--frSize));
+    top: calc(var(--frMargin) + var(--frSize) + var(--frHeight));
     transform: rotate(180deg);
 }
 
@@ -71,30 +69,34 @@
 ._codexFrame ._borderQTR,
 ._codexFrame ._borderQBL,
 ._codexFrame ._borderQBR {
-    width: calc(var(--vSize)* 0.1);
-    height: calc(var(--vSize)* 0.1);
+    width: calc(var(--frSize)* 4.3);
+    height: calc(var(--frSize)* 4.3);
     background-size: 100% 100%;
     position: absolute;
 }
+
 ._codexFrame ._borderQTL {
-    left: calc(var(--vSize)* 0.005);
-    top: calc(var(--vSize)* 0.005);
+    left: calc(var(--frMargin) - var(--frSize)* 0.64);
+    top: calc(var(--frMargin) - var(--frSize)* 0.64);
 }
 ._codexFrame ._borderQTR {
-    left: calc(100% - var(--vSize)* 0.107);
-    top: calc(var(--vSize)* 0.005);
+    left: calc(var(--frMargin) + var(--frSize) + var(--frWidth) - var(--frSize)* 2.6);
+    top: calc(var(--frMargin) - var(--frSize)* 0.62);
     transform: rotate(90deg);
 }
 ._codexFrame ._borderQBL {
-    left: calc(100% - var(--vSize)* 0.107);
-    top: calc(100% - var(--vSize)* 0.112);
+    left: calc(var(--frMargin) + var(--frSize) + var(--frWidth) - var(--frSize)* 2.6);
+    top: calc(var(--frMargin) + var(--frSize) + var(--frHeight) - var(--frSize)* 2.6);
     transform: rotate(180deg);
 }
 ._codexFrame ._borderQBR {
-    left: calc(var(--vSize)* 0.005);
-    top: calc(100% - var(--vSize)* 0.112);
+    left: calc(var(--frMargin) - var(--frSize)* 0.64);
+    top: calc(var(--frMargin) + var(--frSize) + var(--frHeight) - var(--frSize)* 2.6);
     transform: rotate(270deg);
 }
+
+
+
 
 sheetcontent.tab.active {
     background-size: 30%;
@@ -104,9 +106,6 @@ sheetcontent.tab.active {
     mask-repeat: no-repeat;
 }
 
-.window-app.sheet.actor form._short sheetcontent.tab.active {
-    margin-top: calc((var(--viewHeight) - var(--vSize)) / 2);
-}
 .window-app.sheet.actor form._short ._blackView {
     position: fixed;
     background: #000000;
@@ -132,15 +131,17 @@ sheetcontent.tab.active {
     box-shadow: inset -5px 10px 0px 1px #00000057;
 }
 
+/* MOVIBLE SHEET */
 /*
-.sheet.actor .tab[data-tab].active:before {
-    content: '';
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    background-image: url(../assets/texture/shadowPaper.png);
-    background-size: 50% 100%;
-    top: 0;
-    left: 0;
+.window-app.sheet.actor form._short ._blackView {
+    display: none;
 }
-*/
+header.window-header.flexrow.draggable.resizable {    
+    height: 30px;
+    width: calc(971.333px + 10px);
+    left: calc(-430px);
+    top: -80px;
+    position: absolute;
+    z-index: 100;
+}
+    */

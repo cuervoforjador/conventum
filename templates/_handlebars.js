@@ -107,6 +107,13 @@ export class mainHandlebars {
  ******************************************************************************************** */
 
       /**
+       * complexMenu
+       */
+      Handlebars.registerHelper("complexMenu", function(sId, options) {
+         return options.data.root.data.system.control.view.portrait === sId;
+      });
+
+      /**
        * visibleMod
        */
       Handlebars.registerHelper("visibleMod", function(sRoot, sProperty, sField, options) {
@@ -130,6 +137,20 @@ export class mainHandlebars {
          if (value >= 5) return '#ff2222';
          return '#c10000';
       }); 
+
+      /**
+       * evalCharColor2
+       */
+      Handlebars.registerHelper("evalCharColor2", function(sId, options) {
+         const value = options.data.root.data.system.characteristics[sId].value;
+         if (value >= 18) return '#000000';
+         if (value >= 15) return '#220000';
+         if (value >= 13) return '#440000';
+         if (value >= 10) return '#660000';
+         if (value >= 7) return '#770000';
+         if (value >= 5) return '#880000';
+         return '#aa0000';
+      });       
 
       /**
        * lifeStatus

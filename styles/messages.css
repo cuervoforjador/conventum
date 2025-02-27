@@ -189,6 +189,22 @@
     color: #333;
     border: none;
 }
+.chat-message .message-content ._hexRoll ._rollStats ._title {
+    font-weight: 900;
+    width: 100%;
+    padding-left: 22%;
+    font-size: 18px;
+    line-height: 15px;
+}
+.chat-message .message-content ._hexRoll ._rollStats ._range {
+    width: 100%;
+    padding-left: 22%;
+    font-size: 18px;
+    line-height: 15px;
+}
+.chat-message .message-content ._roll ._info {
+    padding: 0 5px;
+}
 .chat-message .message-content ._hexExtra {
     width: calc(100% - 4px);
     margin-left: 2px;

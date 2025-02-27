@@ -1,0 +1,87 @@
+<formSection class="_100">
+
+    <formColumn class="_50">
+        <formBlock>
+            <formField class="_100">
+                <input name="system.defense.penalization.apply" 
+                    id="chDefPenalApply"
+                    type="checkbox" 
+                    {{checked systemData.defense.penalization.apply}} />                                    
+                <label for="chDefPenalApply">{{localize "common.defPenalization"}}</label>   
+            </formField>
+            <formField class="_100">
+                <label class="_10">{{localize "common.mod"}}</label>
+                <input class="_25"
+                        name="system.defense.penalization.mod" 
+                        type="text" 
+                        value="{{systemData.defense.penalization.mod}}"  /> 
+            </formField> 
+            <formField class="_100">
+                <label class="_10">{{localize "common.mult"}}</label>
+                <input class="_25"
+                        name="system.defense.penalization.mult" 
+                        type="text" 
+                        value="{{systemData.defense.penalization.mult}}"  /> 
+            </formField>                  
+        </formBlock>          
+        <formBlock>
+            <formField class="_100">
+                <input name="system.defense.criticalAttack.apply" 
+                    id="chCritAttackApply"
+                    type="checkbox" 
+                    {{checked systemData.defense.criticalAttack.apply}} />                                    
+                <label for="chCritAttackApply">{{localize "common.criticalAttack"}}</label>   
+            </formField>
+            <formField class="_100">
+                <label class="_10">{{localize "common.mod"}}</label>
+                <input class="_25"
+                        name="system.defense.criticalAttack.mod" 
+                        type="text" 
+                        value="{{systemData.defense.criticalAttack.mod}}"  /> 
+            </formField> 
+            <formField class="_100">
+                <label class="_10">{{localize "common.mult"}}</label>
+                <input class="_25"
+                        name="system.defense.criticalAttack.mult" 
+                        type="text" 
+                        value="{{systemData.defense.criticalAttack.mult}}"  /> 
+            </formField>                  
+        </formBlock>         
+    </formColumn>
+
+    <formColumn class="_50">   
+        <formBlock>
+            <formField class="_100">
+                <input name="system.defense.inactiveAttacks.sameAttacker" 
+                    id="chSameAttacker"
+                    type="checkbox" 
+                    {{checked systemData.defense.inactiveAttacks.sameAttacker}} />                                    
+                <label for="chSameAttacker">{{localize "common.sameAttacker"}}</label>   
+            </formField>
+            <formField class="_100">
+                <input name="system.defense.inactiveAttacks.allAttacks" 
+                    id="chAllAttacks"
+                    type="checkbox" 
+                    {{checked systemData.defense.inactiveAttacks.allAttacks}} />                                    
+                <label for="chAllAttacks">{{localize "common.allAttacks"}}</label>   
+            </formField>                                                          
+        </formBlock>
+        <formBlock>
+            <formField class="_100">
+                <input name="system.defense.comparingWeapons" 
+                    id="chComparingWeapons"
+                    type="checkbox" 
+                    {{checked systemData.defense.comparingWeapons}} />                                    
+                <label for="chComparingWeapons">{{localize "common.compareWeapons"}}</label>   
+            </formField>  
+            <formField class="_100">
+                <label class="_75">{{localize "common.diffWeapons"}}</label>
+                <input class="_25"
+                        name="system.defense.diffWeapons" 
+                        type="number" 
+                        value="{{systemData.defense.diffWeapons}}"  /> 
+            </formField>                       
+        </formBlock>
+    </formColumn>    
+
+</formSection>

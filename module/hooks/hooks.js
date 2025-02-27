@@ -13,6 +13,8 @@ import { helperMessages } from "../helpers/helperMessages.js";
 import { helperUtils } from "../helpers/helperUtils.js";
 import { helperTour } from "../helpers/helperTour.js";
 import { helperTokens } from "../helpers/helperTokens.js";
+import { mainSettings } from "../gameSettings/mainSettings.js";
+import { helperWindowSheets } from "../helpers/helperWindowSheets.js";
 
 
 /**
@@ -32,8 +34,12 @@ export class mainHooks {
         Hooks.on("getSceneControlButtons", this._getSceneControlButtons);
         Hooks.on("renderSceneControls", this._renderSceneControls);
 
+        /** CONFIG */
+        Hooks.on("updateSetting", this._updateSetting);
+
         /** SHEETS */
         Hooks.on("renderActorSheet", this._renderActorSheet);
+        Hooks.on("getextendSheetHumanHeaderButtons", this._headerButtons);
 
         /** ACTORS */
         Hooks.on("preCreateActor", this._preCreateActor);
@@ -101,10 +107,33 @@ export class mainHooks {
     }
 
     /**
+     * _updateSetting
+     * @param {*} settings 
+     * @param {*} value 
+     * @param {*} options 
+     * @param {*} id 
+     */
+    static _updateSetting(settings, value, options, id) {
+        //..
+    }
+
+    /**
      * _renderActorSheet
      */
     static _renderActorSheet(options, element, context) {
         $(element).addClass('rules_'+game.settings.get(game.system.id,'rules'));
+    }
+
+    /**
+     * _headerButtons
+     */
+    static _headerButtons(sheet, mButtons) {
+        mButtons.push({
+            class: "changeReduced",
+            icon: "fa-address-book",
+            label: game.i18n.localize('info.changeReduced'),
+            onclick: helperWindowSheets.clickReduced.bind(sheet)
+        })
     }
 
     /**
