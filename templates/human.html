@@ -1,0 +1,60 @@
+{{#if systemData.control.view.window}}
+<form class="_human _window"
+      autocomplete="off">
+      {{>actorWmain}}
+</form>
+
+{{else}}
+<form class="_human {{#if systemData.control.view.short}}_short{{/if}}"
+      autocomplete="off">
+
+      {{>actorMainComplex}}
+      {{>actorMainPortrait}}   
+      
+      {{#if (complexMenu 'chars')}}
+            {{>actorMainHitPoints}}      
+            {{>actorMainCharacteristics}}
+      {{/if}}
+
+      {{>actorMainName}}
+      {{>actorMenu}}
+
+      <section class="tabs_ActorContent">
+
+            <sheetContent class="tab _empty" data-group="groupActorMenu" data-tab="main">
+            </sheetContent>            
+            <sheetContent class="tab" data-group="groupActorMenu" data-tab="actor"
+                          style="background-image: url({{backLore.custo.paper}});">
+                  {{>actorSheetActor}}
+            </sheetContent>
+            <sheetContent class="tab" data-group="groupActorMenu" data-tab="skills"
+                          style="background-image: url({{backLore.custo.paper}});">
+                  {{>actorSheetSkills}}            
+            </sheetContent>
+            <sheetContent class="tab" data-group="groupActorMenu" data-tab="equipment"
+                          style="background-image: url({{backLore.custo.paper}});">
+                  {{>actorSheetEquipment}}
+            </sheetContent>
+            <sheetContent class="tab" data-group="groupActorMenu" data-tab="magic"
+                          style="background-image: url({{backLore.custo.paper}});">
+                  {{>actorSheetMagic}}
+            </sheetContent>
+            <sheetContent class="tab" data-group="groupActorMenu" data-tab="combat"
+                          style="background-image: url({{backLore.custo.paper}});">
+                  {{>actorSheetCombat}}
+            </sheetContent>                                                
+
+      </section>
+            
+      {{!-- CONTROL --}}
+      <input name="system.control.view.expanded" 
+             class="_hideControl"
+             type="checkbox" 
+             {{checked systemData.control.view.expanded}} />        
+
+      <input name="system.control.view.short" 
+             class="_hideControl"
+             type="checkbox" 
+             {{checked systemData.control.view.short}} />                 
+</form>
+{{/if}}

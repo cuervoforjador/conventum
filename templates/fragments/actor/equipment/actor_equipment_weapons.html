@@ -1,0 +1,54 @@
+{{!-- ITEM LIST --}}
+<div class="_itemList">
+
+    <div class="_header">
+        <a class="_frameButton _openCompendium" 
+            data-action="compendium"
+            data-itemid="weapons">
+            <button>{{localize 'common.openCompendium'}}</button>
+        </a>
+    </div>
+
+    {{#if backWeapons.noItems}}
+    <label class="_info">{{localize 'info.noItems'}}</label>
+    {{/if}}
+
+    {{#each backWeapons.items as |item index|}}
+    <div class="_item">
+        <a class="_frameButton _contextButton _mainItemWrap" 
+           data-action="selectItem"
+           data-itemid="{{item._id}}"
+           data-contextid="{{item._id}}"
+           data-tooltip="{{localize 'info.showItem'}}">
+        <div class="_mainItem">
+            <img class="_itemImg" src="{{item.img}}">
+            <div class="_itemBody">
+                <div class="_title">{{item.name}}</div>
+            </div>
+        </div>
+        </a>
+        <div class="_utils">
+            <a class="_frameButton _big" 
+                data-action="deleteItem"
+                data-itemid="{{item._id}}">
+                <button data-img="icons/delete.svg" 
+                        data-icon="true"
+                        data-tooltip="{{localize 'common.delete'}}"></button>
+            </a>
+        </div>
+    </div>
+    {{/each}}
+
+</div>
+
+{{!-- ITEM DETAIL --}}
+<div class="_main _itemDetail">
+{{#if itemDetail.show}}
+
+    <label class="_mainTitle">{{itemDetail.item.name}}</label>
+    <div class="_info">
+        {{{itemDetail.item.system.description}}}
+    </div>
+
+{{/if}}
+</div>

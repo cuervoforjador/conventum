@@ -1,0 +1,111 @@
+<form class="_item _golden" 
+      autocomplete="off">
+
+      <div class="_itemHeader _100">
+            <img src="{{item.img}}" 
+                  data-edit="img" 
+                  title="{{item.name}}"/>     
+            <div class="_itemSubHeader">
+                  <input class="_title"
+                        type="text" 
+                        name="name" 
+                        value="{{item.name}}" 
+                        placeholder=""/>
+
+                  {{>itemHeader}}    
+                  <div class="_itemSubHeaderBox">
+                        <formField class="_100">
+                              <input name="system.extend.holding" 
+                                    type="checkbox"
+                                    id="chHolding" 
+                                    {{checked systemData.extend.holding}} />                                    
+                              <label for="chHolding">{{localize "common.holding"}}</label>
+                              <input name="system.extend.good" 
+                                    type="checkbox"
+                                    id="chGood" 
+                                    {{checked systemData.extend.good}} />                                    
+                              <label for="chGood">{{localize "common.good"}}</label>                                                  
+                        </formField>    
+                  </div>         
+            </div>
+
+      </div>
+
+      {{!-- TAB HEADER --}}
+      <nav class="itemTabsBar" data-group="primary-tabs">
+            {{#if systemData.extend.holding}}
+            <a data-tab="holding" data-group="primary-tabs">
+                  <label class="_tabButton">{{localize 'common.holding'}}</label></a>              
+            {{/if}}
+
+            <a data-tab="description" data-group="primary-tabs">
+                  <label class="_tabButton">{{localize 'common.description'}}</label></a>  
+      </nav>
+
+      {{!-- SECTIONS --}}
+      <div class="itemTabsContent">
+
+            {{!-- HOLDING --}}
+            <section class="tab" data-group="primary-tabs" data-tab="holding">
+                  <formSection class="_100">
+                        <formBlock class="_100">
+                              <formField class="_100">
+                                    <label class="_margined">{{localize "common.location"}}</label>
+                                    <input name="system.holding.location" 
+                                           type="text" 
+                                           value="{{systemData.holding.location}}" />
+                              </formField>
+                              <formField class="_100">
+                                    <label>{{localize "common.monthIncome"}}</label>
+                                    <input name="system.holding.income" 
+                                          class="_15"
+                                          type="text" 
+                                          value="{{systemData.holding.income}}" />
+                                    <label>{{localize "common.monthCost"}}</label>
+                                    <input name="system.holding.cost" 
+                                          class="_15"
+                                          type="text" 
+                                          value="{{systemData.holding.cost}}" />                                                             
+                              </formField>    
+                              <formField class="_100">
+                                    <label>{{localize "common.laborers"}}:</label>
+                                    <label>{{localize "common.laborersMin"}}:</label>
+                                    <input name="system.holding.laborers.min" 
+                                          class="_15"
+                                          type="number" 
+                                          value="{{systemData.holding.laborers.min}}" />  
+                                    <label>{{localize "common.laborersTotal"}}:</label>
+                                    <input name="system.holding.laborers.total" 
+                                          class="_15"
+                                          type="number" 
+                                          value="{{systemData.holding.laborers.total}}" />                                                                                             
+                              </formField>              
+                        </formBlock>
+                        <formBlock class="_100">
+                              <formField class="_100">
+                                    <label>{{localize "common.good"}}</label>
+                                    <select name="system.holding.goods">
+                                          {{selectOptions backend.goods 
+                                                          selected=systemData.holding.goods
+                                                          localize=false
+                                                          nameAttr="id"
+                                                          labelAttr="name" }}
+                                    </select>  
+                                    <label>{{localize "common.amount"}}:</label>
+                                    <input name="system.holding.goodIncome" 
+                                           class="_15"
+                                           type="text" 
+                                           value="{{systemData.holding.goodIncome}}" />                                                 
+                              </formField>               
+                        </formBlock>
+                  </formSection>
+            </section>
+
+            {{!-- DESCRIPTION --}}
+            <section class="tab" data-group="primary-tabs" data-tab="description">
+                  {{>armorDescription}}
+            </section>
+
+      </div>
+
+</form>

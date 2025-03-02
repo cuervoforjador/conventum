@@ -1,0 +1,36 @@
+<div class="_magicTheo">
+    {{#each backMagic.ordos as |ordo index|}}
+        <div class="_ordo {{#if ordo.learned}}_learned _frameButton{{/if}}"
+                data-action="selectRitual"
+                data-level="{{ordo.level}}"
+                {{#if ordo.learned}}data-tooltip="{{localize 'info.selectRitual'}}"{{/if}}>
+            <div class="_backImg" style="background-image: url({{ordo.img}});"></div>
+            <div class="_title _whiteBorderHard">{{ordo.label}}</div>
+            <div class="_combo">
+                <div class="_row">
+                    <label>{{localize 'common.theoMin'}}:</label>
+                    <label class="_bold">{{ordo.skillMin}}%</label>
+                    <label>{{localize 'common.penal'}}:</label>
+                    <label class="_bold">{{ordo.mod}}%</label>
+                </div>
+                <div class="_row">
+                    <label>{{localize 'characteristics.exper'}}:</label>
+                    <label class="_bold">{{ordo.exper}}</label>
+                    <label>{{localize 'characteristics.faith_short'}}:</label>
+                    <label class="_bold">{{ordo.faith}}</label>                
+                </div>
+            </div>
+            {{#if ordo.learned}}
+            <div class="_utils">
+                <a class="_frameButton _big" 
+                    data-action="unlearnOrdo"
+                    data-level="{{ordo.level}}">
+                    <button data-img="icons/delete.svg" 
+                            data-icon="true"
+                            data-tooltip="{{localize 'info.deleteOrdo'}}"></button>
+                </a>
+            </div> 
+            {{/if}}
+        </div>     
+    {{/each}}
+</div>

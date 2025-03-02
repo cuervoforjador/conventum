@@ -1,0 +1,148 @@
+{{!-- COMBAT --}}
+<div class="_combat">
+
+    {{!-- ************ HEADER ************ --}}
+    <div class="_header">
+    {{#if backCombat.control.noCombat }}
+        <label>{{localize 'common.noCombat'}}</label>
+    {{else}}
+
+        {{#if isGM}}
+            <a class="_frameButton" data-action="changeCombat" data-flow="prev">
+                <button data-img="icons/previous.svg"
+                        data-icon="true"
+                        data-tooltip="{{localize 'common.previousCombat'}}"></button>
+            </a> 
+
+            <input type="text" 
+                   value="{{backCombat._encounter.name}}"
+                   class="_title"/>
+            
+            <a class="_frameButton" data-action="changeCombat" data-flow="next">
+                <button data-img="icons/next.svg" 
+                        data-icon="true"
+                        data-tooltip="{{localize 'common.nextCombat'}}"></button>
+            </a> 
+
+            <a class="_frameButton" data-action="deleteCombat">
+                <button data-img="icons/delete.svg" 
+                        data-icon="true"
+                        data-big="true"
+                        data-tooltip="{{localize 'common.deleteCombat'}}"></button>
+            </a>
+            <a class="_frameButton" data-action="createCombat">
+                <button data-img="icons/add.svg" 
+                        data-icon="true"
+                        data-tooltip="{{localize 'common.createCombat'}}"></button>
+            </a>  
+            <a class="_frameButton" data-action="resetInitiatives">
+                <button data-img="icons/roll.svg" 
+                        data-icon="true"
+                        data-big="true"
+                        data-tooltip="{{localize 'common.resetInitiatives'}}"></button>
+            </a>                                
+        {{else}}
+            <label>{{backCombat._encounter.name}}</label>
+        {{/if}}    
+ 
+
+    {{/if}}
+    </div>
+
+    {{!-- ************ CONTENT ************ --}}
+    <div class="_content">
+    {{#if backCombat.control.noCombat }}
+        
+        {{!-- ************ NO COMBAT ************ --}}
+        <info>{{localize 'info.noCombat'}}</info>
+        {{#if isGM}}
+        <div class="_buttonBar">
+            <a class="_frameButton" data-action="createCombat">
+                <button data-img="icons/add.svg" 
+                        data-label="common.createCombat"></button>
+            </a>
+        </div>
+        {{/if}}
+
+    {{else}}
+
+        {{!-- ************ COMBAT TABLE ************ --}}
+        <div class="_combatTable">
+            <div class="_header">
+                <div class="_combatant"></div>
+                <label>{{localize 'characteristics.agi_short'}}</label>
+                <label>{{localize 'common.roll'}}</label>
+                <label>{{localize 'common.bonPen'}}</label>
+                <label>{{localize 'common.mod'}}</label>
+                <label>{{localize 'common.initiative'}}</label>
+            </div>
+
+            {{#each backCombat._combatMatrix as |row index|}}
+            <div class="_row">
+                <div class="_combatant">
+                    <div class="_img" style="background-image: url({{row.combatant.actor.img}})"></div>
+                    <label class="_whiteBorderHard">{{row.combatant.actor.name}}</label>
+                </div>
+                <div class="_field">
+                    <label>{{row.base}}</label>
+                </div>
+                <div class="_field">
+                    {{#if row.rolled}}
+                        <label>{{row.roll}}</label>
+                    {{else}}
+                        {{!-- {{#if ../isGM}} --}}
+                        {{#if (allowMe 'combatant' row.combatant) }}
+                        <a class="_frameButton" data-action="rollInitiative"
+                                                data-target="{{row.combatant.id}}">
+                            <button data-img="icons/d10.svg" 
+                                    data-icon="true"
+                                    data-big="true"
+                                    data-tooltip="{{localize 'common.rollInitiative'}}"></button>
+                        </a>
+                        {{else}}
+                        <label>-</label>
+                        {{/if}}
+                    {{/if}}
+                </div>
+                <div class="_field">
+                    <label data-tooltip="{{row.mod0Txt}}">{{row.mod0}}</label>
+                </div>
+                <div class="_field">
+                    {{#if ../isGM}}
+                    <input class="_mod"
+                           data-id="{{row.combatant.id}}"
+                           value="{{row.mod}}" />
+                    {{else}}
+                    <label>{{row.mod}}</label>
+                    {{/if}}                           
+                </div>
+                <div class="_field">
+                    <label>{{row.total}}</label>
+                </div>
+            </div>
+            {{/each}}
+
+            {{#if isGM}}
+            <div class="_bar _100" style="height: calc(var(--buttonHeight)* 1.25); margin-top: 6px;">
+                <a class="_frameButton" data-action="orderStepsBar">
+                    <button class="_noFrame _bigIcon"
+                        data-img="icons/down.svg"
+                        data-label="common.orderStepsBar">
+                    </button>
+                </a>
+            </div>
+            {{/if}}
+
+        </div>
+
+    {{/if}}    
+    </div>
+
+    {{!-- COMBAT BAR --}}
+    <div class="_downRow">
+        <div class="_combatBar">
+            {{>actorCombatCombatBar}}
+        </div>
+    </div>    
+
+</div>

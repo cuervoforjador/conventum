@@ -1,0 +1,51 @@
+<formSection class="_100">
+    {{#each backend.combatMods as |group index|}}
+    <formBlock class="_100">
+        <formTitle class="_100">{{group.label}}</formTitle>
+        {{#each group.items as |mod index|}}
+        <formGroup class="_100" style="padding-left: 3%;">
+            <formField class="_100 _columns">                                  
+                <label class="_100" style="font-weight: 900;">{{mod.label}}</label>
+                <label class="_100" style="margin-top: 1.5pt;">
+                    {{mod.descr}}
+                    {{#if mod.applyAttack}} ( {{localize 'common.attack'}} {{mod.attack}}% ) {{/if}}
+                    {{#if mod.applyDefense}} ( {{localize 'common.defense'}} {{mod.defense}}% ) {{/if}}
+                </label>
+            </formField>
+            <formField class="_100">
+                <formField class="_33 _noMargin">
+                    <input name="system.combatMods.{{mod.index}}.check" 
+                        class="_checkOption"
+                        id="chCombatMod{{mod.index}}"
+                        type="checkbox" 
+                        {{extendChecked 'systemData.combatMods' mod.index 'check'}} />
+                    <label for="chCombatMod{{mod.index}}">{{localize "common.use1"}}</label>
+                </formField>
+                <formField class="_33 _noMargin">
+                    <input name="system.combatMods.{{mod.index}}.checkN" 
+                        class="_checkOption"
+                        id="chCombatModAc{{mod.index}}"
+                        type="checkbox" 
+                        {{extendChecked 'systemData.combatMods' mod.index 'checkN'}} />
+                    <label for="chCombatModAc{{mod.index}}">{{localize "common.useN"}}</label>
+                </formField>                
+                <formField class="_33 _noMargin">
+                    <input name="system.combatModsApply.attacker.{{mod.index}}.check" 
+                        id="chCombatModAt{{mod.index}}"
+                        type="checkbox" 
+                        {{extendChecked 'systemData.combatModsApply.attacker' mod.index 'check'}} />
+                    <label for="chCombatModAt{{mod.index}}">{{localize "common.attacker"}}</label>
+                </formField>
+                <formField class="_33 _noMargin">
+                    <input name="system.combatModsApply.target.{{mod.index}}.check" 
+                        id="chCombatModTr{{mod.index}}"
+                        type="checkbox" 
+                        {{extendChecked 'systemData.combatModsApply.target' mod.index 'check'}} />
+                    <label for="chCombatModTr{{mod.index}}">{{localize "common.target"}}</label>
+                </formField>                                                
+            </formField>
+        </formGroup>
+        {{/each}}
+    </formBlock>
+    {{/each}}
+</formSection>

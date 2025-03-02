@@ -1,0 +1,336 @@
+<form class="_loreNation _lore _golden" 
+      autocomplete="off"
+      style="z-index:1">
+
+      {{!-- HEADER --}}
+      <div class="_itemHeader _100">
+            <img src="{{item.img}}" 
+                  class="{{#unless isGM}}_noGM{{/unless}}"
+                  data-edit="img" 
+                  title="{{item.name}}"/>                  
+            <div class="_itemSubHeader">
+                  <input class="_title {{#unless isGM}}_noGM{{/unless}}"
+                        type="text" 
+                        name="name" 
+                        {{locked}}
+                        value="{{item.name}}" 
+                        placeholder=""/>
+                  {{#if isGM}}
+                  <div class="_itemSubHeaderBox">
+                        <formField class="_100">
+                              <label>{{localize "common.rules"}}</label>
+                              <select name="system.control.rules">
+                                    {{selectOptions backend.rules 
+                                                    selected=systemData.control.rules
+                                                    localize=false
+                                                    nameAttr="key"
+                                                    labelAttr="name" }}
+                              </select> 
+                        </formField> 
+                        <formField class="_100">
+                              <label>{{localize "common.key"}}</label>
+                              <input class="_key"
+                                    type="text" 
+                                    name="system.control.key" 
+                                    value="{{systemData.control.key}}" 
+                                    placeholder=""
+                                    style="max-width: 190px"/> 
+                              {{#if systemData.control.repeated}}
+                              <warning>{{localize 'info.keyRepeated'}}</warning>                                    
+                              {{/if}}
+                        </formField>                                                
+                        <formField class="_100">
+                              <label>{{localize "common.society"}}</label>
+                              <select name="system.society">
+                                    {{selectOptions backend.societies 
+                                                selected=systemData.society
+                                                localize=false
+                                                nameAttr="controlKey"
+                                                labelAttr="name" }}
+                              </select>                              
+                        </formField>
+                  </div>
+                  {{/if}}
+            </div>
+      </div>
+
+      {{!-- TAB HEADER --}}
+      <nav class="itemTabsBar" data-group="primary-tabs">
+            <a data-tab="description" data-group="primary-tabs">
+                  <label class="_tabButton">{{localize 'common.description'}}</label></a> 
+            {{#if isGM}}
+            <a data-tab="languages" data-group="primary-tabs">
+                  <label class="_tabButton">{{localize 'common.languages'}}</label></a>    
+            <a data-tab="extend" data-group="primary-tabs">
+                  <label class="_tabButton">{{localize 'common.extend'}}</label></a>                                                   
+            <a data-tab="restrictions" data-group="primary-tabs">
+                  <label class="_tabButton">{{localize 'common.restrictions'}}</label></a>                  
+            <a data-tab="custo" data-group="primary-tabs">
+                  <label class="_tabButton">{{localize 'common.custo'}}</label></a>    
+            {{/if}}                                       
+      </nav>
+
+      {{!-- SECTIONS --}}
+      <div class="itemTabsContent">
+
+            {{!-- DESCRIPTION --}}
+            <section class="tab" data-group="primary-tabs" data-tab="description">
+                  {{editor 
+                        systemData.description
+                        target="system.description" 
+                        button=true 
+                        engine="prosemirror"
+                        owner=owner
+                        rollData=rollData
+                        editable=isGM}}
+            </section>
+
+            {{!-- LANGUAGES --}}
+            <section class="tab" data-group="primary-tabs" data-tab="languages">
+
+                  <formField class="_loreEntry"></formField>
+                        <label>{{localize "common.language"}}</label>
+                        <select class="_selector"
+                                style="margin-right: 10px"
+                                data-target="nation"
+                                data-addon="language">
+                              {{selectOptions backend.languages 
+                                              localize=false
+                                              nameAttr="controlKey"
+                                              labelAttr="name" }}
+                        </select>
+                        <label>{{localize "common.value"}}</label>
+                        <input class="_selectValue"
+                               type="number" 
+                               placeholder=""
+                               style="max-width: 60px; margin-right: 10px; text-align: center;"/>
+                        <label>{{localize "common.expression"}}</label>
+                        <input class="_selectExpression"
+                               type="text" 
+                               placeholder=""
+                               style="max-width: 80px; text-align: left;"/>
+                        <a class="loreAdd _iconButton"
+                           data-target="language"
+                           data-properties='["value", "expression"]'
+                           role="button" data-tooltip="{{localize 'common.add'}}">
+                           <i class="fa-plus"></i>
+                        </a> 
+                  </formField>
+
+                  <ol class="_loreRows">
+                        <li class="_loreRow _header">
+                              <label class="_70">{{localize 'common.language'}}</label>
+                              <label class="_10 _center">{{localize 'common.value'}}</label>
+                              <label class="_15 _center">Expr.</label>
+                              <label class="_5"></label>
+                        </li>
+
+                        {{#each systemData.languages as |entry index|}}
+                        <li class="_loreRow">
+                              <label class="_70">{{loreText entry.key ../backend.languages}}</label>
+                              <label class="_10 _center">{{entry.value}}</label>
+                              <label class="_15 _center">{{entry.expression}}</label>
+                              <combo class="_5 _actions">
+                                    <a class="loreDelete _iconButton"
+                                       data-target="language"
+                                       data-key="{{entry.key}}"
+                                       role="button" 
+                                       data-tooltip="{{localize 'common.delete'}}">
+                                       <i class="fas fa-trash fa-fw"></i>
+                                    </a>                                    
+                              </combo>
+                        </li>
+                        {{/each}}
+                  </ol>
+
+            </section>
+
+            {{!-- EXTEND --}}
+            <section class="tab" data-group="primary-tabs" data-tab="extend">
+                  <formSection class="_100">
+                        <formColumn class="_50">
+                              <formTitle class="_100">{{localize 'common.bloodCleansing'}}</formTitle>
+                              <formBlock>
+                                    <formField class="_100">
+                                          <label class="_70">{{localize "common.bloodCleansing"}}</label>
+                                          <input name="system.bloodCleansing" 
+                                                class="_30"
+                                                type="number" 
+                                                value="{{systemData.bloodCleansing}}"  />                 
+                                    </formField>
+                              </formBlock>
+                        </formColumn>
+                        <formColumn class="_50">
+                              <formTitle class="_100">{{localize 'common.socialMods'}}</formTitle>
+                              <formBlock>
+                                    <formField class="_100">
+                                          <label class="_70">{{localize "common.socialAppearance"}}</label>
+                                          <input name="system.mods.social.appearance" 
+                                                class="_30"
+                                                type="text" 
+                                                value="{{systemData.mods.social.appearance}}"  />                 
+                                    </formField>   
+                                    <formField class="_100">
+                                          <label class="_70">{{localize "common.socialRenown"}}</label>
+                                          <input name="system.mods.social.renown" 
+                                                class="_30"
+                                                type="text" 
+                                                value="{{systemData.mods.social.renown}}"  />                 
+                                    </formField> 
+                                    <formField class="_100">
+                                          <label class="_70">{{localize "common.socialNature"}}</label>
+                                          <input name="system.mods.social.nature" 
+                                                class="_30"
+                                                type="text" 
+                                                value="{{systemData.mods.social.nature}}"  />                 
+                                    </formField> 
+                                    <formField class="_100">
+                                          <label class="_70">{{localize "common.socialAttitude"}}</label>
+                                          <input name="system.mods.social.attitude" 
+                                                class="_30"
+                                                type="text" 
+                                                value="{{systemData.mods.social.attitude}}"  />                 
+                                    </formField>                                                                                                                      
+                              </formBlock>
+                        </formColumn>
+                  </formSection>
+            </section>
+
+            {{!-- RESTRICTIONS --}}
+            <section class="tab" data-group="primary-tabs" data-tab="restrictions">
+
+                  {{!-- STRATUMS --}}
+                  <formField>
+                        <h1>{{localize 'common.stratum'}}</h1>
+                  </formField>
+                  <formField class="_loreEntry">
+                        <label>{{localize "common.stratum"}}</label>
+                        <select class="_selector"
+                                data-target="nation"
+                                data-addon="stratum">
+                              {{selectOptions backend.stratums 
+                                              localize=false
+                                              nameAttr="controlKey"
+                                              labelAttr="name" }}
+                        </select>                       
+                        <a class="loreAdd _iconButton"
+                           data-target="stratum"
+                           role="button" data-tooltip="{{localize 'common.add'}}">
+                           <i class="fa-plus"></i>
+                        </a> 
+                  </formField>
+                  <ol class="_loreRows">
+                        <li class="_loreRow _header">
+                              <label class="_90">{{localize 'common.stratum'}}</label>
+                              <label class="_10"></label>
+                        </li>
+
+                        {{#each systemData.stratums as |entry index|}}
+                        <li class="_loreRow">
+                              <label class="_90">{{loreText entry.key ../backend.stratums}}</label>
+                              <combo class="_10 _actions">
+                                    <a class="loreDelete _iconButton"
+                                       data-target="stratum"
+                                       data-key="{{entry.key}}"
+                                       role="button" 
+                                       data-tooltip="{{localize 'common.delete'}}">
+                                       <i class="fas fa-trash fa-fw"></i>
+                                    </a>                                    
+                              </combo>
+                        </li>
+                        {{/each}}
+                  </ol>
+
+                  {{!-- POSITIONS --}}
+                  <formField>
+                        <h1>{{localize 'common.position'}}</h1>
+                  </formField>
+                  <formField class="_loreEntry">
+                        <label>{{localize "common.position"}}</label>
+                        <select class="_selector"
+                                data-target="nation"
+                                data-addon="position">
+                              {{selectOptions backend.positions 
+                                              localize=false
+                                              nameAttr="controlKey"
+                                              labelAttr="name" }}
+                        </select>                       
+                        <a class="loreAdd _iconButton"
+                           data-target="position"
+                           role="button" data-tooltip="{{localize 'common.add'}}">
+                           <i class="fa-plus"></i>
+                        </a> 
+                  </formField>
+                  <ol class="_loreRows">
+                        <li class="_loreRow _header">
+                              <label class="_90">{{localize 'common.position'}}</label>
+                              <label class="_10"></label>
+                        </li>
+
+                        {{#each systemData.positions as |entry index|}}
+                        <li class="_loreRow">
+                              <label class="_90">{{loreText entry.key ../backend.positions}}</label>
+                              <combo class="_10 _actions">
+                                    <a class="loreDelete _iconButton"
+                                       data-target="position"
+                                       data-key="{{entry.key}}"
+                                       role="button" 
+                                       data-tooltip="{{localize 'common.delete'}}">
+                                       <i class="fas fa-trash fa-fw"></i>
+                                    </a>                                    
+                              </combo>
+                        </li>
+                        {{/each}}
+                  </ol>
+                  
+                  {{!-- PROFESSIONS --}}
+                  <formField>
+                        <h1>{{localize 'common.profession'}}</h1>
+                  </formField>
+                  <formField class="_loreEntry">
+                        <label>{{localize "common.profession"}}</label>
+                        <select class="_selector"
+                                data-target="nation"
+                                data-addon="profession">
+                              {{selectOptions backend.professions 
+                                              localize=false
+                                              nameAttr="controlKey"
+                                              labelAttr="name" }}
+                        </select>                       
+                        <a class="loreAdd _iconButton"
+                           data-target="profession"
+                           role="button" data-tooltip="{{localize 'common.add'}}">
+                           <i class="fa-plus"></i>
+                        </a> 
+                  </formField>
+                  <ol class="_loreRows">
+                        <li class="_loreRow _header">
+                              <label class="_90">{{localize 'common.profession'}}</label>
+                              <label class="_10"></label>
+                        </li>
+
+                        {{#each systemData.professions as |entry index|}}
+                        <li class="_loreRow">
+                              <label class="_90">{{loreText entry.key ../backend.professions}}</label>
+                              <combo class="_10 _actions">
+                                    <a class="loreDelete _iconButton"
+                                       data-target="profession"
+                                       data-key="{{entry.key}}"
+                                       role="button" 
+                                       data-tooltip="{{localize 'common.delete'}}">
+                                       <i class="fas fa-trash fa-fw"></i>
+                                    </a>                                    
+                              </combo>
+                        </li>
+                        {{/each}}
+                  </ol>                  
+
+            </section>
+
+            {{!-- CUSTO --}}
+            <section class="tab" data-group="primary-tabs" data-tab="custo">
+                  {{>loreCusto}}            
+            </section>
+
+      </div>
+</form>

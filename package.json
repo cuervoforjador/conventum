@@ -1,0 +1,21 @@
+{
+  "name": "arasaka",
+  "version": "1.0",
+  "description": "CSS compiler",
+  "scripts": {
+    "css": "gulp css",
+    "watch": "gulp",
+    "gulp": "gulp"
+  },
+  "browserslist": [
+    "last 3 versions"
+  ],
+  "author": "",
+  "license": "GNU",
+  "private": true,
+  "dependencies": {
+    "gulp": "^4.0.2",
+    "gulp-less": "^4.0.1"
+  },
+  "devDependencies": {}
+}

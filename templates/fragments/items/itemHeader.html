@@ -1,0 +1,27 @@
+<div class="_itemSubHeaderBox">
+    <formField class="_100">
+          <label>{{localize "common.cost"}}</label>
+          <input type="number"
+                 class="_15"
+                 name="system.cost" 
+                 value="{{systemData.cost}}" />
+
+          <label>{{localize "common.weight"}}</label>
+          <input type="number"
+                 class="_15"
+                 name="system.weight" 
+                 value="{{systemData.weight}}" />                              
+
+          <input name="system.atHome" 
+                 type="checkbox"
+                 id="chAtHome" 
+                 {{checked systemData.atHome}} />                                    
+          <label for="chAtHome">{{localize "common.atHome"}}</label>
+
+          {{#if fromActor}}
+          {{#if systemData.atHome}}
+
+          {{/if}}
+          {{/if}}
+    </formField>
+</div>

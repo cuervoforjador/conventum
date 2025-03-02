@@ -1,0 +1,155 @@
+{{#if backCombat.control.noMode}}
+    <info></info>
+{{else}}
+
+        {{#if (isMe backCombat._turnActor)}}
+        <a class="_actionButton _contextButton" 
+            style="width: 100%; height: 100%;"
+            data-action="dialogSelectWeapon"
+            data-contextTarget="{{backCombat._turn.combatant.id}}"
+            data-contextId="{{backCombat._turnWeapon.id}}"               
+            data-tooltip="{{localize 'info.selectWeapon'}}">
+        {{/if}}
+
+        {{#unless backCombat.control.attacker.noWeapon}}
+        {{#unless backCombat.control.noWeapons}}
+
+            {{#unless backCombat._2handsMode.attacker.using2hands}}
+
+                <div class="_extraContent">
+                    <div style="background-image: url({{backCombat._turnWeapon.img}})"
+                        class="_extraImg">
+                    </div>                
+                    <label class="_title">
+                        {{backCombat._turnWeapon.name}}
+                    </label>
+                    <label>{{localize 'common.damage'}}: {{backCombat._turnWeapon.system.damage.base}}</label>
+                    <label>{{localize 'common.skill'}}: {{labelWSkill backCombat._turnActor backCombat._turnWeapon.system.skillkey}}</label>
+                    <label>{{localize 'common.size'}}: {{labelFromSize backCombat._turnWeapon.system.size}}</label>
+                    
+                    {{#if backCombat._turnWeapon.system.firearm}}
+                    <label>{{localize 'common.matchlock'}}: {{labelFromLock backCombat._turnWeapon.system.lock}}</label>
+                    {{/if}}
+
+                    <div class="_bar">
+                        {{#if backCombat._turnWeapon.system.damage.bono}}
+                        <label class="_petit">{{localize 'common.damageMod'}}</label>
+                        {{/if}}   
+                        {{#if backCombat._turnWeapon.system.damage.impale}}
+                        <label class="_petit">{{localize 'common.impale'}}</label>
+                        {{/if}} 
+                        {{#if backCombat._turnWeapon.system.damage.noArmor}}
+                        <label class="_petit">{{localize 'common.noArmor'}}</label>
+                        {{/if}}   
+                        {{#if backCombat._turnWeapon.system.firearm}}
+                        <label class="_petit">{{localize 'common.wFirearm'}}</label>
+                        {{/if}}   
+                        {{#if backCombat._turnWeapon.system.rangearm}}
+                        <label class="_petit">{{localize 'common.wRangearm'}}</label>
+                        {{/if}}   
+                        {{#if backCombat._turnWeapon.system.shield}}
+                        <label class="_petit">{{localize 'common.shield'}}</label>
+                        {{/if}}                                                                          
+                    </div>
+                </div>
+
+            {{else}}
+
+                <div class="_2handsWeapons">
+
+                    {{!-- MAIN WEAPON --}}
+                    <div class="_mainWeapon">
+                        <div class="_extraContent">
+                            <div style="background-image: url({{backCombat._2handsMode.attacker.mainWeapon.img}})"
+                                class="_extraImg">
+                            </div>                
+                            <label class="_title">
+                                {{backCombat._2handsMode.attacker.mainWeapon.name}}
+                            </label>
+                            <label>{{localize 'common.damage'}}: {{backCombat._2handsMode.attacker.mainWeapon.system.damage.base}}</label>
+                            <label>{{localize 'common.skill'}}: {{labelWSkill backCombat._turnActor backCombat._2handsMode.attacker.mainWeapon.system.skillkey}}</label>
+                            <label>{{localize 'common.base'}}: {{backCombat._2handsMode.attacker.mainBase}}%</label>
+                            <label>{{localize 'common.size'}}: {{labelFromSize backCombat._2handsMode.attacker.mainWeapon.system.size}}</label>
+                                                
+                            {{#if backCombat._2handsMode.attacker.mainWeapon.system.firearm}}
+                            <label>{{localize 'common.matchlock'}}: {{labelFromLock backCombat._2handsMode.attacker.mainWeapon.system.lock}}</label>
+                            {{/if}}
+                
+                            <div class="_bar">
+                                {{#if backCombat._2handsMode.attacker.mainWeapon.system.damage.bono}}
+                                <label class="_petit">{{localize 'common.damageMod'}}</label>
+                                {{/if}}   
+                                {{#if backCombat._2handsMode.attacker.mainWeapon.system.damage.impale}}
+                                <label class="_petit">{{localize 'common.impale'}}</label>
+                                {{/if}} 
+                                {{#if backCombat._2handsMode.attacker.mainWeapon.system.damage.noArmor}}
+                                <label class="_petit">{{localize 'common.noArmor'}}</label>
+                                {{/if}}   
+                                {{#if backCombat._2handsMode.attacker.mainWeapon.system.firearm}}
+                                <label class="_petit">{{localize 'common.wFirearm'}}</label>
+                                {{/if}}   
+                                {{#if backCombat._2handsMode.attacker.mainWeapon.system.rangearm}}
+                                <label class="_petit">{{localize 'common.wRangearm'}}</label>
+                                {{/if}}   
+                                {{#if backCombat._2handsMode.attacker.mainWeapon.system.shield}}
+                                <label class="_petit">{{localize 'common.shield'}}</label>
+                                {{/if}}                                                                          
+                            </div>
+                            <div class="_infoHand">{{localize 'common.mainHand'}}</div>
+                        </div>
+                    </div>
+
+                    {{!-- SECOND WEAPON --}}
+                    <div class="_secondWeapon">
+                        <div class="_extraContent">
+                            <div style="background-image: url({{backCombat._2handsMode.attacker.secondWeapon.img}})"
+                                class="_extraImg">
+                            </div>                
+                            <label class="_title">
+                                {{backCombat._2handsMode.attacker.secondWeapon.name}}
+                            </label>
+                            <label>{{localize 'common.damage'}}: {{backCombat._2handsMode.attacker.secondWeapon.system.damage.base}}</label>
+                            <label>{{localize 'common.skill'}}: {{labelWSkill backCombat._turnActor backCombat._2handsMode.attacker.secondWeapon.system.skillkey}}</label>
+                            <label>{{localize 'common.base'}}: {{backCombat._2handsMode.attacker.secondBase}}%</label>
+                            <label>{{localize 'common.size'}}: {{labelFromSize backCombat._2handsMode.attacker.secondWeapon.system.size}}</label>
+                                                
+                            {{#if backCombat._2handsMode.attacker.secondWeapon.system.firearm}}
+                            <label>{{localize 'common.matchlock'}}: {{labelFromLock backCombat._2handsMode.attacker.secondWeapon.system.lock}}</label>
+                            {{/if}}
+                
+                            <div class="_bar">
+                                {{#if backCombat._2handsMode.attacker.secondWeapon.system.damage.bono}}
+                                <label class="_petit">{{localize 'common.damageMod'}}</label>
+                                {{/if}}   
+                                {{#if backCombat._2handsMode.attacker.secondWeapon.system.damage.impale}}
+                                <label class="_petit">{{localize 'common.impale'}}</label>
+                                {{/if}} 
+                                {{#if backCombat._2handsMode.attacker.secondWeapon.system.damage.noArmor}}
+                                <label class="_petit">{{localize 'common.noArmor'}}</label>
+                                {{/if}}   
+                                {{#if backCombat._2handsMode.attacker.secondWeapon.system.firearm}}
+                                <label class="_petit">{{localize 'common.wFirearm'}}</label>
+                                {{/if}}   
+                                {{#if backCombat._2handsMode.attacker.secondWeapon.system.rangearm}}
+                                <label class="_petit">{{localize 'common.wRangearm'}}</label>
+                                {{/if}}   
+                                {{#if backCombat._2handsMode.attacker.secondWeapon.system.shield}}
+                                <label class="_petit">{{localize 'common.shield'}}</label>
+                                {{/if}}                                                                          
+                            </div>
+                            <div class="_infoHand">{{localize 'common.secondHand'}}</div>
+                        </div>
+                    </div>
+                </div>
+            {{/unless}}
+
+        {{/unless}}                        
+        {{else}}
+        <info>{{localize 'info.needWeapon'}}</info>
+        {{/unless}}  
+
+        {{#if (isMe backCombat._turnActor)}}
+        </a>
+        {{/if}}
+
+{{/if}}        

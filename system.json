@@ -1,0 +1,210 @@
+{
+  "id": "aquelarre",
+  "title": "Aquelarre Extendido",
+  "description": "An implementation of Aquelarre (Dean of Spanish role-playing games, a Demonic and medieval game) includes Villa y Corte",
+  "version": "1.0",
+  "compatibility": {
+    "minimum": "10", 
+    "verified": "12",
+    "maximum": "12"
+  },
+  "authors": [
+    {
+      "name": "CuervoForjador",
+      "url": "https://twitter.com/cuervoforjador",
+      "email": "cuervoForjador@gmail.com",
+      "discord": "Cuervito#4806",
+      "flags": {}
+    }  
+  ],
+  "esmodules": [
+    "module/main.js"
+  ],
+  "socket": true,
+  "gridDistance": 5,
+  "gridUnits": "varas",  
+  "scripts": [
+    "libs/pixi3d.js",
+    "libs/turn/turn.min.js",
+    "https://code.jquery.com/ui/1.13.2/jquery-ui.js",
+    "https://cdn.jsdelivr.net/npm/pixi-filters@latest/dist/browser/pixi-filters.min.js",
+    "https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"
+  ],
+  "styles": [
+    "styles/custo.css",
+    "styles/dialog.css",
+    "styles/main.css",
+    "styles/sheets.css",
+    "styles/messages.css",
+    "styles/frame.css",
+    "styles/short.css",
+    "styles/grimoire.css",
+    "styles/windowMode.css"
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json",
+      "flags": {}
+    },
+    {
+      "lang": "es",
+      "name": "Spanish",
+      "path": "lang/es.json",
+      "flags": {}
+    },
+    {
+      "lang": "jp",
+      "name": "Japanese",
+      "path": "lang/jp.json",
+      "flags": {}
+    }    
+  ],
+  "packs": [
+      {
+        "system": "aquelarre",
+        "type": "Item",
+        "name": "skills",
+        "path": "packs/skills",
+        "systemCore": true,
+        "label": "Skills",
+        "banner": "systems/aquelarre/assets/compendium/skills.png",
+        "ownership": {
+          "PLAYER": "OBSERVER",
+          "ASSISTANT": "OWNER"
+        },
+        "flags": {}
+      },
+      {
+        "system": "aquelarre",
+        "type": "Item",
+        "name": "actions",
+        "path": "packs/actions",
+        "systemCore": true,
+        "label": "Actions",
+        "banner": "systems/aquelarre/assets/compendium/actions.png",        
+        "ownership": {
+          "PLAYER": "OBSERVER",
+          "ASSISTANT": "OWNER"
+        },
+        "flags": {}
+      }, 
+      {
+        "system": "aquelarre",
+        "type": "Item",
+        "name": "feints",
+        "path": "packs/feints",
+        "systemCore": true,
+        "label": "Tretas de Esgrima",
+        "banner": "systems/aquelarre/assets/compendium/feints.png",
+        "ownership": {
+          "PLAYER": "OBSERVER",
+          "ASSISTANT": "OWNER"
+        },
+        "flags": {}
+      },
+      {
+        "system": "aquelarre",
+        "type": "Item",
+        "name": "weapons",
+        "path": "packs/weapons",
+        "systemCore": true,
+        "label": "Armas",
+        "banner": "systems/aquelarre/assets/compendium/weapons.png",
+        "ownership": {
+          "PLAYER": "OBSERVER",
+          "ASSISTANT": "OWNER"
+        },
+        "flags": {}
+      },
+      {
+        "system": "aquelarre",
+        "type": "Item",
+        "name": "armors",
+        "path": "packs/armors",
+        "systemCore": true,
+        "label": "Protecciones",
+        "banner": "systems/aquelarre/assets/compendium/armor.png",
+        "ownership": {
+          "PLAYER": "OBSERVER",
+          "ASSISTANT": "OWNER"
+        },
+        "flags": {}
+      },      
+      {
+        "system": "aquelarre",
+        "type": "Item",
+        "name": "context",
+        "path": "packs/context",
+        "systemCore": true,
+        "label": "Contexto",
+        "banner": "systems/aquelarre/assets/compendium/context.png",
+        "ownership": {
+          "PLAYER": "OBSERVER",
+          "ASSISTANT": "OWNER"
+        },
+        "flags": {}
+      },
+      {
+        "system": "aquelarre",
+        "type": "Actor",
+        "name": "actors",
+        "path": "packs/actors",
+        "systemCore": true,
+        "label": "Contexto",
+        "banner": "systems/aquelarre/assets/compendium/actors.png",
+        "ownership": {
+          "PLAYER": "OBSERVER",
+          "ASSISTANT": "OWNER"
+        },
+        "flags": {}
+      },
+      {
+        "system": "aquelarre",
+        "type": "Item",
+        "name": "spells",
+        "path": "packs/spells",
+        "systemCore": true,
+        "label": "Magia",
+        "banner": "systems/aquelarre/assets/compendium/spells.png",
+        "ownership": {
+          "PLAYER": "OBSERVER",
+          "ASSISTANT": "OWNER"
+        },
+        "flags": {}
+      },
+      {
+        "system": "aquelarre",
+        "type": "Item",
+        "name": "equipment",
+        "path": "packs/equipment",
+        "systemCore": true,
+        "label": "Equipo",
+        "banner": "systems/aquelarre/assets/compendium/equipment.png",
+        "ownership": {
+          "PLAYER": "OBSERVER",
+          "ASSISTANT": "OWNER"
+        },
+        "flags": {}
+      },
+      {
+        "system": "aquelarre",
+        "type": "Item",
+        "name": "books",
+        "path": "packs/books",
+        "systemCore": true,
+        "label": "Equipo",
+        "banner": "systems/aquelarre/assets/compendium/books.png",
+        "ownership": {
+          "PLAYER": "OBSERVER",
+          "ASSISTANT": "OWNER"
+        },
+        "flags": {}
+      }                       
+  ],
+  "url": "https://github.com/cuervoforjador/conventum",
+  "manifest": "https://github.com/cuervoforjador/conventum/releases/download/last/system.json",
+  "download": "https://github.com/cuervoforjador/conventum/releases/download/last/system.zip",
+  "license": "LICENSE.txt"
+}

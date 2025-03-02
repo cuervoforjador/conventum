@@ -1,0 +1,201 @@
+    <div class="_actorPortraitFrame"></div>
+    <div class="_actorPortrait">
+        {{>actorActorPortrait}}
+    </div>
+
+    {{!-- RATIONALITY --}}
+    <div class="_progressRR">
+        <progressBar data-value="{{systemData.secondaries.rr.value}}"
+                    data-max="100"
+                    data-backgroundColor="#181e37db"
+                    data-foreColor="#5c8ca98a">
+        </progressBar>
+    </div>
+    <div class="_rationality _column _equi">
+        <div class="_row _padded _extr _100">
+            <label class="_bold _hoverToggle">
+                <showed>{{localize 'characteristics.rr'}}</showed>
+                <hided>
+                    <a class="_roll"
+                       data-target="char"
+                       data-id="rr"
+                       data-mult="1">
+                       <div class="_textRoll">
+                          <i class="fas fa-dice _marginRight"></i>
+                          {{localize 'common.roll'}}
+                       </div>
+                    </a>
+                </hided>
+            </label>            
+            <input class="_big"
+                    {{locked}}
+                    name="system.secondaries.rr.value" 
+                    type="number" 
+                    value="{{systemData.secondaries.rr.value}}" />
+        </div>         
+        <div class="_row _padded _extr _100">
+            <label class="_bold">{{localize 'characteristics.faith'}}</label>
+            <div class="_row">
+                <input class="_med _margined"
+                        {{locked}}
+                        name="system.secondaries.faith.value" 
+                        type="number" 
+                        value="{{systemData.secondaries.faith.value}}" />   
+                <label class="_max"> / {{systemData.secondaries.faith.max}}</label>             
+            </div>
+        </div> 
+    </div>
+
+
+    {{!-- IRRATIONALITY --}}
+    <div class="_progressIRR _vertical">
+        <progressBar data-value="{{systemData.secondaries.irr.value}}"
+                        data-max="100"
+                        data-backgroundColor="#391717f0"
+                        data-foreColor="#bf3b3bb0">
+        </progressBar>
+    </div>
+    <div class="_irrationality _row _equi">
+        <div class="_column _vpadded _v100 _vequi _ini">
+            <label class="_vText _bold _vequi _hoverToggle _irrationalityLabel">
+                <showed class="_vText">{{localize 'characteristics.irr'}}</showed>
+                <hided>
+                    <a class="_roll"
+                       data-target="char"
+                       data-id="irr"
+                       data-mult="1">
+                       <div class="_textRoll _vText">
+                          <i class="fas fa-dice _marginRight"></i>
+                          {{localize 'common.roll'}}
+                       </div>
+                    </a>
+                </hided>
+            </label>             
+            <input class="_vText _big _vmargined"
+                    {{locked}}
+                    name="system.secondaries.irr.value" 
+                    type="number" 
+                    value="{{systemData.secondaries.irr.value}}" />
+        </div>         
+        <div class="_column _vpadded _v100 _ini">
+            <label class="_vText _bold">{{localize 'characteristics.conc'}}</label>
+            <div class="_column _middle">
+                <input class="_vText _med _vmargined"
+                    {{locked}}
+                    name="system.secondaries.conc.value" 
+                    type="number" 
+                    value="{{systemData.secondaries.conc.value}}" />   
+                <label class="_vText _max _ini"> / {{systemData.secondaries.conc.max}}</label>             
+            </div>
+        </div> 
+    </div>
+
+    {{!-- ATTRIBUTES --}}
+    <div class="_attributes _column _equi">
+    
+        <div class="_row _padded _extr _100 _v33 _boxLuck">
+            <label class="_bold _hoverToggle">
+                <showed>{{localize 'characteristics.luck'}}</showed>
+                <hided>
+                    <a class="_roll"
+                       data-target="char"
+                       data-id="luck">
+                       <div class="_textRoll">
+                          <i class="fas fa-dice _marginRight"></i>
+                          {{localize 'common.roll'}}
+                       </div>
+                    </a>
+                </hided>
+            </label>            
+            <div class="_row">
+                <input class="_med _margined"
+                        {{locked}}
+                        name="system.secondaries.luck.value" 
+                        type="number" 
+                        value="{{systemData.secondaries.luck.value}}" />   
+                <label class="_max"> / {{systemData.secondaries.luck.max}}</label>             
+            </div>
+        </div> 
+        <div class="_row _padded _extr _100 _v33 _boxExper">
+            <label class="_bold _small">{{localize 'characteristics.exper'}}</label>
+            <div class="_row">
+                <input class="_med _margined"
+                        {{locked}}
+                        name="system.secondaries.exper.value" 
+                        type="number" 
+                        value="{{systemData.secondaries.exper.value}}" />   
+                <label class="_max"> / </label>             
+                <input class="_med _max _rText"
+                        {{locked}}
+                        name="system.secondaries.exper.max" 
+                        type="number" 
+                        value="{{systemData.secondaries.exper.max}}" />                       
+            </div>
+        </div>
+        <div class="_row _padded _extr _100 _v33 _boxTemp">
+            <label class="_bold _hoverToggle">
+                <showed>{{localize 'characteristics.temp'}}</showed>
+                <hided>
+                    <a class="_roll"
+                       data-target="char"
+                       data-id="temp">
+                       <div class="_textRoll">
+                          <i class="fas fa-dice _marginRight"></i>
+                          {{localize 'common.roll'}}
+                       </div>
+                    </a>
+                </hided>
+            </label>            
+            <div class="_row">
+                <input class="_med"
+                        {{locked}}
+                        name="system.secondaries.temp.value" 
+                        type="number" 
+                        value="{{systemData.secondaries.temp.value}}" />           
+            </div>
+        </div>                        
+    </div>
+
+    {{!-- CHARACTERISTICS --}}
+    <div class="_characteristics _column _equi">
+
+        {{#each systemData.characteristics as |char sId|}}
+        <div class="_column _100">
+            <div class="_row _padded _extr _100">                
+                <label class="_bold _hoverToggle">
+                    <showed>{{localizeBy 'characteristics.' sId}}</showed>
+                    <hided>
+                        <a class="_roll"
+                           data-target="char"
+                           data-id="{{sId}}"
+                           data-mult="5">
+                           <div class="_textRoll">
+                              <i class="fas fa-dice _marginRight"></i>
+                              {{localize 'common.roll'}}
+                           </div>
+                        </a>
+                    </hided>
+                </label>
+                <div class="_row">
+                    <input class="_med _margined _value _hovered"
+                        {{locked}}
+                        style="color: {{evalCharColor2 sId}}"
+                        type="number" 
+                        data-char="{{sId}}"
+                        value="{{extendValue 'systemData.characteristics' sId 'value'}}"
+                        min="{{extendValue 'systemData.characteristics' sId 'min'}}"
+                        max="{{extendValue 'systemData.characteristics' sId 'max'}}"/>
+                    <input class="_med _semi _mod _hovered"
+                        {{locked}}
+                        type="text"
+                        data-char="{{sId}}"
+                        value="{{extendValue 'systemData.characteristics' sId 'mod'}}" />
+                </div>
+            </div>
+            <div class="_line _statProgress">
+                <div class="_back"></div>
+                <div class="_front" style="width: {{charProgress sId}}"></div>
+            </div>
+        </div>
+        {{/each}}
+    </div>

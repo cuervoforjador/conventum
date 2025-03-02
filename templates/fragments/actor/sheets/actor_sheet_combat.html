@@ -1,0 +1,56 @@
+{{>frame}}
+
+<div class="_mainFrame">
+
+    {{!-- LEFT PAGE --}}
+    <div class="_leftSide _leftFrame">    
+    
+        {{!-- LEFT COLUMN --}}
+        <div class="_leftColumn">
+    
+            {{!-- HEADER --}}
+            <div class="_combatHeader">
+                {{>actorCombatHeader}}
+            </div>
+    
+            {{!-- MENU FRAME --}}
+            <div class="_menuFrame">
+                {{>actorCombatMenuFrame}}
+            </div>
+    
+        </div>
+    
+        {{!-- RIGHT COLUMN --}}
+        <div class="_rightColumn">
+            
+            {{!-- ACTION DIAGRAM --}}
+            <div class="_actionDiagram {{#if backCombat._turn.isMyTurn}}_isMyTurn{{/if}}">
+                {{>actorCombatActionDiag}}
+            </div>
+    
+            {{!-- STEPS BAR --}}
+            <div class="_stepsBar">
+                {{>actorCombatStepsBar}}
+            </div>
+    
+        </div>   
+    </div>
+
+    {{!-- RIGHT PAGE --}}
+    <div class="_rightSide">
+        {{>actorCombatMainFrame}}
+    </div>
+
+</div>
+
+{{>actorModes}}
+<a class="_closeSheet">
+    <div class="_closeSheetButton"
+         data-tooltip="{{localize 'common.close'}}"></div>
+</a>
+{{!-- 
+<a class="_shortSheet">
+    <div class="_shortSheetButton"
+         data-tooltip="{{localize 'common.shorting'}}"></div>
+</a>
+--}}

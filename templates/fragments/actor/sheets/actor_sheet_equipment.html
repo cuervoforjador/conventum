@@ -1,0 +1,158 @@
+{{>frame}}
+<div class="_mainFrame">
+
+    {{!-- LEFT SIDE --}}
+    <div class="_leftSide">
+
+        {{!-- MENU --}}
+        <div class="_menuFrame">
+            <div class="_equipmentMainMenu">
+                <nav class="tabs_EquipmentMenu" data-group="equipmentMenu">
+                    <a class="_menuOption" data-tab="equipment" data-group="equipmentMenu">
+                        <label>{{localize 'common.menuEquipment'}}</label>
+                    </a>
+                    <a class="_menuOption" data-tab="weapons" data-group="equipmentMenu">
+                        <label>{{localize 'common.menuWeapons'}}</label>
+                    </a>
+                    <a class="_menuOption" data-tab="armor" data-group="equipmentMenu">
+                        <label>{{localize 'common.menuArmor'}}</label>
+                    </a>
+                    <a class="_menuOption" data-tab="books" data-group="equipmentMenu">
+                        <label>{{localize 'common.menuBooks'}}</label>
+                    </a>     
+                    <a class="_menuOption" data-tab="holdings" data-group="equipmentMenu">
+                        <label>{{localize 'common.menuHoldings'}}</label>
+                    </a>  
+                    <a class="_menuOption" data-tab="economy" data-group="equipmentMenu">
+                        <label>{{localize 'common.economy'}}</label>
+                    </a>                                                         
+                </nav>
+            </div>
+
+            {{!-- MONEY --}}
+            <div class="_statsMoney">
+                <label class="_title">{{localize 'common.money'}}</label>
+                <div class="_row _100 _extr">
+                    <label>{{localize 'common.moneyCash'}}:</label>
+                    <input type="number"
+                           class="_cash"
+                           {{locked}}
+                           name="system.money.cash"
+                           max="{{systemData.money.total}}"
+                           value="{{systemData.money.cash}}" />
+                </div>
+                <div class="_row _100 _extr">
+                    <label>{{localize 'common.moneyTotal'}}:</label>
+                    <input type="number"
+                           class="_cash"
+                           {{locked}}
+                           name="system.money.total"
+                           value="{{systemData.money.total}}" />
+                </div>            
+            </div>   
+              
+            {{!-- PROFESSION --}}
+            <div class="_statsMoney">
+
+                {{#if backProfession.hasProfession}}
+                    <div class="_row _100">
+                        <a class="_frameButton _big" 
+                            data-action="showItem"
+                            data-itemid="{{backProfession.profession._id}}">
+                            <label class="_bold">{{backProfession.text}}</label>
+                        </a>
+                    </div>
+
+                    <div class="_row _100">
+                        <label>{{localize 'common.income'}}</label>
+                    </div>
+
+                    {{#if backProfession.income.isFormula}}
+                    <div class="_row _100">
+                        <label class="_bold">{{backProfession.income.text}}</label>
+                    </div>
+                    {{/if}}
+
+                    {{#unless systemData.money.payed}}
+                    <a class="_frameButton _100 _rightAlign _coin" 
+                       data-action="receive"
+                       data-amount="{{backProfession.income.value}}">
+                       <button>{{localize 'common.receive'}} {{backProfession.income.value}} {{coin}}</button>
+                    </a>                   
+                    {{/unless}}
+
+                {{else}}
+
+                    <div class="_row _100">
+                        <label class="_bold">{{backProfession.text}}</label>
+                    </div>
+                {{/if}}
+            </div>
+
+            {{!-- PAYROLL --}}
+            <div class="_statsMoney">
+                <a class="_frameButton _100 _rightAlign" 
+                   style="padding-right: 4px;"
+                   data-tooltip="{{localize 'info.newMonth'}}"
+                   data-action="newMonth">
+                   <button>{{localize 'common.newMonth'}}</button>
+                </a>
+            </div>            
+
+        </div>
+
+    </div>
+
+    {{!-- RIGHT SIDE --}}
+    <div class="_rightSide tabs_EquipmentContent">
+
+        {{!-- EQUIPMENT --}}
+        <section class="tab" data-group="equipmentMenu" data-tab="equipment">
+            {{>actorEquipmentEquipment}}
+        </section>            
+
+        {{!-- WEAPONS --}}
+        <section class="tab" data-group="equipmentMenu" data-tab="weapons">
+            {{>actorEquipmentWeapons}}
+        </section>            
+        
+        {{!-- ARMOR --}}
+        <section class="tab" data-group="equipmentMenu" data-tab="armor">
+            {{>actorEquipmentArmor}}
+        </section>
+
+        {{!-- BOOKS --}}
+        <section class="tab" data-group="equipmentMenu" data-tab="books">
+            {{>actorEquipmentBooks}}
+        </section>        
+
+        {{!-- HOLDINGS --}}
+        <section class="tab" data-group="equipmentMenu" data-tab="holdings">
+            {{>actorEquipmentHoldings}}
+        </section> 
+
+        {{!-- ECONOMY --}}
+        <section class="tab" data-group="equipmentMenu" data-tab="economy">
+            {{>actorEquipmentEconomy}}
+        </section>         
+
+    </div>    
+</div>
+
+<input type="hidden"
+       name="system.control.selection.item"
+       value="{{systemData.control.selection.item}}" />
+
+
+{{>actorModes}}
+<a class="_closeSheet">
+    <div class="_closeSheetButton"
+         data-tooltip="{{localize 'common.close'}}"></div>
+</a>
+{{!-- 
+<a class="_shortSheet">
+    <div class="_shortSheetButton"
+         data-tooltip="{{localize 'common.shorting'}}"></div>
+</a>
+--}}
+

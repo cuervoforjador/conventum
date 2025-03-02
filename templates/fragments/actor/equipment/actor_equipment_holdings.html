@@ -1,0 +1,160 @@
+{{!-- ITEM LIST --}}
+<div class="_itemList">
+
+    <div class="_header">
+        <a class="_frameButton _openCompendium" 
+            data-action="compendium"
+            data-itemid="equipment"
+            data-folder="2. Posesiones">
+            <button>{{localize 'common.openCompendium'}}</button>
+        </a>
+    </div>
+
+    {{#if backHoldings.noItems}}
+    <label class="_info">{{localize 'info.noItems'}}</label>
+    {{/if}}
+
+    {{#each backHoldings.holdings as |holding index|}}
+    <div class="_item">
+        <a class="_frameButton _mainItemWrap" 
+           data-action="showItem"
+           data-itemid="{{holding.item._id}}">
+        <div class="_mainItem">
+            <img class="_itemImg" src="{{holding.item.img}}">
+            <div class="_itemBody">
+                <div class="_title">{{holding.item.name}}</div>
+            </div>
+        </div>
+        </a>
+        <div class="_utils">
+            <a class="_frameButton _big" 
+                data-action="deleteItem"
+                data-itemid="{{holding.item._id}}">
+                <button data-img="icons/delete.svg" 
+                        data-icon="true"
+                        data-tooltip="{{localize 'common.delete'}}"></button>
+            </a>
+        </div>
+    </div>
+    {{/each}}
+
+</div>
+
+{{!-- HOLDINGS --}}
+<div class="_main">
+
+    <div class="_header">
+        <div class="_row _100">
+            <label class="_margined">{{localize 'common.laborers'}}: </label>
+            <input type="range" 
+                   name="system.economy.laborers"
+                   min="0" 
+                   max="{{backHoldings.maxLaborers}}"
+                   step="1" 
+                   value="{{systemData.economy.laborers}}" 
+                   class="slider _aqSlider">              
+            <label class="_bold _margined">{{systemData.economy.laborers}}</label>
+        </div>
+    </div>
+
+    <div class="_list">
+    {{#each backHoldings.holdings as |holding index|}}
+
+        <div class="_holding">
+            <div class="_row _100">
+                <a class="_frameButton _100" 
+                   data-action="showItem"
+                   data-itemid="{{holding.item._id}}">
+                   <label class="_title">{{holding.item.name}}</label>
+                </a>
+                <div class="_utils">
+                    <a class="_frameButton _big" 
+                        data-action="deleteItem"
+                        data-itemid="{{holding.item._id}}">
+                        <button data-img="icons/delete.svg" 
+                                data-icon="true"
+                                data-tooltip="{{localize 'common.delete'}}"></button>
+                    </a>
+                </div>
+            </div>
+
+            {{#if holding.showLocation}}
+            <div class="_row _100">
+                <label>{{localize 'common.location'}}: {{holding.item.system.holding.location}}</label>
+            </div>
+            {{/if}}
+            
+            {{#if holding.prod}}
+            <div class="_row _100">
+                <label class="_margined">{{localize 'common.laborers'}}: </label>
+                <input type="range" 
+                       name="system.economy.holdings.{{holding.item.id}}.laborers"
+                       min="{{holding.min}}" 
+                       step="0.5"
+                       max="{{holding.max}}" 
+                       value="{{holding.labo}}" 
+                       class="slider _aqSlider _25">
+                <label class="_bold _margined">{{holding.labo}} / {{holding.max}}</label>
+                <label class="_margined">{{localize 'common.eff'}}: </label>
+                <label class="_bold"
+                       data-tooltip="{{localize 'common.efficiency'}}">{{holding.eff}}</label> <label>%</label>
+            </div>            
+            {{/if}}
+
+            {{#if holding.showIncome}}
+            <div class="_row _100 _extr" style="margin-top: 6px;">
+                <div class="_row">
+                    <label class="_margined">{{localize 'common.monthIncome'}}: </label>
+                    <label class="_bold">{{holding.income}}</label>
+                    <label class="_margined _italic">mrs</label>
+                </div>
+
+                {{#unless holding.payed}}
+                <a class="_frameButton _payroll _margined" 
+                    data-action="holding"
+                    data-pay="receive"
+                    data-itemid="{{holding.item.id}}"
+                    data-income="{{holding.income}}"
+                    data-eff="{{holding.eff0}}">
+                    <button>{{localize 'common.receive'}}</button>
+                </a>
+                {{/unless}}
+            </div>
+            {{/if}}
+
+            {{#if holding.showCost}}
+            <div class="_row _100 _extr" style="margin-top: 6px;">
+                <div class="_row">
+                    <label class="_margined">{{localize 'common.monthCost'}}: </label>
+                    <label class="_bold">{{holding.cost}}</label>
+                    <label class="_margined _italic">mrs</label>
+                </div>
+
+                {{#unless holding.payed}}
+                <a class="_frameButton _payroll _margined" 
+                    data-action="holding"
+                    data-pay="pay"
+                    data-itemid="{{holding.item.id}}"
+                    data-income="{{holding.cost}}"
+                    data-eff="1">
+                    <button>{{localize 'common.pay'}}</button>
+                </a>
+                {{/unless}}
+            </div>
+            {{/if}}            
+
+            {{#if holding.showText}}
+            <div class="_row _100">
+                <label class="_margined _warning">{{holding.text}}</label>
+            </div>
+            {{/if}}
+
+            {{#if holding.showCost}}
+            
+            {{/if}}
+        </div>
+
+    {{/each}}
+    </div>
+
+</div>

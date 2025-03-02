@@ -1,0 +1,47 @@
+<div class="_combatBarWrap">
+    {{#if backCombat.control.noCombat }}
+
+        {{!-- ************ NO COMBATANTS ************ --}}
+
+    {{else}}
+
+        {{!-- ************ COMBATANTS ************ --}}
+        {{#each backCombat._combatMatrix as |row index|}}
+        
+            <div class="_combatant {{#if ../isGM}} _contextButton {{/if}}"
+                data-action="openCombatant"
+                data-contextTarget="{{row.combatant.id}}"
+                {{#if ../isGM}}
+                data-tooltip="{{localize 'info.openCombatant'}}"            
+                {{/if}}
+                id="{{row.combatant.id}}"
+                style="background-image: url({{row.combatant.actor.img}})">
+
+                <div class="_name">{{row.combatant.name}}</div>
+                {{#if ../isGM}}
+                <div class="_delete">
+                    <a class="_frameButton" data-action="deleteCombatant"
+                                            data-target="{{combatant.id}}">
+                        <button data-img="icons/delete.svg" 
+                                data-icon="true"
+                                data-big="true"
+                                data-tooltip="{{localize 'common.deleteCombatant'}}" 
+                                data-tooltip-direction="UP"></button>
+                    </a>                
+                </div>
+                {{/if}}
+            </div>
+
+        {{/each}}
+
+        {{#if isGM}}
+        <a class="_frameButton" data-action="addCombatant">        
+            <div class="_combatant _addNew"
+                 style="background-image: url(systems/{{systemId}}/assets/texture/noman.png)">                
+                <div class="_name">{{localize 'common.addCombatant'}}</div>
+            </div>        
+        </a>
+        {{/if}}
+
+    {{/if}}
+</div>
