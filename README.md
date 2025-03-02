@@ -1,4 +1,4 @@
-![image](https://github.com/cuervoforjador/conventum/assets/77968758/eb5b68bd-c1ee-4264-9f5e-209900b7a03f)
+![image](https://raw.githubusercontent.com/cuervoforjador/conventum/refs/heads/main/assets/title.png)
 <h1>Aquelarre for FoundryVTT</h1>
 
 ## Important!
