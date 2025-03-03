@@ -2,7 +2,7 @@
   "id": "aquelarre",
   "title": "Aquelarre Extendido",
   "description": "An implementation of Aquelarre (Dean of Spanish role-playing games, a Demonic and medieval game) includes Villa y Corte",
-  "version": "1.0",
+  "version": "3.0.1",
   "compatibility": {
     "minimum": "10", 
     "verified": "12",
