@@ -1,0 +1,38 @@
+<div class="_stats">
+    <div class="_wrap">
+
+        <nav class="tabs _subMenu" data-group="stats">
+            <a data-action="tab" data-group="stats" data-tab="principal">{{localize 'common.principal'}}</a>
+            <a data-action="tab" data-group="stats" data-tab="rasgos">{{localize 'common.rasgos'}}</a>
+        </nav>
+
+        <section class="tab" data-group="stats" data-tab="principal">
+
+                <!-- CARACTERÍSTICAS -->
+                <div class="_2columns">
+                    <div class="_1column">
+                        <h4 class="_title divider">{{localize 'common.caracteristicas'}}</h4>
+                        <div class="_chars">
+                            {{>stats_chars_aq4}}
+                        </div>
+                    </div>
+                    <div class="_1column">
+                        {{>stats_percents_aq4}}
+                    </div>
+                </div>
+
+                <!-- SALUD -->
+                <div class="_2columns">
+                    {{>stats_health_aq4}}
+                    {{>stats_rrirr_aq4}}
+                </div>
+
+        </section>
+
+        <section class="tab" data-group="stats" data-tab="rasgos">
+            {{>orgullos_comun}}
+            {{>verguenzas_comun}}
+            {{>secuelas_comun}}   
+        </section>
+    </div>
+</div>

@@ -1,0 +1,51 @@
+<div class="_main {{#if isEditable}}_editable{{/if}}">
+    <div class="_sheetContent">
+
+        {{!-- PROPERTIES --}}
+        <div class="_properties">
+            <div class="_row _gapped" style="margin: 1rem 0">
+                
+                {{{checkButton 'system.applied' 'common.aplicada' 'fa-circle'}}}
+
+                <label>{{localize 'common.localizacionTipo'}} :</label>
+                <select name="system.localizacionTipo" {{{_disabled}}} style="width: calc(var(--fSize) * 11);">
+                {{selectOptions localizacionesTipos 
+                                selected=system.localizacionTipo
+                                localize=false
+                                nameAttr="key"
+                                labelAttr="label" }}
+                </select> 
+                <label>{{localize 'common.localizacion'}} :</label>
+                <select name="system.localizacion" {{{_disabled}}} style="width: calc(var(--fSize) * 11);">
+                {{selectOptions localizaciones 
+                                selected=system.localizacion
+                                localize=false
+                                nameAttr="key"
+                                labelAttr="label" }}
+                </select>                                 
+
+                <label>{{localize 'common.desde'}} :</label>
+                <input type="number"
+                    {{{_disabled}}} 
+                    class="_sSize"
+                    name="system.roll.low" 
+                    value="{{system.roll.low}}">         
+                <label>{{localize 'common.hasta'}} :</label>
+                <input type="number"
+                    {{{_disabled}}} 
+                    class="_sSize"
+                    name="system.roll.high" 
+                    value="{{system.roll.high}}">                                
+            </div>
+            <div class="_row _gapped _menu">
+                {{{navTab 'primary' (array 'efectos' 'descripcion') '_expanded'}}}
+            </div>            
+        </div>
+
+        {{>tab_Descripcion}}
+        {{>tab_Efectos}}
+    </div>
+    <div class="_sheetFooter">
+        {{>item_footer}}
+    </div>    
+</div>

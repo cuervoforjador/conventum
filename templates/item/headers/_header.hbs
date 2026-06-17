@@ -1,0 +1,57 @@
+<div class="_mainHeader">
+    <div class="portrait" >
+        <img src="{{item.img}}" 
+                data-edit="img"
+                title="{{item.name}}"
+                alt="{{item.name}}"
+                {{#if isEditable}} data-action="editImage" {{/if}}
+                class="item-portrait">
+    </div>
+    <div class="_info">
+        <input type="text" 
+                class="h4"
+                name="name" 
+                value="{{item.name}}" 
+                {{{_disabled}}}
+                placeholder="{{localize 'common.nombre'}}"> 
+        <div class="_row _gapped _marginTop">
+            <div class="_combo">
+
+                <label>{{localize 'common.key'}} :</label>
+                <input type="text" 
+                    {{{_disabled}}}
+                    class="_mSize _key"
+                    name="system.key" 
+                    value="{{system.key}}" 
+                    data-tooltip="{{localize 'tooltip.key'}}">   
+                {{#if isEditable}}
+                <button type="button"
+                        class="icon fas fa-key" 
+                        data-action="_readKey" 
+                        data-tooltip="{{localize 'common.getKey'}}">
+                </button>
+                {{!--
+                {{#if (eq myRules 'vyc')}}
+                <button type="button"
+                        style="margin-right: 5px"
+                        class="icon fa-solid fa-brush" 
+                        data-action="_greenIcon" 
+                        data-tooltip="{{localize 'common.greenIcon'}}">
+                </button>       
+                {{/if}}
+                --}}                       
+                {{/if}}                          
+            </div>                 
+            <div class="_combo">
+                <label>{{localize 'common.rules'}} :</label>
+                <select name="system.rules" {{{_disabled}}} style="width: calc(var(--fSize) * 10);">
+                {{selectOptions rules 
+                                selected=system.rules
+                                localize=false
+                                nameAttr="key"
+                                labelAttr="label" }}
+                </select>                 
+            </div>                    
+        </div>
+    </div>
+</div>

@@ -1,0 +1,50 @@
+<div class="_box _table _noRowsColor _chars _health">
+    <div class="_row _char _header">
+        <label class="_sSize"></label>
+        <label class="_input _center _xsFont">{{localize 'common.maximos'}}</label>
+        <label class="_input _center _xsFont">{{localize 'common.actuales'}}</label>
+    </div>  
+    <div class="_row _char">
+        <label class="_sSize _charTitle"><span class="_bold" data-tooltip="{{localize 'ATTR.ptv'}}">{{localize 'ATTR.ptvShort'}}</span></label>
+        <input type="number" 
+                disabled="disabled"
+                name="system.atributos.ptv.total" 
+                value="{{system.atributos.ptv.total}}" 
+                min="{{system.atributos.ptv.min}}" 
+                max="{{system.atributos.ptv.max}}"
+                class="_charTotal">
+        <input type="number" 
+                {{{_disabled}}}
+                name="system.atributos.ptv.value" 
+                value="{{system.atributos.ptv.value}}" 
+                min="{{system.atributos.ptv.min}}" 
+                max="{{system.atributos.ptv.max}}"
+                class="_charValue">  
+    </div>
+    <div class="_row _char _expanded">
+        <label class="_xsSize _charTitle">{{localize 'common.heridaGrave'}}</label>  
+        <input type="number"
+                disabled="disabled"
+                name="system.salud.heridaGrave"
+                value="{{system.salud.heridaGrave}}"
+                class="_charValue">               
+    </div>
+</div>
+<div class="_box _table _status">
+    {{#each system.salud.estado as |status key|}}
+    <div class="_row">
+        <input type="checkbox" 
+                disabled="disabled"
+                name="system.salud.estado.{{key}}.checked" 
+                {{checked status.checked}}>     
+        <a data-action="_showStatus" data-path="system.salud.estado.{{key}}">   
+            <label class="_msSize">{{localize (concat "common." key)}}</label> 
+        </a>
+        <input type="number" 
+                disabled="disabled"
+                name="system.salud.estado.{{key}}.value" 
+                value="{{status.value}}"
+                class="_statusValue">              
+    </div>
+    {{/each}}
+</div>

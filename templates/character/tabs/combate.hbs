@@ -1,0 +1,32 @@
+<section class="tab _combate" data-group="primary" data-tab="combate">
+
+    <div class="_left">
+        {{#if (eq myRules 'aq3')}} 
+            {{>combat_mods_aq3}}
+            {{>combat_weapons_aq3}}
+            {{>combat_armors_aq3}}
+        {{/if}}
+        {{#if (eq myRules 'aq4')}} 
+            {{>combat_mods_aq4}}
+            {{>combat_weapons_aq4}}
+            {{>combat_armors_aq4}}
+        {{/if}}
+        {{#if (eq myRules 'vyc')}} 
+            {{>combat_mods_vyc}}
+            {{>combat_weapons_vyc}}
+            {{>combat_armors_vyc}}
+        {{/if}}
+    </div>
+    <div class="_right">
+        {{#if (eq myRules 'aq3')}} 
+            {{>combat_location_aq3}}
+        {{/if}}
+        {{#if (eq myRules 'aq4')}} 
+            {{>combat_location_aq4}}
+        {{/if}}
+        {{#if (eq myRules 'vyc')}} 
+            {{>combat_location_vyc}}
+        {{/if}}
+    </div>
+
+</section>

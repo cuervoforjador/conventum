@@ -1,0 +1,74 @@
+<div class="_main {{#if isEditable}}_editable{{/if}}">
+    <div class="_sheetContent">
+
+        {{!-- PROPERTIES --}}
+        <div class="_properties">
+            <div class="_row _gapped">
+                <label>{{localize 'common.localizacionTipo'}} :</label>
+                <select name="system.localizacion" {{{_disabled}}} style="width: calc(var(--fSize) * 11);">
+                {{selectOptions localizacionesTipos 
+                                selected=system.localizacion
+                                localize=false
+                                nameAttr="key"
+                                labelAttr="label" }}
+                </select> 
+
+                <label>{{localize 'common.tipo'}} :</label>
+                <select name="system.tipo" {{{_disabled}}} style="width: calc(var(--fSize) * 7);">
+                {{selectOptions tipos 
+                                selected=system.tipo
+                                localize=false
+                                nameAttr="key"
+                                labelAttr="label" }}
+                </select>   
+                {{#if (or isEditable system.enUso)}}
+                    {{{checkButton 'system.enUso' 'tooltip.enUso' 'fa-user'}}}
+                {{/if}}
+                <div class="_borrame">CLICK</div>
+            </div>
+            <div class="_row _gapped">
+                <label>{{localize 'common.proteccion'}} :</label>
+                <input type="number"
+                    {{{_disabled}}} 
+                    class="_xsSize"
+                    name="system.proteccion" 
+                    value="{{system.proteccion}}"> 
+
+                {{#if configRULES.armadurasRES}}
+                <label>{{localize 'common.resistencia'}} :</label>
+                <input type="number"
+                    {{{_disabled}}} 
+                    class="_xsSize"
+                    name="system.resistencia" 
+                    value="{{system.resistencia}}">
+                <label> / </label>
+                <input type="number"
+                    {{{_disabled}}} 
+                    class="_xsSize"
+                    name="system.resistenciaTotal" 
+                    value="{{system.resistenciaTotal}}">                      
+                {{/if}}     
+                
+                {{#if configRULES.armadurasFUE}}
+                <label>{{localize 'common.fuerzaMinima'}} :</label>
+                <input type="number"
+                    {{{_disabled}}} 
+                    class="_xsSize"
+                    name="system.fuerza" 
+                    value="{{system.fuerza}}">                                   
+                {{/if}}
+            </div>
+
+            <div class="_row _gapped _menu">
+                {{{navTab 'primary' (array 'localizaciones' 'penalizaciones' 'descripcion') '_expanded'}}}
+            </div>
+        </div>
+
+        {{>tab_Localizaciones}}
+        {{>tab_Penalizaciones}}
+        {{>tab_Descripcion}}
+    </div>
+    <div class="_sheetFooter">
+        {{>item_footer}}
+    </div>    
+</div>

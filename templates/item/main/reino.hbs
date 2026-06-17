@@ -1,0 +1,31 @@
+<div class="_main {{#if isEditable}}_editable{{/if}}">
+    <div class="_sheetContent">
+
+        {{!-- PROPERTIES --}}
+        <div class="_properties">
+            <div class="_row _gapped">
+                <label>{{localize 'common.desde'}} :</label>
+                <input type="number"
+                    {{{_disabled}}} 
+                    class="_sSize"
+                    name="system.roll.low" 
+                    value="{{system.roll.low}}">         
+                <label>{{localize 'common.hasta'}} :</label>
+                <input type="number"
+                    {{{_disabled}}} 
+                    class="_sSize"
+                    name="system.roll.high" 
+                    value="{{system.roll.high}}">                                
+            </div>
+            <div class="_row _gapped _menu">
+                {{{navTab 'primary' (array 'pueblos' 'descripcion') '_expanded'}}}
+            </div>            
+        </div>
+
+        {{>tab_Descripcion}}
+        {{>tab_Pueblos}}
+    </div>
+    <div class="_sheetFooter">
+        {{>item_footer}}
+    </div>    
+</div>

@@ -1,0 +1,27 @@
+<div class="_main {{#if isEditable}}_editable{{/if}}">
+    <div class="_sheetContent">
+
+        {{!-- PROPERTIES --}}
+        <div class="_properties" style="margin: 1rem 0">
+            <div class="_row _gapped">
+                {{{checkButton 'system.applied' 'common.aplicada' 'fa-circle'}}}
+                {{{checkButton 'system.orgullo' 'common.orgullo' 'fa-plus'}}}
+                {{{checkButton 'system.verguenza' 'common.verguenza' 'fa-minus'}}}
+
+                <label>{{localize 'common.coste'}} :</label>
+                <input type="number"
+                    {{{_disabled}}} 
+                    class="_sSize"
+                    name="system.coste" 
+                    value="{{system.coste}}">   
+                <label>{{localize 'common.puntos'}}</label>                 
+            </div>
+        </div> 
+
+        {{>item_descripcion}}
+        
+    </div>
+    <div class="_sheetFooter">
+        {{>item_footer}}
+    </div>    
+</div>

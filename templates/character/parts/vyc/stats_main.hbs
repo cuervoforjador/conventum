@@ -1,0 +1,33 @@
+<div class="_stats">
+    <div class="_wrap">
+
+        <nav class="tabs _subMenu" data-group="stats">
+            <a data-action="tab" data-group="stats" data-tab="principal">{{localize 'common.principal'}}</a>
+            <a data-action="tab" data-group="stats" data-tab="rasgos">{{localize 'common.rasgos'}}</a>
+        </nav>
+
+        <section class="tab" data-group="stats" data-tab="principal">
+            <h4 class="_title divider">{{localize 'common.caracteristicas'}}</h4>
+            <div class="_row">
+
+                <!-- CARACTERÍSTICAS -->
+                <div class="_chars">
+                    {{>stats_chars_vyc}}
+                    {{>stats_rrirr_vyc}}
+                </div>
+                <!-- ATRIBUTOS -->
+                <div class="_attrs">
+                    {{>stats_health_vyc}}
+                    {{>stats_percents_vyc}}
+                </div>
+
+            </div>
+        </section>
+
+        <section class="tab" data-group="stats" data-tab="rasgos">
+            {{>orgullos_comun}}
+            {{>verguenzas_comun}}
+            {{>secuelas_comun}}    
+        </section>
+    </div>
+</div>

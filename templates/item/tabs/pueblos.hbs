@@ -1,0 +1,60 @@
+<section class="tab" data-group="primary" data-tab="pueblos">
+    
+    <table class="_table _sortable"
+           data-path="system.pueblos">
+        <thead>
+            <tr>
+                <th>{{localize 'common.pueblo'}}</th>
+                <th class="_sSize _right">{{localize 'common.desde'}}</th>
+                <th class="_sSize _right">{{localize 'common.hasta'}}</th>
+                {{#if isEditable}}<th class="_button"></th>{{/if}}
+            </tr>
+            {{#if isEditable}}
+            <tr class="_sortTR">
+                <td><select data-field="key">
+                    {{selectOptions pueblos 
+                                    localize=false
+                                    nameAttr="key"
+                                    labelAttr="label" }}
+                    </select></td>                
+                <td><input type="number"           
+                            data-field="low"
+                            data-tooltip="{{localize 'common.desde'}}"
+                            min="0"
+                            max="100"
+                            value="0"                    
+                            class="_sSize"></td>
+                <td><input type="number"           
+                            data-field="high"
+                            data-tooltip="{{localize 'common.hasta'}}"
+                            min="0"
+                            max="100"
+                            value="0"                    
+                            class="_sSize"></td>
+                <td><button type="button"
+                            class="icon fas fa-add" 
+                            data-action="_addRow" 
+                            data-tooltip="{{localize 'common.anadir'}}">
+                    </button></td>
+            </tr>   
+            {{/if}}         
+        </thead>
+        <tbody>
+            {{#each system.pueblos as |entry key|}}
+            <tr data-key="{{entry.key}}">
+                <td>{{translate entry.key ../pueblos}}</td>
+                <td class="_sSize">{{entry.low}}</td>
+                <td class="_sSize">{{entry.high}}</td>
+                {{#if ../isEditable}}
+                <td class="_button"><button type="button" {{{_disabled}}}
+                            class="icon fas fa-remove" 
+                            data-action="_deleteRow" 
+                            data-tooltip="{{localize 'common.borrar'}}">
+                </button></td>   
+                {{/if}} 
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+</section>

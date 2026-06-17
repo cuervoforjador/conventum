@@ -1,0 +1,42 @@
+<div class="_main {{#if isEditable}}_editable{{/if}}">
+    <div class="_sheetContent">
+
+        {{!-- PROPERTIES --}}
+        <div class="_properties">
+            <div class="_row _gapped">
+                <label>{{localize 'common.sociedad'}} :</label>
+                <select name="system.sociedad.key" {{{_disabled}}} style="width: calc(var(--fSize) * 10);">
+                {{selectOptions sociedades 
+                                selected=system.sociedad.key
+                                localize=false
+                                nameAttr="key"
+                                labelAttr="label" }}
+                </select>                 
+            </div>
+            {{#if configRULES.limpiezaSangre}}
+            <div class="_row _gapped">
+                <label>{{localize 'common.limpiezaSangre'}} :</label>
+                <input type="number"
+                    {{{_disabled}}} 
+                    class="_sSize _right"
+                    name="system.sangre" 
+                    value="{{system.sangre}}">%                   
+            </div>
+            {{/if}}
+            <div class="_row _gapped _menu">
+                {{#if configRULES.estratoRoll}}
+                    {{{navTab 'primary' (array 'estratos' 'idiomas' 'descripcion') '_expanded'}}}
+                {{else}}
+                    {{{navTab 'primary' (array 'idiomas' 'descripcion') '_expanded'}}}
+                {{/if}}                
+            </div>
+        </div>        
+
+        {{>tab_Descripcion}}
+        {{>tab_Estratos}}
+        {{>tab_Idiomas}}
+    </div>
+    <div class="_sheetFooter">
+        {{>item_footer}}
+    </div>    
+</div>

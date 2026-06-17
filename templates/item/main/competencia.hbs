@@ -1,0 +1,51 @@
+<div class="_main {{#if isEditable}}_editable{{/if}}">
+    <div class="_sheetContent">
+
+        {{!-- PROPERTIES --}}
+        <div class="_properties">
+            <div class="_buttons {{#if isEditable}}_editable{{/if}}">
+                {{{checkButton 'system.folder' 'tooltip.folder' 'fa-folder'}}}
+                {{{checkButton 'system.basica' 'tooltip.basica' 'fa-circle'}}}
+                {{{checkButton 'system.idioma' 'tooltip.idioma' 'fa-paintbrush'}}}
+                {{{checkButton 'system.armas' 'tooltip.armas' 'fa-sword'}}}
+                {{{checkButton 'system.status.villano' 'tooltip.villano' 'fa-v'}}}
+                {{{checkButton 'system.status.soldado' 'tooltip.soldado' 'fa-s'}}}
+                {{{checkButton 'system.status.noble'   'tooltip.noble' 'fa-n'}}}                
+            </div>
+            <div class="_row _gapped">
+                <label>{{localize 'common.caracteristica'}} :</label>
+                <select name="system.caracteristica" {{{_disabled}}}>
+                {{selectOptions caracteristicas 
+                                selected=system.caracteristica
+                                localize=false
+                                nameAttr="key"
+                                labelAttr="label" }}
+                </select>
+            </div>
+            <div class="_row _gapped">
+                <label>{{localize 'common.latin'}} :</label>
+                <input type="text"
+                    {{{_disabled}}} 
+                    class="_mSize _key"
+                    name="system.latin" 
+                    value="{{system.latin}}">                     
+            </div>      
+            {{#if isEditable}}               
+            <div class="_row _gapped">
+                <label>{{localize 'common.superior'}} :</label>
+                <input type="text" 
+                    {{{_disabled}}}
+                    class="_mSize"
+                    name="system.superior" 
+                    value="{{system.superior}}" 
+                    data-tooltip="{{localize 'tooltip.superior'}}">                    
+            </div>         
+            {{/if}}   
+        </div>
+
+        {{>item_descripcion}}
+    </div>
+    <div class="_sheetFooter">
+        {{>item_footer}}
+    </div>    
+</div>

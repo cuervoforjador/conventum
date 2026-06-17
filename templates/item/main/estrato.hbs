@@ -1,0 +1,41 @@
+<div class="_main {{#if isEditable}}_editable{{/if}}">
+    <div class="_sheetContent">
+
+        {{!-- PROPERTIES --}}
+        <div class="_properties">
+            <div class="_row _gapped">
+                <label>{{localize 'common.sociedad'}} :</label>
+                <select name="system.sociedad.key" {{{_disabled}}} style="width: calc(var(--fSize) * 10);">
+                {{selectOptions sociedades 
+                                selected=system.sociedad.key
+                                localize=false
+                                nameAttr="key"
+                                labelAttr="label" }}
+                </select>                             
+                {{#if configRULES.estratoRoll}}
+                    <label>{{localize 'common.desde'}} :</label>
+                    <input type="number"
+                        {{{_disabled}}} 
+                        class="_sSize"
+                        name="system.roll.low" 
+                        value="{{system.roll.low}}">   
+                    <label>{{localize 'common.hasta'}} :</label>
+                    <input type="number"
+                        {{{_disabled}}} 
+                        class="_sSize"
+                        name="system.roll.high" 
+                        value="{{system.roll.high}}">                          
+                {{/if}}
+            </div>
+            <div class="_row _gapped _menu">
+                {{{navTab 'primary' (array 'posiciones' 'descripcion') '_expanded'}}}
+            </div>
+        </div>
+
+        {{>tab_Descripcion}}
+        {{>tab_Posiciones}}
+    </div>
+    <div class="_sheetFooter">
+        {{>item_footer}}
+    </div>    
+</div>

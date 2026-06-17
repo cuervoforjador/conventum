@@ -1,0 +1,15 @@
+{{#if isEditable}}
+    {{formInput 
+        systemFields.descripcion 
+        enriched=_richDescripcion
+        value=system.descripcion 
+        name="system.descripcion"
+        toggled=false}}   
+{{else}}
+    {{editor system.descripcion 
+        target="system.descripcion" 
+        button=false 
+        editable=false
+        engine="prosemirror" 
+        collaborate=false}}
+{{/if}}

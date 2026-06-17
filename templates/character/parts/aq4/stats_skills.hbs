@@ -1,0 +1,89 @@
+<div class="_skills {{#if skillRenderOptions.scrolled}} _scrolled {{else}} _down {{/if}}"
+    style="width: {{skillRenderOptions.width}}; 
+           grid-auto-columns: {{skillRenderOptions.columnSize}};
+           grid-template-areas: {{skillRenderOptions.templateAreas}};">
+
+    <div class="_skill">
+        <h4 class="_title divider">{{localize 'common.competencias'}}</h4>
+    </div>
+
+    {{#each skills as |skill index|}}
+    <div class="_skill {{skill.classes}}" data-key="{{skill.key}}"
+        style="grid-column: {{skillsRenderColumn ../skillRenderOptions index}}">
+
+        {{#unless skill.blank}}
+
+            {{#if skill.item.system.folder}}
+
+                <div class="_skillIcon _empty"></div>
+                <a class="_name"
+                data-action="{{#if ../isEditable}}_showItem{{else}}_showDescr{{/if}}" 
+                data-id="{{skill.item.id}}">
+                    <label class="_name _onlyFolder">{{skill.item.name}}</label>
+                </a>
+
+            {{else}}
+
+                {{#if ../isEditable}}
+                <a class="_skillIcon"
+                data-action="_changeSkillStatus" 
+                data-id="{{skill.item.id}}">            
+                {{/if}}
+                    {{#if skill.normal}}<img data-tooltip="{{localize 'common.normal'}}" class="_skillIcon" src="{{assets}}/ui/aq4_comp_normal.png" style="opacity: 0.5"/>{{/if}}
+                    {{#if skill.paterna}}<img data-tooltip="{{localize 'common.paterna'}}" class="_skillIcon" src="{{assets}}/ui/aq4_comp_paterna.png" />{{/if}}
+                    {{#if skill.primaria}}<img data-tooltip="{{localize 'common.primaria'}}" class="_skillIcon" src="{{assets}}/ui/aq4_comp_primaria.png" />{{/if}}
+                    {{#if skill.secundaria}}<img data-tooltip="{{localize 'common.secundaria'}}" class="_skillIcon" src="{{assets}}/ui/aq4_comp_secundaria.png" />{{/if}}
+                {{#if ../isEditable}}
+                </a>
+                {{/if}}
+
+                <a class="_name"
+                data-action="{{#if ../isEditable}}_showItem{{else}}_showDescr{{/if}}" 
+                data-id="{{skill.item.id}}">
+                    <label class="_name">{{skill.item.name}} <span class="_sFont">({{skill.char}})</span></label>
+                </a>
+                {{#unless (eq skill.stats.penal 0)}}
+                {{#unless ../isEditable}}
+                    <button type="button"
+                            class="icon showPenals fas fa-badge" 
+                            data-action="_showPenals" 
+                            data-key="{{skill.key}}"
+                            data-tooltip="{{localize 'common.verPenalizaciones'}}">
+                    </button>
+                {{/unless}}
+                {{/unless}}                
+                {{#if ../isEditable}}
+                    <input type="number" 
+                            {{{_disabled}}} 
+                            value="{{skill.stats.value}}" 
+                            min="{{skill.stats.value.min}}" 
+                            max="{{skill.stats.value.max}}"
+                            class="_skillValue">
+                    <button type="button"
+                            class="icon fas fa-remove" 
+                            data-action="_deleteItem" 
+                            data-id="{{skill.item.id}}"
+                            data-tooltip="{{localize 'tooltip.borrarItem'}}">
+                    </button>                              
+                {{else}}
+                    <label class="_input _roll _skillValue"
+                            data-spectrum="true"
+                            data-action="_roll"
+                            data-target="skill"
+                            data-path="{{skill.key}}"
+                            data-tooltip="{{localize 'tooltip.rollSkill'}}">
+                            <span class="_value _center">{{skill.stats.total}}<span class="_sFont"> %</span></span>
+                            <span class="_dice"><i class="fa-sharp fa-light fa-dice-d10"></i></span>
+                    </label>
+                {{/if}}
+                <input type="checkbox" 
+                    class="_skillCheck"
+                    {{{_disabled}}}
+                    {{checked skill.checked}}>  
+
+            {{/if}}       
+
+        {{/unless}}
+    </div>
+    {{/each}}
+</div>

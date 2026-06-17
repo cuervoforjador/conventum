@@ -1,0 +1,43 @@
+<div class="_box _table _chars _extraChars">
+    <div class="_row _char">
+        <label class="_charTitle">{{localize 'common.edad'}}</label>
+        <input type="number" 
+                {{{_disabled}}}
+                name="system.info.edad" 
+                value="{{system.info.edad}}" 
+                min="0" 
+                class="_charTotal">
+        <label class="_input _italic">{{localize 'common.anos'}}</label>        
+    </div>
+    <div class="_row _char">
+        <label class="_charTitle">{{localize 'common.altura'}}</label>
+        <input type="number" 
+                disabled="disabled"
+                name="system.info.altura" 
+                value="{{system.info.altura}}" 
+                min="0" 
+                class="_charTotal">
+        <label class="_input _italic">{{configRULES.unitAltura}}</label>        
+    </div>
+    <div class="_row _char">
+        <label class="_charTitle">{{localize 'common.peso'}}</label>
+        <input type="number" 
+                disabled="disabled"
+                name="system.info.peso" 
+                value="{{system.info.peso}}" 
+                min="0" 
+                class="_charTotal">
+        <label class="_input _italic">{{configRULES.unitPeso}}</label>        
+    </div>        
+</div>
+
+{{#if isEditable}}
+<div class="_row _extra">
+    <button type="button"
+            class="icon fas fa-gear" 
+            data-action="_resetAttr" 
+            data-tooltip="{{localize 'tooltip.resetAttr'}}">
+    </button>
+    <label>{{localize 'common.resetAttr'}}</label>
+</div>
+{{/if}}

@@ -1,0 +1,16 @@
+<section class="tab" data-group="primary" data-tab="stats">
+
+    {{#if (eq myRules 'aq3')}} 
+        {{>stats_main_aq3}} 
+        {{>stats_skills_aq3}}
+    {{/if}}
+    {{#if (eq myRules 'aq4')}} 
+        {{>stats_main_aq4}}
+        {{>stats_skills_aq4}}
+    {{/if}}
+    {{#if (eq myRules 'vyc')}} 
+        {{>stats_main_vyc}}
+        {{>stats_skills_vyc}}
+    {{/if}}
+
+</section>

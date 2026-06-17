@@ -1,0 +1,42 @@
+<section class="tab" data-group="primary" data-tab="localizaciones">
+
+    <table class="_table _sortable"
+           data-path="system.localizaciones">
+        <thead>
+            <tr>
+                <th>{{localize 'common.localizaciones'}}</th>
+                {{#if isEditable}}<th class="_button"></th>{{/if}}
+            </tr>
+            {{#if isEditable}}
+            <tr class="_sortTR">
+                <td><select data-field="key">
+                    {{selectOptions localizaciones 
+                                    localize=false
+                                    nameAttr="key"
+                                    labelAttr="label" }}
+                    </select></td>
+                <td><button type="button"
+                            class="icon fas fa-add" 
+                            data-action="_addRow" 
+                            data-tooltip="{{localize 'common.anadir'}}">
+                    </button></td>
+            </tr>   
+            {{/if}}         
+        </thead>
+        <tbody>
+            {{#each system.localizaciones as |entry key|}}
+            <tr data-key="{{entry.key}}">
+                <td style="padding-left: 0.5rem">{{translate entry.key ../localizaciones}}</td>
+                {{#if ../isEditable}}
+                <td class="_button"><button type="button" {{{_disabled}}}
+                            class="icon fas fa-remove" 
+                            data-action="_deleteRow" 
+                            data-tooltip="{{localize 'common.borrar'}}">
+                </button></td>   
+                {{/if}} 
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+</section>

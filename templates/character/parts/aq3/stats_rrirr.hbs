@@ -1,0 +1,119 @@
+<div class="_box _table _noRowsColor _chars _rrirr">
+    <div class="_row _char _header">
+        <label data-tooltip="{{localize 'ATTR.rr'}}">{{localize 'ATTR.rrShort'}}</label>
+        <label>{{localize 'ATTR.sue'}}</label>
+        <label data-tooltip="{{localize 'ATTR.irr'}}">{{localize 'ATTR.irrShort'}}</label>
+    </div>
+    <div class="_row _char">
+
+        {{#if isEditable}}
+        <input type="number" 
+                {{{_disabled}}}
+                name="system.atributos.rr.value" 
+                value="{{system.atributos.rr.value}}" 
+                min="{{system.atributos.rr.min}}" 
+                max="{{system.atributos.rr.max}}"
+                class="_charTotal _charRR">
+        {{else}}
+        <label class="_input _roll _charTotal"
+                data-action="_roll"
+                data-target="attr"
+                data-path="rr.value"
+                data-tooltip="{{localize 'common.rollAttr'}}">
+                <span class="_value _center">{{system.atributos.rr.value}}</span>
+                <span class="_dice"><i class="fa-sharp fa-light fa-dice-d10"></i></span>
+        </label>         
+        {{/if}}
+        {{#if isEditable}}
+        <input type="number" 
+                disabled="disabled"
+                name="system.atributos.sue.total" 
+                value="{{system.atributos.sue.total}}" 
+                min="{{system.atributos.sue.min}}" 
+                max="{{system.atributos.sue.max}}"
+                class="_charTotal">
+        {{else}}
+        <label class="_input _roll _charTotal"
+                data-action="_roll"
+                data-target="attr"
+                data-path="sue.total"
+                data-useluck="false"
+                data-tooltip="{{localize 'common.rollAttr'}}">
+                <span class="_value _center">{{system.atributos.sue.total}}</span>
+                <span class="_dice"><i class="fa-sharp fa-light fa-dice-d10"></i></span>
+        </label>        
+        {{/if}}
+
+        {{#if isEditable}}
+        <input type="number" 
+                {{{_disabled}}}
+                name="system.atributos.irr.value" 
+                value="{{system.atributos.irr.value}}" 
+                min="{{system.atributos.irr.min}}" 
+                max="{{system.atributos.irr.max}}"
+                class="_charTotal _charIRR">        
+        {{else}}
+        <label class="_input _roll _charTotal"
+                data-action="_roll"
+                data-target="attr"
+                data-path="irr.value"
+                data-tooltip="{{localize 'common.rollAttr'}}">
+                <span class="_value _center">{{system.atributos.irr.value}}</span>
+                <span class="_dice"><i class="fa-sharp fa-light fa-dice-d10"></i></span>
+        </label>        
+        {{/if}}
+
+    </div>
+    <div class="_row _char _lines">
+        <label class="_ptf"></label>
+        <label></label>
+        <label class="_ptc"></label>
+    </div>
+    <div class="_row _char">
+        <input type="number" 
+                disabled="disabled"
+                data-tooltip="{{localize 'common.ptfMax'}}"
+                name="system.atributos.ptf.total" 
+                value="{{system.atributos.ptf.total}}" 
+                min="{{system.atributos.ptf.min}}" 
+                max="{{system.atributos.ptf.max}}"
+                class="_charTotal">
+        <input type="number" 
+                {{{_disabled}}}
+                name="system.atributos.sue.value" 
+                value="{{system.atributos.sue.value}}" 
+                min="{{system.atributos.sue.min}}" 
+                max="{{system.atributos.sue.max}}"
+                class="_charValue">                
+        <input type="number" 
+                disabled="disabled"
+                data-tooltip="{{localize 'common.ptcMax'}}"
+                name="system.atributos.ptc.total" 
+                value="{{system.atributos.ptc.total}}" 
+                min="{{system.atributos.ptc.min}}" 
+                max="{{system.atributos.ptc.max}}"
+                class="_charTotal">                              
+    </div>
+    <div class="_row _char _header">
+        <input type="number" 
+                {{{_disabled}}}
+                name="system.atributos.ptf.value" 
+                value="{{system.atributos.ptf.value}}" 
+                min="{{system.atributos.ptf.min}}" 
+                max="{{system.atributos.ptf.max}}"
+                class="_charValue">        
+        <label>{{localize 'common.suerteActual'}}</label>
+        <input type="number" 
+                {{{_disabled}}}
+                name="system.atributos.ptc.value" 
+                value="{{system.atributos.ptc.value}}" 
+                min="{{system.atributos.ptc.min}}" 
+                max="{{system.atributos.ptc.max}}"
+                class="_charValue">          
+    </div>   
+    <div class="_row _char _header">
+        <label data-tooltip="{{localize 'ATTR.ptf'}}">{{localize 'ATTR.ptfShort'}}</label>
+        <label></label>
+        <label data-tooltip="{{localize 'ATTR.ptc'}}">{{localize 'ATTR.ptcShort'}}</label>
+    </div>      
+</div>

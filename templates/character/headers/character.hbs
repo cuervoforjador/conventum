@@ -1,0 +1,33 @@
+<div class="_header _sheetHeader">
+
+    {{>character_background}}
+    <div class="_mainHeader">
+
+        <div class="portrait" >
+            <img src="{{actor.img}}" 
+                    data-edit="img"
+                    title="{{actor.name}}"
+                    alt="{{actor.name}}"
+                    {{#if isEditable}} data-action="editImage" {{/if}}
+                    class="actor-portrait">
+        </div>
+        <div class="_info">
+
+            <input type="text" 
+                    class="h4"
+                    name="name" 
+                    value="{{actor.name}}" 
+                    {{{_disabled}}}
+                    placeholder="{{localize 'common.nombre'}}"> 
+            
+            <div class="_grid"> 
+                {{>header_Lore}}
+            </div>
+      
+            <div class="_row _gapped _menu">
+                {{{navTab 'primary' (array 'stats' 'combate') '_expanded'}}}
+            </div>
+            
+        </div>
+    </div>
+</div>

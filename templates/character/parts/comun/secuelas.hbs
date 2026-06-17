@@ -1,0 +1,40 @@
+<div class="_secuelas">
+
+    <h4 class="_title divider">{{localize 'common.secuelas'}}</h4>
+    <table class="_list">
+
+        <thead>
+            <tr class="_header">
+                <th style="width: 100%"><label>{{localize 'common.secuela'}}</label></th>
+                {{#if isEditable}}
+                <th><label></label></th>
+                {{/if}}
+            </tr>
+        </thead>
+        <tbody>
+            {{#each secuelas as |secuela index|}}
+            <tr class="_secuela">
+                <td style="width: 100%">
+                    <a class="_name"
+                       data-action="{{#if ../isEditable}}_showItem{{else}}_showDescr{{/if}}" 
+                       data-id="{{secuela.item.id}}">
+                        <label class="_name _lSize">{{secuela.item.name}}</label>
+                    </a>
+                </td>
+                {{#if ../isEditable}}
+                <td>
+                    <button type="button"
+                            class="icon fas fa-remove" 
+                            data-action="_deleteItem" 
+                            data-id="{{secuela.item.id}}"
+                            data-tooltip="{{localize 'tooltip.borrarItem'}}">
+                    </button>                 
+                </td>
+                {{/if}}
+            </tr>
+            {{/each}}
+        </tbody>
+
+    </table>
+
+</div>

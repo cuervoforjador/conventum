@@ -1,0 +1,82 @@
+<section class="tab" data-group="primary" data-tab="penalizaciones">
+
+    <div class="_row _gapped _props">
+        <label>{{localize 'common.penalIniciativa'}} :</label>
+        <input type="number"
+            {{{_disabled}}} 
+            class="_xsSize"
+            name="system.penalIniciativa" 
+            value="{{system.penalIniciativa}}"> 
+
+        <label>{{localize 'common.penalMovimiento'}} :</label>
+        <input type="number"
+            {{{_disabled}}} 
+            class="_xsSize"
+            name="system.penalMovimiento" 
+            value="{{system.penalMovimiento}}">             
+    </div>
+    {{#if isEditable}}
+    <div class="_row _gapped _props">
+        <label>{{localize 'common.caracteristica'}} :</label>
+        <select class="_charSelector _mSize">
+            {{selectOptions caracteristicas 
+                            localize=false
+                            nameAttr="key"
+                            labelAttr="label" }}
+        </select>
+        <input type="text"           
+               data-field="penal"
+               class="_sSize">        
+        <button type="button"
+                class="icon fas fa-add" 
+                data-action="_skillsByChar" 
+                data-tooltip="{{localize 'common.anadir'}}">
+        </button>               
+    </div>
+    {{/if}}
+
+    <table class="_table _sortable"
+           data-path="system.penalizaciones">
+        <thead>
+            <tr>
+                <th>{{localize 'common.competencia'}}</th>
+                <th class="_sSize _right">{{localize 'common.penalizacion'}}</th>
+                {{#if isEditable}}<th class="_button"></th>{{/if}}
+            </tr>
+            {{#if isEditable}}
+            <tr class="_sortTR">
+                <td><select data-field="key">
+                    {{selectOptions competencias 
+                                    localize=false
+                                    nameAttr="key"
+                                    labelAttr="label" }}
+                    </select></td>                
+                <td><input type="text"           
+                           data-field="penal"
+                           class="_sSize"></td>
+                <td><button type="button"
+                            class="icon fas fa-add" 
+                            data-action="_addRow" 
+                            data-tooltip="{{localize 'common.anadir'}}">
+                    </button></td>
+            </tr>   
+            {{/if}}         
+        </thead>
+        <tbody>
+            {{#each system.penalizaciones as |entry key|}}
+            <tr data-key="{{entry.key}}">
+                <td style="padding-left: 0.5rem">{{translate entry.key ../competencias}}</td>
+                <td class="_sSize" style="text-align: right">{{entry.penal}}</td>
+                {{#if ../isEditable}}
+                <td class="_button"><button type="button" {{{_disabled}}}
+                            class="icon fas fa-remove" 
+                            data-action="_deleteRow" 
+                            data-tooltip="{{localize 'common.borrar'}}">
+                </button></td>   
+                {{/if}} 
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+</section>

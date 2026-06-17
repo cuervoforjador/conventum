@@ -1,0 +1,38 @@
+<div class="_main {{#if isEditable}}_editable{{/if}}">
+    <div class="_sheetContent">
+
+        {{!-- PROPERTIES --}}
+        <div class="_properties">
+            <div class="_row _gapped">
+                <label>{{localize 'common.femenino'}} :</label>
+                <input type="text" 
+                    {{{_disabled}}}
+                    name="system.femenino" 
+                    value="{{system.femenino}}" 
+                    data-tooltip="{{localize 'tooltip.femenino'}}">                  
+            </div>
+            {{#if configRULES.posicionRoll}}
+            <div class="_row _gapped">
+                <label>{{localize 'common.desde'}} :</label>
+                <input type="number"
+                    {{{_disabled}}} 
+                    class="_sSize"
+                    name="system.roll.low" 
+                    value="{{system.roll.low}}">   
+                <label>{{localize 'common.hasta'}} :</label>
+                <input type="number"
+                    {{{_disabled}}} 
+                    class="_sSize"
+                    name="system.roll.high" 
+                    value="{{system.roll.high}}">                                    
+            </div>
+            {{/if}}
+        </div> 
+
+        {{>item_descripcion}}
+        
+    </div>
+    <div class="_sheetFooter">
+        {{>item_footer}}
+    </div>    
+</div>

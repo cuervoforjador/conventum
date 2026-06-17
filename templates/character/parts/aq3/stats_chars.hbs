@@ -1,0 +1,101 @@
+<div class="_box _table _chars">
+    <div class="_row _char _header">
+        <label></label>
+        <label class="_input _center">{{localize 'common.total'}}</label>
+        <label class="_input _center _xsFont">{{localize 'common.temporal'}}</label>
+    </div>    
+    {{#each system.caracteristicas as |char key|}}
+    {{#if (isCharVisible key)}}
+    <div class="_row _char">
+        <label class="_charTitle"><span class="_bold">{{toUpperCase key}}</span>{{localize (concat "CHAR." key "Mix")}}</label>
+        <input type="number" 
+                {{{_disabled}}}
+                name="system.caracteristicas.{{key}}.total" 
+                value="{{char.total}}" 
+                min="{{char.min}}" 
+                max="{{char.max}}"
+                class="_charTotal">
+        {{#if ../isEditable}}
+        <input type="number" 
+                {{{_disabled}}}
+                name="system.caracteristicas.{{key}}.value" 
+                value="{{char.value}}" 
+                min="{{char.min}}" 
+                max="{{char.max}}"
+                class="_charValue">  
+        {{else}}
+        <label class="_input _roll _charValue"
+                data-spectrum="true"
+                data-action="_roll"
+                data-target="char"
+                data-path="{{key}}"
+                data-tooltip="{{localize 'tooltip.rollChar'}}">
+                <span class="_value _center">{{char.value}}</span>
+                <span class="_dice"><i class="fa-sharp fa-light fa-dice-d10"></i></span>
+        </label>
+        {{/if}}                 
+    </div>
+    {{/if}}
+    {{/each}}
+</div>
+
+<div class="_box _table _chars _subChars">
+    <div class="_row _char _header">
+        <label></label>
+        <label class="_input _center">{{localize 'common.total'}}</label>
+        <label class="_input _center _xsFont">{{localize 'common.temporal'}}</label>
+    </div>  
+    <div class="_row _char">
+        <label class="_charTitle"><span class="_bold">{{localize 'CHAR.aspShort'}}</span>{{localize 'CHAR.aspMix'}}</label>
+        <input type="number" 
+                {{{_disabled}}}
+                name="system.caracteristicas.asp.total" 
+                value="{{system.caracteristicas.asp.total}}" 
+                min="{{system.caracteristicas.asp.min}}" 
+                max="{{system.caracteristicas.asp.max}}"
+                class="_charTotal">
+        {{#if isEditable}}
+        <input type="number" 
+                {{{_disabled}}}
+                name="system.caracteristicas.asp.value" 
+                value="{{system.caracteristicas.asp.value}}" 
+                min="{{system.caracteristicas.asp.min}}" 
+                max="{{system.caracteristicas.asp.max}}"
+                class="_charValue">  
+        {{else}}
+        <label class="_input _roll _charValue"
+                data-spectrum="true"
+                data-action="_roll"
+                data-target="char"
+                data-path="asp"
+                data-tooltip="{{localize 'tooltip.rollChar'}}">
+                <span class="_value _center">{{system.caracteristicas.asp.value}}</span>
+                <span class="_dice"><i class="fa-sharp fa-light fa-dice-d10"></i></span>
+        </label>        
+        {{/if}}
+    </div>
+    <div class="_row _char">
+        <label class="_charTitle">{{localize 'ATTR.tem'}}</label>
+        {{#if isEditable}}
+        <input type="number" 
+                {{{_disabled}}}
+                name="system.atributos.tem.total" 
+                value="{{system.atributos.tem.total}}" 
+                min="{{system.atributos.tem.min}}" 
+                max="{{system.atributos.tem.max}}"
+                class="_charTotal">               
+        {{else}}
+        <label class="_input _roll _charTotal"
+               style=""
+                data-spectrum="true"
+                data-action="_roll"
+                data-target="attr"
+                data-path="tem.total"
+                data-tooltip="{{localize 'common.rollAttr'}}">
+                <span class="_value _center">{{system.atributos.tem.total}}</span>
+                <span class="_dice"><i class="fa-sharp fa-light fa-dice-d10"></i></span>
+        </label>        
+        {{/if}}
+        <label class="_input"></label>        
+    </div>    
+</div>

@@ -1,0 +1,117 @@
+<section class="tab" data-group="primary" data-tab="efectos">
+    
+    {{#if isEditable}}
+    <div class="_row">
+        <div class="_combo">
+            <select class="_charSelector _lSize">
+                {{selectOptions caracteristicas 
+                                localize=false
+                                nameAttr="key"
+                                labelAttr="label" }}
+            </select>
+            <button type="button"
+                    class="icon fas fa-add" 
+                    data-action="_useChar" 
+                    data-tooltip="{{localize 'common.anadir'}}">
+            </button>
+        </div>
+
+        <div class="_combo">
+            <select class="_charSelector">
+                {{selectOptions atributos 
+                                localize=false
+                                nameAttr="key"
+                                labelAttr="label" }}
+            </select>
+            <button type="button"
+                    class="icon fas fa-add" 
+                    data-action="_useAttr" 
+                    data-tooltip="{{localize 'common.anadir'}}">
+            </button>
+        </div>
+
+        <div class="_combo">
+            <select data-field="key">
+            {{selectOptions competencias 
+                            localize=false
+                            nameAttr="key"
+                            labelAttr="label" }}
+            </select>
+            <button type="button"
+                    class="icon fas fa-add" 
+                    data-action="_useSkill" 
+                    data-tooltip="{{localize 'common.anadir'}}">
+            </button>
+        </div>                        
+    </div>
+    {{/if}}
+
+    <table class="_table _sortable"
+           data-path="system.efectos">
+        <thead>
+            <tr>
+                <th></th>
+                <th>{{localize 'common.ruta'}}</th>
+                <th>{{localize 'common.formula'}}</th>
+                <th>{{localize 'common.valor'}}</th>
+                <th>{{localize 'common.rasgo'}}</th>
+                <th>{{localize 'common.texto'}}</th>
+                {{#if isEditable}}<th class="_button"></th>{{/if}}
+            </tr>
+            {{#if isEditable}}
+            <tr class="_sortTR">
+                <td><input type="number"           
+                            data-field="key"
+                            value="1"                    
+                            class="_xsSize _center"></td>                
+                <td><input type="text"           
+                            data-field="path"
+                            value="system."                    
+                            class="_mSize"></td>
+                <td><input type="text"           
+                            data-field="formula"
+                            value=""                    
+                            class="_sSize"></td>
+                <td><input type="number"           
+                            data-field="value"
+                            value="0"                    
+                            class="_sSize"></td>
+                <td><input type="text"           
+                            data-field="rasgo"
+                            value=""                    
+                            class="_mSize"></td>                            
+                <td style="width: 100%">
+                    <input type="text"           
+                            data-field="text"
+                            value=""                    
+                            style="width: 100%"></td>                            
+                <td><button type="button"
+                            class="icon fas fa-add" 
+                            data-action="_addRow" 
+                            data-tooltip="{{localize 'common.anadir'}}">
+                    </button></td>
+            </tr>   
+            {{/if}}         
+        </thead>
+        <tbody>
+            {{#each system.efectos as |entry key|}}
+            <tr data-key="{{entry.key}}">
+                <td class="_pointer _center" data-action="_selectRow">{{entry.key}}</td>
+                <td class="_mSize">{{entry.path}}</td>
+                <td class="_sSize">{{entry.formula}}</td>
+                <td class="_sSize">{{entry.value}}</td>
+                <td class="_mSize">{{entry.rasgo}}</td>
+                <td style="width: 100%">{{entry.text}}</td>
+                {{#if ../isEditable}}
+                <td class="_button"><button type="button" {{{_disabled}}}
+                            class="icon fas fa-remove" 
+                            data-action="_deleteRow" 
+                            data-tooltip="{{localize 'common.borrar'}}">
+                </button></td>   
+                {{/if}} 
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+</section>

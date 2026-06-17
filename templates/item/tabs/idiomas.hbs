@@ -1,0 +1,58 @@
+<section class="tab" data-group="primary" data-tab="idiomas">
+    
+    <table class="_table _sortable"
+           data-path="system.idiomas">
+        <thead>
+            <tr>
+                <th>{{localize 'common.idioma'}}</th>
+                <th class="_sSize _right">{{localize 'common.valor'}} %</th>
+                <th class="_mSize">{{localize 'common.formula'}}</th>
+                {{#if isEditable}}<th class="_button"></th>{{/if}}
+            </tr>
+            {{#if isEditable}}
+            <tr class="_sortTR">
+                <td><select data-field="key">
+                    {{selectOptions idiomas 
+                                    localize=false
+                                    nameAttr="key"
+                                    labelAttr="label" }}
+                    </select></td>                
+                <td><input type="number"           
+                            data-field="value"
+                            data-tooltip="{{localize 'common.valor'}}"
+                            min="0"
+                            max="100"
+                            value="0"                    
+                            class="_sSize _right"></td>
+                <td><input type="text"
+                            data-field="formula"
+                            data-tooltip="{{localize 'common.formula'}}"
+                            class="_mSize"
+                            value=""></td>
+                <td><button type="button"
+                            class="icon fas fa-add" 
+                            data-action="_addRow" 
+                            data-tooltip="{{localize 'common.anadir'}}">
+                    </button></td>
+            </tr>   
+            {{/if}}         
+        </thead>
+        <tbody>
+            {{#each system.idiomas as |entry key|}}
+            <tr data-key="{{entry.key}}">
+                <td>{{translate entry.key ../idiomas}}</td>
+                <td class="_mSize _right">{{entry.value}}</td>
+                <td class="_mSize">{{entry.formula}}</td>
+                {{#if ../isEditable}}
+                <td class="_button"><button type="button" {{{_disabled}}}
+                            class="icon fas fa-remove" 
+                            data-action="_deleteRow" 
+                            data-tooltip="{{localize 'common.borrar'}}">
+                </button></td>   
+                {{/if}} 
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+</section>

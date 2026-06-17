@@ -1,0 +1,60 @@
+<div class="_verguenzas">
+
+    <h4 class="_title divider">{{localize 'common.verguenzas'}}</h4>
+    <table class="_list">
+
+        <thead>
+            <tr class="_header">
+                <th style="width: 100%"><label>{{localize 'common.verguenza'}}</label></th>
+                <th><label>{{localize 'common.puntos'}}</label></th>
+                {{#if isEditable}}
+                <th><label></label></th>
+                {{/if}}
+            </tr>
+        </thead>
+        <tbody>
+            {{#each verguenzas as |verguenza index|}}
+            <tr class="_verguenza">
+                <td style="width: 100%">
+                    <a class="_name"
+                       data-action="{{#if ../isEditable}}_showItem{{else}}_showDescr{{/if}}" 
+                       data-id="{{verguenza.item.id}}">
+                        <label class="_name _lSize">{{verguenza.item.name}}</label>
+                    </a>
+                    {{#unless verguenza.item.system.applied}}
+                        {{#if ../isEditable}}
+                            <a data-action="_navToItem"  data-id="{{verguenza.item.id}}" data-name="system.applied">
+                                <label class="_advert _pointer blink1" data-tooltip="{{{localize 'tooltip.sinAplicar'}}}">{{localize 'common.sinAplicar'}}</label>
+                            </a>
+                        {{else}}
+                            <label class="_advert blink1" data-tooltip="{{{localize 'tooltip.sinAplicar'}}}">{{localize 'common.sinAplicar'}}</label>
+                        {{/if}}                    
+                    
+                    {{/unless}}                    
+                </td>
+                <td>
+                {{#if ../isEditable}}
+                    <a data-action="_navToItem"  data-id="{{verguenza.item.id}}" data-name="system.coste">
+                        <label class="_xsSize _center2 _pointer">{{verguenza.item.system.coste}}</label>
+                    </a>
+                {{else}}
+                    <label class="_xsSize _center2">{{verguenza.item.system.coste}}</label>                   
+                {{/if}} 
+                </td>                
+                {{#if ../isEditable}}
+                <td>
+                    <button type="button"
+                            class="icon fas fa-remove" 
+                            data-action="_deleteItem" 
+                            data-id="{{verguenza.item.id}}"
+                            data-tooltip="{{localize 'tooltip.borrarItem'}}">
+                    </button>                 
+                </td>
+                {{/if}}
+            </tr>
+            {{/each}}
+        </tbody>
+
+    </table>
+
+</div>

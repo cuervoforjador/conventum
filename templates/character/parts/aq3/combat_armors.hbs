@@ -1,0 +1,99 @@
+<div class="_armors">
+
+    <h4 class="_title divider">{{localize 'common.armadura'}}</h4>
+    <table class="_list">
+
+        <thead>
+            <tr class="_header">
+                <th><label></label></th>
+                <th><label>{{localize 'common.armadura'}}</label></th>
+                <th><label>{{localize 'common.proteccionShort'}}</label></th>
+                <th><label>{{localize 'common.localizaciones'}}</label></th>
+                <th><label>{{localize 'common.modIniciativaShort'}}</label></th>
+                {{#if configRULES.armadurasRES}}
+                <th><label>{{localize 'common.resistencia'}}</label></th>
+                {{/if}}
+                <th><label></label></th>
+                {{#if isEditable}}
+                <th><label></label></th>
+                {{/if}}
+            </tr>
+        </thead>
+        <tbody>
+            {{#each armors as |armor index|}}
+            <tr class="_armor">
+                <td>
+                    <button type="button" class="icon fas fa-user {{#if armor.item.system.enUso}}_checked{{/if}}" 
+                            {{#unless ../isEditable}} disabled="disabled" {{/unless}} 
+                            data-action="_updateItem"
+                            data-id="{{armor.item.id}}"
+                            data-path="system.enUso" 
+                            data-tooltip="{{#if armor.item.system.enUso}} {{localize 'tooltip.enUso'}} 
+                                                                 {{else}} {{localize 'tooltip.noenUso'}} {{/if}}" />
+                </td>
+                <td>
+                    <a class="_name"
+                       data-action="{{#if ../isEditable}}_showItem{{else}}_showDescr{{/if}}" 
+                       data-id="{{armor.item.id}}">
+                        <label class="_name _lSize">{{armor.item.name}}</label>
+                    </a>
+                </td>
+                <td>
+                    {{#if ../isEditable}}
+                        <a data-action="_navToItem"  data-id="{{armor.item.id}}" data-name="system.proteccion">
+                            <label class="_italic _center2 _pointer">{{armor.proteccion}}</label>    
+                        </a>
+                    {{else}}
+                        <label class="_italic _center2">{{armor.proteccion}}</label>
+                    {{/if}}
+                </td>
+                <td>
+                    <label class="_italic">{{armor.localizaciones}}</label>
+                </td>              
+                <td>
+                    {{#if ../isEditable}}
+                        <a data-action="_navToItem"  data-id="{{armor.item.id}}" data-name="system.penalIniciativa">
+                            <label class="_italic _center2 _pointer">{{armor.modIniciativa}}</label>    
+                        </a>
+                    {{else}}
+                        <label class="_italic _center2">{{armor.modIniciativa}}</label>
+                    {{/if}}
+                </td>
+                {{#if ../configRULES.armadurasRES}}
+                <td>
+                    {{#if ../isEditable}}
+                        <a data-action="_navToItem"  data-id="{{armor.item.id}}" data-name="system.resistencia">
+                            <label class="_italic _center _pointer">{{armor.item.system.resistencia}}</label> / <label class="_italic">{{armor.item.system.resistenciaTotal}}</label>
+                        </a>
+                    {{else}}
+                        <label class="_italic _center">{{armor.item.system.resistencia}}</label> / <label class="_italic">{{armor.item.system.resistenciaTotal}}</label>
+                    {{/if}}                    
+                </td>
+                {{/if}}
+                <td>
+                    {{#if armor.penalizaciones}}
+                    <button type="button"
+                            class="icon fas fa-badge {{#if armor.item.system.enUso}}_checked{{/if}}" 
+                            data-action="_showPenals" 
+                            data-id="{{armor.item.id}}"
+                            data-tooltip="{{localize 'common.verPenalizaciones'}}">
+                    </button>                 
+                    {{/if}}   
+                </td>
+                {{#if ../isEditable}}
+                <td>
+                    <button type="button"
+                            class="icon fas fa-remove" 
+                            data-action="_deleteItem" 
+                            data-id="{{armor.item.id}}"
+                            data-tooltip="{{localize 'tooltip.borrarItem'}}">
+                    </button>                 
+                </td>
+                {{/if}}
+            </tr>
+            {{/each}}
+        </tbody>
+
+    </table>
+
+</div>

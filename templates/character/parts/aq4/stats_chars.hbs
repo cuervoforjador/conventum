@@ -1,0 +1,83 @@
+<div class="_box _table _chars">
+    <div class="_row"></div>
+    <div class="_row _char _header">
+        <label class="_input _center">{{localize 'common.total'}}</label>
+        <label class="_input _center">{{localize 'common.actual'}}</label>
+        <label class="_input _center">x5%</label>
+    </div>    
+    {{#each system.caracteristicas as |char key|}}
+    {{#if (isCharVisible key)}}
+    <div class="_row _char">
+        <label class="_charTitle">{{localize (concat "CHAR." key "Short")}}</label>
+        <input type="number" 
+                {{{_disabled}}}
+                name="system.caracteristicas.{{key}}.total" 
+                value="{{char.total}}" 
+                min="{{char.min}}" 
+                max="{{char.max}}"
+                class="_charTotal">
+        <input type="number" 
+                {{{_disabled}}}
+                name="system.caracteristicas.{{key}}.value" 
+                value="{{char.value}}" 
+                min="{{char.min}}" 
+                max="{{char.max}}"
+                class="_charValue">                  
+        {{#if ../isEditable}}
+                <label class="_charValue"
+                        data-spectrum="true">
+                        {{mult char.value 5}}
+                </label>
+        {{else}}
+                <label class="_roll _charValue"
+                        data-spectrum="true"
+                        data-action="_roll"
+                        data-target="char"
+                        data-path="{{key}}"
+                        data-tooltip="{{localize 'tooltip.rollChar'}}">
+                        <span class="_value _center">{{mult char.value 5}}</span>
+                        <span class="_dice"><i class="fa-sharp fa-light fa-dice-d10"></i></span>
+                </label>
+        {{/if}}              
+    </div>
+    {{/if}}
+    {{/each}}
+</div>
+
+<div class="_box _table _chars _subChars">
+    <div class="_row _char _header">
+        <label></label>
+        <label class="_input _center">{{localize 'common.total'}}</label>
+        <label class="_input _center">{{localize 'common.actual'}}</label>
+    </div>  
+    <div class="_row _char">
+        <label class="_charTitle">{{localize 'ATTR.sue'}}</label>
+        <input type="number" 
+                disabled="disabled"
+                name="system.atributos.sue.total" 
+                value="{{system.atributos.sue.total}}" 
+                min="{{system.atributos.sue.min}}" 
+                max="{{system.atributos.sue.max}}"
+                class="_charTotal">
+        {{#if isEditable}}
+        <input type="number" 
+                {{{_disabled}}}
+                name="system.atributos.sue.value" 
+                value="{{system.atributos.sue.value}}" 
+                min="{{system.atributos.sue.min}}" 
+                max="{{system.atributos.sue.max}}"
+                class="_charValue">  
+        {{else}}
+        <label class="_input _roll _charValue"
+                data-spectrum="true"
+                data-action="_roll"
+                data-target="attr"
+                data-path="sue.value"
+                data-tooltip="{{localize 'tooltip.rollAttr'}}">
+                <span class="_value _center">{{system.atributos.sue.value}}</span>
+                <span class="_dice"><i class="fa-sharp fa-light fa-dice-d10"></i></span>
+        </label>        
+        {{/if}}
+    </div>
+ 
+</div>

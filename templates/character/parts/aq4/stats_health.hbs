@@ -1,0 +1,80 @@
+<div class="_2columns">   
+    <div class="_1column _healthWrap">
+        <h4 class="_title divider">{{localize 'ATTR.ptvShort2'}}</h4>
+        <div class="_health">
+            {{#each m20 as |num index|}}
+                {{#if ../isEditable}}
+                {{#if (lte (rest 20 num) ../system.atributos.ptv.max)}}
+                <a data-action="_hitsPoints" data-value="{{rest 20 num}}">
+                {{/if}}    
+                {{/if}}        
+                    <div class="_numberBox">
+                            <label class="{{#if (gt (rest 20 num) ../system.atributos.ptv.max)}}_disabled{{/if}}
+                                        {{#if (eq (rest 20 num) ../system.atributos.ptv.value)}}_selected{{/if}}">{{rest 20 num}}</label>
+                    </div>
+                {{#if ../isEditable}}
+                {{#if (lte (rest 20 num) ../system.atributos.ptv.max)}}
+                </a>
+                {{/if}}           
+                {{/if}}     
+            {{/each}}
+            {{#if isEditable}}
+            <a data-action="_hitsPoints" data-value="0" class="_100">            
+            {{/if}}
+            <div class="_row _central">            
+                <label class="_100 {{#if (eq 0 system.atributos.ptv.value)}}_selected{{/if}}">{{localize 'common.inconsciente'}}</label>
+            </div>
+            {{#if isEditable}}
+            </a>
+            {{/if}}
+            {{#each m20 as |num index|}}
+                {{#if ../isEditable}}
+                {{#if (gte (rest -1 num) (mult -1 ../system.atributos.ptv.max))}}
+                <a data-action="_hitsPoints" data-value="{{rest -1 num}}">
+                {{/if}}           
+                {{/if}}   
+                    <div class="_numberBox">
+                        <label class="{{#if (lt (rest -1 num) (mult -1 ../system.atributos.ptv.max))}}_disabled{{/if}}
+                                      {{#if (eq (rest -1 num) ../system.atributos.ptv.value)}}_selected{{/if}}">{{rest -1 num}}</label>
+                    </div>
+                {{#if ../isEditable}}
+                {{#if (gte (rest -1 num) (mult -1 ../system.atributos.ptv.max))}}
+                </a>
+                {{/if}}
+                {{/if}}         
+            {{/each}}        
+        </div>
+    </div>
+
+    <div class="_1column">
+
+        {{#if isEditable}}
+        <div class="_logo _clickable"
+             data-action="_resetAttr"
+             data-tooltip="{{localize 'tooltip.resetAttr'}}">
+        </div>
+        {{else}}
+        <div class="_logo"></div>
+        {{/if}}
+            
+        <div class="_status">
+            {{#each system.salud.estado as |status key|}}
+            <div class="_row">  
+                <a data-action="_showStatus" data-path="system.salud.estado.{{key}}">   
+                    <label>{{localize (concat "common." key)}}</label> 
+                </a>
+                <label class="_expand"></label>
+                <input type="number" 
+                        disabled="disabled"
+                        name="system.salud.estado.{{key}}.value" 
+                        value="{{status.value}}"
+                        class="_statusValue">     
+                <input type="checkbox" 
+                        disabled="disabled"
+                        name="system.salud.estado.{{key}}.checked" 
+                        {{checked status.checked}}>                                
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</div>

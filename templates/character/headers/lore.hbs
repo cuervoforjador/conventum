@@ -1,0 +1,185 @@
+<div class="_combo _fields">
+    <label>{{localize 'common.reino'}}:</label>
+    {{#unless (eq info.reino.id '')}}
+    <a data-action="_showItem" data-id="{{info.reino.id}}">
+    {{/unless}}
+        <label class="_field">{{info.reino.label}}</label>
+    {{#unless (eq info.reino.id '')}}
+    </a>
+    {{/unless}}
+    {{#if isEditable}}
+    <button type="button"
+            class="icon fas fa-edit" 
+            data-action="_editLore" 
+            data-lore="reino"
+            data-tooltip="{{localize 'common.editarReino'}}">
+    </button>
+    {{/if}}
+</div>    
+
+<div class="_combo _fields">
+    <label>{{localize 'common.origen'}}:</label>
+    {{#unless (eq info.origen.id '')}}
+    <a data-action="_showItem" data-id="{{info.origen.id}}">
+    {{/unless}}
+        <label class="_field">{{info.origen.label}}</label>
+    {{#unless (eq info.origen.id '')}}
+    </a>
+    {{/unless}}
+    {{#if isEditable}}
+    <button type="button"
+            class="icon fas fa-edit" 
+            data-action="_editLore" 
+            data-lore="pueblo"
+            data-tooltip="{{localize 'common.editarOrigen'}}">
+    </button>
+    {{/if}}
+</div>
+
+{{#if configRULES.verCultura}}
+<div class="_combo _fields">
+    <label>{{localize 'common.cultura'}}:</label>
+    <a data-action="_showItem" data-id="{{info.cultura.id}}">
+        <label class="_field">{{info.cultura.label}}</label>
+    </a>
+</div>
+{{/if}}
+
+<div class="_combo _fields">
+    <label>{{localize 'common.posicion'}}:</label>
+    {{#unless (eq info.posicion.id '')}}
+    <a data-action="_showItem" data-id="{{info.posicion.id}}">
+    {{/unless}}
+        <label class="_field">{{info.posicion.label}}</label>
+    {{#unless (eq info.posicion.id '')}}
+    </a>
+    {{/unless}}
+    {{#if isEditable}}
+    <button type="button"
+            class="icon fas fa-edit" 
+            data-action="_editLore" 
+            data-lore="posicion"
+            data-tooltip="{{localize 'common.editarPosicion'}}">
+    </button>
+    {{/if}}
+</div>
+
+{{#if configRULES.limpiezaSangre}}
+<div class="_combo _fields">
+    <label>{{localize 'common.limpiezaSangre'}}:</label>
+    {{#if isEditable}}
+    <input type="number" 
+            name="system.info.limpiezaSangre" 
+            value="{{system.info.limpiezaSangre}}" 
+            min="0" 
+            max="100"
+            class="_xsSize _center"> 
+    <label>%</label>           
+    {{else}}
+    <label class="_field">{{system.info.limpiezaSangre}} %</label>
+    {{/if}}
+</div>
+{{/if}}
+
+<div class="_combo _fields">
+    <label>{{localize 'common.profesion'}}:</label>
+    {{#unless (eq info.profesion.id '')}}
+    <a data-action="_showItem" data-id="{{info.profesion.id}}">
+    {{/unless}}
+        <label class="_field">{{info.profesion.label}}</label>
+    {{#unless (eq info.profesion.id '')}}
+    </a>
+    {{/unless}}
+    {{#if isEditable}}
+    <button type="button"
+            class="icon fas fa-edit" 
+            data-action="_editLore" 
+            data-lore="profesion"
+            data-tooltip="{{localize 'common.editarProfesion'}}">
+    </button>
+    {{/if}}
+</div>    
+
+<div class="_combo _fields">
+    <label>{{localize 'common.profesionPaterna'}}:</label>
+    {{#unless (eq info.profesionPaterna.id '')}}
+    <a data-action="_showItem" data-id="{{info.profesionPaterna.id}}">
+    {{/unless}}
+        <label class="_field">{{info.profesionPaterna.label}}</label>
+    {{#unless (eq info.profesionPaterna.id '')}}
+    </a>
+    {{/unless}}
+    {{#if isEditable}}
+    <button type="button"
+            class="icon fas fa-edit" 
+            data-action="_editLore" 
+            data-lore="profesionPaterna"
+            data-tooltip="{{localize 'common.editarProfesionPaterna'}}">
+    </button>
+    {{/if}}
+</div>
+
+{{#if configRULES.verExtraLore}}
+<div class="_combo _fields">
+    <label>{{localize 'common.edad'}}:</label>
+    {{#if isEditable}}
+    <input type="number" 
+            name="system.info.edad" 
+            value="{{system.info.edad}}" 
+            class="_xsSize _right">        
+    {{else}}
+    <label class="_field _right">{{system.info.edad}}</label>
+    {{/if}}
+    <label class="_italic _marginRight">{{localize 'common.anos'}}</label>
+</div>
+<div class="_combo _fields">
+    <label>{{localize 'common.altura'}}:</label>
+    {{#if isEditable}}
+    <input type="number" 
+            name="system.info.altura" 
+            value="{{system.info.altura}}" 
+            class="_xsSize _right">        
+    {{else}}
+    <label class="_field _right">{{system.info.altura}}</label>
+    {{/if}}
+    <label class="_italic _marginRight">{{configRULES.unitAltura}}</label>
+</div>
+<div class="_combo _fields">
+    <label>{{localize 'common.peso'}}:</label>
+    {{#if isEditable}}
+    <input type="number" 
+            name="system.info.peso" 
+            value="{{system.info.peso}}" 
+            class="_xsSize _right">        
+    {{else}}
+    <label class="_field _right">{{system.info.peso}}</label>
+    {{/if}}
+    <label class="_italic _marginRight">{{configRULES.unitPeso}}</label>
+</div>
+{{/if}}
+
+{{#if configRULES.verFamilia}}
+<div class="_combo _fields">
+    <label>{{localize 'common.familia'}}:</label>
+    {{#if isEditable}}
+    <input type="text" 
+            name="system.info.familia.value" 
+            value="{{system.info.familia.value}}" 
+            class="_mSize">        
+    {{else}}
+    <label class="_field">{{system.info.familia.value}}</label>
+    {{/if}}
+</div>
+{{/if}}
+
+<div class="_combo _fields">
+    <label>{{localize 'common.descripcion'}}:</label>
+    {{#if isEditable}}
+    <input type="text" 
+            name="system.info.descripcion.value" 
+            value="{{system.info.descripcion.value}}"
+            class="_lSize">      
+    {{else}}
+    <label class="_field">{{system.info.descripcion.value}}</label>
+    {{/if}}
+</div>
