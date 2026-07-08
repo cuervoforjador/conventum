@@ -1,0 +1,112 @@
+<h4 class="_title divider">{{localize 'common.preparacion'}}</h4>
+<div class="_pool">
+    {{#each hechizosPreparacion as |preparacion index|}}
+    <div class="_itemPool">
+        <div class="_row _middle _spaced">
+            <label class="_title _pointer"
+                   data-action="{{#if ../isEditable}}_showItem{{else}}_showHechizo{{/if}}"
+                   data-id="{{preparacion.id}}">{{preparacion.item.name}} <span class="_italic _small">(VIS {{localize (concat 'common.' preparacion.item.system.vis)}})</span></label>
+            {{#if ../isEditable}}
+            <button type="button"
+                    class="icon fas fa-remove" 
+                    data-action="_deletePreparacion" 
+                    data-key="{{preparacion.key}}"
+                    data-tooltip="{{localize 'tooltip.borrarPreparacion'}}">
+            </button>
+            {{/if}}
+        </div>
+
+        {{#if preparacion.fabricacion.use}}
+        <div class="_step">
+            <div class="_row _middle">
+                <label>{{localize 'common.fabricacion'}}:</label>
+                {{#if ../isEditable}}
+                    <input type="number"
+                        class="_stepValue"
+                        data-path="system.magia.preparacion"
+                        data-key="{{preparacion.key}}"
+                        data-type="stat"
+                        data-step="fabricacion"
+                        data-field="unidades"
+                        value="{{preparacion.fabricacion.unidades}}" />
+                {{else}}
+                    <label class="_field">{{preparacion.fabricacion.unidades}}</label>
+                {{/if}}
+                <label class="_field">/ {{preparacion.fabricacion.unidadesTotal}}</label>
+                <label class="_unit">{{preparacion.fabricacion.unidad}}</label>              
+            </div>
+            <div class="_row _middle _marginTop _marginBottom">
+                <progressBar>
+                    <percent style="width:  {{preparacion.fabricacion.percent}}%"></percent>
+                </progressBar>
+            </div> 
+
+            {{#if preparacion.fabricacion.completed}}
+            <div class="_row _middle _spaced">
+                <label>{{localize 'common.dosis'}}:</label>
+                <div class="_dosisTotal">
+                {{#each preparacion.dosis as |dosis index|}}
+                    {{#if dosis.llena}}
+                        <div class="_dosis _llena _pointer"
+                            data-tooltip="{{localize 'common.llena'}} ({{localize 'common.vaciar'}})"
+                            data-action="_dosis"
+                            data-verb="vaciar"
+                            data-key="{{preparacion.key}}"
+                            data-index="{{dosis.index}}">
+                            {{dosis.index}}
+                        </div>
+                    {{else}}
+                        <div class="_dosis _vacia {{#if ../../isEditable}}_pointer{{/if}}"
+                            data-tooltip="{{localize 'common.vacia'}} {{#if ../../isEditable}}({{localize 'common.rellenar'}}){{/if}}"
+                            {{#if ../../isEditable}}
+                            data-action="_dosis" 
+                            data-verb="llenar"   
+                            data-key="{{preparacion.key}}"
+                            data-index="{{dosis.index}}"                                                    
+                            {{/if}}>
+                            {{dosis.index}}
+                        </div>                    
+                    {{/if}}
+                {{/each}}
+                </div>
+            </div>
+            {{/if}}
+
+        </div>
+        {{/if}}
+        <div class="_step">
+            <div class="_row _middle _spaced">
+                <label>{{localize 'common.componentes'}}:</label>
+                <button type="button" 
+                        data-action="_componentes"
+                        data-key="{{preparacion.key}}">{{localize 'common.verComponentes'}}</button>                
+            </div>
+            <div class="_row _middle">
+                <label>{{localize 'common.duracion'}}:</label>
+                <label class="_field">{{preparacion.duracion}}</label>
+            </div>
+            <div class="_row _middle _spaced">
+                <div class="_combo">
+                    <input type="checkbox" 
+                        id="checkPreparado_{{preparacion.key}}"
+                        class="_stepValue" 
+                        data-path="system.magia.preparacion"
+                        data-key="{{preparacion.key}}"
+                        data-type="checkbox"
+                        data-step=""
+                        data-field="preparado"                        
+                        data-tooltip="{{localize 'explain.preparado'}}"
+                        {{#if preparacion.preparado}}checked{{/if}}>
+                    <label for="checkPreparado_{{preparacion.key}}" 
+                           data-tooltip="{{localize 'explain.preparado'}}">{{localize 'common.preparado'}}</label>
+                </div>
+                 {{#if preparacion.preparado}}
+                    <button type="button" 
+                            data-action="_lanzarHechizo"
+                            data-key="{{preparacion.key}}">{{localize 'common.lanzarHechizo'}}</button>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</div>

@@ -15,6 +15,11 @@ import sheetPosicion  from "../sheets/item/posicion.js"
 import sheetProfesion  from "../sheets/item/profesion.js"
 import sheetSecuela  from "../sheets/item/secuela.js"
 import sheetRasgo  from "../sheets/item/rasgo.js"
+import sheetGrimorio  from "../sheets/item/grimorio.js"
+import sheetHechizo  from "../sheets/item/hechizo.js"
+import sheetEnsalmo  from "../sheets/item/ensalmo.js"
+import sheetFormula  from "../sheets/item/formula.js"
+
 import sheetTableExtend from "../sheets/table/base.js"
 
 import helperContext from "./helperContext.js"
@@ -63,6 +68,10 @@ export default class helperSheets {
         vI.registerSheet(SYSTEM_ID, sheetProfesion, { types: ["profesion"], makeDefault: true, label: "sheet.profesion" })
         vI.registerSheet(SYSTEM_ID, sheetSecuela, { types: ["secuela"], makeDefault: true, label: "sheet.secuela" })
         vI.registerSheet(SYSTEM_ID, sheetRasgo, { types: ["rasgo"], makeDefault: true, label: "sheet.rasgo" })
+        vI.registerSheet(SYSTEM_ID, sheetGrimorio, { types: ["grimorio"], makeDefault: true, label: "sheet.grimorio" })
+        vI.registerSheet(SYSTEM_ID, sheetHechizo, { types: ["hechizo"], makeDefault: true, label: "sheet.hechizo" })
+        vI.registerSheet(SYSTEM_ID, sheetEnsalmo, { types: ["ensalmo"], makeDefault: true, label: "sheet.ensalmo" })
+        vI.registerSheet(SYSTEM_ID, sheetFormula, { types: ["formula"], makeDefault: true, label: "sheet.formula" })
 
         const vT = foundry.documents.collections.RollTables
         vT.registerSheet(SYSTEM_ID, sheetTableExtend, { types: ["base"], makeDefault: true, label: "sheet.lore" })
@@ -81,6 +90,7 @@ export default class helperSheets {
         //Características
         for (var s in _chars) {
             let char = _chars[s];
+            char.max = 99;
             ['value', 'total'].map(field => {
                 char[field] = this._checkMinMax(char[field], char.min, char.max)
             })             
@@ -107,17 +117,17 @@ export default class helperSheets {
         
         //Templanza
         _attrs.tem.min = 0
-        _attrs.tem.max = 100       
-        _attrs.tem.total = this._checkMinMax(_attrs.tem.total, _attrs.rr.min, _attrs.rr.max)
+        _attrs.tem.max = 999       
+        _attrs.tem.total = this._checkMinMax(_attrs.tem.total, _attrs.tem.min, _attrs.tem.max)
         _attrs.tem.value = _attrs.tem.total
 
         //Racionalidad e Irracionalidad
         _attrs.rr.min = 0
-        _attrs.rr.max = 200
+        _attrs.rr.max = 999
         _attrs.rr.value = this._checkMinMax(_attrs.rr.value, _attrs.rr.min, _attrs.rr.max)
 
         _attrs.irr.min = 0
-        _attrs.irr.max = 200
+        _attrs.irr.max = 999
         _attrs.irr.value = this._checkMinMax(_attrs.irr.value, _attrs.irr.min, _attrs.irr.max)
 
         //Pt. Concentración y Fe
@@ -131,8 +141,25 @@ export default class helperSheets {
         _attrs.ptf.max = _attrs.ptf.total        
         _attrs.ptf.value = this._checkMinMax(_attrs.ptf.value, _attrs.ptf.min, _attrs.ptf.max)
 
+        //Hechizos, Ensalmos y Fórmulas
+        const requisitos = helperContext.getMagiaRequisitos(rules)
+        const conMagico = system.competencias.find(e => e.key === requisitos.hechizos.skillID)
+        const teologia  = system.competencias.find(e => e.key === requisitos.ensalmos.skillID)
+
+        system.magia.tipo.hechizos = !conMagico ? false :
+                                        _attrs.irr.value >= requisitos.hechizos.minIRR &&
+                                        conMagico.stats.value >= requisitos.hechizos.minSkill
+
+        system.magia.tipo.ensalmos = !teologia ? false : 
+                                        _attrs.rr.value >= requisitos.ensalmos.minRR &&
+                                        teologia.stats.value >= requisitos.ensalmos.minSkill
+
+        if (system.magia.tipo.formulas) system.magia.tipo.hechizos = false
+
         //Estatus de Vida
         this.checkStatusVida(rules, system.atributos.ptv, system.salud.estado)
+
+        
 
         system.salud.heridaGrave = Math.ceil(system.atributos.ptv.total / 2)
         return system
@@ -477,6 +504,68 @@ export default class helperSheets {
         return mReturn
     }
 
+    /**
+     * itemsHechizos
+     * @param {*} actor 
+     * @param {*} rules 
+     */
+    static itemsHechizos(actor, rules) {
+        const _config = aqConfig.hechizos[rules]
+        let mReturn = []
+        let mItems = actor.items.filter(e => e.type === 'hechizo' && e.system.rules === rules)
+        mItems.sort((a,b) => a.name.localeCompare(b.name))
+        mItems.map(item => {
+            const oTipo = _config.tipos.find(e => e.key === item.system.info.forma)
+            const oItem = {
+                item: item,
+                nivel: item.system.vis,
+                nivelTxt: game.i18n.localize(_config.niveles[item.system.vis]?.label) || '',
+                pta: _config.niveles[item.system.vis]?.pta || 0,
+                ptc: _config.niveles[item.system.vis]?.ptc || 0,
+                mod: _config.niveles[item.system.vis]?.mod || '',
+                tipoTxt: game.i18n.localize(oTipo?.label) || '',
+                tipoLetter: game.i18n.localize(oTipo?.label)[0] || '',
+                tipoIcon: oTipo?.icon || '',
+                base: actor.system.atributos.irr.value,
+            }
+            oItem.total = Number(oItem.base) + Number(oItem.mod)
+            mReturn.push(oItem)
+        })
+        return mReturn        
+    }
+
+    /**
+     * itemsHechizosEstudio
+     * @param {*} actor 
+     * @param {*} rules 
+     */
+    static itemsHechizosEstudio(actor, rules) {
+        let mReturn = []
+        actor.system.magia.estudio.map(estudio => {
+            let oEstudio = {...estudio, ...{
+                item: actor.items.find(e => e.system.key === estudio.key)
+            }}
+            mReturn.push(oEstudio)
+        })
+        return mReturn
+    }
+
+    /**
+     * itemsHechizosPreparacion
+     * @param {*} actor 
+     * @param {*} rules 
+     */
+    static itemsHechizosPreparacion(actor, rules) {
+        let mReturn = []
+        actor.system.magia.preparacion.map(preparado => {
+            let oPreparado = {...preparado, ...{
+                item: actor.items.find(e => e.system.key === preparado.key)
+            }}
+            mReturn.push(oPreparado)
+        })
+        return mReturn
+    }
+
     static _descrLocalizaciones(mLocalizaciones) {
         let mDescr = [];
         if (mLocalizaciones.find(e => e.key === 'cabeza')) mDescr.push(game.i18n.localize('common.cabeza'))
@@ -708,6 +797,16 @@ export default class helperSheets {
         const mRules = game.settings.settings.get('aquelarre.rules').choices
         for (var s in mRules) { html.removeClass('_'+s) }
         html.addClass('_'+document.system.rules)
+    }
+
+    /**
+     * addEditClass
+     * @param {*} html 
+     * @param {*} document 
+     */
+    static addEditClass(html, document) {
+        if (document.sheet._sheetMode === 0) html.addClass('_editing')
+                                        else html.removeClass('_editing')
     }
 
     /**

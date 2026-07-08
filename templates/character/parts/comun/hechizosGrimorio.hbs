@@ -1,0 +1,74 @@
+<h4 class="_title divider">{{localize 'common.grimorio'}}</h4>
+
+{{#if (hasRows hechizos)}}
+    <label class="_info">{{localize 'explain.dragDropHechizos'}}</label>
+{{else}}
+    <label class="_info">{{localize 'explain.noHechizos'}}</label>
+{{/if}}
+
+
+<table class="_list">
+    <thead>
+        <tr class="_header">
+            <th style="width: 100%"><label>{{localize 'common.hechizo'}}</label></th>
+            <th><label>{{localize 'common.vis'}}</label></th>
+            <th><label>{{localize 'ATTR.ptcShort'}}</label></th>
+            <th style="min-width: calc(var(--fSize)*4)"><label>{{localize 'common.porIRR'}}</label></th>
+            <th><label>{{localize 'common.aprendidoShort'}}</label></th>
+            {{#if isEditable}}
+            <th><label></label></th>
+            {{/if}}
+        </tr>
+    </thead>
+    <tbody>
+        {{#each hechizos as |hechizo index|}}
+        <tr class="_hechizo {{#unless hechizo.item.system.aprendido}}_semi{{/unless}} _draggable" 
+            data-id="{{hechizo.item.id}}">
+            <td style="width: 100%">
+                <icon data-tooltip="{{hechizo.tipoTxt}}">{{hechizo.tipoLetter}}</icon>
+                <a class="_name"
+                    {{#unless hechizo.item.system.aprendido}} data-tooltip="{{localize 'tooltip.noAprendido'}}" {{/unless}}
+                    data-action="{{#if ../isEditable}}_showItem{{else}}_showHechizo{{/if}}" 
+                    data-id="{{hechizo.item.id}}">
+                    <label class="_name _lSize">{{hechizo.item.name}}</label>
+                </a>               
+            </td>
+            <td>
+                {{#if ../isEditable}}
+                <a data-action="_navToItem"  data-id="{{hechizo.item.id}}" data-name="system.vis">
+                    <label class="_xsSize _center2 _pointer">{{hechizo.nivelTxt}}</label>
+                </a>
+                {{else}}
+                    <label class="_xsSize _center2">{{hechizo.nivelTxt}}</label>                   
+                {{/if}} 
+            </td>
+            <td>
+                <label class="_xsSize _center2">{{hechizo.ptc}}</label>
+            </td>
+            <td style="min-width: calc(var(--fSize)*4)">
+                <label class="_xsSize _center2">{{hechizo.total}} %</label>
+            </td>
+            <td class="_right">
+                <input type="checkbox" 
+                       {{{_disabled}}}
+                       class="_aprendido" 
+                       data-tooltip="{{localize 'common.aprendido'}}"
+                       data-action="_toggleAprendido" 
+                       data-id="{{hechizo.item.id}}" 
+                       {{#if hechizo.item.system.aprendido}}checked{{/if}}>
+            </td>
+
+            {{#if ../isEditable}}
+            <td>
+                <button type="button"
+                        class="icon fas fa-remove" 
+                        data-action="_deleteItem" 
+                        data-id="{{hechizo.item.id}}"
+                        data-tooltip="{{localize 'tooltip.borrarItem'}}">
+                </button>                 
+            </td>
+            {{/if}}            
+        </tr>
+        {{/each}}
+    </tbody>   
+</table>

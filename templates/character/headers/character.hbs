@@ -25,7 +25,20 @@
             </div>
       
             <div class="_row _gapped _menu">
-                {{{navTab 'primary' (array 'stats' 'combate') '_expanded'}}}
+                <nav class="tabs _expanded" data-group="primary">
+                    <a data-action="tab" data-group="primary" data-tab="stats">{{localize 'common.stats'}}</a>
+                    <a data-action="tab" data-group="primary" data-tab="combate">{{localize 'common.combate'}}</a>
+                    {{#if system.magia.tipo.hechizos}}
+                        <a data-action="tab" data-group="primary" data-tab="hechizos">{{localize 'common.hechizos'}}</a>
+                    {{/if}}
+                    {{#if system.magia.tipo.ensalmos}}
+                        <a data-action="tab" data-group="primary" data-tab="ensalmos">{{localize 'common.ensalmos'}}</a>
+                    {{/if}}
+                    {{#if system.magia.tipo.formulas}}
+                        <a data-action="tab" data-group="primary" data-tab="formulas">{{localize 'common.formulas'}}</a>
+                    {{/if}}
+                    <a data-action="tab" data-group="primary" data-tab="equipo">{{localize 'common.equipo'}}</a>
+                </nav>
             </div>
             
         </div>

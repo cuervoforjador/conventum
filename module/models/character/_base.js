@@ -34,6 +34,75 @@ export default class extendCharacter_Base extends extend_Base {
             localizacion: new api.StringField({ initial: 'humanoide' })
         })
 
+        /** --- MAGIA --- */
+        schema.magia = new api.SchemaField({
+            tipo: new api.SchemaField({
+                hechizos: new api.BooleanField({ initial: false }),
+                ensalmos: new api.BooleanField({ initial: false }),
+                formulas: new api.BooleanField({ initial: false })
+            }),
+            estudio: new api.ArrayField( new api.SchemaField({
+                key: new api.StringField({ initial: '' }),
+                id: new api.StringField({ initial: '' }),
+                step01: new api.SchemaField({                                             // Grimorio (Leer y Escribir)
+                    completed: new api.BooleanField({ initial: false }),
+                    visible: new api.BooleanField({ initial: false }),
+                    grimorio: new api.StringField({ initial: '' }),
+                    skillKey: new api.StringField({ initial: '' })
+                }),
+                step02: new api.SchemaField({                                             // Estudio (Tiempo y Pt. Aprendizaje)
+                    completed: new api.BooleanField({ initial: false }),                    
+                    visible: new api.BooleanField({ initial: false }),
+                    diasTotal: new api.NumberField({ initial: 0 }),
+                    dias: new api.NumberField({ initial: 0 }),
+                    semanasTotal: new api.NumberField({ initial: 0 }),
+                    semanas: new api.NumberField({ initial: 0 }),
+                    percent: new api.NumberField({ initial: 0 }),                    
+                    pta: new api.NumberField({ initial: 0 }),
+                    ptaUse: new api.BooleanField({ initial: false }),
+                    ptaPaid: new api.BooleanField({ initial: false }),
+                }),
+                step03: new api.SchemaField({                                             // Traspaso
+                    completed: new api.BooleanField({ initial: false }),
+                    visible: new api.BooleanField({ initial: false }),
+                    skillKey: new api.StringField({ initial: '' }),
+                    useComunicacion: new api.BooleanField({ initial: false })
+                }),
+                step04: new api.SchemaField({                                             // Memorización, Asimilación
+                    completed: new api.BooleanField({ initial: false }),
+                    visible: new api.BooleanField({ initial: false }),
+                    mod: new api.StringField({ initial: '' }),
+                    mods: new api.StringField({ initial: '' })
+                })
+            })),
+            preparacion: new api.ArrayField( new api.SchemaField({
+                key: new api.StringField({ initial: '' }),
+                id: new api.StringField({ initial: '' }),
+                completed: new api.BooleanField({ initial: false }),
+                fabricacion: new api.SchemaField({
+                    use: new api.BooleanField({ initial: false }),
+                    unidad: new api.StringField({ initial: '' }),
+                    unidadesTotal: new api.NumberField({ initial: 0 }),
+                    unidades: new api.NumberField({ initial: 0 }),
+                    percent: new api.NumberField({ initial: 0 }),
+                    completed: new api.BooleanField({ initial: false }),
+                    dosis: new api.NumberField({ initial: 0 })
+                }),                                 
+                dosis: new api.ArrayField( new api.SchemaField({
+                    index: new api.NumberField({ initial: 0 }),
+                    llena: new api.BooleanField({ initial: false }),
+                    vacia: new api.BooleanField({ initial: false })
+                })),
+                componentes: new api.ArrayField( new api.SchemaField({
+                    key: new api.StringField({ initial: '' }),
+                    name: new api.StringField({ initial: '' }),
+                    checked: new api.BooleanField({ initial: false })
+                })),
+                duracion: new api.StringField({ initial: '' }),
+                preparado: new api.BooleanField({ initial: false })
+            }))
+        })
+
         /** --- CARACTERÍSTICAS --- */
         schema.caracteristicas = new api.SchemaField({
             fue: md_stat({value: 10, label: 'CHAR.fueShort', hint: 'CHAR.fue'}),

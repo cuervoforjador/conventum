@@ -9,6 +9,7 @@ import helperTables from "../../helper/helperTables.js";
 import sheetHandler from "../handler.js";
 import helperTools from "../../helper/helperTools.js";
 import helperSettings from "../../helper/helperSettings.js";
+import helperMessages from "../../helper/helperMessages.js";
 
 export default class extendCharacterSheet extends extendActorSheet {
 
@@ -30,24 +31,43 @@ export default class extendCharacterSheet extends extendActorSheet {
       _hitsPoints:            this.#onClickHitsPoints,
       _navToSkill:            this.#onNavToSkill,
       _navToItem:             this.#onNavToItem,
-      _showPenals:            this.#onShowPenals
-    }    
+      _showPenals:            this.#onShowPenals,
+      _showHechizo:           this.#onShowHechizo,
+      _toggleAprendido:       this.#onToggleAprendido,
+      _deletePreparacion:     this.#onDeletePreparacion,
+      _deleteEstudio:         this.#onDeleteEstudio,
+      _payHechizoPta:         this.#onPayHechizoPta,
+      _dosis:                 this.#onDosis,
+      _componentes:           this.#onComponentes,
+      _lanzarHechizo:         this.#onLanzarHechizo
+    }
   }
 
   /** @override */
   static PARTS = {
     header: { template: `${this.templateFolder}/headers/${this.templateTag}.hbs` },
-    main: { template: `${this.templateFolder}/main/${this.templateTag}.hbs` }
+    main: { 
+      template: `${this.templateFolder}/main/${this.templateTag}.hbs`,
+      scrollable: ["._skills", "._gridTop", "._gridBottom", "._gridRight"]
+    }
   }
   static TABS = {
     primary: {
-      tabs: [ {id: "stats"}, {id: "combate"} ],
+      tabs: [ {id: "stats"}, {id: "combate"}, {id: "hechizos"}, {id: "ensalmos"}, {id: "formulas"}, {id: "equipo"} ],
       initial: "stats"
     },
     stats: {
       tabs: [ {id: "principal"}, {id: "rasgos"} ],
       initial: "principal"
-    }    
+    },
+    hechizos: {
+      tabs: [ {id: "preparacion"}, {id: "estudio"}],
+      initial: "preparacion"
+    },
+    ensalmos: {
+      tabs: [ {id: "preparacion"}, {id: "estudio"}],
+      initial: "preparacion"
+    }   
   }  
 
   /**
@@ -73,9 +93,14 @@ export default class extendCharacterSheet extends extendActorSheet {
     context.weapons = helperSheets.itemsWeapons(this.document, rules)
     context.armors = helperSheets.itemsArmors(this.document, rules)
     context.shields = helperSheets.systemShields(this.document, rules)
+    context.hechizos = helperSheets.itemsHechizos(this.document, rules)
+    context.hechizosPreparacion = helperSheets.itemsHechizosPreparacion(this.document, rules)
+    context.hechizosEstudio = helperSheets.itemsHechizosEstudio(this.document, rules)
     
     context.tabs = this._prepareTabs("primary")
     context.tabsStats = this._prepareTabs("stats")
+    context.tabsHechizos = this._prepareTabs("hechizos")
+    context.tabsEnsalmos = this._prepareTabs("ensalmos")
 
     return context
   }
@@ -100,13 +125,30 @@ export default class extendCharacterSheet extends extendActorSheet {
   activateListeners(html) {
     super.activateListeners(html)
 
-    if ( !this.isEditable || !this.isEditMode) return;
+    html.find('._draggable').draggable({
+      containment: '._dropZone',
+      revert: true,
+      stack: '._draggable',
+      helper: 'clone',
+      stop: sheetHandler._onDragStop.bind(this)
+    });
+    
+    html.find('._droppable').droppable({
+        accept: '._draggable',
+        drop: sheetHandler._onDrop.bind(this),
+        over: sheetHandler._onDropOver.bind(this),        
+        out: sheetHandler._onDropOut.bind(this)
+    });
 
+    html.find('._stepValue').on("change", sheetHandler._onChangeStepValue.bind(this))
+
+    if ( !this.isEditable || !this.isEditMode) return;
+    
     html.find('._charTotal').on("change", sheetHandler._onChangeCharTotal.bind(this))
     html.find('._charRR').on("change", sheetHandler._onChangeRrIrr.bind(this))
     html.find('._charIRR').on("change", sheetHandler._onChangeRrIrr.bind(this))
     html.find('._skillValue').on("change", sheetHandler._onChangeSkillValue.bind(this))
-    html.find('._skillCheck').on("change", sheetHandler._onChangeSkillCheck.bind(this))
+    html.find('._skillCheck').on("change", sheetHandler._onChangeSkillCheck.bind(this))    
   }  
 
   /**
@@ -118,7 +160,7 @@ export default class extendCharacterSheet extends extendActorSheet {
     if ($(this.element).find('._fog').length === 0) 
         $(this.element).prepend(`<div class="_fog"></div>`)
     if ($(this.element).find('._fog').find('._explain').length === 0) 
-        $(this.element).find('._fog').prepend(this._lineFirstTime(this._firstTimeStep, this._firstTimeStep === '03'))
+        $(this.element).find('._fog').prepend(this._lineFirstTime(this._firstTimeStep, this._firstTimeStep === '04'))
 
     $(this.element).find('._fog ._buttons button._next').on('click', _event => {
       _event.stopPropagation()
@@ -130,7 +172,7 @@ export default class extendCharacterSheet extends extendActorSheet {
 
     $(this.element).find('._fog ._buttons button._close').on('click', async _event => {
       _event.stopPropagation()
-      await game.settings.set(SYSTEM_ID, 'firstTime', false)
+      await helperSettings.hideFirstTime()
       $(this.element).find('._fog').remove()
       this.document.sheet.render(true)
     })    
@@ -300,6 +342,111 @@ export default class extendCharacterSheet extends extendActorSheet {
     })
     sContent += '</table>'
     helperDialog.dialogDescription(null, sContent, game.i18n.localize('common.penalizaciones'), rules, 550, img)
+  }
+
+  static #onShowHechizo(_event, target) {
+    _event.stopPropagation()
+    const item = this.document.items.get($(target).data('id'))
+    helperContext.showHechizo(this.document.system.rules, item)
+  }
+
+  static async #onToggleAprendido(_event, target) {
+    _event.stopPropagation() 
+    const item = this.document.items.get($(target).data('id'))
+    await item.update({"system.aprendido": !item.system.aprendido})
+
+    if (!item.system.aprendido) {
+      let mEstudio = this.document.system.magia.estudio
+      let index = mEstudio.findIndex(e => e.key === item.system.key)
+      if (index < 0) return
+      mEstudio.splice(index, 1)
+      await this.document.update({"system.magia.estudio": mEstudio})    
+    }
+  }
+
+  static async #onDeletePreparacion(_event, target) {
+    _event.stopPropagation()
+    let mPreparacion = this.document.system.magia.preparacion
+    let index = mPreparacion.findIndex(e => e.key === $(target).data('key'))
+    if (index < 0) return
+    mPreparacion.splice(index, 1)
+    await this.document.update({"system.magia.preparacion": mPreparacion})
+  }
+
+  static async #onDeleteEstudio(_event, target) {
+    _event.stopPropagation()
+    let mEstudio = this.document.system.magia.estudio
+    let index = mEstudio.findIndex(e => e.key === $(target).data('key'))
+    if (index < 0) return
+    mEstudio.splice(index, 1)
+    await this.document.update({"system.magia.estudio": mEstudio})
+  }
+
+  static async #onPayHechizoPta(_event, target) {
+    _event.stopPropagation()
+    let mEstudio = this.document.system.magia.estudio
+    let estudio = mEstudio.find(e => e.key === $(target).data('key'))
+    estudio.ptaPaid = true
+    let ptaValue = this.document.system.atributos.pta.value - estudio.step02.pta
+    estudio.step02.ptaPaid = true
+    if (ptaValue < 0) {
+      helperDialog.error('error.noPta')
+      return
+    }
+    await this.document.update({
+      "system.atributos.pta.value": ptaValue,
+      "system.magia.estudio": mEstudio
+    })
+  }
+
+  static async #onDosis(_event, target) {
+    _event.stopPropagation()
+    let mPreparacion = this.document.system.magia.preparacion  
+    let preparacion = mPreparacion.find(e => e.key === $(target).data('key')) 
+    let dosis = preparacion.dosis.find(e => Number(e.index) === Number($(target).data('index')))
+    dosis.llena = $(target).data('verb') === 'llenar'
+    dosis.vacia = $(target).data('verb') === 'vaciar'
+    await this.document.update({
+      "system.magia.preparacion": mPreparacion
+    })    
+  }
+
+  static async #onComponentes(_event, target) {
+    _event.stopPropagation()
+    let preparacion = this.document.system.magia.preparacion
+    let prep = preparacion.find(e => e.key === $(target).data('key'))
+    const item = this.document.items.get(prep.id)
+    let mOptions = []
+    prep.componentes.map(e => {
+      mOptions.push({
+        key: e.key,
+        checked: e.checked,
+        label: e.name
+      })
+    })
+    const answer = await helperDialog.dialogListOptions(this.document.system.rules, item.name, mOptions, true)
+    if (!answer) return
+    prep.componentes.map(componente => {
+      componente.checked = answer.find(e => Number(e.key) === Number(componente.key)).checked
+    })
+    await this.document.update({
+      "system.magia.preparacion": preparacion
+    })
+  }
+
+  static async #onLanzarHechizo(_event, target) {
+    _event.stopPropagation()
+    let preparacion = this.document.system.magia.preparacion
+    let prep = preparacion.find(e => e.key === $(target).data('key'))
+    const item = this.document.items.get(prep.id)
+    helperMessages.postMessage({
+      actor: this.document,
+      title: this.document.name, //game.i18n.localize('common.lanzandoHechizo'),
+      subTitle: item.name,
+      backImg: item.img, 
+      class: '_hechizo',
+      content: ''
+    })
   }
 
   /**

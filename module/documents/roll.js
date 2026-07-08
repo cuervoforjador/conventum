@@ -10,6 +10,7 @@ export default class newRoll extends Roll {
 
   get rollType() { return this.data.rollType ? this.data.rollType : 'simple' }
   get percent() { return this.data.percent ? this.data.percent : 0 }
+  get mod() { return this.data.mod ? this.data.mod : '+0'}
   get modif() { return this.data.modif ? this.data.modif : '' }
   get useDiffLevel() { return this.data.useDiffLevel ? this.data.useDiffLevel : false }
   get useLocation() { return this.data.useLocation ? this.data.useLocation : false }
@@ -74,6 +75,7 @@ export default class newRoll extends Roll {
   /** @override */
   constructor(formula="", data={}, options={}) {
     super(formula, data, options)
+    if (data.history && data.history.length > 0) this.history = data.history
   }
 
   /**
@@ -82,6 +84,7 @@ export default class newRoll extends Roll {
   async rollStat() {
     let rendered = false
     const byPass = (this.useDiffLevel || this.useLuck)
+    this._addMods()
     if (byPass) rendered = await this.askDiffLevel() 
     if (byPass && !rendered) return
     
@@ -146,6 +149,19 @@ export default class newRoll extends Roll {
     if (game.dice3d) await game.dice3d.showForRoll(this)
     this._evalDamage()
     this.postMessage()
+  }
+
+  _addMods() {
+    if (!this.data.mods) return
+    this.data.mods.map(o => {
+      for (var s in aqConfig.modificadores) {
+        const mod = aqConfig.modificadores[s].find(e => Number(e.id) === Number(o))
+        if (mod && !this.mods.find(e => e.id === mod.id)) {
+            mod.label = game.i18n.localize(mod.label)
+            this.mods.push(mod)
+        }
+      }
+    })
   }
 
   /**
@@ -297,7 +313,7 @@ export default class newRoll extends Roll {
     
     let barModif = `<div class="_info _modif">
                           <label class="_title">${game.i18n.localize('common.modificador')}:</label>
-                          <input type="text" id="_modif" class="_value" value="+0"/>
+                          <input type="text" id="_modif" class="_value" value="${this.mod}"/>
                           <button type="button" id="_showMods" class="icon fas fa-gear" data-tooltip="${game.i18n.localize('common.verModificadores')}" />
                     </div>`
 
@@ -517,6 +533,7 @@ export default class newRoll extends Roll {
       content: sHeader + sResult,
       title: this.title,
       flags: {
+        "rules": {"value": this.rules},
         "actorId": {"value": this.actor ? this.actor.id : ''},
         "tokenId": {"value": this.actor ? helperTools.getTokenId(this.actor) : ''}
       }
@@ -584,12 +601,12 @@ export default class newRoll extends Roll {
                ( this.stats.penal !== 0 ? this._messageParts_StatsRow('common.penalizacion', this.stats.penal+'%') : '' ) : 
                this._messageParts_StatsRow('common.base', this.evaluatedResult.percentBase+'%') ) +
 
+            sMods +
+
             ( this.modif !== '+0' && this.modif !== '' ? 
               this._messageParts_StatsRow('common.modificador', this.modif) +
               this._messageParts_StatsRow('common.modificadorTras', this.percent+'%') : '' ) +
-
-            sMods +
-
+            
             this._messageParts_StatsRow('common.dificultad', this.diffLevel.title+' ('+this.diffLevel.penal+'%)') +
             this._messageParts_StatsRow('common.usaSuerte', this.luck.use ? game.i18n.localize('common.si') : game.i18n.localize('common.no')) +
             ( this.luck.use ?
@@ -602,6 +619,12 @@ export default class newRoll extends Roll {
             this._messageParts_StatsRow('common.fallo', this._messageParts_Failure()) +
             this._messageParts_StatsRow('common.criticalFailure', this.critical.minCriticalFailure + '% - 100%')
     }
+
+    if (this.rollType === 'unit') {
+      return this._messageParts_StatsRow('common.unidad', this.data.unit)
+    }
+
+    return ''
   }
 
   _messageParts_DiceTotal() {
@@ -615,12 +638,13 @@ export default class newRoll extends Roll {
     let resultClass = this.rollType === 'simple' ? this.evaluatedResult.class :
                       this.rollType === 'damage' ? 'damage' : 
                       this.rollType === 'location' ? 'location' :
-                                                     ''
+                      this.rollType === 'unit' ? 'unit' : ''
 
     let boxRightContent = this.rollType === 'simple' ? this.evaluatedResult.text :
                           this.rollType === 'damage' ? this._messageParts_Armors() : 
                           this.rollType === 'location' ? game.i18n.localize('common.'+this.data.location.key) :
-                                                         ''
+                          this.rollType === 'unit' ? this.data.unit : 
+                                                   ''
 
     let luckIcon = this.luck.use ? `<i class="fa-solid fa-horseshoe lucky" data-tooltip="${game.i18n.localize('common.suerteGastada')+': '+this.luck.spent}"></i>` : ''
     let boxLeft = `<span class="_number">${boxLeftContent}</span>`

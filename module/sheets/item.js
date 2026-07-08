@@ -32,6 +32,7 @@ export default class extendItem0Sheet
       _addRow:        this.#onAddRow,
       _deleteRow:     this.#onDeleteRow,
       _selectRow:     this.#onSelectRow,
+      _markRow:       this.#onMarkRow,
       _copyObject:    this.#onCopyObject,
       _greenIcon:     this.#onGreenIcon
     },
@@ -78,17 +79,21 @@ export default class extendItem0Sheet
 
   static async #onAddRow(_event, target) {
     const path = $(target).parents('._table').data('path')
+    const bNumeric = $(target).parents('._table').data('keynumeric')
     let mRows = this._access(this.document, path)
 
     let row = {}
     $(target).parent().parent().find('[data-field]').each((i,e) => {
       const field = $(e).data('field')
       row[field] = $(e).val()
+      if (bNumeric && field === 'key' &&  Number($(e).val()) === 0) row[field] = mRows.length + 1
     })    
     const index = mRows.findIndex(e => e.key === row.key)
     if (index >= 0) mRows[index] = row
                else mRows.push(row)
     await this.document.update({[path]: mRows})
+
+
   }  
 
   static async #onDeleteRow(_event, target) {
@@ -101,8 +106,10 @@ export default class extendItem0Sheet
 
   static #onSelectRow(_event, target) {
     const key = $(target).parents('tr').data('key')
-    const path = $(target).parents('table').data('path')
-    const row = this._access(this.document, path).find(e => e.key === key)
+    const path = $(target).parents('._table').data('path')
+    const bNumeric = $(target).parents('._table').data('keynumeric')
+    const row = bNumeric ?  this._access(this.document, path).find(e => Number(e.key) === Number(key)) :
+                            this._access(this.document, path).find(e => e.key === key)
     $(target).parents('table').find('._sortTR').find('input').each((i,e) => {
       var nIndex = 0
       for (var s in row) {
@@ -110,6 +117,20 @@ export default class extendItem0Sheet
         nIndex++
       }
     })
+  }
+
+  static async #onMarkRow(_event, target) {
+    const key = $(target).data('key')
+    const field = $(target).data('field')
+    const path = $(target).parents('._table').data('path')
+    const bNumeric = $(target).parents('._table').data('keynumeric')
+
+    let mRows = this._access(this.document, path)
+    let row = bNumeric ?  mRows.find(e => Number(e.key) === Number(key)) :
+                          mRows.find(e => e.key === key)
+    row[field] = $(target).prop('checked')
+
+    await this.document.update({[path]: mRows})
   }
 
   static async #onGreenIcon(_event, target) {
@@ -161,9 +182,10 @@ export default class extendItem0Sheet
   /**
    * textImplentation
    */
-  static async textImplentation(field, document) {
+  static async textImplentation(fieldPath, document) {
+      
       return await foundry.applications.ux.TextEditor.implementation.enrichHTML(
-                          document.system[field], { relativeTo: document }) 
+                          this.access(document.system, fieldPath), { relativeTo: document }) 
   }
 
   /**
@@ -319,5 +341,10 @@ export default class extendItem0Sheet
     path.split('.').map(s => { oReturn = oReturn[s] })
     return oReturn
   }
+  static access(object, path) {
+    let oReturn = object
+    path.split('.').map(s => { oReturn = oReturn[s] })
+    return oReturn
+  }  
 
 }

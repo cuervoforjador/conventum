@@ -144,5 +144,8 @@ form.roll-table-sheet._extend._vyc tbody td ._watermark {
     background-size: cover !important;
     background-position: center !important;
     top: 0 !important;
-    opacity: 0.15;
+    opacity: 0.1;
+}
+form.roll-table-sheet._extend tbody td.details {
+    position: relative!important;
 }

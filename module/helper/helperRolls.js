@@ -13,7 +13,7 @@ export default class helperRolls {
      * @param {*} value
      * @param {*} useLuck 
      */
-    static async roll(options={actor, target:'', item:null, path:'', formula:'', useLuck:true}) {
+    static async roll(options={actor, target:'', item:null, path:'', formula:'', useLuck:true, mod:null, mods:null}) {
        
         let percent = 0
         switch(options.target) {
@@ -66,10 +66,22 @@ export default class helperRolls {
     }
 
     /**
+     * unitRoll
+     * @param {*} options 
+     */
+    static async unitRoll(options={actor:null, formula: '', title: '', subtitle: '', img: ''}) {
+        const diceRoll = new newRoll(options.formula, {...options, ...{
+            rollType: 'unit'
+        }});
+        await diceRoll.rollFormula()
+        return diceRoll.total
+    }
+
+    /**
      * statRoll
      * @param {*} options 
      */
-    static async statRoll(options={actor: null, formula: '', percent: 0, useluck: true, title: '', subtitle: '', img: ''}) {
+    static async statRoll(options={actor: null, formula: '', percent: 0, mod: null, mods: null, useluck: true, title: '', subtitle: '', img: ''}) {
         const diceRoll = new newRoll('1D100', {...options, ...{
             rollType: 'simple',
             useDiffLevel: true

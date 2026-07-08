@@ -110,5 +110,9 @@ static define() {
         return "systems/"+SYSTEM_ID+"/assets/ui/"+rules+'_comp_'+s+'.png'
     })      
 
+    Handlebars.registerHelper("hasRows", (mArray, root) => {
+        return mArray.length > 0
+    })       
+
 }
 }

@@ -93,6 +93,66 @@ export default class helperDialog {
     }
 
     /**
+     * dialogListOptions
+     * @param {*} rules 
+     * @param {*} title 
+     * @param {*} options 
+     * @param {*} position 
+     */
+    static async dialogListOptions(rules, title, options, bMultiple=false, position={height: 'auto'}) {
+        let _options = ''
+        let _buttonClassSelected = ''
+        options.map(option => {
+            const sImg = option.img ? `<img src="${option.img}" class="_iconImage"/>` : ''
+            _options += `<li data-key="${option.key}">
+                            <div class="_wrap">
+                                <input type="checkbox" 
+                                       ${bMultiple ? 'id="option_'+option.key+'"' : ''}
+                                       class="_selector" ${!!option.checked ? 'checked' : ''}>
+                                ${sImg}
+                                <label ${bMultiple ? 'for="option_'+option.key+'"' : ''}
+                                       class="_title">${option.label}</label>
+                            </div>
+                        </li>`
+            if (!!option.checked) _buttonClassSelected = '_selected'
+        })
+        const content = `<ul class="_main">${_options}</ul>`
+
+        const option = await foundry.applications.api.DialogV2.wait({
+            classes: ['_extend', '_'+rules],
+            window: { title: title },
+            position: position,            
+            content,
+            buttons: [{
+                label: game.i18n.localize("common.confirmar"),
+                class: _buttonClassSelected, 
+                callback: (event, button) => {
+                    if (bMultiple) {
+                        let mResponse = []
+                        $(event.currentTarget).find('ul._main').find('input[type="checkbox"]._selector').each((i,e) => {
+                            mResponse.push({
+                                key: $(e).parents('li').data('key'),
+                                checked: $(e).prop('checked')
+                            })
+                        })
+                        return mResponse
+                    } else {
+                        const checked = $(event.currentTarget).find('ul._main')
+                                                            .find('input[type="checkbox"]._selector:checked')                        
+                        if (!checked.length === 0) return null
+                        return checked.parents('li').data('key')
+                    }
+                }
+            }],
+            render: (_event, dialog) => {               
+                this._setShadowToDialog(dialog)
+                if (!bMultiple) this._setInitialDialogEvents(dialog)  
+            }
+        })      
+        return option
+    }
+
+    /**
      * dialogSelectRules
      * @param {*} actor
      */

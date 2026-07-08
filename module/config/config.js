@@ -192,7 +192,305 @@ export const aqConfig = {
             {id: '047', label: 'mods.m047', mod: '-20', rules: ['aq4', 'vyc']},
             {id: '048', label: 'mods.m048', mod: '-20', rules: ['aq4', 'vyc']},
             {id: '049', label: 'mods.m049', mod: '+40', rules: ['aq4', 'vyc']}
+        ],
+        hechizos: [
+            {id: '051', label: 'mods.m051', mod: '-25', rules: ['aq3']},
+            {id: '052', label: 'mods.m051', mod: '-20', rules: ['aq4', 'vyc']},
+            {id: '053', label: 'mods.m053', mod: '-25', rules: ['aq3']},
+            {id: '054', label: 'mods.m053', mod: '-25', rules: ['aq4', 'vyc']},
+            {id: '055', label: 'mods.m055', mod: '-50', rules: ['aq3', 'aq4', 'vyc']},
+            {id: '056', label: 'mods.m056', mod: '-75', rules: ['aq3', 'aq4', 'vyc']},
+            {id: '057', label: 'mods.m057', mod: '-20', rules: ['aq3', 'aq4', 'vyc']},
+            {id: '058', label: 'mods.m058', mod: '-40', rules: ['aq3', 'aq4', 'vyc']},
+            {id: '059', label: 'mods.m059', mod: '-60', rules: ['aq3', 'aq4', 'vyc']},
+            {id: '060', label: 'mods.m060', mod: '-80', rules: ['aq3', 'aq4', 'vyc']},
+            {id: '061', label: 'mods.m061', mod: '-10', rules: ['aq3', 'aq4', 'vyc']},
+            {id: '066', label: 'mods.m066', mod: '-15', rules: ['aq3']},
+            {id: '067', label: 'mods.m067', mod: '-35', rules: ['aq3']},
+            {id: '068', label: 'mods.m068', mod: '-50', rules: ['aq3']},
+            {id: '069', label: 'mods.m069', mod: '-75', rules: ['aq3']},
+            {id: '070', label: 'mods.m070', mod: '-100', rules: ['aq3']},
+            {id: '071', label: 'mods.m071', mod: '-150', rules: ['aq3']},
+            {id: '072', label: 'mods.m072', mod: '-20',  rules: ['aq4', 'vyc']},
+            {id: '073', label: 'mods.m073', mod: '-40',  rules: ['aq4', 'vyc']},
+            {id: '074', label: 'mods.m074', mod: '-60',  rules: ['aq4', 'vyc']},
+            {id: '075', label: 'mods.m075', mod: '-80',  rules: ['aq4', 'vyc']},
+            {id: '076', label: 'mods.m076', mod: '-100', rules: ['aq4', 'vyc']},
+            {id: '077', label: 'mods.m077', mod: '-140', rules: ['aq4', 'vyc']}
+        ],
+        ensalmos: [
+            {id: '062', label: 'mods.m062', mod: '-25', rules: ['aq3']},
+            {id: '063', label: 'mods.m063', mod: '-50', rules: ['aq3']},
+            {id: '064', label: 'mods.m064', mod: '-25', rules: ['aq3']},
+            {id: '065', label: 'mods.m065', mod: '-50', rules: ['aq3']},
         ]
+    },
+    hechizos: {
+        aq3: {
+            requisitos: {
+                minIRR: 50,
+                minSkill: 50,
+                skillID: 'conocimiento_magico',
+                skillEnsenar: 'ensenar',
+                skillFabricacion: 'alquimia',
+                useComunicacion: false,
+                ptAprendizaje: false,
+            },
+            niveles: {
+                vis1: {label: 'common.vis1',  pta: 0, ptc: 1,  mod: '+0',   mods: ''},
+                vis2: {label: 'common.vis2',  pta: 0, ptc: 1,  mod: '-15',  mods: '066'},
+                vis3: {label: 'common.vis3',  pta: 0, ptc: 2,  mod: '-35',  mods: '067'},
+                vis4: {label: 'common.vis4',  pta: 0, ptc: 3,  mod: '-50',  mods: '068'},
+                vis5: {label: 'common.vis5',  pta: 0, ptc: 5,  mod: '-75',  mods: '069'},
+                vis6: {label: 'common.vis6',  pta: 0, ptc: 5,  mod: '-100', mods: '070'},
+                vis7: {label: 'common.vis7',  pta: 0, ptc: 10, mod: '-150', mods: '071'}
+            },                
+            tipos: [
+                {key: 'invocacion', label: 'common.invocacion', icon: 'fa-crow',                fabricacion: false},
+                {key: 'maleficio',  label: 'common.maleficio',  icon: 'fa-skull-cow',           fabricacion: false},
+                {key: 'pocion',     label: 'common.pocion',     icon: 'fa-flask-round-potion',  fabricacion: true},
+                {key: 'talisman',   label: 'common.talisman',   icon: 'fa-ankh',                fabricacion: true},
+                {key: 'unguento',   label: 'common.unguento',   icon: 'fa-bottle-droplet',      fabricacion: true}
+            ],
+            naturaleza: [
+                {key: 'blanca', label: 'common.magiaBlanca'},
+                {key: 'negra', label: 'common.magiaNegra'},
+            ],
+            origen: [
+                {key: 'popular', label: 'common.magiaPopular'},
+                {key: 'alquimica', label: 'common.magiaAlquimica'},
+                {key: 'infernal', label: 'common.magiaInfernal'},
+                {key: 'prohibida', label: 'common.magiaProhibida'},
+            ],            
+            fabricacion: {
+                pocion: [
+                    {low: 0,  high: 30,  tiempo: '-',   unidad: '', dosis: 0},
+                    {low: 31, high: 40,  tiempo: '1D6', unidad: 'common.dias', dosis: 6},
+                    {low: 41, high: 70,  tiempo: '1D4', unidad: 'common.dias', dosis: 6},
+                    {low: 71, high: 90,  tiempo: '1D3', unidad: 'common.dias', dosis: 6},
+                    {low: 91, high: 999, tiempo: '1',   unidad: 'common.dias', dosis: 6}
+                ],
+                talisman: [
+                    {low: 0,  high: 30,  tiempo: '-',     unidad: '', dosis: 0},
+                    {low: 31, high: 40,  tiempo: '1D6+3', unidad: 'common.meses', dosis: 6},
+                    {low: 41, high: 70,  tiempo: '1D4+2', unidad: 'common.meses', dosis: 6},
+                    {low: 71, high: 90,  tiempo: '1D3+2', unidad: 'common.meses', dosis: 6},
+                    {low: 91, high: 999, tiempo: '2D6',   unidad: 'common.semanas', dosis: 6}
+                ],
+                unguento: [
+                    {low: 0,  high: 30,  tiempo: '-',   unidad: '', dosis: 0},
+                    {low: 31, high: 40,  tiempo: '1D6', unidad: 'common.semanas', dosis: 6},
+                    {low: 41, high: 70,  tiempo: '1D3', unidad: 'common.semanas', dosis: 6},
+                    {low: 71, high: 90,  tiempo: '1',   unidad: 'common.semanas', dosis: 6},
+                    {low: 91, high: 999, tiempo: '1D6', unidad: 'common.dias', dosis: 6}
+                ]                       
+            }
+        },
+        aq4: {
+            requisitos: {
+                minIRR: 60,
+                minSkill: 60,
+                skillID: 'conocimiento_magico',
+                skillEnsenar: 'ensenar',
+                skillFabricacion: 'alquimia',
+                useComunicacion: true,
+                ptAprendizaje: true
+            },
+            niveles: {
+                vis1: {label: 'common.vis1',  pta: 10,  ptc: 1,  mod: '+0',   mods: ''},
+                vis2: {label: 'common.vis2',  pta: 20,  ptc: 2,  mod: '-20',  mods: '072'},
+                vis3: {label: 'common.vis3',  pta: 30,  ptc: 3,  mod: '-40',  mods: '073'},
+                vis4: {label: 'common.vis4',  pta: 40,  ptc: 4,  mod: '-60',  mods: '074'},
+                vis5: {label: 'common.vis5',  pta: 50,  ptc: 5,  mod: '-80',  mods: '075'},
+                vis6: {label: 'common.vis6',  pta: 70,  ptc: 7,  mod: '-100', mods: '076'},
+                vis7: {label: 'common.vis7',  pta: 100, ptc: 10, mod: '-140', mods: '077'}
+            },
+            tipos: [
+                {key: 'invocacion', label: 'common.invocacion', icon: 'fa-crow',                fabricacion: false},
+                {key: 'maleficio',  label: 'common.maleficio',  icon: 'fa-skull-cow',           fabricacion: false},
+                {key: 'pocion',     label: 'common.pocion',     icon: 'fa-flask-round-potion',  fabricacion: true},
+                {key: 'talisman',   label: 'common.talisman',   icon: 'fa-ankh',                fabricacion: true},
+                {key: 'unguento',   label: 'common.unguento',   icon: 'fa-bottle-droplet',      fabricacion: true}
+            ],
+            naturaleza: [
+                {key: 'blanca', label: 'common.magiaBlanca'},
+                {key: 'negra', label: 'common.magiaNegra'},
+            ],
+            origen: [
+                {key: 'popular', label: 'common.magiaPopular'},
+                {key: 'alquimica', label: 'common.magiaAlquimica'}
+            ],    
+            coste: {
+                vis1: {ptAp: 10},
+                vis2: {ptAp: 10},
+                vis3: {ptAp: 10},
+                vis4: {ptAp: 10},
+                vis5: {ptAp: 10},
+                vis6: {ptAp: 10},
+                vis7: {ptAp: 10},
+            },     
+            fabricacion: {
+                pocion: [
+                    {low: 0,  high: 20,  tiempo: '-',   unidad: '', dosis: 0},
+                    {low: 21, high: 40,  tiempo: '1D6', unidad: 'common.dias', dosis: 6},
+                    {low: 41, high: 60,  tiempo: '1D4', unidad: 'common.dias', dosis: 6},
+                    {low: 61, high: 80,  tiempo: '1D3', unidad: 'common.dias', dosis: 6},
+                    {low: 81, high: 999, tiempo: '1',   unidad: 'common.dias', dosis: 6}
+                ],
+                talisman: [
+                    {low: 0,  high: 20,  tiempo: '-',     unidad: '', dosis: 0},
+                    {low: 21, high: 40,  tiempo: '1D6+3', unidad: 'common.meses', dosis: 1},
+                    {low: 41, high: 60,  tiempo: '1D4+2', unidad: 'common.meses', dosis: 1},
+                    {low: 61, high: 80,  tiempo: '1D3+2', unidad: 'common.meses', dosis: 1},
+                    {low: 81, high: 999, tiempo: '2D6',   unidad: 'common.semanas', dosis: 1}
+                ],
+                unguento: [
+                    {low: 0,  high: 20,  tiempo: '-',   unidad: '', dosis: 0},
+                    {low: 21, high: 40,  tiempo: '1D6', unidad: 'common.semanas', dosis: 6},
+                    {low: 41, high: 60,  tiempo: '1D3', unidad: 'common.semanas', dosis: 6},
+                    {low: 61, high: 80,  tiempo: '1',   unidad: 'common.semanas', dosis: 6},
+                    {low: 81, high: 999, tiempo: '1D6', unidad: 'common.dias', dosis: 6}
+                ]                       
+            }
+        },
+        vyc: {
+            requisitos: {
+                minIRR: 60,
+                minSkill: 60,
+                skillID: 'conocimiento_magico',
+                skillEnsenar: 'ensenar',
+                skillFabricacion: 'alquimia',
+                useComunicacion: false,
+                ptAprendizaje: true
+            },
+            niveles: {
+                vis1: {label: 'common.vis1',  pta: 10,  ptc: 1,  mod: '+0',   mods: ''},
+                vis2: {label: 'common.vis2',  pta: 20,  ptc: 2,  mod: '-20',  mods: '072'},
+                vis3: {label: 'common.vis3',  pta: 30,  ptc: 3,  mod: '-40',  mods: '073'},
+                vis4: {label: 'common.vis4',  pta: 40,  ptc: 4,  mod: '-60',  mods: '074'},
+                vis5: {label: 'common.vis5',  pta: 50,  ptc: 5,  mod: '-80',  mods: '075'},
+                vis6: {label: 'common.vis6',  pta: 70,  ptc: 7,  mod: '-100', mods: '076'},
+                vis7: {label: 'common.vis7',  pta: 100, ptc: 10, mod: '-140', mods: '077'}
+            },
+            tipos: [
+                {key: 'invocacion', label: 'common.invocacion', icon: 'fa-crow',                fabricacion: false},
+                {key: 'maleficio',  label: 'common.maleficio',  icon: 'fa-skull-cow',           fabricacion: false},
+                {key: 'pocion',     label: 'common.pocion',     icon: 'fa-flask-round-potion',  fabricacion: true},
+                {key: 'talisman',   label: 'common.talisman',   icon: 'fa-ankh',                fabricacion: true},
+                {key: 'unguento',   label: 'common.unguento',   icon: 'fa-bottle-droplet',      fabricacion: true}
+            ],
+            naturaleza: [
+                {key: 'blanca', label: 'common.magiaBlanca'},
+                {key: 'negra', label: 'common.magiaNegra'},
+            ],
+            origen: [
+                {key: 'popular', label: 'common.magiaPopular'},
+                {key: 'alquimica', label: 'common.magiaAlquimica'},
+                {key: 'infernal', label: 'common.magiaInfernal'}
+            ],    
+            coste: {
+                vis1: {ptAp: 10},
+                vis2: {ptAp: 10},
+                vis3: {ptAp: 10},
+                vis4: {ptAp: 10},
+                vis5: {ptAp: 10},
+                vis6: {ptAp: 10},
+                vis7: {ptAp: 10},
+            },     
+            fabricacion: {
+                pocion: [
+                    {low: 0,  high: 20,  tiempo: '-',   unidad: '', dosis: 0},
+                    {low: 21, high: 40,  tiempo: '1D6', unidad: 'common.dias', dosis: 6},
+                    {low: 41, high: 60,  tiempo: '1D4', unidad: 'common.dias', dosis: 6},
+                    {low: 61, high: 80,  tiempo: '1D3', unidad: 'common.dias', dosis: 6},
+                    {low: 81, high: 999, tiempo: '1',   unidad: 'common.dias', dosis: 6}
+                ],
+                talisman: [
+                    {low: 0,  high: 20,  tiempo: '-',     unidad: '', dosis: 0},
+                    {low: 21, high: 40,  tiempo: '1D6+3', unidad: 'common.meses', dosis: 1},
+                    {low: 41, high: 60,  tiempo: '1D4+2', unidad: 'common.meses', dosis: 1},
+                    {low: 61, high: 80,  tiempo: '1D3+2', unidad: 'common.meses', dosis: 1},
+                    {low: 81, high: 999, tiempo: '2D6',   unidad: 'common.semanas', dosis: 1}
+                ],
+                unguento: [
+                    {low: 0,  high: 20,  tiempo: '-',   unidad: '', dosis: 0},
+                    {low: 21, high: 40,  tiempo: '1D6', unidad: 'common.semanas', dosis: 6},
+                    {low: 41, high: 60,  tiempo: '1D3', unidad: 'common.semanas', dosis: 6},
+                    {low: 61, high: 80,  tiempo: '1',   unidad: 'common.semanas', dosis: 6},
+                    {low: 81, high: 999, tiempo: '1D6', unidad: 'common.dias', dosis: 6}
+                ]                       
+            }
+        }        
+    },
+    ensalmos: {
+        aq3: {
+            requisitos: {
+                minRR: 50,
+                minSkill: 50,
+                skillID: 'teologia',
+                ptAprendizaje: false,
+                diarios: false
+            },
+            niveles: {
+                ordo1: {label: 'common.ordo1',  pta: 0, ptf: 10,  mod: '+0',   teologia: {min: 50,  max: 70},  estudio: '1 mes'},
+                ordo2: {label: 'common.ordo2',  pta: 0, ptf: 13,  mod: '-20',  teologia: {min: 71,  max: 85},  estudio: '2 meses' },
+                ordo3: {label: 'common.ordo3',  pta: 0, ptf: 15,  mod: '-40',  teologia: {min: 86,  max: 95},  estudio: '3 meses' },
+                ordo4: {label: 'common.ordo4',  pta: 0, ptf: 18,  mod: '-60',  teologia: {min: 96,  max: 100}, estudio: '6 meses'},
+                ordo5: {label: 'common.ordo5',  pta: 0, ptf: 20,  mod: '-80',  teologia: {min: 101, max: 120}, estudio: '1 año'},
+                ordo6: {label: 'common.ordo6',  pta: 0, ptf: 20,  mod: '-100', teologia: {min: 121, max: 999}, estudio: '2 años'}
+            },
+            diarios: []           
+        },
+        aq4: {
+            requisitos: {
+                minRR: 50,
+                minSkill: 60,
+                skillID: 'teologia',
+                ptAprendizaje: true,
+                diarios: true
+            },
+            niveles: {
+                ordo1: {label: 'common.ordo1',  pta: 10,  ptf: 12,  mod: '+0',   teologia: {min: 60,  max: 70},  estudio: '1 mes'},
+                ordo2: {label: 'common.ordo2',  pta: 20,  ptf: 14,  mod: '-20',  teologia: {min: 71,  max: 80},  estudio: '2 meses' },
+                ordo3: {label: 'common.ordo3',  pta: 30,  ptf: 16,  mod: '-40',  teologia: {min: 81,  max: 90},  estudio: '3 meses' },
+                ordo4: {label: 'common.ordo4',  pta: 40,  ptf: 18,  mod: '-60',  teologia: {min: 91,  max: 95},  estudio: '6 meses'},
+                ordo5: {label: 'common.ordo5',  pta: 50,  ptf: 20,  mod: '-80',  teologia: {min: 96,  max: 100}, estudio: '1 año'},
+                ordo6: {label: 'common.ordo6',  pta: 100, ptf: 20,  mod: '-100', teologia: {min: 101, max: 999}, estudio: '2 años'}
+            },
+            diarios: [
+                {min: 1,  max: 4,   ensalmos: 0},
+                {min: 5,  max: 9,   ensalmos: 1},
+                {min: 10, max: 14,  ensalmos: 2},
+                {min: 15, max: 17,  ensalmos: 3},
+                {min: 18, max: 19,  ensalmos: 4},
+                {min: 20, max: 999, ensalmos: 5}
+            ]            
+        },
+        vyc: {
+            requisitos: {
+                minRR: 50,
+                minSkill: 60,
+                skillID: 'teologia',
+                ptAprendizaje: true,
+                diarios: true
+            },
+            niveles: {
+                ordo1: {label: 'common.ordo1',  pta: 10,  ptf: 12,  mod: '+0',   teologia: {min: 60,  max: 70},  estudio: '1 mes'},
+                ordo2: {label: 'common.ordo2',  pta: 20,  ptf: 14,  mod: '-20',  teologia: {min: 71,  max: 80},  estudio: '2 meses' },
+                ordo3: {label: 'common.ordo3',  pta: 30,  ptf: 16,  mod: '-40',  teologia: {min: 81,  max: 90},  estudio: '3 meses' },
+                ordo4: {label: 'common.ordo4',  pta: 40,  ptf: 18,  mod: '-60',  teologia: {min: 91,  max: 95},  estudio: '6 meses'},
+                ordo5: {label: 'common.ordo5',  pta: 50,  ptf: 20,  mod: '-80',  teologia: {min: 96,  max: 100}, estudio: '1 año'},
+                ordo6: {label: 'common.ordo6',  pta: 100, ptf: 20,  mod: '-100', teologia: {min: 101, max: 999}, estudio: '2 años'}
+            },
+            diarios: [
+                {min: 1,  max: 4,   ensalmos: 0},
+                {min: 5,  max: 9,   ensalmos: 1},
+                {min: 10, max: 14,  ensalmos: 2},
+                {min: 15, max: 17,  ensalmos: 3},
+                {min: 18, max: 19,  ensalmos: 4},
+                {min: 20, max: 999, ensalmos: 5}
+            ]            
+        }
     }
         
     

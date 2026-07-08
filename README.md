@@ -159,12 +159,12 @@ Estado actual: :heavy_multiplication_x: Pendiente
 Estado actual: :heavy_multiplication_x: Pendiente
 
 ## Combate
-### :black_square_button::black_square_button::black_square_button: Implementación en Combat Tracker
-Estado actual: :heavy_multiplication_x: Pendiente
-### :black_square_button::black_square_button::black_square_button: Combate simple (desde la ficha)
-Estado actual: :heavy_multiplication_x: Pendiente
-### :black_square_button::black_square_button::black_square_button: Aplicar daño
-Estado actual: :heavy_multiplication_x: Pendiente
+### :white_check_mark::white_check_mark::white_check_mark: Implementación en Combat Tracker
+Estado actual: Completado
+### :white_check_mark::white_check_mark::white_check_mark: Combate simple (desde la ficha)
+Estado actual: Completado
+### :white_check_mark::white_check_mark::white_check_mark: Aplicar daño
+Estado actual: Completado
 
 ## Rasgos de Caracter
 ### :white_check_mark::white_check_mark::white_check_mark: Implementación

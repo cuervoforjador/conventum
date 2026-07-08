@@ -57,7 +57,7 @@
     justify-content: flex-end;
 }
 ._row._spaced {
-    justify-content: space-between;
+    justify-content: space-between!important;
 }
 ._row._props {
     display: flex;
@@ -126,6 +126,9 @@ input.h4 {
 ._marginTop {
     margin-top: 4px;
 }
+._marginBottom {
+    margin-bottom: 4px;
+}
 ._marginLeft {
     margin-left: 4px;
 }
@@ -139,6 +142,10 @@ input.h4 {
     text-align: center;
     display: flex;
     justify-content: center;
+}
+._middle {
+    align-content: center;
+    align-items: center;    
 }
 ._right {
     text-align: right;
@@ -172,6 +179,9 @@ input._sInput {
     height: 100%;
     overflow-y: auto;
 }
+h4._noMargin {
+    margin: 11px 0 0px 0;
+}
 
 ._bad {
     background: #ff000033;
@@ -194,6 +204,9 @@ input._sInput {
 ._1columns {
     display: flex;
     flex-direction: column;
+}
+._semi {
+    opacity: 0.5;
 }
 
 table._table {
@@ -242,6 +255,20 @@ table._table select {
     padding: 0 0.25rem;
 }
 
+progressbar {
+    display: flex;
+    width: 100%;
+    border: 1px solid #00000021;
+    height: calc(var(--fSize) * 0.5);
+    border-radius: 0.5rem;
+    background: #0000005e;
+}
+progressbar percent {
+    display: flex;
+    height: 100%;
+    background: linear-gradient(-90deg, #b925339c, #3f2326);
+    border-right: 2px solid #b92533;
+}
 
 /** --- PACKS --- */
 ._systemPack a.entry-name i,
@@ -292,6 +319,16 @@ section.directory._extend._vyc li.directory-item img.thumbnail {
   50% {
     opacity: 0;
   }
+}
+@keyframes blinkBorder {
+  0% { border-color: #5a5223ad; }
+  50% { border-color: #ffdd00ad; }
+  100% { border-color: #5a5223ad; }
+}
+@keyframes blinkColor {
+  0% { color: #5a5223ad; }
+  50% { color: #ffdd00ad; }
+  100% { color: #5a5223ad; }
 }
 @keyframes color-pulse {
   0% { color: #000000; }

@@ -87,6 +87,8 @@ export default class helperMessages {
             content: sHeader + options.content,
             title: options.title,
             flags: {
+                "class": {"value": options.class},
+                "rules": {"value": options.actor?.system.rules},
                 "actorId": {"value": options.actor ? options.actor.id : ''},
                 "tokenId": {"value": options.actor && options.actor.token ? options.actor.token.id : ''}
             }

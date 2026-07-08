@@ -143,6 +143,8 @@ export default class extendActorSheet
         item: this.document.items.get($(target).data('item')),
         path: $(target).data('path'),
         formula: $(target).data('formula'),
+        mod: $(target).data('mod') ? $(target).data('mod') : null,
+        mods: $(target).data('mods') ? $(target).data('mods').split(',') : null,
         useLuck: $(target).data('useluck') ? $(target).data('useluck') : true
       })
   }
@@ -230,6 +232,7 @@ export default class extendActorSheet
     await super._onRender(context, options)
     helperSheets.adjustTextSize($(this.element), this.document)
     helperSheets.addRulesClass($(this.element), this.document)
+    helperSheets.addEditClass($(this.element), this.document)
     helperSheets.hideTitle($(this.element))
     helperSheets.addRulesButton($(this.element))
     helperSheets.addTextSizeButton($(this.element))
@@ -313,7 +316,9 @@ export default class extendActorSheet
 
     [
      context.tabs, 
-     context.tabsStats
+     context.tabsStats,
+     context.tabsHechizos,
+     context.tabsEnsalmos
     ].map(_tabs => {
         if (!_tabs) return
         for (var s in _tabs) { if (_tabs[s].active) {
@@ -324,16 +329,6 @@ export default class extendActorSheet
           })
         }}      
     })
-
-    /**
-    for (var s in context.tabs) { if (context.tabs[s].active) {
-      const tab = context.tabs[s];
-      html.find(`.tab[data-group="${tab.group}"][data-tab="${tab.id}"],
-                 a[data-action="tab"][data-group="${tab.group}"][data-tab="${tab.id}"]`).each((i,e) => {
-        $(e).addClass(tab.cssClass)
-      })
-    }}
-    */
   }
 
   /**

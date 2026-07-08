@@ -1,0 +1,63 @@
+<section class="tab" data-group="primary" data-tab="componentes">
+    
+    <table class="_table _sortable _componentes"
+           data-path="system.componentes"
+           data-keynumeric="true">
+        <thead>
+            <tr>
+                <th class="_center">#</th>
+                <th class="_sSize _left">{{localize 'common.componente'}}</th>
+                <th></th>
+                {{#if isEditable}}<th class="_button"></th>{{/if}}
+            </tr>
+            {{#if isEditable}}
+            <tr class="_sortTR">
+                <td><input type="number"           
+                            data-field="key"
+                            value=""                    
+                            class="_sSize"
+                            style="text-align: center"></td>                
+                <td><input type="text"      
+                            data-field="name"     
+                            value=""
+                            class="_xlSize"></td>
+                <td class="_sSize _center">
+                    <input type="checkbox" 
+                           class="_listCheck"
+                           disabled="disabled"/>                    
+                </td>                            
+                <td><button type="button"
+                            class="icon fas fa-add" 
+                            data-action="_addRow" 
+                            data-tooltip="{{localize 'common.anadir'}}">
+                    </button></td>
+            </tr>   
+            {{/if}}         
+        </thead>
+        <tbody>
+            {{#each system.componentes as |entry key|}}
+            <tr data-key="{{entry.key}}">
+                <td class="_sSize _pointer _center" data-action="_selectRow">{{entry.key}}</td>
+                <td class="_xlSize">{{entry.name}}</td>
+                <td class="_center2">
+                    <input type="checkbox" 
+                           class="_listCheck"
+                           {{#unless ../isEditable}} disabled="disabled" {{/unless}}
+                           {{#if entry.checked}} checked {{/if}} 
+                           data-key="{{entry.key}}"
+                           data-field="checked"
+                           data-action="_markRow"/>
+                </td>
+                {{#if ../isEditable}}
+                <td class="_button"><button type="button" {{{_disabled}}}
+                            class="icon fas fa-remove" 
+                            data-action="_deleteRow" 
+                            data-tooltip="{{localize 'common.borrar'}}">
+                </button></td>   
+                {{/if}} 
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+</section>

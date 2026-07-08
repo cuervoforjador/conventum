@@ -1,0 +1,127 @@
+<h4 class="_title divider">{{localize 'common.estudio'}}</h4>
+<div class="_pool">
+
+    {{#each hechizosEstudio as |estudio index|}}
+    <div class="_itemPool">
+        <div class="_row _middle _spaced">
+            <label class="_title _pointer"
+                   data-action="{{#if ../isEditable}}_showItem{{else}}_showHechizo{{/if}}"
+                   data-id="{{estudio.id}}">{{estudio.item.name}} <span class="_italic _small">(VIS {{localize (concat 'common.' estudio.item.system.vis)}})</span></label>
+            {{#if ../isEditable}}
+            <button type="button"
+                    class="icon fas fa-remove" 
+                    data-action="_deleteEstudio" 
+                    data-key="{{estudio.key}}"
+                    data-tooltip="{{localize 'tooltip.borrarEstudio'}}">
+            </button>
+            {{/if}}
+        </div>
+
+        <div class="_step">            
+            {{#if estudio.step02.ptaUse}}
+            <div class="_row _middle">
+                <div class="_combo">
+                    <label>{{localize 'ATTR.ptaShort2'}}:</label>
+                    <label class="_field">{{estudio.step02.pta}}</label>
+                </div>
+                {{#unless estudio.step02.ptaPaid}}
+                    <button type="button" 
+                            data-action="_payHechizoPta"
+                            data-key="{{estudio.key}}">{{localize 'common.gastarPta'}}</button>
+                {{/unless}}
+            </div>
+            {{/if}}
+            <div class="_row _middle">
+                <label>{{localize 'common.tiempo'}}:</label>
+                {{#if ../isEditable}}
+                    <input type="number"
+                        class="_stepValue"
+                        data-path="system.magia.estudio"
+                        data-key="{{estudio.key}}"
+                        data-type="stat"
+                        data-step="step02"
+                        data-field="dias"
+                        value="{{estudio.step02.dias}}" />
+                {{else}}
+                    <label class="_field">{{estudio.step02.dias}}</label>
+                {{/if}}
+                <label class="_field">/ {{estudio.step02.diasTotal}}</label>
+                <label class="_unit">{{localize 'common.dias'}}</label>
+                {{#if ../isEditable}}
+                    <input type="number"
+                        class="_stepValue"
+                        data-path="system.magia.estudio"
+                        data-key="{{estudio.key}}"
+                        data-type="stat"
+                        data-step="step02"
+                        data-field="semanas"
+                        value="{{estudio.step02.semanas}}" />
+                {{else}}
+                    <label class="_field">{{estudio.step02.semanas}}</label>
+                {{/if}}                       
+                <label class="_field">/ {{estudio.step02.semanasTotal}}</label>
+                <label class="_unit">{{localize 'common.semanas'}}</label>                
+            </div>
+            <div class="_row _middle _marginTop">
+                <progressBar>
+                    <percent style="width:  {{estudio.step02.percent}}%"></percent>
+                </progressBar>
+            </div>
+            <div class="_row _middle _spaced">
+                <div class="_combo">
+                    <input type="checkbox" 
+                        id="tiradaEnsenar_{{estudio.key}}"
+                        {{{_disabled}}}
+                        class="_stepValue" 
+                        data-path="system.magia.estudio"
+                        data-key="{{estudio.key}}"
+                        data-type="checkbox"
+                        data-step="step03"
+                        data-field="completed"                        
+                        {{#if estudio.step03.useComunicacion}}
+                            data-tooltip="{{localize 'explain.tiradaComunicacion'}}"
+                        {{else}}
+                            data-tooltip="{{localize 'explain.tiradaEnsenar'}}"
+                        {{/if}}                        
+                        {{#if estudio.step03.completed}}checked{{/if}}>
+                    {{#if estudio.step03.useComunicacion}}
+                    <label for="tiradaEnsenar_{{estudio.key}}" 
+                           data-tooltip="{{localize 'explain.tiradaComunicacion'}}">{{localize 'common.transmitido'}}</label>                                                          
+                    {{else}}
+                    <label for="tiradaEnsenar_{{estudio.key}}" 
+                           data-tooltip="{{localize 'explain.tiradaEnsenar'}}">{{localize 'common.transmitido'}}</label>
+                    {{/if}}
+                </div>
+                <div class="_combo _gapped">
+                    <input type="checkbox" 
+                        id="tiradaMemorizar_{{estudio.key}}"
+                        {{{_disabled}}}
+                        class="_stepValue" 
+                        data-path="system.magia.estudio"
+                        data-key="{{estudio.key}}"
+                        data-type="checkbox"
+                        data-extra="learn"
+                        data-step="step04"
+                        data-field="completed"                        
+                        data-tooltip="{{localize 'explain.tiradaIRR'}}"
+                        {{#if estudio.step04.completed}}checked{{/if}}>
+
+                    <label for="tiradaMemorizar_{{estudio.key}}"
+                           data-tooltip="{{localize 'explain.tiradaIRR'}}">{{localize 'common.asimilado'}}</label>
+                    {{#unless estudio.step04.completed}}
+                        <button type="button" 
+                                data-action="_roll"
+                                data-target="attr"
+                                data-path="irr.value"
+                                data-mod="{{estudio.step04.mod}}"
+                                data-mods="{{estudio.step04.mods}}"
+                                data-key="{{estudio.key}}">{{localize 'common.tiradaIRR'}}</button>
+                    {{/unless}}                    
+                </div>
+            </div> 
+        </div>
+
+    </div>
+    {{/each}}
+
+</div>

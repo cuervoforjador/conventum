@@ -1,0 +1,30 @@
+<section class="tab _hechizos" data-group="primary" data-tab="hechizos">
+    
+    <div class="_2columns _dropZone">
+        <div class="_gridLeft">
+
+            <nav class="tabs _subMenu" data-group="hechizos">
+                <a data-action="tab" data-group="hechizos" data-tab="preparacion">{{localize 'common.preparacion'}}</a>
+                <a data-action="tab" data-group="hechizos" data-tab="estudio">{{localize 'common.estudio'}}</a>
+            </nav>
+
+            <section class="tab _droppable scrollable" 
+                     data-group="hechizos" 
+                     data-tab="preparacion"
+                     data-block="preparacion">
+                {{>hechizosPreparacion_comun}}
+            </section>
+
+            <section class="tab _droppable scrollable" 
+                     data-group="hechizos" 
+                     data-tab="estudio"
+                     data-block="estudio">
+                {{>hechizosEstudio_comun}}
+            </section>            
+        </div>
+        <div class="_gridRight _gridBox scrollable">
+            {{>hechizosGrimorio_comun}}
+        </div>        
+    </div>
+    
+</section>

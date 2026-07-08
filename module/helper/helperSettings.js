@@ -8,6 +8,7 @@ export default class helperSettings {
      * register
      */
     static register() {
+        const sVersion = game.system.version.split('.').join('')
 
         game.settings.register(SYSTEM_ID, "rules", {
             name: "common.rules",
@@ -44,7 +45,7 @@ export default class helperSettings {
             requiresReload: true 
         }) 
 
-        game.settings.register(SYSTEM_ID, "firstTime", {
+        game.settings.register(SYSTEM_ID, "firstTime"+sVersion, {
             name: "common.firstTime",
             hint: "tooltip.firstTime",
             scope: "world",
@@ -73,8 +74,14 @@ export default class helperSettings {
      * @returns 
      */
     static getFirstTime() {
-        return game.settings.get(SYSTEM_ID,'firstTime');
+        const sVersion = game.system.version.split('.').join('')
+        return game.settings.get(SYSTEM_ID, 'firstTime'+sVersion);
     }
+    static async hideFirstTime() {
+        const sVersion = game.system.version.split('.').join('')
+        game.settings.set(SYSTEM_ID, 'firstTime'+sVersion, false)
+    }
+
 
     /**
      * getUserEdit

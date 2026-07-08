@@ -1,0 +1,75 @@
+<section class="tab" data-group="primary" data-tab="propiedades">
+    <h4 class="_noMargin">{{localize 'common.caducidad'}}</h4>
+    <div class="_row _middle _gapped">
+        {{#if isEditable}}
+            {{{checkButton 'system.propiedades.caducidad.useFormula' 'common.useFormula' 'fa-dice-d20'}}}
+        {{/if}}
+
+        {{#if system.propiedades.caducidad.useFormula}}
+            <label>{{localize 'common.formula'}} :</label>
+            <input type="text" 
+                style="width: calc(var(--fSize) * 15);"
+                {{{_disabled}}}
+                name="system.propiedades.caducidad.formula" 
+                value="{{system.propiedades.caducidad.formula}}" 
+                data-tooltip="{{localize 'common.formula'}}">
+        {{/if}}        
+
+        {{#unless system.propiedades.caducidad.useFormula}}
+            <input type="text" 
+                style="width: 100%;"
+                {{{_disabled}}}
+                name="system.propiedades.caducidad.text" 
+                value="{{system.propiedades.caducidad.text}}">        
+        {{/unless}}        
+    </div>
+
+    <h4 class="_noMargin">{{localize 'common.duracion'}}</h4>
+    <div class="_row _middle _gapped">
+        {{#if isEditable}}
+            {{{checkButton 'system.propiedades.duracion.useFormula' 'common.useFormula' 'fa-dice-d20'}}}
+        {{/if}}
+
+        {{#if system.propiedades.duracion.useFormula}}
+            <label>{{localize 'common.formula'}} :</label>
+            <input type="text" 
+                style="width: calc(var(--fSize) * 15);"
+                {{{_disabled}}}
+                name="system.propiedades.duracion.formula" 
+                value="{{system.propiedades.duracion.formula}}" 
+                data-tooltip="{{localize 'common.formula'}}">
+        {{/if}}        
+
+        {{#unless system.propiedades.duracion.useFormula}}
+            {{#if isEditable}}
+                <input type="text" 
+                    style="width: 100%;"
+                    {{{_disabled}}}
+                    name="system.propiedades.duracion.text" 
+                    value="{{system.propiedades.duracion.text}}">        
+            {{else}}
+                <label>{{system.propiedades.duracion.text}}</label>
+            {{/if}}
+        {{/unless}}         
+    </div>    
+
+    <h4 class="_noMargin">{{localize 'common.preparacion'}}</h4>
+    <div class="_simpleText">
+        {{#if isEditable}}
+            {{formInput 
+                systemFields.descripcion 
+                enriched=_textPreparacion
+                value=system.propiedades.preparacion 
+                name="system.propiedades.preparacion"
+                toggled=false}}  
+        {{else}}
+            {{editor system.propiedades.preparacion 
+                target="system.propiedades.preparacion" 
+                button=false 
+                editable=false
+                engine="prosemirror" 
+                collaborate=false}}
+        {{/if}}            
+    </div>
+
+</section>

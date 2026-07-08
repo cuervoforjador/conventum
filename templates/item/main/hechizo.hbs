@@ -1,0 +1,64 @@
+<div class="_main {{#if isEditable}}_editable{{/if}}">
+    <div class="_sheetContent">
+
+        {{!-- PROPERTIES --}}
+        <div class="_properties" style="margin-top: 1rem">
+            <div class="_row _gapped">
+                <label>{{localize 'common.vis'}} :</label> 
+                <select name="system.vis" {{{_disabled}}} style="width: calc(var(--fSize) * 10);" class="_accent">
+                {{selectOptions niveles 
+                                selected=system.vis
+                                localize=false
+                                nameAttr="key"
+                                labelAttr="label" }}
+                </select> 
+
+                <label class="_right" style="width: calc(var(--fSize) * 5);">{{localize 'common.forma'}} :</label>
+                <select name="system.info.forma" {{{_disabled}}} style="width: calc(var(--fSize) * 10);">
+                {{selectOptions tipos 
+                                selected=system.info.forma
+                                localize=false
+                                nameAttr="key"
+                                labelAttr="label" }}
+                </select>                               
+            </div>
+            <div class="_row _gapped">
+                <label>{{localize 'common.naturaleza'}} :</label>
+                <select name="system.info.naturaleza" {{{_disabled}}} style="width: calc(var(--fSize) * 10);">
+                {{selectOptions naturalezas 
+                                selected=system.info.naturaleza
+                                localize=false
+                                nameAttr="key"
+                                labelAttr="label" }}
+                </select>                 
+
+                <label class="_right" style="width: calc(var(--fSize) * 5);">{{localize 'common.origen'}} :</label>
+                <select name="system.info.origen" {{{_disabled}}} style="width: calc(var(--fSize) * 10);">
+                {{selectOptions origenes 
+                                selected=system.info.origen
+                                localize=false
+                                nameAttr="key"
+                                labelAttr="label" }}
+                </select>                 
+            </div>
+            <div class="_row _gapped">
+                <label>{{localize 'common.aprendido'}} :</label>
+                <input type="checkbox" 
+                       {{{_disabled}}}
+                       name="system.aprendido"
+                       {{checked system.aprendido}}>
+            </div>
+            <div class="_row _gapped _menu">
+                {{{navTab 'primary' (array 'propiedades' 'componentes' 'descripcion') '_expanded'}}}
+            </div>
+        </div> 
+                
+        {{>tab_HechizosPropiedades}}
+        {{>tab_Componentes}}
+        {{>tab_Descripcion}}
+        
+    </div>
+    <div class="_sheetFooter">
+        {{>item_footer}}
+    </div>    
+</div>

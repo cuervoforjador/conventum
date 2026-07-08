@@ -8,7 +8,8 @@ dialog._extend._vyc {
     font-family: var(--vcfFont0);
 }
 dialog._extend._error {
-    border: 8px solid #fd1f1fb8;
+    border: 1px solid #fd1f1fb8;
+    box-shadow: #9d4242 0px 0px 11px 6px;
 }
 dialog._extend section.window-content {
     background-image: url(../assets/ui/paper.png);
@@ -87,6 +88,45 @@ dialog._extend._description p {
     font-weight: 100;
     padding: 0 1rem;
 }
+dialog._extend._description h1._title {
+    margin: 0;
+    color: #000;
+    font-family: var(--fFont1);
+}
+dialog._extend._vyc._description h1._title {
+    font-family: var(--vcfFont1);
+}
+dialog._extend._description h4 {
+    margin: 0;
+    font-family: var(--fFont1);
+}
+dialog._extend._vyc._description h4 {
+    font-family: var(--vcfFont1);
+}
+dialog._extend._description ._stats {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+dialog._extend._description ._stats label._field {
+    color: #000;
+    font-weight: 900;
+}
+dialog._extend._description span._pseudoTitle {
+    font-weight: 900;
+    font-size: 1.25rem;
+    font-family: var(--fFont0);
+}
+dialog._extend._vyc._description span._pseudoTitle {
+    font-family: var(--vcfFont1);
+}
+
+
+
+
+
+
 dialog._extend form ul._main {
     display: flex;
     flex-direction: column;

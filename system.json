@@ -2,11 +2,11 @@
   "id": "aquelarre",
   "title": "Aquelarre",
   "description": "Aquelarre Extendido (Edición 3a, Edición 4a, Villa y Corte)",
-  "manifest": "https://github.com/cuervoforjador/conventum/releases/download/v310/system.json",
-  "download": "https://github.com/cuervoforjador/conventum/releases/download/v310/aquelarre.zip",
+  "manifest": "https://github.com/cuervoforjador/conventum/releases/download/v311/system.json",
+  "download": "https://github.com/cuervoforjador/conventum/releases/download/v311/aquelarre.zip",
   "url": "https://github.com/cuervoforjador/conventum/",
   "license": "LICENSE",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "authors": [
     {
       "name": "Cuervo Forjador",
@@ -105,7 +105,11 @@
       "arma": {},
       "armadura": {},
       "secuela": {},
-      "rasgo": {}
+      "rasgo": {},
+      "grimorio": {},
+      "hechizo": {},
+      "ensalmo": {},
+      "formula": {}
     }
   }
 

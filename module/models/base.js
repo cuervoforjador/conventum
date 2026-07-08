@@ -6,7 +6,7 @@ export default class extend_Base extends foundry.abstract.TypeDataModel {
         const schema = {}
 
         schema.key  = new api.StringField({ initial: '' })
-        schema.rules =  new api.StringField({ initial: '' })
+        schema.rules =  new api.StringField({ initial: 'aq3' })
 
         return schema
     }

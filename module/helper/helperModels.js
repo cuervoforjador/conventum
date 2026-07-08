@@ -13,6 +13,10 @@ import modelPosicion from "../models/item/posicion.js"
 import modelProfesion from "../models/item/profesion.js"
 import modelSecuela from "../models/item/secuela.js"
 import modelRasgo from "../models/item/rasgo.js"
+import modelGrimorio from "../models/item/grimorio.js"
+import modelHechizo from "../models/item/hechizo.js"
+import modelEnsalmo from "../models/item/ensalmo.js"
+import modelFormula from "../models/item/formula.js"
 
 import newActor from "../documents/actor.js"
 import newItem from "../documents/item.js"
@@ -43,6 +47,10 @@ export default class helperModels {
         CONFIG.Item.dataModels.profesion = modelProfesion
         CONFIG.Item.dataModels.secuela = modelSecuela
         CONFIG.Item.dataModels.rasgo = modelRasgo
+        CONFIG.Item.dataModels.grimorio = modelGrimorio
+        CONFIG.Item.dataModels.hechizo = modelHechizo
+        CONFIG.Item.dataModels.ensalmo = modelEnsalmo
+        CONFIG.Item.dataModels.formula = modelFormula
     }
 
     /**

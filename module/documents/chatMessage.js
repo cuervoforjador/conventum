@@ -6,8 +6,9 @@ export default class newChatMessage extends ChatMessage {
 
     async renderHTML({ canDelete, canClose=false, ...rest }={}) {
         const html = await super.renderHTML({canDelete, canClose, ...rest})
-
-        if (this.isLore) return $(html).addClass(['_extend', '_lore', '_'+this.rules])[0]
-                    else return $(html).addClass(['_extend'])[0]
+        let classes = ['_extend', '_'+this.rules]
+        if (this.flags.class?.value) classes.push(this.flags.class?.value)
+        if (this.isLore) classes.push('_lore')
+        return $(html).addClass(classes)[0]
     }
 }

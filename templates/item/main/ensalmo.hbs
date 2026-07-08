@@ -1,0 +1,87 @@
+<div class="_main {{#if isEditable}}_editable{{/if}}">
+    <div class="_sheetContent">
+
+        {{!-- PROPERTIES --}}
+        <div class="_properties" style="margin: 1rem 0">
+            <div class="_row _gapped">
+                <label>{{localize 'common.ordo'}} :</label> 
+                <select name="system.ordo" {{{_disabled}}} style="width: calc(var(--fSize) * 10);" class="_accent">
+                {{selectOptions niveles 
+                                selected=system.ordo
+                                localize=false
+                                nameAttr="key"
+                                labelAttr="label" }}
+                </select>   
+                {{{checkButton 'system.propiedades.estadoGracia' 'tooltip.estadoGracia' 'fa-person-praying'}}}                            
+            </div>
+        </div> 
+
+        <input type="text" 
+            class="_italic"
+            style="width: 100%;"
+            {{{_disabled}}}
+            name="system.propiedades.resumen" 
+            value="{{system.propiedades.resumen}}">         
+
+        <h4 class="_noMargin">{{localize 'common.requisitos'}}</h4>
+        <div class="_simpleText _medSize">
+            {{#if isEditable}}
+                {{formInput 
+                    systemFields.descripcion 
+                    enriched=_textRequisitos
+                    value=system.propiedades.requisitos 
+                    name="system.propiedades.requisitos"
+                    toggled=false}}  
+            {{else}}
+                {{editor system.propiedades.requisitos 
+                    target="system.propiedades.requisitos" 
+                    button=false 
+                    editable=false
+                    engine="prosemirror" 
+                    collaborate=false}}
+            {{/if}}             
+        </div>
+
+        <h4 class="_noMargin">{{localize 'common.ceremonia'}}</h4>
+        <div class="_simpleText _medSize">
+            {{#if isEditable}}
+                {{formInput 
+                    systemFields.descripcion 
+                    enriched=_textCeremonia
+                    value=system.propiedades.ceremonia 
+                    name="system.propiedades.ceremonia"
+                    toggled=false}}  
+            {{else}}
+                {{editor system.propiedades.ceremonia 
+                    target="system.propiedades.ceremonia" 
+                    button=false 
+                    editable=false
+                    engine="prosemirror" 
+                    collaborate=false}}
+            {{/if}}             
+        </div>
+
+        <h4 class="_noMargin">{{localize 'common.efectos'}}</h4>
+        <div class="_simpleText _medSize">
+            {{#if isEditable}}
+                {{formInput 
+                    systemFields.descripcion 
+                    enriched=_richDescripcion
+                    value=system.descripcion 
+                    name="system.descripcion"
+                    toggled=false}}   
+            {{else}}
+                {{editor system.descripcion 
+                    target="system.descripcion" 
+                    button=false 
+                    editable=false
+                    engine="prosemirror" 
+                    collaborate=false}}
+            {{/if}}
+        </div>
+        
+    </div>
+    <div class="_sheetFooter">
+        {{>item_footer}}
+    </div>    
+</div>
