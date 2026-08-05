@@ -3,28 +3,37 @@
 
         {{!-- PROPERTIES --}}
         <div class="_properties">
-            <div class="_row _gapped">
-                <label>{{localize 'common.localizacionTipo'}} :</label>
-                <select name="system.localizacion" {{{_disabled}}} style="width: calc(var(--fSize) * 11);">
-                {{selectOptions localizacionesTipos 
-                                selected=system.localizacion
-                                localize=false
-                                nameAttr="key"
-                                labelAttr="label" }}
-                </select> 
-
-                <label>{{localize 'common.tipo'}} :</label>
-                <select name="system.tipo" {{{_disabled}}} style="width: calc(var(--fSize) * 7);">
-                {{selectOptions tipos 
-                                selected=system.tipo
-                                localize=false
-                                nameAttr="key"
-                                labelAttr="label" }}
-                </select>   
-                {{#if (or isEditable system.enUso)}}
+            <div class="_row _spaced">
+                <div class="_combo _gapped">
+                    <div class="_combo _gapped">
+                        <label>{{localize 'common.localizacionTipo'}} :</label>
+                        <select name="system.localizacion" {{{_disabled}}} style="width: calc(var(--fSize) * 11);">
+                        {{selectOptions localizacionesTipos 
+                                        selected=system.localizacion
+                                        localize=false
+                                        nameAttr="key"
+                                        labelAttr="label" }}
+                        </select> 
+                    </div>
+                    <div class="_combo _gapped">
+                        <label>{{localize 'common.tipo'}} :</label>
+                        <select name="system.tipo" {{{_disabled}}} style="width: calc(var(--fSize) * 7);">
+                        {{selectOptions tipos 
+                                        selected=system.tipo
+                                        localize=false
+                                        nameAttr="key"
+                                        labelAttr="label" }}
+                        </select>   
+                    </div>
+                </div>                
+                <div class="_combo">
+                {{#if (or isEditable system.enUso)}}                
                     {{{checkButton 'system.enUso' 'tooltip.enUso' 'fa-user'}}}
-                {{/if}}
-                <div class="_borrame">CLICK</div>
+                {{/if}}             
+                {{#if (or isEditable system.ropa)}}                
+                    {{{checkButton 'system.ropa' 'common.vestimenta' 'fa-shirt-long-sleeve'}}}
+                {{/if}}                             
+                </div>
             </div>
             <div class="_row _gapped">
                 <label>{{localize 'common.proteccion'}} :</label>

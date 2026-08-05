@@ -57,14 +57,14 @@ export default class helperTours {
                                     <h1>ROADMAP</h1>
                                     <div class="_tourHeader" style="background-image: url(systems/aquelarre/assets/ui/systemBackground.png)"></div>
                                     <label class="_description">
-                                        Esta es una primera versión anticipada y jugable del nuevo sistema extendido y se espera que pronto se termine de desarrollar el resto de funcionalidades cuyo roadmap de desarrollo es el siguiente:</br></br>
+                                        Esta es una primera versión anticipada y jugable del nuevo sistema extendido y se espera que pronto se termine de desarrollar el resto de funcionalidades, cuyo estado de desarrollo es el siguiente:
                                         <ul class="_list">
-                                            <li>✠ Acciones de Combate</li>
-                                            <li>✠ Modificadores sociales</li>
-                                            <li>✠ Ensalmos y Hechizos</li>
-                                            <li>✠ Equipo, Posesiones, Monturas y Transfondo</li>
-                                            <li>✠ PNJs, Criaturas, Ángeles y Demonios</li>
-                                            <li>✠ Mapas y Sistema de enclaves</li>
+                                            <li>✠ Ensalmos y Hechizos (Finalizado. Incorporado en 3.1.2)</li>
+                                            <li>✠ Equipo (Finalizado. Incorporado en 3.1.2)</li>
+                                            <li>✠ Acciones de Combate (Próxima actualización 3.1.3)</li>
+                                            <li>✠ Modificadores sociales (Próxima actualización 3.1.3)</li>
+                                            <li>✠ PNJs, Criaturas, Ángeles y Demonios (Actualización 3.1.4)</li>
+                                            <li>✠ Mapas y Sistema de enclaves (Actualización 3.1.5)</li>
                                         </ul>
                                         Te agradezco enormemente que hayas descargado este sistema.<br/>
                                         Por favor, no dudes en pasarte por el grupo de Aquelarre en el canal <a href="https://discord.com/channels/701794931299188908/988007079841234996">FoundryVTT Español de Discord</a> donde podrás comentar y participar en este proyecto.

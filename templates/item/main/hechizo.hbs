@@ -41,21 +41,35 @@
                                 labelAttr="label" }}
                 </select>                 
             </div>
-            <div class="_row _gapped">
-                <label>{{localize 'common.aprendido'}} :</label>
-                <input type="checkbox" 
-                       {{{_disabled}}}
-                       name="system.aprendido"
-                       {{checked system.aprendido}}>
+            <div class="_row _gapped _spaced">
+                <div class="_combo" class="_gapped">
+                    <label>{{localize 'common.aprendido'}} :</label>
+                    <input type="checkbox" 
+                        {{{_disabled}}}
+                        name="system.aprendido"
+                        {{checked system.aprendido}}>
+                </div>
+                <div class="_combo" class="_gapped">
+                    <label>{{localize 'common.tiradaRR'}} :</label>
+                    <input type="checkbox" 
+                        {{{_disabled}}}
+                        name="system.tiradaRR"
+                        {{checked system.tiradaRR}}>
+                </div>                
             </div>
             <div class="_row _gapped _menu">
-                {{{navTab 'primary' (array 'propiedades' 'componentes' 'descripcion') '_expanded'}}}
+                {{#if modeMass}}
+                    {{{navTab 'primary' (array 'propiedades' 'componentes' 'descripcion' 'massedit') '_expanded'}}}
+                {{else}}
+                    {{{navTab 'primary' (array 'propiedades' 'componentes' 'descripcion') '_expanded'}}}
+                {{/if}}
             </div>
         </div> 
                 
         {{>tab_HechizosPropiedades}}
         {{>tab_Componentes}}
         {{>tab_Descripcion}}
+        {{>tab_MassEdit}}
         
     </div>
     <div class="_sheetFooter">

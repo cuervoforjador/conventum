@@ -1,0 +1,212 @@
+dialog._book,
+dialog._book section.window-content {
+    background: none;
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+dialog._book section.window-content form._contentBook {
+    overflow: hidden;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+._backdrop {
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);    
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+dialog._book form._contentBook .dialog-content {
+    width: 100%;
+    height: 100%;
+    background-image: url(../assets/ui/book.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+dialog._book ._contentWrap {
+    position: relative;
+    top: 2.5%;
+    left: 5%;
+}
+
+dialog._book ._mainBook {
+	-webkit-transition:margin-left 0.2s;
+	-moz-transition:margin-left 0.2s;
+	-ms-transition:margin-left 0.2s;
+	-o-transition:margin-left 0.2s;
+	transition:margin-left 0.2s;
+}
+
+dialog._book ._mainBook .page {
+	background-color:white;
+    background-image: url(../assets/ui/paperBook.png)!important;
+}
+dialog._book ._mainBook .page-wrapper {
+	-webkit-perspective:2000px;
+	-moz-perspective:2000px;
+	-ms-perspective:2000px;
+	-o-perspective:2000px;
+	perspective:2000px;
+}
+dialog._book ._mainBook .hard {
+	-webkit-box-shadow:inset 0 0 5px #000;
+	-moz-box-shadow:inset 0 0 5px #000;
+	-o-box-shadow:inset 0 0 5px #000;
+	-ms-box-shadow:inset 0 0 5px #000;
+	box-shadow:inset 0 0 5px #000;
+}
+dialog._book ._mainBook .odd {
+	background:-webkit-gradient(linear, right top, left top, color-stop(0.95, #FFF), color-stop(1, #DADADA));
+	background-image:-webkit-linear-gradient(right, #FFF 95%, #C4C4C4 100%);
+	background-image:-moz-linear-gradient(right, #FFF 95%, #C4C4C4 100%);
+	background-image:-ms-linear-gradient(right, #FFF 95%, #C4C4C4 100%);
+	background-image:-o-linear-gradient(right, #FFF 95%, #C4C4C4 100%);
+	background-image:linear-gradient(right, #FFF 95%, #C4C4C4 100%);
+	-webkit-box-shadow:inset 0 0 5px #666;
+	-moz-box-shadow:inset 0 0 5px #666;
+	-o-box-shadow:inset 0 0 5px #666;
+	-ms-box-shadow:inset 0 0 5px #666;
+	box-shadow:inset 0 0 5px #666;
+	
+}
+dialog._book ._mainBook .even {
+	background:-webkit-gradient(linear, left top, right top, color-stop(0.95, #fff), color-stop(1, #dadada));
+	background-image:-webkit-linear-gradient(left, #fff 95%, #dadada 100%);
+	background-image:-moz-linear-gradient(left, #fff 95%, #dadada 100%);
+	background-image:-ms-linear-gradient(left, #fff 95%, #dadada 100%);
+	background-image:-o-linear-gradient(left, #fff 95%, #dadada 100%);
+	background-image:linear-gradient(left, #fff 95%, #dadada 100%);
+	-webkit-box-shadow:inset 0 0 5px #666;
+	-moz-box-shadow:inset 0 0 5px #666;
+	-o-box-shadow:inset 0 0 5px #666;
+	-ms-box-shadow:inset 0 0 5px #666;
+	box-shadow:inset 0 0 5px #666;
+}
+dialog._book .hard.page.even {
+    -webkit-mask-image: url(../assets/ui/bookPageLeftMask.png);
+    mask-image: url(../assets/ui/bookPageLeftMask.png);
+    mask-size: 100% 100%;
+    box-shadow: inset #0000006b -20px 0px 50px 0px,
+                inset #440707af 1px 0px 5px 2px;
+    border-right: 1px solid #0000007d;
+}
+dialog._book .hard.page.odd {
+    -webkit-mask-image: url(../assets/ui/bookPageRightMask.png);
+    mask-image: url(../assets/ui/bookPageRightMask.png);
+    mask-size: 100% 100%;
+    box-shadow: inset #0000006b 20px 0px 20px 0px, 
+                inset #440707af -1px 0px 5px 2px;
+}
+
+dialog._book ._page {
+    width: calc(100% + 1rem);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    overflow-y: auto;
+}
+dialog._book ._page h1._title {
+    font-family: var(--fFont1);
+    font-size: calc(var(--fSize) * 1.75);
+    line-height: calc(var(--fSize) * 2);
+    color: #000000c7;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+dialog._book._vyc ._page h1._title {
+    text-align: left;
+    font-family: var(--vcfFont1);
+    font-size: calc(var(--fSize) * 2);
+    line-height: calc(var(--fSize) * 2.25);
+}
+dialog._book ._page h4 {
+    margin: calc(var(--fSize) * 0.5) 0;
+}
+dialog._book ._wrapImg ._header h4 {
+    font-size: calc(var(--fSize) * 0.8);
+}
+dialog._book label._field {
+    color: #000!important;
+    font-weight: 900;
+}
+dialog._book span._pseudoTitle {
+    font-family: var(--fFont1);
+    font-size: calc(var(--fSize) * 1);
+    font-weight: 900;
+}
+dialog._book._vyc span._pseudoTitle {
+    font-family: var(--vcfFont1);
+    font-size: calc(var(--fSize) * 1.5);    
+}
+dialog._book span._pseudoTitle._small {
+    font-size: calc(var(--fSize) * 0.75);
+}
+dialog._book._vyc span._pseudoTitle._small {
+    font-size: calc(var(--fSize) * 1);
+}
+dialog._book ._markers {
+    position: absolute;
+    display: flex;
+    top: 5%;
+    left: 90%;
+}
+dialog._book ._markers ._marker {
+    font-size: calc(var(--fSize) * 2);
+    width: calc(var(--fSize) * 2.5);
+    background: #351d1d;
+    border: 1px solid #000;
+    box-shadow: black 0px 0px 5px 1px;
+    transition: 0.5s;
+    line-height: calc(var(--fSize) * 2.25);
+    cursor: pointer;
+}
+dialog._book ._markers ._marker._close {
+    background: #9b1313;
+}
+dialog._book ._markers ._marker:hover {
+    width: calc(var(--fSize) * 3);
+    padding-left: calc(var(--fSize) * 0.5);
+    transform: rotate(-1.5deg);
+}
+dialog._book ._title._pointer:hover {
+    border-bottom: 4px solid #000;
+    margin-bottom: -4px;
+}
+dialog._extend._book ._row._stats {
+    display: flex;
+    flex-wrap: wrap;
+}
+dialog._extend._book ._buttons {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+    justify-content: flex-start;
+    background: #46050514;
+    border-top: 1px solid #00000024;
+    border-bottom: 1px solid #00000024;
+    margin-bottom: 0.5rem;
+}
+dialog._extend._book ._buttons button {
+    font-size: calc(var(--fSize) * 1);
+    line-height: calc(var(--fSize) * 1);
+    font-family: var(--fFont0);
+    padding: 0 0.5rem;
+    border-radius: 0;    
+    margin: 0.25rem 0;
+    --button-size: calc(var(--fSize) * 1.5);
+}
+dialog._extend._vyc._book ._buttons button {
+    font-size: calc(var(--fSize) * 1);   
+    font-family:  var(--vcfFont1);
+}
+dialog._extend._book ._buttons button[disabled="disabled"] {
+    opacity: 0.5;
+}

@@ -16,8 +16,12 @@ export default class modelEnsalmo extends extendItem_Base {
             estadoGracia: new api.BooleanField({ initial: false }),
             requisitos: new api.HTMLField({ initial: '' }),
             ceremonia: new api.HTMLField({ initial: '' }),
+            duracion: new api.HTMLField({ initial: '' }),
             resumen: new api.StringField({ initial: '' })
         })    
+
+        schema.massEdit = new api.HTMLField({ initial: '' })
+        schema.massEditFolder = new api.StringField({ initial: '' })
 
         return schema;
     }

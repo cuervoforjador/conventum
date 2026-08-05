@@ -1,0 +1,71 @@
+<div class="_box _economia">
+    <h4 class="_title divider">{{localize 'common.bolsa'}}</h4>
+    <div class="_row _simple _middle _gapped">
+        <label>{{localize 'common.dineros'}}:</label>
+        <div class="_combo">
+            <input type="number"
+                {{{_disabled}}}
+                name="system.economia.dineros"
+                value="{{system.economia.dineros}}"
+                class="_mSize _right _bold">
+            <label class="_small _italic">{{configRULES.moneda}}</label>
+        </div>
+    </div>
+    <div class="_row _simple _middle _gapped">
+        <div class="_combo _gapped" style="margin-right: 1rem;">            
+            <label>{{localize 'common.ingresosSemanales'}}:</label>
+            <div class="_combo">
+                <input type="number"
+                    {{{_disabled}}}
+                    name="system.economia.ingresos"
+                    value="{{system.economia.ingresos}}"
+                    class="_sSize _right _bold">
+                <label class="_small _italic">{{configRULES.moneda}}</label>
+            </div>
+        </div>
+        <div class="_combo _gapped">
+            <label>{{localize 'common.gastosSemanales'}}:</label>
+            <div class="_combo">
+                <input type="number"
+                    {{{_disabled}}}
+                    name="system.economia.gastos"
+                    value="{{system.economia.gastos}}"
+                    class="_sSize _right _bold">
+                <label class="_small _italic">{{configRULES.moneda}}</label>
+            </div>
+        </div>
+    </div>    
+</div>
+<div class="_box _listEquipo"
+     style="grid-auto-columns: {{itemsRenderOptions.columnSize}};
+            grid-template-areas: {{itemsRenderOptions.templateAreas}};">
+
+    <div class="_itemEquipo">
+        <h4 class="_title divider">{{localize 'common.equipo'}}</h4>
+    </div>
+
+    {{#each equipo as |item index|}}
+    <div class="_itemEquipo"
+         style="grid-column: {{itemsRenderColumn (numRows ../equipo) ../itemsRenderOptions index}}">
+
+        <div class="_combo _spaced _100">
+            <a class="_name _pointer" style="padding-left: 0.5rem"
+                data-action="{{#if ../isEditable}}_showItem{{else}}_showItemDescr{{/if}}" 
+                data-id="{{item.id}}">
+                <label class="_name _lSize">{{item.name}}</label>
+            </a> 
+
+            {{#if ../isEditable}}
+            <button type="button"
+                    class="icon operator fas fa-remove" 
+                    data-action="_deleteItem" 
+                    data-id="{{item.id}}"
+                    data-tooltip="{{localize 'tooltip.borrarItem'}}">
+            </button>   
+            {{/if}}
+        </div>
+
+    </div>
+    {{/each}}
+
+</div>

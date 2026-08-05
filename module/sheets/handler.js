@@ -133,6 +133,7 @@ export default class sheetHandler {
     if (!item) return 
     if ($(target).data('block') === 'preparacion') helperMagia.prepararHechizo(this.document, item)
     if ($(target).data('block') === 'estudio') helperMagia.estudiarHechizo(this.document, item)
+    if ($(target).data('block') === 'preparacionEnsalmo') helperMagia.prepararEnsalmo(this.document, item)      
   }
 
   static _access(object, path) {

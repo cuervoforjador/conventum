@@ -6,12 +6,24 @@
   "download": "https://github.com/cuervoforjador/conventum/releases/download/v311/aquelarre.zip",
   "url": "https://github.com/cuervoforjador/conventum/",
   "license": "LICENSE",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "authors": [
     {
       "name": "Cuervo Forjador",
       "url": "https://github.com/cuervoforjador"
-    }
+    },
+    {
+      "name": "Luvero",
+      "url": "https://github.com/Luvero-1"
+    },
+    {
+      "name": "Fran Aleo",
+      "url": "https://github.com/faleo"
+    },
+    {
+      "name": "Gaspa",
+      "url": "https://github.com/GaspaMM"
+    }            
   ],
   "compatibility": {
     "minimum": "13",
@@ -21,14 +33,17 @@
     "system.js"
   ],
   "scripts": [
-    "https://code.jquery.com/ui/1.13.2/jquery-ui.js"
+    "https://code.jquery.com/ui/1.13.2/jquery-ui.js",
+    "libs/turnjs4/turn.min.js"
   ],
   "styles": [
+      "styles/app.css",
       "styles/main.css",
       "styles/sheets.css",
       "styles/dialog.css",
       "styles/rolltables.css",
-      "styles/messages.css"
+      "styles/messages.css",
+      "styles/book.css"
   ],
   "packs": [
         {
@@ -109,7 +124,8 @@
       "grimorio": {},
       "hechizo": {},
       "ensalmo": {},
-      "formula": {}
+      "formula": {},
+      "tienda": {}
     }
   }
 

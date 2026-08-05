@@ -1,3 +1,11 @@
-2026/07/08-08:50:24.111 7580 Recovering log #259
-2026/07/08-08:50:24.111 7580 Delete type=0 #259
-2026/07/08-08:50:24.111 7580 Delete type=3 #258
+2026/07/30-10:10:12.731 bcec Recovering log #311
+2026/07/30-10:10:12.731 bcec Level-0 table #314: started
+2026/07/30-10:10:12.737 bcec Level-0 table #314: 200411 bytes OK
+2026/07/30-10:10:12.737 bcec Delete type=2 #308
+2026/07/30-10:10:12.737 bcec Delete type=2 #310
+2026/07/30-10:10:12.737 bcec Delete type=0 #311
+2026/07/30-10:10:12.737 bcec Delete type=3 #309
+2026/07/31-09:12:40.080 d4cc Compacting 1@0 + 1@1 files
+2026/07/31-09:12:40.094 d4cc Generated table #316@0: 697 keys, 760262 bytes
+2026/07/31-09:12:40.094 d4cc Compacted 1@0 + 1@1 files => 760262 bytes
+2026/07/31-09:12:40.096 d4cc compacted to: files[ 0 1 0 0 0 0 0 ]

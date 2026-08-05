@@ -39,7 +39,6 @@ export default class sheetArmadura extends extendItem0Sheet {
   async _prepareContext() {
     const rules = this.document.system.rules
     const context = await super._prepareContext()
-    context.configRULES = configRULES[rules]
    
     context.tipos = await helperContext.getArmadurasTiposSheet(rules)
     context.localizacionesTipos = await helperContext.getLocalizacionesTipos(rules)

@@ -8,21 +8,21 @@
                 <a data-action="tab" data-group="hechizos" data-tab="estudio">{{localize 'common.estudio'}}</a>
             </nav>
 
-            <section class="tab _droppable scrollable" 
+            <section class="tab _droppable scrollable scrollableHechizos1" 
                      data-group="hechizos" 
                      data-tab="preparacion"
                      data-block="preparacion">
                 {{>hechizosPreparacion_comun}}
             </section>
 
-            <section class="tab _droppable scrollable" 
+            <section class="tab _droppable scrollable scrollableHechizos2" 
                      data-group="hechizos" 
                      data-tab="estudio"
                      data-block="estudio">
                 {{>hechizosEstudio_comun}}
             </section>            
         </div>
-        <div class="_gridRight _gridBox scrollable">
+        <div class="_gridRight _gridBox scrollable scrollableHechizos3">
             {{>hechizosGrimorio_comun}}
         </div>        
     </div>

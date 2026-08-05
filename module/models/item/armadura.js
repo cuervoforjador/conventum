@@ -26,6 +26,7 @@ export default class modelArmadura extends extendItem_Base {
         schema.penalIniciativa = new api.NumberField({ nullable: true, initial: null })
         schema.penalMovimiento = new api.NumberField({ nullable: true, initial: null })
 
+        schema.ropa = new api.BooleanField({ initial: false })
         schema.enUso = new api.BooleanField({ initial: true })
 
         return schema;

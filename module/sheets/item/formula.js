@@ -26,7 +26,6 @@ export default class sheetFormula extends extendItem0Sheet {
   async _prepareContext() {
     const rules = this.document.system.rules
     const context = await super._prepareContext()    
-    context.configRULES = configRULES[rules]
 
     return context
   }

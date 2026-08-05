@@ -1,0 +1,68 @@
+<h4 class="_title divider">{{localize 'common.preparacion'}}</h4>
+{{#unless system.ritual.preparacion.preparando}}
+    <div class="_row _middle _spaced">
+        <label class="_info">{{{localize 'explain.sinPreparacion'}}}</label>
+    </div>
+{{else}}
+<div class="_backImg" style="background-image: url({{ensalmoPreparacion.item.img}})"></div>
+<div class="_itemFocus">
+    <label class="_title _big">{{ensalmoPreparacion.item.name}}</label>
+    <div class="_row _middle _spaced">
+        <label class="_small">(Ordo {{localize (concat 'common.' ensalmoPreparacion.item.system.ordo)}})</label>
+        <div class="_combo">
+            <label class="_marginRight">{{localize 'common.estadoGracia'}}:</label>
+            <label class="_bold">{{#if ensalmoPreparacion.item.system.propiedades.estadoGracia}} {{localize 'common.si'}} {{else}} {{localize 'common.no'}} {{/if}}</label>        
+        </div>
+    </div>
+
+    <div class="_step _options">
+        <div class="_combo _gapped">
+            <label>{{localize 'ATTR.ptfShort2'}}:</label>
+            <label {{#unless ensalmoPreparacion.ptfOK}}data-tooltip="{{localize 'error.noPtf'}}"{{/unless}}
+                   class="_field {{#unless ensalmoPreparacion.ptfOK}}_red blink1{{/unless}}">{{ensalmoPreparacion.ptf}}</label>
+            <label>/ {{system.atributos.ptf.value}}</label>
+            {{#unless ensalmoPreparacion.ptfPaid}}
+            {{#if ensalmoPreparacion.ptfOK}}
+                <button type="button" 
+                        data-action="_payEnsalmoPtf"
+                        data-ptf="{{ensalmoPreparacion.ptf}}"
+                        data-key="{{estudio.key}}">{{localize 'common.gastarPtf'}}</button>
+            {{/if}}
+            {{/unless}}            
+        </div>
+        <div class="_combo _gapped">
+            <input type="checkbox" 
+                name="system.ritual.preparacion.ceremonia"
+                id="ckCeremonia"
+                {{{_disabled}}}
+                class="_inputValue"                   
+                data-tooltip="{{{localize 'explain.ceremonia'}}}"
+                {{checked system.ritual.preparacion.ceremonia}}>
+            <label for="ckCeremonia"
+                data-tooltip="{{{localize 'explain.ceremonia'}}}">{{localize 'common.ceremoniaPreparada'}}</label>        
+        </div>
+        {{#if system.ritual.preparacion.ptfPaid}}
+            <div class="_row _middle _gapped" style="margin-bottom: 0.5rem;">
+                <button type="button" 
+                        data-action="_roll"
+                        data-target="attr"
+                        data-path="rr.value"
+                        data-mod="{{ensalmoPreparacion.mod}}"
+                        data-mods="{{ensalmoPreparacion.mods}}">{{localize 'common.tiradaRR'}}</button>              
+                <button type="button" 
+                        data-action="_lanzarEnsalmo"
+                        data-key="{{preparacion.key}}">{{localize 'common.lanzarEnsalmo'}}</button>                        
+            </div>
+        {{/if}}
+    </div>
+
+    <label class="_title">{{localize 'common.requisitos'}}</label>
+    <label class="_text">{{{ensalmoPreparacion.item.system.propiedades.requisitos}}}</label>
+    
+    <label class="_title">{{localize 'common.ceremonia'}}</label>
+    <label class="_text _redInSecondLine">{{{ensalmoPreparacion.item.system.propiedades.ceremonia}}}</label>
+    
+    <label class="_title">{{localize 'common.efectos'}}</label>
+    <label class="_text">{{{ensalmoPreparacion.item.system.descripcion}}}</label>
+</div>
+{{/unless}}

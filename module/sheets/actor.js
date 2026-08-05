@@ -185,8 +185,7 @@ export default class extendActorSheet
       rules:              helperContext.getRules(),
       myRules:            this.document.system.rules,
       configRULES:        configRULES[this.document.system.rules],
-      mainRenderOptions:  helperSheets.getMainRenderOptions(this),
-      skillRenderOptions: helperSheets.getSkillRenderOptions(this)
+      mainRenderOptions:  helperSheets.getMainRenderOptions(this)      
     }    
   }
 
@@ -305,6 +304,7 @@ export default class extendActorSheet
 
     /** --- TABLES --- */
     html.find('._table tbody tr').on("click", this._clickTableTR.bind(this))
+    html.find('._itemInput').on("change", this._changeItemInput.bind(this))
   }
 
   /**
@@ -318,7 +318,8 @@ export default class extendActorSheet
      context.tabs, 
      context.tabsStats,
      context.tabsHechizos,
-     context.tabsEnsalmos
+     context.tabsEnsalmos,
+     context.tabsEquipo
     ].map(_tabs => {
         if (!_tabs) return
         for (var s in _tabs) { if (_tabs[s].active) {
@@ -361,6 +362,21 @@ export default class extendActorSheet
                                          .find('option[value="'+key+'"]')
     if (!option) return
     option.prop('selected', true)
+  }
+
+  /**
+   * _changeItemInput
+   * @param {*} event 
+   */
+  async _changeItemInput(event) {
+    event.stopPropagation()
+    const path = $(event.currentTarget).data('path')
+    let sval = $(event.currentTarget).val()
+    if ($(event.currentTarget).attr('type') === 'number') sval = Number(sval)
+    const item = this.document.items.get($(event.currentTarget).data('id'))
+    if (!item) return
+
+    await item.update({ [path]: sval })
   }
 
   /**

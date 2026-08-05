@@ -1,0 +1,41 @@
+<div class="_main {{#if isEditable}}_editable{{/if}}">
+    <div class="_sheetContent">
+
+        {{!-- PROPERTIES --}}
+        <div class="_properties">                       
+            <div class="_buttons _spaced _row">
+                
+                <div class="_combo _smallGapped">
+                    {{{checkButton 'system.unidades.use' 'common.unidades' 'fa-ball-pile'}}}
+                    {{#if system.unidades.use}}
+                        <label>{{localize 'common.unidades'}} :</label>
+                        <input type="number" 
+                            {{{_disabled}}}
+                            class="_xsSize"
+                            name="system.unidades.actual" 
+                            value="{{system.unidades.actual}}"> 
+                        <label>/</label>                    
+                        <input type="number" 
+                            {{{_disabled}}}
+                            class="_xsSize"
+                            name="system.unidades.total" 
+                            value="{{system.unidades.total}}">                     
+                    {{/if}} 
+                </div>
+                <div class="_combo _smallGapped">
+                    {{{checkButton 'system.bebida' 'common.bebida' 'fa-bottle-droplet'}}}
+                    {{{checkButton 'system.comida' 'common.comida' 'fa-bowl-food'}}}
+                    {{{checkButton 'system.ropa' 'common.vestimenta' 'fa-shirt-long-sleeve'}}}
+                    {{{checkButton 'system.municion' 'common.municion' 'fa-chestnut'}}}
+                    {{{checkButton 'system.montura' 'common.montura' 'fa-horse'}}}
+                </div>
+            </div>
+        </div>
+
+        {{!-- DESCRIPTION --}}
+        {{>item_descripcion}}
+    </div>
+    <div class="_sheetFooter">
+        {{>item_footer}}
+    </div>    
+</div>

@@ -1,0 +1,18 @@
+<section class="tab" data-group="primary" data-tab="massedit">
+    <div class="_row _middle _gapped _marginBottom">
+        <select name="system.massEditFolder" style="width: auto">
+            {{selectOptions _folders 
+                            localize=false
+                            selected=system.massEditFolder
+                            nameAttr="key"
+                            labelAttr="label" }}
+        </select>        
+        <button type="button" data-action="_massEdit" class="_genButton">{{localize 'common.generar'}}</button>
+    </div>
+    {{formInput 
+        systemFields.descripcion 
+        enriched=_textMassEdit
+        value=system.massEdit 
+        name="system.massEdit"
+        toggled=false}}   
+</section>

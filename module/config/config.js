@@ -219,10 +219,15 @@ export const aqConfig = {
             {id: '077', label: 'mods.m077', mod: '-140', rules: ['aq4', 'vyc']}
         ],
         ensalmos: [
-            {id: '062', label: 'mods.m062', mod: '-25', rules: ['aq3']},
-            {id: '063', label: 'mods.m063', mod: '-50', rules: ['aq3']},
-            {id: '064', label: 'mods.m064', mod: '-25', rules: ['aq3']},
-            {id: '065', label: 'mods.m065', mod: '-50', rules: ['aq3']},
+            {id: '062', label: 'mods.m062', mod: '-25', rules: ['aq3', 'aq4', 'vyc']},
+            {id: '063', label: 'mods.m063', mod: '-50', rules: ['aq3', 'aq4', 'vyc']},
+            {id: '064', label: 'mods.m064', mod: '-25', rules: ['aq3', 'aq4', 'vyc']},
+            {id: '065', label: 'mods.m065', mod: '-50', rules: ['aq3', 'aq4', 'vyc']},
+            {id: '078', label: 'mods.m078', mod: '-20', rules: ['aq3', 'aq4', 'vyc']},
+            {id: '079', label: 'mods.m079', mod: '-40', rules: ['aq3', 'aq4', 'vyc']},
+            {id: '080', label: 'mods.m080', mod: '-60', rules: ['aq3', 'aq4', 'vyc']},
+            {id: '081', label: 'mods.m081', mod: '-80', rules: ['aq3', 'aq4', 'vyc']},
+            {id: '082', label: 'mods.m082', mod: '-100', rules: ['aq3', 'aq4', 'vyc']},
         ]
     },
     hechizos: {
@@ -432,12 +437,12 @@ export const aqConfig = {
                 diarios: false
             },
             niveles: {
-                ordo1: {label: 'common.ordo1',  pta: 0, ptf: 10,  mod: '+0',   teologia: {min: 50,  max: 70},  estudio: '1 mes'},
-                ordo2: {label: 'common.ordo2',  pta: 0, ptf: 13,  mod: '-20',  teologia: {min: 71,  max: 85},  estudio: '2 meses' },
-                ordo3: {label: 'common.ordo3',  pta: 0, ptf: 15,  mod: '-40',  teologia: {min: 86,  max: 95},  estudio: '3 meses' },
-                ordo4: {label: 'common.ordo4',  pta: 0, ptf: 18,  mod: '-60',  teologia: {min: 96,  max: 100}, estudio: '6 meses'},
-                ordo5: {label: 'common.ordo5',  pta: 0, ptf: 20,  mod: '-80',  teologia: {min: 101, max: 120}, estudio: '1 año'},
-                ordo6: {label: 'common.ordo6',  pta: 0, ptf: 20,  mod: '-100', teologia: {min: 121, max: 999}, estudio: '2 años'}
+                ordo1: {label: 'common.ordo1',  pta: 0, ptf: 10,  mod: '+0',   mods: '',    teologia: {min: 50,  max: 70},  estudioMeses: 1},
+                ordo2: {label: 'common.ordo2',  pta: 0, ptf: 13,  mod: '-20',  mods: '078', teologia: {min: 71,  max: 85},  estudioMeses: 2},
+                ordo3: {label: 'common.ordo3',  pta: 0, ptf: 15,  mod: '-40',  mods: '079', teologia: {min: 86,  max: 95},  estudioMeses: 3},
+                ordo4: {label: 'common.ordo4',  pta: 0, ptf: 18,  mod: '-60',  mods: '080', teologia: {min: 96,  max: 100}, estudioMeses: 6},
+                ordo5: {label: 'common.ordo5',  pta: 0, ptf: 20,  mod: '-80',  mods: '081', teologia: {min: 101, max: 120}, estudioMeses: 12},
+                ordo6: {label: 'common.ordo6',  pta: 0, ptf: 20,  mod: '-100', mods: '082', teologia: {min: 121, max: 999}, estudioMeses: 24}
             },
             diarios: []           
         },
@@ -450,12 +455,12 @@ export const aqConfig = {
                 diarios: true
             },
             niveles: {
-                ordo1: {label: 'common.ordo1',  pta: 10,  ptf: 12,  mod: '+0',   teologia: {min: 60,  max: 70},  estudio: '1 mes'},
-                ordo2: {label: 'common.ordo2',  pta: 20,  ptf: 14,  mod: '-20',  teologia: {min: 71,  max: 80},  estudio: '2 meses' },
-                ordo3: {label: 'common.ordo3',  pta: 30,  ptf: 16,  mod: '-40',  teologia: {min: 81,  max: 90},  estudio: '3 meses' },
-                ordo4: {label: 'common.ordo4',  pta: 40,  ptf: 18,  mod: '-60',  teologia: {min: 91,  max: 95},  estudio: '6 meses'},
-                ordo5: {label: 'common.ordo5',  pta: 50,  ptf: 20,  mod: '-80',  teologia: {min: 96,  max: 100}, estudio: '1 año'},
-                ordo6: {label: 'common.ordo6',  pta: 100, ptf: 20,  mod: '-100', teologia: {min: 101, max: 999}, estudio: '2 años'}
+                ordo1: {label: 'common.ordo1',  pta: 10,  ptf: 12,  mod: '+0',   mods: '',    teologia: {min: 60,  max: 70},  estudioMeses: 1},
+                ordo2: {label: 'common.ordo2',  pta: 20,  ptf: 14,  mod: '-20',  mods: '078', teologia: {min: 71,  max: 80},  estudioMeses: 2},
+                ordo3: {label: 'common.ordo3',  pta: 30,  ptf: 16,  mod: '-40',  mods: '079', teologia: {min: 81,  max: 90},  estudioMeses: 3},
+                ordo4: {label: 'common.ordo4',  pta: 40,  ptf: 18,  mod: '-60',  mods: '080', teologia: {min: 91,  max: 95},  estudioMeses: 6},
+                ordo5: {label: 'common.ordo5',  pta: 50,  ptf: 20,  mod: '-80',  mods: '081', teologia: {min: 96,  max: 100}, estudioMeses: 12},
+                ordo6: {label: 'common.ordo6',  pta: 100, ptf: 20,  mod: '-100', mods: '082', teologia: {min: 101, max: 999}, estudioMeses: 24}
             },
             diarios: [
                 {min: 1,  max: 4,   ensalmos: 0},
@@ -475,12 +480,12 @@ export const aqConfig = {
                 diarios: true
             },
             niveles: {
-                ordo1: {label: 'common.ordo1',  pta: 10,  ptf: 12,  mod: '+0',   teologia: {min: 60,  max: 70},  estudio: '1 mes'},
-                ordo2: {label: 'common.ordo2',  pta: 20,  ptf: 14,  mod: '-20',  teologia: {min: 71,  max: 80},  estudio: '2 meses' },
-                ordo3: {label: 'common.ordo3',  pta: 30,  ptf: 16,  mod: '-40',  teologia: {min: 81,  max: 90},  estudio: '3 meses' },
-                ordo4: {label: 'common.ordo4',  pta: 40,  ptf: 18,  mod: '-60',  teologia: {min: 91,  max: 95},  estudio: '6 meses'},
-                ordo5: {label: 'common.ordo5',  pta: 50,  ptf: 20,  mod: '-80',  teologia: {min: 96,  max: 100}, estudio: '1 año'},
-                ordo6: {label: 'common.ordo6',  pta: 100, ptf: 20,  mod: '-100', teologia: {min: 101, max: 999}, estudio: '2 años'}
+                ordo1: {label: 'common.ordo1',  pta: 10,  ptf: 12,  mod: '+0',   mods: '',    teologia: {min: 60,  max: 70},  estudioMeses: 1},
+                ordo2: {label: 'common.ordo2',  pta: 20,  ptf: 14,  mod: '-20',  mods: '078', teologia: {min: 71,  max: 80},  estudioMeses: 2},
+                ordo3: {label: 'common.ordo3',  pta: 30,  ptf: 16,  mod: '-40',  mods: '079', teologia: {min: 81,  max: 90},  estudioMeses: 3},
+                ordo4: {label: 'common.ordo4',  pta: 40,  ptf: 18,  mod: '-60',  mods: '080', teologia: {min: 91,  max: 95},  estudioMeses: 6},
+                ordo5: {label: 'common.ordo5',  pta: 50,  ptf: 20,  mod: '-80',  mods: '081', teologia: {min: 96,  max: 100}, estudioMeses: 12},
+                ordo6: {label: 'common.ordo6',  pta: 100, ptf: 20,  mod: '-100', mods: '082', teologia: {min: 101, max: 999}, estudioMeses: 24}
             },
             diarios: [
                 {min: 1,  max: 4,   ensalmos: 0},

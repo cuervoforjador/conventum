@@ -1,0 +1,74 @@
+<h4 class="_title divider">{{localize 'common.grimorio'}}</h4>
+<div class="_row _inverse">
+    <button type="button" 
+            class="_standard"
+            data-action="_bookEnsalmos" 
+            data-tooltip="{{localize 'tooltip.bookEnsalmos'}}">
+        <i class="fas fa-book"></i> {{localize 'tooltip.bookEnsalmos'}}
+    </button>
+</div>
+
+{{#unless (hasRows ensalmos)}}
+    <label class="_info">{{localize 'explain.noEnsalmos'}}</label>
+{{/unless}}
+<table class="_list">
+    <thead>
+        <tr class="_header">
+            <th style="width: 100%"><label>{{localize 'common.ensalmo'}}</label></th>
+            <th><label>{{localize 'common.ordo'}}</label></th>
+            <th><label>{{localize 'ATTR.ptfShort'}}</label></th>
+            <th style="min-width: calc(var(--fSize)*4)"><label>{{localize 'common.porRR'}}</label></th>
+            {{#if isEditable}}
+            <th><label></label></th>
+            {{/if}}
+        </tr>
+    </thead>
+    <tbody>
+    {{#each ensalmos as |ensalmo index|}}
+        <tr class="_ensalmo" 
+            data-id="{{ensalmo.item.id}}">
+            <td style="width: 100%">
+                <div class="_combo _comboName">
+                    <button type="button"
+                            class="_prepararIcon icon fas fa-square-arrow-left" 
+                            data-action="_prepararEnsalmo" 
+                            data-id="{{ensalmo.item.id}}"
+                            data-tooltip="{{localize 'tooltip.prepararEnsalmo'}}">
+                    </button>
+                    <a class="_name"
+                        data-action="{{#if ../isEditable}}_showItem{{else}}_showEnsalmo{{/if}}" 
+                        data-id="{{ensalmo.item.id}}">
+                        <label class="_name _lSize">{{ensalmo.item.name}}</label>
+                    </a>               
+                </div>
+            </td>
+            <td>
+                {{#if ../isEditable}}
+                <a data-action="_navToItem"  data-id="{{ensalmo.item.id}}" data-name="system.ordo">
+                    <label class="_xsSize _center2 _pointer">{{ensalmo.nivelTxt}}</label>
+                </a>
+                {{else}}
+                    <label class="_xsSize _center2">{{ensalmo.nivelTxt}}</label>                   
+                {{/if}} 
+            </td>
+            <td>
+                <label class="_xsSize _center2">{{ensalmo.ptf}}</label>
+            </td>
+            <td style="min-width: calc(var(--fSize)*4)">
+                <label class="_xsSize _center2">{{ensalmo.total}} %</label>
+            </td>
+
+            {{#if ../isEditable}}
+            <td>
+                <button type="button"
+                        class="icon fas fa-remove" 
+                        data-action="_deleteItem" 
+                        data-id="{{ensalmo.item.id}}"
+                        data-tooltip="{{localize 'tooltip.borrarItem'}}">
+                </button>                 
+            </td>
+            {{/if}}            
+        </tr>
+    {{/each}}
+    </tbody>   
+</table>

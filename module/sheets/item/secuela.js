@@ -49,7 +49,6 @@ export default class sheetSecuela extends extendItem0Sheet {
     context.caracteristicas = helperContext.getCaracteristicas()
     context.atributos = helperContext.getAtributos()
 
-    context.configRULES = configRULES[rules]
     context.tabs = this._prepareTabs("primary")
     return context
   }

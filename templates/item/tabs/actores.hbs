@@ -1,0 +1,27 @@
+<section class="tab" data-group="primary" data-tab="actors">
+    <table class="_list">
+        <thead>
+            <tr class="_header">
+                <th style="width: 100%"><label class="_bold">{{localize 'common.usuario'}}</label></th>
+                <th class="_center2"><label>{{localize 'common.visible'}}</label></th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each _actors as |actor index|}}
+            <tr data-id="{{actor.id}}" data-visible="{{actor.visible}}">
+                <td style="width: 100%">
+                    <label class="_name _lSize">{{actor.name}}</label>
+                </td>
+                <td class="_center2">
+                    <input type="checkbox"
+                        class="_change"
+                        data-target="system.actors"
+                        data-path="visible"
+                        data-id="{{actor.id}}"
+                        {{#if actor.visible}} checked {{/if}}>
+                </td>                
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</section>

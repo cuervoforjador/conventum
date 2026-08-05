@@ -9,6 +9,8 @@ export const configRULES = {
         verExtraLore: false,        // Muestra los campos Edad, Altura, Peso
         unitAltura: 'varas',        // Unidad de altura
         unitPeso: 'libras',         // Unidad de peso
+        moneda: 'maravedíes',       // Moneda
+        monedaShort: 'mv.',         // Moneda siglas
         chars: ['fue', 'agi', 'hab', 'res', 'per', 'com', 'cul'],
         armasFUE: true,             // Las armas tienen una FUE mínima
         armasRES: true,             // Los escudos tienen una resistencia cuantificada
@@ -24,6 +26,8 @@ export const configRULES = {
         verExtraLore: true,
         unitAltura: 'varas',
         unitPeso: 'libras',
+        moneda: 'maravedíes',
+        monedaShort: 'mv.',        
         chars: ['fue', 'agi', 'hab', 'res', 'per', 'tem', 'com', 'cul'],
         armasFUE: false,
         armasRES: false,
@@ -39,6 +43,8 @@ export const configRULES = {
         verExtraLore: true,
         unitAltura: 'varas',
         unitPeso: 'libras',
+        moneda: 'reales',
+        monedaShort: 're.',         
         chars: ['fue', 'agi', 'hab', 'res', 'per', 'tem', 'com', 'cul'],
         armasFUE: false,
         armasRES: false,

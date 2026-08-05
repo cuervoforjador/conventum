@@ -1,3 +1,26 @@
 <section class="tab _equipo" data-group="primary" data-tab="equipo">
+    <nav class="tabs _subMenu" data-group="equipo">
+        <a data-action="tab" data-group="equipo" data-tab="equipo">{{localize 'common.equipo'}}</a>
+        <a data-action="tab" data-group="equipo" data-tab="tiendas">{{localize 'common.tiendas'}}</a>
+        <a data-action="tab" data-group="equipo" data-tab="posesiones">{{localize 'common.posesiones'}}</a>
+    </nav>
+
+    <section class="tab scrollable scrollableEquipo1 _subTab" 
+                data-group="equipo" 
+                data-tab="equipo">
+        {{>equipoGeneral_comun}}
+    </section>
+
+    <section class="tab scrollable scrollableEquipo2 _subTab" 
+                data-group="equipo" 
+                data-tab="tiendas">
+        {{>equipoTiendas_comun}}
+    </section>
+
+    <section class="tab scrollable scrollableEquipo3 _subTab" 
+                data-group="equipo" 
+                data-tab="posesiones">
+        {{>equipoPosesiones_comun}}
+    </section>            
 
 </section>

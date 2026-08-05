@@ -13,7 +13,8 @@ export default class extendCharacter_Base extends extend_Base {
         /** --- CONTROL --- */
         schema.control  = new api.SchemaField({
             textSize: new api.StringField({ initial: '1rem' }),
-            importedSkills: new api.BooleanField({ initial: false })
+            importedSkills: new api.BooleanField({ initial: false }),
+            tienda: new api.StringField({ initial: '' })
         })
 
         /** --- INFO --- */
@@ -31,76 +32,13 @@ export default class extendCharacter_Base extends extend_Base {
             familia: md_text({label: 'common.familia', hint: 'common.familia'}),
             descripcion: md_text({label: 'common.descripcion', hint: 'common.descripcion'}),            
             limpiezaSangre: new api.NumberField({ nullable: true, initial: 0 }),
-            localizacion: new api.StringField({ initial: 'humanoide' })
+            localizacion: new api.StringField({ initial: 'humanoide' }),            
         })
 
-        /** --- MAGIA --- */
-        schema.magia = new api.SchemaField({
-            tipo: new api.SchemaField({
-                hechizos: new api.BooleanField({ initial: false }),
-                ensalmos: new api.BooleanField({ initial: false }),
-                formulas: new api.BooleanField({ initial: false })
-            }),
-            estudio: new api.ArrayField( new api.SchemaField({
-                key: new api.StringField({ initial: '' }),
-                id: new api.StringField({ initial: '' }),
-                step01: new api.SchemaField({                                             // Grimorio (Leer y Escribir)
-                    completed: new api.BooleanField({ initial: false }),
-                    visible: new api.BooleanField({ initial: false }),
-                    grimorio: new api.StringField({ initial: '' }),
-                    skillKey: new api.StringField({ initial: '' })
-                }),
-                step02: new api.SchemaField({                                             // Estudio (Tiempo y Pt. Aprendizaje)
-                    completed: new api.BooleanField({ initial: false }),                    
-                    visible: new api.BooleanField({ initial: false }),
-                    diasTotal: new api.NumberField({ initial: 0 }),
-                    dias: new api.NumberField({ initial: 0 }),
-                    semanasTotal: new api.NumberField({ initial: 0 }),
-                    semanas: new api.NumberField({ initial: 0 }),
-                    percent: new api.NumberField({ initial: 0 }),                    
-                    pta: new api.NumberField({ initial: 0 }),
-                    ptaUse: new api.BooleanField({ initial: false }),
-                    ptaPaid: new api.BooleanField({ initial: false }),
-                }),
-                step03: new api.SchemaField({                                             // Traspaso
-                    completed: new api.BooleanField({ initial: false }),
-                    visible: new api.BooleanField({ initial: false }),
-                    skillKey: new api.StringField({ initial: '' }),
-                    useComunicacion: new api.BooleanField({ initial: false })
-                }),
-                step04: new api.SchemaField({                                             // Memorización, Asimilación
-                    completed: new api.BooleanField({ initial: false }),
-                    visible: new api.BooleanField({ initial: false }),
-                    mod: new api.StringField({ initial: '' }),
-                    mods: new api.StringField({ initial: '' })
-                })
-            })),
-            preparacion: new api.ArrayField( new api.SchemaField({
-                key: new api.StringField({ initial: '' }),
-                id: new api.StringField({ initial: '' }),
-                completed: new api.BooleanField({ initial: false }),
-                fabricacion: new api.SchemaField({
-                    use: new api.BooleanField({ initial: false }),
-                    unidad: new api.StringField({ initial: '' }),
-                    unidadesTotal: new api.NumberField({ initial: 0 }),
-                    unidades: new api.NumberField({ initial: 0 }),
-                    percent: new api.NumberField({ initial: 0 }),
-                    completed: new api.BooleanField({ initial: false }),
-                    dosis: new api.NumberField({ initial: 0 })
-                }),                                 
-                dosis: new api.ArrayField( new api.SchemaField({
-                    index: new api.NumberField({ initial: 0 }),
-                    llena: new api.BooleanField({ initial: false }),
-                    vacia: new api.BooleanField({ initial: false })
-                })),
-                componentes: new api.ArrayField( new api.SchemaField({
-                    key: new api.StringField({ initial: '' }),
-                    name: new api.StringField({ initial: '' }),
-                    checked: new api.BooleanField({ initial: false })
-                })),
-                duracion: new api.StringField({ initial: '' }),
-                preparado: new api.BooleanField({ initial: false })
-            }))
+        schema.economia = new api.SchemaField({
+            dineros: new api.NumberField({ nullable: true, initial: 0 }),
+            ingresos: new api.NumberField({ nullable: true, initial: 0 }),
+            gastos: new api.NumberField({ nullable: true, initial: 0 }),
         })
 
         /** --- CARACTERÍSTICAS --- */
@@ -165,6 +103,124 @@ export default class extendCharacter_Base extends extend_Base {
             primaria: new api.BooleanField({ initial: false }),
             secundaria: new api.BooleanField({ initial: false })
         }))
+
+
+        /** --- MAGIA --- */
+        schema.magia = new api.SchemaField({
+            tipo: new api.SchemaField({
+                hechizos: new api.BooleanField({ initial: false }),
+                ensalmos: new api.BooleanField({ initial: false }),
+                formulas: new api.BooleanField({ initial: false }),
+            }),
+            estudio: new api.ArrayField( new api.SchemaField({
+                key: new api.StringField({ initial: '' }),
+                id: new api.StringField({ initial: '' }),
+                step01: new api.SchemaField({                                             // Grimorio (Leer y Escribir)
+                    completed: new api.BooleanField({ initial: false }),
+                    visible: new api.BooleanField({ initial: false }),
+                    grimorio: new api.StringField({ initial: '' }),
+                    skillKey: new api.StringField({ initial: '' })
+                }),
+                step02: new api.SchemaField({                                             // Estudio (Tiempo y Pt. Aprendizaje)
+                    completed: new api.BooleanField({ initial: false }),                    
+                    visible: new api.BooleanField({ initial: false }),
+                    diasTotal: new api.NumberField({ initial: 0 }),
+                    dias: new api.NumberField({ initial: 0 }),
+                    semanasTotal: new api.NumberField({ initial: 0 }),
+                    semanas: new api.NumberField({ initial: 0 }),
+                    percent: new api.NumberField({ initial: 0 }),                    
+                    pta: new api.NumberField({ initial: 0 }),
+                    ptaUse: new api.BooleanField({ initial: false }),
+                    ptaPaid: new api.BooleanField({ initial: false }),
+                }),
+                step03: new api.SchemaField({                                             // Traspaso
+                    completed: new api.BooleanField({ initial: false }),
+                    visible: new api.BooleanField({ initial: false }),
+                    skillKey: new api.StringField({ initial: '' }),
+                    useComunicacion: new api.BooleanField({ initial: false })
+                }),
+                step04: new api.SchemaField({                                             // Memorización, Asimilación
+                    completed: new api.BooleanField({ initial: false }),
+                    visible: new api.BooleanField({ initial: false }),
+                    mod: new api.StringField({ initial: '' }),
+                    mods: new api.StringField({ initial: '' })
+                })
+            })),
+            preparacion: new api.ArrayField( new api.SchemaField({
+                key: new api.StringField({ initial: '' }),
+                id: new api.StringField({ initial: '' }),
+                completed: new api.BooleanField({ initial: false }),
+                fabricacion: new api.SchemaField({
+                    use: new api.BooleanField({ initial: false }),
+                    unidad: new api.StringField({ initial: '' }),
+                    unidadesTotal: new api.NumberField({ initial: 0 }),
+                    unidades: new api.NumberField({ initial: 0 }),
+                    percent: new api.NumberField({ initial: 0 }),
+                    completed: new api.BooleanField({ initial: false }),
+                    dosis: new api.NumberField({ initial: 0 })
+                }),                                 
+                dosis: new api.ArrayField( new api.SchemaField({
+                    index: new api.NumberField({ initial: 0 }),
+                    llena: new api.BooleanField({ initial: false }),
+                    vacia: new api.BooleanField({ initial: false })
+                })),
+                componentes: new api.ArrayField( new api.SchemaField({
+                    key: new api.StringField({ initial: '' }),
+                    name: new api.StringField({ initial: '' }),
+                    checked: new api.BooleanField({ initial: false })
+                })),
+                duracion: new api.StringField({ initial: '' }),
+                preparado: new api.BooleanField({ initial: false })
+            }))
+        })
+
+        schema.ritual = new api.SchemaField({
+            preparacion: new api.SchemaField({
+                id: new api.StringField({ initial: '' }),
+                preparando: new api.BooleanField({ initial: false }),
+                ptfPaid: new api.BooleanField({ initial: false }),
+                ceremonia: new api.BooleanField({ initial: false }),
+                completado: new api.BooleanField({ initial: false }),
+            }),
+            estudio: new api.SchemaField({
+                ordo1: new api.SchemaField({
+                    estudiando: new api.BooleanField({ initial: false }),
+                    completado: new api.BooleanField({ initial: false }),
+                    meses: new api.NumberField({ initial: 0 }),
+                    pagado: new api.BooleanField({ initial: false }),
+                }),
+                ordo2: new api.SchemaField({
+                    estudiando: new api.BooleanField({ initial: false }),
+                    completado: new api.BooleanField({ initial: false }),
+                    meses: new api.NumberField({ initial: 0 }),
+                    pagado: new api.BooleanField({ initial: false }),
+                }), 
+                ordo3: new api.SchemaField({
+                    estudiando: new api.BooleanField({ initial: false }),
+                    completado: new api.BooleanField({ initial: false }),
+                    meses: new api.NumberField({ initial: 0 }),
+                    pagado: new api.BooleanField({ initial: false }),
+                }), 
+                ordo4: new api.SchemaField({
+                    estudiando: new api.BooleanField({ initial: false }),
+                    completado: new api.BooleanField({ initial: false }),
+                    meses: new api.NumberField({ initial: 0 }),
+                    pagado: new api.BooleanField({ initial: false }),
+                }),   
+                ordo5: new api.SchemaField({
+                    estudiando: new api.BooleanField({ initial: false }),
+                    completado: new api.BooleanField({ initial: false }),
+                    meses: new api.NumberField({ initial: 0 }),
+                    pagado: new api.BooleanField({ initial: false }),
+                }),  
+                ordo6: new api.SchemaField({
+                    estudiando: new api.BooleanField({ initial: false }),
+                    completado: new api.BooleanField({ initial: false }),
+                    meses: new api.NumberField({ initial: 0 }),
+                    pagado: new api.BooleanField({ initial: false }),
+                }),                                                                         
+            })
+        })
 
         return schema
     }

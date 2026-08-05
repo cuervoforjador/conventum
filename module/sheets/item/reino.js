@@ -34,7 +34,6 @@ export default class sheetReino extends extendItem0Sheet {
     const context = await super._prepareContext()
     context.pueblos = await helperContext.getPueblos(rules)
 
-    context.configRULES = configRULES[rules]
     context.tabs = this._prepareTabs("primary")
     return context
 

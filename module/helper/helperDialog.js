@@ -241,17 +241,20 @@ export default class helperDialog {
      * dialogDescription
      * @param {*} document 
      */
-    static async dialogDescription(document=null, content='', title='', rules=null, width=550, img='') {
+    static async dialogDescription(document=null, content='', title='', rules=null, width, img='') {
         const sRules = rules ? rules : document?.system.rules
         const sContent = document ? document.system.descripcion : content
         const sTitle = document ? document.name : title
         const sImg = img !== '' ? img : 
                      document ? document.img : ''
 
+        const sWidth = width ? width :
+                               document ? document.sheet.position.width : 500
+
         const dialog = await foundry.applications.api.DialogV2.prompt({
             classes: ['_extend', '_description', '_'+sRules],
             window: { title: sTitle },
-            position: {width: width},
+            position: {width: sWidth},
             content: sContent,
             ok: {},
             render: (_event, dialog) => {

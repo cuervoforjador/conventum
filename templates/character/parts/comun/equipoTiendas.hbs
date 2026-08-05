@@ -1,0 +1,81 @@
+<div class="_grid _items _tiendas">
+    <div class="_gridLeft">
+        
+        <div class="_box _master">
+        {{#each tiendas as |tienda index|}}
+
+            <a data-action="_openTienda"
+               data-id="{{tienda.id}}">
+                <div class="_row {{#if tienda.active}}_active{{/if}}">
+                    <img src="{{tienda.img}}" class="_icon">
+                    <label class="_title">{{tienda.name}}</label>
+                </div>
+            </a>
+
+        {{/each}}
+        </div>
+
+    </div>
+    <div class="_gridRight">        
+
+        {{#unless tienda.active}}
+            <label class="_info">{{localize 'explain.noTiendaSel'}}</label>
+
+        {{else}}
+
+            <div class="_grid _box">
+                <h4 class="_title">{{tienda.name}}</h4>
+                <div class="_row _middle _gapped">
+                    <label>{{localize 'common.dineros'}}:</label>
+                    <label class="_bold _big">{{system.economia.dineros}}</label>
+                    <label class="_italic">{{configRULES.monedaShort}}</label>
+                </div>
+            </div>
+
+            <div class="_grid _items _productos">
+                {{#each tienda.items as |item index|}}
+                <div class="_row _producto"
+                    data-id="{{item.id}}">
+                    <img src="{{item.img}}" class="_icon">
+                    <div class="_stats">
+                        <label class="_title _100 _pointer"
+                            data-action="_productoDescr"
+                            data-id="{{item.id}}">{{item.name}}</label>
+                        <div class="_row _middle _spaced">
+                            <div class="_combo _gapped">
+                                <div class="_combo _gapped">
+                                    <label>{{localize 'common.precio'}}:</label>
+                                    <div class="_combo">
+                                        <label class="_field _xsSize _right _box">{{item.precio}}</label>
+                                        <label class="_italic" style="margin-left: 0.3rem">{{../configRULES.monedaShort}}</label>
+                                    </div>
+                                </div>
+                                <div class="_combo _gapped" style="margin-left: 0.5rem">
+                                    <label>{{localize 'common.unidades'}}:</label>
+                                    {{#if item.limitado}}
+                                        <label class="_field">{{item.unidades}}</label>
+                                    {{else}}
+                                        <label data-tooltip="{{localize 'explain.prodInfinito'}}"><i class="fa-solid fa-infinity"></i></label>
+                                    {{/if}}
+                                </div>
+                            </div>
+                            <buttons>
+                                <button type="button"
+                                        data-action="_comprarItem"
+                                        data-tienda="{{../system.control.tienda}}"
+                                        data-id="{{item.id}}"/>
+                                    <i class="fa-regular fa-coin-vertical"></i>
+                                    {{localize 'common.comprar'}}
+                                </button>
+                            </buttons>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+
+        {{/unless}}
+
+
+    </div>
+</div>

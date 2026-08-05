@@ -8,22 +8,20 @@
                 <a data-action="tab" data-group="ensalmos" data-tab="estudio">{{localize 'common.estudio'}}</a>
             </nav>
 
-            <section class="tab _droppable scrollable" 
+            <section class="tab scrollable scrollableEnsalmos1" 
                      data-group="ensalmos" 
-                     data-tab="preparacion"
-                     data-block="preparacion">
-
+                     data-tab="preparacion">
+                {{>ensalmosPreparacion_comun}}
             </section>
 
-            <section class="tab _droppable scrollable" 
+            <section class="tab scrollable scrollableEnsalmos2" 
                      data-group="ensalmos" 
-                     data-tab="estudio"
-                     data-block="estudio">
-
+                     data-tab="estudio">
+                {{>ensalmosEstudio_comun}}
             </section>            
         </div>
-        <div class="_gridRight _gridBox scrollable">
-
+        <div class="_gridRight _gridBox scrollable scrollableEnsalmos3">
+            {{>ensalmosGrimorio_comun}}
         </div>        
     </div>
 

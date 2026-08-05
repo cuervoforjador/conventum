@@ -81,7 +81,7 @@ export default class helperMessages {
      * postMessage
      * @param {*} options 
      */
-    static async postMessage(options={actor, title:'', subTitle:'', textAuxiliar:'', content:'', backImg:'', class:''}) {
+    static async postMessage(options={actor, title:'', subTitle:'', textAuxiliar:'', content:'', backImg:'', class:'', whisper:[]}) {
         const sHeader = this._messageParts_Header(options)    
         const message = await newChatMessage.create({
             content: sHeader + options.content,
@@ -91,7 +91,8 @@ export default class helperMessages {
                 "rules": {"value": options.actor?.system.rules},
                 "actorId": {"value": options.actor ? options.actor.id : ''},
                 "tokenId": {"value": options.actor && options.actor.token ? options.actor.token.id : ''}
-            }
+            },
+            whisper: options.whisper
         })            
     }
 

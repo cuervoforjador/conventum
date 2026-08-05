@@ -66,7 +66,12 @@ dialog._extend._vyc footer button {
     font-family: var(--vcfFont1);
     color: var(--vcText);
 }
-
+dialog._extend._description .dialog-content {
+    gap: 0.1rem;
+}
+dialog._extend._description ._semi {
+    opacity: 1;
+}
 dialog._extend form.dialog-form {
     display: flex;
     width: 100%;
@@ -79,7 +84,7 @@ dialog._extend._description table {
 dialog._extend._description table td {
     padding: 0.15rem 0.5rem;
 }
-dialog._extend._description table tbody tr:nth-child(odd) {
+dialog._extend._description table tbody tr:nth-child(even) {
     background-color: #6711111c;
 }
 dialog._extend._description p {
@@ -92,6 +97,7 @@ dialog._extend._description h1._title {
     margin: 0;
     color: #000;
     font-family: var(--fFont1);
+    text-align: left;
 }
 dialog._extend._vyc._description h1._title {
     font-family: var(--vcfFont1);
@@ -103,6 +109,44 @@ dialog._extend._description h4 {
 dialog._extend._vyc._description h4 {
     font-family: var(--vcfFont1);
 }
+dialog._extend._description table._descr tr td:first-child {
+    width: 50%;
+}
+dialog._extend._description table._descr tr td p {
+    font-size: calc(var(--fSize) * 1.05);
+    line-height: calc(var(--fSize) * 1.4);
+}
+
+
+dialog._extend ._wrapImg {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+}
+dialog._extend ._wrapImg img._spellImg {
+    width: 30%;
+}
+dialog._extend ._wrapImg ._header {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding-left: 0.5rem;
+}
+dialog._extend ._wrapImg ._stats ._combo {
+    flex-direction: row;
+}
+dialog._extend ._wrapImg ._header h4 {
+    font-size: calc(var(--fSize) * 1.25);
+    margin: 0.25rem 0;
+    padding: 0;
+    color: #000000a8;
+}
+dialog._extend._vyc ._wrapImg ._header h4 {
+    font-size: calc(var(--fSize) * 1.25);
+}
+
 dialog._extend._description ._stats {
     width: 100%;
     display: flex;
@@ -115,7 +159,7 @@ dialog._extend._description ._stats label._field {
 }
 dialog._extend._description span._pseudoTitle {
     font-weight: 900;
-    font-size: 1.25rem;
+    font-size: calc(var(--fSize)*1.25);
     font-family: var(--fFont0);
 }
 dialog._extend._vyc._description span._pseudoTitle {

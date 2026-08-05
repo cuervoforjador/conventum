@@ -1,0 +1,67 @@
+<section class="tab" data-group="primary" data-tab="propiedades">
+    
+    <input type="text" 
+        class="_italic"
+        style="width: 100%;"
+        {{{_disabled}}}
+        name="system.propiedades.resumen" 
+        value="{{system.propiedades.resumen}}">         
+
+    <h4 class="_noMargin">{{localize 'common.requisitos'}}</h4>
+    <div class="_simpleText _medSize">
+        {{#if isEditable}}
+            {{formInput 
+                systemFields.descripcion 
+                enriched=_textRequisitos
+                value=system.propiedades.requisitos 
+                name="system.propiedades.requisitos"
+                toggled=false}}  
+        {{else}}
+            {{editor system.propiedades.requisitos 
+                target="system.propiedades.requisitos" 
+                button=false 
+                editable=false
+                engine="prosemirror" 
+                collaborate=false}}
+        {{/if}}             
+    </div>
+
+    <h4 class="_noMargin">{{localize 'common.ceremonia'}}</h4>
+    <div class="_simpleText _medSize">
+        {{#if isEditable}}
+            {{formInput 
+                systemFields.descripcion 
+                enriched=_textCeremonia
+                value=system.propiedades.ceremonia 
+                name="system.propiedades.ceremonia"
+                toggled=false}}  
+        {{else}}
+            {{editor system.propiedades.ceremonia 
+                target="system.propiedades.ceremonia" 
+                button=false 
+                editable=false
+                engine="prosemirror" 
+                collaborate=false}}
+        {{/if}}             
+    </div>
+
+    <h4 class="_noMargin">{{localize 'common.duracion'}} ({{localize 'common.ceremonia'}})</h4>
+    <div class="_simpleText _medSize">
+        {{#if isEditable}}
+            {{formInput 
+                systemFields.descripcion 
+                enriched=_textDuracion
+                value=system.propiedades.duracion 
+                name="system.propiedades.duracion"
+                toggled=false}}  
+        {{else}}
+            {{editor system.propiedades.duracion 
+                target="system.propiedades.duracion" 
+                button=false 
+                editable=false
+                engine="prosemirror" 
+                collaborate=false}}
+        {{/if}}             
+    </div>
+
+</section>

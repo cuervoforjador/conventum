@@ -35,6 +35,26 @@ export default class helperSettings {
             requiresReload: true 
         })
 
+        game.settings.register(SYSTEM_ID, "modeEdit", {
+            name: "common.modeEdit",
+            hint: "tooltip.modeEdit",
+            scope: "world",
+            config: true,
+            type: Boolean,
+            default: false,
+            requiresReload: true 
+        }) 
+
+        game.settings.register(SYSTEM_ID, "modeMass", {
+            name: "common.modeMass",
+            hint: "tooltip.modeMass",
+            scope: "world",
+            config: true,
+            type: Boolean,
+            default: false,
+            requiresReload: true 
+        })        
+
         game.settings.register(SYSTEM_ID, "initTour", {
             name: "common.initTour",
             hint: "tooltip.initTour",
@@ -70,6 +90,14 @@ export default class helperSettings {
     }
 
     /**
+     * rules
+     * @returns 
+     */
+    static rules() {
+        return game.settings.get(SYSTEM_ID,'rules');
+    }
+
+    /**
      * getFirstTime
      * @returns 
      */
@@ -82,13 +110,28 @@ export default class helperSettings {
         game.settings.set(SYSTEM_ID, 'firstTime'+sVersion, false)
     }
 
-
     /**
      * getUserEdit
      * @returns 
      */
     static getUserEdit() {
         return game.settings.get(SYSTEM_ID,'userEdit');
+    }
+
+    /**
+     * getModeEdit
+     * @returns 
+     */
+    static getModeEdit() {
+        return game.settings.get(SYSTEM_ID,'modeEdit');
+    }
+
+    /**
+     * getModeMass
+     * @returns 
+     */
+    static getModeMass() {
+        return game.settings.get(SYSTEM_ID,'modeMass');
     }
 
 }

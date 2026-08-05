@@ -17,6 +17,7 @@ import modelGrimorio from "../models/item/grimorio.js"
 import modelHechizo from "../models/item/hechizo.js"
 import modelEnsalmo from "../models/item/ensalmo.js"
 import modelFormula from "../models/item/formula.js"
+import modelTienda from "../models/item/tienda.js"
 
 import newActor from "../documents/actor.js"
 import newItem from "../documents/item.js"
@@ -51,6 +52,7 @@ export default class helperModels {
         CONFIG.Item.dataModels.hechizo = modelHechizo
         CONFIG.Item.dataModels.ensalmo = modelEnsalmo
         CONFIG.Item.dataModels.formula = modelFormula
+        CONFIG.Item.dataModels.tienda = modelTienda
     }
 
     /**

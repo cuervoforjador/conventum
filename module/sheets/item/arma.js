@@ -28,8 +28,7 @@ export default class sheetArma extends extendItem0Sheet {
    */
   async _prepareContext() {
     const rules = this.document.system.rules
-    const context = await super._prepareContext()
-    context.configRULES = configRULES[rules]
+    const context = await super._prepareContext()    
     context.competencias = await helperContext.getCompetenciasArmasSheet(rules)
     context.tamanos = await helperContext.getArmasTamanosSheet(rules)  
 

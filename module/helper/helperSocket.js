@@ -1,6 +1,7 @@
 import { SYSTEM_ID } from "../config/uiConstants.js"
 import helperCombat from "./helperCombat.js"
 import helperContext from "./helperContext.js"
+import helperSheets from "./helperSheets.js"
 import helperTables from "./helperTables.js"
 import helperTools from "./helperTools.js"
 
@@ -34,7 +35,12 @@ export default class helperSocket {
                 if (!game.user.isGM || (activeGM && activeGM.id !== game.user.id)) return
                 await helperTables.deleteRollTable(data)
                 break                
-            }            
+            }     
+            case 'buyItem': {
+                if (!game.user.isGM || (activeGM && activeGM.id !== game.user.id)) return
+                await helperSheets.requestComprarItem(data)
+                break                                
+            }       
         }
     }
 
@@ -102,6 +108,22 @@ export default class helperSocket {
             tokenId,
             stats
         })         
+    }
+
+    /**
+     * requestBuyItem
+     * @param {*} param0 
+     */
+    static async requestBuyItem({ actorId, tokenId, stats}) {
+        if (game.user.isGM) return helperSheets.requestComprarItem({ actorId, tokenId, stats })  
+        if (!game.socket) return
+
+        game.socket.emit(`system.${SYSTEM_ID}`, {
+            type: "buyItem",
+            actorId,
+            tokenId,
+            stats
+        })        
     }
 
     /**

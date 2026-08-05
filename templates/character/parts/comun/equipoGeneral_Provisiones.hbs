@@ -1,0 +1,167 @@
+<div class="_box _provisiones">
+
+    <h4 class="_title divider">{{localize 'common.provisiones'}}</h4>
+
+    <div class="_row _middle _gapped _progressCombo">
+        <progressBar>
+            <percent style="width:  {{equipoProvisiones.bebida.percent}}%"></percent>
+        </progressBar>
+        <label><span class="_bold">{{equipoProvisiones.bebida.actual}}</span> / {{equipoProvisiones.bebida.total}}</label>
+    </div>
+    {{#if (hasRows equipoProvisiones.bebida.items)}}
+    <table class="_list _items">
+        <thead>
+            <tr class="_header">
+                <th style="width: 100%"><label class="_bold">{{localize 'common.bebida'}}</label></th>
+                <th><label>{{localize 'common.porciones'}}</label></th>
+                {{#if isEditable}}
+                <th><label></label></th>
+                {{/if}}
+            </tr>
+        </thead> 
+        <tbody>
+            {{#each equipoProvisiones.bebida.items as |item index|}}
+            <tr class="_provision">
+                <td style="width: 100%">
+                    <a class="_name _pointer" style="padding-left: 0.5rem"
+                        data-action="{{#if ../isEditable}}_showItem{{else}}_showItemDescr{{/if}}" 
+                        data-id="{{item.id}}">
+                        <label class="_name _lSize">{{item.name}}</label>
+                    </a>                        
+                </td>
+                <td class="_right">
+                    {{#if item.system.unidades.use}}
+                    {{#if ../isEditable}}
+                        <div class="_combo _right">
+                            <input type="number" 
+                                class="_itemInput _xsSize _right"
+                                style="padding-right: 0.5rem"
+                                data-id="{{item.id}}"
+                                data-path="system.unidades.actual"
+                                min="0"
+                                max="{{item.system.unidades.total}}"
+                                value="{{item.system.unidades.actual}}"/>
+                            <a data-action="_navToItem"  data-id="{{item.id}}" data-name="system.unidades.total">
+                                <label class="_pointer">/ &nbsp;{{item.system.unidades.total}}</label>
+                            </a>                           
+                        </div>
+                    {{else}}
+                        <div class="_combo _gapped _right">
+                            <label class="_right">{{item.system.unidades.actual}} / {{item.system.unidades.total}}</label>  
+                            {{#unless (eq item.system.unidades.actual 1)}}
+                            <button type="button"
+                                    class="icon operator fas fa-arrow-down" 
+                                    data-action="_minusUnidad" 
+                                    data-id="{{item.id}}"
+                                    data-tooltip="{{localize 'tooltip.menosProvision'}}">
+                            </button> 
+                            {{else}}
+                            <button type="button"
+                                    class="icon operator fas fa-remove" 
+                                    data-action="_deleteItem" 
+                                    data-id="{{item.id}}"
+                                    data-tooltip="{{localize 'tooltip.borrarItem'}}">
+                            </button>                                              
+                            {{/unless}}                    
+                        </div>
+                    {{/if}}
+                    {{/if}} 
+                </td> 
+                {{#if ../isEditable}}
+                <td>
+                    <button type="button"
+                            class="icon operator fas fa-remove" 
+                            data-action="_deleteItem" 
+                            data-id="{{item.id}}"
+                            data-tooltip="{{localize 'tooltip.borrarItem'}}">
+                    </button>                 
+                </td>
+                {{/if}}                                             
+            </tr>
+            {{/each}}
+        </tbody>           
+    </table>
+    {{/if}}
+
+    <div class="_row _middle _gapped _progressCombo">
+        <progressBar>
+            <percent style="width:  {{equipoProvisiones.comida.percent}}%"></percent>
+        </progressBar>
+        <label><span class="_bold">{{equipoProvisiones.comida.actual}}</span> / {{equipoProvisiones.comida.total}}</label>
+    </div>
+    {{#if (hasRows equipoProvisiones.comida.items)}}
+    <table class="_list _items">
+        <thead>
+            <tr class="_header">
+                <th style="width: 100%"><label class="_bold">{{localize 'common.comida'}}</label></th>
+                <th><label>{{localize 'common.porciones'}}</label></th>
+                {{#if isEditable}}
+                <th><label></label></th>
+                {{/if}}
+            </tr>
+        </thead> 
+        <tbody>
+            {{#each equipoProvisiones.comida.items as |item index|}}
+            <tr class="_provision">
+                <td style="width: 100%">
+                    <a class="_name _pointer" style="padding-left: 0.5rem"
+                        data-action="{{#if ../isEditable}}_showItem{{else}}_showItemDescr{{/if}}" 
+                        data-id="{{item.id}}">
+                        <label class="_name _lSize">{{item.name}}</label>
+                    </a>                        
+                </td>
+                <td class="_right">
+                    {{#if item.system.unidades.use}}
+                    {{#if ../isEditable}}
+                        <div class="_combo _right">
+                            <input type="number" 
+                                class="_itemInput _xsSize _right"
+                                style="padding-right: 0.5rem"
+                                data-id="{{item.id}}"
+                                data-path="system.unidades.actual"
+                                min="0"
+                                max="{{item.system.unidades.total}}"
+                                value="{{item.system.unidades.actual}}"/>
+                            <a data-action="_navToItem"  data-id="{{item.id}}" data-name="system.unidades.total">
+                                <label class="_pointer">/ &nbsp;{{item.system.unidades.total}}</label>
+                            </a>                           
+                        </div>
+                    {{else}}
+                        <div class="_combo _gapped _right">
+                            <label class="_right">{{item.system.unidades.actual}} / {{item.system.unidades.total}}</label>  
+                            {{#unless (eq item.system.unidades.actual 1)}}
+                            <button type="button"
+                                    class="icon operator fas fa-arrow-down" 
+                                    data-action="_minusUnidad" 
+                                    data-id="{{item.id}}"
+                                    data-tooltip="{{localize 'tooltip.menosProvision'}}">
+                            </button> 
+                            {{else}}
+                            <button type="button"
+                                    class="icon operator fas fa-remove" 
+                                    data-action="_deleteItem" 
+                                    data-id="{{item.id}}"
+                                    data-tooltip="{{localize 'tooltip.borrarItem'}}">
+                            </button>                                              
+                            {{/unless}}
+                        </div>
+                    {{/if}}
+                    {{/if}} 
+                </td> 
+                {{#if ../isEditable}}
+                <td>
+                    <button type="button"
+                            class="icon operator fas fa-remove" 
+                            data-action="_deleteItem" 
+                            data-id="{{item.id}}"
+                            data-tooltip="{{localize 'tooltip.borrarItem'}}">
+                    </button>                 
+                </td>
+                {{/if}}                                             
+            </tr>
+            {{/each}}
+        </tbody>           
+    </table>
+    {{/if}}
+
+</div>

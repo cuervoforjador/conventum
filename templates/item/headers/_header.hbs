@@ -14,44 +14,66 @@
                 value="{{item.name}}" 
                 {{{_disabled}}}
                 placeholder="{{localize 'common.nombre'}}"> 
-        <div class="_row _gapped _marginTop">
-            <div class="_combo">
-
-                <label>{{localize 'common.key'}} :</label>
+        <div class="_row _gapped _marginTop _spaced">
+            <div class="_combo _gapped">
+                <div class="_combo">
+                    <label>{{localize 'common.key'}} :</label>
+                    <input type="text" 
+                        {{{_disabled}}}
+                        class="_mSize _key"
+                        name="system.key" 
+                        value="{{system.key}}" 
+                        data-tooltip="{{localize 'tooltip.key'}}">   
+                    {{#if isEditable}}
+                    <button type="button"
+                            class="icon fas fa-key" 
+                            data-action="_readKey" 
+                            data-tooltip="{{localize 'common.getKey'}}">
+                    </button>
+                    {{!--
+                    {{#if (eq myRules 'vyc')}}
+                    <button type="button"
+                            style="margin-right: 5px"
+                            class="icon fa-solid fa-brush" 
+                            data-action="_greenIcon" 
+                            data-tooltip="{{localize 'common.greenIcon'}}">
+                    </button>       
+                    {{/if}}
+                    --}}                       
+                    {{/if}}                          
+                </div>                 
+                <div class="_combo">
+                    <label>{{localize 'common.rules'}} :</label>
+                    <select name="system.rules" {{{_disabled}}} style="width: calc(var(--fSize) * 10);">
+                    {{selectOptions rules 
+                                    selected=system.rules
+                                    localize=false
+                                    nameAttr="key"
+                                    labelAttr="label" }}
+                    </select>                 
+                </div>         
+            </div>
+            <div class="_combo _gapped">
+                <i class="fa-sharp fa-light fa-coin-vertical"></i>
+                <input type="number" 
+                    {{{_disabled}}}
+                    class="_sSize _right"
+                    name="system.precio" 
+                    value="{{system.precio}}" 
+                    data-tooltip="{{localize 'tooltip.precio'}}"> 
+                <label class="_small _italic" data-tooltip="{{configRULES.moneda}}">{{configRULES.monedaShort}}</label>                  
+            </div>           
+        </div>
+        <div class="_row">
+            <div class="_combo _gapped _100">
+                <label>{{localize 'common.etiquetas'}} :</label>
                 <input type="text" 
                     {{{_disabled}}}
-                    class="_mSize _key"
-                    name="system.key" 
-                    value="{{system.key}}" 
-                    data-tooltip="{{localize 'tooltip.key'}}">   
-                {{#if isEditable}}
-                <button type="button"
-                        class="icon fas fa-key" 
-                        data-action="_readKey" 
-                        data-tooltip="{{localize 'common.getKey'}}">
-                </button>
-                {{!--
-                {{#if (eq myRules 'vyc')}}
-                <button type="button"
-                        style="margin-right: 5px"
-                        class="icon fa-solid fa-brush" 
-                        data-action="_greenIcon" 
-                        data-tooltip="{{localize 'common.greenIcon'}}">
-                </button>       
-                {{/if}}
-                --}}                       
-                {{/if}}                          
-            </div>                 
-            <div class="_combo">
-                <label>{{localize 'common.rules'}} :</label>
-                <select name="system.rules" {{{_disabled}}} style="width: calc(var(--fSize) * 10);">
-                {{selectOptions rules 
-                                selected=system.rules
-                                localize=false
-                                nameAttr="key"
-                                labelAttr="label" }}
-                </select>                 
-            </div>                    
+                    class="_100 _tags _italic"
+                    name="system.etiquetas" 
+                    value="{{system.etiquetas}}" 
+                    data-tooltip="{{localize 'tooltip.etiquetas'}}">                 
+            </div>
         </div>
     </div>
 </div>

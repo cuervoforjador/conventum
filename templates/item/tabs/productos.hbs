@@ -1,0 +1,57 @@
+<section class="tab" data-group="primary" data-tab="productos">
+    <table class="_list">
+        <thead>
+            <tr class="_header">
+                <th style="width: 100%"><label class="_bold">{{localize 'common.producto'}}</label></th>
+                <th class="_center"><label>{{localize 'common.visible'}}</label></th>
+                <th class="_center"><label>{{localize 'common.limitado'}}</label></th>
+                <th class="_center"><label>{{localize 'common.unidades'}}</label></th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each _productos as |item index|}}
+            <tr data-id="{{item.id}}" 
+                data-visible="{{item.visible}}"
+                data-limitado="{{item.limitado}}"
+                data-unidades="{{item.unidades}}">
+
+                <td style="width=100%">
+                    <label class="_name _lSize">{{item.name}}</label>
+                </td>
+                <td class="_center">
+                    <input type="checkbox"
+                           {{{_disabled}}}
+                           class="_change"
+                           data-tootip="{{localize 'explain.prodVisible'}}"
+                           data-target="system.productos"
+                           data-path="visible"
+                           data-id="{{item.id}}"
+                           {{#if item.visible}} checked {{/if}}>
+                </td> 
+                <td class="_center">
+                    <input type="checkbox"
+                           {{{_disabled}}}
+                           class="_change"
+                           data-tootip="{{localize 'explain.prodLimitado'}}"
+                           data-target="system.productos"
+                           data-path="limitado"
+                           data-id="{{item.id}}"
+                           {{#if item.limitado}} checked {{/if}}>
+                </td>                 
+                <td class="_center">
+                    {{#if item.limitado}}
+                    <input type="number"
+                           {{{_disabled}}}
+                           value="{{item.unidades}}"
+                           class="_change _xsSize _center"
+                           data-tootip="{{localize 'explain.prodUnidades'}}"
+                           data-target="system.productos"
+                           data-path="unidades"
+                           data-id="{{item.id}}">
+                    {{/if}}
+                </td>                               
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</section>

@@ -1,4 +1,12 @@
 <section class="tab" data-group="primary" data-tab="propiedades">
+
+    <input type="text" 
+        class="_italic"
+        style="width: 100%;"
+        {{{_disabled}}}
+        name="system.propiedades.resumen" 
+        value="{{system.propiedades.resumen}}">   
+
     <h4 class="_noMargin">{{localize 'common.caducidad'}}</h4>
     <div class="_row _middle _gapped">
         {{#if isEditable}}

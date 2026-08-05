@@ -96,10 +96,20 @@ static define() {
                                                            return false
     })
 
+    Handlebars.registerHelper("itemsRenderColumn", (nItems, options, index, root) => {
+        if (!nItems || nItems === 0) return
+        const nColumns = options.columns
+        let nSxC = Math.trunc(nItems / nColumns)
+        if (nSxC === 0 || isNaN(nSxC)) nSxC = 1
+        const rIndex = Math.trunc(index / nSxC) + 1
+        return rIndex === 0 ? 1 : rIndex > nColumns ? nColumns : rIndex
+    })
+
     Handlebars.registerHelper("skillsRenderColumn", (options, index, root) => {
         const nSkills = root.data.root.skills.length
         const nColumns = options.columns
-        const nSxC = Math.trunc(nSkills / nColumns)
+        let nSxC = Math.trunc(nSkills / nColumns)
+        if (nSxC === 0 || isNaN(nSxC)) nSxC = 1
         const rIndex = Math.trunc(index / nSxC) + 1
         return rIndex === 0 ? 1 : rIndex > nColumns ? nColumns : rIndex
     })    
@@ -111,8 +121,14 @@ static define() {
     })      
 
     Handlebars.registerHelper("hasRows", (mArray, root) => {
+        if (!mArray) return false
         return mArray.length > 0
-    })       
+    })  
+    
+    Handlebars.registerHelper("numRows", (mArray, root) => {
+        if (!mArray) return 0
+        return mArray.length
+    })      
 
 }
 }

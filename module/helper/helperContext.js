@@ -547,6 +547,11 @@ export default class helperContext {
      * @param {*} item 
      */
     static showHechizo(rules, item) {
+        const sContent = this._contentHechizo(rules, item)
+        helperDialog.dialogDescription(null, sContent, item.name, rules, 700, item.img)
+    }
+    static _contentHechizo(rules, item, bBook=false) {
+        const _noApp = !item.system.aprendido
         const _config = aqConfig.hechizos[rules]
         const stats = {
             tipo: _config.tipos.find(e => e.key === item.system.info.forma),
@@ -565,11 +570,33 @@ export default class helperContext {
         let sComponentes = ''
             item.system.componentes.map(o => { sComponentes += sComponentes === '' ? o.name : ', ' + o.name })
         if (sComponentes === '') sComponentes = game.i18n.localize('common.noAplica')
-
-        let sContent = `
-            <h1 class="_title">${item.name}</h1>
-            <h4>VIS ${game.i18n.localize(stats.nivel.label)} (-${stats.nivel.ptc} PC, ${stats.nivel.mod}%)</h4>
-            <div class="_stats">
+        
+        let sButtons = ''
+        if (bBook) {
+            sButtons = `<div class="_buttons _gapped">
+                            <button type="button" 
+                                    class="_action" 
+                                    ${_noApp ? 'disabled="disabled"' : ''}
+                                    data-action="preparar" 
+                                    data-id="${item.id}">${game.i18n.localize('common.preparar')}</button>
+                            <button type="button" 
+                                    class="_action" 
+                                    ${_noApp ? '' : 'disabled="disabled"'}
+                                    data-action="estudiar" 
+                                    data-id="${item.id}">${game.i18n.localize('common.estudiar')}</button>
+                        </div>`
+        }
+            
+        return `
+            <div class="_wrapImg">
+                <img class="_spellImg" src="${item.img}"/>
+                <div class="_header">
+                    ${sButtons}
+                    <h1 class="_title">${item.name}</h1>                    
+                    <h4>VIS ${game.i18n.localize(stats.nivel.label)} (-${stats.nivel.ptc} PC, ${stats.nivel.mod}%)</h4>  
+                </div>
+            </div>          
+            <div class="_row _stats ${ _noApp ? '_semi' : ''}">
                 <div class="_combo">
                     <label>${game.i18n.localize('common.forma')}:</label>
                     <label class="_field">${game.i18n.localize(stats.tipo.label)}</label>
@@ -577,35 +604,72 @@ export default class helperContext {
                 <div class="_combo">
                     <label>${game.i18n.localize('common.naturaleza')}:</label>
                     <label class="_field">${game.i18n.localize(stats.naturaleza.label)}</label>
-                </div>
+                </div>              
                 <div class="_combo">
                     <label>${game.i18n.localize('common.origen')}:</label>
                     <label class="_field">${game.i18n.localize(stats.origen.label)}</label>
-                </div>
+                </div>            
             </div>
-            <div class="_row">
-                <label><span class="_pseudoTitle">${game.i18n.localize('common.caducidad')}:</span> ${textos.caducidad}</label>
+            <div class="_row _marginBottom ${ _noApp ? '_semi' : ''}">
+                <label><span class="_pseudoTitle _small">${game.i18n.localize('common.caducidad')}:</span> ${textos.caducidad}</label>
             </div>
-            <div class="_row">
-                <label><span class="_pseudoTitle">${game.i18n.localize('common.duracion')}:</span> ${textos.duracion}</label>
+            <div class="_row _marginBottom ${ _noApp ? '_semi' : ''}">
+                <label><span class="_pseudoTitle _small">${game.i18n.localize('common.duracion')}:</span> ${textos.duracion}</label>
             </div>
-            <div class="_row">
-                <label><span class="_pseudoTitle">${game.i18n.localize('common.tiradaRR')}:</span> ${item.system.tiradaRR ? game.i18n.localize('common.si') : 
+            <div class="_row _marginBottom ${ _noApp ? '_semi' : ''}">
+                <label><span class="_pseudoTitle _small">${game.i18n.localize('common.tiradaRR')}:</span> ${item.system.tiradaRR ? game.i18n.localize('common.si') : 
                                                                                                                             game.i18n.localize('common.no')}</label>
             </div>
-            <div class="_row">
+            <div class="_row ${ _noApp ? '_semi' : ''}">
                 <label><span class="_pseudoTitle">${game.i18n.localize('common.componentes')}:</span> ${sComponentes}</label>
             </div>        
-            <div class="_row">
+            <div class="_row ${ _noApp ? '_semi' : ''}">
                 <label><span class="_pseudoTitle">${game.i18n.localize('common.preparacion')}:</span> ${item.system.propiedades.preparacion}</label>
             </div>     
-            <div class="_row">
+            <div class="_row ${ _noApp ? '_semi' : ''}">
                 <label><span class="_pseudoTitle">${game.i18n.localize('common.descripcion')}:</span> ${item.system.descripcion}</label>
             </div>                                   
             `
-        
+    }
+
+    /**
+     * showEnsalmo
+     * @param {*} rules 
+     * @param {*} item 
+     */
+    static showEnsalmo(rules, item) {
+        const sContent = this._contentEnsalmo(rules, item)
         helperDialog.dialogDescription(null, sContent, item.name, rules, 700, item.img)
     }
+    static _contentEnsalmo(rules, item, bBook=false) {            
+        const _config = aqConfig.ensalmos[rules]
+        const nivel = _config.niveles[item.system.ordo]
+        return `
+            <div class="_wrapImg">
+                <img class="_spellImg" src="${item.img}"/>
+                <div class="_header">
+                    ${sButtons}
+                    <h1 class="_title _pointer" data-id="${item.id}">${item.name}</h1>
+                    <h4>Ordo ${game.i18n.localize(nivel.label)} (-${nivel.ptf} PC, ${nivel.mod}%)</h4>
+                    <div class="_stats">
+                        <div class="_combo">
+                            <label>${game.i18n.localize('common.estadoGracia')}:</label>
+                            <label class="_field">${item.system.propiedades.estadoGracia ? game.i18n.localize('common.si') : game.i18n.localize('common.no')}</label>
+                        </div>
+                    </div>  
+                </div>
+            </div>          
+            <div class="_row">
+                <label><span class="_pseudoTitle">${game.i18n.localize('common.requisitos')}:</span> ${item.system.propiedades.requisitos}</label>
+            </div>
+            <div class="_row">
+                <label><span class="_pseudoTitle">${game.i18n.localize('common.ceremonia')}:</span> ${item.system.propiedades.ceremonia}</label>
+            </div>
+            <div class="_row">
+                <label><span class="_pseudoTitle">${game.i18n.localize('common.efectos')}:</span> ${item.system.descripcion}</label>
+            </div>
+            `
+    }    
 
     /**
      * deleteAllContext

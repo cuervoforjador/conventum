@@ -1,4 +1,5 @@
 import { SYSTEM_ID } from "../config/uiConstants.js"
+import helperSettings from "../helper/helperSettings.js"
 import hooksFolders from "./folders.js"
 
 export default class hooksRender {
@@ -13,6 +14,9 @@ export default class hooksRender {
     static renderApplicationV2(application, html, properties, options) {
         const sId = application.options.id.split('-')[0].toLowerCase()
         if (sId === 'compendium') hooksFolders.renderCompendium(application, html, properties, options)
+
+        const sRules = helperSettings.rules()
+        $(html).parents('body.vtt').addClass('_'+sRules)
     }
 
 }

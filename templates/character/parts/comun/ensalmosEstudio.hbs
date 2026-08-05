@@ -1,0 +1,122 @@
+<h4 class="_title divider">{{localize 'common.estudio'}}</h4>
+<div class="_pool _estudioEnsalmos">
+    {{#each ensalmosEstudio as |estudio index|}}
+    <div class="_itemPool {{#if estudio.available}}_posible{{else}}_imposible{{/if}}"
+         {{#unless estudio.available}}data-tooltip="{{localize 'explain.noTeologia'}}"{{/unless}}>
+        <div class="_row _middle _spaced">
+            <label class="_title">{{estudio.levelText}} {{localize 'common.ordo'}}</label>
+        </div>
+        <div class="_step">
+            <div class="_row _middle _spaced">
+                <div class="_combo">
+                    <label>{{localize 'common.minTeologia'}}:</label>
+                    <label class="_field">{{estudio.minTeo}}%</label>
+                    <label>( {{localize 'common.teologia'}}:</label>
+                    <label class="_field">{{estudio.actTeo}}%)</label>
+                </div>  
+                {{#if estudio.estudiable}}
+                <button type="button" 
+                        data-action="_estudiarOrdo"
+                        data-ordo="{{estudio.level}}">{{localize 'common.estudiar'}}</button>                
+                {{/if}}                           
+            </div>
+        </div>
+
+            {{#unless estudio.completado}}
+            {{#if estudio.estudiando}}
+            <div class="_step">
+                <div class="_row _middle">
+                    <label>{{localize 'common.tiempo'}}:</label>
+                    {{#if ../isEditable}}
+                        <input type="number"
+                            name="system.ritual.estudio.{{estudio.level}}.meses"
+                            value="{{estudio.meses}}"
+                            class="_inputValue" />
+                    {{else}}
+                        <label class="_field">{{estudio.meses}}</label>
+                    {{/if}}
+                    <label class="_field">/ {{estudio.mesesTotal}}</label>
+                    <label class="_unit">{{localize 'common.meses'}}</label>             
+                </div>
+                <div class="_row _middle _marginTop">
+                    <progressBar>
+                        <percent style="width:  {{estudio.percent}}%"></percent>
+                    </progressBar>
+                </div>            
+            </div>    
+
+            {{#if estudio.usePta}}
+            <div class="_step">
+                <div class="_row _middle">
+                    <div class="_combo">
+                        <label>{{localize 'ATTR.ptaShort2'}}:</label>
+                        <label class="_field">{{estudio.pta}}</label>
+                    </div>
+                    {{#unless estudio.pagado}}
+                        <button type="button" 
+                                data-action="_payEnsalmoPta"
+                                data-ordo="{{estudio.level}}">{{localize 'common.gastarPta'}}</button>
+                    {{/unless}}
+                </div>
+            </div>
+            {{/if}}
+
+            {{#if estudio.aprendizaje}}
+            <div class="_step">
+                <div class="_row _middle _spaced">
+                    <div class="_combo _gapped">
+                        {{#unless estudio.completado}}
+                            <button type="button" 
+                                    data-action="_roll"
+                                    data-target="attr"
+                                    data-path="rr.value"
+                                    data-mod="{{estudio.mod}}"
+                                    data-mods="{{estudio.mods}}">{{localize 'common.tiradaRR'}}</button>
+                        {{/unless}}                
+                    </div>
+                    <div class="_combo _gapped">
+                        <input type="checkbox" 
+                            name="system.ritual.estudio.{{estudio.level}}.completado"
+                            id="tiradaAsimilar_{{estudio.level}}"
+                            {{{_disabled}}}
+                            class="_inputValue"                   
+                            data-tooltip="{{{localize 'explain.tiradaRR'}}}"
+                            {{#if estudio.completado}}checked{{/if}}>
+                        <label for="tiradaAsimilar_{{estudio.level}}"
+                                data-tooltip="{{{localize 'explain.tiradaRR'}}}">{{localize 'common.aprendido'}}</label>
+
+                        {{#unless estudio.completado}}
+                            {{#if ../isEditable}}
+                            <button type="button" 
+                                    data-tooltip="{{{localize 'explain.clickAdquirirOrdo'}}}"
+                                    data-action="_adquirirOrdo"
+                                    data-ordo="{{estudio.level}}">{{localize 'common.adquirirOrdo'}}</button>
+                            {{/if}}
+                        {{/unless}}                    
+                    </div>  
+                </div>
+            </div>      
+            {{/if}}
+            {{/if}}
+
+            {{else}}
+            <div class="_step">
+                <div class="_row _middle _spaced">
+                    <div class="_combo _gapped">
+                        <input type="checkbox" 
+                            name="system.ritual.estudio.{{estudio.level}}.completado"
+                            id="tiradaAsimilar_{{estudio.level}}_2"
+                            {{{_disabled}}}
+                            class="_inputValue"                   
+                            {{#if estudio.completado}}checked{{/if}}>
+                        <label for="tiradaAsimilar_{{estudio.level}}_2">{{localize 'common.aprendido'}}</label>
+                    </div>
+                </div>
+            </div>
+            {{/unless}}
+
+        
+
+    </div>
+    {{/each}}
+</div>

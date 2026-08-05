@@ -1,5 +1,5 @@
 {{!-- <div class="_skills {{#if skillRenderOptions.scrolled}} _scrolled {{else}} _down {{/if}}" --}}
-<div class="_skills scrollable"
+<div class="_skills"
     style="width: {{skillRenderOptions.width}}; 
            grid-auto-columns: {{skillRenderOptions.columnSize}};
            grid-template-areas: {{skillRenderOptions.templateAreas}};">
@@ -56,6 +56,7 @@
                 {{#if ../isEditable}}
                     <input type="number" 
                             {{{_disabled}}} 
+                            {{#if skill.normal}} data-tooltip="{{{localize 'tooltip.changeSkillNormal'}}}" {{/if}}
                             value="{{skill.stats.value}}" 
                             min="{{skill.stats.value.min}}" 
                             max="{{skill.stats.value.max}}"

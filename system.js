@@ -9,6 +9,7 @@ import helperTemplates from './module/helper/helperTemplates.js'
 import helperTokens from './module/helper/helperTokens.js'
 import helperSocket from './module/helper/helperSocket.js'
 import helperMessages from './module/helper/helperMessages.js'
+import helperSceneControls from './module/helper/helperSceneControls.js'
 
 helperHooks.initHooks();
 

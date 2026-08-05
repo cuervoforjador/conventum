@@ -124,31 +124,32 @@ input.h4 {
     gap: 4px!important;
 }
 ._marginTop {
-    margin-top: 4px;
+    margin-top: 4px!important;
 }
 ._marginBottom {
-    margin-bottom: 4px;
+    margin-bottom: 4px!important;
 }
 ._marginLeft {
-    margin-left: 4px;
+    margin-left: 4px!important;
 }
 ._marginRight {
-    margin-right: 4px;
+    margin-right: 4px!important;
 }
 ._center {
-    text-align: center;
+    text-align: center!important;
 }
 ._center2 {
-    text-align: center;
-    display: flex;
-    justify-content: center;
+    text-align: center!important;
+    display: flex!important;
+    justify-content: center!important;
 }
 ._middle {
-    align-content: center;
-    align-items: center;    
+    align-content: center!important;
+    align-items: center!important;    
 }
 ._right {
-    text-align: right;
+    text-align: right!important;
+    justify-content: flex-end!important;
 }
 ._expanded {
     width: 100%;
@@ -160,14 +161,27 @@ input.h4 {
 ._italic {
     font-style: italic;
 }
-._pointer {
-    cursor: pointer;
+._pointer,
+._pointer label,
+label._pointer {
+    cursor: pointer!important;
+    transition: 0.5s;
 }
+._pointer label:hover,
+label._pointer:hover {
+    color: #da861a;
+}
+
 ._med {
     font-size: calc(var(--fSize)*1.25);
 }
 ._big {
     font-size: calc(var(--fSize)*1.5);
+}
+._red {
+    color: #bf2222 !important;
+    text-shadow: 0 0 5px #c76f6f;
+    font-weight: 900;
 }
 ._noBorder {
     border-color: #00000000 !important;
@@ -192,6 +206,9 @@ h4._noMargin {
 
 ._100 {
     width: 100%;
+}
+._60 {
+    width: 60%;
 }
 ._50 {
     width: 50%;
@@ -255,6 +272,16 @@ table._table select {
     padding: 0 0.25rem;
 }
 
+button.operator {
+    font-size: calc(var(--fSize) * 0.75);
+    background: none;
+    color: #0000008a;
+    border-radius: 0;
+}
+button.operator:hover {
+    color: #000;
+}
+
 progressbar {
     display: flex;
     width: 100%;
@@ -268,6 +295,9 @@ progressbar percent {
     height: 100%;
     background: linear-gradient(-90deg, #b925339c, #3f2326);
     border-right: 2px solid #b92533;
+}
+._progressCombo label {
+    white-space: nowrap;
 }
 
 /** --- PACKS --- */
