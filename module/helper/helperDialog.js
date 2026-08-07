@@ -241,7 +241,7 @@ export default class helperDialog {
      * dialogDescription
      * @param {*} document 
      */
-    static async dialogDescription(document=null, content='', title='', rules=null, width, img='') {
+    static async dialogDescription(document=null, content='', title='', rules=null, width, img='', position) {
         const sRules = rules ? rules : document?.system.rules
         const sContent = document ? document.system.descripcion : content
         const sTitle = document ? document.name : title
@@ -254,7 +254,7 @@ export default class helperDialog {
         const dialog = await foundry.applications.api.DialogV2.prompt({
             classes: ['_extend', '_description', '_'+sRules],
             window: { title: sTitle },
-            position: {width: sWidth},
+            position: position || {width: sWidth},
             content: sContent,
             ok: {},
             render: (_event, dialog) => {
@@ -264,6 +264,23 @@ export default class helperDialog {
             }
         })
     }
+
+    static async dialogDescription2(content='', title='', rules=null, position, sClass='') {
+        const dialog = await foundry.applications.api.DialogV2.prompt({
+            classes: ['_extend', '_description', '_'+rules, sClass],
+            window: { title: title },
+            position: position || {width: sWidth},
+            content: content,
+            ok: {
+                label: game.i18n.localize("common.continuar"),
+            },
+            render: (_event, dialog) => {
+                this._setShadowToDialog(dialog)   
+                this._setWaterMarkToDialog(dialog, document, '')             
+                //this._setNoFooter(dialog)
+            }
+        })
+    }    
 
     static _addAleaButton(dialog) {
         $(dialog.element).find('footer.form-footer')

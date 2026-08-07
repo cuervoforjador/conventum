@@ -112,12 +112,14 @@ export default class helperSheets {
         _attrs.ptv.value = this._checkMinMax(_attrs.ptv.value, _attrs.ptv.min, _attrs.ptv.max)
 
         //Altura y Peso
+        /*
         const charEval = _chars.fue.value > _chars.res.value ? _chars.fue.value : _chars.res.value;
         system.info.altura = Math.round(charEval*2.49 + 139.36)/100;
         system.info.peso =  Math.round(charEval*3.72 + 88.49);
         [[5,106], [6,110], [7,118], [8,120], [9,122], [10,125], [11,128], [12,132], [13,134], [14,140], [15,146]].map(e => {
             if (charEval === e[0]) system.info.peso = e[1]
         })
+        */
         
         //Templanza
         _attrs.tem.min = 0
@@ -902,6 +904,11 @@ export default class helperSheets {
             class: '_producto',
             whisper: [game.users.activeGM.id, game.user.id]
         })
+
+        //Actualizando las fichas del resto de Jugadores
+        for (let actor0 of tienda.system.actors) {
+            helperSocket.requestRefreshActorSheet(actor0.id, actor0.token?.tokenId)
+        }
     }
 
     static _descrLocalizaciones(mLocalizaciones) {
@@ -1282,7 +1289,7 @@ export default class helperSheets {
                 id: actor.id,
                 name: actor.name,
                 img: actor.img,
-                visible: oActor.visible
+                visible: oActor?.visible || false
             })
         })
         mActors.sort((a,b) => a.name.localeCompare(b.name))
@@ -1306,6 +1313,7 @@ export default class helperSheets {
                 id: item.id,
                 name: item.name,
                 img: item.img,
+                precio: item.system.precio,
                 visible: oItem ? oItem.visible : true,
                 limitado: oItem ? oItem.limitado : false,
                 unidades: oItem ? oItem.limitado ? oItem.unidades : '' : ''

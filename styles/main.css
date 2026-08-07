@@ -345,6 +345,14 @@ section.directory._extend._vyc li.directory-item img.thumbnail {
 .glowBlink {
   animation: color-pulse 1s infinite alternate;
 }
+._borderBlink {
+    border: 6px solid #ffdd00ad;
+    animation: blinkBorder 1.5s ease-in-out infinite;
+}
+select._borderBlink {
+    height: calc(var(--fSize) * 2.3)!important;
+}
+
 @keyframes blinker {
   50% {
     opacity: 0;

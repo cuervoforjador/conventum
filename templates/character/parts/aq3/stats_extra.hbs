@@ -9,25 +9,41 @@
                 class="_charTotal">
         <label class="_input _italic">{{localize 'common.anos'}}</label>        
     </div>
-    <div class="_row _char">
+    <div class="_row _char">      
         <label class="_charTitle">{{localize 'common.altura'}}</label>
         <input type="number" 
-                disabled="disabled"
+                {{{_disabled}}}
                 name="system.info.altura" 
                 value="{{system.info.altura}}" 
                 min="0" 
                 class="_charTotal">
         <label class="_input _italic">{{configRULES.unitAltura}}</label>        
+        {{#if isEditable}}
+        <button type="button"
+                class="icon fas fa-gear" 
+                data-action="_calc" 
+                data-target="altura"
+                data-tooltip="{{localize 'tooltip.calcAltura'}}">
+        </button>       
+        {{/if}}           
     </div>
     <div class="_row _char">
         <label class="_charTitle">{{localize 'common.peso'}}</label>
         <input type="number" 
-                disabled="disabled"
+                {{{_disabled}}}
                 name="system.info.peso" 
                 value="{{system.info.peso}}" 
                 min="0" 
                 class="_charTotal">
         <label class="_input _italic">{{configRULES.unitPeso}}</label>        
+        {{#if isEditable}}
+        <button type="button"
+                class="icon fas fa-gear" 
+                data-action="_calc" 
+                data-target="peso"
+                data-tooltip="{{localize 'tooltip.calcPeso'}}">
+        </button>        
+        {{/if}}        
     </div>        
 </div>
 

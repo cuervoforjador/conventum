@@ -1,5 +1,9 @@
 import { SYSTEM_ID } from "../config/uiConstants.js"
 import helperContext from "./helperContext.js"
+import helperSettings from "./helperSettings.js";
+import helperTools from "./helperTools.js"
+import helperDialog from "./helperDialog.js"
+import tutTiendas from "../tutorial/tutTiendas.js"
 
 export default class helperSceneControls {
 
@@ -17,6 +21,15 @@ export default class helperSceneControls {
             layer: "controls",
             visible: game.user.isGM,
             tools: {
+                shopExample: {
+                    button: true,
+                    icon: "fas fa-shop",
+                    name: "shopExample",
+                    order: 1,
+                    title: "Tutorial (Comercios)",
+                    onClick: helperSceneControls._tutTiendas
+                }                
+                /*
                 maintTool: {
                     button: true,
                     icon: "fas fa-tools",
@@ -25,6 +38,7 @@ export default class helperSceneControls {
                     title: "Actualizar Hechizos",
                     onClick: helperSceneControls._maintTool
                 }
+                */
             },
             //activeTool: "maintTool"
         };        
@@ -34,15 +48,21 @@ export default class helperSceneControls {
      * _maintTool
      */
     static async _maintTool() {
-        const pack = game.packs.get('aquelarre.aq3_pack')
-        const mDocs = (await pack.getDocuments()).filter(e => e.type === 'competencia')
+        const pack = game.packs.get('aquelarre.aq4_pack')
+        const mDocs = (await pack.getDocuments()).filter(e => e.type === 'rasgo')
         mDocs.map(doc => {
-            
+            if (!doc.system.verguenza) return;
             //doc.update({"system.fuente": sFuente})
-            const sImg = "systems/aquelarre/assets/img/aq/skills.png" //doc.img.replace('.jpg', '.png')
+            const sImg = "systems/aquelarre/assets/img/aq/verguenza.png" //doc.img.replace('.jpg', '.png')
             doc.update({"img": sImg})
         })
 
     }
 
+    /**
+     * _tutTiendas
+     */
+    static async _tutTiendas() {
+        tutTiendas.display()   
+    }
 }

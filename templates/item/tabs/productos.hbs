@@ -4,6 +4,7 @@
             <tr class="_header">
                 <th style="width: 100%"><label class="_bold">{{localize 'common.producto'}}</label></th>
                 <th class="_center"><label>{{localize 'common.visible'}}</label></th>
+                <th class="_center"><label>{{localize 'common.precio'}}</label></th>
                 <th class="_center"><label>{{localize 'common.limitado'}}</label></th>
                 <th class="_center"><label>{{localize 'common.unidades'}}</label></th>
             </tr>
@@ -16,7 +17,11 @@
                 data-unidades="{{item.unidades}}">
 
                 <td style="width=100%">
-                    <label class="_name _lSize">{{item.name}}</label>
+                    <a class="_name _pointer" 
+                        data-action="_showItem" 
+                        data-id="{{item.id}}">
+                        <label class="_name _lSize">{{item.name}}</label>
+                    </a>                     
                 </td>
                 <td class="_center">
                     <input type="checkbox"
@@ -27,7 +32,17 @@
                            data-path="visible"
                            data-id="{{item.id}}"
                            {{#if item.visible}} checked {{/if}}>
-                </td> 
+                </td>
+                <td class="_center">
+                    <input type="number"
+                           value="{{item.precio}}"
+                           {{{_disabled}}}
+                           class="_change _sSize _center"
+                           data-tootip="{{localize 'explain.prodVisible'}}"
+                           data-target="item"
+                           data-path="system.precio"
+                           data-id="{{item.id}}">
+                </td>                 
                 <td class="_center">
                     <input type="checkbox"
                            {{{_disabled}}}

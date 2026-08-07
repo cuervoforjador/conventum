@@ -16,6 +16,13 @@ export default class helperSocket {
 
         const activeGM = game.users.activeGM        
         switch (data.type) {
+            case "refreshActorSheet": {
+                if (game.user.isGM) return
+                const actor = helperTools.getActor(data.actorId, data.tokenId)
+                if (!actor || actor.ownership[game.user.id] !== 3) return
+                if (actor.sheet.rendered) actor.sheet.render(true)
+                break
+            }
             case "applyDamage": {
                 if (!game.user.isGM || (activeGM && activeGM.id !== game.user.id)) return
                 await helperCombat.applyDamage(data)
@@ -124,6 +131,26 @@ export default class helperSocket {
             tokenId,
             stats
         })        
+    }
+
+    /**
+     * requestRefreshActorSheet
+     * @param {*} actorId 
+     * @param {*} tokenId 
+     */
+    static async requestRefreshActorSheet(actorId, tokenId) {        
+        const actor = helperTools.getActor(actorId, tokenId)
+        if (!actor) return        
+        if (game.user.isGM && actor.sheet.rendered) actor.sheet.render(true)
+        if (actor.hasPlayerOwner) {
+            const stats = {}
+            game.socket.emit(`system.${SYSTEM_ID}`, {
+                type: "refreshActorSheet",
+                actorId,
+                tokenId,
+                stats
+            })
+        }
     }
 
     /**

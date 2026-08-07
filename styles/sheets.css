@@ -113,6 +113,12 @@ form._extend._actor section.tab.active {
 form._extend._actor section.tab.active[data-group="stats"] {
     overflow-y: hidden;
 }
+form._extend._item section.tab.active {
+    height: auto;
+}
+form._extend._item ._sheetContent {
+    overflow-y: auto;
+}
 
 
 /** --- CONTROLES GENERAL --- */
@@ -736,6 +742,10 @@ form._extend._actor ._sheetHeader .portrait img.actor-portrait {
     border-bottom-right-radius: 50%;
     border-bottom-left-radius: 4%;
     border-top-left-radius: 4%;
+}
+form._extend._aq3._actor ._sheetHeader .portrait img.actor-portrait {
+    border-radius: 0;
+    border: 0;
 }
 form._extend ._sheetHeader .portrait {
     width: 75px;
@@ -1429,17 +1439,25 @@ form._extend ._fog {
 }
 form._extend ._fog ._explain {
     width: 70%;
-    height: 60%;
+    max-height: 95%;    
     position: absolute;
     left: 15%;
-    top: 25%;
+    top: 5%;
     background: #000000a6;
     padding: 2rem;
+    padding-bottom: 5rem;
     border: 2px solid #ffa500cf;
     box-shadow: #e197285c 0 0 12px 9px;
     font-size: 1.25rem;
     text-align: justify;
     color: #ffffffdb !important;
+    overflow-x: auto;
+}
+form._extend ._fog ._explain img._big {
+    display: flex;
+    width: 70%;
+    margin-left: 15%;
+    margin-bottom: 1rem;
 }
 form._extend ._fog ._buttons {
     height: 3rem;
@@ -1447,10 +1465,20 @@ form._extend ._fog ._buttons {
     gap: 0.5rem;
     width: 100%;
     position: absolute;
-    top: calc(100% - 3rem);
+    margin-top: 2rem;
     left: 0;
     padding: 0 1rem;
     justify-content: flex-end;
+}
+._sbutton {
+    background: #514d4d;
+    border: 1px solid #ffffff91;
+    padding: 0.25rem;
+    font-size: 1.5rem;
+    width: 2.5rem;
+    text-align: center;
+    margin: 0 0.25rem;
+    border-radius: 0.15rem;
 }
 form._extend ._fog ._boxPointer {
     position: absolute;

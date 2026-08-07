@@ -23,7 +23,7 @@ export default class extendItem0Sheet
   static DEFAULT_OPTIONS = {
     classes: ["_extend", "_item"],
     position: { 
-        width: 600, 
+        width: 700, 
         height: 600 
     },
     form: { submitOnChange: true },

@@ -28,6 +28,7 @@ export default class extendCharacterSheet extends extendActorSheet {
     actions: {
       _editLore:              this.#onEditLore,
       _showStatus:            this.#onShowStatus,
+      _calc:                  this.#onCalc,
       _changeSkillStatus:     this.#onChangeSkillStatus,
       _resetAttr:             this.#onResetAttributes,
       _hitsPoints:            this.#onClickHitsPoints,
@@ -304,6 +305,27 @@ export default class extendCharacterSheet extends extendActorSheet {
                      <p>${game.i18n.localize('explain.'+key)}</p>`
                             
     helperDialog.dialogDescription(null, content, game.i18n.localize('common.'+key), this.document.system.rules, 300)
+  }
+
+  /**
+   * onCalc
+   * @param {*} _event 
+   * @param {*} target 
+   */
+  static async #onCalc(_event, target) {
+    const sTarget = $(target).data('target')
+
+    const _chars = this.document.system.caracteristicas;
+    const charEval = _chars.fue.value > _chars.res.value ? _chars.fue.value : _chars.res.value;
+    let altura = Math.round(charEval*2.49 + 139.36)/100;
+    let peso =  Math.round(charEval*3.72 + 88.49);
+    [[5,106], [6,110], [7,118], [8,120], [9,122], [10,125], [11,128], [12,132], [13,134], [14,140], [15,146]].map(e => {
+        if (charEval === e[0]) peso = e[1]
+    })  
+    const path = "system.info."+sTarget;
+    const value = sTarget === 'peso' ? peso : altura;
+    await this.document.update({[path]: value})
+    
   }
 
   /**
