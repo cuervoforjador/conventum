@@ -28,7 +28,9 @@ export default class newRoll extends Roll {
   get armadura() { return this.data.item?.type === 'armadura' ? this.data.item : null }
   get img() { return this.data.img ? this.data.img : '' }
   
-
+  action = null
+  weapon = null
+  stepInfo = null
   critical = {
     maxCriticalSuccess: 1,
     minCriticalFailure: 100
@@ -74,8 +76,31 @@ export default class newRoll extends Roll {
 
   /** @override */
   constructor(formula="", data={}, options={}) {
-    super(formula, data, options)
+    const _data = newRoll._checkData(data)
+    super(formula, _data, options)
     if (data.history && data.history.length > 0) this.history = data.history
+  }
+
+  /**
+   * _checkData
+   * @param {*} data 
+   */
+  static _checkData(data) {
+    
+    //Envuelto en combates... 
+    if (data.step && data.playing) {
+
+      if (data.rollType === 'simple') {
+        data.percent = data.step.main.skill.value
+        data.subtitle = `${data.step.main.skill.label}: ${data.step.main.skill.value}%`
+        data.title = `${data.step.main.action.name}`
+      } 
+
+      if (data.rollType === 'damage') {
+        //data.formula = data.step.main.damage.formula
+      }
+    }
+    return data
   }
 
   /**
@@ -84,6 +109,9 @@ export default class newRoll extends Roll {
   async rollStat() {
     let rendered = false
     const byPass = (this.useDiffLevel || this.useLuck)
+    this._evalAction()
+    this._evalWeapon()
+    this._evalDistance()
     this._addMods()
     if (byPass) rendered = await this.askDiffLevel() 
     if (byPass && !rendered) return
@@ -93,8 +121,9 @@ export default class newRoll extends Roll {
     await this.evaluate()
     if (game.dice3d) await game.dice3d.showForRoll(this)
     this._evalResult()
-    this._spendLuck()
-    this.postMessage()
+    await this._spendLuck()
+    await this.postMessage()
+    await this.updateCombat()
   }
 
   /**
@@ -142,13 +171,47 @@ export default class newRoll extends Roll {
     if (this.useLocation) rendered = await this.askLocation() 
     if (this.useLocation && !rendered) return
 
+    this._evalAction()
     this._preEvalDamage()
     this._preEvalTargetArmor()
 
     await this.evaluate()
     if (game.dice3d) await game.dice3d.showForRoll(this)
     this._evalDamage()
-    this.postMessage()
+    if (this.damageTransfer  <= 0) await this.updateCombat()
+    await this.postMessage()
+  }
+
+  /**
+   * rollTecnica
+   */
+  async rollTecnica() {
+    await this.postMessage()
+  }
+
+  _evalAction() {
+    this.action = null
+    if (this.data.step) { 
+          this.action = this.data.step.main.action
+          this.stepInfo = helperCombat.getStepInfo()
+    }
+  }
+
+  _evalWeapon() {
+    this.weapon = null
+    if (this.data.step) this.weapon = this.data.step.main.weapon
+  }
+
+  _evalDistance() {
+    if (this.data.step) {
+      const infoDistancia = helperCombat.getInfoDistancia(this.weapon, this.data.step.measure)
+      if (infoDistancia.aDistancia) this._addMod(infoDistancia.mod)
+    }
+  }  
+
+  _addMod(sMod) {
+    if (!this.data.mods) this.data.mods = []
+    this.data.mods.push(sMod)
   }
 
   _addMods() {
@@ -159,6 +222,7 @@ export default class newRoll extends Roll {
         if (mod && !this.mods.find(e => e.id === mod.id)) {
             mod.label = game.i18n.localize(mod.label)
             this.mods.push(mod)
+            this.data.mod = helperTools.addMod(this.mod, mod.mod) 
         }
       }
     })
@@ -226,7 +290,7 @@ export default class newRoll extends Roll {
                        else this.history.push({label: game.i18n.localize('explain.noAplicaSecuela'), field: ''})
 
     this.history.push({label: game.i18n.localize('common.localizacionMult'), field: 'x '+this.localizacion.properties.mult})
-    this.damageTotal = this.localizacion.properties.mult * this.damageTransfer
+    this.damageTotal = Math.trunc(this.localizacion.properties.mult * this.damageTransfer)
     this.history.push({label: game.i18n.localize('common.danoTotal'), field: this.damageTotal +' pt'})
   } 
 
@@ -234,7 +298,9 @@ export default class newRoll extends Roll {
    * _recalcPercent
    */
   _recalcPercent() {
-    let base = this.stats.total ? this.stats.total + 0 : this.data.percent + 0
+    let base =  this.data.playing ? this.data.percent :
+                this.stats.total ? this.stats.total : this.data.percent
+    
     if (this.modif !== '+0' && this.modif !== '') base = eval(base.toString() + this.modif)
     this.data.percent = base
   }
@@ -273,6 +339,17 @@ export default class newRoll extends Roll {
         this.evaluatedResult.criticalSuccess = false;      
       }
 
+      //Critical vs Critical
+      if (this.data.step && this.data.step.type === 'defense' &&
+          this.action && this.action.system.criVScri && 
+          this.stepInfo.stepTarget && this.stepInfo.stepTarget.rolls.skill?.criticalSuccess) {
+
+          if (this.evaluatedResult.succes && !this.evaluatedResult.criticalSuccess) {
+            this.evaluatedResult.failure = true  
+            this.evaluatedResult.succes = false
+          }
+      }
+
       this.evaluatedResult.text = this.evaluatedResult.criticalSuccess ? game.i18n.localize('common.criticalSuccess') :
                                   this.evaluatedResult.criticalFailure ? game.i18n.localize('common.criticalFailure') :
                                   this.evaluatedResult.succes ? game.i18n.localize('common.exito') : game.i18n.localize('common.fallo')
@@ -301,14 +378,34 @@ export default class newRoll extends Roll {
    */
   async askDiffLevel() {
 
-    let barInfo = this.stats.value ?
-                   `<div class="_info">
-                          <label class="_title">${this.title}:</label>
-                          <label class="_value">${this.stats.value}%</label>
-                    </div>` :
-                    `<div class="_info">
-                          <label class="_title">${this.title}:</label>
-                          <label class="_value">${this.percent}%</label>                    
+    let barCriVScri = ''
+
+    if (this.data.playing && this.data.step) {
+
+      //Critical vs Critical
+      if (this.data.step && this.data.step.type === 'defense' &&
+          this.action && this.action.system.criVScri && 
+          this.stepInfo.stepTarget && this.stepInfo.stepTarget.rolls.skill?.criticalSuccess) {
+
+          barCriVScri = `<div class="_info _alert">
+                              <label class="_title">${game.i18n.localize('explain.criVScri')}</label>
+                        </div>`
+
+      }
+    }
+
+    const _actionName =  this.data.step ?
+                            this.data.step.target && this.data.step.target.action?.system.afectaDefensa ?
+                              this.data.step.main.action?.name + ' - ' + this.data.step.target.action?.name :
+                              this.data.step.main.action?.name : ''
+
+    const _title = this.data.playing ? `${this.data.step.main.skill.label} (${_actionName})` : this.title
+    const _value = this.data.playing ? this.percent : 
+                    this.stats.value ? this.stats.value : this.percent
+
+    let barInfo =   `<div class="_info">
+                          <label class="_title">${_title}:</label>
+                          <label class="_value">${_value}%</label>                    
                     </div>`
     
     let barModif = `<div class="_info _modif">
@@ -317,7 +414,7 @@ export default class newRoll extends Roll {
                           <button type="button" id="_showMods" class="icon fas fa-gear" data-tooltip="${game.i18n.localize('common.verModificadores')}" />
                     </div>`
 
-    let barPenals = this.stats.value && Number(this.stats.penal) !== 0 ?
+    let barPenals = this.percent && this.stats.penal && Number(this.stats.penal) !== 0 ?
                    `<div class="_info _penals">
                           <label class="_title">${game.i18n.localize("common.penalizacion")}:</label>
                           <label class="_value glowBlink">${this.stats.penal}%</label>
@@ -339,7 +436,7 @@ export default class newRoll extends Roll {
                       </div>
                   </li>`
     })    
-    const content = `${barInfo} ${barPenals} ${barModif} ${barLuck}
+    const content = `${barInfo} ${barPenals} ${barModif} ${barCriVScri} ${barLuck}
                     <button type="button" class="_toggleOptions">${game.i18n.localize('common.elegirDificultad')}</button>
                     <ul class="_main _diffOptions" style="display: none">
                       ${options}
@@ -482,6 +579,7 @@ export default class newRoll extends Roll {
       })
     }
     const dialogResponse = await helperDialog.dialogSelectOptions(this.rules, game.i18n.localize('common.localizacion'), mOptions)
+    if (!dialogResponse) return
     if (dialogResponse.inputResponse) this.localizacion.key = await this.rollLocation(dialogResponse.inputValue);
                                  else this.localizacion.key = dialogResponse
 
@@ -511,6 +609,124 @@ export default class newRoll extends Roll {
   async _spendLuck() {
     if (!this.actor || !this.luck.use) return
     await this.actor.update({"system.atributos.sue.value": this.luck.end})
+  }
+
+  /**
+   * updateCombat
+   */
+  async updateCombat() {
+    if (this.data.playing && this.data.step) {
+
+      let asalto = helperCombat._getAsalto()
+      if (!asalto) return
+      let step = asalto.steps.find(e => e.active)
+      let antiStep = step.type === 'attack' ? asalto.steps.find(e => e.stepTargetId === step.id) :
+                     step.type === 'defense' ? asalto.steps.find(e => e.id === step.stepTargetId) :
+                     step.type === 'movement' ? null : null
+
+      //Tiradas de Competencias
+      if (this.rollType === 'simple' && !step.rolls.skill.rolled) {
+        this._updateCombatSkillRoll(step, antiStep) 
+        await helperCombat.updateCombat(asalto)      
+      }
+
+      //Tiradas de Daño
+      if (this.rollType === 'damage' && !step.rolls.damage.rolled) {
+        this._updateCombatDamageRoll(step, antiStep)       
+        await helperCombat.updateCombat(asalto)
+      }      
+    }
+  }
+
+  /**
+   * _updateCombatSkillRoll
+   */
+  _updateCombatSkillRoll(step, antiStep) {
+
+        step.rolls.skill = {...step.rolls.skill, ...this.evaluatedResult}
+        step.rolls.skill.rolled = true
+        step.rolls.skill.label = this.data.step.main.skill.label
+
+        if (this.data.step.type === 'attack') this._evalStepAttack(step, antiStep)        //Atacando
+        if (this.data.step.type === 'defense') this._evalStepDefense(step, antiStep)      //Defendiendo
+        if (this.data.step.type === 'movement') this._evalStepMovement(step, antiStep)    //Moviendo
+  }
+
+  /**
+   * _updateCombatDamageRoll
+   */
+  _updateCombatDamageRoll(step, antiStep) {
+        step.rolls.damage = {...step.rolls.skill, 
+            rolled: true,
+            formula: this.formula
+        }
+        step.active = false
+        if (antiStep) antiStep.active = false
+  }
+
+  /**
+   * _evalStepAttack
+   * @param {*} step 
+   * @param {*} antiStep 
+   */
+  _evalStepAttack(step, antiStep) {
+
+    if (this.evaluatedResult.failure) {            
+      if (antiStep) {
+        step.active = false
+        antiStep.active = false
+
+      } else {
+        step.active = false
+      }
+    }
+
+    if (this.evaluatedResult.succes) {   
+      if (antiStep) {
+        step.active = false
+        antiStep.active = true
+
+      } else {
+        step.active = true
+      }
+    }
+  }
+
+  /**
+   * _evalStepDefense
+   * @param {*} step 
+   * @param {*} antiStep 
+   */
+  _evalStepDefense(step, antiStep) {
+
+    if (this.evaluatedResult.failure) {
+      if (antiStep) {
+        step.active = false
+        antiStep.active = true
+
+      } else {
+        step.active = false
+      }
+    }
+
+    if (this.evaluatedResult.succes) {   
+      if (antiStep) {
+        step.active = false
+        antiStep.active = false
+
+      } else {
+        step.active = false
+      }
+    }
+  }
+
+  /**
+   * _evalStepMovement
+   * @param {*} step 
+   * @param {*} antiStep 
+   */
+  _evalStepMovement(step, antiStep) {
+
   }
 
   /**
@@ -547,7 +763,7 @@ export default class newRoll extends Roll {
 
       const sSubtitle = this.targeted ? `<div class="_targeted"><div class="_actor">${this.actor.name}</div>
                                                                 <div class="_target">${this.targetActor.name}</div></div>` : 
-                                        this.subtitle + ( this.modif !== '+0' && this.modif !== '' ? ' '+this.modif : '' )
+                                        this.subtitle + ( this.modif !== '+0' && this.modif !== '' ? ' '+this.modif+'%' : '' )
 
       const sAuxiliar = this.rollType === 'simple' ? '' :
                         this.rollType === 'damage' ? `<div class="_auxiliar">${game.i18n.localize('tooltip.rollDamage')}</div>` :
@@ -570,6 +786,7 @@ export default class newRoll extends Roll {
   }
 
   _messageParts_DiceToolTip() {
+    if (this.rollType === 'tecnica') return ''
     return `<div class="dice-tooltip">
               <div class="wrapper">
                 <section class="tooltip-part">
@@ -598,13 +815,16 @@ export default class newRoll extends Roll {
 
       return ( this.stats.value ? 
                this._messageParts_StatsRow('common.base', this.stats.value+'%') +
-               ( this.stats.penal !== 0 ? this._messageParts_StatsRow('common.penalizacion', this.stats.penal+'%') : '' ) : 
-               this._messageParts_StatsRow('common.base', this.evaluatedResult.percentBase+'%') ) +
+               ( this.data.playing && this.data.step.main.skill.value !== this.stats.value ? 
+                    this._messageParts_StatsRow(this.data.step.main.skill.label, this.data.step.main.skill.value+'%') : '' ) +
+               ( this.stats.penal !== 0 ? 
+                    this._messageParts_StatsRow('common.penalizacion', this.stats.penal+'%') : '' ) : 
+                    this._messageParts_StatsRow('common.base', this.evaluatedResult.percentBase+'%' ) ) +
 
             sMods +
 
             ( this.modif !== '+0' && this.modif !== '' ? 
-              this._messageParts_StatsRow('common.modificador', this.modif) +
+              this._messageParts_StatsRow('common.modificadorTotal', this.modif+'%') +
               this._messageParts_StatsRow('common.modificadorTras', this.percent+'%') : '' ) +
             
             this._messageParts_StatsRow('common.dificultad', this.diffLevel.title+' ('+this.diffLevel.penal+'%)') +
@@ -628,7 +848,7 @@ export default class newRoll extends Roll {
   }
 
   _messageParts_DiceTotal() {
-
+    if (this.rollType === 'tecnica') return ''
     let boxLeftContent = this.rollType === 'simple' ? `${this.total} <span class="_percent"> / ${this.evaluatedResult.percentFinal}</span>` : 
                          this.rollType === 'damage' ? `<div class="_subTitle">${game.i18n.localize('common.dano')}</div>
                                                        <div class="_value">${this.damageTotal}</div>` : 
@@ -686,6 +906,7 @@ export default class newRoll extends Roll {
   }
 
   _messageParts_Buttons() {
+    if (this.rollType === 'tecnica') return ''
     let sButtons = this.rollType === 'damage' ? 
                       this.damageTotal > 0 ? 
                           `<button type="button" 
@@ -694,7 +915,8 @@ export default class newRoll extends Roll {
                                    data-damage="${this.damageTotal}"
                                    data-secuela="${this.secuela.apply}"                                   
                                    data-actorid="${this.targetActor.id}"
-                                   data-tokenid="${this.targetActor.token?.id}">
+                                   data-tokenid="${this.targetActor.token?.id}"
+                                   data-playing="${this.data.playing}">
                                 ${game.i18n.localize('common.aplicarDano')} (${this.damageTotal} pt)
                            </button>` : '' :
                    this.rollType === 'simple' ? '' :
@@ -706,7 +928,8 @@ export default class newRoll extends Roll {
     let sText = this.rollType === 'damage' ? 
                     this.secuela.apply ? `<div class="_extra _secuela">${game.i18n.localize('explain.aplicaSecuela')}</div>` : '' :
                 this.rollType === 'simple' ? '' :
-                this.rollType === 'location' ? '' : ''
+                this.rollType === 'location' ? '' : 
+                this.rollType === 'tecnica' ? `<div class="_extra _secuela">${this.data.item?.system.descripcion}</div>` : ''
     return sText
   }
 

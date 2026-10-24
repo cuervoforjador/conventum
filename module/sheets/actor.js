@@ -19,6 +19,8 @@ export default class extendActorSheet
   //Attributes...
   _sheetMode = this.constructor.SHEET_MODES.PLAY
   _firstTimeStep = '01' 
+  _focus = null
+  _searching = ''
 
   /**
    * constructor
@@ -47,6 +49,7 @@ export default class extendActorSheet
       _play:          this.#onPlaySheet,
       _rules:         this.#onChangeRules,
       _textsize:      this.#onChangeTextSize,
+      _showWizard:    this.#onShowWizard,
       _readKey:       this.#onReadKey,
       _showItem:      this.#onShowItem,
       _showDescr:     this.#onShowDescr,
@@ -81,6 +84,10 @@ export default class extendActorSheet
     helperSheets.changeTextSize(this.document)
   }
 
+  static #onShowWizard(_event, target) {
+    helperSheets.showWizard(this.document)
+  }
+
   static async #onReadKey(_event, target) {
     const sTarget = $(event.currentTarget).parent().find('input[name="name"]')
     let sKey = sTarget.val().replaceAll(' ', '_').toLowerCase()
@@ -102,7 +109,7 @@ export default class extendActorSheet
     const sId = $(target).data('id')
     const item = this.document.items.get(sId) 
     if (!item) return
-    helperDialog.dialogDescription(item)
+    helperDialog.dialogDescription({document: item})
   }
 
   static async #onBooleanField(_event, target) {
@@ -145,7 +152,8 @@ export default class extendActorSheet
         formula: $(target).data('formula'),
         mod: $(target).data('mod') ? $(target).data('mod') : null,
         mods: $(target).data('mods') ? $(target).data('mods').split(',') : null,
-        useLuck: $(target).data('useluck') ? $(target).data('useluck') : true
+        useLuck: $(target).data('useluck') ? $(target).data('useluck') : true,
+        playing: $(target).hasClass('_playing')
       })
   }
 
@@ -172,6 +180,9 @@ export default class extendActorSheet
    */
   async _prepareContext() {
 
+    const richDescription = await extendActorSheet.textImplentation('info.descripcion.value', this.document);
+    const richTrasfondo = await extendActorSheet.textImplentation('info.trasfondo.value', this.document);
+
     return {
       fields:             this.document.schema.fields,
       systemFields:       this.document.system.schema.fields,
@@ -185,16 +196,20 @@ export default class extendActorSheet
       rules:              helperContext.getRules(),
       myRules:            this.document.system.rules,
       configRULES:        configRULES[this.document.system.rules],
-      mainRenderOptions:  helperSheets.getMainRenderOptions(this)      
+      mainRenderOptions:  helperSheets.getMainRenderOptions(this),
+      
+      _searching:           this._searching,
+      _richDescripcion:     richDescription,
+      _richTrasfondo:       richTrasfondo      
     }    
   }
 
   /**
    * textImplentation
    */
-  static async textImplentation(field, document) {
+  static async textImplentation(fieldPath, document) {
       return await foundry.applications.ux.TextEditor.implementation.enrichHTML(
-                          document.system[field], { relativeTo: document }) 
+                          this.access(document.system, fieldPath), { relativeTo: document })                           
   }
 
   /**
@@ -207,6 +222,7 @@ export default class extendActorSheet
 
   /**
    * minimize
+   * @override
    */
   async minimize() {
     helperSheets.showTitle($(this.document.sheet.element))
@@ -215,6 +231,7 @@ export default class extendActorSheet
 
   /**
    * maximize
+   * @override
    */
   async maximize() {
     helperSheets.hideTitle($(this.document.sheet.element))
@@ -235,10 +252,12 @@ export default class extendActorSheet
     helperSheets.hideTitle($(this.element))
     helperSheets.addRulesButton($(this.element))
     helperSheets.addTextSizeButton($(this.element))
+    helperSheets.addWizardButton($(this.element))
     helperSheets.addEditButton($(this.element), this.isPlayMode)
     helperSheets.drawSpectrum($(this.element))
     this.activateListeners($(this.element))
     this.activateTab(context, $(this.element))
+    this.activateFocus()
   }
 
   /**
@@ -270,6 +289,20 @@ export default class extendActorSheet
   }
 
   /**
+   * 
+   * @param {*} event 
+   * @override
+   */
+  _onFocusIn(event) {
+    if (!$(event.currentTarget).is('button')) event.stopPropagation()    
+    this._focus = $(event.currentTarget)
+  }
+  activateFocus() {
+    if (!this._focus) return
+    $(this.form).find('[name="'+this._focus.prop('name')+'"]').focus()
+  }
+
+  /**
    * activateListeners
    * @param {*} html 
    */
@@ -288,8 +321,16 @@ export default class extendActorSheet
     this._extendHandlers["resizeUp"] = ["pointerup", e => this._onResizeMouseUp(e), false];   
     this._resizableButton.addEventListener(...this._extendHandlers.resizeDown);    
 
+    html.find("input[name]").on("focusin", this._onFocusIn.bind(this))
+    html.find("button").on("click", this._onFocusIn.bind(this))
+    
+    //html.find("input._focus").on("focusin", this._onFocusIn.bind(this))
+
+
     if ( !this.isEditable || !this.isEditMode) return;
     
+    html.find('._switch button').on("click", sheetHandler._onChangeSwitch.bind(this))
+
     /** --- SORTABLES --- */
     if (html.find('table._sortable').length > 0) {
       html.find('table._sortable tbody').sortable({
@@ -317,6 +358,7 @@ export default class extendActorSheet
     [
      context.tabs, 
      context.tabsStats,
+     context.tabsCombate,
      context.tabsHechizos,
      context.tabsEnsalmos,
      context.tabsEquipo
@@ -390,5 +432,10 @@ export default class extendActorSheet
     path.split('.').map(s => { oReturn = oReturn[s] })
     return oReturn
   }
+  static access(object, path) {
+    let oReturn = object
+    path.split('.').map(s => { oReturn = oReturn[s] })
+    return oReturn
+  }    
 
 }

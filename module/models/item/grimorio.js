@@ -10,6 +10,7 @@ export default class modelGrimorio extends extendItem_Base {
     static defineSchema() {
         const schema = super.defineSchema();
 
+        schema.showPrecio = new api.BooleanField({ initial: true })
         schema.autor = new api.StringField({ initial: '' })
         schema.idioma = new api.StringField({ initial: '' })
         schema.ensenar = new api.NumberField({ nullable: true, initial: null })

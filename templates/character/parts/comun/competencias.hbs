@@ -1,0 +1,140 @@
+<div class="_skills"
+    style="width: {{skillRenderOptions.width}}; 
+           grid-auto-columns: {{skillRenderOptions.columnSize}};
+           grid-template-areas: {{skillRenderOptions.templateAreas}};">
+
+    <div class="_skill">
+        <h4 class="_title divider">{{localize 'common.competencias'}}</h4>
+    </div>
+
+    {{#each skills as |skill index|}}
+    <div class="_skill {{skill.classes}}" data-key="{{skill.key}}"
+         style="grid-column: {{skillsRenderColumn ../skillRenderOptions index}}">
+
+        {{#unless skill.blank}}
+
+            {{#if skill.item.system.folder}}
+
+                <div class="_skillIcon _empty"></div>
+                <a class="_name"
+                data-action="{{#if ../isEditable}}_showItem{{else}}_showDescr{{/if}}" 
+                data-id="{{skill.item.id}}">
+                    <label class="_name _onlyFolder">{{skill.item.name}}</label>
+                </a>
+
+            {{else}}
+
+                {{#if ../isEditable}}
+                <a class="_skillIcon"
+                    data-action="_changeSkillStatus" 
+                    data-id="{{skill.item.id}}">            
+                {{/if}}
+                {{#if skill.aprendida}}<img data-tooltip="{{localize 'common.aprendida'}}" class="_skillIcon" src="{{assets}}/ui/{{../myRules}}_comp_aprendida.png" />{{else}}
+                  {{#if skill.primaria}}<img data-tooltip="{{localize 'common.primaria'}}" class="_skillIcon" src="{{assets}}/ui/{{../myRules}}_comp_primaria.png" />{{else}}
+                    {{#if skill.secundaria}}<img data-tooltip="{{localize 'common.secundaria'}}" class="_skillIcon" src="{{assets}}/ui/{{../myRules}}_comp_secundaria.png" />{{else}}
+                      {{#if skill.paterna}}<img data-tooltip="{{localize 'common.paterna'}}" class="_skillIcon" src="{{assets}}/ui/{{../myRules}}_comp_paterna.png" />{{else}}
+                        {{#if skill.normal}}<img data-tooltip="{{localize 'common.normal'}}" class="_skillIcon" src="{{assets}}/ui/{{../myRules}}_comp_normal.png" style="opacity: 0.5"/>{{/if}}
+                      {{/if}}   
+                    {{/if}}
+                  {{/if}}
+                {{/if}}
+
+                {{#if ../isEditable}}
+                </a>
+                {{/if}}
+
+                <a class="_name"
+                    data-action="{{#if ../isEditable}}_showItem{{else}}_showDescr{{/if}}" 
+                    data-id="{{skill.item.id}}">
+                    <label class="_name">{{skill.item.name}} <span class="_sFont">({{skill.char}})</span></label>
+                </a>
+                {{#unless (eq skill.stats.penal 0)}}
+                {{#unless ../isEditable}}
+                    <button type="button"
+                            class="icon showPenals fas fa-badge" 
+                            data-action="_showPenals" 
+                            data-key="{{skill.key}}"
+                            data-tooltip="{{localize 'common.verPenalizaciones'}}">
+                    </button>
+                {{/unless}}
+                {{/unless}}
+                {{#if ../isEditable}}
+                
+                    <input type="number" 
+                            {{{_disabled}}} 
+                            {{#if skill.normal}} data-tooltip="{{{localize 'tooltip.changeSkillNormal'}}}" {{/if}}
+                            tabindex="{{skill.tabIndex}}"
+                            value="{{skill.stats.value}}" 
+                            name="system.competencias.{{skill.index}}.stats.value"
+                            min="{{skill.stats.value.min}}" 
+                            max="{{skill.stats.value.max}}"
+                            class="_skillValue">
+                    <button type="button"
+                            class="icon fas fa-remove" 
+                            data-action="_deleteItem" 
+                            data-id="{{skill.item.id}}"
+                            data-tooltip="{{localize 'tooltip.borrarItem'}}">
+                    </button>                             
+                {{else}}
+                    <label class="_input _roll _skillValue"
+                            data-spectrum="true"
+                            data-action="_roll"
+                            data-target="skill"
+                            data-path="{{skill.key}}"
+                            data-tooltip="{{localize 'tooltip.rollSkill'}}">
+                            <span class="_value _center">{{skill.stats.total}}<span class="_sFont"> %</span></span>
+                            <span class="_dice"><i class="fa-sharp fa-light fa-dice-d10"></i></span>
+                    </label>
+                {{/if}}
+                <input type="checkbox" 
+                    class="_skillCheck"
+                    name="system.competencias.{{skill.index}}.checked"
+                    {{{_disabled}}}
+                    {{checked skill.checked}}>  
+
+                
+                {{!-- HIDDEN PROPERTIES --}}
+                {{#if ../isEditable}}
+                    <input type="hidden" name="system.competencias.{{skill.index}}.key" 
+                           value="{{skill.key}}" 
+                           data-dtype="String">
+                    <input type="hidden" name="system.competencias.{{skill.index}}.normal" 
+                           value="{{skill.normal}}" 
+                           data-dtype="Boolean">
+                    <input type="hidden" name="system.competencias.{{skill.index}}.profesion" 
+                           value="{{skill.profesion}}" 
+                           data-dtype="Boolean">
+                    <input type="hidden" name="system.competencias.{{skill.index}}.paterna" 
+                           value="{{skill.paterna}}" 
+                           data-dtype="Boolean">
+                    <input type="hidden" name="system.competencias.{{skill.index}}.primaria" 
+                           value="{{skill.primaria}}" 
+                           data-dtype="Boolean">
+                    <input type="hidden" name="system.competencias.{{skill.index}}.secundaria" 
+                           value="{{skill.secundaria}}" 
+                           data-dtype="Boolean">
+                    <input type="hidden" name="system.competencias.{{skill.index}}.aprendida" 
+                           value="{{skill.aprendida}}" 
+                           data-dtype="Boolean">                           
+                    <input type="hidden" name="system.competencias.{{skill.index}}.stats.min" 
+                           value="{{skill.stats.min}}" 
+                           data-dtype="Number">
+                    <input type="hidden" name="system.competencias.{{skill.index}}.stats.max" 
+                           value="{{skill.stats.max}}" 
+                           data-dtype="Number">
+                    <input type="hidden" name="system.competencias.{{skill.index}}.stats.total" 
+                           value="{{skill.stats.total}}" 
+                           data-dtype="Number">
+                    <input type="hidden" name="system.competencias.{{skill.index}}.stats.initial" 
+                           value="{{skill.stats.initial}}" 
+                           data-dtype="Number">                                                                              
+                {{/if}}
+
+
+
+            {{/if}}       
+            
+        {{/unless}}
+    </div>
+    {{/each}}
+</div>

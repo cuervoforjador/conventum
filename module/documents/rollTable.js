@@ -8,6 +8,7 @@ export default class newRollTable extends RollTable {
 
   get isLore() { return this.flags.isLore?.value === true }
   get isSecuela() { return this.flags.isSecuela?.value === true }
+  get fromWizard() { return this.flags.fromWizard?.value === true }
   get rules() { return this.flags.rules?.value }
   get lore() { return this.flags.lore?.value }
   get actor() { return helperTools.getActor(this.flags.actorId?.value, this.flags.tokenId?.value) }
@@ -35,7 +36,11 @@ export default class newRollTable extends RollTable {
 
     if (this.isLore) {
       const key = result.results[0].flags.key.value
-      await helperContext.assignLoreToActor(this.rules, this.lore, this.actor, key)
+      await helperContext.assignLoreToActor({rules: this.rules, lore: this.lore, actor: this.actor, key})
+      if (this.fromWizard && this.lore !== 'estrato') {
+        await this.actor.update({ "system.control.wizard.step": this.actor.system.control.wizard.step + 1,
+                                  "system.control.wizard.active": true })          
+      }
       helperSocket.requestDeleteRollTable({
         actorId: this.actor.id,
         tokenId: helperTools.getTokenId(this.actor),
@@ -82,7 +87,7 @@ export default class newRollTable extends RollTable {
    */
   async _evaluateSecondRoll() {
     if (this.isLore && this.lore === 'estrato')
-        await helperTables.tableLore(this.rules, 'posicion', this.actor)
+        await helperTables.tableLore({rules: this.rules, lore: 'posicion', actor: this.actor, bFromWizard: this.fromWizard})
   }
 
 }

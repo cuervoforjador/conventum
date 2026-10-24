@@ -1,4 +1,5 @@
 import { SYSTEM_ID, SYSTEM_NAME, SYSTEM_ASCII } from "../config/uiConstants.js"
+import aqCombatLayer from "../documents/aqCombatLayer.js"
 
 export default class helperInitialization {
 
@@ -29,7 +30,11 @@ export default class helperInitialization {
      * config
      */
     static config() {
-        CONFIG.Combat.initiative = { formula: "@combat.initiative", decimals: 0 }
+        CONFIG.Combat.initiative = { formula: "1D10", decimals: 0 }
+        CONFIG.Canvas.layers.aqCombat = {
+                                            group: "interface", 
+                                            layerClass: aqCombatLayer
+                                        }
     }
 
 }

@@ -10,6 +10,7 @@ export default class modelArmadura extends extendItem_Base {
     static defineSchema() {        
         const schema = super.defineSchema();
 
+        schema.showPrecio = new api.BooleanField({ initial: true })
         schema.tipo =  new api.StringField({ initial: '' })
         schema.proteccion = new api.NumberField({ nullable: true, initial: null })
         schema.resistencia = new api.NumberField({ nullable: true, initial: null })

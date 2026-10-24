@@ -66,6 +66,29 @@ dialog._extend._vyc footer button {
     font-family: var(--vcfFont1);
     color: var(--vcText);
 }
+
+dialog._extend ._properties {
+    border: 1px solid #000;
+    background: #ffffff40;
+    padding: 1rem;
+    font-size: calc(var(--fSize) * 1.15);
+}
+dialog._extend ._properties ._row {
+    display: flex;
+    align-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin: 0.35rem 0;
+}
+dialog._extend img._textIcon {
+    width: 1.15rem;
+    height: 1.15rem;
+}
+dialog._extend._description strong {
+    font-weight: 900;
+}
+
+
 dialog._extend._description .dialog-content {
     gap: 0.1rem;
 }
@@ -167,9 +190,9 @@ dialog._extend._vyc._description span._pseudoTitle {
 }
 
 
-
-
-
+dialog._dialogAction {
+    z-index: 10001 !important;
+}
 
 dialog._extend form ul._main {
     display: flex;
@@ -178,6 +201,10 @@ dialog._extend form ul._main {
     padding: 0;
     margin: 0;
 }
+dialog._extend._selectLore form ul._main {
+    padding-bottom: 4.5rem;
+}
+
 dialog._extend form ul._main li,
 dialog._extend form ul._main li ._wrap {
     display: flex;
@@ -252,6 +279,15 @@ dialog._extend button[type="submit"]._selected {
 }
 dialog._extend._vyc button[type="submit"]._selected {
     background: var(--vcGreen);
+}
+dialog._extend ._explain {
+    font-family: var(--fFont0);
+    font-size: calc(1rem * 1.2);
+    line-height: calc(1rem * 1.2);
+    width: 100%;
+}
+dialog._extend._vyc ._explain {
+    font-family: var(--vcfFont1);
 }
 
 dialog._extend ._buttons {
@@ -391,6 +427,13 @@ dialog._extend._diffLevels ._info {
     font-size: 1.15rem;
     border: 1px solid #00000070;
 }
+dialog._extend._diffLevels ._info._alert {
+    background: #e2be35;
+    text-align: end;
+}
+dialog._extend._diffLevels ._info._criVScri label {
+    width: 100%;
+}
 dialog._extend._diffLevels ._penals {
     border: 1px solid #9b1515ad;
     background: #c118184f;
@@ -444,4 +487,366 @@ dialog._modificadores ul._main li._grupo ._title::first-letter {
     color: #b51a1a;
     font-size: 2rem;
     margin-right: 0.1rem;
+}
+
+dialog._wizard._selectLore {
+    max-height: 70%;
+}
+dialog._selectLore section.window-content {
+    height: 100%;
+    max-height: 100%;
+    position: relative;
+}
+dialog._selectLore section.window-content form.dialog-form {
+    height: 100%;
+    max-height: 100%;
+    display: block;
+}
+dialog._wizard._selectLore section.window-content form.dialog-form {
+    padding: 40px;    
+}
+dialog._selectLore section.window-content form.dialog-form .dialog-content {
+    height: calc(var(--formDialogHeight) - 4rem);
+    max-height: calc(var(--formDialogHeight) - 4rem);
+    display: block;
+    overflow-y: auto;
+    position: relative;
+    padding-right: 0.5rem;
+}
+dialog._selectLore section.window-content form.dialog-form footer {
+    height: 4rem;
+}
+
+dialog._wizard ._frame {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+dialog._wizard ._frame._top {
+    width: 100%;
+    height: 40px;
+    background-size: auto 40px;
+}
+dialog._wizard ._frame._bottom {
+    width: 100%;
+    height: 40px;
+    top: calc(100% - 40px);
+    background-size: auto 40px;
+}
+dialog._wizard ._frame._left {
+    width: 40px;
+    height: calc(100% - 80px);
+    left: 0;
+    top: 40px;
+    background-size: 40px;
+}
+dialog._wizard ._frame._right {
+    width: 40px;
+    height: calc(100% - 80px);
+    left: calc(100% - 40px);
+    top: 40px;
+    background-size: 40px;
+}
+
+
+dialog._wizard {
+    z-index: 100000 !important;
+    animation: blinkBorder 1.5s ease-in-out infinite;
+    border: 6px solid #FD0;    
+}
+dialog._priority {
+    z-index: 100001 !important;
+}
+dialog._wizard ._row {
+    align-content: center;
+    align-items: center;
+}
+dialog._wizard .window-content input[type="text"] {
+    background: none;
+    color: #000;
+    border: 1px solid #00000047;
+    padding: 0 5px;
+}
+dialog._wizard .window-content input._big {
+    font-size: calc(var(--fSize) * 1.5);
+    line-height: calc(var(--fSize) * 1.5);
+    width: calc(var(--fSize) * 30);
+    height: calc(var(--fSize) * 2);
+}
+dialog._wizard .window-content input[type="radio"]::before {
+    margin: 0 !important;
+}
+dialog._wizard .window-content fieldset._choice {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: row;
+    padding: 10px 0;
+    border: none;
+}
+dialog._wizard .window-content button._action {
+    font-family: var(--fFont0);    
+    border-radius: 0;
+    font-size: var(--fSize);    
+}
+dialog._wizard._vyc .window-content button._action {
+    font-family: var(--vcfFont1);  
+}
+
+dialog._wizard ._content  {
+    font-size: calc(var(--fSize) * 1.15);
+    line-height: calc(var(--fSize) * 1.35);
+    padding: 40px;
+}
+dialog._wizard .dialog-content ._description {
+    border-bottom: 2px solid #00000038;
+    padding: calc(var(--fSize) * 1) calc(var(--fSize) * 0.5);
+    font-size: calc(var(--fSize) * 1.15);
+    line-height: calc(var(--fSize) * 1.35);
+    margin-bottom: calc(var(--fSize) * 1.35);
+    text-align: justify;
+}
+dialog._wizard .dialog-content ._description::first-letter {
+    color: #b83737;
+    font-size: calc(var(--fSize) * 3);
+    font-weight: 900;
+    margin-right: 2px;
+}
+dialog._wizard ._wizardChars ._row,
+dialog._wizard ._wizardChars2 ._row {
+    padding: 5px;
+}
+dialog._wizard ._wizardChars ._row label:first-child,
+dialog._wizard ._wizardChars2 ._row label:first-child {
+    width: calc(var(--fSize) * 17);
+    font-size: calc(var(--fSize) * 1.3);
+}
+dialog._wizard ._wizardChars ._combo label:first-child,
+dialog._wizard ._wizardChars2 ._combo label:first-child {
+    width: auto;
+    font-size: calc(var(--fSize) * 1.15) !important;
+}
+dialog._wizard ._wizardChars ._row input,
+dialog._wizard ._wizardChars2 ._row input {
+    width: calc(var(--fSize) * 3);
+    height: calc(var(--fSize) * 2.5);
+    font-size: calc(var(--fSize) * 1.6);
+    text-align: center;
+    margin: 0.15rem 0;
+    border-radius: 5px;
+    border: 3px solid #ff89004a;
+}
+dialog._wizard ._wizardChars2 ._row input._disabled {
+    color: #000;
+    background: none;
+}
+dialog._wizard ._wizardChars ._row:nth-child(odd),
+dialog._wizard ._wizardChars2 ._row:nth-child(odd) {
+    background: #711d1d1a;
+}
+dialog._wizard ._wizardChars input#_totalValue {
+    background: #a13232;
+    width: calc(var(--fSize) * 3.5);
+}
+dialog._wizard ._wizardChars label._totalMax {
+    font-size: calc(var(--fSize) * 2);
+    font-weight: 900;
+    width: calc(46% - var(--fSize) * 2.7);
+}
+dialog._wizard ._wizardChars label._extra,
+dialog._wizard ._wizardChars2 label._extra {
+    font-size: calc(var(--fSize) * 1.3);
+    font-weight: 900;
+    padding-left: 1rem;
+    width: calc(46% - var(--fSize) * 3);
+}
+dialog._vyc._wizard ._wizardChars label._extra, 
+dialog._vyc._wizard ._wizardChars2 label._extra {
+    font-size: calc(var(--fSize) * 1);
+    font-weight: 100;
+}
+dialog._wizard ._wizardChars2 input._rr {
+    background: #34478b;
+}
+dialog._wizard ._wizardChars2 input._irr {
+    background: #762020;
+}
+dialog._wizard ._skills {
+    grid-auto-columns: 33%;
+    grid-template-areas: 'a a a';
+    display: grid;
+    grid-auto-flow: dense;
+    align-content: start;
+    align-items: stretch;
+    justify-items: stretch;
+    padding-top: 10px;    
+    gap: 2px;
+}
+dialog._wizard ._skills ._skill {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.25rem;
+    position: relative;    
+    border: 1px solid #00000069;
+    padding-right: 5px;
+}
+dialog._wizard ._skills ._skill ._img {
+    width: calc(var(--fSize) * 2.25);
+    height: calc(var(--fSize) * 2.25);
+    cursor: pointer;
+}
+dialog._wizard ._skills ._skill ._title {
+    font-size: calc(var(--fSize) * 1.15);
+    line-height: calc(var(--fSize) * 1.15);
+    width: 100%;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: left;
+    cursor: pointer;
+}
+dialog._wizard ._skills ._skill ._title:hover {
+    font-weight: 900;
+}
+dialog._wizard ._skills ._skill ._skillValue {
+    width: calc(var(--fSize) * 2.5);
+    height: calc(var(--fSize) * 2);
+    font-size: calc(var(--fSize) * 1.25);
+    font-weight: 900;
+    text-align: center;
+    border-radius: 0;
+    color: #000;
+    border-bottom: 2px solid #000;
+}
+dialog._wizard ._skills ._skill label._extra {
+    width: 30%;
+    font-size: calc(var(--fSize) * 1);
+    padding: 0;
+}
+dialog._wizard ._skills ._skill._background {
+    background: #7e414124;
+}
+dialog._wizard ._skills ._skill._subSkill, 
+dialog._wizard ._skills ._skill._folder {
+    border-left: 15px solid #0000004d;
+    margin-top: -3px;
+    padding-top: 3px;
+}
+dialog._wizard ._skills ._skill._folder {
+    color: #000000;
+    font-weight: 900;
+    padding-left: 10px;
+    margin-top: 0px;
+}
+dialog._wizard ._skills ._skill:not(._subSkill) {
+    padding-left: 14px;
+}
+dialog._wizard ._legend {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+}
+dialog._wizard ._round {
+    border: 1px solid #000;
+    width: 1.5rem;
+    height: 1.5rem;
+}
+dialog._wizard ._primaria {
+    background: #eab43ca8!important;
+}
+dialog._wizard ._secundaria {
+    background: #6083697d !important;
+}
+dialog._wizard ._paterna {
+    background: #427ba369 !important;
+}
+
+dialog._wizard ._points {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    flex-direction: row;
+    background: #ffffffa6;
+    font-size: calc(var(--fSize) * 1.25);
+    padding: 0.25rem calc(var(--fSize) * 0.5);
+    gap: 0.5rem;
+    border: 1px solid #00000066;
+}
+dialog._wizard ._points ._total {
+    font-weight: 900;
+    font-size: calc(var(--fSize) * 1.75);
+    line-height: calc(var(--fSize) * 1.75);
+}
+dialog._wizard ._points ._total._bad {
+    color: #F00;
+    background: none;
+}
+dialog._wizard input._aprendida {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    padding-right: 0.35rem;
+}
+dialog._wizard input._aprendida::before, 
+dialog._wizard input._aprendida::after {
+    font-size: 1.8rem;
+}
+dialog._wizard input._aprendida::before {
+    color: #52412947;
+}
+dialog._wizard input._aprendida::after {
+    color: #000000;
+}
+dialog._wizard ._row._header label {
+    font-weight: 900;
+    font-size: calc(var(--fSize) * 1.35);
+    line-height: calc(var(--fSize) * 2);
+}
+dialog._wizard ._action {
+    cursor: pointer;
+}
+dialog._wizard ._action:hover {
+    color: #b74a4a;
+}
+dialog._wizard ._selector optgroup {
+    background: #ffd600;
+    color: #000;
+    border-top: 2px solid #000;
+    border-bottom: 2px solid #000;
+}
+dialog._wizard ._selector option {
+    background: #cec6b5;
+    color: #000;
+}
+dialog._wizard ._big {
+    font-size: calc(var(--fSize) * 1.75);
+}
+dialog._wizard ._big ._value {
+    font-size: calc(var(--fSize) * 2.15);
+    font-weight: 900;
+}
+dialog._wizard input._input {
+    width: calc(var(--fSize) * 5);
+    color: #000;
+    font-weight: 900;
+}
+dialog._wizard input._input._big {
+    width: calc(var(--fSize) * 5) !important;
+    border: 1px solid #0000004a;
+    height: calc(var(--fSize) * 1.75) !important;
+}
+dialog._wizard label._rowed {
+    width: calc(var(--fSize) * 5);
+}
+dialog._wizard prose-mirror[name="trasfondoText"] {
+    width: 100%;
+    min-height: 300px;
 }

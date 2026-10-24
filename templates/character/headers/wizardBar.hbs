@@ -1,0 +1,18 @@
+<div class="_wizardBar">
+    <div class="_wizardLine"></div>
+    {{#each wizard as |step index|}}    
+        {{#if step.display}}
+        <div class="_step {{#if step.active}}_active{{/if}} {{#if step.completed}}_completed{{/if}}"
+             {{#if step.completed}}data-action="_wizardStep" data-step="{{step.step}}"{{/if}}
+             {{#if step.active}}data-action="_wizardStep" data-step="{{step.step}}"{{/if}}
+             style="width: {{step.width}}%;">
+            <div class="_icon">
+                <i class="fa-solid {{step.icon}}"></i>
+            </div>
+            <div class="_title">
+                <label>{{step.title}}</label>
+            </div>
+        </div>
+        {{/if}}
+    {{/each}}
+</div>

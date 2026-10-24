@@ -10,6 +10,7 @@ export default class modelArma extends extendItem_Base {
     static defineSchema() {        
         const schema = super.defineSchema();
 
+        schema.showPrecio = new api.BooleanField({ initial: true })
         schema.competencia = new api.SchemaField({
             key: new api.StringField({ initial: '' })
         })

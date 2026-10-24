@@ -93,7 +93,8 @@ export default class helperContext {
         mSkills.map(o => {
             oReturn[o.system.key] = {
                 key: o.system.key,
-                label: o.name
+                label: o.name,
+                img: o.img
             }
         })
         return oReturn
@@ -131,6 +132,30 @@ export default class helperContext {
         const mDocs = await this.getFromCompendium(rules, 'estrato')
         return this._toObject(mDocs)   
     }
+
+    /**
+     * getEstratosExpanded
+     */
+    static async getEstratosExpanded(rules) {
+        const oReturn = {}
+        const mDocs = await this.getFromCompendium(rules, 'estrato')
+
+        const oSociedades = await this.getSociedades(rules)
+        const oPosiciones = await this.getPosiciones(rules)
+
+        mDocs.map(e => {
+            const mPosiciones = []
+            e.system.posiciones.map(o => mPosiciones.push({...o, ...oPosiciones[o.key]}))
+            oReturn[e.system.key] = {
+                key: e.system.key,
+                label: e.name,
+                name: e.name,
+                posiciones: mPosiciones,
+                sociedad: oSociedades[e.system.sociedad.key],
+            }
+        })
+        return oReturn   
+    }    
 
     /**
      * getPosiciones
@@ -177,6 +202,7 @@ export default class helperContext {
      */
     static async getLoreOptions(rules, lore, actor) {
         const mDocs = await this.getFromCompendium(rules, lore)
+        var reino, pueblo, sociedad, estrato, posicion
         let mReturn = []
         switch (lore) {
 
@@ -185,20 +211,20 @@ export default class helperContext {
                 break;
 
             case 'pueblo':
-                const reino = actor.items.find(e => e.type === 'reino')
+                reino = actor.items.find(e => e.type === 'reino')
                 mReturn = this._getLoreTable(reino, "system.pueblos", mDocs)
                 break;
 
             case 'estrato':
                 if (configRULES[rules].estratoRoll) {
-                    const pueblo = actor.items.find(e => e.type === 'pueblo')
+                    pueblo = actor.items.find(e => e.type === 'pueblo')
                     mReturn = this._getLoreTable(pueblo, "system.estratos", mDocs)
                 } 
                 break;
 
             case 'posicion':
                 if (configRULES[rules].posicionRoll) {
-                    const sociedad = actor.items.find(e => e.type === 'sociedad')
+                    sociedad = actor.items.find(e => e.type === 'sociedad')
                     const mEstratos = await this.getFromCompendium(rules, 'estrato')
                     const mEstratosFiltered = mEstratos.filter(e => e.system.sociedad.key === sociedad.system.key)
                     mEstratosFiltered.map(estrato => {
@@ -209,10 +235,22 @@ export default class helperContext {
                         })
                     })
                 } else {
-                    const estrato = actor.items.find(e => e.type === 'estrato')
+                    estrato = actor.items.find(e => e.type === 'estrato')
                     mReturn = this._getLoreTable(estrato, "system.posiciones", mDocs)
                 }
                 break;
+
+            case 'profesion':
+                estrato = actor.items.find(e => e.type === 'estrato')
+                mDocs.map(e => {
+                    const _estrato = e.system.estratos.find(o => o.key === estrato.system.key)
+                    if (!_estrato || !_estrato.checked) return false
+                    if (actor.system.info.masculino && !e.system.masculino) return false
+                    if (actor.system.info.femenino && !e.system.femenino) return false   
+                    mReturn.push({ low: _estrato.low, high: _estrato.high, item: e })
+                })
+                break;
+
         }
         mReturn.sort((a,b) => a.low - b.low)            
         return mReturn        
@@ -420,15 +458,22 @@ export default class helperContext {
      * @param {*} actor 
      * @param {*} key 
      */
-    static async assignLoreToActor(rules, lore, actor, key) {
-        const item = await this.getLoreItem(rules, lore, key)
+    static async assignLoreToActor({rules, lore, actor, key}) {
+        const lore2 = lore === 'profesionPaterna' ? 'profesion' : lore
+        const item = await this.getLoreItem(rules, lore2, key)
         if (!item) return
 
         for (var sLore of this._loreToClean(lore)) {
-            for (var oItem of actor.items.filter(e => e.type === sLore )) {
+            for (var oItem of actor.items.filter(e => e.type === sLore )) {                
                 await oItem.delete()
             }
         }
+        if (lore === 'profesionPaterna') {
+            for (var oItem of actor.items.filter(e => e.type === 'profesion' && e.system.paterna)) {                
+                await oItem.delete()
+            }            
+        }
+        
         await Item.create(item, {parent: actor})
         
         //Añadiendo Sociedad y Limpieza de Sangre en el caso de ser un Origen
@@ -438,6 +483,152 @@ export default class helperContext {
             await Item.create(newItem, {parent: actor})
             actor.update({"system.info.limpiezaSangre": item.system.sangre})
         }
+    }
+  
+    /**
+     * activeProfesion
+     * @param {*} item 
+     * @returns 
+     */
+    static async activeProfesion(item) {
+        if (!item || !item.parent || item.system.applied) return
+        const actor = item.parent
+        let bPaterna = actor.items.filter(e => e.type === "profesion").length > 1
+
+        const actorEstrato = actor.items.find(e => e.type === 'estrato')
+        if (!actorEstrato) return ui.notifications.error(game.i18n.localize('error.noEstrato'))
+        const itemEstrato = item.system.estratos.find(e => e.key === actorEstrato.system.key)
+        if (!itemEstrato || !itemEstrato.checked) return ui.notifications.error(game.i18n.localize('error.otroEstrato'))
+       
+        let mCompetencias = actor.system.competencias
+        let mItemsCompetencias = actor.items.filter(e => e.type === 'competencia')
+        let mCompendiumCompetencias = await helperContext.getFromCompendium(actor.system.rules, 'competencia')
+
+        //Reseteando...
+        if (!bPaterna) {
+            mCompetencias.map(e => {
+                e.primaria = false
+                e.secundaria = false
+                e.profesion = false
+                e.paterna = false
+                if (e.aprendida) e.normal = false
+                if (e.normal) e.aprendida = false
+                if (!e.aprendida && !e.normal) e.normal = true
+            })
+        }
+
+        //Competencias
+        for (var sTipo of ['primaria', 'secundaria']) {
+
+            if (sTipo === 'secundaria' && bPaterna) continue
+
+            let mCompEval = item.system.competencias.filter(e => e[sTipo])
+            const mCompEvalGrupos = [...new Set(
+                mCompEval.map(obj => obj.grupo).filter(grupo => grupo !== undefined && grupo !== null && grupo !== '') 
+            )]
+            if (mCompEvalGrupos.length > 0) {
+                for (const nGrupo of mCompEvalGrupos) {
+                    const mOptions = []
+
+                    mCompEval.filter(e => e.grupo === nGrupo).map(async (_competencia, i) => {
+                        let itemCompetencia = mItemsCompetencias.find(e2 => e2.system.key === _competencia.key)
+                        if (!itemCompetencia) {
+                            itemCompetencia = mCompendiumCompetencias.find(e2 => e2.system.key === _competencia.key)
+                        }
+                        if (!itemCompetencia) return
+
+                        mOptions.push({
+                            key: itemCompetencia.system.key,
+                            label: itemCompetencia.name,
+                            checked: i === 0
+                        })
+                    })
+                    const sKey = await helperDialog.dialogListOptions({rules:item.system.rules, 
+                                                                       title: '', 
+                                                                       options: mOptions, 
+                                                                       bMultiple: false, 
+                                                                       position: {height: 'auto'}, 
+                                                                       sExplain: game.i18n.localize('explain.elegirCompetencias'),
+                                                                       bFromWizard: true,
+                                                                       bPriority: true})
+                    mCompEval = mCompEval.filter(e => e.grupo !== nGrupo || e.key === sKey)
+                }
+            }
+            for (const comp of mCompEval) {
+                let target = mCompetencias.find(e2 => e2.key === comp.key)
+                if (!target) {
+                    mCompetencias.push({ key: comp.key })
+                    target = mCompetencias.find(e2 => e2.key === comp.key)
+                }
+                let itemTarget = mItemsCompetencias.find(e2 => e2.system.key === comp.key)
+                if (!itemTarget) {
+                    const newItem = mCompendiumCompetencias.find(e2 => e2.system.key === comp.key)
+                    await Item.create(newItem, {parent: actor})
+                }
+                if (bPaterna) {
+                    target.paterna = true
+                } else {
+                    target[sTipo] = true
+                    target.profesion = true
+                }
+                target.normal = false
+                target.aprendida = false                
+            }
+
+        }
+
+        //Características
+        if (!bPaterna) {
+            let oCaracteristicas = actor.system.caracteristicas
+            for (var s in item.system.caracteristicas) {
+                var nMin = Number(item.system.caracteristicas[s])
+                oCaracteristicas[s].min = nMin
+                if ( oCaracteristicas[s].value < nMin) oCaracteristicas[s].value = nMin
+                if ( oCaracteristicas[s].total < nMin) oCaracteristicas[s].total = nMin
+            }
+
+            //Ingresos
+            let nIngresos = this.calcIngresos(itemEstrato.ingresos, actor)       
+            let sFormula = itemEstrato.ingresos
+
+
+            await actor.update({"system.competencias": mCompetencias, 
+                                "system.caracteristicas": oCaracteristicas,
+                                "system.economia.ingresos": nIngresos,
+                                "system.economia.ingresosFormula": itemEstrato.ingresos})
+            await item.update({"system.paterna": false, "system.applied": true})
+        } else {
+            await actor.update({"system.competencias": mCompetencias})            
+            await item.update({"system.paterna": true, "system.applied": true})
+        } 
+        
+        await actor.render(true)
+    }
+
+    /**
+     * calcIngresos
+     * @param {*} sFormula0 
+     * @param {*} actor 
+     * @returns 
+     */
+    static calcIngresos(sFormula0, actor) {
+        let sFormula = sFormula0
+        let nIngresos = 0
+        const matchSkill = sFormula.match(/\{skill ([^}]+)\}/);
+        if (matchSkill) {
+            const skill = actor.system.competencias.find(e => e.key ===  matchSkill[1])
+            sFormula = sFormula.replaceAll("{skill "+matchSkill[1]+"}", skill.stats.value)
+        }     
+        const matchAttr = sFormula.match(/\{attr ([^}]+)\}/);
+        if (matchAttr) {
+            const attrTag = matchAttr[1] === 'suerte' ? 'sue' : matchAttr[1]
+            const attr = actor.system.atributos[attrTag]
+            const attrValue = attrTag === 'sue' ? attr.total : attr.value
+            sFormula = sFormula.replaceAll("{attr "+matchAttr[1]+"}", attrValue)
+        }          
+        try { nIngresos = Math.round(eval(sFormula)) } 
+        catch (error) { nIngresos = 0 } 
+        return nIngresos       
     }
 
     /**
@@ -449,7 +640,6 @@ export default class helperContext {
         if (!secuela) return
         await Item.create(secuela, {parent: actor})
     }
-    
 
     /**
      * activeSecuela
@@ -548,7 +738,12 @@ export default class helperContext {
      */
     static showHechizo(rules, item) {
         const sContent = this._contentHechizo(rules, item)
-        helperDialog.dialogDescription(null, sContent, item.name, rules, 700, item.img)
+        helperDialog.dialogDescription({document: null, 
+                                        content: sContent,
+                                        title: item.name,
+                                        rules,
+                                        width: 700,
+                                        img: item.img})          
     }
     static _contentHechizo(rules, item, bBook=false) {
         const _noApp = !item.system.aprendido
@@ -639,7 +834,12 @@ export default class helperContext {
      */
     static showEnsalmo(rules, item) {
         const sContent = this._contentEnsalmo(rules, item)
-        helperDialog.dialogDescription(null, sContent, item.name, rules, 700, item.img)
+        helperDialog.dialogDescription({document: null, 
+                                        content: sContent,
+                                        title: item.name,
+                                        rules,
+                                        width: 700,
+                                        img: item.img})            
     }
     static _contentEnsalmo(rules, item, bBook=false) {            
         const _config = aqConfig.ensalmos[rules]
@@ -694,6 +894,7 @@ export default class helperContext {
             case 'sociedad': mReturn.push('sociedad')
             case 'estrato': mReturn.push('estrato')
             case 'posicion': mReturn.push('posicion')
+            case 'profesion': mReturn.push('profesion')
         }
         return mReturn
     }

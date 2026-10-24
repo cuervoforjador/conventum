@@ -5,6 +5,16 @@
   overflow-y: auto;
 }
 
+form._extend ._loreButtons {
+    display: flex;
+    gap: 3px;
+    margin: 0 10px 0 0;
+}
+form._extend ._loreButtons button {
+    border-radius: 0;
+    background: none;
+}
+
 form._extend section.window-content {
     padding: 0;
     background-image: url(../assets/ui/paper.png);
@@ -144,6 +154,10 @@ form._extend._vyc file-picker:disabled {
     --input-text-color: var(--vcTextDisabled);
 }
 
+form._extend input._smallFont {
+    font-size: calc(var(--fSize) * 0.9)!important;
+}
+
 form._extend ._sheetContent input,
 form._extend ._sheetContent select,
 form._extend ._sheetContent textarea {
@@ -170,7 +184,7 @@ select._accent[disabled] {
 
 button._checked {
     background: var(--aqRed2)!important;
-    color: #000;
+    color: #FFF;
     border: 1px solid var(--aqRed1);
 }
 ._vyc button._checked {
@@ -214,6 +228,15 @@ form._extend input[name="name"]:disabled {
 }
 form._extend._vyc input[name="name"]:disabled {
     color: var(--vcText2);
+}
+
+form._extend img._option {
+    width: calc(var(--fSize) * 2.5);
+    opacity: 0.35;
+    cursor: pointer;
+}
+form._extend img._option._selected {
+    opacity: 1;
 }
 
 /** --- SECCIONES --- */
@@ -284,6 +307,9 @@ form._extend._vyc input[name="name"]:disabled {
 ._table option {
     background: #000000e0;
     color: #FFF;
+}
+._boxed {
+    border: 1px solid #00000099;
 }
 
 ._combo {
@@ -737,11 +763,15 @@ form._extend._actor ._sheetHeader .portrait {
 }
 form._extend._actor ._sheetHeader .portrait img.actor-portrait {
     box-shadow: #00000085 0px 0px 5px 2px;
-    border: 1px solid #00000073;
+    border-radius: 0;
+    border: 0;    
+    /* 
+    border: 1px solid #00000073; 
     border-top-right-radius: 4%;
     border-bottom-right-radius: 50%;
     border-bottom-left-radius: 4%;
     border-top-left-radius: 4%;
+    */
 }
 form._extend._aq3._actor ._sheetHeader .portrait img.actor-portrait {
     border-radius: 0;
@@ -844,7 +874,13 @@ form._extend ._simpleText._medSize .prosemirror,
 form._extend ._simpleText._medSize prose-mirror {
     min-height: calc(var(--fSize) * 18);
 }
-
+prose-mirror.editor.prosemirror[name="system.resumen"].inactive {
+    height: 100px;
+    min-height: 100px;
+}
+prose-mirror.editor.prosemirror[name="system.resumen"] p {
+    font-style: italic;
+}
 
 form._extend ._sheetContent ._properties {
     display: flex;
@@ -963,7 +999,35 @@ form._extend ._options {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    padding: 0 0.5rem;
+}
+
+form._extend section.tab.active[data-tab="trasfondo"],
+form._extend ._stats ._trasfondo {
+    width: 100%;
+}
+form._extend section.tab.active[data-tab="sociales"],
+form._extend ._stats ._modSociales {
+    width: 100%;
+}
+form._extend ._modSociales ._chars {
+    width: 100%;
+}
+form._extend ._modSociales label._charTitle {
+    min-width: calc(100% - var(--fSize) * 13);
+}
+form._extend ._modSociales label._input,
+form._extend ._modSociales input._charValue {
+    width: calc(var(--fSize) * 3.5);
+}
+form._extend ._modSociales label._inter {
+    width: calc(var(--fSize) * 1);
+    text-align: center;
+    padding-left: 5px;
+    font-weight: 100;
+    font-size: calc(var(--fSize) * 1.4);
+}
+form._extend ._modSociales label._input._charValue._total {
+    border: 2px solid #0000007d;
 }
 
 /** --- TIRADAS --- */
@@ -1421,7 +1485,8 @@ form._extend section.tab[data-tab="rasgos"] {
 }
 form._extend section.tab[data-tab="rasgos"] ._orgullos,
 form._extend section.tab[data-tab="rasgos"] ._verguenzas,
-form._extend section.tab[data-tab="rasgos"] ._secuelas {
+form._extend section.tab[data-tab="rasgos"] ._secuelas,
+form._extend section.tab[data-tab="acciones"] ._acciones {
     width: 100%;
     min-height: 30%;
 }
@@ -1470,6 +1535,15 @@ form._extend ._fog ._buttons {
     padding: 0 1rem;
     justify-content: flex-end;
 }
+form._extend ._basicButton {
+    font-family: var(--fFont1);
+    font-size: var(--fSize);
+    padding: 5px;
+    border-radius: 0;
+}   
+form._extend._vyc ._basicButton {
+    font-family: var(--vcfFont1);
+}   
 ._sbutton {
     background: #514d4d;
     border: 1px solid #ffffff91;
@@ -1725,6 +1799,19 @@ form._extend input._itemInput {
 }
 
 /** COMBATE **/
+form._extend section.tab.active._combate0 {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-content: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    position: relative;
+    align-items: flex-start;
+}
+form._extend section.tab.active._combate0 nav.tabs._subMenu {
+    margin-bottom: calc(var(--fSize) * -0.7);
+}
 form._extend section.tab.active._combate {
     display: flex;
     align-content: flex-start;
@@ -1804,6 +1891,9 @@ form._extend section.tab._combate ._location ._escudo ._input {
     align-items: center;
     font-size: 259%;
     text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff;
+}
+form._extend._actor section.tab[data-tab="acciones"] {
+    margin-top: calc(var(--fSize) * 1);
 }
 
 ._escudo.cabeza {
@@ -2152,7 +2242,8 @@ form._extend ._skills ._skill a._skillIcon {
     height: var(--fSize);
 }
 form._extend ._skills ._skill a._skillIcon:hover img {
-    filter: invert(1);
+    border: 1px solid #0000008f;
+    background: #ff9e009c;
 }
 form._extend input._skillValue,
 form._extend label._skillValue {
@@ -2200,6 +2291,16 @@ form._extend ._skills ._skill button[data-action="_deleteItem"] {
     margin: 0 calc(var(--fSize) * -0.3);
 }
 
+/** --- PLAYING --- */
+form._extend ._playing {
+    animation: blinkBorder 1.5s ease-in-out infinite, 
+               blinkBackground 1.5s ease-in-out infinite;
+    border-width: 4px !important;
+}
+form._extend ._skill ._skillValue._playing {
+    animation: none !important;
+    border: 0;
+}
 
 /** --- OTROS --- */
 form._extend .window-resize-handle {
@@ -2263,6 +2364,126 @@ form._extend section.tab.active[data-tab="massedit"] {
     border-top: 1px solid #000;
     box-shadow: 0 0 6px 1px #000000c7;
 }
+
+/** WIZARD **/
+/** Wizard Bar **/
+._extend ._wizardBar {
+    width: 100%;
+    height: calc(var(--fSize) * 6);
+    display: flex;
+    position: relative;
+    z-index: 2;
+}
+._extend ._wizardBar ._wizardLine {
+    position: absolute;
+    width: 93%;
+    height: 2px;
+    box-shadow: 0 0 5px 1px #a76d3b;
+    background: #e3cb937a;
+    left: 3.5%;
+    top: calc(50% - var(--fSize) * 0.55);
+}
+._extend ._wizardBar ._step {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    flex-direction: column;
+    position: relative;
+    top: calc(var(--fSize) * -0.5);
+}
+._extend ._wizardBar ._step ._icon {
+    display: flex;
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid #ffffff82;
+    box-shadow: 0 0 3px 3px #ff8d008c;
+    width: calc(var(--fSize) * 2);
+    height: calc(var(--fSize) * 2);
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    background: #ceab8785;
+    opacity: 0.35;
+    z-index: 1;
+}
+._extend ._wizardBar ._step::before {
+    content: " ";
+    display: flex;
+    background: #516957;
+    width: calc(var(--fSize) * 2);
+    height: calc(var(--fSize) * 2);
+    position: absolute;
+    z-index: 0;
+    border-radius: 50%;
+}
+._extend ._wizardBar ._step._active ._icon {
+    opacity: 1;
+    animation: blinkBorder 1.5s ease-in-out infinite;
+    cursor: pointer;
+}
+._extend ._wizardBar ._step._completed ._icon {
+    background: #00000085;
+    box-shadow: 0 0 3px 3px #1a1a198c;
+    opacity: 1;
+    cursor: pointer;
+}
+._extend ._wizardBar ._step._completed ._icon:hover,
+._extend ._wizardBar ._step._active ._icon:hover {
+    border: 2px solid #ffbc00;
+}
+._extend ._wizardBar ._step:hover ._title {
+    display: flex;
+}
+._extend ._wizardBar ._step ._title {
+    position: absolute;
+    top: calc(var(--fSize) * 3.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    font-size: calc(var(--fSize) * 1);
+    line-height: calc(var(--fSize) * 0.9);
+    text-shadow: 0 0 0px #000;
+    text-align: center;
+    color: #ffffff;
+}
+._extend ._wizardBar ._step._active ._title {
+    padding: 6px 4px;
+    display: flex;
+    background: #412404c7;
+    color: #ffffff;
+    border: 1px solid #ed9738;
+    border-radius: 3px;
+}
+._extend ._wizardBar ._step ._title label {
+    white-space: pre-wrap;
+}
+
+._main ._wizardFog {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 1;
+    background-image: url(../assets/ui/diagonal.png);
+    background-size: 50px 50px;
+    background: #000000b3;
+}
+._header ._wizardFog {
+    width: 100%;
+    height: calc(100% - var(--fSize) * 5);
+    top: calc(var(--fSize) * 5);
+    left: 0;
+    position: absolute;
+    z-index: 1;
+    border-top: 4px solid #000000;
+    background-image: url(../assets/ui/diagonal.png);
+    background-position: bottom left;
+    background-size: 50px 50px;
+    background: #000000b3;
+}
+
+
 
 /** TOURS **/
 .tour ._tourWrap {

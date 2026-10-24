@@ -34,6 +34,13 @@
                 <span class="_dice"><i class="fa-sharp fa-light fa-dice-d10"></i></span>
         </label>
         {{/if}}                 
+
+        <input type="hidden" name="system.caracteristicas.{{key}}.min" 
+                value="{{char.min}}" 
+                data-dtype="Number"> 
+        <input type="hidden" name="system.caracteristicas.{{key}}.max" 
+                value="{{char.max}}" 
+                data-dtype="Number">         
     </div>
     {{/if}}
     {{/each}}

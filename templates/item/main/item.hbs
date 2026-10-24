@@ -30,6 +30,20 @@
                     {{{checkButton 'system.montura' 'common.montura' 'fa-horse'}}}
                 </div>
             </div>
+            {{#if configRULES.verSociedad}}
+            {{#if system.ropa}}            
+            <div class="_row _gapped">
+                <div class="_combo _gapped">
+                    <label>{{localize 'common.apariencia'}} :</label>
+                    <input type="number"
+                        {{{_disabled}}} 
+                        class="_sSize"
+                        name="system.sociedad.apariencia" 
+                        value="{{system.sociedad.apariencia}}"> 
+                </div>
+            </div>           
+            {{/if}}
+            {{/if}}
         </div>
 
         {{!-- DESCRIPTION --}}

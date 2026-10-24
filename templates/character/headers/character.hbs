@@ -1,6 +1,12 @@
 <div class="_header _sheetHeader">
 
     {{>character_background}}
+    {{#if system.control.wizard.show}}
+        {{>header_wizardBar}}
+        {{#if wizardStep.fog}}<div class="_wizardFog"></div>{{/if}}
+    {{/if}}
+
+
     <div class="_mainHeader">
 
         <div class="portrait" >

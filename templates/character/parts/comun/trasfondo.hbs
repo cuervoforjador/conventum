@@ -1,0 +1,18 @@
+<h4 class="_title divider">{{localize 'common.trasfondo'}}</h4>
+<div class="_trasfondo">
+    {{#if isEditable}}
+        {{formInput 
+            systemFields.info.fields.trasfondo.fields.value
+            enriched=_richDescripcion
+            value=system.info.trasfondo.value 
+            name="system.info.trasfondo.value"
+            toggled=false}}   
+    {{else}}
+        {{editor system.info.trasfondo.value 
+            target="system.info.trasfondo.value" 
+            button=false 
+            editable=false
+            engine="prosemirror" 
+            collaborate=false}}
+    {{/if}}
+</div>

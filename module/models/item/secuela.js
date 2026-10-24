@@ -24,7 +24,6 @@ export default class modelSecuela extends extendItem_Base {
             rasgo: new api.StringField({ initial: '' }),
             text: new api.StringField({ initial: '' })
         }))
-        schema.applied = new api.BooleanField({ initial: false })
 
         return schema;
     }

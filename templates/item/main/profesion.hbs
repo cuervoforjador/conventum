@@ -1,0 +1,37 @@
+<div class="_main {{#if isEditable}}_editable{{/if}}">
+    <div class="_sheetContent">
+
+        {{!-- PROPERTIES --}}
+        <div class="_properties">
+            <div class="_row _gapped">
+                <input type="text" 
+                    class="_italic"
+                    style="width: 100%;"
+                    {{{_disabled}}}
+                    name="system.resumen" 
+                    value="{{system.resumen}}">
+                {{#if configRULES.verSociedad}}           
+                <div class="_combo _gapped">
+                    <label>{{localize 'common.apariencia'}} :</label>
+                    <input type="number"
+                        {{{_disabled}}} 
+                        class="_sSize"
+                        name="system.sociedad.apariencia" 
+                        value="{{system.sociedad.apariencia}}"> 
+                </div>         
+                {{/if}}
+            </div>     
+            <div class="_row _gapped _menu">
+                {{{navTab 'primary' (array 'caracteristicas' 'competencias' 'descripcion') '_expanded'}}}
+            </div>                                     
+        </div>
+
+        {{>tab_ProfesionesCaracteristicas}}
+        {{>tab_ProfesionesCompetencias}}
+        {{>tab_Descripcion}}
+
+    </div>
+    <div class="_sheetFooter">
+        {{>item_footer}}
+    </div>    
+</div>

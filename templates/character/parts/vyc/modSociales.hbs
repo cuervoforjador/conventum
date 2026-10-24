@@ -1,0 +1,288 @@
+<h4 class="_title divider">{{localize 'common.modSociales'}}</h4>
+<div class="_modSociales">
+
+    <div class="_box _table _chars" style="padding-top: 10px">
+
+    <!-- APARIENCIA -->
+        <div class="_row _char _100 _right">
+            <label class="_charTitle _bothPadded" style="text-align: right;">{{localize 'CHAR.asp'}} {{sociales.apariencia.label}}</label>
+        </div>    
+        <div class="_row _char _100">
+            <label class="_charTitle">{{localize 'common.apariencia'}}</label>
+
+            {{#if isEditable}}
+            <input type="number" 
+                    {{{_disabled}}}
+                    name="system.sociedad.apariencia.value" 
+                    value="{{system.sociedad.apariencia.value}}" 
+                    min="-150" 
+                    max="150"
+                    class="_charValue">  
+            {{else}}        
+            <label class="_input _charValue">
+                    <span class="_value _center">{{system.sociedad.apariencia.value}}</span>
+            </label>        
+            {{/if}}
+
+            <label class="_input _charValue _mod">
+                    <span class="_value _center">{{_valueMod sociales.apariencia.mod}}</span>
+            </label>
+            <label class="_inter">=</label>
+            <label class="_input _charValue _total">
+                    <span class="_value _center">{{_valueMod sociales.apariencia.total}}</span>
+            </label>
+
+        </div>
+        <table class="_list">
+            <tbody>
+            {{#each sociales.apariencia.items as |item index|}}
+                <tr class="_item">
+                    <td style="width: 100%">
+                        <a class="_name"
+                           data-action="{{#if ../isEditable}}_showItem{{else}}_showDescr{{/if}}" 
+                           data-id="{{item.id}}">
+                            <label class="_name _lSize">{{item.name}}</label>
+                        </a>                        
+                    </td>
+                    <td>
+                    {{#if ../isEditable}}
+                        <a data-action="_navToItem"  data-id="{{item.id}}" data-name="system.sociedad.apariencia">
+                            <label class="_xsSize _center2 _pointer">{{_valueMod item.system.sociedad.apariencia}}</label>
+                        </a>
+                    {{else}}
+                        <label class="_xsSize _center2">{{_valueMod item.system.sociedad.apariencia}}</label>                   
+                    {{/if}} 
+                    </td> 
+                    {{#if ../isEditable}}
+                    <td>
+                        <button type="button"
+                                class="icon fas fa-remove" 
+                                data-action="_deleteItem" 
+                                data-id="{{item.id}}"
+                                data-tooltip="{{localize 'tooltip.borrarItem'}}">
+                        </button>                 
+                    </td>
+                    {{/if}}                                       
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>         
+
+    <!-- RENOMBRE -->
+        <div class="_row _char _100">
+            <label class="_charTitle">{{localize 'common.renombre'}}</label>
+            {{#if isEditable}}
+            <input type="number" 
+                    {{{_disabled}}}
+                    name="system.sociedad.renombre.value" 
+                    value="{{system.sociedad.renombre.value}}" 
+                    min="-150" 
+                    max="150"
+                    class="_charValue">  
+            {{else}}        
+            <label class="_input _charValue">
+                    <span class="_value _center">{{system.sociedad.renombre.value}}</span>
+            </label>        
+            {{/if}}
+
+            <label class="_input _charValue _mod">
+                    <span class="_value _center">{{_valueMod sociales.renombre.mod}}</span>
+            </label>
+            <label class="_inter">=</label>
+            <label class="_input _charValue _total">
+                    <span class="_value _center">{{_valueMod sociales.renombre.total}}</span>
+            </label>
+
+        </div>
+        <table class="_list">
+            <tbody>
+            {{#each sociales.renombre.items as |item index|}}
+                <tr class="_item">
+                    <td style="width: 100%">
+                        <a class="_name"
+                           data-action="{{#if ../isEditable}}_showItem{{else}}_showDescr{{/if}}" 
+                           data-id="{{item.id}}">
+                            <label class="_name _lSize">{{item.name}}</label>
+                        </a>                        
+                    </td>
+                    <td>
+                    {{#if ../isEditable}}
+                        <a data-action="_navToItem"  data-id="{{item.id}}" data-name="system.sociedad.renombre">
+                            <label class="_xsSize _center2 _pointer">{{_valueMod item.system.sociedad.renombre}}</label>
+                        </a>
+                    {{else}}
+                        <label class="_xsSize _center2">{{_valueMod item.system.sociedad.renombre}}</label>                   
+                    {{/if}} 
+                    </td> 
+                    {{#if ../isEditable}}
+                    <td>
+                        <button type="button"
+                                class="icon fas fa-remove" 
+                                data-action="_deleteItem" 
+                                data-id="{{item.id}}"
+                                data-tooltip="{{localize 'tooltip.borrarItem'}}">
+                        </button>                 
+                    </td>
+                    {{/if}}                                       
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
+        <div class="_row _char _100">
+            <label class="_charTitle">{{localize 'common.deshonra'}}</label>
+            {{#if isEditable}}
+            <input type="number" 
+                    {{{_disabled}}}
+                    name="system.sociedad.deshonra.value" 
+                    value="{{system.sociedad.deshonra.value}}" 
+                    min="-150" 
+                    max="150"
+                    class="_charValue">  
+            {{else}}        
+            <label class="_input _charValue">
+                    <span class="_value _center">{{system.sociedad.deshonra.value}}</span>
+            </label>        
+            {{/if}}                 
+            {{{checkButton 'system.sociedad.deshonra.checked' 'common.deshonra' 'fa-fish-bones'}}}
+        </div>
+
+    <!-- NATURALEZA -->
+        <div class="_row _char _100">
+            <label class="_charTitle">{{localize 'common.naturaleza'}}</label>
+            {{#if isEditable}}
+            <input type="number" 
+                    {{{_disabled}}}
+                    name="system.sociedad.naturaleza.value" 
+                    value="{{system.sociedad.naturaleza.value}}" 
+                    min="-150" 
+                    max="150"
+                    class="_charValue">  
+            {{else}}        
+            <label class="_input _charValue">
+                    <span class="_value _center">{{system.sociedad.naturaleza.value}}</span>
+            </label>        
+            {{/if}}
+
+            <label class="_input _charValue _mod">
+                    <span class="_value _center">{{_valueMod sociales.naturaleza.mod}}</span>
+            </label>
+            <label class="_inter">=</label>
+            <label class="_input _charValue _total">
+                    <span class="_value _center">{{_valueMod sociales.naturaleza.total}}</span>
+            </label>
+
+        </div>
+        <table class="_list">
+            <tbody>
+            {{#each sociales.naturaleza.items as |item index|}}
+                <tr class="_item">
+                    <td style="width: 100%">
+                        <a class="_name"
+                           data-action="{{#if ../isEditable}}_showItem{{else}}_showDescr{{/if}}" 
+                           data-id="{{item.id}}">
+                            <label class="_name _lSize">{{item.name}}</label>
+                        </a>                        
+                    </td>
+                    <td>
+                    {{#if ../isEditable}}
+                        <a data-action="_navToItem"  data-id="{{item.id}}" data-name="system.sociedad.naturaleza">
+                            <label class="_xsSize _center2 _pointer">{{_valueMod item.system.sociedad.naturaleza}}</label>
+                        </a>
+                    {{else}}
+                        <label class="_xsSize _center2">{{_valueMod item.system.sociedad.naturaleza}}</label>                   
+                    {{/if}} 
+                    </td> 
+                    {{#if ../isEditable}}
+                    <td>
+                        <button type="button"
+                                class="icon fas fa-remove" 
+                                data-action="_deleteItem" 
+                                data-id="{{item.id}}"
+                                data-tooltip="{{localize 'tooltip.borrarItem'}}">
+                        </button>                 
+                    </td>
+                    {{/if}}                                       
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>        
+
+    <!-- ACTITUD -->
+        <div class="_row _char _100">
+            <label class="_charTitle">{{localize 'common.actitud'}}</label>
+            {{#if isEditable}}
+            <input type="number" 
+                    {{{_disabled}}}
+                    name="system.sociedad.actitud.value" 
+                    value="{{system.sociedad.actitud.value}}" 
+                    min="-150" 
+                    max="150"
+                    class="_charValue">  
+            {{else}}        
+            <label class="_input _charValue">
+                    <span class="_value _center">{{system.sociedad.actitud.value}}</span>
+            </label>        
+            {{/if}}
+
+            <label class="_input _charValue _mod">
+                    <span class="_value _center">{{_valueMod sociales.actitud.mod}}</span>
+            </label>
+            <label class="_inter">=</label>
+            <label class="_input _charValue _total">
+                    <span class="_value _center">{{_valueMod sociales.actitud.total}}</span>
+            </label>
+
+        </div>                
+
+    </div>
+
+</div>
+
+<h4 class="_title divider" style="margin-top: 10px;">{{localize 'common.tecSociales'}}</h4>
+<div class="_modSociales">
+    <table class="_list">
+        <tbody>
+        {{#each sociales.tecnicas as |tecnica index|}}
+            <tr class="_item">
+                <td style="width: 100%">
+                    <a class="_name"
+                        data-action="{{#if ../isEditable}}_showItem{{else}}_showDescr{{/if}}" 
+                        data-id="{{tecnica.item.id}}">
+                        <label class="_name _lSize">{{tecnica.item.name}}</label>
+                    </a>                        
+                </td>
+                <td>
+                {{#if ../isEditable}}
+                    <a data-action="_navToItem"  data-id="{{tecnica.item.id}}" data-name="">
+                        <label class="_xsSize _center2 _pointer">{{_valueMod tecnica.value}} %</label>
+                    </a>
+                {{else}}
+                    <label class="_xsSize _center2">{{_valueMod tecnica.value}} %</label>                   
+                {{/if}} 
+                </td> 
+                {{#if ../isEditable}}
+                <td>
+                    <button type="button"
+                            class="icon fas fa-remove" 
+                            data-action="_deleteItem" 
+                            data-id="{{item.id}}"
+                            data-tooltip="{{localize 'tooltip.borrarItem'}}">
+                    </button>                 
+                </td>
+                {{else}}
+                <td>
+                    <button type="button" 
+                            data-action="_roll"
+                            data-item="{{tecnica.item.id}}"
+                            data-target="tecnica"
+                            data-value="{{tecnica.value}}"
+                            data-tooltip="{{{localize 'explain.rollTecnica'}}}">
+                        <i class="fa-regular fa-dice-d10"></i>
+                    </button>
+                </td>
+                {{/if}}                                       
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+</div>

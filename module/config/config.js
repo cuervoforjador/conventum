@@ -1,6 +1,6 @@
 export const aqConfig = {
     skills: {
-        status: ['normal', 'paterna', 'primaria', 'secundaria']
+        status: ['normal', 'paterna', 'primaria', 'secundaria', 'aprendida']
     },
     armas: {
         tamanos: {
@@ -133,9 +133,9 @@ export const aqConfig = {
             {id: '030', label: 'mods.m030', mod: '-30', rules: ['aq4', 'vyc']}
         ],    
         distancia: [
-            {id: '031', label: 'mods.m031', mod: '-20', rules: ['aq4', 'vyc']},
-            {id: '032', label: 'mods.m032', mod: '+0', rules: ['aq4', 'vyc']},
-            {id: '033', label: 'mods.m033', mod: '+20', rules: ['aq4', 'vyc']},
+            {id: '031', label: 'mods.m031', mod: '-20', rules: ['aq3', 'aq4', 'vyc']},
+            {id: '032', label: 'mods.m032', mod: '+0',  rules: ['aq3', 'aq4', 'vyc']},
+            {id: '033', label: 'mods.m033', mod: '+20', rules: ['aq3', 'aq4', 'vyc']},
             {id: '034', label: 'mods.m034', mod: '+40', rules: ['vyc']},
         ],            
         localizacion: [
@@ -234,8 +234,8 @@ export const aqConfig = {
         aq3: {
             requisitos: {
                 minIRR: 50,
-                minSkill: 50,
                 skillID: 'conocimiento_magico',
+                minSkill: 50,                
                 skillEnsenar: 'ensenar',
                 skillFabricacion: 'alquimia',
                 useComunicacion: false,
@@ -289,13 +289,21 @@ export const aqConfig = {
                     {low: 71, high: 90,  tiempo: '1',   unidad: 'common.semanas', dosis: 6},
                     {low: 91, high: 999, tiempo: '1D6', unidad: 'common.dias', dosis: 6}
                 ]                       
-            }
+            },
+            iniciales: [
+                {min: 50, max: 60, ptAp: 0, formula: '1D3', fijos: 1},
+                {min: 61, max: 70, ptAp: 0, formula: '1D4', fijos: 2},
+                {min: 71, max: 80, ptAp: 0, formula: '1D6', fijos: 3},
+                {min: 81, max: 90, ptAp: 0, formula: '1D6+1', fijos: 4},
+                {min: 91, max: 100, ptAp: 0, formula: '1D6+2', fijos: 5},
+                {min: 101, max: 999, ptAp: 0, formula: '1D10+1', fijos: 6}
+            ],              
         },
         aq4: {
             requisitos: {
                 minIRR: 60,
-                minSkill: 60,
                 skillID: 'conocimiento_magico',
+                minSkill: 60,                
                 skillEnsenar: 'ensenar',
                 skillFabricacion: 'alquimia',
                 useComunicacion: true,
@@ -356,13 +364,19 @@ export const aqConfig = {
                     {low: 61, high: 80,  tiempo: '1',   unidad: 'common.semanas', dosis: 6},
                     {low: 81, high: 999, tiempo: '1D6', unidad: 'common.dias', dosis: 6}
                 ]                       
-            }
+            },
+            iniciales: [
+                {min: 60, max: 80, ptAp: 30, formula: '', fijos: 0},
+                {min: 81, max: 90, ptAp: 40, formula: '', fijos: 0},
+                {min: 91, max: 100, ptAp: 50, formula: '', fijos: 0},
+                {min: 101, max: 999, ptAp: 60, formula: '', fijos: 0}
+            ],
         },
         vyc: {
             requisitos: {
                 minIRR: 60,
-                minSkill: 60,
                 skillID: 'conocimiento_magico',
+                minSkill: 60,                
                 skillEnsenar: 'ensenar',
                 skillFabricacion: 'alquimia',
                 useComunicacion: false,
@@ -424,44 +438,66 @@ export const aqConfig = {
                     {low: 61, high: 80,  tiempo: '1',   unidad: 'common.semanas', dosis: 6},
                     {low: 81, high: 999, tiempo: '1D6', unidad: 'common.dias', dosis: 6}
                 ]                       
-            }
+            },
+            iniciales: [
+                {min: 60, max: 80, ptAp: 30, formula: '', fijos: 0},
+                {min: 81, max: 90, ptAp: 40, formula: '', fijos: 0},
+                {min: 91, max: 100, ptAp: 50, formula: '', fijos: 0},
+                {min: 101, max: 999, ptAp: 60, formula: '', fijos: 0}
+            ],            
         }        
     },
     ensalmos: {
         aq3: {
             requisitos: {
                 minRR: 50,
-                minSkill: 50,
                 skillID: 'teologia',
+                minSkill: 50,                
                 ptAprendizaje: false,
                 diarios: false
             },
             niveles: {
-                ordo1: {label: 'common.ordo1',  pta: 0, ptf: 10,  mod: '+0',   mods: '',    teologia: {min: 50,  max: 70},  estudioMeses: 1},
-                ordo2: {label: 'common.ordo2',  pta: 0, ptf: 13,  mod: '-20',  mods: '078', teologia: {min: 71,  max: 85},  estudioMeses: 2},
-                ordo3: {label: 'common.ordo3',  pta: 0, ptf: 15,  mod: '-40',  mods: '079', teologia: {min: 86,  max: 95},  estudioMeses: 3},
-                ordo4: {label: 'common.ordo4',  pta: 0, ptf: 18,  mod: '-60',  mods: '080', teologia: {min: 96,  max: 100}, estudioMeses: 6},
-                ordo5: {label: 'common.ordo5',  pta: 0, ptf: 20,  mod: '-80',  mods: '081', teologia: {min: 101, max: 120}, estudioMeses: 12},
-                ordo6: {label: 'common.ordo6',  pta: 0, ptf: 20,  mod: '-100', mods: '082', teologia: {min: 121, max: 999}, estudioMeses: 24}
+                ordo1: {nivel: 1, label: 'common.ordo1',  pta: 0, ptf: 10,  mod: '+0',   mods: '',    teologia: {min: 50,  max: 70},  estudioMeses: 1},
+                ordo2: {nivel: 2, label: 'common.ordo2',  pta: 0, ptf: 13,  mod: '-20',  mods: '078', teologia: {min: 71,  max: 85},  estudioMeses: 2},
+                ordo3: {nivel: 3, label: 'common.ordo3',  pta: 0, ptf: 15,  mod: '-40',  mods: '079', teologia: {min: 86,  max: 95},  estudioMeses: 3},
+                ordo4: {nivel: 4, label: 'common.ordo4',  pta: 0, ptf: 18,  mod: '-60',  mods: '080', teologia: {min: 96,  max: 100}, estudioMeses: 6},
+                ordo5: {nivel: 5, label: 'common.ordo5',  pta: 0, ptf: 20,  mod: '-80',  mods: '081', teologia: {min: 101, max: 120}, estudioMeses: 12},
+                ordo6: {nivel: 6, label: 'common.ordo6',  pta: 0, ptf: 20,  mod: '-100', mods: '082', teologia: {min: 121, max: 999}, estudioMeses: 24}
             },
+            iniciales: [
+                {min: 50, max: 70, ordo: 1},
+                {min: 71, max: 85, ordo: 2},
+                {min: 86, max: 95, ordo: 3},
+                {min: 96, max: 100, ordo: 4},
+                {min: 101, max: 120, ordo: 5},
+                {min: 121, max: 999, ordo: 6}                
+            ],            
             diarios: []           
         },
         aq4: {
             requisitos: {
                 minRR: 50,
-                minSkill: 60,
                 skillID: 'teologia',
+                minSkill: 60,                
                 ptAprendizaje: true,
                 diarios: true
             },
             niveles: {
-                ordo1: {label: 'common.ordo1',  pta: 10,  ptf: 12,  mod: '+0',   mods: '',    teologia: {min: 60,  max: 70},  estudioMeses: 1},
-                ordo2: {label: 'common.ordo2',  pta: 20,  ptf: 14,  mod: '-20',  mods: '078', teologia: {min: 71,  max: 80},  estudioMeses: 2},
-                ordo3: {label: 'common.ordo3',  pta: 30,  ptf: 16,  mod: '-40',  mods: '079', teologia: {min: 81,  max: 90},  estudioMeses: 3},
-                ordo4: {label: 'common.ordo4',  pta: 40,  ptf: 18,  mod: '-60',  mods: '080', teologia: {min: 91,  max: 95},  estudioMeses: 6},
-                ordo5: {label: 'common.ordo5',  pta: 50,  ptf: 20,  mod: '-80',  mods: '081', teologia: {min: 96,  max: 100}, estudioMeses: 12},
-                ordo6: {label: 'common.ordo6',  pta: 100, ptf: 20,  mod: '-100', mods: '082', teologia: {min: 101, max: 999}, estudioMeses: 24}
+                ordo1: {nivel: 1, label: 'common.ordo1',  pta: 10,  ptf: 12,  mod: '+0',   mods: '',    teologia: {min: 60,  max: 70},  estudioMeses: 1},
+                ordo2: {nivel: 2, label: 'common.ordo2',  pta: 20,  ptf: 14,  mod: '-20',  mods: '078', teologia: {min: 71,  max: 80},  estudioMeses: 2},
+                ordo3: {nivel: 3, label: 'common.ordo3',  pta: 30,  ptf: 16,  mod: '-40',  mods: '079', teologia: {min: 81,  max: 90},  estudioMeses: 3},
+                ordo4: {nivel: 4, label: 'common.ordo4',  pta: 40,  ptf: 18,  mod: '-60',  mods: '080', teologia: {min: 91,  max: 95},  estudioMeses: 6},
+                ordo5: {nivel: 5, label: 'common.ordo5',  pta: 50,  ptf: 20,  mod: '-80',  mods: '081', teologia: {min: 96,  max: 100}, estudioMeses: 12},
+                ordo6: {nivel: 6, label: 'common.ordo6',  pta: 100, ptf: 20,  mod: '-100', mods: '082', teologia: {min: 101, max: 999}, estudioMeses: 24}
             },
+            iniciales: [
+                {min: 60, max: 70, ordo: 1},
+                {min: 71, max: 80, ordo: 2},
+                {min: 81, max: 90, ordo: 3},
+                {min: 91, max: 95, ordo: 4},
+                {min: 96, max: 100, ordo: 5},
+                {min: 101, max: 999, ordo: 6}                
+            ],            
             diarios: [
                 {min: 1,  max: 4,   ensalmos: 0},
                 {min: 5,  max: 9,   ensalmos: 1},
@@ -474,19 +510,27 @@ export const aqConfig = {
         vyc: {
             requisitos: {
                 minRR: 50,
-                minSkill: 60,
                 skillID: 'teologia',
+                minSkill: 60,                
                 ptAprendizaje: true,
                 diarios: true
             },
             niveles: {
-                ordo1: {label: 'common.ordo1',  pta: 10,  ptf: 12,  mod: '+0',   mods: '',    teologia: {min: 60,  max: 70},  estudioMeses: 1},
-                ordo2: {label: 'common.ordo2',  pta: 20,  ptf: 14,  mod: '-20',  mods: '078', teologia: {min: 71,  max: 80},  estudioMeses: 2},
-                ordo3: {label: 'common.ordo3',  pta: 30,  ptf: 16,  mod: '-40',  mods: '079', teologia: {min: 81,  max: 90},  estudioMeses: 3},
-                ordo4: {label: 'common.ordo4',  pta: 40,  ptf: 18,  mod: '-60',  mods: '080', teologia: {min: 91,  max: 95},  estudioMeses: 6},
-                ordo5: {label: 'common.ordo5',  pta: 50,  ptf: 20,  mod: '-80',  mods: '081', teologia: {min: 96,  max: 100}, estudioMeses: 12},
-                ordo6: {label: 'common.ordo6',  pta: 100, ptf: 20,  mod: '-100', mods: '082', teologia: {min: 101, max: 999}, estudioMeses: 24}
+                ordo1: {nivel: 1, label: 'common.ordo1',  pta: 10,  ptf: 12,  mod: '+0',   mods: '',    teologia: {min: 60,  max: 70},  estudioMeses: 1},
+                ordo2: {nivel: 2, label: 'common.ordo2',  pta: 20,  ptf: 14,  mod: '-20',  mods: '078', teologia: {min: 71,  max: 80},  estudioMeses: 2},
+                ordo3: {nivel: 3, label: 'common.ordo3',  pta: 30,  ptf: 16,  mod: '-40',  mods: '079', teologia: {min: 81,  max: 90},  estudioMeses: 3},
+                ordo4: {nivel: 4, label: 'common.ordo4',  pta: 40,  ptf: 18,  mod: '-60',  mods: '080', teologia: {min: 91,  max: 95},  estudioMeses: 6},
+                ordo5: {nivel: 5, label: 'common.ordo5',  pta: 50,  ptf: 20,  mod: '-80',  mods: '081', teologia: {min: 96,  max: 100}, estudioMeses: 12},
+                ordo6: {nivel: 6, label: 'common.ordo6',  pta: 100, ptf: 20,  mod: '-100', mods: '082', teologia: {min: 101, max: 999}, estudioMeses: 24}
             },
+            iniciales: [
+                {min: 60, max: 70, ordo: 1},
+                {min: 71, max: 80, ordo: 2},
+                {min: 81, max: 90, ordo: 3},
+                {min: 91, max: 95, ordo: 4},
+                {min: 96, max: 100, ordo: 5},
+                {min: 101, max: 999, ordo: 6}                
+            ],
             diarios: [
                 {min: 1,  max: 4,   ensalmos: 0},
                 {min: 5,  max: 9,   ensalmos: 1},
@@ -496,7 +540,54 @@ export const aqConfig = {
                 {min: 20, max: 999, ensalmos: 5}
             ]            
         }
+    },
+    esgrima: {
+        aq3: {},
+        aq4: {},
+        vyc: {
+            requisitos: {
+                skillID: 'espadas',
+                minSkill: 60
+            },
+            iniciales: [
+                {min: 60, max: 80, ptAp: 20},
+                {min: 81, max: 90, ptAp: 30},
+                {min: 91, max: 100, ptAp: 40},
+                {min: 101, max: 999, ptAp: 50}
+            ],         
+        }
+    },
+    alquimia: {
+        aq3: {},
+        aq4: {},
+        vyc: {
+            requisitos: {
+                skillID: 'alquimia',
+                minSkill: 60
+            },  
+            iniciales: [
+                {min: 60, max: 80, ptAp: 30},
+                {min: 81, max: 90, ptAp: 40},
+                {min: 91, max: 100, ptAp: 50},
+                {min: 101, max: 999, ptAp: 60}
+            ],                       
+        }
+    },
+    rasgosWizard: {
+        aq3: {
+            tiradas: [
+                {min: 17, max: 18, obligatorias: 0, opcionales: 4},
+                {min: 19, max: 20, obligatorias: 1, opcionales: 3},
+                {min: 21, max: 22, obligatorias: 2, opcionales: 2},
+                {min: 23, max: 24, obligatorias: 3, opcionales: 1},
+                {min: 25, max: 99, obligatorias: 4, opcionales: 0}
+            ]
+        },
+        aq4: {
+            tiradas: []
+        },
+        vyc: {
+            tiradas: []
+        }
     }
-        
-    
 }

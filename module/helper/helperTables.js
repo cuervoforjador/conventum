@@ -13,11 +13,17 @@ export default class helperTables {
      * @param {*} actor 
      * @param {*} auto
      */
-    static async tableLore(rules, lore, actor, auto=false) {
-        const mOptions = await helperContext.getLoreOptions(rules, lore, actor)
+    static async tableLore({rules, lore, actor, auto=false, bFromWizard=false}) {
+        const mOptions = (await helperContext.getLoreOptions(rules, lore, actor))
+                                             .filter(e => e.low !== null && e.low !== 0 
+                                                       && e.high !== null && e.high !== 0)
 
         if (mOptions.length === 1) {
-            await helperContext.assignLoreToActor(rules, lore, actor, mOptions[0].item.system.key)
+            await helperContext.assignLoreToActor({rules, lore, actor, key: mOptions[0].item.system.key})
+            if (bFromWizard && lore !== 'estrato') {
+                await actor.update({ "system.control.wizard.step": actor.system.control.wizard.step + 1,
+                                     "system.control.wizard.active": true })          
+            }            
             return
         }
 
@@ -49,7 +55,8 @@ export default class helperTables {
                     rules: {value: rules},
                     lore: {value: lore},
                     actorId: {value: actor.id},
-                    tokenId: {value: actor.isToken ? actor.token.id : ''}
+                    tokenId: {value: actor.isToken ? actor.token.id : ''},
+                    fromWizard: {value: bFromWizard}
                 }
             }
         })

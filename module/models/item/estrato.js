@@ -11,7 +11,8 @@ export default class modelEstrato extends extendItem_Base {
         const schema = super.defineSchema();
 
         schema.sociedad = new api.SchemaField({
-            key: new api.StringField({ initial: '' })
+            key: new api.StringField({ initial: '' }),
+            renombre: new api.NumberField({ nullable: true, initial: null })
         })        
         schema.roll = new api.SchemaField({
             low: new api.NumberField({ nullable: true, initial: null }),
@@ -22,6 +23,11 @@ export default class modelEstrato extends extendItem_Base {
             low: new api.NumberField({ nullable: true, initial: null }),
             high: new api.NumberField({ nullable: true, initial: null })
         }))
+        schema.gastos = new api.NumberField({ nullable: true, initial: 0 })
+        schema.rasgos = new api.SchemaField({
+            orgullosMax: new api.NumberField({ nullable: true, initial: 0 }),
+            total: new api.NumberField({ nullable: true, initial: 0 })
+        })
 
         return schema;
     }

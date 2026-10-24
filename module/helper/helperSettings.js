@@ -73,7 +73,8 @@ export default class helperSettings {
             type: Boolean,
             default: true,
             requiresReload: true 
-        })        
+        })
+
     }
 
     /**

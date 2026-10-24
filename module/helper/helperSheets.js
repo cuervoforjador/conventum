@@ -5,6 +5,7 @@ import extendCharacterNPCSheet from "../sheets/character/npc.js"
 
 import sheetItem from "../sheets/item/item.js"
 import sheetCompetencia  from "../sheets/item/competencia.js"
+import sheetAccion  from "../sheets/item/accion.js"
 import sheetArma  from "../sheets/item/arma.js"
 import sheetArmadura  from "../sheets/item/armadura.js"
 import sheetSociedad  from "../sheets/item/sociedad.js"
@@ -20,6 +21,7 @@ import sheetHechizo  from "../sheets/item/hechizo.js"
 import sheetEnsalmo  from "../sheets/item/ensalmo.js"
 import sheetFormula  from "../sheets/item/formula.js"
 import sheetTienda  from "../sheets/item/tienda.js"
+import sheetTecnicaSocial  from "../sheets/item/tecnicaSocial.js"
 
 import sheetTableExtend from "../sheets/table/base.js"
 
@@ -31,6 +33,7 @@ import { configRULES } from "../config/rules.js"
 import helperTools from "./helperTools.js"
 import helperSocket from "./helperSocket.js"
 import helperMessages from "./helperMessages.js"
+import helperCombat from "./helperCombat.js"
 
 export default class helperSheets {
 
@@ -61,6 +64,7 @@ export default class helperSheets {
 
         vI.registerSheet(SYSTEM_ID, sheetItem, { types: ["item"], makeDefault: true, label: "sheet.item" })
         vI.registerSheet(SYSTEM_ID, sheetCompetencia, { types: ["competencia"], makeDefault: true, label: "sheet.competencia" })
+        vI.registerSheet(SYSTEM_ID, sheetAccion, { types: ["accion"], makeDefault: true, label: "sheet.accion" })
         vI.registerSheet(SYSTEM_ID, sheetArma, { types: ["arma"], makeDefault: true, label: "sheet.arma" })
         vI.registerSheet(SYSTEM_ID, sheetArmadura, { types: ["armadura"], makeDefault: true, label: "sheet.armadura" })
         vI.registerSheet(SYSTEM_ID, sheetSociedad, { types: ["sociedad"], makeDefault: true, label: "sheet.sociedad" })
@@ -76,6 +80,7 @@ export default class helperSheets {
         vI.registerSheet(SYSTEM_ID, sheetEnsalmo, { types: ["ensalmo"], makeDefault: true, label: "sheet.ensalmo" })
         vI.registerSheet(SYSTEM_ID, sheetFormula, { types: ["formula"], makeDefault: true, label: "sheet.formula" })
         vI.registerSheet(SYSTEM_ID, sheetTienda, { types: ["tienda"], makeDefault: true, label: "sheet.tienda" })
+        vI.registerSheet(SYSTEM_ID, sheetTecnicaSocial, { types: ["tecnicaSocial"], makeDefault: true, label: "sheet.tecnicaSocial" })
 
         const vT = foundry.documents.collections.RollTables
         vT.registerSheet(SYSTEM_ID, sheetTableExtend, { types: ["base"], makeDefault: true, label: "sheet.lore" })
@@ -164,10 +169,13 @@ export default class helperSheets {
 
         //Estatus de Vida
         this.checkStatusVida(rules, system.atributos.ptv, system.salud.estado)
-
-        
-
         system.salud.heridaGrave = Math.ceil(system.atributos.ptv.total / 2)
+
+        //Economía
+        system.economia.dineros = Math.round(system.economia.dineros)
+        system.economia.ingresos = Math.round(system.economia.ingresos)
+        system.economia.gastos = Math.round(system.economia.gastos)
+
         return system
     }
 
@@ -221,16 +229,78 @@ export default class helperSheets {
     }
 
     /**
+     * checkVersion
+     * @param {*} actor 
+     */
+    static async checkVersion(actor) {
+        const rules = actor.system.rules
+        const vCurrent = game.system.version
+        const vActor = actor.system.control.version
+
+        if (vActor !== vCurrent) {
+            
+            const mCompSkills = (await helperContext.getFromCompendium(rules, 'competencia'))           
+            const mSkills = actor.items.filter(e => e.type === 'competencia' 
+                                                 && e.system.rules === actor.system.rules)
+            const mNews = []
+            for (const oSkill of mSkills) {
+                const compSkill = mCompSkills.find(e => e.system.key === oSkill.system.key)
+                if (!compSkill) continue
+                await oSkill.delete()
+                mNews.push(compSkill)
+            }
+            await Item.create(mNews, {parent: actor})
+
+            await actor.update({"system.control.version": vCurrent})
+        }
+    }
+
+    /**
+     * modDanno
+     * @param {*} system 
+     */
+    static modDanno(system) {
+        const rules = system.rules
+        const nFUE = system.caracteristicas.fue.value
+        let sBono = ''
+
+        sBono = '-1D6'
+        if (nFUE >= 5) sBono = '-1D4'
+        if (nFUE >= 10) sBono = ''
+        if (nFUE >= 15) sBono = '+1D4'
+        if (nFUE >= 20) sBono = `+${Math.floor((nFUE - 15) / 5)}D6`
+        
+        return sBono
+    }
+
+    /**
      * checkSkills
      * @param {*} actor 
      */
     static async checkSkills(actor) {
-        const mSkills = actor.items.filter(e => e.type === 'competencia')
+
+        //Competencias con otras reglas...
+        const mBads = actor.items.filter(e => e.type === 'competencia' 
+                                           && e.system.rules !== actor.system.rules)
+        for (const oSkill of mBads) {
+            await oSkill.delete()
+        }
+
+        //Competencias
+        const mSkills = actor.items.filter(e => e.type === 'competencia' 
+                                             && e.system.rules === actor.system.rules)
         if (mSkills.length === 0 && !actor.system.control.importedSkills) await this._importSkills(actor)
         
         let addSkills = []
         let systemSkills = actor.system.competencias
+
+        //Limpiando competencias vacías
+        if (systemSkills.find(e => e.key === '')) {
+            systemSkills = systemSkills.filter(e => e.key !== '')
+            await actor.update({"system.competencias": systemSkills})
+        }
         
+        //Añadiendo competencias que no están registradas
         mSkills.map(skill => {
             let systemSkill = actor.system.competencias.find(e => e.key === skill.system.key)
             if (!systemSkill) { addSkills.push({ key: skill.system.key }) }
@@ -242,15 +312,27 @@ export default class helperSheets {
 
         let changed = false
         const competencias = actor.system.competencias
+
+        //Completando...
         mSkills.map(skill => {
+
             const base = actor.system.caracteristicas[skill.system.caracteristica].value
             let systemSkill = competencias.find(e => e.key === skill.system.key)
             let stats = systemSkill.stats
-            const min = (systemSkill.primaria) ? base*3 : base
+            const min = (systemSkill.primaria) ? base*3 <= 80 ? base*3 : 80 : base
             let value = this._checkMinMax(stats.value, stats.min, stats.max)
 
-            if (systemSkill.normal && systemSkill.checked) systemSkill.normal = false
-            if (systemSkill.normal) value = min
+            //if (systemSkill.normal && systemSkill.checked) systemSkill.normal = false
+            if (systemSkill.checked) {
+                //systemSkill.aprendida = !systemSkill.primaria && !systemSkill.secundaria && !systemSkill.paterna
+                systemSkill.aprendida = true
+                systemSkill.normal = false
+            } else if (!systemSkill.aprendida) {
+                value = min
+            }
+            if (!systemSkill.primaria && !systemSkill.secundaria && !systemSkill.paterna) {
+                systemSkill.normal = true
+            }
 
             if ((stats.min !== min) || (stats.value !== value)) changed = true
             stats.min = min
@@ -258,8 +340,26 @@ export default class helperSheets {
             stats.penal = this.checkSkillPenal(actor, skill.system.key)
             stats.total = stats.value + stats.penal
         })
-        if (changed) {
-            await actor.update({"system.competencias": competencias})
+
+        //if (changed) {
+        //    await actor.update({"system.competencias": competencias})
+        //}
+    }
+
+    /**
+     * checkWeapons
+     * @param {*} actor 
+     */
+    static async checkWeapons(actor) {
+        const rules = actor.system.rules
+        const pelea =  actor.items.find(e => e.type === 'arma' 
+                                          && e.system.rules === rules
+                                          && e.system.key === 'pelea')
+        if (!pelea) {
+            
+            const oPelea = (await helperContext.getFromCompendium(rules, 'arma')).find(e => e.system.key === 'pelea')
+            if (!oPelea) return
+            await Item.create([oPelea], {parent: actor})
         }
     }
 
@@ -309,7 +409,7 @@ export default class helperSheets {
      * @param {*} actor 
      */
     static getActorSkills(actor) {
-        const mSkills = actor.items.filter(e => e.type === 'competencia', e.system.rules === actor.system.rules)
+        const mSkills = actor.items.filter(e => e.type === 'competencia' && e.system.rules === actor.system.rules)
         mSkills.sort((a,b) => a.name.localeCompare(b.name))
         return mSkills
     }
@@ -328,10 +428,14 @@ export default class helperSheets {
         const content = `<h4 class="_title divider">${game.i18n.localize('RULES.'+rules)}</h4>
                          <p>${game.i18n.localize("explain.newSkills")}</p>
                          <p><strong>${game.i18n.localize("common.competencias")}: </strong> ${skillsInfo}</p>`
-        await helperDialog.dialogDescription(null, content, game.i18n.localize('competencias'), rules, 500)
+        await helperDialog.dialogDescription({document: null, 
+                                              content,
+                                              title: game.i18n.localize('competencias'),
+                                              rules,
+                                              width: 500})        
         
         await Item.create(mSkills, {parent: actor})
-        actor.update({"system.control.importedSkills": true})
+        await actor.update({"system.control.importedSkills": true})
     }
 
     /**
@@ -383,6 +487,14 @@ export default class helperSheets {
         mContext.sort((a,b) => (!a.item.system.armas*1 > !b.item.system.armas*1)*-1)
         const nIndex = mContext.findIndex(e => e.item.system.armas)
         mContext.splice(nIndex, 0, {blank: true});
+
+        //TabIndex
+        var nTabIndex = 1000
+        mContext.map(e1 => {
+            e1.tabIndex = nTabIndex
+            e1.index =  actor.system.competencias.findIndex(e2 => e2.key === e1.key)
+            nTabIndex++
+        })
 
         return mContext
     }
@@ -451,6 +563,99 @@ export default class helperSheets {
     static itemsVerguenzas(actor, rules) {
         let mReturn = []
         let mItems = actor.items.filter(e => e.type === 'rasgo' && e.system.verguenza && e.system.rules === rules)
+        mItems.map(item => {
+            mReturn.push({
+                item: item
+            })
+        })
+        return mReturn
+    }
+
+    /**
+     * itemsSociales
+     * @param {*} actor 
+     * @param {*} rules 
+     */
+    static itemsSociales(actor, rules) {
+        let oReturn = {
+            apariencia: {
+                value: 0,
+                mod: 0,
+                total: 0,
+                items: [],
+                label: '',
+            },
+            renombre: {
+                value: 0,
+                mod: 0,
+                total: 0,                
+                items: [],
+                label: '',
+            },
+            naturaleza: {
+                value: 0,
+                mod: 0,
+                total: 0,                
+                items: [],
+                label: '',
+            },
+            actitud: {
+                value: 0,
+                mod: 0,
+                total: 0,                
+                items: [],
+                label: '',
+            },
+            tecnicas: []
+        };
+        ['apariencia', 'renombre', 'naturaleza', 'actitud'].map(s => {
+
+            ['rasgo', 'item', 'profesion', 'pueblo', 'estrato'].map(s2 => {
+                actor.items.filter(e => e.type === s2 && e.system.rules === rules
+                                    && e.system.sociedad[s] && Number(e.system.sociedad[s]) !== 0).map(e => {
+                    if (s2 === 'profesion' && e.system.paterna) return
+                    oReturn[s].items.push(e)
+                    oReturn[s].mod += e.system.sociedad[s]
+                })
+            })
+            if (s === 'renombre' && actor.system.sociedad.deshonra.checked) {
+                oReturn[s].mod += actor.system.sociedad.deshonra.value
+            }
+          
+            oReturn[s].total = actor.system.sociedad[s].value + oReturn[s].mod
+        })
+
+        if (oReturn.apariencia.total >= -40) oReturn.apariencia.label = game.i18n.localize('common.repugnante')
+        if (oReturn.apariencia.total >= -20) oReturn.apariencia.label = game.i18n.localize('common.feo')
+        if (oReturn.apariencia.total >= 0) oReturn.apariencia.label = game.i18n.localize('common.normal0')
+        if (oReturn.apariencia.total >= 20) oReturn.apariencia.label = game.i18n.localize('common.atractivo')
+        if (oReturn.apariencia.total >= 40) oReturn.apariencia.label = game.i18n.localize('common.hermoso')
+        if (oReturn.apariencia.total >= 60) oReturn.apariencia.label = game.i18n.localize('common.bellezaInhumana')
+     
+        //Técnicas Sociales
+        actor.items.filter(e => e.type === 'tecnicaSocial' && e.system.rules === rules).map( e => {
+            let nValue = 0;
+            ['apariencia', 'renombre', 'naturaleza', 'actitud'].map(s => {
+                if (!e.system.sociedad[s]) return
+                nValue += oReturn[s].total
+            })
+            oReturn.tecnicas.push({
+                item: e,
+                value: nValue
+            })
+        })
+
+        return oReturn
+    }
+
+    /**
+     * itemsAcciones
+     * @param {*} actor 
+     * @param {*} rules 
+     */
+    static itemsAcciones(actor, rules) {
+        let mReturn = []
+        let mItems = actor.items.filter(e => e.type === 'accion' && e.system.rules === rules)
         mItems.map(item => {
             mReturn.push({
                 item: item
@@ -1053,6 +1258,19 @@ export default class helperSheets {
     }
 
     /**
+     * adjustDescriptionSection
+     * @param {*} html 
+     */
+    static adjustDescriptionSection(html) {
+        const sheetContent = html.find('._sheetContent')
+        const section = html.find('section.tab[data-tab="descripcion"]')
+        const properties = sheetContent.find('._properties')
+        const nHeight = (properties.length === 0) ? 30 : properties.height() + 30
+        if (section.length === 0) return
+        section.css({ height: `calc(100% - ${nHeight}px)`})
+    }
+
+    /**
      * addRulesButton
      * @param {*} html 
      */
@@ -1134,6 +1352,28 @@ export default class helperSheets {
     }
 
     /**
+     * addWizardButton
+     * @param {*} html 
+     */
+    static addWizardButton(html) {
+        let header = html.find('.window-header')
+        if (header.find('button[data-action="_showWizard"]').length === 1) return;
+        const sTooltip = game.i18n.localize('common.verWizard')
+        header.find('button[data-action="close"]').before(`
+            <button type="button" class="header-control icon fa-solid fa-wand-magic-sparkles"
+                    data-tooltip="${sTooltip}" aria-label="${sTooltip}" data-action="_showWizard"></button>`)        
+    }
+
+    /**
+     * showWizard
+     * @param {*} document 
+     */
+    static async showWizard(document) {
+        await document.update({ "system.control.wizard.show": !document.system.control.wizard.show,
+                                "system.control.wizard.active": true })
+    }
+
+    /**
      * addRulesClass
      * @param {*} html 
      * @param {*} document 
@@ -1208,7 +1448,9 @@ export default class helperSheets {
             {type: 'profesion', field: 'profesionPaterna'}
 
         ].map(o => {
-            const oItem = document.items.find(e => e.type === o.type)
+            const oItem = o.type !== 'profesion' ? document.items.find(e => e.type === o.type) :
+                          o.field === 'profesion' ? document.items.find(e => e.type === o.type && !e.system.paterna) :
+                          o.field === 'profesionPaterna' ? document.items.find(e => e.type === o.type && e.system.paterna) : null
             info[o.field] = {
                 id: '',
                 key: '',
@@ -1322,6 +1564,53 @@ export default class helperSheets {
         mProductos.sort((a,b) => a.name.localeCompare(b.name))
         return mProductos
     }
+
+    /**
+     * checkCombatEvents
+     * @param {*} html 
+     * @param {*} actor 
+     * @returns 
+     */
+    static checkCombatEvents(html, actor) {        
+
+        const oStep = helperCombat.getStepInfo(actor)
+        if (!oStep.myTurn) return
+        let oDiv = null
+        
+        //Tirada de Competencia
+        if (!oStep.step.rolls.skill.rolled) {
+            
+            const _actionName = oStep.target && oStep.target.action?.system.afectaDefensa ?
+                                    oStep.main.action?.name + ' - ' + oStep.target.action?.name :
+                                    oStep.main.action?.name
+
+            if (oStep.main.weapon.type === 'competencia') {
+                oDiv = html.find(`._skills ._skill[data-key="${oStep.main.weapon.system.key}"]`)
+                oDiv.find('._skillValue ._value').text(oStep.main.skill.value+'%')
+                oDiv.attr('data-tooltip', `${oStep.main.skill.label} (${_actionName})`)
+                oDiv.addClass('_playing')
+                oDiv.find('._skillValue').addClass('_playing')
+            }                    
+            else if (oStep.main.weapon.type === 'arma') {
+                oDiv = html.find(`._weapons ._list ._weapon[data-id="${oStep.step.weaponId}"]`)
+                oDiv.find('._skillValue ._value').text(oStep.main.skill.value)
+                oDiv.find('._skillValue').attr('data-tooltip', `${oStep.main.skill.label} (${_actionName})`)
+                oDiv.find('._skillValue').addClass('_playing')
+            }
+        }
+
+        //Tirada de Daño
+        if (oStep.step.rolls.skill.rolled && !oStep.step.rolls.damage.rolled) {
+            oDiv = html.find(`._weapons ._list ._weapon[data-id="${oStep.step.weaponId}"]`)
+            oDiv.find('._damageValue ._value').text(oStep.main.damage.formula)
+            oDiv.find('._damageValue').attr('data-tooltip', 
+                            `${oStep.main.action?.name}: ${oStep.main.damage.label}</br>
+                             ${game.i18n.localize('common.objetivo')}: ${oStep.target.combatant.name}`)
+            oDiv.find('._damageValue').addClass('_playing')
+        }
+    }
+
+
 
     /**
      * reconocerHechizo
@@ -1639,6 +1928,140 @@ export default class helperSheets {
             if (item.system.rules === 'aq3') {
                 oSystem.ordo = item.system.ordo
             }
+
+            const newItem = await Item.create([{
+                                        name: name, 
+                                        img: item.img,
+                                        type: item.type, 
+                                        system: oSystem,
+                                        folder: folder}])
+        } catch(error) {
+            ui.notifications.error(`Error en el Sistema: ${error.message}`, { permanent: true });            
+        }
+    }    
+
+    /**
+     * reconocerFormula
+     * @param {*} rules
+     * @param {*} sContent 
+     */
+    static reconocerFormula(rules, sContent) {
+        const _config = aqConfig.hechizos[rules]
+        let oItem = {
+            name: '',
+            key: '',
+            requisitosAlquimia: '',
+            requisitosSkill: '',
+            requisitosFormula: '',
+            ptAp: '',
+            coste: '',
+            preparacion: '',
+            dosis: '',
+            caducidad: '',
+            descripcion: ''
+        }
+        let mLines = sContent.replaceAll('</p>', '').split('<p>').filter(e => e !== '')        
+        oItem.name = mLines[0].trim()
+        oItem.name = oItem.name.trim().charAt(0).toUpperCase() + oItem.name.trim().slice(1)
+        oItem.key = this.clearKey(oItem.name)
+
+        const mAux = mLines[1].trim().split(':')[1].split('/')        
+        var i = 0;
+        ['requisitosAlquimia', 'requisitosSkill', 'requisitosFormula'].map(s => {
+            const line0 = mAux[i]
+            if (!line0) return
+            const line = line0.replaceAll('%', '').replaceAll('.', '')
+            const a = line.split(',')[0].trim()
+            const b = line.split(',')[1] ? line.split(',')[1].trim() : ''
+            oItem[s] = a + (b ? ',' + b : '')
+            i++
+        })
+
+        oItem.ptAp =  Number(mLines[2].trim().split(':')[1].replaceAll('PAp', '').replaceAll('.', '').trim())
+        oItem.coste =  Number(mLines[3].trim().split(':')[1].replaceAll('reales', '').replaceAll('.', '').trim())
+        oItem.preparacion =  mLines[4].trim().split(':')[1].replaceAll('.', '').trim()
+        oItem.dosis =  mLines[5].trim().split(':')[1].replaceAll('.', '').trim().split('/')[0]
+        oItem.caducidad =  mLines[5].trim().split(':')[1].replaceAll('.', '').trim().split('/')[1]
+
+        for (var i=6; i<50; i++) {
+            if (!mLines[i]) continue
+            oItem.descripcion += `<p>${mLines[i].replaceAll('Efectos: ', '')}</p>`
+        }
+
+        return `<p><b>Nombre:</b> ${oItem.name}</p>
+                <p><b>Key:</b> ${oItem.key}</p>
+                <p><b>requisitosAlquimia:</b> ${oItem.requisitosAlquimia}</p>
+                <p><b>requisitosSkill:</b> ${oItem.requisitosSkill}</p>
+                <p><b>requisitosFormula:</b> ${oItem.requisitosFormula}</p>
+                <p><b>pta:</b> ${oItem.ptAp}</p>
+                <p><b>coste:</b> ${oItem.coste}</p>
+                <p><b>preparacion:</b> ${oItem.preparacion}</p>
+                <p><b>dosis:</b> ${oItem.dosis}</p>
+                <p><b>caducidad:</b> ${oItem.caducidad}</p>
+                <p><b>DESCRIPCIÓN</b> ${oItem.descripcion}</p>`                
+    }
+
+    /**
+     * parseFormula
+     * @param {*} sText 
+     * @param {*} item 
+     */
+    static async parseFormula(sText, item) {
+        try {
+            const folder = item.system.massEditFolder
+            let mLines = sText.split('<p><b>').filter(e => e !== '')
+            if (mLines.length === 1) mLines = sText.split('<p><strong>').filter(e => e !== '')
+            let oSystem = {
+                preparacion: {},
+                dosis: {
+                    caducidad: {},                    
+                },
+                requisitos: {},
+                rules: item.system.rules
+            }
+            let name = ''
+            mLines.map(line => {
+                line = line.replaceAll('<b>', '<strong>').replaceAll('</b>', '</strong>')
+
+                let sProperty = this.clearKey(line.replace('</strong></p>', '</strong> ').split('</strong> ')[0].toLowerCase().replaceAll(':', ''))
+                let sRest = ''
+                const temp = line.replace('</strong> ', '#--#').split('#--#')
+                if (temp.length === 1 ) sRest = line.split('</strong></p>')[1].replaceAll('<p></p>', '')
+                                   else sRest = line.replace('</strong> ', '#--#').split('#--#')[1].split('</p>\n')[0].trim()
+
+                if (sProperty !== 'preparacion' &&
+                    sProperty !== 'descripcion') sRest = sRest.split('</p>')[0]
+
+                if (sProperty === 'nombre') name = sRest
+                if (sProperty === 'key')  oSystem.key = sRest
+                if (sProperty === 'pta')  oSystem.pta = sRest
+                if (sProperty === 'coste')  oSystem.precio = sRest
+                if (sProperty === 'preparacion') { oSystem.preparacion.formula = sRest.split(' ')[0],
+                                                   oSystem.preparacion.unidad = sRest.split(' ')[1].replaceAll('</p>', '') }
+                if (sProperty === 'dosis') oSystem.dosis.formula = sRest
+                if (sProperty === 'caducidad') { if (sRest && sRest !== '') {
+                                                 oSystem.dosis.caducidad.formula = sRest.split(' ')[0]
+                                                 oSystem.dosis.caducidad.unidad = sRest.split(' ')[1] } else {
+                                                    oSystem.dosis.caducidad.formula = ''
+                                                    oSystem.dosis.caducidad.unidad = ''
+                                                 }
+                                               }
+                if (sProperty === 'requisitosalquimia') { oSystem.requisitos.alquimia = sRest }
+                if (sProperty === 'requisitosskill') { if (sRest && sRest !== '') {
+                                                 oSystem.requisitos.skill = true
+                                                 oSystem.requisitos.skillID = this.clearKey(sRest.split(',')[1])
+                                                 oSystem.requisitos.skillValue = sRest.split(',')[0] }}
+                if (sProperty === 'requisitosformula') { if (sRest && sRest !== '') {
+                                                 oSystem.requisitos.formula = true
+                                                 oSystem.requisitos.formulaID = this.clearKey(sRest.split(',')[0])
+                                                 if (sRest.split(',')[1])
+                                                    oSystem.requisitos.formulaExtraID = this.clearKey(sRest.split(',')[1])
+                                                }}
+                if (sProperty === 'descripcion') oSystem.descripcion = sRest
+            })
+            oSystem.fuente = (item.system.rules === 'aq3') ? "Fuente: Aquelarre Manual básico ( 3a Edición - NoSoloRol )" :
+                             (item.system.rules === 'aq4') ? "Fuente: Aquelarre Manual básico ( 4a Edición - NoSoloRol )" :
+                             (item.system.rules === 'vyc') ? "Fuente: Villa y Corte Manual básico ( NoSoloRol )" : ''
 
             const newItem = await Item.create([{
                                         name: name, 

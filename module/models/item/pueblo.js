@@ -11,7 +11,8 @@ export default class modelPueblo extends extendItem_Base {
         const schema = super.defineSchema();
 
         schema.sociedad = new api.SchemaField({
-            key: new api.StringField({ initial: '' })
+            key: new api.StringField({ initial: '' }),
+            apariencia: new api.NumberField({ nullable: true, initial: null })
         })
         schema.idiomas = new api.ArrayField(new api.SchemaField({
             key: new api.StringField({ initial: '' }),

@@ -48,6 +48,26 @@ export default class helperSocket {
                 await helperSheets.requestComprarItem(data)
                 break                                
             }       
+            case 'addStepCombat': {
+                if (!game.user.isGM || (activeGM && activeGM.id !== game.user.id)) return
+                await helperCombat._addStepCombat(data)
+                break                                
+            }
+            case 'deleteStepCombat': {
+                if (!game.user.isGM || (activeGM && activeGM.id !== game.user.id)) return
+                await helperCombat._deleteStepCombat(data)
+                break                                
+            }    
+            case 'cancelStepCombat': {
+                if (!game.user.isGM || (activeGM && activeGM.id !== game.user.id)) return
+                await helperCombat._cancelStepCombat(data)
+                break                                
+            }                      
+            case 'updateCombat': {
+                if (!game.user.isGM || (activeGM && activeGM.id !== game.user.id)) return
+                await helperCombat._updateCombat(data)
+                break                                                
+            }
         }
     }
 
@@ -131,6 +151,72 @@ export default class helperSocket {
             tokenId,
             stats
         })        
+    }
+
+    /**
+     * requestAddStepCombat
+     * @param {*} combatantId 
+     * @param {*} targetId 
+     * @param {*} weaponId 
+     * @param {*} actionId 
+     */
+    static async requestAddStepCombat(combatantId, targetId, weaponId, actionId, stepTargetId) {
+        if (game.user.isGM) return helperCombat._addStepCombat({ combatantId, targetId, weaponId, actionId, stepTargetId })
+        if (!game.socket) return
+
+        game.socket.emit(`system.${SYSTEM_ID}`, {
+            type: "addStepCombat",
+            combatantId,
+            targetId,
+            weaponId,
+            actionId,
+            stepTargetId
+        })         
+    }
+
+    /**
+     * requestDeleteStepCombat
+     * @param {*} stepId 
+     * @returns 
+     */
+    static async requestDeleteStepCombat(stepId) {
+        if (game.user.isGM) return helperCombat._deleteStepCombat({ stepId })
+        if (!game.socket) return
+
+        game.socket.emit(`system.${SYSTEM_ID}`, {
+            type: "deleteStepCombat",
+            stepId
+        })           
+    }
+
+    /**
+     * requestCancelStepCombat
+     * @param {*} stepId 
+     * @returns 
+     */
+    static async requestCancelStepCombat(stepId) {
+        if (game.user.isGM) return helperCombat._cancelStepCombat({ stepId })
+        if (!game.socket) return
+
+        game.socket.emit(`system.${SYSTEM_ID}`, {
+            type: "cancelStepCombat",
+            stepId
+        })           
+    }
+
+    /**
+     * requestUpdateCombat
+     * @param {*} asalto 
+     * @returns 
+     */
+    static async requestUpdateCombat(asalto) {
+        if (game.user.isGM) return helperCombat._updateCombat({ asalto })
+        if (!game.socket) return 
+        
+        game.socket.emit(`system.${SYSTEM_ID}`, {
+            type: "updateCombat",
+            asalto
+        })         
     }
 
     /**

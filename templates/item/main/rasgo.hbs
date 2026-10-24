@@ -3,18 +3,58 @@
 
         {{!-- PROPERTIES --}}
         <div class="_properties" style="margin: 1rem 0">
-            <div class="_row _gapped">
-                {{{checkButton 'system.applied' 'common.aplicada' 'fa-circle'}}}
-                {{{checkButton 'system.orgullo' 'common.orgullo' 'fa-plus'}}}
-                {{{checkButton 'system.verguenza' 'common.verguenza' 'fa-minus'}}}
+            <div class="_row _gapped _spaced">
+                <div class="_combo _gapped">
+                    <div class="_combo _smallGapped">
+                        {{{checkButton 'system.applied' 'common.aplicada' 'fa-circle'}}}
+                        {{{checkButton 'system.orgullo' 'common.orgullo' 'fa-plus'}}}
+                        {{{checkButton 'system.verguenza' 'common.verguenza' 'fa-minus'}}}
+                    </div>
 
-                <label>{{localize 'common.coste'}} :</label>
-                <input type="number"
-                    {{{_disabled}}} 
-                    class="_sSize"
-                    name="system.coste" 
-                    value="{{system.coste}}">   
-                <label>{{localize 'common.puntos'}}</label>                 
+                    <label>{{localize 'common.coste'}} :</label>
+                    <input type="number"
+                        {{{_disabled}}} 
+                        class="_sSize"
+                        name="system.coste" 
+                        value="{{system.coste}}">   
+                    <label>{{localize 'common.puntos'}}</label>         
+                </div>
+                <div class="_combo _gapped">
+                    <label>{{localize 'common.desde'}} :</label>
+                    <input type="number"
+                        {{{_disabled}}} 
+                        class="_sSize"
+                        name="system.roll.low" 
+                        value="{{system.roll.low}}">         
+                    <label>{{localize 'common.hasta'}} :</label>
+                    <input type="number"
+                        {{{_disabled}}} 
+                        class="_sSize"
+                        name="system.roll.high" 
+                        value="{{system.roll.high}}">    
+                </div>                     
+            </div>
+            <div class="_row _gapped">
+                <div class="_combo _gapped">
+                    <label>{{localize 'common.apariencia'}} :</label>
+                    <input type="number"
+                        {{{_disabled}}} 
+                        class="_sSize"
+                        name="system.sociedad.apariencia" 
+                        value="{{system.sociedad.apariencia}}">                        
+                    <label>{{localize 'common.renombre'}} :</label>
+                    <input type="number"
+                        {{{_disabled}}} 
+                        class="_sSize"
+                        name="system.sociedad.renombre" 
+                        value="{{system.sociedad.renombre}}">         
+                    <label>{{localize 'common.naturaleza'}} :</label>
+                    <input type="number"
+                        {{{_disabled}}} 
+                        class="_sSize"
+                        name="system.sociedad.naturaleza" 
+                        value="{{system.sociedad.naturaleza}}">   
+                </div>
             </div>
         </div> 
 

@@ -51,6 +51,24 @@ static define() {
         return oData
     })    
 
+    Handlebars.registerHelper("_valueMod", (...args) => {
+        return Number(args[0]) >= 0 ? '+' + args[0] : args[0]
+    }) 
+
+    Handlebars.registerHelper("_property", (...args) => {
+        const sPath = args[0]
+        const sKey = args[1]
+        const sProperty = args[2]
+        
+        let oData = args[args.length - 1].data.root
+        sPath.split('.').map(s => { oData = oData[s]})
+
+        const value = oData.find(e => e.key === sKey)
+        if (value && sProperty) return value[sProperty]
+        else if (value) return value
+        return ''
+    })      
+
     Handlebars.registerHelper("navTab", (...args) => {
         const group = args[0]
         const tabs = args[1]

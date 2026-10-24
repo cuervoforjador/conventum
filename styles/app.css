@@ -5,3 +5,381 @@ body.vtt {
 body.vtt._vyc li.directory-item {
     font-family: var(--vcfFont1);
 }
+
+:root {
+    --combatantSize: 100px;
+}
+
+#aqCombatLayer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    display: none;
+}
+#aqCombatLayer ._selected {
+    border-width: 4px !important;
+    animation: blinkBorder 1.5s ease-in-out infinite;
+}
+
+
+#aqCombatLayer ._combatBar {
+    position: absolute;
+    top: 10px;
+    height: 200px;
+    background: #000000bd;
+    border: 1px solid #ffa700;
+    box-shadow: inset 0 0 14px 1px #56380ec9, 0 0 14px 1px #0000007a;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;    
+    pointer-events: auto;
+}
+
+#aqCombatLayer ._actionsBar,
+#aqCombatLayer ._weaponsBar {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    gap: 2px;
+    z-index: 10000;
+}
+#aqCombatLayer ._actionsBar ._wrap,
+#aqCombatLayer ._weaponsBar ._wrap {
+    background: #000000bf;
+    border: 1px solid #ffa70061;
+    box-shadow: inset 0 0 14px 1px #56380ec9, 0 0 14px 3px #000000;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;    
+    gap: 6px;
+    padding: 6px;
+    pointer-events: auto;
+}
+
+#aqCombatLayer ._combatantsBar,
+#aqCombatLayer ._stepsBar {
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+    padding: 6px;
+}
+#aqCombatLayer ._stepsBar {
+    flex-grow: 1;
+    overflow-x: auto;
+}
+#aqCombatLayer ._combatantsBar {
+    left: auto !important;
+    min-width: calc(var(--combatantSize) + 1.5rem);
+    width: calc(var(--combatantSize) + 1.5rem);
+}
+#aqCombatLayer ._combatantsBar._expanded {
+    min-width: auto;
+    width: auto;
+}
+
+#aqCombatLayer ._stepsBar ._step,
+#aqCombatLayer ._combatantsBar ._combatant {
+    width: var(--combatantSize);
+    min-width: var(--combatantSize);
+    position: relative;
+    display: flex;
+    align-items: flex-end;    
+    border: 1px solid #ff9b00;
+    box-shadow: inset 0px 0px 10px 10px #ff9b008a;    
+}
+#aqCombatLayer ._combatantsBar ._combatant {
+    cursor: pointer;
+}
+#aqCombatLayer ._stepsBar ._step._draggable {
+    cursor: move;
+}
+#aqCombatLayer ._stepsBar ._step._dragging {
+    border: 4px solid #FFF;
+    animation: blinkBorder 1s ease-in-out infinite;
+    cursor: move;
+}
+#aqCombatLayer ._stepsBar ._step._myTurn {
+    animation: blinkBorder 2s ease-in-out infinite;
+    border: 5px solid #FFF;
+}
+#aqCombatLayer ._stepsBar ._step._inactive {
+    opacity: 0.25;
+}
+#aqCombatLayer ._stepsBar ._step ._background,
+#aqCombatLayer ._combatantsBar ._combatant ._background {
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    position: absolute;
+    opacity: 0.5;
+}
+
+#aqCombatLayer ._combatBar ._divider {
+    display: flex;
+    position: relative;
+}
+#aqCombatLayer ._combatBar ._divider ._wrap {
+    width: 20px;
+    height: 100%;
+    background-image: url(../assets/ui/barArrow.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    opacity: 0.4;
+    cursor: pointer;
+}
+#aqCombatLayer ._combatBar ._divider:hover ._wrap {
+    opacity: 1;
+}
+
+#aqCombatLayer ._stepsBar ._step:hover ._background,
+#aqCombatLayer ._stepsBar ._step._selected ._background,
+#aqCombatLayer ._combatantsBar ._combatant:hover ._background,
+#aqCombatLayer ._combatantsBar ._combatant._selected ._background {
+    opacity: 1;
+}
+#aqCombatLayer ._stepsBar ._step ._initiative,
+#aqCombatLayer ._stepsBar ._step ._name,
+#aqCombatLayer ._stepsBar ._step ._delete,
+#aqCombatLayer ._combatantsBar ._combatant ._initiative,
+#aqCombatLayer ._combatantsBar ._combatant ._name {
+    position: absolute;
+}
+#aqCombatLayer ._stepsBar ._step ._initiative,
+#aqCombatLayer ._combatantsBar ._combatant ._initiative {
+    text-shadow: -1px -1px 0 #e2be87db, 1px -1px 0 #e2be87db, -1px 1px 0 #e2be87db, 1px 1px 0 #e2be87db;
+    color: #000000;    
+    font-size: 3.5rem;
+    line-height: 3.5rem;    
+    top: -0.5rem;
+    left: 0.5rem;  
+    text-align: left;
+    font-weight: 900;  
+}
+#aqCombatLayer ._combatantsBar ._combatant ._initiative:hover {
+    color: #a33824;
+}
+#aqCombatLayer ._stepsBar ._step ._name,
+#aqCombatLayer ._stepsBar ._step ._delete,
+#aqCombatLayer ._combatantsBar ._combatant ._name {
+    font-size: 1rem;
+    line-height: 1.1rem;
+    padding: 0.2rem 0;
+    width: 100%;
+    text-align: center;
+    overflow: hidden;
+    background: #0000008f;
+    border-top: 1px solid #000;
+    color: #FFF;
+    font-weight: 100;
+    cursor: pointer;
+}
+#aqCombatLayer ._stepsBar ._step ._delete {
+    display: none;
+    font-size: 1.5rem;
+    padding: 0.5rem;
+    text-align: center;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.8;    
+}
+#aqCombatLayer ._stepsBar ._step ._delete:hover {
+    background: #ff000094;
+    opacity: 1;
+}
+#aqCombatLayer ._stepsBar ._step:hover ._name {
+    display: none;
+}
+#aqCombatLayer ._stepsBar ._step:hover ._delete {
+    display: flex;
+}
+#aqCombatLayer ._stepsBar ._step ._defending {
+    position: absolute;
+    font-size: 3rem;
+    top: calc(50% - 1.5rem);
+    left: -2.1rem;
+    color: #e7bb54;
+    text-shadow: 0 0 8px #000000, 0 0 8px #c99a44;
+    opacity: 0.6;
+}
+#aqCombatLayer ._stepsBar ._step:hover ._defending {
+    opacity: 1;
+}
+#aqCombatLayer ._stepsBar ._step ._target {
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    background: #000;
+    top: 0;
+    left: calc(100% - 45px);
+    border: solid 1px #b73838;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+}
+#aqCombatLayer ._stepsBar ._step ._target ._background {
+    width: calc(100% - 0.3rem);
+    height: calc(100% - 0.3rem);
+    opacity: 1;
+}
+
+
+#aqCombatLayer ._weaponsBar ._weapon,
+#aqCombatLayer ._actionsBar ._action {
+    width: 60px;
+    min-width: 60px;
+    height: 100px;
+    min-height: 100px;
+    position: relative;
+    border: 1px solid #ff9b00;
+    background: #000000d9;
+    box-shadow: inset 0px 0px 13px 0px #ff9b008a;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column-reverse;
+    transition: 0.5s;
+    justify-content: flex-end;
+    align-items: center;
+}
+#aqCombatLayer ._actionsBar ._action._ataque {
+    border: 1px solid #ff3300;
+    box-shadow: inset 0px 0px 13px 0px #ff33008a;
+}
+#aqCombatLayer ._actionsBar ._action._defensa {
+    border: 1px solid #ff9b00;
+    box-shadow: inset 0px 0px 13px 0px #ff9b008a;    
+}
+#aqCombatLayer ._actionsBar ._action._movimiento {
+    border: 1px solid #009bff;
+    box-shadow: inset 0px 0px 13px 0px #009bff8a;    
+}
+#aqCombatLayer ._weaponsBar ._weapon ._background,
+#aqCombatLayer ._actionsBar ._action ._background {
+    background-position: center;
+    background-size: cover;
+    width: 60px;
+    height: 60px;
+    background-repeat: no-repeat;
+    position: absolute;
+    opacity: 0.5;
+}
+#aqCombatLayer ._weaponsBar ._weapon:hover ._background,
+#aqCombatLayer ._actionsBar ._action:hover ._background,
+#aqCombatLayer ._weaponsBar ._weapon._selected ._background,
+#aqCombatLayer ._actionsBar ._action._selected ._background {
+    opacity: 1;
+}
+#aqCombatLayer ._weaponsBar ._weapon ._name,
+#aqCombatLayer ._actionsBar ._action ._name {
+    position: absolute;
+    font-size: 0.85rem;
+    line-height: 0.85rem;
+    overflow: hidden;
+    text-align: center;
+    white-space: break-spaces;
+    color: #FFF;
+    font-weight: 100;
+    cursor: pointer;
+    padding: 2px;
+    width: 60px;
+    margin-top: 55px;
+    height: 42px;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+}
+#aqCombatLayer ._weaponsBar ._weapon:hover ._name,
+#aqCombatLayer ._actionsBar ._action:hover ._name {
+    font-size: 1.2rem;
+    line-height: 1.1rem;
+    height: auto;
+    width: auto;
+    min-width: 95px;
+    display: flex;
+    align-items: center;
+    background: #000000c9;
+    border: 1px solid #ff9900;
+    padding: 6px;
+    z-index: 100;    
+}
+#aqCombatLayer ._weapon._selected ._background,
+#aqCombatLayer ._action._selected ._background {
+    opacity: 1;
+    width: calc(100% - 8px);
+    height: 56px;
+}
+#aqCombatLayer ._actionsBar ._action i._favorite {
+    z-index: 1;
+    position: absolute;
+    left: 5px;
+    top: 5px;
+}
+#aqCombatLayer ._verbs {
+    display: none;
+    flex-direction: column;
+    width: calc(var(--combatantSize) + 2rem + 8px);
+    background: #000000E0;
+    position: absolute;
+    animation: blinkBorder 2s ease-in-out infinite;
+    border: 3px solid #ffa70061;
+    box-shadow: inset 0 0 14px 1px #56380ec9, 0 0 7px 5px #0000005c;
+    text-align: center;
+    font-size: 1.1rem;
+    line-height: 1.1rem;
+    pointer-events: auto;
+    gap: 4px;
+    padding: 4px;
+}
+#aqCombatLayer ._verbs:hover {
+    display: flex!important;
+}
+#aqCombatLayer ._verb {
+    width: 100%;
+    border: 1px solid #ffa70061;
+    text-align: center;
+    cursor: pointer;
+    padding: 0.3rem 0;
+}
+#aqCombatLayer ._verb:hover {
+    background: #ff990061;
+    color: #FFF;
+}
+
+#aqCombatLayer ._z1000 {
+    z-index: 10000!important;
+}
+
+#aqCombatLayer ._closeButton {
+    width: 25px;
+    height: 25px;
+    font-size: 20px;
+    line-height: 25px;
+    text-align: center;
+    cursor: pointer;
+    pointer-events: auto;
+    background: #000000bf;
+    border: 1px solid #ffa70061;
+    box-shadow: inset 0 0 14px 1px #56380ec9, 0 0 14px 3px #000000;
+}
+
+._dialogAction h1._title {
+    font-family: var(--fFont1);
+    color: #000;
+    font-size: 2.5rem;
+    text-align: center;
+    padding: 1rem;
+}
+span._contact {
+    background: #981212;
+    padding: 0 0.4rem;
+    border: 1px solid #6b2525;
+    color: #ebd6d6;
+}

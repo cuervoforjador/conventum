@@ -18,6 +18,9 @@ export default class extendItem0Sheet
   //Attributes...
   _sheetMode = helperSettings.getModeEdit() && helperTools.isGM() ? 
                 this.constructor.SHEET_MODES.EDIT : this.constructor.SHEET_MODES.PLAY
+  _focus = null
+  _searching = ''
+  _tableID = ''
 
   /** @override */
   static DEFAULT_OPTIONS = {
@@ -32,11 +35,13 @@ export default class extendItem0Sheet
       _edit:          this.#onEditSheet,
       _play:          this.#onPlaySheet,
       _readKey:       this.#onReadKey,
+      _clipboard:     this.#onClipboard,
       _checkButton:   this.#onBooleanField,
       _addRow:        this.#onAddRow,
       _deleteRow:     this.#onDeleteRow,
       _selectRow:     this.#onSelectRow,
       _markRow:       this.#onMarkRow,
+      _checkProperty: this.#onCheckProperty,
       _copyObject:    this.#onCopyObject,
       _greenIcon:     this.#onGreenIcon,
       _massEdit:      this.#onMassEdit
@@ -57,11 +62,18 @@ export default class extendItem0Sheet
   }
 
   static async #onReadKey(_event, target) {
-    const sTarget = $(event.currentTarget).parent().find('input[name="name"]')
+    const sTarget = $(event.currentTarget).parent().find('input[name="name"]').val()
     const sKey = helperSheets.clearKey(sTarget)
     let mDocs = await helperContext.getFromCompendium(this.document.system.rules)
     if (mDocs.find(e => e.system.key === sKey)) sKey = ''
     await this.document.update({"system.key": sKey})
+  }
+
+  static #onClipboard(_event, target) {
+    const plainText = $(target).data('plaintext')
+    game.clipboard.copyPlainText(plainText).then(() => {
+      ui.notifications.info(plainText);
+    });    
   }
 
   static async #onBooleanField(_event, target) {
@@ -128,6 +140,30 @@ export default class extendItem0Sheet
     await this.document.update({[path]: mRows})
   }
 
+  _onChangeProperty(event) {
+    extendItem0Sheet.#onCheckProperty(event, event.currentTarget, this.document)
+  }
+
+  static async #onCheckProperty(_event, target, document) {
+    const _table = $(target).parents('._table')
+    const path = _table.data('path')
+    const key = $(target).parents('._row').data('key')
+    const field = $(target).data('field')
+    
+    const mRows = []
+    _table.find('._row').each((i, e) => {
+      var oRow = {}
+      oRow.key = $(e).data('key')
+      $(e).find('[data-field]').each((i2, e2) => {
+        oRow[$(e2).data('field')] = $(e2).is(':checkbox') ? $(e2).prop('checked') : $(e2).val()
+      })
+      mRows.push(oRow)
+    })
+
+    if (!document) document = this.document
+    await document.update({[path]: mRows})
+  }
+
   static async #onGreenIcon(_event, target) {
     const filename = this.document.img
     const folder = filename.split('/').slice(0,-1).join('/')
@@ -161,6 +197,7 @@ export default class extendItem0Sheet
 
     if (this.document.type === 'hechizo') helperSheets.parseHechizo(sText, this.document)
     if (this.document.type === 'ensalmo') helperSheets.parseEnsalmo(sText, this.document)
+    if (this.document.type === 'formula') helperSheets.parseFormula(sText, this.document)
   }
 
   /** @override */
@@ -178,7 +215,8 @@ export default class extendItem0Sheet
       rules:                helperContext.getRules(),
       myRules:              this.document.system.rules,
       configRULES:          configRULES[this.document.system.rules],
-
+      
+      _searching:           this._searching,
       _richDescripcion:     richDescription
     }
   }
@@ -228,9 +266,14 @@ export default class extendItem0Sheet
     helperSheets.hideTitle($(this.element))
     //helperSheets.adjustContent($(this.element))
     helperSheets.addEditButton($(this.element), this.isPlayMode)
+    helperSheets.adjustDescriptionSection($(this.element))
+
     this.activateListeners($(this.element))
     this.activateTab(context, $(this.element))
     this.addCustomTextButtons(context, $(this.element))
+    this.activateFocus()
+
+    if (this._searching !== '') this._toggleLinesTable(this._tableID, this._searching)   
   }
 
   /**
@@ -240,6 +283,9 @@ export default class extendItem0Sheet
   activateListeners(html) {
 
     if ( !this.isEditable || !this.isEditMode) return;
+
+    html.find("input[name]").on("focusin", this._onFocusIn.bind(this))
+    html.find("button").on("click", this._onFocusIn.bind(this))
 
     /** --- SORTABLES --- */
     if (html.find('table._sortable').length > 0) {
@@ -255,6 +301,15 @@ export default class extendItem0Sheet
 
     html.find("input[name='system.etiquetas']").on("change", this._changeEtiquetas.bind(this))
     html.find("._table tbody tr").on("click", this._clickTableTR.bind(this))
+    html.find("._alternative button[type='button']").on("click", this._changeAlternative.bind(this))
+    html.find("img._option").on("click", this._clickOption.bind(this))
+
+    /** --- SEARCHERS --- */
+    html.find("input.search-input").on("keyup", this._searchInTable.bind(this))
+
+    /** --- TABLE PROPERTIES --- */
+    html.find('input[data-action="_changeProperty"]').on("change", this._onChangeProperty.bind(this))
+
   }
 
   /**
@@ -335,6 +390,7 @@ export default class extendItem0Sheet
           let sContent = content.html()                    
           if (type === 'hechizo') sContent = helperSheets.reconocerHechizo(rules, sContent)
           if (type === 'ensalmo') sContent = helperSheets.reconocerEnsalmo(rules, sContent)
+          if (type === 'formula') sContent = helperSheets.reconocerFormula(rules, sContent)
           content.html(sContent)
           await context.item.update({"system.massEdit": sContent})
         })
@@ -375,6 +431,73 @@ export default class extendItem0Sheet
   }
 
   /**
+   * _changeAlternative
+   * @param {*} event 
+   */
+  async _changeAlternative(event) {
+    const target = $(event.currentTarget)
+    const path = target.data('path')
+    const data = {}
+    target.parents('._alternative').find('input[type="checkbox"]').each((i,e) => {
+      if ($(e).attr('name') !== path) data[$(e).attr('name')] = false
+    })
+    await this.document.update(data)
+  }
+
+  /**
+   * _clickOption
+   * @param {*} event 
+   */
+  async _clickOption(event) {
+    const target = $(event.currentTarget)
+    const path = target.data('path')
+    const key = target.data('key')
+
+    let mValues = this._access(this.document, path)
+    if (!mValues) return
+    
+    const mData = []
+    target.parents('._options').find('._option').each((i,e) => {
+      const pValue = mValues.find(p => p.key === $(e).data('key'))
+      mData.push({
+        key: $(e).data('key'),
+        checked: !!pValue?.checked
+      })
+    })
+
+    let oValue = mData.find(e => e.key === key)
+    if (oValue) oValue.checked = !oValue.checked
+    
+    await this.document.update({[path]: mData})
+  }
+
+  /**
+   * _searchInTable
+   * @param {*} event 
+   */
+  _searchInTable(event) {
+      const idTable = $(event.currentTarget).data('table')
+      const sValue = helperTools.removeAccents($(event.currentTarget).val().toLowerCase())
+      this._searching = sValue
+      this._tableID = idTable            
+      this._toggleLinesTable(idTable, sValue)
+  }
+  _toggleLinesTable(idTable, sValue) {
+      if (sValue.length <= 3) {
+        $("#"+idTable+' ._row').each((i,e) => {$(e).show()})
+        return
+      }
+      $("#"+idTable+' ._row').filter((i, e) => {
+        var bFound = false
+        sValue.split(',').map(sValue0 => {
+          bFound = helperTools.removeAccents($(e).find('._label').text().toLowerCase()).indexOf(sValue0.trim()) > -1 || bFound
+        })
+        $(e).toggle(bFound)
+      })
+  }
+
+
+  /**
    * _changeEtiquetas
    * @param {*} event 
    */
@@ -384,6 +507,20 @@ export default class extendItem0Sheet
       sVal += sVal === '' ? s.trim().toLowerCase() : ', ' + s.trim().toLowerCase()
     })
     $(event.currentTarget).val(sVal)
+  }
+
+  /**
+   * 
+   * @param {*} event 
+   * @override
+   */
+  _onFocusIn(event) {
+    if (!$(event.currentTarget).is('button')) event.stopPropagation()    
+    this._focus = $(event.currentTarget)
+  }
+  activateFocus() {
+    if (!this._focus) return
+    $(this.form).find('[name="'+this._focus.prop('name')+'"]').focus()
   }
 
   /**

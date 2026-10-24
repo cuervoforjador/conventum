@@ -26,6 +26,45 @@
                         name="system.roll.high" 
                         value="{{system.roll.high}}">                          
                 {{/if}}
+                {{#if configRULES.verSociedad}}           
+                <div class="_combo _gapped">
+                    <label>{{localize 'common.renombre'}} :</label>
+                    <input type="number"
+                        {{{_disabled}}} 
+                        class="_sSize"
+                        name="system.sociedad.renombre" 
+                        value="{{system.sociedad.renombre}}"> 
+                </div>         
+                {{/if}}                  
+            </div>
+            <div class="_row _gapped">
+                <div class="_combo _gapped">
+                    <label>{{localize 'common.gastosSemanales'}} :</label>
+                    <input type="number"
+                        {{{_disabled}}} 
+                        class="_sSize"
+                        name="system.gastos" 
+                        value="{{system.gastos}}">  
+                    <label class="_small _italic" data-tooltip="{{configRULES.moneda}}">{{configRULES.monedaShort}}</label>                
+                </div>
+                <div class="_combo _gapped">
+                    <label>{{localize 'common.orgullosMax'}} :</label>
+                    <input type="number"
+                        {{{_disabled}}} 
+                        class="_xsSize"
+                        name="system.rasgos.orgullosMax" 
+                        value="{{system.rasgos.orgullosMax}}">  
+                    <label class="_small _italic">pt.</label>
+                </div>
+                <div class="_combo _gapped">
+                    <label>{{localize 'common.rasgosTotal'}} :</label>
+                    <input type="number"
+                        {{{_disabled}}} 
+                        class="_xsSize"
+                        name="system.rasgos.total" 
+                        value="{{system.rasgos.total}}">  
+                    <label class="_small _italic">pt.</label>
+                </div>                                
             </div>
             <div class="_row _gapped _menu">
                 {{{navTab 'primary' (array 'posiciones' 'descripcion') '_expanded'}}}

@@ -11,11 +11,16 @@ export default class modelItem extends extendItem_Base {
         
         const schema = super.defineSchema();
 
+        schema.showPrecio = new api.BooleanField({ initial: true })
         schema.municion = new api.BooleanField({ initial: false })
         schema.ropa = new api.BooleanField({ initial: false })
         schema.comida = new api.BooleanField({ initial: false })
         schema.bebida = new api.BooleanField({ initial: false })
         schema.montura = new api.BooleanField({ initial: false })
+
+        schema.sociedad = new api.SchemaField({
+            apariencia: new api.NumberField({ nullable: true, initial: null })
+        })
 
         return schema;
     }

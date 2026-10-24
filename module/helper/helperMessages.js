@@ -55,9 +55,10 @@ export default class helperMessages {
         const damage = $(event.currentTarget).data('damage')
         const location = $(event.currentTarget).data('location')
         const secuela = $(event.currentTarget).data('secuela')
+        const playing = $(event.currentTarget).data('playing')
         helperSocket.requestDamage({actorId, 
                                     tokenId, 
-                                    stats: {damage, location, secuela}, 
+                                    stats: {damage, location, secuela, playing}, 
                                     chatMessageId: message.id})    
     }
 

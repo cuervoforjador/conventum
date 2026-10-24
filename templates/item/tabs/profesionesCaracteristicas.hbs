@@ -1,0 +1,150 @@
+<section class="tab" data-group="primary" data-tab="caracteristicas">
+
+    <div class="_row _100 _inverse">
+        <button type="button" 
+                data-action="_assignStratos" 
+                class="_basicButton">%</button>        
+        <button type="button" 
+                data-action="_clearChars" 
+                class="_basicButton">{{localize 'common.limpiar'}}</button>
+    </div>
+
+    <div class="_row _100 _bordered _gapped">
+
+        <div class="_line">
+            <input type="checkbox" 
+                id="masculino"
+                name="system.masculino"
+                class="_noBackground"
+                {{{_disabled}}}
+                style="width: 20px"
+                {{checked system.masculino}}>                   
+            <label for="masculino">{{localize 'common.masculino'}}</label>
+        </div> 
+        <div class="_line">
+            <input type="checkbox" 
+                id="femenino"
+                name="system.femenino"
+                class="_noBackground"
+                {{{_disabled}}}
+                style="width: 20px"
+                {{checked system.femenino}}>                   
+            <label for="femenino">{{localize 'common.femenino'}}</label>
+        </div>      
+
+        <input class="_100"
+            type="text"
+            {{{_disabled}}}
+            name="system.femNombre" 
+            value="{{system.femNombre}}">         
+    </div>
+
+
+    <div class="_row _100 _gapped">
+        <div class="_table _box _bordered _30">
+
+            <h4 class="_rowTitle">{{localize 'common.minimo'}}</h4>
+
+            {{#each caracteristicas as |char index|}}
+            <div class="_row _middle _gapped _100">
+                <button type="button" 
+                        data-action="_clickChar" 
+                        data-char="{{char.key}}" 
+                        data-value="15" 
+                        class="_basicButton"
+                        style="margin-right: -9px; padding: 3px;">15</button>
+                <button type="button" 
+                        data-action="_clickChar" 
+                        data-char="{{char.key}}" 
+                        data-value="20" 
+                        class="_basicButton"
+                        style="margin-right: -9px; padding: 3px;">20</button>
+                <label class="_100">{{char.label}}</label>
+                <input type="number"
+                    class="_bordered _center"
+                    {{{_disabled}}}
+                    style="width: 50px"
+                    name="system.caracteristicas.{{char.key}}" 
+                    min="0"
+                    max="30"       
+                    value="{{_value (concat "system.caracteristicas." char.key)}}">        
+            </div>
+            {{/each}}
+            <div class="_row _middle _gapped _100">
+                <label class="_100">{{localize "ATTR.sue"}}</label>
+                <input type="number"
+                    class="_bordered _center"
+                    {{{_disabled}}}
+                    style="width: 50px"
+                    name="system.suerte" 
+                    min="0"
+                    max="99"       
+                    value="{{system.suerte}}">                    
+            </div>
+
+        </div>
+        <div class="_box _bordered _70">
+            
+            <div class="_table"
+                 data-path="system.estratos">
+
+                {{#each estratos as |estrato index|}}
+                <div class="_row _middle _gapped _100"
+                     data-key="{{estrato.key}}">
+
+                    <input type="hidden" name="system.estratos.{{estrato.index}}.key" 
+                            value="{{estrato.key}}" 
+                            data-dtype="String">
+
+                    <div class="_line _40">
+                        <input type="checkbox" 
+                            id="estrato_{{estrato.key}}"
+                            class="_noBackground"
+                            name="system.estratos.{{estrato.index}}.checked"
+                            {{{_disabled}}}
+                            style="width: 20px"
+                            data-action="_checkProperty"                        
+                            data-field="checked"                    
+                            {{checked (_property "system.estratos" estrato.key "checked")}}>                   
+                        <label for="estrato_{{estrato.key}}" class="_stratoTitle _100">{{estrato.label}} ({{estrato.sociedad.label}})</label>
+                    </div>
+                    <div class="_line _30">
+                        <input type="text"
+                            name="system.estratos.{{estrato.index}}.ingresos"
+                            {{{_disabled}}}
+                            class="_100"
+                            data-action="_changeProperty" 
+                            data-field="ingresos" 
+                            value="{{_property "system.estratos" estrato.key "ingresos"}}"> 
+                        <i class="fa-sharp fa-light fa-coin-vertical"></i>
+                        <label class="_small _italic" style="margin-right: 10px" data-tooltip="{{configRULES.moneda}}">{{configRULES.monedaShort}}</label>                            
+                    </div>
+                    <div class="_line _30">
+                        <label class="_small _italic _right" style="margin-right: 5px">{{localize 'common.desde'}}</label>
+                        <input type="number"
+                            name="system.estratos.{{estrato.index}}.low"
+                            {{{_disabled}}}
+                            class="_100"
+                            data-action="_changeProperty"
+                            data-field="low"
+                            value="{{_property "system.estratos" estrato.key "low"}}">
+                        
+                        <label class="_small _italic _right" style="margin-right: 5px">{{localize 'common.hasta'}}</label>
+                        <input type="number"
+                            name="system.estratos.{{estrato.index}}.high"
+                            {{{_disabled}}}
+                            class="_100"
+                            data-action="_changeProperty"
+                            data-field="high"
+                            value="{{_property "system.estratos" estrato.key "high"}}">
+                    </div>
+
+                </div>
+                {{/each}}
+
+            </div>
+            
+        </div>
+    </div>
+
+</section>

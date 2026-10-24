@@ -4,6 +4,8 @@
         <nav class="tabs _subMenu" data-group="stats">
             <a data-action="tab" data-group="stats" data-tab="principal">{{localize 'common.principal'}}</a>
             <a data-action="tab" data-group="stats" data-tab="rasgos">{{localize 'common.rasgos'}}</a>
+            <a data-action="tab" data-group="stats" data-tab="sociales">{{localize 'common.sociales'}}</a>
+            <a data-action="tab" data-group="stats" data-tab="trasfondo">{{localize 'common.trasfondo'}}</a>
         </nav>
 
         <section class="tab" data-group="stats" data-tab="principal">
@@ -29,5 +31,13 @@
             {{>verguenzas_comun}}
             {{>secuelas_comun}}    
         </section>
+
+        <section class="tab" data-group="stats" data-tab="trasfondo">            
+            {{>trasfondo_comun}}
+        </section>   
+
+        <section class="tab" data-group="stats" data-tab="sociales">
+            {{>modSociales_vyc}}
+        </section>             
     </div>
 </div>

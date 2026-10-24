@@ -53,6 +53,7 @@
                     </select>                 
                 </div>         
             </div>
+            {{#if system.showPrecio}}
             <div class="_combo _gapped">
                 <i class="fa-sharp fa-light fa-coin-vertical"></i>
                 <input type="number" 
@@ -63,6 +64,7 @@
                     data-tooltip="{{localize 'tooltip.precio'}}"> 
                 <label class="_small _italic" data-tooltip="{{configRULES.moneda}}">{{configRULES.monedaShort}}</label>                  
             </div>           
+            {{/if}}
         </div>
         <div class="_row">
             <div class="_combo _gapped _100">

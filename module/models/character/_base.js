@@ -12,13 +12,21 @@ export default class extendCharacter_Base extends extend_Base {
         
         /** --- CONTROL --- */
         schema.control  = new api.SchemaField({
+            version: new api.StringField({ initial: '' }),
             textSize: new api.StringField({ initial: '1rem' }),
             importedSkills: new api.BooleanField({ initial: false }),
-            tienda: new api.StringField({ initial: '' })
+            tienda: new api.StringField({ initial: '' }),
+            wizard: new api.SchemaField({
+                show: new api.BooleanField({ initial: false }),
+                active: new api.BooleanField({ initial: true }),
+                step: new api.NumberField({ initial: 0 })
+            })
         })
 
         /** --- INFO --- */
         schema.info  = new api.SchemaField({
+            femenino: new api.BooleanField({ initial: false }),
+            masculino: new api.BooleanField({ initial: true }),
             edad: new api.NumberField({ nullable: true, initial: 25 }),
             altura: new api.NumberField({ nullable: true, initial: null }),
             peso: new api.NumberField({ nullable: true, initial: null }),
@@ -30,14 +38,27 @@ export default class extendCharacter_Base extends extend_Base {
             profesion: md_lore({label: 'common.profesion', hint: 'common.profesion'}),
             profesionPaterna: md_lore({label: 'common.profesionPaterna', hint: 'common.profesionPaterna'}),
             familia: md_text({label: 'common.familia', hint: 'common.familia'}),
-            descripcion: md_text({label: 'common.descripcion', hint: 'common.descripcion'}),            
+            descripcion: md_text({label: 'common.descripcion', hint: 'common.descripcion'}),
+            trasfondo: md_text({label: 'common.trasfondo', hint: 'common.trasfondo'}),
             limpiezaSangre: new api.NumberField({ nullable: true, initial: 0 }),
             localizacion: new api.StringField({ initial: 'humanoide' }),            
+        })
+
+        schema.sociedad = new api.SchemaField({
+            apariencia: md_stat({value: 0, label: 'common.apariencia', hint: 'common.apariencia'}),
+            renombre: md_stat({value: 0, label: 'common.renombre', hint: 'common.renombre'}),
+            naturaleza: md_stat({value: 0, label: 'common.naturaleza', hint: 'common.naturaleza'}),
+            actitud: md_stat({value: 0, label: 'common.actitud', hint: 'common.actitud'}),            
+            deshonra: new api.SchemaField({
+                checked: new api.BooleanField({ initial: false }),
+                value: new api.NumberField({ nullable: true, initial: 0 })
+            })
         })
 
         schema.economia = new api.SchemaField({
             dineros: new api.NumberField({ nullable: true, initial: 0 }),
             ingresos: new api.NumberField({ nullable: true, initial: 0 }),
+            ingresosFormula: new api.StringField({ initial: '' }),
             gastos: new api.NumberField({ nullable: true, initial: 0 }),
         })
 
@@ -62,7 +83,7 @@ export default class extendCharacter_Base extends extend_Base {
             ptv: md_stat({label: 'ATTR.ptv', hint: 'ATTR.ptv'}),                    //Puntos de Vida
             ptf: md_stat({label: 'ATTR.ptf', hint: 'ATTR.ptf'}),                    //Puntos de Fe
             ptc: md_stat({label: 'ATTR.ptc', hint: 'ATTR.ptc'}),                    //Puntos de Concentración
-            pta: md_stat({label: 'ATTR.pta', hint: 'ATTR.pta', min: 0, max: 666}),  //Puntos de Concentración
+            pta: md_stat({label: 'ATTR.pta', hint: 'ATTR.pta', min: 0, max: 666}),  //Puntos de Aprendizaje
             tem: md_stat({label: 'ATTR.tem', hint: 'ATTR.tem'}),                    //Templanza (como atributo)            
         })
 
@@ -101,7 +122,8 @@ export default class extendCharacter_Base extends extend_Base {
             profesion: new api.BooleanField({ initial: false }),
             paterna: new api.BooleanField({ initial: false }),
             primaria: new api.BooleanField({ initial: false }),
-            secundaria: new api.BooleanField({ initial: false })
+            secundaria: new api.BooleanField({ initial: false }),
+            aprendida: new api.BooleanField({ initial: false })
         }))
 
 

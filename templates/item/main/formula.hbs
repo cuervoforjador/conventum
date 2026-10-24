@@ -2,11 +2,115 @@
     <div class="_sheetContent">
 
         {{!-- PROPERTIES --}}
-        <div class="_properties" style="margin: 1rem 0">
-
+        <div class="_properties" style="margin-top: 1rem">
+            <div class="_row _gapped">
+                <label class="_bold">{{localize 'common.requisitos'}}:</label>
+                <div class="_combo _smallGapped">
+                    <label>{{localize 'common.alquimia'}}:</label>
+                    <input type="number" 
+                        {{{_disabled}}}
+                        class="_xsSize"
+                        name="system.requisitos.alquimia" 
+                        value="{{system.requisitos.alquimia}}">
+                </div>
+                <div class="_combo _smallGapped _boxed" style="padding: 2px 4px;">
+                    {{{checkButton 'system.requisitos.skill' 'common.competencia' 'fa-gear'}}}
+                    {{#if system.requisitos.skill}}
+                        <input type="text" 
+                            {{{_disabled}}}
+                            class="_mSize"
+                            name="system.requisitos.skillID" 
+                            value="{{system.requisitos.skillID}}">                               
+                        <input type="number" 
+                            {{{_disabled}}}
+                            class="_xsSize"
+                            name="system.requisitos.skillValue" 
+                            value="{{system.requisitos.skillValue}}">
+                    {{/if}}
+                </div>
+                <div class="_combo _smallGapped _boxed" style="padding: 2px 4px;">
+                    {{{checkButton 'system.requisitos.formula' 'common.formula' 'fa-flask'}}}
+                    {{#if system.requisitos.formula}}                              
+                        <input type="text" 
+                            {{{_disabled}}}
+                            class="_mSize"
+                            name="system.requisitos.formulaID" 
+                            value="{{system.requisitos.formulaID}}">
+                        <input type="text" 
+                            {{{_disabled}}}
+                            class="_mSize"
+                            name="system.requisitos.formulaExtraID" 
+                            value="{{system.requisitos.formulaExtraID}}">                            
+                    {{/if}}
+                </div>                
+            </div>
+            <div class="_row _gapped">
+                <div class="_combo _smallGapped">
+                    <label>{{localize 'ATTR.ptaShort'}}:</label>
+                    <input type="number" 
+                        {{{_disabled}}}
+                        class="_xsSize"
+                        name="system.pta" 
+                        value="{{system.pta}}">
+                </div> 
+                <div class="_combo _smallGapped">
+                    <label class="_bold">{{localize 'common.preparacion'}}:</label>
+                    <input type="text" 
+                        {{{_disabled}}}
+                        class="_sSize"
+                        name="system.preparacion.formula" 
+                        value="{{system.preparacion.formula}}">
+                    <input type="text" 
+                        {{{_disabled}}}
+                        class="_mSize"
+                        name="system.preparacion.unidad" 
+                        value="{{system.preparacion.unidad}}">                        
+                </div>
+            </div>
+            <div class="_row _gapped">
+                <div class="_combo _smallGapped">
+                    <label class="_bold">{{localize 'common.dosis'}}:</label>
+                    <input type="text" 
+                        {{{_disabled}}}
+                        class="_lSize"
+                        name="system.dosis.formula" 
+                        value="{{system.dosis.formula}}"> 
+                    <input type="number" 
+                        {{{_disabled}}}
+                        class="_xsSize"
+                        name="system.dosis.value" 
+                        value="{{system.dosis.value}}"> /
+                    <input type="number" 
+                        {{{_disabled}}}
+                        class="_xsSize"
+                        name="system.dosis.max" 
+                        value="{{system.dosis.max}}">                                                
+                </div>
+                <div class="_combo _smallGapped">
+                    <label class="_bold">{{localize 'common.caducidad'}}:</label>
+                    <input type="text" 
+                        {{{_disabled}}}
+                        class="_sSize"
+                        name="system.dosis.caducidad.formula" 
+                        value="{{system.dosis.caducidad.formula}}"> 
+                    <input type="text" 
+                        {{{_disabled}}}
+                        class="_mSize"
+                        name="system.dosis.caducidad.unidad" 
+                        value="{{system.dosis.caducidad.unidad}}">                                             
+                </div>
+            </div>
+            <div class="_row _gapped _menu">
+                {{#if modeMass}}
+                    {{{navTab 'primary' (array 'descripcion' 'massedit') '_expanded'}}}
+                {{else}}
+                    {{{navTab 'primary' (array 'descripcion') '_expanded'}}}
+                {{/if}}
+            </div>
         </div> 
 
-        {{>item_descripcion}}
+        {{>tab_Descripcion}}
+        {{>tab_MassEdit}}
         
     </div>
     <div class="_sheetFooter">

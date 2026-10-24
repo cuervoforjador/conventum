@@ -1,0 +1,81 @@
+<section class="tab" data-group="primary" data-tab="competencias">
+
+    <div class="_row _100">
+        <div class="search-container">
+            <i class="search-icon fa fa-search"></i>
+            <input type="text" 
+                   class="search-input _100"
+                   data-table="_tableCompetencias"
+                   value="{{_searching}}"
+                   class="search-input" 
+                   placeholder="...">
+            <input type="number" 
+                    id="_setValue"
+                    class="_smallInput"
+                    style="width: 35px">                                
+            <button type="button" data-action="_checkSelected" data-group="primaria" class="_basicButton">PRIM</button>
+            <button type="button" data-action="_checkSelected" data-group="secundaria" class="_basicButton">SEC</button>
+
+        </div>        
+        <button type="button" 
+                data-action="_clearSkills" 
+                class="_basicButton">{{localize 'common.limpiar'}}</button>
+    </div>    
+    <div class="_table"
+         id="_tableCompetencias"
+         data-path="system.competencias">
+
+        {{#each competencias as |skill index|}}
+        <div class="_row _middle _gapped _100"
+                data-key="{{skill.key}}"
+                style="padding-left: 5px;">
+
+            <input type="hidden" name="system.competencias.{{skill.index}}.key" 
+                    value="{{skill.key}}" 
+                    data-dtype="String">
+
+            <label class="_label _100"
+                   data-action="_clipboard"
+                   data-plaintext="{{skill.key}}">{{skill.label}}</label>                   
+            <div class="_line">
+                <input type="checkbox" 
+                        name="system.competencias.{{skill.index}}.primaria"
+                        id="skill1_{{skill.key}}"
+                        class="_noBackground"
+                        {{{_disabled}}}
+                        style="width: 20px"
+                        data-action="_checkProperty"                        
+                        data-field="primaria"                                            
+                        {{checked (_property "system.competencias" skill.key "primaria")}}>
+                <label for="skill1_{{skill.key}}">PRIM</label>
+            </div>
+            <div class="_line">
+                <input type="checkbox" 
+                        name="system.competencias.{{skill.index}}.secundaria"
+                        id="skill2_{{skill.key}}"
+                        class="_noBackground"
+                        {{{_disabled}}}
+                        style="width: 20px"
+                        data-action="_checkProperty"                        
+                        data-field="secundaria"                    
+                        {{checked (_property "system.competencias" skill.key "secundaria")}}>
+                <label for="skill2_{{skill.key}}">SEC</label>
+            </div>
+            <div class="_line">
+                <label for="skill3_{{skill.key}}">{{localize 'common.grupo'}}: </label>  
+                <input type="number" 
+                        name="system.competencias.{{skill.index}}.grupo"
+                        data-tooltip="{{localize 'explain.grupoProfesion'}}"
+                        {{{_disabled}}}
+                        class="_smallInput"
+                        style="width: 35px"
+                        data-action="_checkProperty"
+                        data-field="grupo"
+                        value="{{_property "system.competencias" skill.key "grupo"}}">                              
+            </div>
+        </div>
+        {{/each}}
+
+    </div>
+
+</section>

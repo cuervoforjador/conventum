@@ -1,14 +1,24 @@
 <div class="_box _economia">
     <h4 class="_title divider">{{localize 'common.bolsa'}}</h4>
-    <div class="_row _simple _middle _gapped">
-        <label>{{localize 'common.dineros'}}:</label>
+    <div class="_row _simple _middle _gapped" style="justify-content: space-between;">
         <div class="_combo">
-            <input type="number"
+            <label>{{localize 'common.dineros'}}:</label>
+            <div class="_combo">
+                <input type="number"
+                    {{{_disabled}}}
+                    name="system.economia.dineros"
+                    value="{{system.economia.dineros}}"
+                    class="_mSize _right _bold">
+                <label class="_small _italic">{{configRULES.moneda}}</label>
+            </div>
+        </div>
+        <div class="_combo _boxed" style="padding: 0 5px;">
+            <label>{{localize 'common.formula'}}:</label>
+            <input type="text"
                 {{{_disabled}}}
-                name="system.economia.dineros"
-                value="{{system.economia.dineros}}"
-                class="_mSize _right _bold">
-            <label class="_small _italic">{{configRULES.moneda}}</label>
+                name="system.economia.ingresosFormula"
+                value="{{system.economia.ingresosFormula}}"
+                class="_100 _smallFont _italic">
         </div>
     </div>
     <div class="_row _simple _middle _gapped">
@@ -22,6 +32,10 @@
                     class="_sSize _right _bold">
                 <label class="_small _italic">{{configRULES.moneda}}</label>
             </div>
+            <button type="button"
+                    class="icon operator fas fa-calculator" 
+                    data-action="_calcIngresos" 
+                    data-tooltip="{{localize 'tooltip.calcularIngresos'}}">
         </div>
         <div class="_combo _gapped">
             <label>{{localize 'common.gastosSemanales'}}:</label>

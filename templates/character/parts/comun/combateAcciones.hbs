@@ -1,0 +1,57 @@
+<div class="_acciones">
+
+    <h4 class="_title divider">{{localize 'common.acciones'}}</h4>
+    <table class="_list">
+
+        <thead>
+            <tr class="_header">
+                <th style="width: 100%"><label>{{localize 'common.accion'}}</label></th>
+                <th><label>{{localize 'common.favorita'}}</label></th>
+                {{#if isEditable}}
+                <th><label></label></th>
+                {{/if}}
+            </tr>
+        </thead>
+        <tbody>
+            {{#each acciones as |accion index|}}
+            <tr class="_accion">
+                <td style="width: 100%">
+                    <a class="_name"
+                       data-action="{{#if ../isEditable}}_showItem{{else}}_showDescr{{/if}}" 
+                       data-id="{{accion.item.id}}">
+                        <label class="_name _lSize">{{accion.item.name}}</label>
+                    </a>
+                </td>              
+                <td style="text-align: center;">
+                    {{#if ../isEditable}}                    
+                    <a data-action="_markFavourite"
+                       data-id="{{accion.item.id}}">
+                    {{/if}}
+                    {{#if accion.item.system.favorita}}
+                        <i class="fa-solid fa-star" 
+                                  data-tooltip="{{localize 'common.favorita'}}"></i>
+                    {{else}}
+                        <i class="fa-regular fa-star" 
+                                  data-tooltip="{{localize 'common.noFavorita'}}"></i>
+                    {{/if}}
+                    {{#if ../isEditable}}                    
+                    </a>
+                    {{/if}}
+                </td>
+                {{#if ../isEditable}}
+                <td>
+                    <button type="button"
+                            class="icon fas fa-remove" 
+                            data-action="_deleteItem" 
+                            data-id="{{accion.item.id}}"
+                            data-tooltip="{{localize 'tooltip.borrarItem'}}">
+                    </button>                 
+                </td>
+                {{/if}}
+            </tr>
+            {{/each}}
+        </tbody>
+
+    </table>
+
+</div>

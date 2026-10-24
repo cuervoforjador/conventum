@@ -11,7 +11,8 @@ export const md_stat = (options = {}) => {
                         total: new api.NumberField({ nullable: true, initial: _options.value }),
                         initial: new api.NumberField({ nullable: true, initial: _options.initial }),
                         min: new api.NumberField({ nullable: true, initial: _options.min }),
-                        max: new api.NumberField({ nullable: true, initial: _options.max })
+                        max: new api.NumberField({ nullable: true, initial: _options.max }),
+                        mod: new api.NumberField({ nullable: true, initial: _options.max })
                   }, {
                         label: _options.label,
                         hint: _options.hint

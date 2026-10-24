@@ -1,0 +1,36 @@
+<div class="_main {{#if isEditable}}_editable{{/if}}">
+    <div class="_sheetContent">
+
+        {{!-- PROPERTIES --}}
+        <div class="_properties" style="margin: 1rem 0">
+            <div class="_row _gapped _spaced">
+                <div class="_combo _gapped">
+                    <div class="_combo _smallGapped">
+                        <div class="_combo _smallGapped">
+                            {{{checkButton 'system.sociedad.apariencia' 'common.apariencia' 'fa-circle'}}}
+                            {{localize 'common.apariencia'}}
+                        </div>
+                        <div class="_combo _smallGapped">
+                            {{{checkButton 'system.sociedad.renombre' 'common.renombre' 'fa-circle'}}}
+                            {{localize 'common.renombre'}}
+                        </div>
+                        <div class="_combo _smallGapped">
+                            {{{checkButton 'system.sociedad.naturaleza' 'common.naturaleza' 'fa-circle'}}}
+                            {{localize 'common.naturaleza'}}
+                        </div>
+                        <div class="_combo _smallGapped">
+                            {{{checkButton 'system.sociedad.actitud' 'common.actitud' 'fa-circle'}}}
+                            {{localize 'common.actitud'}}
+                        </div>
+                    </div>       
+                </div>                  
+            </div>
+        </div> 
+
+        {{>item_descripcion}}
+        
+    </div>
+    <div class="_sheetFooter">
+        {{>item_footer}}
+    </div>    
+</div>

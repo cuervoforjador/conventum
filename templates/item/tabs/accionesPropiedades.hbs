@@ -1,0 +1,67 @@
+<section class="tab" data-group="primary" data-tab="propiedades">
+    <div class="_box _bordered _100i">
+        <div class="_row _middle _gapped">
+            <label style="width: 250px">{{localize 'common.formulaTirada'}}:</label>
+            <input type="text"             
+                {{{_disabled}}}
+                name="system.formulaTirada" 
+                value="{{system.formulaTirada}}">
+        </div>
+        <div class="_row _middle _gapped">
+            <label style="width: 250px">{{localize 'common.tituloTirada'}}:</label>
+            <input type="text"             
+                {{{_disabled}}}
+                name="system.tituloTirada" 
+                value="{{system.tituloTirada}}">
+        </div>    
+    </div>
+    <div class="_box _bordered _100i _marginTop">
+        <div class="_row _middle _gapped">
+            <label style="width: 250px">{{localize 'common.formulaDano'}}:</label>
+            <input type="text"             
+                {{{_disabled}}}
+                name="system.formulaDano" 
+                value="{{system.formulaDano}}">
+        </div>
+        <div class="_row _middle _gapped">
+            <label style="width: 250px">{{localize 'common.tituloDano'}}:</label>
+            <input type="text"             
+                {{{_disabled}}}
+                name="system.tituloDano" 
+                value="{{system.tituloDano}}">
+        </div>  
+    </div>
+    <div class="_box _bordered _100i _marginTop">
+        <div class="_row _middle _gapped">
+            <label style="width: 250px">{{localize 'common.criVScri'}}:</label>
+            <input type="checkbox" class="_100 _noBackground"      
+                {{{_disabled}}}
+                name="system.criVScri" 
+                {{checked system.criVScri}}>            
+        </div>        
+        <div class="_row _middle _gapped">
+            <label style="width: 250px">{{localize 'common.afectaDefensa'}}:</label>
+            <input type="checkbox" class="_100 _noBackground"      
+                {{{_disabled}}}
+                name="system.afectaDefensa" 
+                {{checked system.afectaDefensa}}>            
+        </div>
+        {{#if system.afectaDefensa}}
+        <div class="_row _middle _gapped">
+            <label style="width: 250px">{{localize 'common.formulaDefensa'}}:</label>
+            <input type="text"             
+                {{{_disabled}}}
+                name="system.formulaDefensa" 
+                value="{{system.formulaDefensa}}">
+        </div>
+        <div class="_row _middle _gapped">
+            <label style="width: 250px">{{localize 'common.tituloDefensa'}}:</label>
+            <input type="text"             
+                {{{_disabled}}}
+                name="system.tituloDefensa" 
+                value="{{system.tituloDefensa}}">
+        </div>   
+        {{/if}}       
+    </div>
+
+</section>

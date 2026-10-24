@@ -12,8 +12,8 @@
                 {{{checkButton 'system.status.soldado' 'tooltip.soldado' 'fa-s'}}}
                 {{{checkButton 'system.status.noble'   'tooltip.noble' 'fa-n'}}}                
             </div>
-            <div class="_row _gapped">
-                <label>{{localize 'common.caracteristica'}} :</label>
+            <div class="_row _gapped _100">
+                <label class="_noBroke">{{localize 'common.caracteristica'}} :</label>
                 <select name="system.caracteristica" {{{_disabled}}}>
                 {{selectOptions caracteristicas 
                                 selected=system.caracteristica
@@ -22,7 +22,7 @@
                                 labelAttr="label" }}
                 </select>
             </div>
-            <div class="_row _gapped">
+            <div class="_row _gapped _100">
                 <label>{{localize 'common.latin'}} :</label>
                 <input type="text"
                     {{{_disabled}}} 
@@ -31,7 +31,7 @@
                     value="{{system.latin}}">                     
             </div>      
             {{#if isEditable}}               
-            <div class="_row _gapped">
+            <div class="_row _gapped _100">
                 <label>{{localize 'common.superior'}} :</label>
                 <input type="text" 
                     {{{_disabled}}}
