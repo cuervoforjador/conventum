@@ -844,6 +844,21 @@ export default class helperContext {
     static _contentEnsalmo(rules, item, bBook=false) {            
         const _config = aqConfig.ensalmos[rules]
         const nivel = _config.niveles[item.system.ordo]
+
+        let sButtons = ''
+        if (bBook) {
+            sButtons = `<div class="_buttons _gapped">
+                            <button type="button" 
+                                    class="_action" 
+                                    data-action="preparar" 
+                                    data-id="${item.id}">${game.i18n.localize('common.preparar')}</button>
+                            <button type="button" 
+                                    class="_action" 
+                                    data-action="estudiar" 
+                                    data-id="${item.id}">${game.i18n.localize('common.estudiar')}</button>
+                        </div>`
+        }
+
         return `
             <div class="_wrapImg">
                 <img class="_spellImg" src="${item.img}"/>

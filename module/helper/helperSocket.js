@@ -1,3 +1,4 @@
+import bookImages from "../bookImages/bookImages.js"
 import { SYSTEM_ID } from "../config/uiConstants.js"
 import helperCombat from "./helperCombat.js"
 import helperContext from "./helperContext.js"
@@ -67,6 +68,10 @@ export default class helperSocket {
                 if (!game.user.isGM || (activeGM && activeGM.id !== game.user.id)) return
                 await helperCombat._updateCombat(data)
                 break                                                
+            }
+            case 'bookImageAdjust': {
+                await bookImages.applyAdjust()
+                break;
             }
         }
     }
@@ -237,6 +242,16 @@ export default class helperSocket {
                 stats
             })
         }
+    }
+
+    /**
+     * requestBookImageAdjust
+     */
+    static async requestBookImageAdjust() {
+        await bookImages.applyAdjust()
+        game.socket.emit(`system.${SYSTEM_ID}`, {
+            type: "bookImageAdjust"
+        })        
     }
 
     /**
